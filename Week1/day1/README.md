@@ -25,5 +25,5 @@ Median: 20
 Mode: 20
 Maximum: 40
 Minimum: 10
-
+```
 *Author: Saira Fatima | DevSquad ’26 Internship at NetixSol*
