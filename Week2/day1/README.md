@@ -33,7 +33,8 @@ Raw data extracted from sports information platforms frequently contains inconsi
 * **Issues Addressed:**
   * **Missing Performance Metrics:** Imputed missing values across 45 float-type performance metric columns with `0.0`, reflecting unrecorded instances or non-participation during specific game blocks.
   * **Mixed Key Formatting (`player_id`):** Cleaned mixed-format identifiers containing string prefixes (e.g., stripping `'ID_'`) and cast the entire column type to `int64`.
-  * **Duplicates:** Removed 6 duplicate records.
+  * **Duplicates:** Removed 10 duplicate records.
+  *  **Inconsistent Team Names:** Standardized team strings by removing trailing spaces and converting text to lowercase using .str.strip().str.lower() to eliminate category duplication and overlapping visualization bars caused by case sensitivity.
 * **Final Shape:** 15,874 rows × 54 columns
 
 
