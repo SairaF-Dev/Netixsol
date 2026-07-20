@@ -31,7 +31,9 @@ pip install pandas numpy
 ```
 ## Running the Notebook
 To review and execute the data processing pipeline interactively, launch Jupyter Notebook or JupyterLab:
-```bash jupyter notebook day4_pandas_cleaning.ipynb ```
+```bash 
+jupyter notebook day4_pandas_cleaning.ipynb
+```
 (Alternatively, open the day4_pandas_cleaning.ipynb file directly within an IDE configured with Jupyter support, such as VS Code).
 
 *Author: Saira Fatima | DevSquad ’26 Internship at NetixSol*
