@@ -23,15 +23,6 @@ This project performs an in-depth Exploratory Data Analysis (EDA) on cleaned and
 
 ---
 
-## Key Business Insights (Summary)
-* **Franchise Longevity:** Historical clubs dictate higher data volumes; metrics must be normalized to ensure fair cross-era evaluations.
-* **Career Peak Window:** Player ages concentrate heavily between **29–31 years**, dropping steeply past age 33.
-* **Roster Turnover:** High unique player counts indicate frequent squad rotation, requiring careful balance between retention and depth.
-* **Physical Uniformity:** Player height and weight profiles show tight clustering, reflecting strict modern sports science standards.
-* **Elite Talent Concentration:** Team success and scoring rely heavily on elite, scarce individual productivity.
-
----
-
 
 ## Getting Started
 
