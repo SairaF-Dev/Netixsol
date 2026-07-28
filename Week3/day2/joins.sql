@@ -14,15 +14,15 @@ ORDER BY tc.table_name;
 
 
 -- 1.Display Customer Name, Email, City, and Country.
--- SELECT
---     c.first_name || ' ' || c.last_name AS customer_name,
---     c.email,
---     ci.city,
---     co.country
--- FROM customer c
--- INNER JOIN address a ON c.address_id = a.address_id
--- INNER JOIN city ci   ON a.city_id     = ci.city_id
--- INNER JOIN country co ON ci.country_id = co.country_id
+SELECT
+    c.first_name || ' ' || c.last_name AS customer_name,
+    c.email,
+    ci.city,
+    co.country
+FROM customer c
+INNER JOIN address a ON c.address_id = a.address_id
+INNER JOIN city ci   ON a.city_id     = ci.city_id
+INNER JOIN country co ON ci.country_id = co.country_id
 
 -- 2.Display every payment with Customer Name, Film Title, and Amount Paid.   payment → rental → inventory → film
 SELECT 
@@ -102,13 +102,13 @@ GROUP BY cat.name
 ORDER BY total_revenue DESC;
 
 -- 9.Find customers who have rented more than 20 films.
--- SELECT 
--- CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
--- COUNT(r.rental_id) AS films_rented
--- FROM customer c
--- JOIN rental r ON c.customer_id = r.customer_id
--- GROUP BY c.customer_id, c.first_name, c.last_name
--- HAVING COUNT(r.rental_id) > 20
+SELECT 
+CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
+COUNT(r.rental_id) AS films_rented
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+HAVING COUNT(r.rental_id) > 20
 
 -- 10. Which cities generated the highest rental revenue?
 SELECT 
