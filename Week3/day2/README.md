@@ -62,7 +62,7 @@ Because there is no direct relationship between actors and payments, I had to de
 Based on the query results, here are three actionable business insights for the DVD Rental store:
 
 1. **Inventory vs. Demand Alignment:** The `Sports` category is both the most stocked genre (74 films) and the highest revenue generator ($4,892.19), showing excellent alignment with customer demand. However, `Sci-Fi` is the second-highest revenue generator ($4,336.01) despite not being in the top genres by inventory count. **Action:** The business should acquire more Sci-Fi titles to capture this unmet demand and boost sales.
-2. **VIP Customer Retention:** There is a clear demographic of "power users" driving significant revenue, such as Eleanor Hunt (top spender at $211.55) and Priscilla Lowe (highest volume with 35 rentals). **Action:** Implement a VIP loyalty or rewards program specifically targeting customers who rent more than 20 films to ensure the retention of these high-value individuals.
+2. **VIP Customer Retention:** VIP Customer Retention: There is a clear demographic of "power users" driving significant revenue, such as Eleanor Hunt (top spender at $211.55 and highest volume with 46 rentals). Action: Implement a VIP loyalty or rewards program specifically targeting customers who rent more than 20 films to ensure the retention of these high-value individuals.
 3. **Star Power Drives Sales:** Specific actors bring in massively disproportionate revenue. For example, films featuring Gina Degeneres generated $3,129.17, which is nearly $600 more than the second-highest grossing actor. **Action:** Marketing campaigns and the store's "Featured" section should prominently highlight movies starring these top-grossing actors to maximize rental conversion rates.
 
 
