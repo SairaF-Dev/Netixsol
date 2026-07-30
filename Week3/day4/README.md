@@ -5,109 +5,24 @@
 
 ## Project Overview
 
-This project implements an end-to-end **Business Intelligence (BI) SQL pipeline** using the PostgreSQL Music Store database. Rather than solving individual business questions with isolated SQL queries, the solution is designed as a **modular and reusable analytical pipeline**, where each stage builds upon the outputs of the previous stage using **Common Table Expressions (CTEs)**.
-
-The pipeline transforms transactional sales data into meaningful business insights by analyzing customer behavior, loyalty, marketing opportunities, country performance, and executive-level performance metrics. The final deliverable is a comprehensive executive dashboard that supports strategic business decision-making.
+This project implements an end-to-end **Business Intelligence (BI) SQL pipeline** using the PostgreSQL Music Store database. Designed as a **modular and reusable analytical pipeline**, each stage builds upon previous outputs using **Common Table Expressions (CTEs)** to transform transactional data into executive-level insights.
 
 ---
 
-## Project Objectives
 
-The primary objectives of this project are to:
+## Technologies & SQL Concepts Used
 
-- Build reusable customer spending profiles.
-- Segment customers based on multiple business metrics.
-- Generate personalized marketing recommendations.
-- Identify high-potential countries for future business expansion.
-- Produce an executive-level SQL report containing key business KPIs.
-- Demonstrate advanced SQL techniques through a structured analytical pipeline.
+- PostgreSQL & Analytical SQL Pipeline Design
+- Common Table Expressions (CTEs) & Multi-level Query Chaining
+- Window Functions (`ROW_NUMBER()`, `RANK()`, `NTILE()`)
+- Conditional Logic (`CASE WHEN`), Aggregate Functions, and Joins
 
 ---
 
-# Technologies & SQL Concepts Used
+## Customer Segmentation Logic
 
-- PostgreSQL
-- Common Table Expressions (CTEs)
-- Multi-level Query Chaining
-- Window Functions
-- ROW_NUMBER()
-- RANK()
-- NTILE()
-- CASE WHEN
-- Aggregate Functions
-- Conditional Aggregation
-- JOIN Operations
-- Business KPI Development
-- Analytical SQL Pipeline Design
-
----
-
-# Project Pipeline
-
-The entire solution follows a sequential pipeline where each stage reuses previously calculated results instead of recalculating metrics.
-
-```text
-Customer Invoice Summary
-            +
-Customer Catalog Summary
-            │
-            ▼
-Customer Spending Profile
-            │
-            ▼
-Customer Quartile Analysis
-            │
-            ▼
-Customer Loyalty Score
-            │
-            ▼
-Customer Segmentation
-            │
-            ▼
-Favorite Genre Identification
-            │
-            ▼
-Personalized Marketing Plan
-            │
-            ▼
-Country Performance Metrics
-            │
-            ▼
-Country Expansion Score
-            │
-            ▼
-Executive SQL Dashboard
-```
-
-This modular architecture improves readability, maintainability, scalability, and query reusability.
-
----
-
-# Customer Segmentation Logic
-
-## Overview
-
-Customer segmentation is based on a **weighted loyalty scoring model** rather than relying solely on total spending. This approach provides a more comprehensive assessment of customer value by considering purchasing behavior, engagement, and product diversity.
-
----
-
-## Business Metrics Used
-
-The following metrics contribute to the loyalty score:
-
-- Total Spending
-- Total Number of Invoices
-- Purchase Frequency (Distinct Purchase Months)
-- Genre Diversity
-- Artist Diversity
-
-Each metric is converted into quartiles using PostgreSQL's **NTILE(4)** window function.
-
-Customers in higher-performing quartiles receive higher scores.
-
----
-
-## Weight Distribution
+### Business Metrics & Weight Distribution
+Customer segments are determined by a weighted loyalty score incorporating five key metrics converted into quartiles via **`NTILE(4)`**:
 
 | Metric | Weight |
 |---------|-------:|
@@ -117,22 +32,8 @@ Customers in higher-performing quartiles receive higher scores.
 | Genre Diversity | 1 |
 | Artist Diversity | 1 |
 
----
-
-## Loyalty Score Formula
-
-```text
-Loyalty Score =
-(Spending × 3)
-+ (Invoice Count × 2)
-+ (Purchase Frequency × 2)
-+ Genre Diversity
-+ Artist Diversity
-```
-
----
-
-## Customer Segments
+### Loyalty Score Formula & Segments
+`Loyalty Score = (Spending * 3) + (Invoice * 2) + (Frequency * 2) + Genre + Artist`
 
 | Loyalty Score | Segment |
 |--------------:|----------|
@@ -143,249 +44,60 @@ Loyalty Score =
 
 ---
 
-## Justification
+## Marketing Recommendation Strategy
 
-A customer's business value cannot be accurately measured using spending alone.
-
-This segmentation strategy rewards customers who:
-
-- Spend more consistently.
-- Purchase frequently over time.
-- Explore a wider variety of music genres.
-- Listen to artists across multiple categories.
-
-As a result, the segmentation model identifies long-term loyal customers rather than customers who make only occasional high-value purchases.
-
----
-
-# Marketing Recommendation Strategy
-
-## Overview
-
-Personalized marketing recommendations are generated by combining:
-
-- Customer loyalty segment
-- Customer's favorite music genre
-
-The favorite genre for each customer is identified using the **ROW_NUMBER()** window function based on the number of purchased tracks.
-
----
-
-## Marketing Campaigns
+Personalized campaigns combine the customer's loyalty segment with their favorite genre (identified via **`ROW_NUMBER()`**):
 
 | Customer Segment | Marketing Strategy |
 |------------------|--------------------|
 | Platinum | Early access to new releases and exclusive content |
-| Gold | Curated album bundles based on the customer's favorite genre |
-| Silver | 20% discount on tracks from the customer's favorite genre |
+| Gold | Curated album bundles based on favorite genre |
+| Silver | 20% discount on tracks from favorite genre |
 | Bronze | Welcome coupon to encourage future purchases |
 
 ---
 
-## Business Justification
+## Country Ranking Methodology
 
-Each campaign aligns with the customer's purchasing behavior.
+To identify expansion opportunities, a **Country Expansion Score** balances market size and customer quality using normalized metrics:
 
-- **Platinum customers** receive exclusive benefits to maximize retention.
-- **Gold customers** are encouraged to increase basket size through personalized album bundles.
-- **Silver customers** receive targeted discounts to improve purchasing frequency.
-- **Bronze customers** receive introductory promotions designed to encourage repeat purchases.
+`Expansion Score = (0.30 * Avg Rev/Cust) + (0.25 * Total Rev) + (0.15 * Total Cust) + (0.10 * Avg Invoice) + (0.10 * Genre Breadth) + (0.10 * Cust Diversity)`
 
-Personalized recommendations increase customer engagement while improving campaign effectiveness.
+Countries are ranked using the **`RANK()`** window function based on this final score.
 
 ---
 
-# Country Ranking Methodology
+## Executive SQL Dashboard
 
-## Overview
-
-To identify promising markets for future expansion, a **Country Expansion Score** was developed using multiple business KPIs instead of relying solely on total revenue.
-
----
-
-## Business Metrics Used
-
-- Total Revenue
-- Total Customers
-- Average Revenue per Customer
-- Average Invoice Value
-- Genre Breadth
-- Customer Diversity
-
-Each metric is normalized relative to the maximum observed value before applying weighted scoring.
+The final report consolidates pipeline insights into a single view without redundant calculations, featuring:
+- Customer Segment Summary & Revenue Contribution
+- Top Customers, Genres, Artists, and Albums by Revenue
+- Top Employees and Top Three Expansion Countries
 
 ---
 
-## Weight Distribution
+## Business Recommendations
 
-| Metric | Weight |
-|---------|-------:|
-| Average Revenue per Customer | 30% |
-| Total Revenue | 25% |
-| Total Customers | 15% |
-| Average Invoice Value | 10% |
-| Genre Breadth | 10% |
-| Customer Diversity | 10% |
+1. **Prioritize High-Scoring Countries:** Focus investment on top-ranked expansion markets.
+2. **Retain Platinum Customers:** Introduce premium loyalty benefits and early access programs.
+3. **Expand Targeted Marketing:** Deliver personalized album bundles based on favorite genres.
+4. **Engage Bronze Customers:** Utilize welcome coupons to drive repeat purchases.
+5. **Promote Top Assets:** Highlight best-selling artists and albums through seasonal campaigns.
+6. **Replicate Sales Best Practices:** Apply top-performing support representative strategies team-wide.
 
 ---
 
-## Country Expansion Score
+## Challenges Faced and Solutions
 
-```text
-Expansion Score =
-(0.30 × Average Revenue per Customer)
-+ (0.25 × Total Revenue)
-+ (0.15 × Total Customers)
-+ (0.10 × Average Invoice Value)
-+ (0.10 × Genre Breadth)
-+ (0.10 × Customer Diversity)
-```
-
-Countries are ranked using the **RANK()** window function based on their final expansion score.
+- **Redundant Calculations:** Solved by utilizing modular, chained CTEs across pipeline stages.
+- **Accurate Customer Segmentation:** Replaced spending-only metrics with a multi-variable weighted scoring model using **`NTILE()`**.
+- **Favorite Genre Identification:** Leveraged **`ROW_NUMBER()`** to rank and isolate top music preferences per customer.
+- **Objective Country Ranking:** Developed a normalized 6-variable weighted expansion model.
 
 ---
 
-## Justification
+## Conclusion
 
-This methodology balances both market size and customer quality.
-
-The scoring model identifies countries that demonstrate:
-
-- Strong revenue generation
-- High-value customers
-- Large customer base
-- Healthy purchasing behavior
-- Diverse music preferences
-- Balanced customer segmentation
-
-This provides a more reliable basis for expansion decisions than revenue alone.
-
----
-
-# Executive SQL Dashboard
-
-The final executive dashboard consolidates insights generated throughout the pipeline into a single SQL report.
-
-The dashboard includes:
-
-- Customer Segment Summary
-- Revenue by Customer Segment
-- Top Customer in Each Segment
-- Top Genre in Each Segment
-- Top Three Expansion Countries
-- Revenue Contribution by Country
-- Top Employee by Revenue
-- Top Artist by Revenue
-- Top Album by Revenue
-
-Because every section reuses previously generated CTEs, the report avoids redundant calculations while maintaining consistency across all business metrics.
-
----
-
-# Business Recommendations
-
-Based on the analytical results, the following recommendations are proposed:
-
-### 1. Prioritize Expansion into High-Scoring Countries
-
-Focus future investment on the top-ranked countries identified by the Country Expansion Score, as they demonstrate the strongest combination of customer value, revenue, and market diversity.
-
----
-
-### 2. Strengthen Platinum Customer Retention
-
-Introduce premium loyalty benefits such as exclusive releases, early access programs, and personalized rewards to maximize retention among the highest-value customers.
-
----
-
-### 3. Expand Personalized Marketing Campaigns
-
-Leverage customers' favorite genres to deliver targeted album bundles and promotional offers, improving conversion rates and customer engagement.
-
----
-
-### 4. Increase Engagement of Bronze Customers
-
-Offer welcome coupons and introductory promotions to encourage repeat purchases and improve long-term customer retention.
-
----
-
-### 5. Promote High-Revenue Artists and Albums
-
-Highlight best-selling artists and albums through featured promotions, homepage recommendations, and seasonal campaigns to maximize revenue.
-
----
-
-### 6. Replicate Best Employee Practices
-
-Analyze the sales and customer engagement strategies of the highest-performing support representatives and apply these practices across the customer support team.
-
----
-
-# Challenges Faced and Solutions
-
-## Eliminating Repeated Calculations
-
-
-Many business metrics were required across multiple analytical tasks.
-
-**Solution**
-
-Reusable CTEs were implemented so that each stage reused previously calculated results rather than recalculating the same metrics multiple times.
-
----
-
-##  Designing a Meaningful Customer Segmentation Model
-
-
-Total spending alone does not accurately represent customer loyalty.
-
-**Solution**
-
-A weighted scoring model combining spending, purchasing frequency, and product diversity was developed using **NTILE()** and **CASE WHEN**, producing more balanced customer segments.
-
----
-
-##  Identifying Each Customer's Favorite Genre
-
-
-
-Many customers purchased tracks from multiple music genres.
-
-**Solution**
-
-The **ROW_NUMBER()** window function was used to rank genres by purchase volume, allowing the highest-ranked genre to be selected as each customer's favorite.
-
----
-
-##  Developing a Fair Country Ranking System
-
-
-
-Ranking countries solely by revenue could produce misleading business decisions.
-
-**Solution**
-
-A weighted expansion model incorporating six normalized business metrics was developed to evaluate countries more comprehensively.
-
----
-
-## Building a Reusable Executive Dashboard
-
-
-
-Producing multiple executive reports without duplicating SQL logic.
-
-**Solution**
-
-All dashboard components were built using previously generated CTEs, resulting in a modular, maintainable, and reusable SQL reporting pipeline.
-
----
-
-# Conclusion
-
-This project demonstrates the practical application of advanced SQL techniques for Business Intelligence and decision support. Through the use of modular CTEs, window functions, ranking algorithms, conditional logic, and reusable analytical pipelines, raw transactional data is transformed into actionable business insights.
-
-The final solution emphasizes **reusability, maintainability, analytical thinking, and scalable SQL design**, providing valuable insights into customer behavior, personalized marketing, market expansion opportunities, and executive performance reporting.
+This project demonstrates the power of advanced SQL for BI, transforming raw transactional data into actionable insights through scalable, maintainable, and modular pipeline design.
 
 *Author: Saira Fatima | DevSquad ’26 Internship at NetixSol*
