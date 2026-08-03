@@ -226,6 +226,45 @@ SELECT *,
 FROM scored;
 
 
+
+-- VIEW: Quarterly Revenue Analytics
+-- Purpose:
+-- Reusable quarterly revenue dataset built from the
+-- monthly analytics layer.
+
+
+CREATE OR REPLACE VIEW analytics.vw_quarterly_revenue AS
+
+WITH monthly_data AS (
+    SELECT
+        TO_DATE(year_month || '-01', 'YYYY-MM-DD') AS month_date,
+        revenue,
+        orders
+    FROM analytics.vw_monthly_revenue
+)
+
+SELECT
+    EXTRACT(YEAR FROM month_date)::INT AS sales_year,
+    EXTRACT(QUARTER FROM month_date)::INT AS sales_quarter,
+
+    SUM(revenue) AS quarterly_revenue,
+    SUM(orders) AS quarterly_orders,
+
+    ROUND(
+        SUM(revenue) / NULLIF(SUM(orders), 0),
+        2
+    ) AS average_order_value
+
+FROM monthly_data
+
+GROUP BY
+    EXTRACT(YEAR FROM month_date),
+    EXTRACT(QUARTER FROM month_date)
+
+ORDER BY
+    sales_year,
+    sales_quarter;
+
 CREATE OR REPLACE VIEW analytics.vw_product_rankings AS
 SELECT
     productid, product_name, category_name, subcategory_name,
@@ -367,18 +406,20 @@ SELECT
 --     total_customers
 -- FROM analytics.vw_territory_analytics;
 
+SELECT *
+FROM analytics.vw_quarterly_revenue;
 
 
 -- TASK 4: Advanced SQL Concepts Executive Summary (KPI Dashboard)
 -- Description: Single-row high-level summary utilizing multi-layered views & subqueries.
 
-SELECT 
-    total_company_revenue, 
-    total_company_margin, 
-    total_active_customers, 
-    champion_customers, 
-    at_risk_customers, 
-    top_territory, 
-    top_product, 
-    avg_mom_growth_pct
-FROM analytics.vw_executive_kpi_summary;
+-- SELECT 
+--     total_company_revenue, 
+--     total_company_margin, 
+--     total_active_customers, 
+--     champion_customers, 
+--     at_risk_customers, 
+--     top_territory, 
+--     top_product, 
+--     avg_mom_growth_pct
+-- FROM analytics.vw_executive_kpi_summary;
