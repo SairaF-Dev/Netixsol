@@ -60,14 +60,13 @@ The project follows a Modern Data Stack pipeline approach with a strict dependen
 ## Python Analytics Notebook
 
 The notebook connects directly to PostgreSQL using SQLAlchemy and reads only the reusable analytical views from the analytics schema using pandas.read_sql(). No raw operational tables are queried within the notebook. Dashboard visualizations are generated exclusively from the analytical reporting layer.
-
+```
 week3/day5/
-│
 ├── README.md
 ├── analytics_pipeline.sql
 ├── Executive_analysis.ipynb
 ├── screenshots/
 ├── charts/
 └── documentation/
-
+```
 *Author: Saira Fatima | DevSquad ’26 Internship at NetixSol*
