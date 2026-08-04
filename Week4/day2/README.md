@@ -22,7 +22,6 @@ a fixed-size group of top candidates, precision within that selected
 group directly reflects the cost of a false positive.
 
 ## Repository Contents
-## Repository Contents
 
 ```
 Week4/
