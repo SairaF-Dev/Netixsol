@@ -1,4 +1,4 @@
-# Adult Income Prediction — ML Foundations (Week 4)
+# Adult Income Prediction  ML Foundations 
 
 Progressive machine learning workflow to predict whether an individual's
 annual income exceeds **$50,000**, using the UCI **Adult (Census Income)**
@@ -38,13 +38,13 @@ Week4/
     └── README.md
 ```
 
-## Day 1 — Problem Framing & Baselines
+## Day 1:  Problem Framing & Baselines
 
 - **Majority-class baseline** (always predicts ≤$50K) and **rule-based baseline** (`capital-gain > 0`) evaluated on the hold-out test set.
 - Rule-based baseline reached **62.5% precision** (Precision@k = 526/841) — the benchmark for real models to beat.
 - Error analysis: false positives had nonzero capital-gain but low income; false negatives were salaried professionals (Bachelor's/Master's, Exec-managerial/Tech-support) with zero capital-gain — the rule alone misses salary-driven high earners.
 
-## Day 2 — Preprocessing, Models & Evaluation
+## Day 2: Preprocessing, Models & Evaluation
 
 ### Preprocessing (`ColumnTransformer`)
 
