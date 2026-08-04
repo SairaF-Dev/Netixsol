@@ -22,15 +22,22 @@ a fixed-size group of top candidates, precision within that selected
 group directly reflects the cost of a false positive.
 
 ## Repository Contents
+## Repository Contents
 
-| File | Description |
-|---|---|
-| `census_baseline.ipynb` | Day 1 — EDA, reproducible train/test split, two baselines |
-| `week4_day2_supervised_learning.ipynb` | Day 2 — preprocessing pipeline, Logistic Regression & Decision Tree, evaluation, interpretability |
-| `Adult_Income_Baseline_Summary.pdf` | Day 1 — 1-page summary |
-| `Day2_Preprocessing_Model_Writeup.pdf` | Day 2 — 2-page write-up (preprocessing choices + model comparison) |
-| `preprocessor.pkl`, `logreg_full_pipeline.pkl`, `tree_full_pipeline.pkl` | Saved pipelines for reuse on Day 3 |
-| `README.md` | This file |
+```
+Week4/
+├── day1/
+│   ├── census_baseline.ipynb              — EDA, reproducible train/test split, two baselines
+│   ├── Adult_Income_Baseline_Summary.pdf   — 1-page summary
+│   └── README.md
+└── day2/
+    ├── week4_day2_supervised_learning.ipynb — preprocessing pipeline, LogReg & Decision Tree, evaluation, interpretability
+    ├── Day2_Preprocessing_Model_Writeup.pdf — 2-page write-up (preprocessing choices + model comparison)
+    ├── preprocessor.pkl
+    ├── logreg_full_pipeline.pkl
+    ├── tree_full_pipeline.pkl                — saved pipelines for reuse on Day 3
+    └── README.md
+```
 
 ## Day 1 — Problem Framing & Baselines
 
