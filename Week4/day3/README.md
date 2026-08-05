@@ -155,11 +155,12 @@ The experiment showed that feature selection slightly reduced predictive perform
 
 # Repository Structure
 
-```
-.
-├── notebook.ipynb
-├── README.md
-├── summary.md
+```text
+Week4/
+├── day3/
+│   ├── week4_day3_feature_engineering_cv.ipynb
+│   ├── README.md
+│   └── summary.md
 ```
 
 ---
