@@ -1,0 +1,14 @@
+{
+  "laptop a": {
+    "price": 899.0,
+    "specs": "16GB RAM, 512GB SSD, mid-range CPU"
+  },
+  "laptop b": {
+    "price": 459.0,
+    "specs": "8GB RAM, 256GB SSD, entry-level CPU"
+  },
+  "laptop c": {
+    "price": 1299.0,
+    "specs": "32GB RAM, 1TB SSD, high-end CPU"
+  }
+}
