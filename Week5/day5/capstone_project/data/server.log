@@ -1,0 +1,11 @@
+[2026-08-15 12:00:01] INFO - Service Starting: User_Auth_API
+[2026-08-15 12:05:14] WARN - User_Auth_API - Latency spike detected on endpoint /api/login (1200ms)
+[2026-08-15 12:10:45] ERROR - User_Auth_API - 500 Internal Server Error: FATAL Exception. Database connection pool exhausted.
+[2026-08-15 12:10:46] ERROR - User_Auth_API - Service crashing. Cannot accept new connections.
+
+[2026-08-15 12:20:01] INFO - Service Starting: Payment_Gateway
+[2026-08-15 12:25:32] WARN - Payment_Gateway - Webhook latency increased to 950ms.
+[2026-08-15 12:26:15] ERROR - Payment_Gateway - Webhook delivery failed with timeout.
+
+[2026-08-15 12:30:01] INFO - Service Starting: Frontend_Dashboard
+[2026-08-15 12:35:20] WARN - Frontend_Dashboard - API response latency increased to 1800ms.
