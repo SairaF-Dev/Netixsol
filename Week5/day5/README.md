@@ -3,7 +3,6 @@
 
 An AI-powered SRE incident investigation system that collects evidence from server logs, infrastructure metrics, and GitHub, analyzes incidents using an LLM, and keeps consequential actions behind a Human-in-the-Loop (HITL) approval checkpoint.
 
-This project was developed for **Week 5 Day 5 CM-IT — Capstone: Production-Ready Agent System, Evaluation & Deployment**.
 
 ---
 
