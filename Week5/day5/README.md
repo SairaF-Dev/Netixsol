@@ -528,39 +528,42 @@ This prevents the agent from appearing to have successfully investigated a servi
 ```text
 capstone_project/
 │
-├── .gitignore
-├── README.md
-├── requirements.txt
-├── evaluation_results.json
-│
 ├── app/
-│   ├── __init__.py
 │   ├── agent.py
 │   ├── cost.py
 │   ├── database.py
 │   ├── main.py
 │   ├── monitoring.py
-│   └── tools.py
+│   ├── tools.py
+│   └── __init__.py
 │
 ├── data/
+│   ├── api_monitoring.log
 │   ├── local_metrics.db
 │   └── server.log
 │
 ├── docs/
+│   ├── evaluation_result_table.png
 │   ├── executive_report_sre_agent_.pdf
 │   ├── monitoring_checklist.pdf
 │   ├── SRE_Capstone_Presentation_.pptx
 │   ├── system_design_and_framework_choice.pdf
-│   └── system_diagram.png
+│   ├── system_diagram.png
+│   └── output_screenshots/
 │
 ├── evaluation/
 │   └── evaluation.py
 │
-└── tests/
-    ├── test_agent.py
-    ├── test_llm_usage.py
-    ├── test_tools.py
-    └── test_tool_retry.py
+├── tests/
+│   ├── test_agent.py
+│   ├── test_llm_usage.py
+│   ├── test_tools.py
+│   └── test_tool_retry.py
+│
+├── evaluation_results.json
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
 ---
