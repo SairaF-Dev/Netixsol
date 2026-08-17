@@ -1,0 +1,20 @@
+feature,description,computation_window / formula,grain
+match_key,Unique match identifier including date for replay safety,season + round + home + away + match_date,match
+match_date,Date the match was played,source match_date,match
+season,AFL season/year,source year,match
+team_home / team_away,Normalized home / away club names,norm_team(),match
+venue,Ground where the match was played,source venue,match
+match_result_3way,Primary target: HOME_WIN / AWAY_WIN / DRAW,home result; draw preserved explicitly,match
+margin,Auxiliary signed score-margin target,home_score - away_score,match
+"form_win_rate_last{3,5,10}_{home,away}",Prior N-game win rate,shift(1).rolling(N).mean(),"team, pre-match"
+"avg_score_last{3,5,10}_{home,away}",Average points scored in prior N games,shift(1).rolling(N).mean(),"team, pre-match"
+"avg_conceded_last{3,5,10}_{home,away}",Average points conceded in prior N games,shift(1).rolling(N).mean(),"team, pre-match"
+"win_streak_{home,away}",Consecutive prior wins entering the match,run length of prior team_win values,"team, pre-match"
+"h2h_win_rate_prior_{home,away}",Historical win rate vs this opponent,shift(1).expanding().mean() by team/opponent,"team-pair, pre-match"
+"h2h_games_played_prior_{home,away}",Prior meetings vs opponent,shift(1).expanding().count(),"team-pair, pre-match"
+"venue_win_rate_prior_{home,away}",Historical win rate at this venue,shift(1).expanding().mean() by team/venue,"team-venue, pre-match"
+"rest_days_{home,away}",Days since previous match,chronological team sort; current date - previous team match date,"team, pre-match"
+"season_win_rate_prior_{home,away}",Season win-rate proxy entering match,chronological team-season order; shift(1).expanding().mean(),"team-season, pre-match"
+"ladder_rank_prior_{home,away}",League-wide prior win-rate rank proxy; NOT official AFL ladder position,rank all teams in season by prior win rate as of match date,"team-season, pre-match"
+"is_interstate_{home,away}",Binary interstate-travel proxy; does not measure distance/duration,venue_state != team_state,"team/context, pre-match"
+"is_neutral_venue_{home,away}",Heuristic flag for obvious neutral-venue contexts,Grand Final OR venue state differs from both teams; proxy only,"match/context, pre-match"
