@@ -4,7 +4,7 @@ A LangChain-based conversational agent for Australian Football League (AFL) ques
 
 ## Overview
 
-This project implements the conversational half of the Week 6 AFL agent project.
+This project implements the conversational AFL agent project.
 
 The agent focuses on:
 
@@ -34,7 +34,7 @@ Week6/
         └── team_matches_home_away_raw - team_matches_home_away_raw.csv
 ```
 
-> The exact file locations must match the paths configured in the Python script.
+
 
 ## Requirements
 
@@ -74,17 +74,9 @@ OPENROUTER_API_KEY=your_openrouter_api_key
 
 The script loads environment variables with `python-dotenv` and does not hardcode the API key.
 
-### Alternative Groq Configuration
 
-The script also contains a commented Groq configuration using:
 
-```text
-https://api.groq.com/openai/v1
-```
 
-and `GROQ_API_KEY`.
-
-The active configuration in the supplied script is OpenRouter, not Groq.
 
 ## Running the Agent
 
@@ -340,7 +332,7 @@ while still enforcing the AFL-only scope on every turn.
 
 The script includes two levels of guardrail testing.
 
-### Task 1 — Adversarial Scope Tests
+### Task 1: Adversarial Scope Tests
 
 The initial test set contains 12 prompts covering:
 
@@ -359,7 +351,7 @@ The initial test set contains 12 prompts covering:
 
 The evaluation checks whether an appropriate refusal signal is present.
 
-### Task 5 — Guardrail Evaluation
+### Task 5: Guardrail Evaluation
 
 The full guardrail test set contains 15 prompts:
 
@@ -496,20 +488,7 @@ The supplied implementation has several intentional limitations:
 6. The current retrieval layer is designed for structured AFL statistics rather than open-ended textual explanations.
 7. The script contains test/demo executions, so running the file performs the evaluation workflow rather than starting a standalone chat UI.
 
-## Day 3 Deliverables Covered
 
-| Requirement | Implementation |
-|---|---|
-| Scope definition | AFL system prompt |
-| Off-topic refusal | Refusal rules and examples |
-| Adversarial testing | 12-prompt scope test |
-| Structured retrieval | Pandas-based AFL lookup functions |
-| Retrieval tools | Six LangChain tools |
-| Tool-calling agent | `create_tool_calling_agent` + `AgentExecutor` |
-| Grounding | `check_grounding()` |
-| Multi-turn memory | `RunnableWithMessageHistory` |
-| Guardrail evaluation | 15-prompt evaluation set |
-| Evaluation output | `guardrail_eval_results.csv` |
 
 ## Expected Output
 
@@ -554,8 +533,3 @@ The agent is designed around several guardrails:
 - Return a clear limitation when the available data cannot answer a question.
 - Maintain the AFL scope even during multi-turn conversations.
 
-## Author
-
-**CM-IT Batch 2 — Week 6 Day 3**
-
-Project: **Domain-Scoped AFL Chat Agent — Retrieval, Guardrails & Grounding**
