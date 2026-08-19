@@ -53,7 +53,6 @@ The script imports:
 - `langchain-core`
 - `langchain-classic`
 - `pandas`
-- `pyarrow`
 - `python-dotenv`
 
 If your installed LangChain version separates classic agents into `langchain-classic`, install it as well:
