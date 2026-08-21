@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+streamlit
+langchain
+langgraph
+langchain-openai
+langchain-core
+pydantic
+python-dotenv
+pandas
+pyarrow
+joblib
+scikit-learn
+requests
+pytest
