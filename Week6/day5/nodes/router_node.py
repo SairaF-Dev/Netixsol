@@ -1,200 +1,409 @@
+"""
+router_node.py
+--------------
+
+Context-aware deterministic router for the AFL Day 5 LangGraph capstone.
+
+Responsibilities
+----------------
+1. Handle empty queries.
+2. Handle standalone dates/years.
+3. Handle "What about 2027?" style follow-ups.
+4. Preserve prediction context only when previous intent/tool was prediction.
+5. Preserve retrieval context only when previous intent/tool was retrieval.
+6. Handle vague follow-ups.
+7. Fall back to the LLM/deterministic router for normal queries.
+
+Important rule
+--------------
+team_a/team_b ALONE do NOT prove prediction context.
+
+Previous intent/tool is authoritative.
+"""
+
 from __future__ import annotations
 
 import re
 
 from state import AgentState
-
 from router import classify_intent
-
-
-# ============================================================================
-# PREDICTION KEYWORDS
-# ============================================================================
-
-MATCH_PREDICTION_TERMS = (
-    "who will win",
-    "winner",
-    "will win",
-    "match prediction",
-    "predict",
-    "prediction",
-    "beat",
-    "defeat",
-)
-
-
-TOP_PLAYER_TERMS = (
-    "top player",
-    "best player",
-    "top performer",
-    "top scorer",
-)
 
 
 # ============================================================================
 # DATE DETECTION
 # ============================================================================
 
-DATE_ONLY_RE = re.compile(
-    r"^\s*20\d{2}-\d{2}-\d{2}\s*$"
+def _extract_year(text: str) -> str | None:
+    """
+    Extract a four-digit year such as 2024 or 2027.
+    """
+
+    match = re.search(
+        r"\b(20\d{2})\b",
+        text or "",
+    )
+
+    return match.group(1) if match else None
+
+
+def _is_date_only_query(text: str) -> bool:
+    """
+    Detect standalone dates/years.
+
+    Examples:
+        2027
+        2027?
+        2026-08-30
+        2026-08-30?
+    """
+
+    text = (
+        (text or "")
+        .strip()
+        .rstrip("?")
+        .strip()
+    )
+
+    return bool(
+        re.fullmatch(
+            r"20\d{2}(?:-\d{2}-\d{2})?",
+            text,
+        )
+    )
+
+
+def _is_year_followup_query(text: str) -> bool:
+    """
+    Detect year follow-up queries.
+
+    Examples:
+        What about 2027?
+        What about 2024?
+        How about 2025?
+        And 2023?
+        What about the 2022 season?
+    """
+
+    text = (
+        (text or "")
+        .strip()
+        .lower()
+    )
+
+    patterns = (
+    r"^what\s+about\s+20\d{2}\??$",
+    r"^how\s+about\s+20\d{2}\??$",
+    r"^and\s+20\d{2}\??$",
+    r"^what\s+about\s+the\s+20\d{2}\s+season\??$",
+    r"^how\s+about\s+the\s+20\d{2}\s+season\??$",
 )
 
+    return any(
+        re.fullmatch(pattern, text)
+        for pattern in patterns
+    )
 
-def _is_date_only(text: str) -> bool:
-    return bool(
-        DATE_ONLY_RE.fullmatch(text.strip())
+
+def _extract_followup_year(text: str) -> str | None:
+    return _extract_year(text)
+
+
+# ============================================================================
+# PREVIOUS CONTEXT HELPERS
+# ============================================================================
+
+def _get_previous_intent(state: AgentState):
+    """
+    Intent of the PREVIOUS conversation turn.
+    """
+
+    return state.get("previous_intent")
+
+
+def _get_previous_tool(state: AgentState):
+    """
+    Tool used during the PREVIOUS conversation turn.
+    """
+
+    return state.get("previous_tool_name")
+
+
+def _has_prediction_context(state: AgentState) -> bool:
+    """
+    True only when the previous turn was actually prediction-related.
+
+    We intentionally do NOT rely only on team_a/team_b.
+
+    Supports:
+        - match winner prediction
+        - top-player prediction
+    """
+
+    previous_intent = _get_previous_intent(state)
+    previous_tool = _get_previous_tool(state)
+
+    prediction_tools = {
+        "match_winner_prediction",
+        "top_player_prediction",
+        "prediction",
+    }
+
+    return (
+        previous_intent == "prediction"
+        or previous_tool in prediction_tools
+    )
+
+
+def _has_retrieval_context(state: AgentState) -> bool:
+    """
+    True when the previous turn was retrieval-related.
+    """
+
+    previous_intent = _get_previous_intent(state)
+    previous_tool = _get_previous_tool(state)
+
+    retrieval_tools = {
+        "retrieval",
+        "player_statistics",
+        "team_results",
+        "head_to_head",
+    }
+
+    return (
+        previous_intent == "retrieval"
+        or previous_tool in retrieval_tools
+    )
+
+
+def _has_afl_context(state: AgentState) -> bool:
+    """
+    General previous AFL context.
+
+    Used only for vague conversational follow-ups.
+    """
+
+    previous_intent = _get_previous_intent(state)
+    previous_tool = _get_previous_tool(state)
+
+    afl_tools = {
+        "retrieval",
+        "player_statistics",
+        "team_results",
+        "head_to_head",
+        "match_winner_prediction",
+        "top_player_prediction",
+        "prediction",
+    }
+
+    return (
+        previous_intent in {
+            "factual",
+            "retrieval",
+            "prediction",
+        }
+        or previous_tool in afl_tools
     )
 
 
 # ============================================================================
-# DETERMINISTIC PREDICTION DETECTION
+# VAGUE FOLLOW-UP DETECTION
 # ============================================================================
 
-def _is_prediction_query(text: str) -> bool:
+def _is_vague_followup(text: str) -> bool:
+    """
+    Detect conversational follow-ups.
 
-    q = text.lower().strip()
+    Examples:
+        What about him?
+        What about his stats?
+        What about the player?
+        What about the match?
+    """
 
-    # ------------------------------------------------------------
-    # Top-player prediction
-    # ------------------------------------------------------------
+    lowered = (
+        text or ""
+    ).strip().lower()
 
-    if any(
-        term in q
-        for term in TOP_PLAYER_TERMS
-    ):
-        return True
+    patterns = (
+        r"^what\s+about\s+(him|her|his|their|them)\b",
+        r"^what\s+about\s+the\s+player\b",
+        r"^what\s+about\s+that\s+player\b",
+        r"^what\s+about\s+the\s+match\b",
+        r"^what\s+about\s+that\s+match\b",
+        r"^what\s+about\s+them\b",
+    )
 
-    # ------------------------------------------------------------
-    # Match-winner prediction
-    # ------------------------------------------------------------
-
-    if any(
-        term in q
-        for term in MATCH_PREDICTION_TERMS
-    ):
-        return True
-
-    return False
+    return any(
+        re.search(pattern, lowered)
+        for pattern in patterns
+    )
 
 
 # ============================================================================
 # ROUTER NODE
 # ============================================================================
 
-def router_node(
-    state: AgentState,
-) -> AgentState:
+def router_node(state: AgentState) -> AgentState:
+    """
+    Context-aware routing node.
+    """
 
-    query = state.get(
-        "user_query",
-        "",
+    query = (
+        state.get("user_query", "") or ""
     ).strip()
 
     # =========================================================================
-    # PENDING CLARIFICATION
-    # =========================================================================
-    #
-    # Do NOT classify the clarification answer as a fresh query.
-    #
-    # Example:
-    #
-    # Turn 1:
-    #   Who is the top player for Collingwood?
-    #
-    # Turn 2:
-    #   2025-08-30
-    #
-    # The date belongs to the previous prediction request.
-    #
+    # 1. EMPTY QUERY
     # =========================================================================
 
-    if (
-        state.get("clarification_needed")
-        and state.get("pending_tool_name")
-    ):
+    if not query:
 
         return {
             **state,
-
-            "intent":
-                "prediction",
-
-            "router_reason":
-                "Continuing a pending prediction clarification.",
+            "intent": "off_topic",
+            "router_reason": "Empty user query.",
         }
 
     # =========================================================================
-    # DETERMINISTIC TOP-PLAYER / PREDICTION OVERRIDE
-    # =========================================================================
-    #
-    # This prevents the LLM router from incorrectly classifying:
-    #
-    #   "Who is the top player for Collingwood?"
-    #
-    # as retrieval.
-    #
+    # 2. STANDALONE DATE / YEAR
     # =========================================================================
 
-    if _is_prediction_query(query):
+    if _is_date_only_query(query):
 
-        if any(
-            term in query.lower()
-            for term in TOP_PLAYER_TERMS
-        ):
+        year_or_date = (
+            _extract_year(query)
+            if len(
+                query.rstrip("?").strip()
+            ) == 4
+            else query.rstrip("?").strip()
+        )
 
-            reason = (
-                "The user asks for a top-player prediction "
-                "for an AFL team."
-            )
+        # Retrieval context has priority because it is the immediately
+        # previous semantic context.
 
-        else:
+        if _has_retrieval_context(state):
 
-            reason = (
-                "The user asks for a future AFL match "
-                "outcome prediction."
-            )
+            return {
+                **state,
+                "intent": "retrieval",
+                "router_reason": (
+                    "Standalone date/year interpreted as a "
+                    "follow-up to the previous AFL retrieval."
+                ),
+                "date": year_or_date,
+            }
+
+        if _has_prediction_context(state):
+
+            return {
+                **state,
+                "intent": "prediction",
+                "router_reason": (
+                    "Standalone date/year interpreted as a "
+                    "follow-up to the previous AFL prediction."
+                ),
+                "date": year_or_date,
+            }
 
         return {
             **state,
-
-            "intent":
-                "prediction",
-
-            "router_reason":
-                reason,
+            "intent": "off_topic",
+            "router_reason": (
+                "Standalone date/year has no previous AFL context."
+            ),
         }
 
     # =========================================================================
-    # DATE-ONLY WITHOUT PENDING CLARIFICATION
+    # 3. YEAR FOLLOW-UP
     # =========================================================================
 
-    if _is_date_only(query):
+    if _is_year_followup_query(query):
+
+        year = _extract_followup_year(query)
+
+        if _has_retrieval_context(state):
+
+            return {
+                **state,
+                "intent": "retrieval",
+                "router_reason": (
+                    "Year follow-up detected; previous "
+                    "retrieval context preserved."
+                ),
+                "date": year,
+            }
+
+        if _has_prediction_context(state):
+
+            return {
+                **state,
+                "intent": "prediction",
+                "router_reason": (
+                    "Year follow-up detected; previous "
+                    "prediction context preserved."
+                ),
+                "date": year,
+            }
 
         return {
             **state,
-
-            "intent":
-                "off_topic",
-
-            "router_reason":
-                "The input is only a date and there is "
-                "no pending AFL prediction clarification.",
+            "intent": "off_topic",
+            "router_reason": (
+                "Year follow-up has no previous AFL context."
+            ),
         }
 
     # =========================================================================
-    # NORMAL LLM / EXISTING ROUTER
+    # 4. VAGUE FOLLOW-UP
     # =========================================================================
 
-    result = classify_intent(
-        query
-    )
+    if _is_vague_followup(query):
+
+        if _has_retrieval_context(state):
+
+            return {
+                **state,
+                "intent": "retrieval",
+                "router_reason": (
+                    "Vague follow-up preserved the previous "
+                    "AFL retrieval context."
+                ),
+            }
+
+        if _has_prediction_context(state):
+
+            return {
+                **state,
+                "intent": "prediction",
+                "router_reason": (
+                    "Vague follow-up preserved the previous "
+                    "AFL prediction context."
+                ),
+            }
+
+        if _has_afl_context(state):
+
+            return {
+                **state,
+                "intent": "factual",
+                "router_reason": (
+                    "Vague follow-up preserved the previous "
+                    "AFL conversation context."
+                ),
+            }
+
+        # No previous context.
+        # Let the normal classifier decide rather than silently
+        # dropping the query.
+
+    # =========================================================================
+    # 5. NORMAL CLASSIFICATION
+    # =========================================================================
+
+    result = classify_intent(query)
 
     return {
         **state,
-
-        "intent":
-            result.intent,
-
-        "router_reason":
-            result.reasoning,
+        "intent": result.intent,
+        "router_reason": result.reasoning,
     }

@@ -156,42 +156,85 @@ def _validate_team(team_name: str) -> None:
         )
 
 
-def _validate_date(date: str | pd.Timestamp) -> pd.Timestamp:
+from datetime import date as dt_date
+
+
+def _validate_date(
+    date: str | pd.Timestamp | None
+) -> pd.Timestamp:
     """
-    Validate and normalize the prediction date.
+    Validate and normalize prediction date.
+
+    If no date is supplied, today's date is used.
+
+    Future dates are allowed because the model uses only
+    historical snapshots available before the prediction date.
+
+    Example:
+        Dataset cutoff = 2025
+        Prediction date = 2027
+        Features = latest available historical data before 2027
+                 = 2025 data in the current dataset.
     """
 
-    try:
-        date = pd.Timestamp(date)
+    # ------------------------------------------------------------------
+    # No date supplied -> use today's actual date.
+    # ------------------------------------------------------------------
 
-    except Exception as exc:
+    if date is None or str(date).strip() == "":
+        parsed_date = pd.Timestamp(dt_date.today())
 
+    else:
+        try:
+            parsed_date = pd.Timestamp(date)
+
+        except Exception as exc:
+            raise PredictionInputError(
+                f"Invalid date '{date}'. "
+                "Use YYYY-MM-DD format."
+            ) from exc
+
+        if pd.isna(parsed_date):
+            raise PredictionInputError(
+                "Prediction date cannot be empty."
+            )
+
+    # ------------------------------------------------------------------
+    # Do not allow dates before the historical dataset begins.
+    # ------------------------------------------------------------------
+
+    if parsed_date < DATA_MIN_DATE:
         raise PredictionInputError(
-            f"Invalid date '{date}'. "
-            "Use YYYY-MM-DD format."
-        ) from exc
-
-    if pd.isna(date):
-
-        raise PredictionInputError(
-            "Prediction date cannot be empty."
-        )
-
-    # Historical model data + one year forward.
-    if (
-        date < DATA_MIN_DATE
-        or date > DATA_MAX_DATE + pd.Timedelta(days=365)
-    ):
-
-        raise PredictionInputError(
-            f"Date {date.date()} is well outside the data range "
+            f"Date {parsed_date.date()} is before the "
+            f"available historical data range "
             f"({DATA_MIN_DATE.date()} to "
-            f"{DATA_MAX_DATE.date()}); "
-            "prediction would be unreliable."
+            f"{DATA_MAX_DATE.date()})."
         )
 
-    return date
+    return parsed_date
 
+def _data_recency_warning(
+    prediction_date: pd.Timestamp,
+) -> str | None:
+    """
+    Return a warning when prediction date is newer than
+    the latest available historical data.
+    """
+
+    if prediction_date <= DATA_MAX_DATE:
+        return None
+
+    days_stale = (
+        prediction_date - DATA_MAX_DATE
+    ).days
+
+    return (
+        f"The prediction date is {days_stale} days after "
+        f"the latest available historical data "
+        f"({DATA_MAX_DATE.date()}). "
+        "The model does not include newer match results "
+        "or current-season form."
+    )
 
 # ============================================================================
 # Team snapshot helpers
@@ -300,13 +343,14 @@ def _safe_numeric(
 # MATCH-WINNER PREDICTION
 # ============================================================================
 
+
 def predict_match_winner(
     home_team: str,
     away_team: str,
-    date: str,
+    date: str | None = None,
     venue: str = "unknown",
 ) -> dict:
-    
+        
     """
     Predict the winner of an AFL match.
 
@@ -531,22 +575,23 @@ def predict_match_winner(
     # ------------------------------------------------------------------------
 
     return {
+    "home_team": home_team,
+    "away_team": away_team,
+    "predicted_winner": predicted_winner,
+    "home_win_probability": round(proba, 3),
 
-        "home_team": home_team,
+    "prediction_date": str(as_of.date()),
 
-        "away_team": away_team,
+    "data_cutoff": str(DATA_MAX_DATE.date()),
 
+    "data_recency_warning": _data_recency_warning(as_of),
 
-        "predicted_winner":
-            predicted_winner,
-
-        "home_win_probability":
-            round(proba, 3),
-
-        "as_of_date":
-            str(as_of.date()),
-    }
-
+    "disclaimer": (
+        "Predicted probability, not a certainty. "
+        "This prediction is based on historical AFL data "
+        f"available through {DATA_MAX_DATE.date()}."
+    ),
+}
 
 # ============================================================================
 # TOP PLAYER PREDICTION
@@ -556,49 +601,145 @@ def predict_top_player(
     team: str,
     date: str,
     top_n: int = 5,
-) -> list:
+) -> dict:
     """
-    Predict the top players for an AFL team based on expected
-    fantasy points.
+    Predict the top AFL players for a team based on expected fantasy points.
+
+    Eligibility:
+        A player must have appeared for the requested team during either
+        of the latest 2 seasons available in the dataset.
+
+    Player form:
+        Uses the player's latest available snapshot before the prediction
+        date.
+
+    Forecast horizon:
+        Shows how far the requested prediction date is from the latest
+        available dataset date.
+
+    Important:
+        No season/year is hard-coded. The latest 2 seasons are detected
+        dynamically from the available dataset.
     """
+
+    # ----------------------------------------------------------------------
+    # Validate inputs
+    # ----------------------------------------------------------------------
 
     _validate_team(team)
 
     as_of = _validate_date(date)
 
     if top_n < 1:
-
         raise PredictionInputError(
             "top_n must be at least 1."
         )
 
-    # ------------------------------------------------------------------------
-    # Get player history before prediction date
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
+    # Validate dataset
+    # ----------------------------------------------------------------------
+
+    if _player_snapshots.empty:
+        raise PredictionInputError(
+            "Player snapshot dataset is empty."
+        )
+
+    valid_dates = (
+        _player_snapshots["match_date"]
+        .dropna()
+    )
+
+    if valid_dates.empty:
+        raise PredictionInputError(
+            "Player snapshot dataset contains no valid dates."
+        )
+
+    # ----------------------------------------------------------------------
+    # Latest available dataset date
+    # ----------------------------------------------------------------------
+
+    data_through = valid_dates.max()
+
+    # ----------------------------------------------------------------------
+    # Dynamically detect latest 2 available seasons
+    # ----------------------------------------------------------------------
+
+    available_seasons = sorted(
+        valid_dates
+        .dt.year
+        .astype(int)
+        .unique()
+    )
+
+    if len(available_seasons) < 2:
+        raise PredictionInputError(
+            "At least 2 seasons are required for player eligibility."
+        )
+
+    latest_two_seasons = available_seasons[-2:]
+
+    # ----------------------------------------------------------------------
+    # Get requested team's player history before prediction date
+    # ----------------------------------------------------------------------
 
     roster = _player_snapshots[
         (
-            _player_snapshots["team"]
-            == team
+            _player_snapshots["team"] == team
         )
         &
         (
-            _player_snapshots["match_date"]
-            < as_of
+            _player_snapshots["match_date"] < as_of
         )
-    ]
+    ].copy()
 
     if roster.empty:
-
         raise PredictionInputError(
-            f"No player history for "
-            f"'{team}' before "
+            f"No player history for '{team}' before "
             f"{as_of.date()}."
         )
 
-    # ------------------------------------------------------------------------
-    # Latest snapshot per player
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
+    # Dynamic player eligibility
+    #
+    # Player must have appeared for this team in either of the
+    # latest 2 seasons available in the dataset.
+    # ----------------------------------------------------------------------
+
+    eligible_players = (
+        _player_snapshots[
+            (
+                _player_snapshots["team"] == team
+            )
+            &
+            (
+                _player_snapshots["match_date"]
+                .dt.year
+                .isin(latest_two_seasons)
+            )
+        ]["player_id"]
+        .dropna()
+        .unique()
+    )
+
+    if len(eligible_players) == 0:
+        raise PredictionInputError(
+            f"No eligible players found for '{team}' "
+            f"in the latest 2 available seasons."
+        )
+
+    # Keep only eligible players
+    roster = roster[
+        roster["player_id"].isin(eligible_players)
+    ].copy()
+
+    if roster.empty:
+        raise PredictionInputError(
+            f"No eligible player history found for '{team}'."
+        )
+
+    # ----------------------------------------------------------------------
+    # Latest form snapshot per player
+    # ----------------------------------------------------------------------
 
     latest_per_player = (
         roster
@@ -606,23 +747,22 @@ def predict_top_player(
         .groupby("player_id")
         .tail(1)
         .dropna(subset=_PLAYER_FEATURES)
+        .copy()
     )
 
     if latest_per_player.empty:
-
         raise PredictionInputError(
-            f"No players with complete recent-form "
-            f"data for '{team}' before "
-            f"{as_of.date()}."
+            f"No eligible players with complete recent-form "
+            f"data for '{team}'."
         )
 
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     # Predict fantasy points
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
 
     try:
 
-        preds = _top_player_model.predict(
+        predictions = _top_player_model.predict(
             latest_per_player[_PLAYER_FEATURES]
         )
 
@@ -632,16 +772,17 @@ def predict_top_player(
             f"Top-player model prediction failed: {exc}"
         ) from exc
 
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     # Attach predictions
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
 
-    latest_per_player = (
-        latest_per_player
-        .assign(
-            predicted_fantasy_points=preds
-        )
-    )
+    latest_per_player[
+        "predicted_fantasy_points"
+    ] = predictions
+
+    # ----------------------------------------------------------------------
+    # Select Top N
+    # ----------------------------------------------------------------------
 
     top = (
         latest_per_player
@@ -651,30 +792,121 @@ def predict_top_player(
         )
     )
 
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
+    # Calculate forecast horizon
+    #
+    # Example:
+    # Dataset ends: 2025-09-27
+    # Prediction:   2026-09-28
+    #
+    # Approximately 1 year into the future.
+    # ----------------------------------------------------------------------
+
+    forecast_days = (
+        as_of - data_through
+    ).days
+
+    forecast_years = (
+        forecast_days / 365.25
+    )
+
+    # ----------------------------------------------------------------------
+    # Determine prediction type
+    # ----------------------------------------------------------------------
+
+    if forecast_days > 0:
+
+        prediction_type = "future_forecast"
+
+    elif forecast_days == 0:
+
+        prediction_type = "same_date_as_latest_data"
+
+    else:
+
+        prediction_type = "historical_prediction"
+
+    # ----------------------------------------------------------------------
+    # Build player results
+    # ----------------------------------------------------------------------
+
+    players = []
+
+    for row in top.itertuples():
+
+        player_id = int(row.player_id)
+
+        player_info = _PLAYER_NAME_MAP.get(
+            player_id,
+            {},
+        )
+
+        player_name = (
+            player_info.get("player_name")
+            or
+            player_info.get("player_full_name")
+            or
+            f"Player {player_id}"
+        )
+
+        players.append(
+            {
+                "player_id": player_id,
+
+                "player_name": player_name,
+
+                "predicted_fantasy_points": round(
+                    float(row.predicted_fantasy_points),
+                    1,
+                ),
+            }
+        )
+
+    # ----------------------------------------------------------------------
     # Return structured result
-    # ------------------------------------------------------------------------
+    # ----------------------------------------------------------------------
 
-    return [
-        {
-            "player_id": int(row.player_id),
+    return {
+        "prediction_date": as_of.strftime(
+            "%Y-%m-%d"
+        ),
 
-            "player_name": (
-                _PLAYER_NAME_MAP
-                .get(int(row.player_id), {})
-                .get("player_name")
-                or
-                _PLAYER_NAME_MAP
-                .get(int(row.player_id), {})
-                .get("player_full_name")
-                or
-                f"Player {int(row.player_id)}"
-            ),
+        "data_through": data_through.strftime(
+            "%Y-%m-%d"
+        ),
 
-            "predicted_fantasy_points": round(
-                float(row.predicted_fantasy_points),
+        "prediction_type": prediction_type,
+
+        "forecast_horizon": {
+            "days": forecast_days,
+            "years": round(
+                forecast_years,
                 1,
             ),
-        }
-        for row in top.itertuples()
-    ]
+        },
+
+        "eligibility_seasons": [
+            int(year)
+            for year in latest_two_seasons
+        ],
+
+        "prediction_basis": (
+            f"Player eligibility is based on the latest 2 "
+            f"available seasons "
+            f"({latest_two_seasons[0]}-"
+            f"{latest_two_seasons[1]}). "
+            f"Player form uses each player's latest available "
+            f"snapshot before the requested prediction date."
+        ),
+
+        "data_limitation": (
+            f"The available player data ends on "
+            f"{data_through.strftime('%Y-%m-%d')}. "
+            f"Predictions after this date are forecasts based "
+            f"on historical data and do not include future "
+            f"player transfers, retirements, injuries, or "
+            f"team-list changes."
+        ),
+
+        "players": players,
+    }

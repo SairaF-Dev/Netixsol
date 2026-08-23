@@ -1,7 +1,31 @@
+"""
+day5_graph.py
+-------------
+AFL Day 5 LangGraph Capstone
+
+Fixed version.
+
+Important fixes
+---------------
+1. Previous tool_input is NOT blindly copied into the new turn.
+2. Previous AFL prediction context is preserved through:
+       team_a
+       team_b
+       date
+3. Previous clarification state is preserved safely.
+4. Current query gets a fresh tool_input.
+5. Router can use previous conversation context.
+6. Retrieval queries cannot accidentally inherit prediction inputs.
+7. Prediction follow-ups can reuse previous teams.
+8. Date/year follow-ups can be routed by router_node.
+9. Safe graph-level error handling.
+"""
+
 from __future__ import annotations
 
+import logging
+import os
 import time
-import pprint
 
 from dotenv import load_dotenv
 from langgraph.checkpoint.memory import MemorySaver
@@ -30,29 +54,49 @@ load_dotenv()
 
 
 # ============================================================================
-# ROUTING FUNCTIONS
+# LOGGING
+# ============================================================================
+
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
+
+logging.basicConfig(
+    level=getattr(logging, LOG_LEVEL, logging.INFO),
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+)
+
+logger = logging.getLogger("afl_day5")
+
+
+# ============================================================================
+# START ROUTING
 # ============================================================================
 
 def route_start(state: AgentState):
     """
-    Decide whether this is:
+    Decide whether the current query is:
 
-    1. A normal new query -> guardrail
-    2. A follow-up answer to a previous clarification -> pending_clarification
+    1. A new query
+    2. An answer to a previous clarification request
     """
 
-    if state.get("clarification_needed"):
+    clarification = state.get("clarification_needed")
+
+    if clarification:
         return "pending_clarification"
 
     return "guardrail"
 
 
+# ============================================================================
+# GUARDRAIL ROUTING
+# ============================================================================
+
 def route_after_guardrail(state: AgentState):
     """
-    After deterministic guardrail:
+    After guardrail:
 
-    - off_topic -> off_topic node
-    - otherwise -> router
+    off_topic -> off_topic
+    otherwise -> router
     """
 
     if state.get("intent") == "off_topic":
@@ -61,13 +105,38 @@ def route_after_guardrail(state: AgentState):
     return "router"
 
 
+# ============================================================================
+# INTENT ROUTING
+# ============================================================================
+
 def route_intent(state: AgentState):
     """
-    Route according to classifier intent.
+    Route according to the classified intent.
     """
 
-    return state.get("intent", "off_topic")
+    intent = state.get("intent")
 
+    valid_routes = {
+        "retrieval",
+        "prediction",
+        "factual",
+        "off_topic",
+    }
+
+    if intent in valid_routes:
+        return intent
+
+    logger.warning(
+        "Unknown intent received: %r. Routing to off_topic.",
+        intent,
+    )
+
+    return "off_topic"
+
+
+# ============================================================================
+# VALIDATION ROUTING
+# ============================================================================
 
 def route_after_validation(state: AgentState):
     """
@@ -82,11 +151,14 @@ def route_after_validation(state: AgentState):
     if status == "needs_clarification":
         return "clarification"
 
+    if status == "invalid":
+        return "fallback"
+
     return "fallback"
 
 
 # ============================================================================
-# GRAPH
+# GRAPH BUILDER
 # ============================================================================
 
 def build_graph():
@@ -99,57 +171,57 @@ def build_graph():
 
     graph.add_node(
         "guardrail",
-        guardrail_node
+        guardrail_node,
     )
 
     graph.add_node(
         "router",
-        router_node
+        router_node,
     )
 
     graph.add_node(
         "pending_clarification",
-        pending_clarification_node
+        pending_clarification_node,
     )
 
     graph.add_node(
         "retrieval",
-        retrieval_node
+        retrieval_node,
     )
 
     graph.add_node(
         "prediction",
-        prediction_node
+        prediction_node,
     )
 
     graph.add_node(
         "factual",
-        factual_node
+        factual_node,
     )
 
     graph.add_node(
         "off_topic",
-        off_topic_node
+        off_topic_node,
     )
 
     graph.add_node(
         "validation",
-        validation_node
+        validation_node,
     )
 
     graph.add_node(
         "format",
-        formatter_node
+        formatter_node,
     )
 
     graph.add_node(
         "clarification",
-        clarification_node
+        clarification_node,
     )
 
     graph.add_node(
         "fallback",
-        fallback_node
+        fallback_node,
     )
 
     # ------------------------------------------------------------------------
@@ -162,7 +234,7 @@ def build_graph():
         {
             "guardrail": "guardrail",
             "pending_clarification": "pending_clarification",
-        }
+        },
     )
 
     # ------------------------------------------------------------------------
@@ -175,33 +247,20 @@ def build_graph():
         {
             "router": "router",
             "off_topic": "off_topic",
-        }
+        },
     )
 
     # ------------------------------------------------------------------------
     # PENDING CLARIFICATION
-    #
-    # Example:
-    #
-    # Turn 1:
-    # "Who will win Collingwood vs Geelong?"
-    #
-    # -> asks for date
-    #
-    # Turn 2:
-    # "2025-08-30"
-    #
-    # -> pending_clarification
-    # -> prediction
     # ------------------------------------------------------------------------
 
     graph.add_edge(
         "pending_clarification",
-        "prediction"
+        "prediction",
     )
 
     # ------------------------------------------------------------------------
-    # INTENT ROUTING
+    # ROUTER
     # ------------------------------------------------------------------------
 
     graph.add_conditional_edges(
@@ -212,7 +271,7 @@ def build_graph():
             "prediction": "prediction",
             "factual": "factual",
             "off_topic": "off_topic",
-        }
+        },
     )
 
     # ------------------------------------------------------------------------
@@ -221,7 +280,7 @@ def build_graph():
 
     graph.add_edge(
         "retrieval",
-        "validation"
+        "validation",
     )
 
     # ------------------------------------------------------------------------
@@ -230,7 +289,7 @@ def build_graph():
 
     graph.add_edge(
         "prediction",
-        "validation"
+        "validation",
     )
 
     # ------------------------------------------------------------------------
@@ -239,7 +298,7 @@ def build_graph():
 
     graph.add_edge(
         "factual",
-        "format"
+        "format",
     )
 
     # ------------------------------------------------------------------------
@@ -248,7 +307,7 @@ def build_graph():
 
     graph.add_edge(
         "off_topic",
-        "format"
+        "format",
     )
 
     # ------------------------------------------------------------------------
@@ -262,7 +321,7 @@ def build_graph():
             "format": "format",
             "clarification": "clarification",
             "fallback": "fallback",
-        }
+        },
     )
 
     # ------------------------------------------------------------------------
@@ -271,17 +330,17 @@ def build_graph():
 
     graph.add_edge(
         "format",
-        END
+        END,
     )
 
     graph.add_edge(
         "clarification",
-        END
+        END,
     )
 
     graph.add_edge(
         "fallback",
-        END
+        END,
     )
 
     # ------------------------------------------------------------------------
@@ -289,7 +348,7 @@ def build_graph():
     # ------------------------------------------------------------------------
 
     return graph.compile(
-        checkpointer=MemorySaver()
+        checkpointer=MemorySaver(),
     )
 
 
@@ -301,9 +360,61 @@ app = build_graph()
 
 
 # ============================================================================
-# RUN QUERY
+# SAFE ERROR RESULT
 # ============================================================================
 
+def build_error_result(
+    query: str,
+    error: Exception,
+    started: float,
+):
+    """
+    Return a safe result if the graph itself crashes.
+    """
+
+    logger.exception(
+        "Graph execution failed for query=%r",
+        query,
+    )
+
+    return {
+        "user_query": query,
+        "intent": "off_topic",
+        "router_reason": "Graph execution failed safely.",
+
+        "tool_name": None,
+        "tool_input": None,
+        "tool_result": None,
+
+        "tools_called": [],
+
+        "validation_status": "invalid",
+        "validation_error": None,
+
+        "clarification_needed": None,
+        "pending_tool_name": None,
+
+        "team_a": None,
+        "team_b": None,
+        "date": None,
+
+        "final_response": (
+            "Sorry, I couldn't process that request right now. "
+            "Please try your AFL question again."
+        ),
+
+        "error": str(error),
+
+        "latency_ms": round(
+            (time.perf_counter() - started) * 1000,
+            2,
+        ),
+    }
+
+
+# ============================================================================
+# RUN QUERY
+# ============================================================================
 def run_query(
     query: str,
     conversation_id: str = "afl-day5-cli",
@@ -312,165 +423,255 @@ def run_query(
     """
     Execute one conversation turn.
 
-    Supports multi-turn clarification.
-
-    Example:
-
-        User: Who will win Collingwood vs Geelong?
-        Assistant: Please provide the date...
-
-        User: 2025-08-30
-        Assistant: Model prediction: Geelong Cats...
+    Important:
+        - Never reuse stale tool_input.
+        - Preserve useful AFL conversation context.
+        - Preserve previous intent only as context.
+        - Let the router determine the current intent.
+        - A year/date follow-up can refer to the previous prediction
+          OR previous retrieval depending on previous intent.
     """
 
     started = time.perf_counter()
 
-    # ================================================================
-    # GET PREVIOUS CHECKPOINT STATE
-    # ================================================================
+    # =========================================================================
+    # INPUT VALIDATION
+    # =========================================================================
 
-    checkpoint = app.get_state(
-        {
-            "configurable": {
-                "thread_id": conversation_id
-            }
+    query = (query or "").strip()
+
+    if not query:
+        return {
+            "user_query": "",
+            "intent": "off_topic",
+            "router_reason": "Empty user query.",
+
+            "tool_name": None,
+            "tool_input": None,
+            "tool_result": None,
+
+            "tools_called": [],
+
+            "validation_status": "invalid",
+            "validation_error": "Empty query.",
+
+            "final_response": (
+                "Please enter an AFL-related question."
+            ),
+
+            "error": None,
+
+            "latency_ms": round(
+                (time.perf_counter() - started) * 1000,
+                2,
+            ),
         }
-    )
 
-    previous_state = checkpoint.values or {}
+    # =========================================================================
+    # CHECKPOINT CONFIG
+    # =========================================================================
 
-    # ================================================================
-    # CHECK PENDING CLARIFICATION
-    # ================================================================
-
-    previous_clarification_needed = previous_state.get(
-        "clarification_needed"
-    )
-
-    previous_pending_tool_name = previous_state.get(
-        "pending_tool_name"
-    )
-
-    # ================================================================
-    # PRESERVE PREDICTION CONTEXT
-    # ================================================================
-
-    previous_team_a = previous_state.get(
-        "team_a"
-    )
-
-    previous_team_b = previous_state.get(
-        "team_b"
-    )
-
-    previous_tool_input = previous_state.get(
-        "tool_input"
-    )
-
-    previous_date = previous_state.get(
-        "date"
-    )
-
-    # ================================================================
-    # BUILD NEW STATE
-    # ================================================================
-
-    state = {
-        # ------------------------------------------------------------
-        # Current user input
-        # ------------------------------------------------------------
-
-        "user_query": query,
-
-        # ------------------------------------------------------------
-        # Conversation history
-        # ------------------------------------------------------------
-
-        "conversation_history": history or [],
-
-        # ------------------------------------------------------------
-        # IMPORTANT:
-        # Start fresh routing for every turn.
-        # ------------------------------------------------------------
-
-        "intent": None,
-        "router_reason": None,
-
-        # ------------------------------------------------------------
-        # Tool context
-        # ------------------------------------------------------------
-
-        "tool_name": previous_state.get(
-            "tool_name"
-        ),
-
-        "tool_input": previous_tool_input,
-
-        "tool_result": None,
-
-        # ------------------------------------------------------------
-        # Validation
-        # ------------------------------------------------------------
-
-        "validation_status": None,
-        "validation_error": None,
-
-        # ------------------------------------------------------------
-        # Clarification context
-        # ------------------------------------------------------------
-
-        "clarification_needed": (
-            previous_clarification_needed
-        ),
-
-        "pending_tool_name": (
-            previous_pending_tool_name
-        ),
-
-        # ------------------------------------------------------------
-        # Prediction context
-        # ------------------------------------------------------------
-
-        "team_a": previous_team_a,
-        "team_b": previous_team_b,
-        "date": previous_date,
-
-        # ------------------------------------------------------------
-        # Execution state
-        # ------------------------------------------------------------
-
-        "final_response": None,
-        "error": None,
-        "tools_called": [],
+    config = {
+        "configurable": {
+            "thread_id": conversation_id,
+        }
     }
 
-    # ================================================================
-    # INVOKE GRAPH
-    # ================================================================
+    try:
 
-    result = app.invoke(
-        state,
-        config={
-            "configurable": {
-                "thread_id": conversation_id
-            }
+        # =====================================================================
+        # GET PREVIOUS CHECKPOINT
+        # =====================================================================
+
+        checkpoint = app.get_state(config)
+
+        previous_state = checkpoint.values or {}
+
+        # =====================================================================
+        # PREVIOUS CONTEXT
+        # =====================================================================
+
+        previous_intent = previous_state.get("intent")
+        previous_tool_name = previous_state.get("tool_name")
+
+        previous_clarification_needed = previous_state.get(
+            "clarification_needed"
+        )
+
+        previous_pending_tool_name = previous_state.get(
+            "pending_tool_name"
+        )
+
+        previous_team_a = previous_state.get("team_a")
+        previous_team_b = previous_state.get("team_b")
+        previous_date = previous_state.get("date")
+        previous_player_name = previous_state.get("player_name")
+        previous_player_id = previous_state.get("player_id")
+
+        # Previous query is useful for resolving:
+        #
+        #   What were Nick Daicos's statistics?
+        #   What about 2024?
+        #
+        previous_query = previous_state.get("user_query")
+
+        # =====================================================================
+        # CRITICAL:
+        #
+        # NEVER carry previous tool_input into a fresh turn.
+        # =====================================================================
+
+        current_tool_input = None
+
+        # =====================================================================
+        # BUILD FRESH STATE
+        # =====================================================================
+
+        state: AgentState = {
+
+            # Current user input
+            "user_query": query,
+
+            # Conversation
+            "conversation_history": history or [],
+
+            # Current routing must start fresh
+            "intent": None,
+            "router_reason": None,
+
+            # Current tool execution must start fresh
+            "tool_name": None,
+            "tool_input": None,
+            "tool_result": None,
+            "tools_called": [],
+
+            # Validation
+            "validation_status": None,
+            "validation_error": None,
+
+            # Clarification state
+            "clarification_needed": previous_clarification_needed,
+            "pending_tool_name": previous_pending_tool_name,
+
+            # AFL context
+            "team_a": previous_team_a,
+            "team_b": previous_team_b,
+            "date": previous_date,
+            "player_name": previous_player_name,
+            "player_id": previous_player_id,
+
+            # Final response
+            "final_response": None,
+
+            # Error / monitoring
+            "error": None,
+
+            # Metadata
+            "prediction_metadata": {},
+
+            "latency_ms": 0.0,
+
+            "request_id": None,
+            "node_name": None,
+            "success": None,
+
+            # -----------------------------------------------------------------
+            # Extra context fields
+            #
+            # These are useful for follow-up resolution.
+            # -----------------------------------------------------------------
+
+            "previous_intent": previous_intent,
+            "previous_tool_name": previous_tool_name,
+            "previous_query": previous_query,
         }
-    )
 
-    # ================================================================
-    # LATENCY
-    # ================================================================
+        # =========================================================================
+        # DEBUG
+        # =========================================================================
 
-    result["latency_ms"] = round(
-        (
-            time.perf_counter()
-            - started
-        ) * 1000,
-        2
-    )
+        print("--------------------")
+        print("\n--- BEFORE GRAPH ---")
 
-    return result
+        print("conversation_id:", conversation_id)
+        print("current_query:", query)
 
+        print("previous_query:", previous_query)
+        print("previous_intent:", previous_intent)
+        print("previous_tool_name:", previous_tool_name)
+
+        print(
+            "previous_clarification_needed:",
+            previous_clarification_needed,
+        )
+
+        print(
+            "previous_pending_tool_name:",
+            previous_pending_tool_name,
+        )
+
+        print("previous_team_a:", previous_team_a)
+        print("previous_team_b:", previous_team_b)
+        print("previous_date:", previous_date)
+
+        print("current_tool_input:", current_tool_input)
+
+        print("--------------------\n")
+
+        # =========================================================================
+        # INVOKE GRAPH
+        # =========================================================================
+
+        result = app.invoke(
+            state,
+            config=config,
+        )
+
+        # =========================================================================
+        # EMPTY RESULT PROTECTION
+        # =========================================================================
+
+        if not result:
+            raise RuntimeError(
+                "Graph returned an empty state."
+            )
+
+        # =========================================================================
+        # FINAL RESPONSE PROTECTION
+        # =========================================================================
+
+        if not result.get("final_response"):
+
+            logger.warning(
+                "Graph completed without final_response."
+            )
+
+            result["final_response"] = (
+                "Sorry, I could not generate a response. "
+                "Please try again."
+            )
+
+        # =========================================================================
+        # LATENCY
+        # =========================================================================
+
+        result["latency_ms"] = round(
+            (
+                time.perf_counter()
+                - started
+            ) * 1000,
+            2,
+        )
+
+        return result
+
+    except Exception as exc:
+
+        return build_error_result(
+            query=query,
+            error=exc,
+            started=started,
+        )
 
 # ============================================================================
 # CLI
@@ -478,29 +679,62 @@ def run_query(
 
 if __name__ == "__main__":
 
-    print(
-        "AFL Day 5 LangGraph application"
-    )
+    print()
+    print("AFL Day 5 LangGraph application")
+    print("Type 'quit' to exit.")
+    print()
 
-    print(
-        "Type 'quit' to exit."
-    )
-
-    history = []
+    history: list[dict[str, str]] = []
 
     while True:
 
-        q = input("\nYou: ").strip()
+        # ---------------------------------------------------------------------
+        # INPUT
+        # ---------------------------------------------------------------------
+
+        try:
+
+            q = input("\nYou: ").strip()
+
+        except (KeyboardInterrupt, EOFError):
+
+            print(
+                "\n\nExiting AFL assistant."
+            )
+
+            break
+
+        # ---------------------------------------------------------------------
+        # EXIT
+        # ---------------------------------------------------------------------
 
         if q.lower() in {
             "quit",
-            "exit"
+            "exit",
         }:
+
+            print(
+                "\nGoodbye!"
+            )
+
             break
 
-        # ------------------------------------------------------------
-        # Run query
-        # ------------------------------------------------------------
+        # ---------------------------------------------------------------------
+        # EMPTY
+        # ---------------------------------------------------------------------
+
+        if not q:
+
+            print(
+                "\nAssistant: "
+                "Please enter an AFL-related question."
+            )
+
+            continue
+
+        # ---------------------------------------------------------------------
+        # RUN
+        # ---------------------------------------------------------------------
 
         result = run_query(
             q,
@@ -508,64 +742,104 @@ if __name__ == "__main__":
             history=history,
         )
 
-        # ------------------------------------------------------------
-        # Assistant response
-        # ------------------------------------------------------------
+        # ---------------------------------------------------------------------
+        # RESPONSE
+        # ---------------------------------------------------------------------
 
         print(
             "\nAssistant:",
             result.get(
                 "final_response",
-                ""
-            )
+                "",
+            ),
         )
 
-        # ------------------------------------------------------------
-        # Update conversation history
-        # ------------------------------------------------------------
+        # ---------------------------------------------------------------------
+        # HISTORY
+        # ---------------------------------------------------------------------
 
-        history += [
-            {
-                "role": "user",
-                "content": q,
-            },
-            {
-                "role": "assistant",
-                "content": result.get(
-                    "final_response",
-                    ""
-                ),
-            },
-        ]
-
-        # ------------------------------------------------------------
-        # Debug information
-        # ------------------------------------------------------------
-
-        pprint.pp(
-            {
-                "intent": result.get(
-                    "intent"
-                ),
-
-                "router_reason": result.get(
-                    "router_reason"
-                ),
-
-                "tools_called": result.get(
-                    "tools_called"
-                ),
-
-                "validation_status": result.get(
-                    "validation_status"
-                ),
-
-                "latency_ms": result.get(
-                    "latency_ms"
-                ),
-
-                "error": result.get(
-                    "error"
-                ),
-            }
+        history.extend(
+            [
+                {
+                    "role": "user",
+                    "content": q,
+                },
+                {
+                    "role": "assistant",
+                    "content": result.get(
+                        "final_response",
+                        "",
+                    ),
+                },
+            ]
         )
+
+        # ---------------------------------------------------------------------
+        # DEBUG
+        # ---------------------------------------------------------------------
+
+        print(
+            "\n--- AFTER GRAPH ---"
+        )
+
+        print(
+            "intent:",
+            result.get("intent"),
+        )
+
+        print(
+            "router_reason:",
+            result.get("router_reason"),
+        )
+
+        print(
+            "tool_name:",
+            result.get("tool_name"),
+        )
+
+        print(
+            "tool_input:",
+            result.get("tool_input"),
+        )
+
+        print(
+            "tool_result:",
+            result.get("tool_result"),
+        )
+
+        print(
+            "validation_status:",
+            result.get("validation_status"),
+        )
+
+        print(
+            "clarification_needed:",
+            result.get("clarification_needed"),
+        )
+
+        print(
+            "pending_tool_name:",
+            result.get("pending_tool_name"),
+        )
+
+        print(
+            "team_a:",
+            result.get("team_a"),
+        )
+
+        print(
+            "team_b:",
+            result.get("team_b"),
+        )
+
+        print(
+            "date:",
+            result.get("date"),
+        )
+
+        print(
+            "latency_ms:",
+            result.get("latency_ms"),
+        )
+
+        print("-------------------\n")
