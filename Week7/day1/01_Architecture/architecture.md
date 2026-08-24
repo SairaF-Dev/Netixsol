@@ -33,27 +33,32 @@ Target: **under ~1.2s from caller silence to first audio byte back**, achieved m
 
 ```mermaid
 flowchart LR
-    Caller((Caller / Phone)) <--> Tel[Telephony Layer<br/>Twilio / SIP]
+    Caller((Caller / Phone)) <--> Tel[Telephony<br/>Twilio / SIP]
     Tel <--> WS[WebSocket Bridge]
 
-    subgraph RealTimePipeline [Real-Time Voice Pipeline]
-        WS --> STT[Streaming STT<br/>Deepgram / Whisper]
-        STT --> VAD[Turn Detection / VAD]
-        VAD --> Orch
-        Orch[LangGraph Orchestrator] --> LLM[LLM Reasoning<br/>GPT / Claude / Gemini]
-        LLM -->|tool call| Tools[Tool Layer]
-        LLM --> TTS[Streaming TTS<br/>Fish Audio]
-        TTS --> WS
-    end
+    WS --> STT[STT<br/>Speech to Text]
+    STT --> VAD[VAD / Turn Detection<br/>Detects when user stops speaking]
+    VAD --> LG[LangGraph Orchestrator<br/>Controls Workflow]
 
-    subgraph DataLayer [Data & Integration Layer]
-        Tools --> RAG[(Vector DB<br/>ChromaDB / Pinecone)]
-        Tools --> DB[(Postgres / Mongo<br/>Leads, Memory, Logs)]
-        Tools --> Cal[Google Calendar API]
-        Tools --> Mail[Gmail / Resend API]
-        Tools --> CRM[(CRM-ready records)]
-    end
+    LG --> LLM[LLM<br/>Reasoning & Decision Making]
 
-    Orch --> DB
+    LLM -->|Tool Call| Tools[Tool Layer]
+
+    Tools --> RAG[(Vector DB<br/>ChromaDB / Pinecone<br/>RAG Retrieval)]
+    Tools --> DB[(Database<br/>Postgres / MongoDB<br/>Leads / Memory / Logs)]
+    Tools --> Cal[Google Calendar API]
+    Tools --> Mail[Gmail / Resend API]
+    Tools --> CRM[(CRM<br/>Customer / Lead Records)]
+
+    RAG --> LLM
+    Cal --> LLM
+    Mail --> LLM
+    DB --> LLM
+    CRM --> LLM
+
+    LLM --> TTS[Streaming TTS<br/>Text to Speech]
+    TTS --> WS
+
+    LG --> DB
     LLM --> DB
 ```
