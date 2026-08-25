@@ -1,0 +1,5 @@
+property_id,plan_name,advance_percent,installment_count,installment_frequency,installment_amount_pkr,possession_percent,duration_months
+P004,Easy 3-Year Plan,30,36,Monthly,350000,10,36
+P009,Investor Plan,25,8,Quarterly,2343750,0,24
+P010,Premium Farmhouse Plan,20,4,Quarterly,36000000,0,12
+P014,Construction-Linked Plan,25,24,Monthly,1312500,0,24

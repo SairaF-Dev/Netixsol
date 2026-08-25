@@ -1,0 +1,16 @@
+property_id,title,type,purpose,city,area,bedrooms,bathrooms,size_marla,price_pkr,developer_id,status,agent_name,agent_phone,possession_status
+P001,DHA Phase 6 Luxury Bungalow,House,Buy,Lahore,DHA Phase 6,5,6,1,45000000,D001,Available,Ahmed Raza,03001234567,Ready
+P002,Bahria Town 10 Marla House,House,Buy,Lahore,Bahria Town Sector C,4,5,10,32000000,D002,Available,Sana Malik,03011234567,Ready
+P003,Gulberg Studio Apartment,Apartment,Rent,Lahore,Gulberg III,1,1,5,65000,D003,Available,Bilal Khan,03021234567,Ready
+P004,DHA Phase 8 Commercial Plaza Shop,Commercial,Buy,Karachi,DHA Phase 8,0,1,2,18000000,D001,Available,Ahmed Raza,03001234567,Under Construction
+P005,Bahria Town 5 Marla House,House,Rent,Rawalpindi,Bahria Town Phase 4,3,3,5,85000,D002,Available,Sana Malik,03011234567,Ready
+P006,Clifton Sea View Apartment,Apartment,Buy,Karachi,Clifton Block 2,3,4,12,55000000,D004,Available,Farhan Ali,03031234567,Ready
+P007,Model Town 1 Kanal House,House,Buy,Lahore,Model Town,6,7,20,120000000,D001,Sold,Ahmed Raza,03001234567,Ready
+P008,Johar Town 2 Bed Apartment,Apartment,Rent,Lahore,Johar Town,2,2,7,45000,D003,Available,Bilal Khan,03021234567,Ready
+P009,DHA Phase 2 Investment Plot,Plot,Buy,Islamabad,DHA Phase 2,0,0,10,25000000,D005,Available,Hina Sheikh,03041234567,Ready
+P010,Bahria Enclave Farmhouse,House,Buy,Islamabad,Bahria Enclave,7,8,4000_sqyd,180000000,D002,Available,Sana Malik,03011234567,Ready
+P011,Gulshan-e-Iqbal Family House,House,Rent,Karachi,Gulshan-e-Iqbal Block 5,4,4,8,95000,D004,Available,Farhan Ali,03031234567,Ready
+P012,PECHS Office Space,Commercial,Rent,Karachi,PECHS Block 6,0,2,3,150000,D004,Available,Farhan Ali,03031234567,Ready
+P013,Faisal Town Corner House,House,Buy,Lahore,Faisal Town,4,5,8,28000000,D003,Available,Bilal Khan,03021234567,Ready
+P014,E-11 Islamabad Apartment,Apartment,Buy,Islamabad,E-11,3,3,10,42000000,D005,Under Construction,Hina Sheikh,03041234567,Under Construction
+P015,Askari 10 House,House,Rent,Lahore,Askari 10,5,5,12,110000,D001,Available,Ahmed Raza,03001234567,Ready

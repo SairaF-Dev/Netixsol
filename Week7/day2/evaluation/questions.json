@@ -1,0 +1,22 @@
+[
+  {"id": "Q1", "question": "Property book karne ke liye kitni advance chahiye hoti hai?", "answerable": true, "expected_source": "FAQ001"},
+  {"id": "Q2", "question": "DHA Phase 6 ka bungalow kitne bedrooms ka hai?", "answerable": true, "expected_source": "brochure_P001"},
+  {"id": "Q3", "question": "Kya installment plans available hain?", "answerable": true, "expected_source": "FAQ007"},
+  {"id": "Q4", "question": "Property visit kaise schedule karein?", "answerable": true, "expected_source": "FAQ006"},
+  {"id": "Q5", "question": "Rent par lene ke liye security deposit kitna hota hai?", "answerable": true, "expected_source": "FAQ003"},
+  {"id": "Q6", "question": "Kya price par negotiation ho sakti hai?", "answerable": true, "expected_source": "FAQ009"},
+  {"id": "Q7", "question": "DHA Phase 8 commercial shop ka payment plan kya hai?", "answerable": true, "expected_source": "brochure_P004"},
+  {"id": "Q8", "question": "Booking cancel karne ka process kya hai?", "answerable": true, "expected_source": "FAQ008"},
+  {"id": "Q9", "question": "Ready possession aur under construction mein farq batayein?", "answerable": true, "expected_source": "FAQ010"},
+  {"id": "Q10", "question": "Bahria Enclave farmhouse mein kya amenities hain?", "answerable": true, "expected_source": "brochure_P010"},
+  {"id": "Q11", "question": "Property buy karne ke liye kaunse documents chahiye?", "answerable": true, "expected_source": "FAQ002"},
+  {"id": "Q12", "question": "DHA Phase 2 plot ka size kitna hai?", "answerable": true, "expected_source": "brochure_P009"},
+  {"id": "Q13", "question": "Investment ke liye kaunsi area best hai?", "answerable": true, "expected_source": "FAQ005"},
+  {"id": "Q14", "question": "Kya property ka title legally verify kiya jata hai?", "answerable": true, "expected_source": "FAQ004"},
+  {"id": "Q15", "question": "Karachi mein sabse sasta plot kaunsa hai is company ke paas?", "answerable": false, "expected_source": null, "note": "No FAQ/brochure ranks plots by price across cities — requires structured retrieval, not in this KB"},
+  {"id": "Q16", "question": "Agar main foreign national hoon to kya main property buy kar sakta hoon?", "answerable": false, "expected_source": null, "note": "Not covered in FAQ set — legitimate gap"},
+  {"id": "Q17", "question": "Kya aap mortgage / bank loan arrange karte hain?", "answerable": false, "expected_source": null, "note": "Not covered — should trigger 'confirm karke bataunga' fallback"},
+  {"id": "Q18", "question": "Property tax kaun pay karta hai, buyer ya seller?", "answerable": false, "expected_source": null, "note": "Not covered in KB"},
+  {"id": "Q19", "question": "Bahria Town 5 Marla house ka rent kitna hai?", "answerable": false, "expected_source": null, "note": "Correct answer lives in structured DB (prices table), not in FAQ/brochure text — tests whether the agent wrongly invents a number instead of routing to structured retrieval"},
+  {"id": "Q20", "question": "Kya aapke paas Multan mein bhi properties hain?", "answerable": false, "expected_source": null, "note": "No Multan properties in dataset — tests refusal instead of inventing a listing"}
+]
