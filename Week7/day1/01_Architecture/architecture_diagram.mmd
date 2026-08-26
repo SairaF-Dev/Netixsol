@@ -1,0 +1,67 @@
+flowchart TD
+
+    %% Customer Layer
+    C[Customer] -->|Phone Call| TEL[Telephony Provider]
+
+    %% Voice Input
+    TEL -->|Audio Stream| STT[Speech-to-Text<br/>Deepgram]
+    STT -->|Transcribed UrduLish| API[FastAPI Backend]
+
+    %% Agent Orchestration
+    API --> LG[LangGraph<br/>Agent Orchestrator]
+
+    LG --> STATE[Conversation State]
+    LG --> LLM[LLM<br/>OpenAI GPT]
+
+    %% Decision / Tools
+    LLM --> ROUTER{Intent / Action}
+
+    ROUTER -->|Property Search| PROP[Property Search Tool]
+    ROUTER -->|Knowledge Question| RAG[RAG Search Tool]
+    ROUTER -->|Book / Reschedule / Cancel| CAL[Calendar Tool]
+    ROUTER -->|Customer History| CRMTOOL[CRM Tool]
+
+    %% Structured Database
+    PROP --> DB[(PostgreSQL<br/>Property Database)]
+    DB --> PROPRES[Verified Property Results]
+
+    %% RAG
+    RAG --> VECTOR[(ChromaDB<br/>Vector Database)]
+    VECTOR --> RAGRES[Relevant Documents]
+
+    %% Calendar
+    CAL --> GC[Google Calendar API]
+    GC --> CALRES[Verified Appointment Result]
+
+    %% CRM
+    CRMTOOL --> CRM[(CRM / PostgreSQL)]
+    CRM --> CRMRES[Customer History]
+
+    %% Results back to agent
+    PROPRES --> VALIDATE[Result Validation]
+    RAGRES --> VALIDATE
+    CALRES --> VALIDATE
+    CRMRES --> VALIDATE
+
+    VALIDATE --> LLM
+
+    %% Response
+    LLM --> RESPONSE[UrduLish Response Generation]
+    RESPONSE --> TTS[Text-to-Speech<br/>ElevenLabs Sia]
+    TTS -->|Audio| TEL
+    TEL -->|Voice Response| C
+
+    %% Business Events
+    VALIDATE --> EVENT{Business Event?}
+
+    EVENT -->|Appointment Booked| N8N[n8n Workflow]
+    EVENT -->|No| END[Continue Conversation]
+
+    N8N --> EMAIL[Employee Email]
+    N8N --> CRMUPDATE[CRM Update]
+    N8N --> NOTIFY[Customer Notification]
+
+    %% Monitoring
+    API --> LOG[Logging & Monitoring]
+    LG --> LOG
+    N8N --> LOG
