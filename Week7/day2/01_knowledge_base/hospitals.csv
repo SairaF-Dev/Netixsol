@@ -1,0 +1,18 @@
+hospital_id,name,area,city,type,distance_km,reference_property
+HOSP-001,DHA Medical Centre,DHA Phase 6,Lahore,Medical Centre,1.0,LHR-DHA-APT-001
+HOSP-002,DHA Hospital,DHA Phase 5,Lahore,Hospital,1.5,LHR-DHA-HSE-002
+HOSP-003,Bahria Medical Centre,Bahria Town,Lahore,Medical Centre,0.9,LHR-BHR-APT-001
+HOSP-004,Model Town Hospital,Model Town,Lahore,Hospital,1.2,LHR-MOD-APT-001
+HOSP-005,Gulberg Medical Hospital,Gulberg III,Lahore,Hospital,1.4,LHR-GUL-APT-001
+HOSP-006,F-11 Medical Centre,F-11,Islamabad,Medical Centre,1.0,ISB-F11-APT-001
+HOSP-007,F-10 General Hospital,F-10,Islamabad,Hospital,1.3,ISB-F10-APT-001
+HOSP-008,B-17 Medical Centre,B-17,Islamabad,Medical Centre,0.8,ISB-B17-APT-001
+HOSP-009,DHA Islamabad Hospital,DHA Phase 2,Islamabad,Hospital,1.1,ISB-DHA-APT-001
+HOSP-010,Ghauri Town Medical Centre,Ghauri Town,Islamabad,Medical Centre,1.0,ISB-GHAURI-HSE-001
+HOSP-011,Blue Area Medical Centre,Blue Area,Islamabad,Medical Centre,1.7,ISB-BLUE-COM-001
+HOSP-012,Clifton Medical Centre,Clifton,Karachi,Medical Centre,0.9,KHI-CLIF-APT-001
+HOSP-013,DHA Seaview Hospital,DHA Phase 8,Karachi,Hospital,1.2,KHI-DHA-APT-001
+HOSP-014,DHA Phase 6 Medical Centre,DHA Phase 6,Karachi,Medical Centre,1.0,KHI-DHA-HSE-001
+HOSP-015,Gulshan General Hospital,Gulshan-e-Iqbal,Karachi,Hospital,1.3,KHI-GUL-APT-001
+HOSP-016,Bahria Town Medical Centre,Bahria Town,Karachi,Medical Centre,1.1,KHI-BHR-APT-001
+HOSP-017,Saddar General Hospital,Saddar,Karachi,Hospital,1.4,KHI-SADDAR-COM-001

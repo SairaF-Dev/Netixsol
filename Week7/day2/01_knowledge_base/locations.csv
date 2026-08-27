@@ -1,0 +1,20 @@
+location_id,area,city,zone,classification,region
+LOC-LHR-DHA5,DHA Phase 5,Lahore,DHA,Residential,South Lahore
+LOC-LHR-DHA6,DHA Phase 6,Lahore,DHA,Residential,South Lahore
+LOC-LHR-DHA8,DHA Phase 8,Lahore,DHA,Residential,South Lahore
+LOC-LHR-BHR,Bahria Town,Lahore,Bahria Town,Residential,South/East Lahore
+LOC-LHR-MODEL,Model Town,Lahore,Model Town,Residential,Central Lahore
+LOC-LHR-GUL3,Gulberg III,Lahore,Gulberg,Mixed Use,Central Lahore
+LOC-ISB-F11,F-11,Islamabad,F Sector,Residential,North Islamabad
+LOC-ISB-DHA2,DHA Phase 2,Islamabad,DHA,Residential,East Islamabad
+LOC-ISB-B17,B-17,Islamabad,B-17,Residential,Northwest Islamabad
+LOC-ISB-GHAURI,Ghauri Town,Islamabad,Ghauri Town,Residential,Southeast Islamabad
+LOC-ISB-E11,E-11,Islamabad,E Sector,Residential,North Islamabad
+LOC-ISB-F10,F-10,Islamabad,F Sector,Residential,Central Islamabad
+LOC-ISB-BLUE,Blue Area,Islamabad,Blue Area,Commercial,Central Islamabad
+LOC-KHI-CLIF,Clifton,Karachi,Clifton,Residential,South Karachi
+LOC-KHI-DHA8,DHA Phase 8,Karachi,DHA,Residential,South Karachi
+LOC-KHI-DHA6,DHA Phase 6,Karachi,DHA,Residential,South Karachi
+LOC-KHI-GUL,Gulshan-e-Iqbal,Karachi,Gulshan,Residential,East Karachi
+LOC-KHI-BHR,Bahria Town,Karachi,Bahria Town,Residential,Malir Karachi
+LOC-KHI-SADDAR,Saddar,Karachi,Saddar,Commercial,Central Karachi

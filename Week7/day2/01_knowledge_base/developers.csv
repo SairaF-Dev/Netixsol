@@ -1,0 +1,21 @@
+developer_id,name,projects,specialization,area,status
+DEV-001,Skyline Developers,Skyline Residences,Residential,"DHA Phase 6, Lahore",Active
+DEV-002,Pearl Developers,DHA Pearl Apartments; Park View Residences,Residential,"DHA Phase 8, Lahore",Active
+DEV-003,Executive Builders,Gulberg Central Residences,Residential,"Gulberg III, Lahore",Active
+DEV-004,Bahria Estates,Bahria Grand Apartments; Bahria Family Villa; Bahria Family House; Bahria Furnished Apartment,Residential,"Bahria Town, Lahore",Active
+DEV-005,City Developers,DHA Family House; DHA Executive House,Residential,"DHA Phase 5; DHA Phase 6, Lahore",Active
+DEV-006,Model Town Estates,Model Town Residency,Residential,"Model Town, Lahore",Active
+DEV-007,DHA Property Services,DHA Executive Rental; DHA Compact Rental,Residential Rental,"DHA Phase 5; DHA Phase 6, Lahore",Active
+DEV-008,Capital View Developers,Capital View Residences,Residential,"F-11, Islamabad",Active
+DEV-009,DHA Islamabad Developers,DHA Heights; DHA Phase 2 Residential Plot,Residential,"DHA Phase 2, Islamabad",Active
+DEV-010,B-17 Developments,B-17 Heights; B-17 Family House; B-17 Residential Plot,Residential,"B-17, Islamabad",Active
+DEV-011,Ghauri Developers,Ghauri Town Family House,Residential,"Ghauri Town, Islamabad",Active
+DEV-012,Capital Living Developers,E-11 Executive Apartment; F-10 Premium Apartment,Residential,"E-11; F-10, Islamabad",Active
+DEV-013,Clifton Property Group,Clifton Heights,Residential,"Clifton, Karachi",Active
+DEV-014,Seaview Developers,DHA Seaview Residences,Residential,"DHA Phase 8, Karachi",Active
+DEV-015,DHA Karachi Estates,DHA Family Residence; DHA Luxury Residence,Residential,"DHA Phase 6; DHA Phase 8, Karachi",Active
+DEV-016,Gulshan Developers,Gulshan Residency,Residential,"Gulshan-e-Iqbal, Karachi",Active
+DEV-017,Bahria Karachi Developers,Bahria Town Residential Plot; Bahria Apartment Residence,Residential,"Bahria Town, Karachi",Active
+DEV-018,Prime Commercials,Gulberg Business Center; DHA Business Plaza,Commercial,"Gulberg III; DHA Phase 6, Lahore",Active
+DEV-019,Capital Commercial Developers,Blue Area Corporate Office,Commercial,"Blue Area, Islamabad",Active
+DEV-020,Metro Commercials,Saddar Commercial Office,Commercial,"Saddar, Karachi",Active

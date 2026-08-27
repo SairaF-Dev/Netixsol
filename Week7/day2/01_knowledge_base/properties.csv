@@ -1,0 +1,42 @@
+property_id,name,location_id,area,city,property_type,bedrooms,bathrooms,plot_size,plot_unit,covered_area,covered_area_unit,available,status,developer_id,purpose
+LHR-DHA-APT-001,Horizon Heights Apartment,LOC-LHR-DHA6,DHA Phase 6,Lahore,Apartment,2,2,NA,NA,1250,sqft,Yes,Ready,DEV-001,Purchase
+LHR-DHA-APT-002,Horizon Heights Apartment,LOC-LHR-DHA6,DHA Phase 6,Lahore,Apartment,3,3,NA,NA,1650,sqft,Yes,Ready,DEV-001,Purchase
+LHR-DHA-APT-003,Park View Residences,LOC-LHR-DHA8,DHA Phase 8,Lahore,Apartment,2,2,NA,NA,1180,sqft,Yes,Ready,DEV-002,Purchase
+LHR-DHA-APT-004,Park View Residences,LOC-LHR-DHA8,DHA Phase 8,Lahore,Apartment,3,3,NA,NA,1580,sqft,No,Under Construction,DEV-002,Purchase
+LHR-GUL-APT-001,Gulberg Central Residences,LOC-LHR-GUL3,Gulberg III,Lahore,Apartment,2,2,NA,NA,1200,sqft,Yes,Ready,DEV-003,Purchase
+LHR-GUL-APT-002,Gulberg Central Residences,LOC-LHR-GUL3,Gulberg III,Lahore,Apartment,3,3,NA,NA,1750,sqft,Yes,Ready,DEV-003,Purchase
+LHR-BHR-APT-001,Bahria Grand Apartments,LOC-LHR-BHR,Bahria Town,Lahore,Apartment,2,2,NA,NA,1100,sqft,Yes,Ready,DEV-004,Purchase
+LHR-BHR-APT-002,Bahria Grand Apartments,LOC-LHR-BHR,Bahria Town,Lahore,Apartment,3,3,NA,NA,1550,sqft,Yes,Ready,DEV-004,Purchase
+LHR-BHR-HSE-001,Bahria Family Villa,LOC-LHR-BHR,Bahria Town,Lahore,House,5,5,10,Marla,3200,sqft,Yes,Ready,DEV-004,Purchase
+LHR-BHR-HSE-002,Bahria Family House,LOC-LHR-BHR,Bahria Town,Lahore,House,4,4,8,Marla,2600,sqft,Yes,Ready,DEV-004,Purchase
+LHR-DHA-HSE-001,DHA Family House,LOC-LHR-DHA6,DHA Phase 6,Lahore,House,4,4,10,Marla,3000,sqft,Yes,Ready,DEV-005,Purchase
+LHR-DHA-HSE-002,DHA Executive House,LOC-LHR-DHA5,DHA Phase 5,Lahore,House,5,6,12,Marla,3800,sqft,No,Ready,DEV-005,Purchase
+LHR-MOD-APT-001,Model Town Residency,LOC-LHR-MODEL,Model Town,Lahore,Apartment,3,2,NA,NA,1450,sqft,Yes,Ready,DEV-006,Rental
+LHR-DHA-APT-005,DHA Executive Rental,LOC-LHR-DHA6,DHA Phase 6,Lahore,Apartment,3,3,NA,NA,1600,sqft,Yes,Ready,DEV-007,Rental
+LHR-DHA-APT-006,DHA Compact Rental,LOC-LHR-DHA5,DHA Phase 5,Lahore,Apartment,2,2,NA,NA,1050,sqft,Yes,Ready,DEV-007,Rental
+LHR-BHR-APT-003,Bahria Furnished Apartment,LOC-LHR-BHR,Bahria Town,Lahore,Apartment,2,2,NA,NA,1150,sqft,Yes,Ready,DEV-004,Rental
+ISB-F11-APT-001,Capital View Residences,LOC-ISB-F11,F-11,Islamabad,Apartment,2,2,NA,NA,1350,sqft,Yes,Ready,DEV-008,Purchase
+ISB-F11-APT-002,Capital View Residences,LOC-ISB-F11,F-11,Islamabad,Apartment,3,3,NA,NA,1850,sqft,Yes,Ready,DEV-008,Purchase
+ISB-DHA-APT-001,DHA Heights,LOC-ISB-DHA2,DHA Phase 2,Islamabad,Apartment,2,2,NA,NA,1250,sqft,Yes,Ready,DEV-009,Purchase
+ISB-DHA-APT-002,DHA Heights,LOC-ISB-DHA2,DHA Phase 2,Islamabad,Apartment,3,3,NA,NA,1700,sqft,No,Under Construction,DEV-009,Purchase
+ISB-B17-APT-001,B-17 Heights,LOC-ISB-B17,B-17,Islamabad,Apartment,2,2,NA,NA,1150,sqft,Yes,Ready,DEV-010,Purchase
+ISB-B17-HSE-001,B-17 Family House,LOC-ISB-B17,B-17,Islamabad,House,4,4,8,Marla,2500,sqft,Yes,Ready,DEV-010,Purchase
+ISB-GHAURI-HSE-001,Ghauri Town Family House,LOC-ISB-GHAURI,Ghauri Town,Islamabad,House,5,5,10,Marla,3000,sqft,Yes,Ready,DEV-011,Purchase
+ISB-E11-APT-001,E-11 Executive Apartment,LOC-ISB-E11,E-11,Islamabad,Apartment,3,3,NA,NA,1800,sqft,Yes,Ready,DEV-012,Rental
+ISB-F10-APT-001,F-10 Premium Apartment,LOC-ISB-F10,F-10,Islamabad,Apartment,2,2,NA,NA,1300,sqft,Yes,Ready,DEV-012,Rental
+ISB-B17-PLT-001,B-17 Residential Plot,LOC-ISB-B17,B-17,Islamabad,Plot,0,0,10,Marla,NA,NA,Yes,Available,DEV-010,Purchase
+ISB-DHA-PLT-001,DHA Phase 2 Residential Plot,LOC-ISB-DHA2,DHA Phase 2,Islamabad,Plot,0,0,8,Marla,NA,NA,Yes,Available,DEV-009,Purchase
+KHI-CLIF-APT-001,Clifton Heights,LOC-KHI-CLIF,Clifton,Karachi,Apartment,2,2,NA,NA,1250,sqft,Yes,Ready,DEV-013,Purchase
+KHI-CLIF-APT-002,Clifton Heights,LOC-KHI-CLIF,Clifton,Karachi,Apartment,3,3,NA,NA,1800,sqft,Yes,Ready,DEV-013,Purchase
+KHI-DHA-APT-001,DHA Seaview Residences,LOC-KHI-DHA8,DHA Phase 8,Karachi,Apartment,2,2,NA,NA,1350,sqft,Yes,Ready,DEV-014,Purchase
+KHI-DHA-APT-002,DHA Seaview Residences,LOC-KHI-DHA8,DHA Phase 8,Karachi,Apartment,3,3,NA,NA,1900,sqft,No,Under Construction,DEV-014,Purchase
+KHI-DHA-HSE-001,DHA Family Residence,LOC-KHI-DHA6,DHA Phase 6,Karachi,House,4,5,8,Marla,2800,sqft,Yes,Ready,DEV-015,Purchase
+KHI-DHA-HSE-002,DHA Luxury Residence,LOC-KHI-DHA8,DHA Phase 8,Karachi,House,5,6,12,Marla,4000,sqft,Yes,Ready,DEV-015,Purchase
+KHI-GUL-APT-001,Gulshan Residency,LOC-KHI-GUL,Gulshan-e-Iqbal,Karachi,Apartment,2,2,NA,NA,1100,sqft,Yes,Ready,DEV-016,Purchase
+KHI-GUL-APT-002,Gulshan Residency,LOC-KHI-GUL,Gulshan-e-Iqbal,Karachi,Apartment,3,3,NA,NA,1500,sqft,Yes,Ready,DEV-016,Rental
+KHI-BHR-PLT-001,Bahria Town Residential Plot,LOC-KHI-BHR,Bahria Town,Karachi,Plot,0,0,10,Marla,NA,NA,Yes,Available,DEV-017,Purchase
+KHI-BHR-APT-001,Bahria Apartment Residence,LOC-KHI-BHR,Bahria Town,Karachi,Apartment,2,2,NA,NA,1200,sqft,Yes,Ready,DEV-017,Rental
+LHR-GUL-COM-001,Gulberg Business Center,LOC-LHR-GUL3,Gulberg III,Lahore,Office,0,2,NA,NA,2200,sqft,Yes,Ready,DEV-018,Purchase
+LHR-DHA-COM-001,DHA Business Plaza,LOC-LHR-DHA6,DHA Phase 6,Lahore,Office,0,2,NA,NA,1800,sqft,Yes,Ready,DEV-018,Rental
+ISB-BLUE-COM-001,Blue Area Corporate Office,LOC-ISB-BLUE,Blue Area,Islamabad,Office,0,2,NA,NA,2500,sqft,Yes,Ready,DEV-019,Purchase
+KHI-SADDAR-COM-001,Saddar Commercial Office,LOC-KHI-SADDAR,Saddar,Karachi,Office,0,2,NA,NA,2000,sqft,Yes,Ready,DEV-020,Purchase
