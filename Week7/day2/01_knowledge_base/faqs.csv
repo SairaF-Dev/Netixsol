@@ -1,0 +1,9 @@
+faq_id,question,answer,category,status,source
+FAQ-001,How does property search work?,"We filter verified company property records using budget, location, property type, bedrooms, purpose and availability.",property_search,Verified,Company Knowledge Base
+FAQ-002,Can I book a property visit?,"Yes. Sara can check calendar availability and book a visit after confirming the selected property, date and time.",appointment_booking,Verified,Company Knowledge Base
+FAQ-003,Can I reschedule a visit?,"Yes. The existing appointment is identified, a new slot is checked, and the appointment is updated only after successful calendar confirmation.",appointment_rescheduling,Verified,Company Knowledge Base
+FAQ-004,Can I cancel a visit?,"Yes. Sara identifies the correct appointment and cancels it through the calendar workflow.",appointment_cancellation,Verified,Company Knowledge Base
+FAQ-005,Are property prices guaranteed?,"No. Prices should be treated as verified company data at the time of retrieval and confirmed again before a transaction.",pricing,Verified,Company Knowledge Base
+FAQ-006,Does Sara guarantee investment returns?,"No. Sara may explain verified project information but must never guarantee future returns.",investment,Verified,Company Knowledge Base
+FAQ-007,What if a property is not available?,"Sara should not recommend it as available. She can search for suitable alternatives.",availability,Verified,Company Knowledge Base
+FAQ-008,What if information is missing?,"Sara should say that verified information is currently unavailable rather than guessing.",guardrails,Verified,Company Knowledge Base

@@ -1,0 +1,141 @@
+property_id,amenity,details
+LHR-DHA-APT-001,Parking,2 reserved spaces
+LHR-DHA-APT-001,Swimming Pool,Shared indoor swimming pool
+LHR-DHA-APT-001,Gym,Shared fitness facility
+LHR-DHA-APT-001,Security,24/7 security and controlled access
+LHR-DHA-APT-001,Elevator,High-speed passenger elevator
+LHR-DHA-APT-001,Backup Power,Building backup generator
+LHR-DHA-APT-002,Parking,2 reserved spaces
+LHR-DHA-APT-002,Security,24/7 security and controlled access
+LHR-DHA-APT-002,Children Play Area,On-site play area
+LHR-DHA-APT-002,Community Park,Landscaped shared park
+LHR-DHA-APT-003,Parking,1 reserved space
+LHR-DHA-APT-003,Gym,Shared fitness facility
+LHR-DHA-APT-003,Security,24/7 security
+LHR-DHA-APT-003,Elevator,Passenger elevator
+LHR-DHA-APT-004,Parking,2 reserved spaces
+LHR-DHA-APT-004,Security,24/7 security
+LHR-DHA-APT-004,Community Park,Planned shared park
+LHR-GUL-APT-001,Parking,1 reserved space
+LHR-GUL-APT-001,Gym,Shared fitness facility
+LHR-GUL-APT-001,Security,24/7 security
+LHR-GUL-APT-001,Elevator,Passenger elevator
+LHR-GUL-APT-002,Parking,2 reserved spaces
+LHR-GUL-APT-002,Swimming Pool,Shared rooftop pool
+LHR-GUL-APT-002,Gym,Shared fitness facility
+LHR-GUL-APT-002,Security,24/7 security
+LHR-BHR-APT-001,Parking,1 reserved space
+LHR-BHR-APT-001,Gym,Shared fitness facility
+LHR-BHR-APT-001,Community Park,Nearby landscaped park
+LHR-BHR-APT-001,Security,24/7 security
+LHR-BHR-APT-002,Parking,2 reserved spaces
+LHR-BHR-APT-002,Swimming Pool,Shared community pool
+LHR-BHR-APT-002,Gym,Shared fitness facility
+LHR-BHR-APT-002,Children Play Area,On-site play area
+LHR-BHR-HSE-001,Parking,2 car garage
+LHR-BHR-HSE-001,Community Park,Nearby family park
+LHR-BHR-HSE-001,Security,Gated community with security
+LHR-BHR-HSE-001,Children Play Area,Nearby
+LHR-BHR-HSE-002,Parking,2 car garage
+LHR-BHR-HSE-002,Security,Gated community with security
+LHR-BHR-HSE-002,Community Park,Nearby family park
+LHR-DHA-HSE-001,Parking,2 car garage
+LHR-DHA-HSE-001,Security,Gated community with security
+LHR-DHA-HSE-001,Community Park,Nearby landscaped park
+LHR-DHA-HSE-001,Children Play Area,Nearby
+LHR-DHA-HSE-002,Parking,3 car garage
+LHR-DHA-HSE-002,Security,Gated community with security
+LHR-DHA-HSE-002,Garden,Private landscaped garden
+LHR-MOD-APT-001,Parking,1 reserved space
+LHR-MOD-APT-001,Security,24/7 building security
+LHR-MOD-APT-001,Elevator,Passenger elevator
+LHR-DHA-APT-005,Parking,1 reserved space
+LHR-DHA-APT-005,Security,24/7 security
+LHR-DHA-APT-005,Gym,Shared fitness facility
+LHR-DHA-APT-006,Parking,1 reserved space
+LHR-DHA-APT-006,Security,24/7 security
+LHR-DHA-APT-006,Elevator,Passenger elevator
+LHR-BHR-APT-003,Parking,1 reserved space
+LHR-BHR-APT-003,Swimming Pool,Shared community pool
+LHR-BHR-APT-003,Gym,Shared fitness facility
+LHR-BHR-APT-003,Security,24/7 security
+ISB-F11-APT-001,Parking,1 reserved space
+ISB-F11-APT-001,Security,24/7 security
+ISB-F11-APT-001,Elevator,Passenger elevator
+ISB-F11-APT-001,Community Park,Nearby landscaped park
+ISB-F11-APT-002,Parking,2 reserved spaces
+ISB-F11-APT-002,Gym,Shared fitness facility
+ISB-F11-APT-002,Security,24/7 security
+ISB-F11-APT-002,Children Play Area,On-site play area
+ISB-DHA-APT-001,Parking,1 reserved space
+ISB-DHA-APT-001,Swimming Pool,Shared community pool
+ISB-DHA-APT-001,Gym,Shared fitness facility
+ISB-DHA-APT-001,Security,24/7 security
+ISB-DHA-APT-002,Parking,2 reserved spaces
+ISB-DHA-APT-002,Gym,Planned fitness facility
+ISB-DHA-APT-002,Security,Controlled community access
+ISB-B17-APT-001,Parking,1 reserved space
+ISB-B17-APT-001,Community Park,Nearby landscaped park
+ISB-B17-APT-001,Security,24/7 security
+ISB-B17-HSE-001,Parking,2 car garage
+ISB-B17-HSE-001,Garden,Private front garden
+ISB-B17-HSE-001,Security,Gated community
+ISB-B17-HSE-001,Community Park,Nearby family park
+ISB-GHAURI-HSE-001,Parking,2 car garage
+ISB-GHAURI-HSE-001,Garden,Private landscaped garden
+ISB-GHAURI-HSE-001,Security,Gated community
+ISB-E11-APT-001,Parking,1 reserved space
+ISB-E11-APT-001,Gym,Shared fitness facility
+ISB-E11-APT-001,Security,24/7 security
+ISB-E11-APT-001,Elevator,Passenger elevator
+ISB-F10-APT-001,Parking,1 reserved space
+ISB-F10-APT-001,Security,24/7 security
+ISB-F10-APT-001,Elevator,Passenger elevator
+ISB-B17-PLT-001,Security,Secured residential development
+ISB-B17-PLT-001,Community Park,Planned community park
+ISB-DHA-PLT-001,Security,Gated development
+ISB-DHA-PLT-001,Community Park,Planned landscaped park
+KHI-CLIF-APT-001,Parking,1 reserved space
+KHI-CLIF-APT-001,Security,24/7 security
+KHI-CLIF-APT-001,Elevator,Passenger elevator
+KHI-CLIF-APT-001,Gym,Shared fitness facility
+KHI-CLIF-APT-002,Parking,2 reserved spaces
+KHI-CLIF-APT-002,Swimming Pool,Shared rooftop pool
+KHI-CLIF-APT-002,Security,24/7 security
+KHI-DHA-APT-001,Parking,1 reserved space
+KHI-DHA-APT-001,Security,24/7 security
+KHI-DHA-APT-001,Sea View,Partial sea view
+KHI-DHA-APT-001,Gym,Shared fitness facility
+KHI-DHA-APT-002,Parking,2 reserved spaces
+KHI-DHA-APT-002,Sea View,Partial sea view
+KHI-DHA-APT-002,Security,Controlled building access
+KHI-DHA-HSE-001,Parking,2 car garage
+KHI-DHA-HSE-001,Security,Gated community
+KHI-DHA-HSE-001,Garden,Private landscaped garden
+KHI-DHA-HSE-002,Parking,3 car garage
+KHI-DHA-HSE-002,Swimming Pool,Private swimming pool
+KHI-DHA-HSE-002,Garden,Private landscaped garden
+KHI-DHA-HSE-002,Security,Gated community
+KHI-GUL-APT-001,Parking,1 reserved space
+KHI-GUL-APT-001,Security,24/7 security
+KHI-GUL-APT-001,Elevator,Passenger elevator
+KHI-GUL-APT-002,Parking,1 reserved space
+KHI-GUL-APT-002,Security,24/7 security
+KHI-GUL-APT-002,Gym,Shared fitness facility
+KHI-BHR-PLT-001,Security,Secured residential development
+KHI-BHR-PLT-001,Community Park,Planned community park
+KHI-BHR-APT-001,Parking,1 reserved space
+KHI-BHR-APT-001,Security,24/7 security
+KHI-BHR-APT-001,Gym,Shared fitness facility
+LHR-GUL-COM-001,Parking,Visitor and reserved parking
+LHR-GUL-COM-001,Security,24/7 commercial security
+LHR-GUL-COM-001,Elevator,Passenger and service elevators
+LHR-DHA-COM-001,Parking,Reserved commercial parking
+LHR-DHA-COM-001,Security,24/7 commercial security
+LHR-DHA-COM-001,Backup Power,Building generator backup
+ISB-BLUE-COM-001,Parking,Reserved and visitor parking
+ISB-BLUE-COM-001,Security,24/7 commercial security
+ISB-BLUE-COM-001,Elevator,Passenger and service elevators
+KHI-SADDAR-COM-001,Parking,Reserved commercial parking
+KHI-SADDAR-COM-001,Security,24/7 commercial security
+KHI-SADDAR-COM-001,Backup Power,Building generator backup

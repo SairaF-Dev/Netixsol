@@ -1,0 +1,22 @@
+question_id,question,expected_source,expected_answer_type
+Q01,What amenities are listed for Skyline Residences?,skyline_residences.md,VERIFIED
+Q02,What is the price of DHA Pearl Apartments?,dha_pearl_apartments.md,VERIFIED
+Q03,What is the price of Bahria Grand Apartments?,bahria_grand_apartments.md,VERIFIED
+Q04,Can Sara guarantee investment returns?,real_estate_faq.md,VERIFIED
+Q05,Skyline mein swimming pool hai?,skyline_residences.md,VERIFIED
+Q06,What payment plan is available for DHA-APT-001?,NONE,REFUSAL
+Q07,What is the price of a property that does not exist?,NONE,REFUSAL
+Q08,Who is the developer of Skyline Residences?,skyline_residences.md,VERIFIED
+Q09,Where is Skyline Residences located?,skyline_residences.md,VERIFIED
+Q10,How many bedrooms does Skyline Residences have?,skyline_residences.md,VERIFIED
+Q11,Who developed Bahria Grand Apartments?,bahria_grand_apartments.md,VERIFIED
+Q12,Is Bahria Grand Apartments available?,bahria_grand_apartments.md,VERIFIED
+Q13,What amenities are available at Bahria Grand Apartments?,bahria_grand_apartments.md,VERIFIED
+Q14,What is the price of DHA-APT-001?,NONE,REFUSAL
+Q15,Is Skyline Residences available?,skyline_residences.md,VERIFIED
+Q16,What payment plan is available for Skyline Residences?,NONE,REFUSAL
+Q17,What is the nearest hospital to Skyline Residences?,NONE,REFUSAL
+Q18,What is the guaranteed annual return of Skyline Residences?,NONE,REFUSAL
+Q19,Does Skyline Residences have a tennis court?,NONE,REFUSAL
+Q20,What is the price of Moonlight Towers?,NONE,REFUSAL
+
