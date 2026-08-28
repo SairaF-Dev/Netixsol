@@ -58,7 +58,7 @@ def evaluate(chunk_size):
         collection_name=f"evaluation_{chunk_size}",
     )
 
-    store.add(chunks)
+    store.sync_documents(chunks)
 
     hits = 0
 
