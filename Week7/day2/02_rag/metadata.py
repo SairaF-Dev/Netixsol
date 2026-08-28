@@ -26,13 +26,13 @@ PROPERTY_METADATA = {
 
 
 def get_metadata(source: str) -> dict:
-    """
-    Return structured metadata for a document source.
-    """
+    """Return metadata for a document source."""
 
     filename = Path(source).name
 
-    metadata = PROPERTY_METADATA.get(filename)
+    metadata = PROPERTY_METADATA.get(
+        filename
+    )
 
     if metadata is None:
         return {
@@ -42,20 +42,3 @@ def get_metadata(source: str) -> dict:
         }
 
     return metadata.copy()
-
-
-if __name__ == "__main__":
-
-    test_sources = [
-        "documents/property_brochures/skyline_residences.md",
-        "documents/project_descriptions/dha_pearl_apartments.md",
-        "documents/property_brochures/bahria_grand_apartments.md",
-        "documents/faqs/real_estate_faq.md",
-    ]
-
-    print("\nMETADATA TEST")
-    print("=" * 60)
-
-    for source in test_sources:
-        print(f"\nSource: {source}")
-        print(get_metadata(source))

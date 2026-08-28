@@ -1,4 +1,4 @@
-# Retrieval Strategy — Real Estate Voice Agent
+# Retrieval Strategy  (Real Estate Voice Agent)
 
 ## 1. Purpose
 
@@ -8,15 +8,17 @@ The system uses three retrieval approaches:
 
 1. **Structured Retrieval** — PostgreSQL
 2. **Semantic Retrieval** — RAG / ChromaDB
-3. **Recommendation Retrieval** — PostgreSQL + recommendation engine
+3. **Recommendation Retrieval** — PostgreSQL + Recommendation Engine
 
-The LLM must not invent property information.
+The LLM must never invent property information.
 
 ---
 
 ## 2. Retrieval Decision
 
-### Use PostgreSQL when the user asks for structured property data
+### 2.1 Structured Retrieval — PostgreSQL
+
+Use PostgreSQL when the user asks for exact, structured, filterable, or numerical property information.
 
 Examples:
 
@@ -27,31 +29,39 @@ Examples:
 * Show rental apartments in Islamabad.
 * Find properties in DHA Phase 6.
 * Show available houses with 4 bedrooms.
+* What is the property size?
+* What payment plan is associated with property ID DHA-APT-001?
 
-These queries require exact filtering, sorting, or numerical comparison.
+These queries require exact filtering, comparison, sorting, or lookup.
 
 **Source of truth:** PostgreSQL.
 
 ---
 
-### Use RAG when the user asks for unstructured knowledge
+### 2.2 Semantic Retrieval — RAG / ChromaDB
+
+Use RAG when the user asks about unstructured or descriptive knowledge contained in verified documents.
 
 Examples:
 
 * What amenities does Skyline Residences have?
 * Does Skyline Residences have a swimming pool?
-* What is the payment plan?
 * What are the company's property policies?
 * Can Sara guarantee investment returns?
 * What documents are required for booking?
+* Tell me about Skyline Residences.
 
 These questions are answered using verified knowledge documents indexed in ChromaDB.
 
-**Source of truth:** RAG knowledge base.
+**Source of truth:** Verified RAG knowledge base.
+
+> Exact numerical or transactional facts should still be retrieved from PostgreSQL when they are available there.
 
 ---
 
-### Use Recommendation Engine for property recommendations
+### 2.3 Recommendation Retrieval
+
+Use the recommendation engine when the user asks Sara to suggest or compare properties.
 
 Examples:
 
@@ -61,35 +71,48 @@ Examples:
 * Which property is best for my family?
 * Mere budget mein DHA mein koi achi property hai?
 
-The recommendation engine should first retrieve eligible properties from PostgreSQL and then rank them according to the user's requirements.
+The recommendation engine should:
+
+1. Extract user requirements.
+2. Retrieve eligible properties from PostgreSQL.
+3. Filter unavailable or incompatible properties.
+4. Score eligible properties.
+5. Return ranked candidates.
+6. Allow the LLM to explain only those returned candidates.
 
 **Source of truth:** PostgreSQL + recommendation scoring.
 
-The LLM must not independently select properties that were not returned by the retrieval system.
+The LLM must never independently select a property that was not returned by the recommendation engine.
 
 ---
 
-## 3. Source-of-Truth Rules
+# 3. Source-of-Truth Rules
 
 Property facts must always come from verified company data.
 
-The system must follow these rules:
+The system must:
 
 * Never invent a property.
 * Never invent a price.
 * Never invent availability.
+* Never invent property size.
+* Never invent bedrooms.
 * Never invent amenities.
 * Never invent payment plans.
 * Never claim an unavailable property is available.
-* Never guarantee investment returns.
 * Never generate a property ID that does not exist.
-* Never use LLM knowledge as the source of property facts.
+* Never guarantee investment returns.
+* Never use the LLM's pretrained knowledge as the source of property facts.
 
-If the database or knowledge base does not contain the requested information, Sara should explicitly state that the information is unavailable and offer an appropriate next step.
+If the requested information does not exist in the verified database or knowledge base, Sara must explicitly state that the information is unavailable.
+
+For example:
+
+> "Verified information is currently unavailable."
 
 ---
 
-## 4. Structured Retrieval Flow
+# 4. Structured Retrieval Flow
 
 ```text
 User Query
@@ -107,21 +130,23 @@ Recommendation / Response Layer
 
 Typical filters include:
 
-* budget
-* city
-* area
-* bedrooms
-* property type
-* purpose
-* availability
+* Budget
+* City
+* Area
+* Bedrooms
+* Property type
+* Purpose
+* Availability
+* Property ID
+* Size
 
 SQL parameters must always be passed separately from the SQL query.
 
-This prevents SQL injection and keeps the retrieval layer dynamic.
+This keeps retrieval dynamic and helps prevent SQL injection.
 
 ---
 
-## 5. RAG Retrieval Flow
+# 5. RAG Retrieval Flow
 
 ```text
 User Query
@@ -137,13 +162,17 @@ Relevant Knowledge Chunks
 LLM Response
 ```
 
-Only sufficiently relevant chunks should be included in the LLM context.
+Only sufficiently relevant chunks should be passed to the LLM.
 
-Weak semantic matches must be rejected rather than used as evidence.
+A vector database returning a document does **not** automatically mean that the document is valid evidence.
+
+Weak semantic matches must be rejected.
+
+This is especially important for unknown questions.
 
 ---
 
-## 6. Recommendation Flow
+# 6. Recommendation Flow
 
 ```text
 User Requirements
@@ -163,7 +192,7 @@ Sara's Response
 
 The recommendation engine must only rank properties returned by PostgreSQL.
 
-For example:
+Example:
 
 ```text
 Budget: 40M
@@ -177,10 +206,11 @@ PostgreSQL
 
         ↓
 
-Eligible:
-- Bahria Grand Apartments — 30.5M
-- Horizon Heights Apartment — 36M
-- Gulberg Central Residences — 38.5M
+Eligible Properties
+
+- Bahria Grand Apartments
+- Horizon Heights Apartment
+- Gulberg Central Residences
 
         ↓
 
@@ -188,16 +218,22 @@ Recommendation Engine
 
         ↓
 
-Rank properties according to user preferences
+Rank according to user preferences
+
+        ↓
+
+Sara explains the ranked results
 ```
+
+The LLM must not add properties that are absent from the retrieved candidate list.
 
 ---
 
-## 7. Handling No Results
+# 7. Handling No Results
 
-No-result behavior is important because it prevents hallucination.
+No-result behavior is a critical anti-hallucination mechanism.
 
-If PostgreSQL returns no properties:
+If PostgreSQL returns zero matching properties:
 
 ```text
 PostgreSQL
@@ -206,40 +242,48 @@ PostgreSQL
     ↓
 Do NOT ask the LLM to invent alternatives
     ↓
-Return a controlled no-result response
+Controlled no-result response
 ```
 
-Sara should explain that no matching property was found and, when appropriate, ask whether the user wants to relax one requirement.
+Sara should explain that no matching property was found and, when appropriate, offer to relax one requirement.
 
-For example:
+Example:
 
 > "I couldn't find an available 3-bedroom property in Lahore within that budget. Would you like me to increase the budget or show 2-bedroom options?"
 
+Any suggested alternatives must be generated from a new database query, not from the LLM's memory.
+
 ---
 
-## 8. Handling Unknown Properties
+# 8. Handling Unknown Properties
 
-If a user asks:
+If the user asks:
 
 > "What is the price of ABC Heights?"
 
 and `ABC Heights` does not exist in the verified data:
 
 ```text
-Property lookup
+Property Lookup
       ↓
-No matching property
+No Matching Property
       ↓
-No price available
+No Verified Price
       ↓
-Do not hallucinate
+Do Not Hallucinate
+      ↓
+Controlled Response
 ```
 
 Sara should clearly state that the property could not be found in the company's verified records.
 
+Example:
+
+> "I couldn't find ABC Heights in the company's verified property records."
+
 ---
 
-## 9. Handling Ambiguous Queries
+# 9. Handling Ambiguous Queries
 
 If the user provides incomplete requirements, the system should not guess critical filters.
 
@@ -247,15 +291,21 @@ Example:
 
 > "Show me a good apartment."
 
-Possible clarification:
+Sara can ask:
 
 > "Sure. What's your preferred city and budget?"
 
 However, unnecessary clarification should be avoided when enough information is already available.
 
+For example, if the user says:
+
+> "Show me 3-bedroom apartments in Lahore under 40 million."
+
+There is enough information to perform the database search immediately.
+
 ---
 
-## 10. LLM Responsibility
+# 10. LLM Responsibility
 
 The LLM is responsible for:
 
@@ -265,25 +315,205 @@ The LLM is responsible for:
 * Explaining retrieved results naturally.
 * Speaking in human-like UrduLish.
 * Asking for clarification when necessary.
+* Presenting verified retrieval results conversationally.
 
 The LLM is **not** responsible for:
 
 * Maintaining property records.
 * Inventing property data.
+* Determining whether a property exists.
 * Calculating database availability.
-* Deciding whether a property exists.
-* Creating unsupported prices or amenities.
+* Creating unsupported prices.
+* Creating unsupported amenities.
+* Creating unsupported payment plans.
+* Selecting properties outside the retrieved candidate set.
 
 ---
 
-## 11. Production Principle
+# 11. Retrieval Relevance and Abstention
+
+A successful retrieval system must handle both known and unknown information.
+
+For known information:
+
+```text
+Relevant Query
+    ↓
+Relevant Evidence Retrieved
+    ↓
+Answer
+```
+
+For unsupported information:
+
+```text
+Unknown Query
+    ↓
+No sufficiently relevant evidence
+    ↓
+Abstain
+```
+
+The system must therefore evaluate not only **source-hit accuracy**, but also whether irrelevant or weakly related documents are incorrectly accepted as evidence.
+
+This is important because semantic search will usually return something, even when the requested information does not exist.
+
+---
+
+# 12. Production Retrieval Architecture
+
+The final architecture is:
+
+```text
+                         User
+                           ↓
+                    Sara Voice Agent
+                           ↓
+                  Intent / Query Router
+                           ↓
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+     Structured        Semantic        Recommendation
+      Retrieval         Retrieval         Retrieval
+          ↓                ↓                ↓
+     PostgreSQL        ChromaDB       PostgreSQL
+          ↓                ↓                ↓
+       Verified        Verified       Eligible
+       Records         Context       Properties
+          └────────────────┼────────────────┘
+                           ↓
+                    Verification Layer
+                           ↓
+                    Grounded Response
+                           ↓
+                         Sara
+```
+
+---
+
+# 13. Why This Split?
+
+The split between structured and semantic retrieval exists because different information requires different retrieval methods.
+
+### PostgreSQL
+
+Best for:
+
+* Exact prices
+* Availability
+* Bedrooms
+* Property sizes
+* Property IDs
+* Cities
+* Areas
+* Numerical filtering
+* Sorting
+* Recommendations
+
+### ChromaDB / RAG
+
+Best for:
+
+* Brochures
+* Descriptions
+* FAQs
+* Policies
+* Natural-language explanations
+* Semantic questions
+
+### Recommendation Engine
+
+Best for:
+
+* Budget matching
+* Requirement matching
+* Candidate ranking
+* Multi-criteria property selection
+
+This architecture prevents the LLM from being used as a database.
+
+---
+
+# 14. Core Production Principle
 
 The system follows:
 
-**Retrieve first → Verify → Reason → Respond**
+**Retrieve → Verify → Reason → Respond**
 
 Not:
 
 **Reason → Guess → Respond**
 
-This ensures that Sara remains grounded in verified company data and minimizes hallucination risk.
+The LLM is therefore the conversational layer, not the source of truth.
+
+---
+
+# 15. Day 2 Retrieval Status
+
+### Completed
+
+* [x] Knowledge base created
+* [x] Document loader
+* [x] Chunking
+* [x] Local embeddings
+* [x] ChromaDB vector store
+* [x] Semantic retriever
+* [x] LLM answer generation
+* [x] Chunk-size evaluation
+* [x] 20-question RAG evaluation
+* [x] Retrieval evaluation
+* [x] PostgreSQL repository foundation
+
+### Remaining
+
+* [ ] Final PostgreSQL structured queries
+* [ ] Structured-vs-semantic query router
+* [ ] Recommendation scoring implementation
+* [ ] Integration of structured retrieval with the RAG pipeline
+* [ ] Final combined evaluation
+
+---
+
+# 16. Current Evaluation Note
+
+The 20-question RAG answer-generation evaluation currently achieved:
+
+```text
+Total tests: 20
+Passed: 20
+Failed: 0
+RAG evaluation pass rate: 100%
+```
+
+However, the separate retrieval evaluation exposed an important weakness:
+
+```text
+Known-source tests: 5
+Source hit rate: 100%
+
+Unknown-information tests: 2
+Unknown-query pass rate: 0%
+```
+
+The two failures occurred because ChromaDB still returned semantically similar documents for unsupported questions.
+
+This does **not** mean that the final RAG answers hallucinated—the answer-generation layer correctly refused both unsupported questions. However, the retrieval layer itself needs improvement before calling the retrieval system production-ready.
+
+The next technical improvement should therefore focus on **better relevance/abstention handling**, rather than artificially changing the evaluation to make the score higher.
+
+---
+
+# 17. Conclusion
+
+The Day 2 system now has a clear retrieval architecture:
+
+* PostgreSQL handles exact structured facts.
+* ChromaDB handles semantic knowledge.
+* The recommendation engine handles multi-criteria property matching.
+* The LLM explains verified results but does not act as the source of truth.
+* Unsupported information triggers controlled abstention.
+* Retrieved properties are the only properties Sara is allowed to recommend.
+
+The current evaluation demonstrates strong answer-level grounding, while the retrieval evaluation has identified a genuine weakness in unknown-query detection.
+
+This is the correct direction for a production-grade real estate voice agent: **improve the system based on failed tests instead of hiding them.**

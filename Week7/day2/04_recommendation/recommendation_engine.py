@@ -10,6 +10,9 @@ class RecommendationEngine:
     """
 
     def __init__(self, repository):
+        if repository is None:
+            raise ValueError("repository is required")
+
         self.repository = repository
 
     def recommend(
@@ -25,15 +28,16 @@ class RecommendationEngine:
     ):
         """
         Retrieve eligible properties from PostgreSQL
-        and rank them using the recommendation score.
+        and rank them using recommendation scoring.
         """
 
-        if limit <= 0:
-            raise ValueError("limit must be greater than 0")
+        if not isinstance(limit, int) or isinstance(limit, bool):
+            raise ValueError("limit must be a positive integer")
 
-        # ---------------------------------------------------------
-        # 1. Validate basic search filters
-        # ---------------------------------------------------------
+        if limit <= 0:
+            raise ValueError(
+                "limit must be greater than 0"
+            )
 
         filters = validate_filters(
             budget=budget,
@@ -44,19 +48,12 @@ class RecommendationEngine:
             purpose=purpose,
         )
 
-        # ---------------------------------------------------------
-        # 2. Normalize requested amenities
-        # ---------------------------------------------------------
-
         desired_amenities = [
-            amenity.strip()
+            str(amenity).strip()
             for amenity in (desired_amenities or [])
-            if amenity and amenity.strip()
+            if amenity is not None
+            and str(amenity).strip()
         ]
-
-        # ---------------------------------------------------------
-        # 3. Retrieve matching properties from PostgreSQL
-        # ---------------------------------------------------------
 
         properties = self.repository.search(
             budget=filters["budget"],
@@ -68,14 +65,9 @@ class RecommendationEngine:
             amenities=desired_amenities,
         )
 
-        # ---------------------------------------------------------
-        # 4. Score each property
-        # ---------------------------------------------------------
-
         ranked = []
 
         for property_data in properties:
-
             score = score_property(
                 property_data,
                 budget=filters["budget"],
@@ -91,10 +83,6 @@ class RecommendationEngine:
 
             ranked.append(result)
 
-        # ---------------------------------------------------------
-        # 5. Rank highest score first
-        # ---------------------------------------------------------
-
         ranked.sort(
             key=lambda item: (
                 item["recommendation_score"],
@@ -106,56 +94,3 @@ class RecommendationEngine:
         )
 
         return ranked[:limit]
-
-
-if __name__ == "__main__":
-
-    import sys
-    from pathlib import Path
-
-    # Allow importing the PostgreSQL repository
-    sys.path.insert(
-        0,
-        str(
-            Path(__file__).resolve().parents[1]
-            / "03_structured_retrieval"
-        ),
-    )
-
-    from postgres_repository import PostgresPropertyRepository
-
-    repository = PostgresPropertyRepository()
-
-    engine = RecommendationEngine(repository)
-
-    # ---------------------------------------------------------
-    # Production-style test
-    # ---------------------------------------------------------
-
-    results = engine.recommend(
-        budget=40_000_000,
-        city="Lahore",
-        bedrooms=3,
-        purpose="Purchase",
-        desired_amenities=[
-            "Swimming Pool",
-            "Gym",
-        ],
-    )
-
-    print("\nRECOMMENDATIONS")
-    print("=" * 80)
-
-    if not results:
-        print("No matching properties found.")
-
-    else:
-        for result in results:
-            print(
-                f"{result['property_name']} | "
-                f"{result['area']} | "
-                f"{result['bedrooms']} bedrooms | "
-                f"{result['price']} {result['currency']} | "
-                f"Amenities: {', '.join(result.get('amenities', []))} | "
-                f"Score={result['recommendation_score']}"
-            )

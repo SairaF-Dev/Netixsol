@@ -1,21 +1,21 @@
 question_id,question,expected_answer_type,passed,reason,answer,top_sources
-Q01,What amenities are listed for Skyline Residences?,VERIFIED,True,Generated grounded answer,"The amenities listed for Skyline Residences include parking, a shared swimming pool, a shared gym, and 24/7 security.",skyline_residences.md | bahria_grand_apartments.md
-Q02,What is the price of DHA Pearl Apartments?,VERIFIED,True,Generated grounded answer,"The demo price of DHA Pearl Apartments is 22,000,000 PKR.",dha_pearl_apartments.md | skyline_residences.md
-Q03,What is the price of Bahria Grand Apartments?,VERIFIED,True,Generated grounded answer,"The price of Bahria Grand Apartments is 26,500,000 PKR.",bahria_grand_apartments.md | skyline_residences.md
+Q01,What amenities are listed for Skyline Residences?,VERIFIED,True,Generated grounded answer,"The amenities listed for Skyline Residences include parking, a shared swimming pool, a shared gym, and 24/7 security.",skyline_residences.md | skyline_residences.md | bahria_grand_apartments.md
+Q02,What is the price of DHA Pearl Apartments?,VERIFIED,True,Generated grounded answer,"The demo price of DHA Pearl Apartments is 22,000,000 PKR.",dha_pearl_apartments.md | dha_pearl_apartments.md | skyline_residences.md
+Q03,What is the price of Bahria Grand Apartments?,VERIFIED,True,Generated grounded answer,"The demo price of Bahria Grand Apartments is 26,500,000 PKR.",bahria_grand_apartments.md | bahria_grand_apartments.md | skyline_residences.md
 Q04,Can Sara guarantee investment returns?,VERIFIED,True,Generated grounded answer,No. Investment returns cannot be guaranteed.,real_estate_faq.md | real_estate_faq.md | real_estate_faq.md
-Q05,Skyline mein swimming pool hai?,VERIFIED,True,Generated grounded answer,"Haan, Skyline Residences mein shared swimming pool hai.",skyline_residences.md
-Q06,What payment plan is available for DHA-APT-001?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,dha_pearl_apartments.md
-Q07,What is the price of a property that does not exist?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,real_estate_faq.md
-Q08,Who is the developer of Skyline Residences?,VERIFIED,True,Generated grounded answer,The developer of Skyline Residences is Skyline Developers.,skyline_residences.md | skyline_residences.md | real_estate_faq.md
-Q09,Where is Skyline Residences located?,VERIFIED,True,Generated grounded answer,"Skyline Residences is located in DHA Phase 6, Lahore.",skyline_residences.md | bahria_grand_apartments.md
-Q10,How many bedrooms does Skyline Residences have?,VERIFIED,True,Generated grounded answer,Skyline Residences includes three-bedroom apartments.,skyline_residences.md | bahria_grand_apartments.md
-Q11,Who developed Bahria Grand Apartments?,VERIFIED,True,Generated grounded answer,Bahria Grand Apartments is associated with Bahria Estates.,bahria_grand_apartments.md | bahria_grand_apartments.md
-Q12,Is Bahria Grand Apartments available?,VERIFIED,True,Generated grounded answer,"Yes, Bahria Grand Apartments is available and ready.",bahria_grand_apartments.md | skyline_residences.md
-Q13,What amenities are available at Bahria Grand Apartments?,VERIFIED,True,Generated grounded answer,"The amenities available at Bahria Grand Apartments include parking, a shared gym, and a nearby community park.",bahria_grand_apartments.md | skyline_residences.md
-Q14,What is the price of DHA-APT-001?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,dha_pearl_apartments.md
-Q15,Is Skyline Residences available?,VERIFIED,True,Generated grounded answer,"Yes, Skyline Residences is available and ready.",skyline_residences.md | bahria_grand_apartments.md
-Q16,What payment plan is available for Skyline Residences?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,skyline_residences.md
-Q17,What is the nearest hospital to Skyline Residences?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,skyline_residences.md
-Q18,What is the guaranteed annual return of Skyline Residences?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,skyline_residences.md
+Q05,Skyline mein swimming pool hai?,VERIFIED,True,Generated grounded answer,"Haan, Skyline Residences mein shared swimming pool hai.",skyline_residences.md | skyline_residences.md
+Q06,What payment plan is available for DHA-APT-001?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,dha_pearl_apartments.md | dha_pearl_apartments.md
+Q07,What is the price of a property that does not exist?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,real_estate_faq.md | real_estate_faq.md
+Q08,Who is the developer of Skyline Residences?,VERIFIED,True,Generated grounded answer,The project is associated with Skyline Developers.,skyline_residences.md | skyline_residences.md | skyline_residences.md
+Q09,Where is Skyline Residences located?,VERIFIED,True,Generated grounded answer,"Skyline Residences is located in DHA Phase 6, Lahore.",skyline_residences.md | skyline_residences.md | bahria_grand_apartments.md
+Q10,How many bedrooms does Skyline Residences have?,VERIFIED,True,Generated grounded answer,Skyline Residences includes three-bedroom apartments.,skyline_residences.md | skyline_residences.md | bahria_grand_apartments.md
+Q11,Who developed Bahria Grand Apartments?,VERIFIED,True,Generated grounded answer,Bahria Grand Apartments is associated with Bahria Estates.,bahria_grand_apartments.md | bahria_grand_apartments.md | bahria_grand_apartments.md
+Q12,Is Bahria Grand Apartments available?,VERIFIED,True,Generated grounded answer,"Yes, Bahria Grand Apartments is available and ready.",bahria_grand_apartments.md | bahria_grand_apartments.md | skyline_residences.md
+Q13,What amenities are available at Bahria Grand Apartments?,VERIFIED,True,Generated grounded answer,"The amenities available at Bahria Grand Apartments include parking, a shared gym, and a nearby community park.",bahria_grand_apartments.md | bahria_grand_apartments.md | skyline_residences.md
+Q14,What is the price of DHA-APT-001?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,dha_pearl_apartments.md | dha_pearl_apartments.md
+Q15,Is Skyline Residences available?,VERIFIED,True,Generated grounded answer,"Yes, the unit at Skyline Residences is available and ready.",skyline_residences.md | skyline_residences.md | bahria_grand_apartments.md
+Q16,What payment plan is available for Skyline Residences?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,skyline_residences.md | skyline_residences.md
+Q17,What is the nearest hospital to Skyline Residences?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,skyline_residences.md | skyline_residences.md
+Q18,What is the guaranteed annual return of Skyline Residences?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,skyline_residences.md | skyline_residences.md
 Q19,Does Skyline Residences have a tennis court?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,
 Q20,What is the price of Moonlight Towers?,REFUSAL,True,Correct refusal,Verified information is currently unavailable.,

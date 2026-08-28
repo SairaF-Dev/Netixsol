@@ -1,5 +1,6 @@
 def normalize_text(value):
     """Normalize user-provided text for consistent filtering."""
+
     if value is None:
         return None
 
@@ -19,12 +20,30 @@ def validate_filters(
     """Validate and normalize recommendation filters."""
 
     if budget is not None:
-        if not isinstance(budget, (int, float)) or budget < 0:
-            raise ValueError("budget must be a non-negative number")
+        if isinstance(budget, bool) or not isinstance(
+            budget, (int, float)
+        ):
+            raise ValueError(
+                "budget must be a non-negative number"
+            )
+
+        if budget < 0:
+            raise ValueError(
+                "budget must be a non-negative number"
+            )
 
     if bedrooms is not None:
-        if not isinstance(bedrooms, int) or bedrooms < 0:
-            raise ValueError("bedrooms must be a non-negative integer")
+        if isinstance(bedrooms, bool) or not isinstance(
+            bedrooms, int
+        ):
+            raise ValueError(
+                "bedrooms must be a non-negative integer"
+            )
+
+        if bedrooms < 0:
+            raise ValueError(
+                "bedrooms must be a non-negative integer"
+            )
 
     return {
         "budget": budget,
