@@ -32,6 +32,7 @@ services:
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
       SMTP_SENDER: ${SMTP_SENDER:-appointments@example.invalid}
       N8N_WEBHOOK_URL: http://n8n:5678/webhook/sara-appointment
+      DAY4_API_KEY: ${DAY4_API_KEY:?Set DAY4_API_KEY}
     ports:
       - "8004:8004"
     depends_on:
@@ -47,6 +48,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-realestate}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-realestate}
       DAY4_API_URL: http://day4-api:8004
       VAPI_WEBHOOK_SECRET: ${VAPI_WEBHOOK_SECRET:?Set VAPI_WEBHOOK_SECRET}
+      DAY4_API_KEY: ${DAY4_API_KEY:?Set DAY4_API_KEY}
       N8N_WEBHOOK_URL: http://n8n:5678/webhook/call-completed
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     ports:

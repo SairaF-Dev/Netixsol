@@ -51,6 +51,7 @@ class VapiToolHandler:
 
     def __init__(self, day4_api_url: str = "http://localhost:8004") -> None:
         self.day4_url = day4_api_url.rstrip("/")
+        self.day4_api_key = os.getenv("DAY4_API_KEY", "").strip()
         self.n8n_appointment_url = os.getenv("N8N_APPOINTMENT_WEBHOOK_URL", "").rstrip("/")
         # Calendar + SMTP may legitimately take longer than a simple DB call.
         # Keep this below Vapi's server timeout while allowing the core Day 4
@@ -77,19 +78,22 @@ class VapiToolHandler:
         payload: dict,
         appointment_id: str = "",
     ) -> httpx.Response:
+        if not self.day4_api_key:
+            raise RuntimeError("DAY4_API_KEY is not configured")
+        headers = {"Authorization": f"Bearer {self.day4_api_key}"}
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             # Day 4 is the authoritative transactional workflow. It persists
             # the appointment, creates the calendar event, sends email, and
             # publishes to n8n. Calling n8n directly bypasses those guarantees
             # and makes booking fail whenever n8n is temporarily offline.
             if action == "book":
-                return await client.post(f"{self.day4_url}/appointments", json=payload)
+                return await client.post(f"{self.day4_url}/appointments", json=payload, headers=headers)
             if action == "reschedule":
                 return await client.patch(
                     f"{self.day4_url}/appointments/{appointment_id}/reschedule",
-                    json=payload,
+                    json=payload, headers=headers,
                 )
-            return await client.delete(f"{self.day4_url}/appointments/{appointment_id}")
+            return await client.delete(f"{self.day4_url}/appointments/{appointment_id}", headers=headers)
 
     async def execute(
         self,

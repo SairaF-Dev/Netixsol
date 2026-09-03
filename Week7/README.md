@@ -21,6 +21,7 @@ manages property-visit appointments through business workflows.
 - Booking, rescheduling, and cancellation of property visits
 - Calendar, email, CRM, and n8n workflow integration
 - FastAPI services, health checks, structured validation, and logging
+- Bearer-authenticated chat, voice, appointment, and operational endpoints
 - Runtime off-topic, prompt-injection, private-data, and fake-action guardrails
 
 ## Architecture
@@ -93,9 +94,11 @@ by your selected providers. Common settings include:
 
 ```env
 VAPI_API_KEY=
-VAPI_WEBHOOK_SECRET=
+VAPI_WEBHOOK_SECRET=replace-with-a-long-random-secret
 VAPI_SERVER_URL=
 DAY4_API_URL=http://localhost:8004
+DAY4_API_KEY=replace-with-a-different-long-random-secret
+SARA_API_KEY=replace-with-another-long-random-secret
 DATABASE_URL=
 OPENAI_API_KEY=
 DEEPGRAM_API_KEY=
@@ -103,9 +106,10 @@ FISH_AUDIO_API_KEY=
 N8N_WEBHOOK_URL=
 ```
 
-`VAPI_WEBHOOK_SECRET` should always be configured outside local development.
-When it is set, webhook requests must provide the matching `x-vapi-secret`
-header.
+Generate all three security credentials independently using a password manager
+or a command such as `openssl rand -hex 32`. The application fails closed when
+a required credential is missing; it does not silently disable authentication.
+Never reuse provider credentials such as `VAPI_API_KEY` as endpoint secrets.
 
 ## Installation
 
@@ -218,12 +222,60 @@ running dependent services. Never use production customer records in tests.
 FastAPI-generated OpenAPI documentation is normally available at `/docs` for a
 running service.
 
+## API security
+
+The APIs use separate credentials so a compromised public client does not gain
+access to internal appointment workflows:
+
+| Credential | Used by | Protects |
+|---|---|---|
+| `SARA_API_KEY` | Day 3 API clients | `/chat`, `/voice/turn`, `/tts-test`, `/ws/chat`, and `/ws/voice` |
+| `DAY4_API_KEY` | Day 7 and trusted internal callers | All Day 4 appointment mutation and follow-up endpoints |
+| `VAPI_WEBHOOK_SECRET` | VAPI | `/vapi/webhook` and Day 7 `/metrics` |
+
+Health and readiness endpoints remain public so load balancers and containers
+can probe the services. Business operations, paid-provider operations,
+WebSockets, and metrics require authentication.
+
+Send Day 3 and Day 4 credentials in the HTTP authorization header:
+
+```http
+Authorization: Bearer <service-api-key>
+```
+
+Example Day 3 request in PowerShell:
+
+```powershell
+$headers = @{ Authorization = "Bearer $env:SARA_API_KEY" }
+$body = @{ message = "Show me properties in DHA" } | ConvertTo-Json
+Invoke-RestMethod `
+  -Uri http://localhost:8000/chat `
+  -Method Post `
+  -Headers $headers `
+  -ContentType "application/json" `
+  -Body $body
+```
+
+VAPI sends `VAPI_WEBHOOK_SECRET` through the `X-Vapi-Secret` header. WebSocket
+clients can provide a bearer header; browser clients that cannot set WebSocket
+headers may use `?access_token=<SARA_API_KEY>`. Because URLs can appear in proxy
+logs and browser history, production browser deployments should exchange the
+long-lived key for a short-lived token instead.
+
+Authentication failures return `401`; invalid VAPI secrets return `403`; and a
+missing server-side credential returns `503`. Secret comparisons use a
+constant-time comparison to reduce timing side channels.
+
+See [API endpoint security](docs/API_SECURITY.md) for deployment requirements
+and the remaining JWT/ownership recommendations.
+
 ## Deployment notes
 
 - Use HTTPS for all public endpoints.
 - Store credentials in the deployment platform's secret manager.
-- Restrict database and n8n access to trusted networks.
+- Restrict Day 4, PostgreSQL, n8n, and metrics access to trusted networks.
 - Configure webhook authentication and rotate secrets regularly.
+- Apply reverse-proxy rate limits to chat, voice, TTS, and webhook endpoints.
 - Persist PostgreSQL and vector-store data outside disposable containers.
 - Send structured logs and failure metrics to a monitoring service.
 - Back up databases and test restoration periodically.
@@ -231,9 +283,8 @@ running service.
 
 Deployment manifests still need environment-specific values and infrastructure
 validation before this repository is used for a real client. The root
-`docker-compose.yml` is currently only a placeholder; use the working Day 4
-container configuration as a reference until an end-to-end root deployment is
-defined.
+`docker-compose.yml` requires PostgreSQL, VAPI, n8n, and Day 4 secrets before it
+will start protected services.
 
 ## Documentation and reports
 
@@ -244,6 +295,7 @@ defined.
 - [Client user guide](docs/CLIENT_USER_GUIDE.md)
 - [Admin and troubleshooting guide](docs/ADMIN_AND_TROUBLESHOOTING_GUIDE.md)
 - [Monitoring and maintenance plan](docs/MAINTENANCE_PLAN.md)
+- [API endpoint security](docs/API_SECURITY.md)
 - [Audit summary](AUDIT_SUMMARY.md)
 - [Action items](ACTION_ITEMS_DAYS_4-7.md)
 - [VAPI retrieval audit](AUDIT_REPORT_VAPI_PROPERTY_RETRIEVAL.md)
