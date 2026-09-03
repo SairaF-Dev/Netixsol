@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sara Audio Playback Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 5px 5px 5px 0;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background: #0056b3;
+        }
+        .status {
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        .status.ok {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .log {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .log-success { color: #a6e22e; }
+        .log-error { color: #f92672; }
+        .log-warning { color: #e6db74; }
+        .log-info { color: #66d9ef; }
+        audio {
+            width: 100%;
+            margin: 15px 0;
+            height: 40px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        input[type="range"] {
+            width: 200px;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Sara Audio Playback Tester</h1>
+        
+        <div class="info-box">
+            <strong>Purpose:</strong> Test if audio can actually play in your browser. This doesn't require microphone or voice, just MP3 playback.
+        </div>
+
+        <div class="section">
+            <h2>Audio Element Controls</h2>
+            <div id="audioStatus" class="status info">Loading...</div>
+            
+            <audio id="audioPlayer" controls>
+                Your browser does not support the audio element.
+            </audio>
+
+            <div class="controls">
+                <button onclick="generateMP3Data()">🎵 Generate MP3 Tone</button>
+                <button onclick="testMP3FromServer()">📥 Load MP3 from Server</button>
+                <button onclick="playAudio()">▶️ Play</button>
+                <button onclick="pauseAudio()">⏸ Pause</button>
+                <button onclick="stopAudio()">⏹ Stop</button>
+            </div>
+
+            <div class="volume-control">
+                <label for="volumeSlider">Volume:</label>
+                <input type="range" id="volumeSlider" min="0" max="100" value="70" oninput="setVolume(this.value)">
+                <span id="volumeLabel">70%</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Browser Support Check</h2>
+            <div id="supportLog" class="log"></div>
+        </div>
+
+        <div class="section">
+            <h2>Audio Test Log</h2>
+            <div id="log" class="log"></div>
+        </div>
+
+        <div class="section">
+            <h2>Troubleshooting</h2>
+            <div class="info-box">
+                <strong>If no audio plays:</strong>
+                <ol>
+                    <li>Check your system volume is not muted</li>
+                    <li>Check browser volume is not muted (speaker icon in tab)</li>
+                    <li>Try a different browser (Chrome, Firefox, Edge)</li>
+                    <li>Open F12 console and look for red errors</li>
+                    <li>Check if your audio device is working</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioStatus = document.getElementById('audioStatus');
+        const logDiv = document.getElementById('log');
+        const supportLog = document.getElementById('supportLog');
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const className = `log-${type}`;
+            const line = `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logDiv.innerHTML += line;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${type.toUpperCase()}]`, message);
+        }
+
+        function addSupportLog(message, type = 'info') {
+            const className = `log-${type}`;
+            const line = `<div class="${className}">✓ ${message}</div>`;
+            supportLog.innerHTML += line;
+            console.log(message);
+        }
+
+        function checkBrowserSupport() {
+            addSupportLog('Browser: ' + navigator.userAgent.substring(0, 60), 'info');
+            addSupportLog(`Audio element: ${audioPlayer ? '✅ Yes' : '❌ No'}`, 'success');
+            addSupportLog(`HTMLMediaElement: ${typeof HTMLMediaElement !== 'undefined' ? '✅ Yes' : '❌ No'}`, 'success');
+            
+            if (audioPlayer) {
+                const canPlayMp3 = audioPlayer.canPlayType('audio/mpeg');
+                const canPlayMp3_2 = audioPlayer.canPlayType('audio/mp3');
+                addSupportLog(`Can play audio/mpeg: ${canPlayMp3 ? '✅ Yes (' + canPlayMp3 + ')' : '❌ No'}`, canPlayMp3 ? 'success' : 'error');
+                addSupportLog(`Can play audio/mp3: ${canPlayMp3_2 ? '✅ Yes (' + canPlayMp3_2 + ')' : '❌ No'}`, canPlayMp3_2 ? 'success' : 'error');
+            }
+        }
+
+        function generateMP3Data() {
+            addLog('Generating MP3 test data...', 'info');
+            
+            try {
+                // This is a minimal MP3 frame header that represents a valid MP3 file
+                // It's a 1 second silence in MP3 format
+                const mp3Data = new Uint8Array([
+                    0xFF, 0xFB, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x49, 0x6E, 0x66, 0x6F, 0x00, 0x00, 0x00, 0x0F, 0x00, 0x00,
+                    0x00, 0x00, 0x47, 0x41, 0x47, 0x41, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                ]);
+
+                // Try to create blob and play
+                try {
+                    const blob = new Blob([mp3Data], { type: 'audio/mpeg' });
+                    const url = URL.createObjectURL(blob);
+                    audioPlayer.src = url;
+                    addLog('✅ MP3 data loaded into audio element', 'success');
+                    updateStatus('Ready to play', 'ok');
+                } catch (err) {
+                    addLog('❌ Failed to create blob: ' + err.message, 'error');
+                }
+            } catch (err) {
+                addLog('❌ Error: ' + err.message, 'error');
+            }
+        }
+
+        function testMP3FromServer() {
+            addLog('Attempting to download MP3 from server...', 'info');
+            
+            // Try to load a common test MP3 URL
+            const testUrls = [
+                'http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3',
+                'http://soundbible.com/grab.php?type=mp3&id=1234&q=Test%20Tone'
+            ];
+
+            // Just show instructions instead
+            addLog('💡 To test with real audio:', 'warning');
+            addLog('1. Click "Generate MP3 Tone" first', 'info');
+            addLog('2. Then click "Play" button', 'info');
+            addLog('3. Listen for audio (may be very quiet)', 'info');
+        }
+
+        function playAudio() {
+            addLog('Attempting to play audio...', 'info');
+            
+            audioPlayer.play().then(() => {
+                addLog('✅ Audio playing', 'success');
+                updateStatus('▶️ Playing', 'ok');
+            }).catch(err => {
+                addLog('❌ Playback failed: ' + err.message, 'error');
+                updateStatus('❌ Playback failed: ' + err.message, 'error');
+            });
+        }
+
+        function pauseAudio() {
+            audioPlayer.pause();
+            addLog('Audio paused', 'warning');
+            updateStatus('⏸ Paused', 'info');
+        }
+
+        function stopAudio() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            addLog('Audio stopped', 'warning');
+            updateStatus('⏹ Stopped', 'info');
+        }
+
+        function setVolume(value) {
+            audioPlayer.volume = value / 100;
+            document.getElementById('volumeLabel').textContent = value + '%';
+            addLog('Volume set to ' + value + '%', 'info');
+        }
+
+        function updateStatus(message, type) {
+            audioStatus.textContent = message;
+            audioStatus.className = 'status ' + type;
+        }
+
+        // Auto-detect playback events
+        audioPlayer.addEventListener('play', () => {
+            addLog('🎵 Playback started', 'success');
+            updateStatus('▶️ Playing', 'ok');
+        });
+
+        audioPlayer.addEventListener('pause', () => {
+            addLog('⏸ Playback paused', 'warning');
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            addLog('✅ Playback ended', 'success');
+            updateStatus('✅ Finished', 'ok');
+        });
+
+        audioPlayer.addEventListener('error', (e) => {
+            addLog('❌ Audio error: ' + audioPlayer.error.message, 'error');
+            updateStatus('❌ Error: ' + audioPlayer.error.message, 'error');
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            addLog('Page loaded', 'info');
+            checkBrowserSupport();
+            updateStatus('Ready', 'info');
+        });
+    </script>
+</body>
+</html>

@@ -1,171 +1,22 @@
-import sys
+from __future__ import annotations
+import csv,sys
 from pathlib import Path
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-RAG_DIR = PROJECT_ROOT / "02_rag"
-
-sys.path.insert(0, str(RAG_DIR))
-
+ROOT=Path(__file__).resolve().parent.parent; RAG=ROOT/'02_rag'; INTEG=ROOT/'07_integration'; sys.path[:0]=[str(RAG),str(INTEG)]
 from retriever import Retriever
-
-
-TEST_CASES = [
-    {
-        "question": "What amenities are listed for Skyline Residences?",
-        "expected_source": "skyline_residences.md",
-        "expected_type": "source",
-    },
-    {
-        "question": "What is the price of DHA Pearl Apartments?",
-        "expected_source": "dha_pearl_apartments.md",
-        "expected_type": "source",
-    },
-    {
-        "question": "What is the price of Bahria Grand Apartments?",
-        "expected_source": "bahria_grand_apartments.md",
-        "expected_type": "source",
-    },
-    {
-        "question": "Can Sara guarantee investment returns?",
-        "expected_source": "real_estate_faq.md",
-        "expected_type": "source",
-    },
-    {
-        "question": "Skyline mein swimming pool hai?",
-        "expected_source": "skyline_residences.md",
-        "expected_type": "source",
-    },
-    {
-        "question": "What payment plan is available for DHA-APT-001?",
-        "expected_source": None,
-        "expected_type": "no_relevant_source",
-    },
-    {
-        "question": "What is the price of a property that does not exist?",
-        "expected_source": None,
-        "expected_type": "no_relevant_source",
-    },
-]
-
-
+from query_router import route_query
+CASES=Path(__file__).with_name('evaluation_questions.csv')
 def evaluate():
-    retriever = Retriever(
-        documents_dir=str(RAG_DIR / "documents")
-    )
-
-    total = len(TEST_CASES)
-    passed = 0
-    known_source_tests = 0
-    source_hits = 0
-    unknown_tests = 0
-    unknown_passes = 0
-
-    print("\nRETRIEVAL EVALUATION")
-    print("=" * 70)
-
-    for index, case in enumerate(TEST_CASES, start=1):
-
-        question = case["question"]
-        expected_source = case["expected_source"]
-        expected_type = case["expected_type"]
-
-        results = retriever.retrieve(
-            question,
-            top_k=4,
-        )
-
-        print(f"\nTest {index}")
-        print("-" * 70)
-        print(f"Question: {question}")
-
-        if results:
-            print("\nRetrieved:")
-
-            for rank, result in enumerate(results, start=1):
-                print(
-                    f"{rank}. "
-                    f"Distance={result['distance']:.4f} | "
-                    f"Source={Path(result['source']).name} | "
-                    f"Chunk={result['chunk_id']}"
-                )
-        else:
-            print("\nNo results returned.")
-
-        # ---------------------------------------------------------
-        # Known-source test
-        # ---------------------------------------------------------
-
-        if expected_type == "source":
-
-            known_source_tests += 1
-
-            hit = any(
-                expected_source in result["source"]
-                for result in results
-            )
-
-            if hit:
-                source_hits += 1
-                passed += 1
-                print("\nResult: PASS")
-            else:
-                print("\nResult: FAIL")
-
-        # ---------------------------------------------------------
-        # Unknown-information test
-        # ---------------------------------------------------------
-
-        elif expected_type == "no_relevant_source":
-
-            unknown_tests += 1
-
-            # The retriever should not return a strongly relevant
-            # document for information that is not present.
-            #
-            # We use the same threshold as Retriever.
-            relevant_results = [
-                result
-                for result in results
-                if result["distance"] <= 0.60
-            ]
-
-            if not relevant_results:
-                unknown_passes += 1
-                passed += 1
-                print("\nResult: PASS")
-                print("Reason: No sufficiently relevant source retrieved.")
-            else:
-                print("\nResult: FAIL")
-                print(
-                    "Reason: Relevant-looking context was retrieved "
-                    "for an unknown query."
-                )
-
-    # -------------------------------------------------------------
-    # Summary
-    # -------------------------------------------------------------
-
-    print("\n" + "=" * 70)
-    print("SUMMARY")
-    print("=" * 70)
-
-    print(f"Total tests: {total}")
-    print(f"Tests passed: {passed}")
-    print(f"Tests failed: {total - passed}")
-
-    if known_source_tests:
-        hit_rate = source_hits / known_source_tests
-        print(f"Known-source tests: {known_source_tests}")
-        print(f"Source hit rate: {hit_rate:.2%}")
-
-    if unknown_tests:
-        unknown_rate = unknown_passes / unknown_tests
-        print(f"Unknown-information tests: {unknown_tests}")
-        print(f"Unknown-query pass rate: {unknown_rate:.2%}")
-
-    overall_accuracy = passed / total
-    print(f"Overall evaluation pass rate: {overall_accuracy:.2%}")
-
-
-if __name__ == "__main__":
-    evaluate()
+    retriever=Retriever(documents_dir=str(RAG/'documents')); rows=list(csv.DictReader(CASES.open(newline='',encoding='utf-8'))); passed=0
+    for c in rows:
+        route=route_query(c['question']).value; route_ok=route==c['expected_route']; retrieval_ok=True
+        if route=='rag':
+            results=retriever.retrieve(c['question'],top_k=4); expected=c['expected_source'].strip()
+            if expected and expected!='NONE': retrieval_ok=any(Path(r['source']).name==expected for r in results)
+            elif c['expected_answer_type']=='REFUSAL': retrieval_ok=not results
+        ok=route_ok and retrieval_ok; passed+=int(ok)
+        detail=[]
+        if not route_ok: detail.append(f"expected_route={c['expected_route']}")
+        if not retrieval_ok: detail.append(f"expected_source={c['expected_source']}")
+        print(f"{'PASS' if ok else 'FAIL'} {c['question_id']} route={route}" + (f" ({', '.join(detail)})" if detail else ''))
+    total=len(rows); print(f'Retrieval/routing pass rate: {passed}/{total} ({passed/total:.2%})'); return passed==total
+if __name__=='__main__': raise SystemExit(0 if evaluate() else 1)

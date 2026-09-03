@@ -26,6 +26,7 @@ for path in (STRUCTURED_DIR, RAG_DIR):
 from query_router import route_query
 from postgres_repository import PostgresPropertyRepository
 from rag_pipeline import RAGPipeline
+from structured_query_parser import StructuredQueryParser
 
 
 # ---------------------------------------------------------------------------
@@ -60,6 +61,7 @@ class KnowledgeRouter:
         self,
         repository=None,
         rag_pipeline=None,
+        parser=None,
     ):
         self.repository = (
             repository
@@ -71,6 +73,12 @@ class KnowledgeRouter:
             rag_pipeline
             if rag_pipeline is not None
             else RAGPipeline()
+        )
+
+        self.parser = (
+            parser
+            if parser is not None
+            else StructuredQueryParser()
         )
 
     # ------------------------------------------------------------------
@@ -85,14 +93,16 @@ class KnowledgeRouter:
         integration layer does not depend on SQL implementation details.
         """
 
+        filters = self.parser.parse(question)
+
         results = self.repository.search(
-            city=None,
-            area=None,
-            bedrooms=None,
-            property_type=None,
-            purpose=None,
-            budget=None,
-            amenities=None,
+            budget=filters.get("budget"),
+            city=filters.get("city"),
+            area=filters.get("area"),
+            bedrooms=filters.get("bedrooms"),
+            property_type=filters.get("property_type"),
+            purpose=filters.get("purpose"),
+            amenities=filters.get("amenities"),
         )
 
         return {
@@ -270,7 +280,7 @@ if __name__ == "__main__":
     router = KnowledgeRouter()
 
     test_questions = [
-        "What is the price of Skyline Residences?",
+        "What is the price of Horizon Heights Apartment?",
         "Skyline available hai?",
         "What is the payment plan?",
         "Can you guarantee investment returns?",

@@ -1,22 +1,21 @@
-question_id,question,expected_source,expected_answer_type
-Q01,What amenities are listed for Skyline Residences?,skyline_residences.md,VERIFIED
-Q02,What is the price of DHA Pearl Apartments?,dha_pearl_apartments.md,VERIFIED
-Q03,What is the price of Bahria Grand Apartments?,bahria_grand_apartments.md,VERIFIED
-Q04,Can Sara guarantee investment returns?,real_estate_faq.md,VERIFIED
-Q05,Skyline mein swimming pool hai?,skyline_residences.md,VERIFIED
-Q06,What payment plan is available for DHA-APT-001?,NONE,REFUSAL
-Q07,What is the price of a property that does not exist?,NONE,REFUSAL
-Q08,Who is the developer of Skyline Residences?,skyline_residences.md,VERIFIED
-Q09,Where is Skyline Residences located?,skyline_residences.md,VERIFIED
-Q10,How many bedrooms does Skyline Residences have?,skyline_residences.md,VERIFIED
-Q11,Who developed Bahria Grand Apartments?,bahria_grand_apartments.md,VERIFIED
-Q12,Is Bahria Grand Apartments available?,bahria_grand_apartments.md,VERIFIED
-Q13,What amenities are available at Bahria Grand Apartments?,bahria_grand_apartments.md,VERIFIED
-Q14,What is the price of DHA-APT-001?,NONE,REFUSAL
-Q15,Is Skyline Residences available?,skyline_residences.md,VERIFIED
-Q16,What payment plan is available for Skyline Residences?,NONE,REFUSAL
-Q17,What is the nearest hospital to Skyline Residences?,NONE,REFUSAL
-Q18,What is the guaranteed annual return of Skyline Residences?,NONE,REFUSAL
-Q19,Does Skyline Residences have a tennis court?,NONE,REFUSAL
-Q20,What is the price of Moonlight Towers?,NONE,REFUSAL
-
+question_id,question,expected_route,expected_source,expected_answer_type,must_contain_any
+Q01,How can I search for a property?,rag,real_estate_faq.md,VERIFIED,verified company property records|budget|location|availability
+Q02,Can I book a property visit?,rag,real_estate_faq.md,VERIFIED,schedule|appointment slots|date and time|visit
+Q03,Can I reschedule my property visit?,rag,real_estate_faq.md,VERIFIED,reschedule|calendar availability|new date|new time
+Q04,Can I cancel a scheduled property visit?,rag,real_estate_faq.md,VERIFIED,cancel|cancellation|existing appointment|appointment management
+Q05,Are property prices final?,rag,real_estate_faq.md,VERIFIED,may change|final price|confirmed|verified company records
+Q06,Are investment returns guaranteed?,rag,real_estate_faq.md,VERIFIED,cannot be guaranteed|not guaranteed|cannot guarantee|market conditions
+Q07,What happens if a property is no longer available?,rag,real_estate_faq.md,VERIFIED,other suitable properties|suitable properties|alternative|alternatives
+Q08,What happens if some property information is unavailable?,rag,real_estate_faq.md,VERIFIED,will not guess|unconfirmed information|currently unavailable|relevant team
+Q09,Tell me about Horizon Heights Apartment.,rag,horizon_heights_apartment.md,VERIFIED,structured company source|structured source|postgresql
+Q10,Give me an overview of Park View Residences.,rag,park_view_residences.md,VERIFIED,structured property database|structured company source|postgresql
+Q11,Tell me about Bahria Grand Apartments.,rag,bahria_grand_apartments.md,VERIFIED,structured company source|structured source|postgresql
+Q12,What is the price of Horizon Heights Apartment?,structured,NONE,REFUSAL,
+Q13,Is Bahria Grand Apartments available?,structured,NONE,REFUSAL,
+Q14,How many bedrooms does Park View Residences have?,structured,NONE,REFUSAL,
+Q15,What amenities does Horizon Heights Apartment have?,structured,NONE,REFUSAL,
+Q16,Who is the developer of Park View Residences?,structured,NONE,REFUSAL,
+Q17,What payment plan is available for LHR-DHA-APT-001?,structured,NONE,REFUSAL,
+Q18,What is the nearest hospital to LHR-DHA-APT-001?,structured,NONE,REFUSAL,
+Q19,What is the price of Moonlight Towers?,structured,NONE,REFUSAL,
+Q20,Explain quantum chromodynamics.,rag,NONE,REFUSAL,

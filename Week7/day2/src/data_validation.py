@@ -266,6 +266,23 @@ def main():
     else:
         print("❌ Invalid price values found")
 
+
+
+    # Developer project names should reference canonical property names.
+    property_names = set(properties["name"].dropna().astype(str).str.strip())
+    bad_projects = []
+    for _, row in developers.iterrows():
+        for project in str(row.get("projects", "")).split(";"):
+            project = project.strip()
+            if project and project not in property_names:
+                bad_projects.append((row["developer_id"], project))
+    if not bad_projects:
+        print("✅ Developer project names match canonical properties")
+    else:
+        print("❌ Developer project-name mismatches:")
+        for developer_id, project in bad_projects:
+            print(f"   - {developer_id}: {project}")
+
     # --------------------------------------------------
     # FAQ checks
     # --------------------------------------------------

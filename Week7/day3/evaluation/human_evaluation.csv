@@ -1,0 +1,2 @@
+conversation_id,evaluator,naturalness_1_5,persuasiveness_1_5,fluency_1_5,latency_ms,conversation_flow_1_5,grounded_yes_no,notes
+live-turn-2026-08-31,automated_e2e,,,,10709,,yes,"HTTP 200; Edge neural caller/response audio, Deepgram STT, Sara agent, PostgreSQL/RAG ready. STT lost purchase intent and misheard the budget, so Sara asked a valid clarification. Human audio ratings still required."

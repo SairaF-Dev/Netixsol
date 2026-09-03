@@ -1,25 +1,33 @@
-# Real Estate FAQ — Demo
+# Real Estate FAQ  (Verified Company Knowledge)
 
-## How does Sara recommend a property?
+## How can I search for a property?
 
-Sara first collects relevant customer preferences such as budget,
-location, bedrooms, property type and purpose. The structured
-property source is then used to filter eligible properties.
+You can search for properties based on your budget, preferred location, property type, number of bedrooms, purpose, and current availability. Sara uses verified company property records to find suitable options.
 
-## Can Sara invent a property price?
+## Can I book a property visit?
 
-No. Prices must come from verified company data.
+Yes. Once you select a property, Sara can help schedule a visit by confirming your preferred date and time and checking available appointment slots.
 
-## What happens if a customer asks about unavailable information?
+## Can I reschedule my property visit?
 
-Sara should clearly say that verified information is unavailable and
-should not fill the gap with an assumption.
+Yes. Sara can help reschedule an existing property visit. A new date and time will be confirmed only after checking calendar availability.
 
-## Can Sara guarantee investment returns?
+## Can I cancel a scheduled property visit?
 
-No. Investment returns cannot be guaranteed.
+Yes. Sara can identify your existing appointment and process the cancellation through the appointment management system.
 
-## Can Sara book a property visit?
+## Are property prices final?
 
-Yes, after identifying the property and confirming a valid available
-calendar slot.
+Property prices are based on the latest verified company records available at the time of your inquiry. However, prices may change, so the final price should always be confirmed before making a transaction.
+
+## Are investment returns guaranteed?
+
+No. Investment returns cannot be guaranteed. Sara can provide verified project information to help you understand available opportunities, but future returns depend on market conditions and other factors.
+
+## What happens if a property is no longer available?
+
+If a property is no longer available, Sara will not recommend it as an available option. Instead, she can help you find other suitable properties based on your requirements.
+
+## What happens if some property information is unavailable?
+
+If a required property detail is not available in the verified company records, Sara will not guess or provide unconfirmed information. She will let you know that the information is currently unavailable and can be verified through the relevant team.

@@ -1,4 +1,5 @@
 import os
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +39,7 @@ class PostgresPropertyRepository:
         - purposes
         - developers
         - amenities
+        - agent identities and property assignments
     """
 
     QUERY_NAMES = {
@@ -48,10 +50,16 @@ class PostgresPropertyRepository:
         "developer_lookup",
         "cheaper_alternatives",
         "rental_search",
+        "agent_lookup",
+        "property_agents",
     }
 
     DEFAULT_SEARCH_LIMIT = 20
     MAX_SEARCH_LIMIT = 100
+
+    # ------------------------------------------------------------------
+    # Initialization
+    # ------------------------------------------------------------------
 
     def __init__(
         self,
@@ -95,7 +103,9 @@ class PostgresPropertyRepository:
     # ------------------------------------------------------------------
 
     def _load_queries(self) -> dict[str, str]:
-        """Load named SQL queries from property_queries.sql."""
+        """
+        Load named SQL queries from property_queries.sql.
+        """
 
         if not self.queries_file.exists():
             raise FileNotFoundError(
@@ -116,6 +126,7 @@ class PostgresPropertyRepository:
             stripped = line.strip()
 
             if stripped.startswith("-- QUERY:"):
+                # Save previous query
                 if current_query is not None:
                     query = "\n".join(
                         current_lines
@@ -124,10 +135,11 @@ class PostgresPropertyRepository:
                     if query:
                         queries[current_query] = query
 
+                # Start new query
                 current_query = (
                     stripped
-                   .replace("-- QUERY:", "")
-                   .strip()
+                    .replace("-- QUERY:", "")
+                    .strip()
                 )
 
                 current_lines = []
@@ -135,6 +147,7 @@ class PostgresPropertyRepository:
             elif current_query is not None:
                 current_lines.append(line)
 
+        # Save final query
         if current_query is not None:
             query = "\n".join(
                 current_lines
@@ -162,7 +175,14 @@ class PostgresPropertyRepository:
     # Query access
     # ------------------------------------------------------------------
 
-    def _get_query(self, name: str) -> str:
+    def _get_query(
+        self,
+        name: str,
+    ) -> str:
+        """
+        Return a named SQL query.
+        """
+
         if not isinstance(name, str):
             raise TypeError(
                 "query name must be a string"
@@ -191,6 +211,10 @@ class PostgresPropertyRepository:
         cursor,
         rows,
     ) -> list[dict[str, Any]]:
+        """
+        Convert PostgreSQL rows into dictionaries.
+        """
+
         if cursor.description is None:
             return []
 
@@ -209,6 +233,10 @@ class PostgresPropertyRepository:
         cursor,
         row,
     ) -> dict[str, Any] | None:
+        """
+        Convert one PostgreSQL row into a dictionary.
+        """
+
         if row is None:
             return None
 
@@ -233,6 +261,10 @@ class PostgresPropertyRepository:
         value: Any,
         field_name: str,
     ) -> str | None:
+        """
+        Validate optional string fields.
+        """
+
         if value is None:
             return None
 
@@ -250,6 +282,10 @@ class PostgresPropertyRepository:
         value: Any,
         field_name: str,
     ) -> int | None:
+        """
+        Validate optional integer fields.
+        """
+
         if value is None:
             return None
 
@@ -273,7 +309,19 @@ class PostgresPropertyRepository:
     @staticmethod
     def _validate_optional_budget(
         value: Any,
-    ) -> int | float | None:
+    ) -> int | float | Decimal | None:
+        """
+        Validate optional numeric budget.
+
+        Supports:
+            - int
+            - float
+            - Decimal
+
+        Decimal is required because PostgreSQL NUMERIC
+        columns are returned by psycopg as Decimal.
+        """
+
         if value is None:
             return None
 
@@ -282,7 +330,10 @@ class PostgresPropertyRepository:
                 "budget must be numeric or None"
             )
 
-        if not isinstance(value, (int, float)):
+        if not isinstance(
+            value,
+            (int, float, Decimal),
+        ):
             raise TypeError(
                 "budget must be numeric or None"
             )
@@ -298,6 +349,13 @@ class PostgresPropertyRepository:
     def _validate_amenities(
         amenities: Any,
     ) -> list[str] | None:
+        """
+        Validate and normalize amenities.
+
+        Duplicate amenities are removed.
+        Empty strings are ignored.
+        """
+
         if amenities is None:
             return None
 
@@ -312,7 +370,11 @@ class PostgresPropertyRepository:
         normalized: list[str] = []
 
         for amenity in amenities:
-            if not isinstance(amenity, str):
+
+            if not isinstance(
+                amenity,
+                str,
+            ):
                 raise TypeError(
                     "each amenity must be a string"
                 )
@@ -322,13 +384,23 @@ class PostgresPropertyRepository:
             if not amenity:
                 continue
 
-            if amenity not in normalized:
+            if amenity.lower() not in {
+                item.lower()
+                for item in normalized
+            }:
                 normalized.append(amenity)
 
         return normalized or None
 
     @classmethod
-    def _validate_limit(cls, limit: Any) -> int:
+    def _validate_limit(
+        cls,
+        limit: Any,
+    ) -> int:
+        """
+        Validate search result limit.
+        """
+
         if isinstance(limit, bool):
             raise TypeError(
                 "limit must be an integer"
@@ -346,7 +418,8 @@ class PostgresPropertyRepository:
 
         if limit > cls.MAX_SEARCH_LIMIT:
             raise ValueError(
-                f"limit cannot exceed {cls.MAX_SEARCH_LIMIT}"
+                f"limit cannot exceed "
+                f"{cls.MAX_SEARCH_LIMIT}"
             )
 
         return limit
@@ -359,9 +432,14 @@ class PostgresPropertyRepository:
         self,
         property_id: str,
     ) -> dict[str, Any] | None:
-        """Return one verified property by exact property ID."""
+        """
+        Return one verified property by exact property ID.
+        """
 
-        if not isinstance(property_id, str):
+        if not isinstance(
+            property_id,
+            str,
+        ):
             raise TypeError(
                 "property_id must be a string"
             )
@@ -383,6 +461,7 @@ class PostgresPropertyRepository:
 
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
                     params,
@@ -402,16 +481,14 @@ class PostgresPropertyRepository:
         property_name: str,
     ) -> dict[str, Any] | None:
         """
-        Return a verified property by exact case-insensitive name.
-
-        This is intentionally deterministic.
-
-        If multiple properties share the same name, the query
-        returns the first deterministic match according to the
-        SQL ordering.
+        Return a verified property by exact
+        case-insensitive property name.
         """
 
-        if not isinstance(property_name, str):
+        if not isinstance(
+            property_name,
+            str,
+        ):
             raise TypeError(
                 "property_name must be a string"
             )
@@ -433,6 +510,7 @@ class PostgresPropertyRepository:
 
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
                     params,
@@ -499,7 +577,9 @@ class PostgresPropertyRepository:
             amenities
         )
 
-        limit = self._validate_limit(limit)
+        limit = self._validate_limit(
+            limit
+        )
 
         query = self._get_query(
             "buyer_search"
@@ -523,6 +603,7 @@ class PostgresPropertyRepository:
 
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
                     params,
@@ -546,11 +627,14 @@ class PostgresPropertyRepository:
         limit: int = DEFAULT_SEARCH_LIMIT,
     ) -> list[dict[str, Any]]:
         """
-        Convert a natural-language property search into
-        deterministic structured filters.
+        Convert a natural-language property search
+        into deterministic structured filters.
         """
 
-        if not isinstance(question, str):
+        if not isinstance(
+            question,
+            str,
+        ):
             raise TypeError(
                 "question must be a string"
             )
@@ -563,27 +647,61 @@ class PostgresPropertyRepository:
             )
 
         if parser is None:
+
             try:
                 from structured_query_parser import (
                     StructuredQueryParser
                 )
-            except ImportError as error:
-                raise ImportError(
-                    "StructuredQueryParser could not be imported."
-                ) from error
+
+            except ImportError:
+
+                import sys
+
+                integration_dir = (
+                    Path(__file__).resolve().parent.parent
+                    / "07_integration"
+                )
+
+                if str(integration_dir) not in sys.path:
+                    sys.path.insert(
+                        0,
+                        str(integration_dir),
+                    )
+
+                try:
+                    from structured_query_parser import (
+                        StructuredQueryParser
+                    )
+
+                except ImportError as error:
+
+                    raise ImportError(
+                        "StructuredQueryParser "
+                        "could not be imported from "
+                        f"{integration_dir}"
+                    ) from error
 
             parser = StructuredQueryParser()
 
-        if not hasattr(parser, "parse"):
+        if not hasattr(
+            parser,
+            "parse",
+        ):
             raise TypeError(
                 "parser must provide a parse() method"
             )
 
-        filters = parser.parse(question)
+        filters = parser.parse(
+            question
+        )
 
-        if not isinstance(filters, dict):
+        if not isinstance(
+            filters,
+            dict,
+        ):
             raise TypeError(
-                "structured parser must return a dictionary"
+                "structured parser must return "
+                "a dictionary"
             )
 
         allowed_fields = {
@@ -610,13 +728,27 @@ class PostgresPropertyRepository:
             )
 
         return self.search(
-            budget=filters.get("budget"),
-            city=filters.get("city"),
-            area=filters.get("area"),
-            bedrooms=filters.get("bedrooms"),
-            property_type=filters.get("property_type"),
-            purpose=filters.get("purpose"),
-            amenities=filters.get("amenities"),
+            budget=filters.get(
+                "budget"
+            ),
+            city=filters.get(
+                "city"
+            ),
+            area=filters.get(
+                "area"
+            ),
+            bedrooms=filters.get(
+                "bedrooms"
+            ),
+            property_type=filters.get(
+                "property_type"
+            ),
+            purpose=filters.get(
+                "purpose"
+            ),
+            amenities=filters.get(
+                "amenities"
+            ),
             limit=limit,
         )
 
@@ -629,6 +761,11 @@ class PostgresPropertyRepository:
         city=None,
         property_type=None,
     ) -> list[dict[str, Any]]:
+        """
+        Return currently available properties
+        with verified prices.
+        """
+
         city = self._validate_optional_string(
             city,
             "city",
@@ -650,6 +787,7 @@ class PostgresPropertyRepository:
 
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
                     params,
@@ -661,14 +799,22 @@ class PostgresPropertyRepository:
                 )
 
     # ------------------------------------------------------------------
-    # Developer
+    # Developer lookup
     # ------------------------------------------------------------------
 
     def get_developer(
         self,
         property_id: str,
     ) -> dict[str, Any] | None:
-        if not isinstance(property_id, str):
+        """
+        Return developer information
+        associated with a property.
+        """
+
+        if not isinstance(
+            property_id,
+            str,
+        ):
             raise TypeError(
                 "property_id must be a string"
             )
@@ -684,13 +830,16 @@ class PostgresPropertyRepository:
             "developer_lookup"
         )
 
+        params = {
+            "property_id": property_id
+        }
+
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
-                    {
-                        "property_id": property_id
-                    },
+                    params,
                 )
 
                 return self._row_to_dict(
@@ -706,9 +855,28 @@ class PostgresPropertyRepository:
         self,
         budget,
         city=None,
+        area=None,
         bedrooms=None,
         purpose=None,
+        limit: int = DEFAULT_SEARCH_LIMIT,
     ) -> list[dict[str, Any]]:
+        """
+        Return verified available properties cheaper
+        than the requested budget.
+
+        Optional filters:
+            city
+            area
+            bedrooms
+            purpose
+
+        Results are ordered from highest price below
+        the budget to lowest price.
+
+        PostgreSQL remains the source of truth.
+        """
+
+        # Validate budget
         budget = self._validate_optional_budget(
             budget
         )
@@ -718,9 +886,15 @@ class PostgresPropertyRepository:
                 "budget is required"
             )
 
+        # Validate optional filters
         city = self._validate_optional_string(
             city,
             "city",
+        )
+
+        area = self._validate_optional_string(
+            area,
+            "area",
         )
 
         bedrooms = self._validate_optional_integer(
@@ -733,19 +907,34 @@ class PostgresPropertyRepository:
             "purpose",
         )
 
+        limit = self._validate_limit(
+            limit
+        )
+
+        # Load SQL
         query = self._get_query(
             "cheaper_alternatives"
         )
 
+        # Parameters
         params = {
             "budget": budget,
             "city": city,
+            "area": area,
+            "area_pattern": (
+                f"%{area}%"
+                if area
+                else None
+            ),
             "bedrooms": bedrooms,
             "purpose": purpose,
+            "limit": limit,
         }
 
+        # Execute
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
                     params,
@@ -765,7 +954,12 @@ class PostgresPropertyRepository:
         city=None,
         bedrooms=None,
         budget=None,
+        limit: int = DEFAULT_SEARCH_LIMIT,
     ) -> list[dict[str, Any]]:
+        """
+        Search verified available rental properties.
+        """
+
         city = self._validate_optional_string(
             city,
             "city",
@@ -780,6 +974,10 @@ class PostgresPropertyRepository:
             budget
         )
 
+        limit = self._validate_limit(
+            limit
+        )
+
         query = self._get_query(
             "rental_search"
         )
@@ -788,10 +986,12 @@ class PostgresPropertyRepository:
             "city": city,
             "bedrooms": bedrooms,
             "budget": budget,
+            "limit": limit,
         }
 
         with self._connect() as conn:
             with conn.cursor() as cur:
+
                 cur.execute(
                     query,
                     params,
@@ -802,13 +1002,94 @@ class PostgresPropertyRepository:
                     cur.fetchall(),
                 )
 
+    # ------------------------------------------------------------------
+    # Agent lookup
+    # ------------------------------------------------------------------
+
+    def get_agent(
+        self,
+        agent_id: str,
+    ) -> dict[str, Any] | None:
+        """Return one active agent by exact agent ID."""
+
+        if not isinstance(agent_id, str):
+            raise TypeError(
+                "agent_id must be a string"
+            )
+
+        agent_id = agent_id.strip()
+
+        if not agent_id:
+            raise ValueError(
+                "agent_id is required"
+            )
+
+        query = self._get_query(
+            "agent_lookup"
+        )
+
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    query,
+                    {"agent_id": agent_id},
+                )
+
+                return self._row_to_dict(
+                    cur,
+                    cur.fetchone(),
+                )
+
+    def get_agents_for_property(
+        self,
+        property_id: str,
+    ) -> list[dict[str, Any]]:
+        """Return active agents assigned to an exact property ID."""
+
+        if not isinstance(property_id, str):
+            raise TypeError(
+                "property_id must be a string"
+            )
+
+        property_id = property_id.strip()
+
+        if not property_id:
+            raise ValueError(
+                "property_id is required"
+            )
+
+        query = self._get_query(
+            "property_agents"
+        )
+
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    query,
+                    {"property_id": property_id},
+                )
+
+                return self._rows_to_dicts(
+                    cur,
+                    cur.fetchall(),
+                )
+
+
+# ======================================================================
+# SMOKE TEST
+# ======================================================================
 
 if __name__ == "__main__":
+
     repo = PostgresPropertyRepository()
 
     print("=" * 80)
     print("POSTGRES PROPERTY REPOSITORY SMOKE TEST")
     print("=" * 80)
+
+    # ------------------------------------------------------------------
+    # 1. EXACT PROPERTY
+    # ------------------------------------------------------------------
 
     print("\n1. EXACT PROPERTY")
 
@@ -818,6 +1099,10 @@ if __name__ == "__main__":
 
     print(property_data)
 
+    # ------------------------------------------------------------------
+    # 2. PROPERTY NAME LOOKUP
+    # ------------------------------------------------------------------
+
     print("\n2. PROPERTY NAME LOOKUP")
 
     property_data = repo.get_property_by_name(
@@ -826,13 +1111,19 @@ if __name__ == "__main__":
 
     print(property_data)
 
+    # ------------------------------------------------------------------
+    # 3. STRUCTURED SEARCH
+    # ------------------------------------------------------------------
+
     print("\n3. STRUCTURED SEARCH")
 
     results = repo.search(
         budget=40_000_000,
         city="Lahore",
+        area="DHA",
         bedrooms=3,
         purpose="Purchase",
+        limit=10,
     )
 
     print(
@@ -842,10 +1133,15 @@ if __name__ == "__main__":
     for item in results:
         print(item)
 
+    # ------------------------------------------------------------------
+    # 4. NATURAL LANGUAGE SEARCH
+    # ------------------------------------------------------------------
+
     print("\n4. NATURAL-LANGUAGE SEARCH")
 
     results = repo.search_question(
-        "Lahore mein 3 bedroom apartment "
+        "Lahore mein DHA mein "
+        "3 bedroom apartment "
         "4 crore ke andar chahiye."
     )
 
@@ -856,11 +1152,38 @@ if __name__ == "__main__":
     for item in results:
         print(item)
 
-    print("\n5. RENTAL SEARCH")
+    # ------------------------------------------------------------------
+    # 5. CHEAPER ALTERNATIVES
+    # ------------------------------------------------------------------
+
+    print("\n5. CHEAPER ALTERNATIVES")
+
+    cheaper = repo.get_cheaper_alternatives(
+        budget=40_000_000,
+        city="Lahore",
+        area="DHA",
+        bedrooms=3,
+        purpose="Purchase",
+        limit=10,
+    )
+
+    print(
+        f"Rows found: {len(cheaper)}"
+    )
+
+    for item in cheaper:
+        print(item)
+
+    # ------------------------------------------------------------------
+    # 6. RENTAL SEARCH
+    # ------------------------------------------------------------------
+
+    print("\n6. RENTAL SEARCH")
 
     rentals = repo.search_rentals(
         city="Lahore",
         bedrooms=3,
+        limit=10,
     )
 
     print(
@@ -869,4 +1192,7 @@ if __name__ == "__main__":
 
     for item in rentals:
         print(item)
-        
+
+    print("\n" + "=" * 80)
+    print("SMOKE TEST COMPLETED")
+    print("=" * 80)

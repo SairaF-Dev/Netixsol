@@ -1,44 +1,45 @@
+from __future__ import annotations
+import csv, re
 from pathlib import Path
 
+RAG_DIR=Path(__file__).resolve().parent
+KB_DIR=RAG_DIR.parent/'01_knowledge_base'
 
-PROPERTY_METADATA = {
-    "skyline_residences.md": {
-        "property_name": "Skyline Residences",
-        "property_id": "DHA-APT-001",
-        "document_type": "property",
-    },
-    "dha_pearl_apartments.md": {
-        "property_name": "DHA Pearl Apartments",
-        "property_id": "DHA-APT-002",
-        "document_type": "property",
-    },
-    "bahria_grand_apartments.md": {
-        "property_name": "Bahria Grand Apartments",
-        "property_id": "BT-APT-001",
-        "document_type": "property",
-    },
-    "real_estate_faq.md": {
-        "property_name": "",
-        "property_id": "",
-        "document_type": "faq",
-    },
-}
+def _norm(value: str) -> str:
+    return re.sub(r'[^a-z0-9]+',' ',str(value).casefold()).strip()
 
+def _property_index():
+    path=KB_DIR/'properties.csv'
+    index={}
+    if not path.exists(): return index
+    with path.open(encoding='utf-8-sig',newline='') as f:
+        for row in csv.DictReader(f):
+            name=(row.get('name') or '').strip(); pid=(row.get('property_id') or '').strip()
+            if not name or not pid: continue
+            item=index.setdefault(_norm(name), {'property_name':name,'property_ids':[]})
+            item['property_ids'].append(pid)
+    return index
+
+def _document_type(source: str) -> str:
+    parts={p.casefold() for p in Path(source).parts}
+    if 'faqs' in parts: return 'faq'
+    if 'property_brochures' in parts: return 'brochure'
+    if 'project_descriptions' in parts: return 'description'
+    return 'knowledge'
 
 def get_metadata(source: str) -> dict:
-    """Return metadata for a document source."""
-
-    filename = Path(source).name
-
-    metadata = PROPERTY_METADATA.get(
-        filename
-    )
-
-    if metadata is None:
-        return {
-            "property_name": "",
-            "property_id": "",
-            "document_type": "unknown",
-        }
-
-    return metadata.copy()
+    path=Path(source)
+    doc_type=_document_type(source)
+    if doc_type=='faq':
+        return {'property_name':'','property_id':'','property_ids':'','document_type':'faq'}
+    candidate=_norm(path.stem.replace('_',' '))
+    match=_property_index().get(candidate)
+    if not match:
+        return {'property_name':'','property_id':'','property_ids':'','document_type':doc_type}
+    ids=sorted(set(match['property_ids']))
+    return {
+        'property_name': match['property_name'],
+        'property_id': ids[0] if len(ids)==1 else '',
+        'property_ids': '|'.join(ids),
+        'document_type': doc_type,
+    }

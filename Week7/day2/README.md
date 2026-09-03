@@ -295,7 +295,7 @@ Example:
 
 ```text
 User:
-What amenities are listed for Skyline Residences?
+What amenities are listed for Horizon Heights Apartment?
 
         ↓
 
@@ -350,7 +350,7 @@ Example:
 
 ```text
 User:
-What is the price of DHA-APT-001?
+What is the price of LHR-DHA-APT-001?
 
         ↓
 
@@ -429,7 +429,7 @@ Recommendations
 
 Unavailable properties are filtered out before scoring.
 
-Investment goals are included as part of the recommendation interface, but the system does not invent financial performance or guarantee investment returns.
+Investment goals are supported as a grounded ranking preference using verified purpose/property-type facts. The system does not invent financial performance or guarantee investment returns.
 
 ---
 
@@ -482,13 +482,13 @@ Example:
 ### Question
 
 ```text
-What amenities are listed for Skyline Residences?
+What amenities are listed for Horizon Heights Apartment?
 ```
 
 ### Answer
 
 ```text
-The amenities listed for Skyline Residences include parking,
+The amenities listed for Horizon Heights Apartment include parking,
 a shared swimming pool, a shared gym, and 24/7 security.
 ```
 
@@ -537,19 +537,19 @@ The system correctly refuses to answer when verified information is unavailable.
 Examples include:
 
 ```text
-What payment plan is available for DHA-APT-001?
+What payment plan is available for LHR-DHA-APT-001?
 ```
 
 ```text
-What is the nearest hospital to Skyline Residences?
+What is the nearest hospital to Horizon Heights Apartment?
 ```
 
 ```text
-What is the guaranteed annual return of Skyline Residences?
+What is the guaranteed annual return of Horizon Heights Apartment?
 ```
 
 ```text
-Does Skyline Residences have a tennis court?
+Does Horizon Heights Apartment have a tennis court?
 ```
 
 ```text
@@ -882,3 +882,12 @@ The strongest result is the **20/20 RAG evaluation with 100% grounding and 0% an
 The main remaining technical weakness is **unknown-query rejection at the retrieval layer**. This should be improved before treating the retrieval system as production-grade.
 
 The next phase is to connect these verified retrieval and recommendation capabilities to the **LangGraph real estate voice agent**, allowing Sara to combine structured facts, semantic knowledge, recommendations, workflows, and voice interaction in a single production-oriented system.
+
+
+## Senior-fixed source authority
+
+- PostgreSQL owns exact structured property facts.
+- RAG owns FAQs, brochure summaries, descriptions, and semantic company knowledge.
+- `python 02_rag/validate_documents.py` validates semantic documents.
+- `python src/data_validation.py` validates CSV relationships and developer project names.
+- RAG evaluation uses canonical IDs/names from the structured knowledge base.

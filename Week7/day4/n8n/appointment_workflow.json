@@ -1,0 +1,28 @@
+{
+  "id": "saraAppointments1",
+  "name": "Sara Appointment Orchestration",
+  "nodes": [
+    {"parameters":{"httpMethod":"POST","path":"sara-appointments","responseMode":"responseNode","options":{}},"id":"appointment-webhook","name":"Sara Appointment Webhook","type":"n8n-nodes-base.webhook","typeVersion":2,"position":[0,300],"webhookId":"sara-appointments"},
+    {"parameters":{"jsCode":"const input = $json.body ?? $json;\nconst action = String(input.action ?? 'book').toLowerCase();\nif (!['book','reschedule','cancel'].includes(action)) throw new Error('Unsupported appointment action');\nif (!input.payload || typeof input.payload !== 'object') throw new Error('payload is required');\nreturn [{json:{action,payload:input.payload,appointment_id:input.appointment_id ?? input.payload.appointment_id ?? ''}}];"},"id":"normalize-request","name":"Normalize Request","type":"n8n-nodes-base.code","typeVersion":2,"position":[220,300]},
+    {"parameters":{"rules":{"values":[{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict"},"conditions":[{"leftValue":"={{$json.action}}","rightValue":"book","operator":{"type":"string","operation":"equals"}}],"combinator":"and"},"renameOutput":true,"outputKey":"book"},{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict"},"conditions":[{"leftValue":"={{$json.action}}","rightValue":"reschedule","operator":{"type":"string","operation":"equals"}}],"combinator":"and"},"renameOutput":true,"outputKey":"reschedule"},{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict"},"conditions":[{"leftValue":"={{$json.action}}","rightValue":"cancel","operator":{"type":"string","operation":"equals"}}],"combinator":"and"},"renameOutput":true,"outputKey":"cancel"}]},"options":{}},"id":"route-action","name":"Route Action","type":"n8n-nodes-base.switch","typeVersion":3.2,"position":[440,300]},
+    {"parameters":{"method":"POST","url":"http://127.0.0.1:8004/appointments","sendBody":true,"specifyBody":"json","jsonBody":"={{$json.payload}}","options":{"timeout":15000}},"id":"book-appointment","name":"Book: Calendar Email CRM","type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[700,120]},
+    {"parameters":{"method":"PATCH","url":"=http://127.0.0.1:8004/appointments/{{$json.appointment_id}}/reschedule","sendBody":true,"specifyBody":"json","jsonBody":"={{ {starts_at: $json.payload.starts_at} }}","options":{"timeout":15000}},"id":"reschedule-appointment","name":"Reschedule: Calendar Email CRM","type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[700,300]},
+    {"parameters":{"method":"DELETE","url":"=http://127.0.0.1:8004/appointments/{{$json.appointment_id}}","options":{"timeout":15000}},"id":"cancel-appointment","name":"Cancel: Calendar Email CRM","type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[700,480]},
+    {"parameters":{"respondWith":"json","responseBody":"={{$json}}","options":{}},"id":"respond-book","name":"Return Booking Result","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[940,80]},
+    {"parameters":{"respondWith":"json","responseBody":"={{$json}}","options":{}},"id":"respond-change","name":"Return Change Result","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[940,360]},
+    {"parameters":{"resume":"specificTime","dateTime":"={{ DateTime.fromISO($json.appointment.request.starts_at).minus({hours: 24}).toISO() }}"},"id":"wait-follow-up","name":"Wait Until 24h Before Visit","type":"n8n-nodes-base.wait","typeVersion":1.1,"position":[940,180],"webhookId":"sara-follow-up-wait"},
+    {"parameters":{"method":"POST","url":"=http://127.0.0.1:8004/appointments/{{$json.appointment.appointment_id}}/follow-up","options":{"timeout":15000}},"id":"send-follow-up","name":"Send Follow-up Notification","type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[1180,180],"onError":"continueRegularOutput"}
+  ],
+  "connections": {
+    "Sara Appointment Webhook":{"main":[[{"node":"Normalize Request","type":"main","index":0}]]},
+    "Normalize Request":{"main":[[{"node":"Route Action","type":"main","index":0}]]},
+    "Route Action":{"main":[[{"node":"Book: Calendar Email CRM","type":"main","index":0}],[{"node":"Reschedule: Calendar Email CRM","type":"main","index":0}],[{"node":"Cancel: Calendar Email CRM","type":"main","index":0}]]},
+    "Book: Calendar Email CRM":{"main":[[{"node":"Return Booking Result","type":"main","index":0},{"node":"Wait Until 24h Before Visit","type":"main","index":0}]]},
+    "Reschedule: Calendar Email CRM":{"main":[[{"node":"Return Change Result","type":"main","index":0}]]},
+    "Cancel: Calendar Email CRM":{"main":[[{"node":"Return Change Result","type":"main","index":0}]]},
+    "Wait Until 24h Before Visit":{"main":[[{"node":"Send Follow-up Notification","type":"main","index":0}]]}
+  },
+  "settings":{"executionOrder":"v1","saveDataErrorExecution":"all","saveDataSuccessExecution":"all","timezone":"Asia/Karachi"},
+  "active":false,
+  "versionId":"8f36764e-31a5-4c80-84bc-6cba913df501"
+}

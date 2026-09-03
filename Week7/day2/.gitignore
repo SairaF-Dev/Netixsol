@@ -40,3 +40,6 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+realestate_env/
+rag_results.csv
+05_evaluation/evaluation_chroma_*/

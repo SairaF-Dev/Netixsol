@@ -16,6 +16,7 @@ def validate_filters(
     bedrooms=None,
     property_type=None,
     purpose=None,
+    investment_goal=None,
 ):
     """Validate and normalize recommendation filters."""
 
@@ -52,4 +53,5 @@ def validate_filters(
         "bedrooms": bedrooms,
         "property_type": normalize_text(property_type),
         "purpose": normalize_text(purpose),
+        "investment_goal": normalize_text(investment_goal),
     }

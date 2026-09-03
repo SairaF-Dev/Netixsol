@@ -5,41 +5,15 @@ Purpose
 -------
 Convert user questions into safe PostgreSQL search filters.
 
-Examples
---------
-"Lahore mein 3 bedroom apartment 4 crore ke andar chahiye."
-
--> {
-    "budget": 40000000,
-    "city": "Lahore",
-    "area": None,
-    "bedrooms": 3,
-    "property_type": "Apartment",
-    "purpose": None,
-    "amenities": [],
-}
-
-"3 bedroom rental Lahore mein chahiye"
-
--> {
-    "budget": None,
-    "city": "Lahore",
-    "area": None,
-    "bedrooms": 3,
-    "property_type": None,
-    "purpose": "Rental",
-    "amenities": [],
-}
-
-Design principles
------------------
-1. No LLM is used.
-2. No property facts are generated.
-3. Only explicitly detected filters are returned.
-4. Unknown values remain None / [].
-5. Money expressions are normalized to PKR.
-6. UrduLish / English phrasing is supported.
-7. Parsing is deterministic and safe for structured retrieval.
+Important behavior
+------------------
+- No LLM is used.
+- No property facts are generated.
+- Only explicitly detected filters are returned.
+- Unknown values remain None / [].
+- Money expressions are normalized to PKR.
+- UrduLish / English phrasing is supported.
+- Purpose is detected ONLY when explicitly mentioned.
 """
 
 import re
@@ -84,17 +58,28 @@ PROPERTY_TYPE_ALIASES = {
 
 
 PURPOSE_ALIASES = {
+    # Purchase
     "purchasing": "Purchase",
     "purchase": "Purchase",
     "buying": "Purchase",
     "buy": "Purchase",
     "for sale": "Purchase",
     "sale": "Purchase",
+    "sell": "Purchase",
+    "khareed": "Purchase",
+    "khareedna": "Purchase",
+    "kharid": "Purchase",
+    "kharidna": "Purchase",
+
+    # Rental
     "renting": "Rental",
     "rental": "Rental",
     "rent": "Rental",
     "leasing": "Rental",
     "lease": "Rental",
+    "kiraya": "Rental",
+    "kiraye": "Rental",
+    "kiraye par": "Rental",
 }
 
 
@@ -123,22 +108,15 @@ AMENITY_ALIASES = {
 
 def _normalize_text(value: str) -> str:
     """Normalize whitespace and casing."""
-
-    return re.sub(
-        r"\s+",
-        " ",
-        value.strip().lower(),
-    )
+    return re.sub(r"\s+", " ", value.strip().lower())
 
 
 def _contains_word(text: str, value: str) -> bool:
     """
     Case-insensitive exact word / phrase detection.
 
-    Prevents partial matches such as:
-        "lhr" matching unrelated text.
+    Prevents partial matches.
     """
-
     pattern = (
         rf"(?<!\w)"
         rf"{re.escape(value)}"
@@ -180,10 +158,10 @@ def _money_to_pkr(
     Convert money expressions to PKR.
 
     Examples:
-        4 crore   -> 40,000,000
-        2.5 crore -> 25,000,000
-        50 lakh   -> 5,000,000
-        40 million -> 40,000,000
+        4 crore      -> 40,000,000
+        2.5 crore    -> 25,000,000
+        50 lakh      -> 5,000,000
+        40 million   -> 40,000,000
     """
 
     normalized_unit = (
@@ -323,6 +301,7 @@ class StructuredQueryParser:
             under 4 crore
             budget 4 crore
             budget 40000000
+            under 40,000,000
         """
 
         text = _normalize_text(question)
@@ -418,6 +397,7 @@ class StructuredQueryParser:
         self,
         question: str,
     ) -> str | None:
+
         text = _normalize_text(question)
 
         aliases = sorted(
@@ -439,6 +419,7 @@ class StructuredQueryParser:
     # Area
     # ------------------------------------------------------------------
 
+        
     def parse_area(
         self,
         question: str,
@@ -449,20 +430,22 @@ class StructuredQueryParser:
         Supported examples:
             DHA Phase 6
             DHA Phase 8
+            DHA
             Bahria Town
             Gulberg III
             Gulberg 3
             Model Town
-
-        Important:
-            The parser stops the DHA expression at the phase number.
-            Therefore:
-
-                "DHA Phase 6 mein"
-
-            correctly becomes:
-
-                "DHA Phase 6"
+            F-11
+            F11
+            Sector F-11
+            F-10
+            E-11
+            B-17
+            Ghauri Town
+            Blue Area
+            Clifton
+            Gulshan-e-Iqbal
+            Saddar
         """
 
         text = re.sub(
@@ -472,12 +455,7 @@ class StructuredQueryParser:
         )
 
         # --------------------------------------------------------------
-        # DHA Phase
-        #
-        # Examples:
-        #   DHA Phase 6
-        #   DHA Phase 6 mein
-        #   DHA phase 8 Lahore
+        # DHA Phase X
         # --------------------------------------------------------------
 
         match = re.search(
@@ -487,52 +465,60 @@ class StructuredQueryParser:
         )
 
         if match:
-            return match.group(1).strip()
+            parts = match.group(1).split()
+            return f"DHA Phase {parts[-1]}"
+
+        # --------------------------------------------------------------
+        # Plain DHA
+        # --------------------------------------------------------------
+
+        match = re.search(
+            r"\bDHA\b",
+            text,
+            flags=re.IGNORECASE,
+        )
+
+        if match:
+            return "DHA"
 
         # --------------------------------------------------------------
         # Bahria Town
         # --------------------------------------------------------------
 
         match = re.search(
-            r"\b(Bahria\s+Town)\b",
+            r"\b(Bahria(?:\s+Town)?)\b",
             text,
             flags=re.IGNORECASE,
         )
 
         if match:
-            return match.group(1).strip()
+            return "Bahria Town"
 
         # --------------------------------------------------------------
-        # Gulberg
-        #
-        # Supports:
-        #   Gulberg III
-        #   Gulberg 3
-        #   Gulberg-III
+        # Gulberg III / Gulberg 3 / Gulberg-III
         # --------------------------------------------------------------
 
         match = re.search(
-            r"\b(Gulberg(?:\s+|-)(?:[IVX]+|\d+))\b",
+            r"\bGulberg(?:\s+|-)?(?:III|3)\b",
             text,
             flags=re.IGNORECASE,
         )
 
         if match:
-            return re.sub(
-                r"\s+",
-                " ",
-                match.group(1).strip(),
-            )
+            return "Gulberg III"
 
-        # Plain "Gulberg"
+        # --------------------------------------------------------------
+        # Plain Gulberg
+        # --------------------------------------------------------------
+
         match = re.search(
-            r"\b(Gulberg)\b",
+            r"\bGulberg\b",
             text,
             flags=re.IGNORECASE,
         )
 
         if match:
-            return match.group(1).strip()
+            return "Gulberg"
 
         # --------------------------------------------------------------
         # Model Town
@@ -545,9 +531,81 @@ class StructuredQueryParser:
         )
 
         if match:
-            return match.group(1).strip()
+            return "Model Town"
+
+        # --------------------------------------------------------------
+        # Islamabad sectors
+        # --------------------------------------------------------------
+
+        sector_match = re.search(
+            r"\b(?:sector\s+)?([EFB])(?:\s+|-)?(10|11|17)\b",
+            text,
+            flags=re.IGNORECASE,
+        )
+
+        if sector_match:
+            letter = sector_match.group(1).upper()
+            number = sector_match.group(2)
+
+            return f"{letter}-{number}"
+
+        # --------------------------------------------------------------
+        # Ghauri Town
+        # --------------------------------------------------------------
+
+        if re.search(
+            r"\bGhauri\s+Town\b",
+            text,
+            flags=re.IGNORECASE,
+        ):
+            return "Ghauri Town"
+
+        # --------------------------------------------------------------
+        # Blue Area
+        # --------------------------------------------------------------
+
+        if re.search(
+            r"\bBlue\s+Area\b",
+            text,
+            flags=re.IGNORECASE,
+        ):
+            return "Blue Area"
+
+        # --------------------------------------------------------------
+        # Clifton
+        # --------------------------------------------------------------
+
+        if re.search(
+            r"\bClifton\b",
+            text,
+            flags=re.IGNORECASE,
+        ):
+            return "Clifton"
+
+        # --------------------------------------------------------------
+        # Gulshan-e-Iqbal
+        # --------------------------------------------------------------
+
+        if re.search(
+            r"\bGulshan(?:-e-Iqbal|\s+e\s+Iqbal)?\b",
+            text,
+            flags=re.IGNORECASE,
+        ):
+            return "Gulshan-e-Iqbal"
+
+        # --------------------------------------------------------------
+        # Saddar
+        # --------------------------------------------------------------
+
+        if re.search(
+            r"\bSaddar\b",
+            text,
+            flags=re.IGNORECASE,
+        ):
+            return "Saddar"
 
         return None
+
 
     # ------------------------------------------------------------------
     # Bedrooms
@@ -557,12 +615,13 @@ class StructuredQueryParser:
         self,
         question: str,
     ) -> int | None:
+
         text = _normalize_text(question)
 
         patterns = [
-            r"\b(\d+)\s*bedrooms?\b",
-            r"\b(\d+)\s*br\b",
-            r"\b(\d+)\s*bed\b",
+            r"\b(\d+)\s*(?:\+|plus)?\s*bedrooms?\b",
+            r"\b(\d+)\s*(?:\+|plus)?\s*br\b",
+            r"\b(\d+)\s*(?:\+|plus)?\s*beds?\b",
         ]
 
         for pattern in patterns:
@@ -594,6 +653,7 @@ class StructuredQueryParser:
         self,
         question: str,
     ) -> str | None:
+
         text = _normalize_text(question)
 
         aliases = sorted(
@@ -619,6 +679,49 @@ class StructuredQueryParser:
         self,
         question: str,
     ) -> str | None:
+        """
+        Detect ONLY explicit purchase/rental intent.
+
+        Purchase:
+            purchase
+            purchasing
+            buy
+            buying
+            sale
+            for sale
+            khareed
+            khareedna
+            kharid
+            kharidna
+
+        Rental:
+            rent
+            rental
+            renting
+            lease
+            leasing
+            kiraya
+            kiraye
+            kiraye par
+
+        Important:
+            Budget does NOT automatically mean Purchase.
+
+        Examples:
+
+            "Lahore mein 3 bedroom apartment 4 crore ke andar chahiye."
+                -> None
+
+            "Apartment under 40,000,000 PKR."
+                -> None
+
+            "Lahore mein 3 bedroom apartment purchase karna hai."
+                -> Purchase
+
+            "Lahore mein 3 bedroom apartment rent par chahiye."
+                -> Rental
+        """
+
         text = _normalize_text(question)
 
         aliases = sorted(
@@ -644,6 +747,7 @@ class StructuredQueryParser:
         self,
         question: str,
     ) -> list[str]:
+
         text = _normalize_text(question)
 
         found: list[str] = []
@@ -676,6 +780,7 @@ class StructuredQueryParser:
         Parse all supported structured filters.
 
         Unknown values:
+
             budget        -> None
             city          -> None
             area          -> None
@@ -693,23 +798,29 @@ class StructuredQueryParser:
             "budget": self.parse_budget(
                 question
             ),
+
             "city": self.parse_city(
                 question
             ),
+
             "area": self.parse_area(
                 question
             ),
+
             "bedrooms": self.parse_bedrooms(
                 question
             ),
+
             "property_type": (
                 self.parse_property_type(
                     question
                 )
             ),
+
             "purpose": self.parse_purpose(
                 question
             ),
+
             "amenities": self.parse_amenities(
                 question
             ),
@@ -735,6 +846,10 @@ if __name__ == "__main__":
         "Gulberg III mein apartment chahiye.",
         "Model Town Lahore mein house chahiye.",
         "Apartment under 40,000,000 PKR.",
+        "Lahore mein 3 bedroom apartment purchase karna hai.",
+        "Lahore mein 3 bedroom apartment rent par chahiye.",
+        "DHA Phase 6 mein house khareedna hai.",
+        "Lahore mein 2 bedroom flat kiraye par chahiye.",
     ]
 
     print("=" * 80)
@@ -747,7 +862,6 @@ if __name__ == "__main__":
         print(question)
 
         print("\nFILTERS:")
-
         print(
             parser.parse(question)
         )

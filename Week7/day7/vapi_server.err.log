@@ -1,0 +1,16 @@
+INFO:     Will watch for changes in these directories: ['E:\\Netixsol\\Week7\\day7']
+INFO:     Uvicorn running on http://0.0.0.0:8007 (Press CTRL+C to quit)
+INFO:     Started reloader process [16188] using StatReload
+INFO:     Started server process [10940]
+INFO:     Waiting for application startup.
+2026-09-01 16:48:43,976 [INFO] vapi.webhook: Sara VAPI webhook server started. Day4 API: http://localhost:8004
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'vapi_integration\tool_handler.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [10940]
+INFO:     Started server process [17236]
+INFO:     Waiting for application startup.
+2026-09-01 16:53:43,769 [INFO] vapi.webhook: Sara VAPI webhook server started. Day4 API: http://localhost:8004
+INFO:     Application startup complete.

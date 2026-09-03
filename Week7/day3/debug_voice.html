@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sara Voice Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background: #0056b3;
+        }
+        .log {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+        .info { color: #0056b3; }
+        h1 { color: #333; }
+        h2 { color: #666; font-size: 16px; margin-top: 20px; }
+        .status { font-weight: bold; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .status.ok { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🎤 Sara Voice Debug Panel</h1>
+    
+    <div class="section">
+        <h2>Browser & API Status</h2>
+        <div id="apiStatus" class="status warning">Checking...</div>
+        <button onclick="checkAPI()">Check API Health</button>
+        <button onclick="checkBrowserSupport()">Check Browser Support</button>
+        <div id="apiLog" class="log"></div>
+    </div>
+
+    <div class="section">
+        <h2>Audio Test</h2>
+        <button onclick="testAudio()">Test Audio Playback (play beep)</button>
+        <audio id="testAudio" controls style="width: 100%; margin-top: 10px;"></audio>
+        <div id="audioLog" class="log"></div>
+    </div>
+
+    <div class="section">
+        <h2>WebSocket Streaming Test</h2>
+        <p>Sample rate: <input type="number" id="sampleRate" value="16000" min="8000" max="96000" style="width: 100px;"></p>
+        <button id="startBtn" onclick="startStreaming()">Start Streaming</button>
+        <button id="stopBtn" onclick="stopStreaming()" disabled>Stop Streaming</button>
+        <div id="wsLog" class="log"></div>
+    </div>
+
+    <div class="section">
+        <h2>Browser Console</h2>
+        <p>⚠️ <strong>Important:</strong> Open your browser's Developer Console (F12) to see detailed error messages.</p>
+        <button onclick="copyDebugInfo()">Copy Debug Info to Clipboard</button>
+    </div>
+
+    <script>
+        let ws = null;
+        let audioContext = null;
+        let mediaSource = null;
+        let sourceBuffer = null;
+
+        function log(elementId, message, type = 'info') {
+            const elem = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type;
+            elem.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            elem.scrollTop = elem.scrollHeight;
+            console.log(`[${type.toUpperCase()}]`, message);
+        }
+
+        async function checkAPI() {
+            const status = document.getElementById('apiStatus');
+            log('apiLog', 'Checking API...');
+            
+            try {
+                const health = await fetch('http://127.0.0.1:8000/health');
+                const ready = await fetch('http://127.0.0.1:8000/ready');
+                
+                if (health.ok && ready.ok) {
+                    log('apiLog', '✅ API is healthy and ready', 'success');
+                    status.className = 'status ok';
+                    status.textContent = '✅ API is healthy and ready';
+                } else {
+                    log('apiLog', `❌ API not ready. Health: ${health.status}, Ready: ${ready.status}`, 'error');
+                    status.className = 'status error';
+                    status.textContent = '❌ API health check failed';
+                }
+            } catch (err) {
+                log('apiLog', `❌ Cannot connect to API: ${err.message}`, 'error');
+                log('apiLog', 'Make sure uvicorn is running: uvicorn api.main:app --reload', 'warning');
+                status.className = 'status error';
+                status.textContent = '❌ Cannot connect to API';
+            }
+        }
+
+        function checkBrowserSupport() {
+            log('apiLog', 'Checking browser support...');
+            
+            const features = {
+                'MediaSource': typeof MediaSource !== 'undefined',
+                'WebSocket': typeof WebSocket !== 'undefined',
+                'AudioContext': typeof (window.AudioContext || window.webkitAudioContext) !== 'undefined',
+                'getUserMedia': navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function',
+            };
+
+            if (features['MediaSource']) {
+                const mimeTypes = [
+                    'audio/mpeg',
+                    'audio/mp3',
+                    'audio/webm',
+                    'audio/ogg',
+                ];
+                for (const mimeType of mimeTypes) {
+                    const supported = MediaSource.isTypeSupported(mimeType);
+                    log('apiLog', `${mimeType}: ${supported ? '✅' : '❌'}`, supported ? 'success' : 'warning');
+                }
+            }
+
+            for (const [feature, supported] of Object.entries(features)) {
+                log('apiLog', `${feature}: ${supported ? '✅' : '❌'}`, supported ? 'success' : 'error');
+            }
+        }
+
+        function testAudio() {
+            log('audioLog', 'Generating test tone...');
+            
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+
+                const sampleRate = audioContext.sampleRate;
+                const duration = 1; // 1 second
+                const frequency = 440; // A4 note
+                const buffer = audioContext.createAudioBuffer(1, sampleRate * duration, sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < buffer.length; i++) {
+                    data[i] = Math.sin(2 * Math.PI * frequency * i / sampleRate) * 0.3;
+                }
+
+                const audioBlob = new Blob([data], { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                
+                const audio = document.getElementById('testAudio');
+                audio.src = audioUrl;
+                
+                log('audioLog', '✅ Test tone generated. Click play button above.', 'success');
+                
+                audio.play().then(() => {
+                    log('audioLog', '🔊 Audio playing...', 'success');
+                }).catch(err => {
+                    log('audioLog', `❌ Cannot auto-play: ${err.message}`, 'error');
+                    log('audioLog', 'Click the Play button manually or disable autoplay restrictions.', 'warning');
+                });
+            } catch (err) {
+                log('audioLog', `❌ Error: ${err.message}`, 'error');
+            }
+        }
+
+        function startStreaming() {
+            log('wsLog', 'Connecting to WebSocket...');
+            
+            try {
+                const sampleRate = parseInt(document.getElementById('sampleRate').value);
+                const wsUrl = `ws://127.0.0.1:8000/ws/voice/debug_session?sample_rate=${sampleRate}&channels=1&encoding=linear16`;
+                
+                ws = new WebSocket(wsUrl);
+                ws.binaryType = 'arraybuffer';
+                
+                let messageCount = 0;
+                let audioChunkCount = 0;
+
+                ws.onopen = () => {
+                    log('wsLog', '✅ WebSocket connected', 'success');
+                    document.getElementById('startBtn').disabled = true;
+                    document.getElementById('stopBtn').disabled = false;
+                };
+
+                ws.onmessage = (event) => {
+                    if (event.data instanceof ArrayBuffer) {
+                        audioChunkCount++;
+                        log('wsLog', `📦 Audio chunk ${audioChunkCount}: ${event.data.byteLength} bytes`, 'info');
+                    } else {
+                        messageCount++;
+                        const msg = JSON.parse(event.data);
+                        log('wsLog', `📨 Message ${messageCount}: ${msg.type}`, 'info');
+                    }
+                };
+
+                ws.onerror = (err) => {
+                    log('wsLog', `❌ WebSocket error: ${err}`, 'error');
+                };
+
+                ws.onclose = () => {
+                    log('wsLog', '⛔ WebSocket closed', 'warning');
+                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('stopBtn').disabled = true;
+                };
+
+            } catch (err) {
+                log('wsLog', `❌ Error: ${err.message}`, 'error');
+            }
+        }
+
+        function stopStreaming() {
+            if (ws) {
+                ws.close();
+                log('wsLog', 'WebSocket closed', 'warning');
+            }
+        }
+
+        function copyDebugInfo() {
+            const info = `
+=== SARA VOICE DEBUG INFO ===
+
+API Status: Check console
+Browser: ${navigator.userAgent}
+Time: ${new Date().toISOString()}
+
+MediaSource Support: ${typeof MediaSource !== 'undefined'}
+MP3 Support: ${MediaSource && MediaSource.isTypeSupported('audio/mpeg')}
+WebSocket Support: ${typeof WebSocket !== 'undefined'}
+AudioContext Support: ${typeof (window.AudioContext || window.webkitAudioContext) !== 'undefined'}
+
+WebSocket URL: ws://127.0.0.1:8000/ws/voice/debug_session
+API URL: http://127.0.0.1:8000
+
+Open browser console (F12) for detailed logs.
+            `;
+            navigator.clipboard.writeText(info).then(() => {
+                alert('Debug info copied to clipboard!');
+            });
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', () => {
+            checkAPI();
+            checkBrowserSupport();
+            log('apiLog', '💡 Tip: Open browser console (F12) to see detailed error messages', 'info');
+        });
+    </script>
+</body>
+</html>

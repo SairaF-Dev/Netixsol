@@ -24,6 +24,7 @@ class RecommendationEngine:
         property_type=None,
         purpose=None,
         desired_amenities=None,
+        investment_goal=None,
         limit=5,
     ):
         """
@@ -46,6 +47,7 @@ class RecommendationEngine:
             bedrooms=bedrooms,
             property_type=property_type,
             purpose=purpose,
+            investment_goal=investment_goal,
         )
 
         desired_amenities = [
@@ -76,10 +78,12 @@ class RecommendationEngine:
                 bedrooms=filters["bedrooms"],
                 purpose=filters["purpose"],
                 desired_amenities=desired_amenities,
+                investment_goal=filters["investment_goal"],
             )
 
             result = dict(property_data)
             result["recommendation_score"] = score
+            result["investment_goal"] = filters["investment_goal"]
 
             ranked.append(result)
 
