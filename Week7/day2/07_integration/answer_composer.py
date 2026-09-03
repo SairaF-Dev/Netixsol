@@ -25,12 +25,13 @@ class AnswerComposer:
             - developer
             - amenities
             - property ID
+            - payment plans
+            - nearby schools / hospitals
 
         RAG
         ---
         Document/company knowledge:
             - FAQs
-            - payment plans
             - policies
             - project descriptions
             - general company information
@@ -481,8 +482,8 @@ if __name__ == "__main__":
     composer = AnswerComposer()
 
     property_data = {
-        "property_id": "DHA-APT-001",
-        "property_name": "Skyline Residences",
+        "property_id": "LHR-DHA-APT-001",
+        "property_name": "Horizon Heights Apartment",
         "city": "Lahore",
         "area": "DHA Phase 6",
         "bedrooms": 3,

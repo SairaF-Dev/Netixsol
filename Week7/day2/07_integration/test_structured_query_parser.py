@@ -121,6 +121,47 @@ def test_bahria_area():
     print("PASS: Bahria area parsing")
 
 
+def test_islamabad_sector_f11():
+
+    parser = create_parser()
+
+    result = parser.parse(
+        "Islamabad mein F-11 sector mein 2 bedroom apartment chahiye."
+    )
+
+    assert result["area"] == "F-11"
+    assert result["city"] == "Islamabad"
+
+    print("PASS: Islamabad F-11 sector parsing")
+
+
+def test_karachi_clifton_area():
+
+    parser = create_parser()
+
+    result = parser.parse(
+        "Clifton Karachi mein 3 bedroom apartment chahiye."
+    )
+
+    assert result["area"] == "Clifton"
+    assert result["city"] == "Karachi"
+
+    print("PASS: Karachi Clifton area parsing")
+
+
+def test_bedroom_plus():
+
+    parser = create_parser()
+
+    result = parser.parse(
+        "Lahore mein 3+ bed apartment chahiye."
+    )
+
+    assert result["bedrooms"] == 3
+
+    print("PASS: bedroom plus parsing")
+
+
 # ---------------------------------------------------------------------------
 # Bedroom tests
 # ---------------------------------------------------------------------------
@@ -416,9 +457,12 @@ def main():
     test_city_alias()
     test_area()
     test_bahria_area()
+    test_islamabad_sector_f11()
+    test_karachi_clifton_area()
 
     test_bedrooms()
     test_bedroom_plural()
+    test_bedroom_plus()
 
     test_apartment_type()
     test_flat_alias()

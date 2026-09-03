@@ -1,0 +1,10 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.8
+httpx>=0.27
+psycopg[binary]>=3.2
+python-dotenv>=1.0
+google-auth>=2.25
+google-api-python-client>=2.100
+pytest>=8.2
+anyio>=4.0

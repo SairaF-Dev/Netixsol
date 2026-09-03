@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sara-postgres
+    environment:
+      POSTGRES_USER: realestate
+      POSTGRES_PASSWORD: sara_dev_password
+      POSTGRES_DB: realestate
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U realestate"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sara-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sara-day4-api
+    environment:
+      APP_ENV: development
+      DATABASE_URL: postgresql://realestate:sara_dev_password@db:5432/realestate
+      CALENDAR_BACKEND: memory
+      SMTP_HOST: # Leave empty for in-memory email
+      N8N_WEBHOOK_URL: # Leave empty for in-memory n8n
+    ports:
+      - "8004:8004"
+    volumes:
+      - ./api:/app/api
+      - ./src:/app/src
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - sara-network
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8004 --reload
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  sara-network:
+    driver: bridge

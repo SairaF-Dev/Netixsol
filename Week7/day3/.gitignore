@@ -1,0 +1,14 @@
+.env
+!.env.example
+.venv/
+realestate_env/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+chroma_db/
+test_chroma_db/
+recordings/
+logs/

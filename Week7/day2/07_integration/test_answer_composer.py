@@ -9,8 +9,8 @@ from answer_composer import (
 # ---------------------------------------------------------------------------
 
 SKYLINE = {
-    "property_id": "DHA-APT-001",
-    "property_name": "Skyline Residences",
+    "property_id": "LHR-DHA-APT-001",
+    "property_name": "Horizon Heights Apartment",
     "city": "Lahore",
     "area": "DHA Phase 6",
     "bedrooms": 3,
@@ -29,14 +29,14 @@ SKYLINE = {
 
 
 BAHRIA = {
-    "property_id": "BT-APT-001",
+    "property_id": "LHR-BHR-APT-001",
     "property_name": "Bahria Grand Apartments",
     "city": "Lahore",
     "area": "Bahria Town",
     "bedrooms": 3,
     "property_type": "Apartment",
     "purpose": "Purchase",
-    "price": 26_500_000,
+    "price": 22_000_000,
     "currency": "PKR",
     "available": True,
     "amenities": [
@@ -88,7 +88,7 @@ def test_structured_single_property():
     )
 
     assert_true(
-        "Skyline Residences" in answer,
+        "Horizon Heights Apartment" in answer,
         "Property name should be present.",
     )
 
@@ -130,7 +130,7 @@ def test_structured_multiple_properties():
     )
 
     assert_true(
-        "Skyline Residences" in answer,
+        "Horizon Heights Apartment" in answer,
         "Skyline should be present.",
     )
 
@@ -145,7 +145,7 @@ def test_structured_multiple_properties():
     )
 
     assert_true(
-        "26,500,000 PKR" in answer,
+        "22,000,000 PKR" in answer,
         "Bahria price should be present.",
     )
 
@@ -236,7 +236,7 @@ def test_mixed_answer():
     )
 
     assert_true(
-        "Skyline Residences" in answer,
+        "Horizon Heights Apartment" in answer,
         "Mixed answer should contain structured property.",
     )
 
@@ -301,7 +301,7 @@ def test_mixed_only_structured():
     )
 
     assert_true(
-        "Skyline Residences" in answer,
+        "Horizon Heights Apartment" in answer,
         "Structured data should still be returned.",
     )
 

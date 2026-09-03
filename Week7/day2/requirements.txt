@@ -2,6 +2,10 @@ pandas
 langchain
 langchain-openai
 chromadb
+sentence-transformers
 python-dotenv
+psycopg[binary]
 psycopg2-binary
+pydantic
+pytest
 requests

@@ -1,0 +1,14 @@
+.n8n-runtime/
+.npm-cache/
+.n8n-data/
+day4/n8n/*.log
+
+# Local environment files may contain API keys and credentials.
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Keep sanitized configuration templates in version control.
+!.env.example
+!**/.env.example

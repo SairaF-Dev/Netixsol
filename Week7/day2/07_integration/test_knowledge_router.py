@@ -14,6 +14,7 @@ class FakeRepository:
 
     def __init__(self):
         self.search_called = False
+        self.last_search_args = {}
 
     def search(
         self,
@@ -26,11 +27,20 @@ class FakeRepository:
         amenities=None,
     ):
         self.search_called = True
+        self.last_search_args = {
+            "budget": budget,
+            "city": city,
+            "area": area,
+            "bedrooms": bedrooms,
+            "property_type": property_type,
+            "purpose": purpose,
+            "amenities": amenities,
+        }
 
         return [
             {
-                "property_id": "DHA-APT-001",
-                "property_name": "Skyline Residences",
+                "property_id": "LHR-DHA-APT-001",
+                "property_name": "Horizon Heights Apartment",
                 "city": "Lahore",
                 "area": "DHA Phase 6",
                 "bedrooms": 3,
@@ -156,7 +166,7 @@ def test_structured_route():
     router, repository, rag = build_router()
 
     result = router.answer(
-        "What is the price of Skyline Residences?"
+        "What is the price of Horizon Heights Apartment?"
     )
 
     assert_equal(
@@ -172,7 +182,7 @@ def test_structured_route():
 
     assert_equal(
         result["structured_results"][0]["property_name"],
-        "Skyline Residences",
+        "Horizon Heights Apartment",
         "Expected Skyline property.",
     )
 
@@ -188,6 +198,48 @@ def test_structured_route():
 
     print(
         "PASS: structured route"
+    )
+
+
+def test_structured_filter_passing():
+
+    router, repository, rag = build_router()
+
+    result = router.answer(
+        "Lahore mein 3 bedroom apartment 4 crore ke andar chahiye."
+    )
+
+    assert_equal(
+        result["route"],
+        "structured",
+        "Search query should use structured retrieval.",
+    )
+
+    assert_true(
+        repository.search_called,
+        "Repository.search() should be called.",
+    )
+
+    assert_equal(
+        repository.last_search_args.get("city"),
+        "Lahore",
+        "City filter should be passed to repository.",
+    )
+
+    assert_equal(
+        repository.last_search_args.get("bedrooms"),
+        3,
+        "Bedrooms filter should be passed to repository.",
+    )
+
+    assert_equal(
+        repository.last_search_args.get("budget"),
+        40_000_000,
+        "Budget filter should be passed to repository.",
+    )
+
+    print(
+        "PASS: structured filter passing"
     )
 
 
@@ -378,6 +430,7 @@ def main():
     print("=" * 80)
 
     test_structured_route()
+    test_structured_filter_passing()
     test_rag_route()
     test_mixed_route()
     test_mixed_guarantee_question()

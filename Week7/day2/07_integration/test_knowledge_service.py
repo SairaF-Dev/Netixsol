@@ -49,7 +49,7 @@ class FakeRepository:
 
         return [
             {
-                "property_id": "LHR-DHA-APT-002",
+                "property_id": "LHR-LHR-DHA-APT-003",
                 "property_name": "Horizon Heights Apartment",
                 "area": "DHA Phase 6",
                 "city": "Lahore",
@@ -71,7 +71,7 @@ class FakeRepository:
         self.name_calls.append(property_name)
 
         return {
-            "property_id": "LHR-DHA-APT-002",
+            "property_id": "LHR-LHR-DHA-APT-003",
             "property_name": property_name,
             "city": "Lahore",
             "price": 36_000_000,

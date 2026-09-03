@@ -1,0 +1,73 @@
+name: sara-week7
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-realestate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-realestate}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./day2/03_structured_retrieval/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./day2/03_structured_retrieval/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  day4-api:
+    build:
+      context: ./day4
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-realestate}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-realestate}
+      CALENDAR_BACKEND: ${CALENDAR_BACKEND:-memory}
+      GOOGLE_SERVICE_ACCOUNT_FILE: ${GOOGLE_SERVICE_ACCOUNT_FILE:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_SENDER: ${SMTP_SENDER:-appointments@example.invalid}
+      N8N_WEBHOOK_URL: http://n8n:5678/webhook/sara-appointment
+    ports:
+      - "8004:8004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  day7-vapi:
+    build:
+      context: .
+      dockerfile: day7/vapi_integration/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-realestate}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-realestate}
+      DAY4_API_URL: http://day4-api:8004
+      VAPI_WEBHOOK_SECRET: ${VAPI_WEBHOOK_SECRET:?Set VAPI_WEBHOOK_SECRET}
+      N8N_WEBHOOK_URL: http://n8n:5678/webhook/call-completed
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    ports:
+      - "8007:8007"
+    depends_on:
+      day4-api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  n8n:
+    image: n8nio/n8n:latest
+    environment:
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?Set N8N_ENCRYPTION_KEY}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_USER_MANAGEMENT_DISABLED: "false"
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  n8n_data:

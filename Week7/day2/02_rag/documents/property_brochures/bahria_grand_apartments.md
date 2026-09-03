@@ -1,15 +1,5 @@
-# Bahria Grand Apartments — Demo Brochure
+# Bahria Grand Apartments — Project Overview
 
-Bahria Grand Apartments is a residential apartment project in Bahria
-Town, Lahore.
+Bahria Grand Apartments is a named residential project in the verified company inventory. This document is used for semantic project context only.
 
-The demo inventory includes a three-bedroom apartment identified as
-BT-APT-001. The structured property record lists a demo price of
-26,500,000 PKR and marks the unit as available and ready.
-
-The knowledge base lists parking, a shared gym and a nearby community
-park for this property.
-
-The project is associated with Bahria Estates.
-
-This document is demo company information for the capstone.
+Exact unit details can change independently of brochure text. Sara must use the structured company source for price, availability, bedrooms, bathrooms, covered area, amenities, developer information, payment plans, and nearby schools or hospitals.

@@ -1,0 +1,18 @@
+agent_id,name,phone,email,city,area,specialization,status
+AGT-001,Ali Raza,+923001234567,ali.raza@netixsol.com,Lahore,DHA Phase 6,Residential Sales,Active
+AGT-002,Ayesha Khan,+923121234567,ayesha.khan@netixsol.com,Lahore,DHA Phase 5,Residential Sales and Rentals,Active
+AGT-003,Hassan Ahmed,+923331234567,hassan.ahmed@netixsol.com,Lahore,Bahria Town,Residential Sales and Rentals,Active
+AGT-004,Sana Malik,+923451234567,sana.malik@netixsol.com,Lahore,Gulberg III,Residential and Commercial,Active
+AGT-005,Omar Farooq,+923061234567,omar.farooq@netixsol.com,Lahore,Model Town,Residential Rentals,Active
+AGT-006,Fatima Noor,+923151234567,fatima.noor@netixsol.com,Islamabad,F-11,Residential Sales,Active
+AGT-007,Bilal Ahmed,+923221234567,bilal.ahmed@netixsol.com,Islamabad,DHA Phase 2,Residential Sales and Plots,Active
+AGT-008,Hamza Tariq,+923351234567,hamza.tariq@netixsol.com,Islamabad,B-17,Residential Sales and Plots,Active
+AGT-009,Mahnoor Ali,+923481234567,mahnoor.ali@netixsol.com,Islamabad,Ghauri Town,Residential Sales,Active
+AGT-010,Usman Khalid,+923071234567,usman.khalid@netixsol.com,Islamabad,E-11 and F-10,Residential Rentals,Active
+AGT-011,Zainab Hassan,+923181234567,zainab.hassan@netixsol.com,Islamabad,Blue Area,Commercial Properties,Active
+AGT-012,Ahmed Saeed,+923291234567,ahmed.saeed@netixsol.com,Karachi,Clifton,Residential Sales,Active
+AGT-013,Hira Shah,+923361234567, hira.shah@netixsol.com,Karachi,DHA Phase 6 and Phase 8,Residential Sales,Active
+AGT-014,Saad Iqbal,+923461234567,saad.iqbal@netixsol.com,Karachi,Gulshan-e-Iqbal,Residential Sales and Rentals,Active
+AGT-015,Mariam Asif,+923091234567,mariam.asif@netixsol.com,Karachi,Bahria Town,Residential Sales and Rentals,Active
+AGT-016,Kamran Ali,+923141234567,kamran.ali@netixsol.com,Karachi,Saddar,Commercial Properties,Active
+

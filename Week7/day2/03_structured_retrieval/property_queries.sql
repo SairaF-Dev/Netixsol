@@ -13,6 +13,8 @@
 --   5. developer_lookup
 --   6. cheaper_alternatives
 --   7. rental_search
+--   8. agent_lookup
+--   9. property_agents
 
 -- ============================================================
 -- QUERY: exact_property
@@ -365,6 +367,13 @@ WHERE p.available = TRUE
             = LOWER(%(city)s::text)
       )
 
+  -- Optional area
+  AND (
+        %(area)s::text IS NULL
+        OR LOWER(l.area)
+            LIKE LOWER(%(area_pattern)s::text)
+      )
+
   -- Optional bedrooms
   AND (
         %(bedrooms)s::integer IS NULL
@@ -376,8 +385,9 @@ WHERE p.available = TRUE
   AND pr.price < %(budget)s::numeric
 
 ORDER BY
-    pr.price DESC;
+    pr.price DESC
 
+LIMIT %(limit)s;
 
 -- ============================================================
 -- QUERY: rental_search
@@ -440,3 +450,64 @@ WHERE p.available = TRUE
 
 ORDER BY
     pr.price ASC;
+
+-- ============================================================
+-- QUERY: agent_lookup
+-- ============================================================
+
+-- Return one active real-estate agent by exact agent ID.
+-- Agent identity is always retrieved from PostgreSQL.
+
+SELECT
+    a.agent_id,
+    a.name AS agent_name,
+    a.phone,
+    a.email,
+    a.city,
+    a.area,
+    a.specialization,
+    a.status
+
+FROM agents a
+
+WHERE a.agent_id = %(agent_id)s::text
+  AND LOWER(a.status) = 'active'
+
+LIMIT 1;
+
+
+-- ============================================================
+-- QUERY: property_agents
+-- ============================================================
+
+-- Return active agents assigned to an exact property ID.
+-- This query satisfies the structured-retrieval requirement that
+-- agent names must come from SQL rather than model generation.
+
+SELECT
+    p.property_id,
+    p.name AS property_name,
+    a.agent_id,
+    a.name AS agent_name,
+    a.phone,
+    a.email,
+    a.city,
+    a.area,
+    a.specialization,
+    ap.assignment_type,
+    ap.assigned_on
+
+FROM agent_properties ap
+
+JOIN agents a
+    ON a.agent_id = ap.agent_id
+
+JOIN properties p
+    ON p.property_id = ap.property_id
+
+WHERE ap.property_id = %(property_id)s::text
+  AND LOWER(a.status) = 'active'
+
+ORDER BY
+    CASE WHEN LOWER(ap.assignment_type) = 'primary' THEN 0 ELSE 1 END,
+    a.name ASC;

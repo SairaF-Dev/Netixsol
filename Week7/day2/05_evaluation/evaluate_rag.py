@@ -1,184 +1,378 @@
-from pathlib import Path
-import sys
+from __future__ import annotations
+
 import csv
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-RAG_DIR = PROJECT_ROOT / "02_rag"
-
-sys.path.insert(0, str(RAG_DIR))
-
-from rag_pipeline import RAGPipeline
+import sys
+from pathlib import Path
 
 
-QUESTIONS_FILE = Path(__file__).resolve().parent / "evaluation_questions.csv"
+ROOT = Path(__file__).resolve().parent.parent
+RAG = ROOT / "02_rag"
+INTEG = ROOT / "07_integration"
+
+sys.path[:0] = [
+    str(RAG),
+    str(INTEG),
+]
 
 
-def evaluate_answer(question, answer, expected_answer_type):
-    """
-    Evaluate whether the generated answer behaves correctly.
+from rag_pipeline import (
+    RAGPipeline,
+    FALLBACK_ANSWER,
+)
+from query_router import route_query
 
-    expected_answer_type:
-        VERIFIED  -> should provide verified information
-        REFUSAL   -> should refuse because information is unavailable
-    """
 
-    answer_normalized = answer.strip().lower()
+QUESTIONS = Path(__file__).with_name(
+    "evaluation_questions.csv"
+)
 
-    refusal_phrase = (
-        "verified information is currently unavailable."
+
+def evaluate_answer(
+    answer,
+    expected_type,
+    must_any,
+):
+    normalized = (
+        answer
+        or ""
+    ).strip().casefold()
+
+    fallback = (
+        FALLBACK_ANSWER
+        .strip()
+        .casefold()
     )
 
-    if expected_answer_type == "REFUSAL":
-        passed = refusal_phrase in answer_normalized
+    # -----------------------------------------
+    # Expected refusal
+    # -----------------------------------------
 
-        return passed, (
-            "Correct refusal"
-            if passed
-            else "Expected refusal but model provided information"
+    if expected_type == "REFUSAL":
+        return (
+            normalized == fallback,
+            "Expected safe refusal",
         )
 
-    if expected_answer_type == "VERIFIED":
-        passed = (
-            answer_normalized
-            and refusal_phrase not in answer_normalized
+    # -----------------------------------------
+    # Expected grounded answer
+    # -----------------------------------------
+
+    if (
+        not normalized
+        or normalized == fallback
+    ):
+        return (
+            False,
+            "Expected grounded answer but received refusal",
         )
 
-        return passed, (
-            "Generated grounded answer"
-            if passed
-            else "Expected verified answer but model refused"
+    options = [
+        value.strip().casefold()
+        for value in (
+            must_any
+            or ""
+        ).split("|")
+        if value.strip()
+    ]
+
+    if (
+        options
+        and not any(
+            option in normalized
+            for option in options
+        )
+    ):
+        return (
+            False,
+            (
+                "Missing expected concept; "
+                f"accepted={options}"
+            ),
         )
 
-    return False, "Unknown answer type"
+    return (
+        True,
+        "Grounded answer matched required behavior",
+    )
 
 
 def run():
 
-    pipeline = RAGPipeline(
-    documents_dir=str(RAG_DIR / "documents"),
-    chunk_size=512,
-    top_k=3,
-)
+    provider_failures = 0
 
-    with QUESTIONS_FILE.open(
+    pipe = RAGPipeline(
+        documents_dir=str(
+            RAG / "documents"
+        ),
+        chunk_size=512,
+        top_k=3,
+    )
+
+    with QUESTIONS.open(
         newline="",
         encoding="utf-8",
-    ) as f:
-
-        questions = list(csv.DictReader(f))
+    ) as file:
+        questions = list(
+            csv.DictReader(file)
+        )
 
     rows = []
 
-    print("\nRAG EVALUATION")
-    print("=" * 70)
+    for q in questions:
 
-    for index, q in enumerate(questions, start=1):
+        question_id = (
+            q.get("question_id")
+            or q.get("id")
+            or "UNKNOWN"
+        )
 
-        question_id = q["question_id"]
         question = q["question"]
 
-        # Expected answer type must be defined in CSV.
-        expected_type = q.get(
-            "expected_answer_type",
-            "VERIFIED",
-        ).strip().upper()
+        route = route_query(
+            question
+        ).value
 
-        print(f"\nTest {index}")
-        print("-" * 70)
-        print(f"Question: {question}")
+        # -------------------------------------
+        # Run RAG pipeline safely
+        # -------------------------------------
 
         try:
 
-            result = pipeline.answer(question)
-
-            answer = result["answer"]
-
-            retrieved_results = result["results"]
-
-            sources = [
-                Path(item["source"]).name
-                for item in retrieved_results
-            ]
-
-            passed, reason = evaluate_answer(
-                question,
-                answer,
-                expected_type,
+            result = pipe.answer(
+                question
             )
 
         except Exception as exc:
 
-            answer = ""
-            sources = []
+            provider_failures += 1
+
+            reason = (
+                "Provider/API error: "
+                f"{exc}"
+            )
+
+            rows.append(
+                {
+                    "question_id": question_id,
+                    "question": question,
+                    "route": route,
+                    "passed": False,
+                    "reason": reason,
+                    "answer": FALLBACK_ANSWER,
+                    "top_sources": "",
+                }
+            )
+
+            print(
+                f"FAIL {question_id} "
+                f"route={route} "
+                f"reason={reason}"
+            )
+
+            continue
+
+        # -------------------------------------
+        # Detect graceful provider failure
+        # from RAGPipeline
+        # -------------------------------------
+
+        if (
+            result.get("reason")
+            == "llm_provider_error"
+        ):
+
+            provider_failures += 1
+
+            reason = (
+                result.get("error")
+                or "LLM provider error"
+            )
+
+            rows.append(
+                {
+                    "question_id": question_id,
+                    "question": question,
+                    "route": route,
+                    "passed": False,
+                    "reason": reason,
+                    "answer": result.get(
+                        "answer",
+                        FALLBACK_ANSWER,
+                    ),
+                    "top_sources": "",
+                }
+            )
+
+            print(
+                f"FAIL {question_id} "
+                f"route={route} "
+                f"reason={reason}"
+            )
+
+            continue
+
+        answer = result.get(
+            "answer",
+            FALLBACK_ANSWER,
+        )
+
+        expected = (
+            q[
+                "expected_answer_type"
+            ]
+            .strip()
+            .upper()
+        )
+
+        # Structured queries should not be
+        # answered by RAG.
+        if route == "structured":
+            expected = "REFUSAL"
+
+        passed, reason = evaluate_answer(
+            answer,
+            expected,
+            q.get(
+                "must_contain_any",
+                "",
+            ),
+        )
+
+        # -------------------------------------
+        # Validate expected retrieval source
+        # -------------------------------------
+
+        sources = [
+            Path(
+                item["source"]
+            ).name
+            for item in result.get(
+                "results",
+                [],
+            )
+        ]
+
+        expected_source = (
+            q.get(
+                "expected_source",
+                "",
+            )
+            .strip()
+        )
+
+        if (
+            route == "rag"
+            and expected_source
+            and expected_source != "NONE"
+            and expected_source not in sources
+        ):
             passed = False
-            reason = f"ERROR: {exc}"
 
-        print("\nRetrieved Sources:")
+            reason = (
+                "Expected source not retrieved: "
+                f"{expected_source}"
+            )
 
-        if sources:
-            for source in sources:
-                print(f"- {source}")
-        else:
-            print("- None")
-
-        print("\nGenerated Answer:")
-        print(answer if answer else "No answer generated.")
-
-        print(f"\nResult: {'PASS' if passed else 'FAIL'}")
-        print(f"Reason: {reason}")
+        # -------------------------------------
+        # Store evaluation row
+        # -------------------------------------
 
         rows.append(
             {
                 "question_id": question_id,
                 "question": question,
-                "expected_answer_type": expected_type,
+                "route": route,
                 "passed": passed,
                 "reason": reason,
                 "answer": answer,
-                "top_sources": " | ".join(sources),
+                "top_sources": " | ".join(
+                    sources
+                ),
             }
         )
 
-    output_file = (
-        Path(__file__).resolve().parent
-        / "rag_results.csv"
+        print(
+            f"{'PASS' if passed else 'FAIL'} "
+            f"{question_id} "
+            f"route={route}"
+            + (
+                ""
+                if passed
+                else f" reason={reason}"
+            )
+        )
+
+    # -----------------------------------------
+    # Save results
+    # -----------------------------------------
+
+    out = Path(__file__).with_name(
+        "rag_results.csv"
     )
 
-    with output_file.open(
+    fieldnames = [
+        "question_id",
+        "question",
+        "route",
+        "passed",
+        "reason",
+        "answer",
+        "top_sources",
+    ]
+
+    with out.open(
         "w",
         newline="",
         encoding="utf-8",
-    ) as f:
+    ) as file:
 
         writer = csv.DictWriter(
-            f,
-            fieldnames=rows[0].keys(),
+            file,
+            fieldnames=fieldnames,
         )
 
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(
+            rows
+        )
+
+    # -----------------------------------------
+    # Final metrics
+    # -----------------------------------------
 
     total = len(rows)
-    passed = sum(
-        1
+
+    passed_count = sum(
+        bool(row["passed"])
         for row in rows
-        if row["passed"]
     )
 
-    accuracy = (
-        passed / total
-        if total
-        else 0
+    if total:
+
+        pass_rate = (
+            passed_count
+            / total
+        )
+
+    else:
+        pass_rate = 0.0
+
+    print()
+
+    print(
+        "RAG behavior pass rate: "
+        f"{passed_count}/{total} "
+        f"({pass_rate:.2%})"
     )
 
-    print("\n" + "=" * 70)
-    print("SUMMARY")
-    print("=" * 70)
-    print(f"Total tests: {total}")
-    print(f"Tests passed: {passed}")
-    print(f"Tests failed: {total - passed}")
-    print(f"RAG evaluation pass rate: {accuracy:.2%}")
-    print(f"Saved: {output_file}")
+    print(
+        "Provider/API failures: "
+        f"{provider_failures}"
+    )
+
+    print(
+        f"Results saved to: {out}"
+    )
 
 
 if __name__ == "__main__":
