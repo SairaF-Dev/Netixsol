@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import hmac
 import logging
 import os
 import sys
@@ -65,6 +66,13 @@ async def health():
 
 @app.websocket("/ws/voice")
 async def voice_socket(websocket: WebSocket):
+    expected = os.getenv("SARA_API_KEY", "").strip()
+    authorization = websocket.headers.get("authorization", "")
+    header_token = authorization[7:] if authorization.lower().startswith("bearer ") else ""
+    supplied = header_token or websocket.query_params.get("access_token", "")
+    if not expected or not supplied or not hmac.compare_digest(supplied, expected):
+        await websocket.close(code=1008, reason="Authentication required")
+        return
     await websocket.accept()
 
     send_lock = asyncio.Lock()

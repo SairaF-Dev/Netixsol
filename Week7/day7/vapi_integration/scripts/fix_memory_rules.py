@@ -1,7 +1,10 @@
 """Update VAPI assistant with improved system prompt that avoids re-asking confirmed info."""
+import os
 import httpx
 
-VAPI_KEY = "4ce317b5-cd11-4feb-be07-0c8aa11a9c3e"
+VAPI_KEY = os.environ.get("VAPI_API_KEY", "").strip()
+if not VAPI_KEY:
+    raise RuntimeError("VAPI_API_KEY is required")
 ASSISTANT_ID = "8da8a05f-109c-4a75-8261-3009caaf4afe"
 
 headers = {"Authorization": f"Bearer {VAPI_KEY}", "Content-Type": "application/json"}
@@ -85,4 +88,3 @@ if r.status_code == 200:
     print("Sara ab confirmed info dobara nahi puchegi.")
 else:
     print("Error:", r.text[:300])
-

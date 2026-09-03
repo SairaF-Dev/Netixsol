@@ -18,6 +18,7 @@ Usage:
 from __future__ import annotations
 
 import logging
+import hmac
 import os
 import sys
 import uuid
@@ -26,7 +27,7 @@ from typing import Any
 
 import httpx
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request, Header
+from fastapi import Depends, FastAPI, HTTPException, Request, Header
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -94,7 +95,7 @@ async def health() -> dict:
     }
 
 
-@app.get("/metrics")
+@app.get("/metrics", dependencies=[Depends(lambda x_vapi_secret=Header(default=None): _verify_vapi_secret(x_vapi_secret))])
 async def operational_metrics() -> dict:
     """Return privacy-safe counters and latency percentiles."""
     return metrics.snapshot()
@@ -103,8 +104,10 @@ async def operational_metrics() -> dict:
 # ── VAPI secret verification ──────────────────────────────────────────────────
 def _verify_vapi_secret(secret: str | None) -> None:
     """Reject requests that don't carry the VAPI shared secret."""
-    expected = os.getenv("VAPI_WEBHOOK_SECRET")
-    if expected and secret != expected:
+    expected = os.getenv("VAPI_WEBHOOK_SECRET", "").strip()
+    if not expected:
+        raise HTTPException(status_code=503, detail="Webhook authentication is not configured")
+    if not secret or not hmac.compare_digest(secret, expected):
         raise HTTPException(status_code=403, detail="Invalid VAPI webhook secret")
 
 

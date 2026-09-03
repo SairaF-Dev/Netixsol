@@ -19,11 +19,12 @@ from httpx import AsyncClient
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
 @pytest.fixture
-def client():
+def client(monkeypatch):
     """Test client for the VAPI webhook server."""
     # Import here to avoid path issues before session_manager is mocked
     from vapi_integration.webhook_server import app
-    return TestClient(app)
+    monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
+    return TestClient(app, headers={"x-vapi-secret": "test-secret"})
 
 
 @pytest.fixture
@@ -83,7 +84,7 @@ class TestWebhookSecurity:
         )
         assert resp.status_code == 200
 
-    def test_no_secret_required_when_env_not_set(self, client, mock_session_manager, monkeypatch):
+    def test_missing_server_secret_fails_closed(self, client, mock_session_manager, monkeypatch):
         monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
         payload = {
             "message": {
@@ -92,12 +93,12 @@ class TestWebhookSecurity:
             }
         }
         resp = client.post("/vapi/webhook", json=payload)
-        assert resp.status_code == 200
+        assert resp.status_code == 503
 
 
 class TestCallStart:
     def test_call_start_creates_session(self, client, mock_session_manager, monkeypatch):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "call-start",
@@ -117,7 +118,7 @@ class TestCallStart:
 
 class TestTranscript:
     def test_user_message_returns_sara_response(self, client, mock_session_manager, monkeypatch):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "transcript",
@@ -134,7 +135,7 @@ class TestTranscript:
         mock_session_manager.process_turn.assert_called_once()
 
     def test_assistant_transcript_is_ignored(self, client, mock_session_manager, monkeypatch):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "transcript",
@@ -149,7 +150,7 @@ class TestTranscript:
         mock_session_manager.process_turn.assert_not_called()
 
     def test_empty_transcript_is_ignored(self, client, mock_session_manager, monkeypatch):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "transcript",
@@ -166,7 +167,7 @@ class TestToolCalls:
     def test_current_vapi_tool_call_shape(
         self, client, mock_session_manager, mock_tool_handler, monkeypatch
     ):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "tool-calls",
@@ -195,7 +196,7 @@ class TestToolCalls:
     def test_book_appointment_tool_call(
         self, client, mock_session_manager, mock_tool_handler, monkeypatch
     ):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "tool-calls",
@@ -226,7 +227,7 @@ class TestToolCalls:
 
 class TestCallEnd:
     def test_end_of_call_closes_session(self, client, mock_session_manager, monkeypatch):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "end-of-call-report",
@@ -248,7 +249,7 @@ class TestCallEnd:
 
 class TestAssistantRequest:
     def test_assistant_request_returns_config(self, client, monkeypatch):
-        monkeypatch.delenv("VAPI_WEBHOOK_SECRET", raising=False)
+        monkeypatch.setenv("VAPI_WEBHOOK_SECRET", "test-secret")
         payload = {
             "message": {
                 "type": "assistant-request",

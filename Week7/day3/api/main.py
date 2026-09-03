@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import json
+import hmac
 import logging
 import os
 import sys
@@ -18,7 +19,9 @@ from fastapi import (
     UploadFile,
     WebSocket,
     WebSocketDisconnect,
+    Depends,
 )
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel, Field
 
@@ -72,6 +75,40 @@ from sara_agent.streaming_voice import (
 # ============================================================
 
 logger = logging.getLogger(__name__)
+
+bearer = HTTPBearer(auto_error=False)
+
+
+def require_api_key(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer),
+) -> None:
+    """Require the externally facing Sara API bearer credential."""
+    expected = os.getenv("SARA_API_KEY", "").strip()
+    if not expected:
+        raise HTTPException(503, "API authentication is not configured")
+    supplied = (
+        credentials.credentials
+        if credentials and credentials.scheme.lower() == "bearer"
+        else ""
+    )
+    if not hmac.compare_digest(supplied, expected):
+        raise HTTPException(
+            401,
+            "Invalid or missing API key",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+async def authenticate_websocket(ws: WebSocket) -> bool:
+    """Authenticate WebSockets via bearer header or browser query token."""
+    expected = os.getenv("SARA_API_KEY", "").strip()
+    authorization = ws.headers.get("authorization", "")
+    header_token = authorization[7:] if authorization.lower().startswith("bearer ") else ""
+    supplied = header_token or ws.query_params.get("access_token", "")
+    if not expected or not supplied or not hmac.compare_digest(supplied, expected):
+        await ws.close(code=1008, reason="Authentication required")
+        return False
+    return True
 
 
 # ============================================================
@@ -408,7 +445,7 @@ async def tts_test_page():
     )
 
 
-@app.get("/tts-test")
+@app.get("/tts-test", dependencies=[Depends(require_api_key)])
 async def tts_test(text: str = "Hello, this is a test"):
     """
     Generate MP3 audio from text using the configured TTS provider.
@@ -705,7 +742,7 @@ def ready():
 # ============================================================
 
 
-@app.post("/chat")
+@app.post("/chat", dependencies=[Depends(require_api_key)])
 async def chat(
     body: ChatIn,
 ):
@@ -764,7 +801,7 @@ async def chat(
 # ============================================================
 
 
-@app.post("/voice/turn")
+@app.post("/voice/turn", dependencies=[Depends(require_api_key)])
 async def voice_turn(
     file: UploadFile = File(...),
     session_id: str | None = Form(
@@ -929,6 +966,8 @@ async def ws_chat(
     Without a session_id a new session is created.
     """
 
+    if not await authenticate_websocket(ws):
+        return
     await ws.accept()
 
     requested_session_id = (
@@ -1098,6 +1137,8 @@ async def ws_voice(
         session_closed
     """
 
+    if not await authenticate_websocket(ws):
+        return
     await ws.accept()
 
     send_lock = asyncio.Lock()
