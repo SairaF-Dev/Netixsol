@@ -301,19 +301,51 @@ def _build_assistant_config() -> dict:
 
 
 def _load_system_prompt() -> str:
-    """Load Sara's system prompt from Day 1."""
+    """Load Sara's system prompt from Day 1 with dynamic date context."""
+    from datetime import datetime, timedelta
+
+    now = datetime.now()
+    today_str = now.strftime("%Y-%m-%d")
+    today_day = now.strftime("%A")
+    tomorrow = now + timedelta(days=1)
+    tomorrow_str = tomorrow.strftime("%Y-%m-%d")
+    tomorrow_day = tomorrow.strftime("%A")
+    day_after = now + timedelta(days=2)
+    day_after_str = day_after.strftime("%Y-%m-%d")
+    day_after_day = day_after.strftime("%A")
+
+    date_ctx = f"""
+
+---
+
+# DYNAMIC DATE & TIME REFERENCE (CRITICAL FOR RELATIVE DATES)
+
+Current Timezone: Pakistan Standard Time (PKT, UTC+5)
+Today ("aaj"): {today_str} ({today_day})
+Tomorrow ("kal"): {tomorrow_str} ({tomorrow_day})
+Day after tomorrow ("parso"): {day_after_str} ({day_after_day})
+
+DATE RESOLUTION RULES:
+- When customer says "kal" or "tomorrow", use date: {tomorrow_str} ({tomorrow_day}).
+- When customer says "aaj" or "today", use date: {today_str} ({today_day}).
+- When customer says "parso", use date: {day_after_str} ({day_after_day}).
+- When customer mentions day names (e.g. "this Friday", "Saturday ko"), calculate the date based on Today ({today_str}, {today_day}).
+
+Always pass ISO 8601 string for `starts_at` in tool calls, e.g. "{tomorrow_str}T14:00:00+05:00".
+"""
+
     prompt_path = os.path.join(
         os.path.dirname(__file__), "..", "..", "day1",
         "05_system_prompt", "system_prompt.md"
     )
     try:
         with open(prompt_path, encoding="utf-8") as f:
-            return f.read()
+            return f.read() + date_ctx
     except FileNotFoundError:
         return (
             "You are Sara, an AI real estate sales agent for RealEstate Hub. "
             "Speak in UrduLish (natural Pakistani Urdu mixed with English). "
-            "Be warm, professional, and helpful."
+            "Be warm, professional, and helpful." + date_ctx
         )
 
 

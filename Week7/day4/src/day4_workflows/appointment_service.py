@@ -12,19 +12,22 @@ class InvalidAppointmentState(RuntimeError): pass
 class AppointmentWorkflowService:
     def __init__(self, calendar: CalendarGateway, email: EmailGateway, crm: CRMRepository, publisher) -> None:
         self.calendar, self.email, self.crm, self.publisher = calendar, email, crm, publisher
+    def _resolve_calendar_id(self, req_cal_id: str) -> str:
+        import os
+        if req_cal_id and req_cal_id != "primary":
+            return req_cal_id
+        return os.getenv("GOOGLE_CALENDAR_ID", os.getenv("SMTP_USERNAME", "primary"))
+
     async def book(self, request: AppointmentRequest) -> WorkflowResult:
+        cal_id = self._resolve_calendar_id(request.employee_calendar_id)
         ends_at = request.starts_at + timedelta(minutes=request.duration_minutes)
-        if not await self.calendar.is_available(request.employee_calendar_id, request.starts_at, ends_at):
+        if not await self.calendar.is_available(cal_id, request.starts_at, ends_at):
             from .calendar_service import SlotUnavailable
             raise SlotUnavailable("The selected employee is not available at that time")
         now = datetime.now().astimezone()
         appointment = Appointment(request=request, status=AppointmentStatus.PENDING, created_at=now, updated_at=now)
         await self.crm.save_appointment(appointment)
-        # The service account owns the configured calendar. Adding an attendee
-        # requires Google Workspace domain-wide delegation and makes consumer
-        # Gmail/service-account bookings fail. Employee notification is sent
-        # separately through the email gateway.
-        event = CalendarEvent("", request.employee_calendar_id, f"Property visit: {request.property_name}", request.starts_at, ends_at, self._description(request), ())
+        event = CalendarEvent("", cal_id, f"Property visit: {request.property_name}", request.starts_at, ends_at, self._description(request), ())
         created = await self.calendar.create_event(event)
         appointment = appointment.model_copy(update={"status": AppointmentStatus.CONFIRMED, "calendar_event_id": created.event_id, "calendar_link": created.link, "updated_at": datetime.now().astimezone()})
         await self.crm.save_appointment(appointment); await self.crm.log_workflow_event(appointment.appointment_id, "booked", self._payload(appointment))
@@ -35,8 +38,9 @@ class AppointmentWorkflowService:
         if starts_at.tzinfo is None: raise ValueError("starts_at must include a timezone offset")
         appointment = await self.crm.get_appointment(appointment_id)
         if appointment.status == AppointmentStatus.CANCELLED or not appointment.calendar_event_id: raise InvalidAppointmentState("A cancelled or unconfirmed appointment cannot be rescheduled")
+        cal_id = self._resolve_calendar_id(appointment.request.employee_calendar_id)
         old = appointment.request.starts_at; ends_at = starts_at + timedelta(minutes=appointment.request.duration_minutes)
-        await self.calendar.reschedule_event(appointment.request.employee_calendar_id, appointment.calendar_event_id, starts_at, ends_at)
+        await self.calendar.reschedule_event(cal_id, appointment.calendar_event_id, starts_at, ends_at)
         request = appointment.request.model_copy(update={"starts_at": starts_at})
         appointment = appointment.model_copy(update={"request": request, "status": AppointmentStatus.RESCHEDULED, "previous_starts_at": old, "updated_at": datetime.now().astimezone()})
         await self.crm.save_appointment(appointment); await self.crm.log_workflow_event(appointment_id, "rescheduled", self._payload(appointment))
@@ -46,8 +50,8 @@ class AppointmentWorkflowService:
     async def cancel(self, appointment_id: UUID) -> WorkflowResult:
         appointment = await self.crm.get_appointment(appointment_id)
         if appointment.status == AppointmentStatus.CANCELLED: raise InvalidAppointmentState("Appointment is already cancelled")
-        if not appointment.calendar_event_id: raise InvalidAppointmentState("Appointment has no confirmed calendar event")
-        await self.calendar.cancel_event(appointment.request.employee_calendar_id, appointment.calendar_event_id)
+        cal_id = self._resolve_calendar_id(appointment.request.employee_calendar_id)
+        await self.calendar.cancel_event(cal_id, appointment.calendar_event_id)
         appointment = appointment.model_copy(update={"status": AppointmentStatus.CANCELLED, "updated_at": datetime.now().astimezone()})
         await self.crm.save_appointment(appointment); await self.crm.log_workflow_event(appointment_id, "cancelled", self._payload(appointment))
         warnings, sent = await self._notify(appointment, "cancelled")

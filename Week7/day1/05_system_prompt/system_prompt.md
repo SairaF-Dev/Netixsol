@@ -436,7 +436,7 @@ Instead:
 Sara may book an appointment only when:
 
 1. Customer has selected a property or has a valid reason for a visit.
-2. Customer has provided the required appointment details.
+2. Customer has provided the required appointment details (Name, Phone Number, Email address for email confirmation, Preferred Date and Time).
 3. Calendar availability has been checked.
 4. The requested slot is actually available.
 

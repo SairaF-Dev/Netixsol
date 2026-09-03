@@ -55,7 +55,7 @@ class VapiToolHandler:
         # Calendar + SMTP may legitimately take longer than a simple DB call.
         # Keep this below Vapi's server timeout while allowing the core Day 4
         # workflow enough time to return its confirmed result.
-        self.timeout = 30.0
+        self.timeout = 300.0
         
         # Initialize PostgreSQL repository for property searches
         # This is the single source of truth for property facts
@@ -132,19 +132,74 @@ class VapiToolHandler:
         logger.info("Tool '%s' completed in %.1f ms", tool_name, elapsed_ms)
         return result
 
+    def _get_assigned_agent(self, property_id: str) -> tuple[str, str]:
+        """
+        Lookup assigned real estate agent name and email.
+        Tries PostgresPropertyRepository.get_agents_for_property() (Day 2) first, with CSV fallback.
+        Returns (agent_name, agent_email).
+        """
+        default_email = os.getenv("EMPLOYEE_EMAIL", os.getenv("SMTP_USERNAME", "sairafatima193@gmail.com"))
+        default_name = "Sara AI Agent"
+
+        if not property_id:
+            return default_name, default_email
+
+        # 1. Try PostgresPropertyRepository (Day 2) if initialized
+        if self.repository is not None:
+            try:
+                agents = self.repository.get_agents_for_property(str(property_id))
+                if agents and len(agents) > 0:
+                    first_agent = agents[0]
+                    agent_name = first_agent.get("name") or first_agent.get("agent_name") or default_name
+                    logger.info("Postgres agent lookup success for %s: %s", property_id, agent_name)
+                    return agent_name, default_email
+            except Exception as e:
+                logger.warning("Postgres agent lookup failed for %s: %s", property_id, e)
+
+        # 2. Fallback to raw CSV lookup if Postgres repo unavailable
+        import csv
+        base_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "..", "day2", "01_knowledge_base")
+        )
+        ap_file = os.path.join(base_dir, "agent_properties.csv")
+        agent_file = os.path.join(base_dir, "agents.csv")
+
+        if not os.path.exists(ap_file) or not os.path.exists(agent_file):
+            return default_name, default_email
+
+        agent_id = None
+        with open(ap_file, mode="r", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if str(row.get("property_id", "")).strip().lower() == str(property_id).strip().lower():
+                    agent_id = row.get("agent_id", "").strip()
+                    break
+
+        if not agent_id:
+            return default_name, default_email
+
+        with open(agent_file, mode="r", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if str(row.get("agent_id", "")).strip().lower() == agent_id.lower():
+                    return row.get("name", default_name), default_email
+
+        return default_name, default_email
+
     # ── book_appointment ──────────────────────────────────────────────────────
     async def _book_appointment(self, args: dict, session: Any) -> str:
+        pid = args.get("property_id", "")
+        emp_name, emp_email = self._get_assigned_agent(pid)
+
         payload = {
             "client_name": args.get("client_name", ""),
             "client_phone": args.get("client_phone", ""),
             "client_email": args.get("client_email"),
-            "employee_name": "Sara AI Agent",
-            "employee_email": "sara@realestatehub.pk",
-            "property_id": args.get("property_id", ""),
+            "employee_name": emp_name,
+            "employee_email": emp_email,
+            "property_id": pid,
             "property_name": args.get("property_name", "Property"),
             "starts_at": args.get("starts_at", ""),
             "duration_minutes": 60,
-            "meeting_notes": args.get("meeting_notes", "Booked via phone call through Sara AI"),
+            "meeting_notes": args.get("meeting_notes", f"Assigned Agent: {emp_name}. Booked via phone call through Sara AI"),
         }
 
         resp = await self._appointment_request("book", payload=payload)
