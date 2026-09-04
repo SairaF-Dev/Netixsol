@@ -27,6 +27,11 @@ from decimal import Decimal
 from typing import Any, Optional
 
 from vapi_integration.metrics import metrics
+from vapi_integration.customer_learning import (
+    CustomerPreferenceRepository,
+    ExplainablePreferenceRanker,
+    customer_key_for_phone,
+)
 
 import httpx
 
@@ -70,6 +75,13 @@ class VapiToolHandler:
         except Exception as e:
             logger.error("Failed to initialize PostgresPropertyRepository: %s", e)
             # Continue without repository; search_properties will handle gracefully
+
+        self.preference_repository = None
+        try:
+            self.preference_repository = CustomerPreferenceRepository()
+        except Exception as e:
+            logger.info("Customer preference profiles unavailable: %s", e)
+        self.preference_ranker = ExplainablePreferenceRanker()
 
     async def _appointment_request(
         self,
@@ -118,7 +130,9 @@ class VapiToolHandler:
             elif tool_name == "cancel_appointment":
                 result = await self._cancel_appointment(arguments)
             elif tool_name == "search_properties":
-                result = await self._search_properties(arguments)
+                result = await self._search_properties(arguments, session=session)
+            elif tool_name == "list_available_locations":
+                result = await self._list_available_locations()
             else:
                 result = f"Tool '{tool_name}' is not supported yet."
 
@@ -304,7 +318,7 @@ class VapiToolHandler:
         else:
             return "Cancel karne mein masla aa gaya. Dobara try karein."
 
-    async def _search_properties(self, args: dict) -> str:
+    async def _search_properties(self, args: dict, session: Any = None) -> str:
         """
         Search properties using PostgreSQL (single source of truth).
 
@@ -388,6 +402,20 @@ class VapiToolHandler:
                 limit=10,  # Get more than top 3 for flexibility
             )
 
+            profile = None
+            if self.preference_repository is not None and session is not None:
+                try:
+                    customer_key = customer_key_for_phone(session.caller_phone)
+                    if customer_key:
+                        profile = await asyncio.to_thread(
+                            self.preference_repository.get,
+                            customer_key,
+                        )
+                except Exception as profile_error:
+                    logger.warning("Preference profile lookup failed: %s", profile_error)
+            if profile is not None:
+                results = self.preference_ranker.rank(results, profile)
+
             if not results:
                 logger.info("No properties found for filters: %s", args)
                 return (
@@ -418,6 +446,33 @@ class VapiToolHandler:
                 "Kripya thori der baad dobara try karein ya "
                 "representative se rabta karein."
             )
+
+    async def _list_available_locations(self) -> str:
+        """List cities from currently available, verified PostgreSQL inventory."""
+        if not self.repository:
+            logger.error("PostgreSQL repository not initialized")
+            return (
+                "Abhi property database se connection nahi ban pa raha, is liye "
+                "main available cities verify nahi kar sakti."
+            )
+
+        try:
+            cities = await asyncio.to_thread(self.repository.list_available_cities)
+        except Exception as exc:
+            logger.exception("Available-city lookup failed: %s", exc)
+            return (
+                "Available cities verify karne mein masla aa gaya. "
+                "Please thori der baad dobara try karein."
+            )
+
+        if not cities:
+            return "Database mein is waqt koi verified available city nahi mili."
+
+        city_list = ", ".join(cities)
+        return (
+            f"Verified available cities ({len(cities)}): {city_list}. "
+            "Sirf isi list ke shehron ka naam customer ko batayen; koi aur city add na karein."
+        )
 
     def _format_property_results(self, properties: list[dict]) -> str:
         """

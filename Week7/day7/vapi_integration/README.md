@@ -196,6 +196,13 @@ pytest tests/ -v
 
 ## Monitoring
 
+## Continuous learning
+
+Sara can optionally collect redacted, unreviewed call records for an offline
+improvement loop. See [CONTINUOUS_LEARNING.md](CONTINUOUS_LEARNING.md) before
+enabling it; raw calls must be reviewed and labeled before they are used for
+evaluation or fine-tuning.
+
 ```powershell
 # Live logs
 uvicorn webhook_server:app --port 8007 --log-level info

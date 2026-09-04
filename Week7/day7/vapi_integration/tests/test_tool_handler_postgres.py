@@ -107,6 +107,54 @@ class TestPropertySearchPostgres:
         mock_to_thread.assert_called_once()
 
     @pytest.mark.asyncio
+    async def test_list_available_locations_uses_verified_database(self, handler):
+        handler.repository.list_available_cities = Mock(
+            return_value=["Islamabad", "Lahore"]
+        )
+
+        result = await handler.execute(
+            "list_available_locations", {}, "call-city-options"
+        )
+
+        assert "Islamabad, Lahore" in result
+        assert "Karachi" not in result
+        handler.repository.list_available_cities.assert_called_once_with()
+
+    @pytest.mark.asyncio
+    async def test_list_available_locations_does_not_guess_on_empty_data(self, handler):
+        handler.repository.list_available_cities = Mock(return_value=[])
+
+        result = await handler._list_available_locations()
+
+        assert "koi verified available city nahi mili" in result
+
+    @pytest.mark.asyncio
+    async def test_search_properties_re_ranks_verified_candidates_with_profile(self, handler):
+        """ML may change ordering, but only after PostgreSQL returns candidates."""
+        candidates = [
+            {"property_id": "p2", "property_name": "Second", "city": "Lahore", "area": "DHA", "price": 40_000_000},
+            {"property_id": "p1", "property_name": "First", "city": "Lahore", "area": "DHA Phase 6", "price": 40_000_000},
+        ]
+        handler.repository.search = Mock(return_value=candidates)
+        handler.preference_repository = Mock()
+        handler.preference_repository.get = Mock(return_value=__import__(
+            "vapi_integration.customer_learning", fromlist=["PreferenceProfile"]
+        ).PreferenceProfile(customer_key="c", city="Lahore", area="DHA Phase 6"))
+
+        session = Mock(caller_phone="+923001234567")
+        with patch.dict(os.environ, {"SARA_CUSTOMER_HASH_SALT": "test-salt"}), patch("tool_handler.asyncio.to_thread") as mock_to_thread:
+            async def mock_thread(function, *args, **kwargs):
+                if function == handler.repository.search:
+                    return candidates
+                return handler.preference_repository.get(*args, **kwargs)
+
+            mock_to_thread.side_effect = mock_thread
+            result = await handler._search_properties({"location": "Lahore", "max_price": 50_000_000}, session=session)
+
+        assert "1. First" in result
+        assert "2. Second" in result
+
+    @pytest.mark.asyncio
     async def test_search_properties_no_results(self, handler):
         """Test property search with no matching results."""
         handler.repository.search = Mock(return_value=[])

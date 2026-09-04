@@ -9,6 +9,10 @@ day4/n8n/*.log
 **/.env
 **/.env.*
 
+# Conversation learning records may contain sensitive customer context.
+data/learning/*.jsonl
+day7/vapi_integration/data/learning/*.jsonl
+
 # Keep sanitized configuration templates in version control.
 !.env.example
 !**/.env.example
