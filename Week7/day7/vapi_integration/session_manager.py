@@ -24,6 +24,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from vapi_integration.guardrails import OffTopicGuardrail
+from vapi_integration.learning import LearningRecordStore
 from vapi_integration.metrics import metrics
 
 logger = logging.getLogger("vapi.sessions")
@@ -71,6 +72,7 @@ class VapiSessionManager:
         self._intent_classifier = None
         self._speech_gen = None
         self._off_topic_guardrail = OffTopicGuardrail()
+        self._learning_store = LearningRecordStore()
 
     def active_count(self) -> int:
         return len(self._sessions)
@@ -310,6 +312,24 @@ class VapiSessionManager:
             session.turn_count,
             datetime.now(timezone.utc) - session.created_at,
         )
+
+        try:
+            messages = (
+                list(getattr(session.sara_state, "messages", []))
+                if session.sara_state is not None
+                else session.messages
+            )
+            self._learning_store.record(
+                call_id=session.call_id,
+                caller_phone=session.caller_phone,
+                created_at=session.created_at,
+                turn_count=session.turn_count,
+                messages=messages,
+                summary=summary,
+                transcript=transcript,
+            )
+        except Exception as e:
+            logger.warning("Learning record failed for %s: %s", call_id, e)
 
         # ── Log to Day 4 CRM via n8n webhook (fire and forget) ───────────────
         try:

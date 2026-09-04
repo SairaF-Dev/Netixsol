@@ -453,6 +453,18 @@ def _get_sara_tools() -> list[dict]:
         {
             "type": "function",
             "function": {
+                "name": "list_available_locations",
+                "description": (
+                    "Database se woh cities verify karo jahan is waqt available properties hain. "
+                    "Whenever the customer asks which cities/locations/options are available, "
+                    "call this before naming any city."
+                ),
+                "parameters": {"type": "object", "properties": {}},
+            },
+        },
+        {
+            "type": "function",
+            "function": {
                 "name": "search_properties",
                 "description": (
                     "Customer ki requirements ke mutabiq properties dhoondo. "

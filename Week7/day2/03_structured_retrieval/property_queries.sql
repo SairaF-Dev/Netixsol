@@ -17,6 +17,16 @@
 --   9. property_agents
 
 -- ============================================================
+-- QUERY: available_cities
+SELECT DISTINCT l.city
+FROM properties p
+JOIN locations l ON l.location_id = p.location_id
+JOIN prices pr ON pr.property_id = p.property_id
+WHERE p.available = TRUE
+  AND pr.verification_status = 'Verified'
+  AND NULLIF(TRIM(l.city), '') IS NOT NULL
+ORDER BY l.city;
+
 -- QUERY: exact_property
 -- ============================================================
 

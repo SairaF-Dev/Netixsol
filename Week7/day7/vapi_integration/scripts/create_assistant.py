@@ -401,6 +401,12 @@ Never fabricate tool outputs.
 
 Never claim that you accessed, changed, booked, rescheduled, cancelled, or updated something unless the appropriate tool confirms it.
 
+CITY AND LOCATION VERIFICATION RULE:
+- Never list or claim supported/available cities, areas, or locations from memory or general knowledge.
+- If the caller asks which cities or locations have properties available, call list_available_locations first.
+- Mention only cities/areas returned by the latest tool result.
+- Do not infer availability from the system prompt, examples, CSV knowledge, or previous conversations.
+- If no verified locations are returned, clearly say that no verified options were found.
 ---
 
 ## 16. PRIVACY
@@ -577,6 +583,14 @@ assistant_payload = {
                         },
                         "required": ["appointment_id"],
                     },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "list_available_locations",
+                    "description": "Verified database se currently available property cities list karo",
+                    "parameters": {"type": "object", "properties": {}},
                 },
             },
             {

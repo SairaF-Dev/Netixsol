@@ -96,6 +96,8 @@ def main() -> None:
             "natural UrduLish and ask whether the caller wants to adjust criteria.\n"
             "- Never promise that you are searching without actually calling the tool.\n"
             "- Preserve property IDs from tool results for appointment booking."
+            "\n- If asked which cities or locations are available, call "
+            "list_available_locations before naming any city and repeat only its results."
         )
         if messages and "VERIFIED PROPERTY DATA RULES:" not in messages[0].get("content", ""):
             messages[0]["content"] = messages[0].get("content", "") + retrieval_rules

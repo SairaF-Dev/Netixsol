@@ -52,6 +52,7 @@ class PostgresPropertyRepository:
         "rental_search",
         "agent_lookup",
         "property_agents",
+        "available_cities",
     }
 
     DEFAULT_SEARCH_LIMIT = 20
@@ -524,6 +525,15 @@ class PostgresPropertyRepository:
     # ------------------------------------------------------------------
     # Structured search
     # ------------------------------------------------------------------
+
+    def list_available_cities(self) -> list[str]:
+        """Return distinct cities that currently have verified available inventory."""
+        query = self._get_query("available_cities")
+
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                return [str(row[0]).strip() for row in cur.fetchall() if row[0]]
 
     def search(
         self,
