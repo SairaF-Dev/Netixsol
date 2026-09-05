@@ -32,6 +32,8 @@ from vapi_integration.customer_learning import (
     ExplainablePreferenceRanker,
     customer_key_for_phone,
 )
+from vapi_integration.interaction_repository import InteractionRepository
+from ml.model_service import PropertyPreferenceModelService
 
 import httpx
 
@@ -54,7 +56,7 @@ except ImportError as e:
 class VapiToolHandler:
     """Executes Sara's tools by calling Day 4 appointment API and PostgreSQL."""
 
-    def __init__(self, day4_api_url: str = "http://localhost:8004") -> None:
+    def __init__(self, day4_api_url: str = "http://localhost:8004", interaction_repository=None) -> None:
         self.day4_url = day4_api_url.rstrip("/")
         self.day4_api_key = os.getenv("DAY4_API_KEY", "").strip()
         self.n8n_appointment_url = os.getenv("N8N_APPOINTMENT_WEBHOOK_URL", "").rstrip("/")
@@ -82,6 +84,12 @@ class VapiToolHandler:
         except Exception as e:
             logger.info("Customer preference profiles unavailable: %s", e)
         self.preference_ranker = ExplainablePreferenceRanker()
+        self.ml_ranker = PropertyPreferenceModelService()
+        try:
+            self.interaction_repository = interaction_repository or InteractionRepository()
+        except Exception as e:
+            logger.info("Interaction persistence unavailable: %s", e)
+            self.interaction_repository = None
 
     async def _appointment_request(
         self,
@@ -128,7 +136,7 @@ class VapiToolHandler:
             elif tool_name == "reschedule_appointment":
                 result = await self._reschedule_appointment(arguments)
             elif tool_name == "cancel_appointment":
-                result = await self._cancel_appointment(arguments)
+                result = await self._cancel_appointment(arguments, session)
             elif tool_name == "search_properties":
                 result = await self._search_properties(arguments, session=session)
             elif tool_name == "list_available_locations":
@@ -238,6 +246,14 @@ class VapiToolHandler:
             # Save appointment ID to session for future reschedule/cancel
             if session:
                 session.appointment_id = apt_id
+                session.appointment_property_id = pid
+                await self._record_interaction(
+                    session,
+                    property_id=pid,
+                    action="appointment_booked",
+                    preference_snapshot=getattr(session, "preference_snapshot", None),
+                    property_snapshot=getattr(session, "property_snapshots", {}).get(pid),
+                )
 
             notification_text = (
                 "Email notification bhi bhej di gayi hai."
@@ -296,7 +312,7 @@ class VapiToolHandler:
             return "Reschedule mein masla aa gaya. Dobara try karein please."
 
     # ── cancel_appointment ────────────────────────────────────────────────────
-    async def _cancel_appointment(self, args: dict) -> str:
+    async def _cancel_appointment(self, args: dict, session: Any = None) -> str:
         apt_id = args.get("appointment_id", "")
 
         if not apt_id:
@@ -308,6 +324,14 @@ class VapiToolHandler:
         resp = await self._appointment_request("cancel", payload={}, appointment_id=apt_id)
 
         if resp.status_code == 200:
+            if session and getattr(session, "appointment_property_id", None):
+                await self._record_interaction(
+                    session,
+                    property_id=session.appointment_property_id,
+                    action="appointment_cancelled",
+                    preference_snapshot=getattr(session, "preference_snapshot", None),
+                    property_snapshot=getattr(session, "property_snapshots", {}).get(session.appointment_property_id),
+                )
             return (
                 "Appointment cancel ho gayi. "
                 "Cancellation confirmation email bhi bhej di gayi hai. "
@@ -416,6 +440,13 @@ class VapiToolHandler:
             if profile is not None:
                 results = self.preference_ranker.rank(results, profile)
 
+            runtime_profile = None
+            if session is not None:
+                runtime_profile = getattr(
+                    getattr(session, "sara_state", None), "user_profile", None
+                )
+            results = self.ml_ranker.rank_properties(results, runtime_profile)
+
             if not results:
                 logger.info("No properties found for filters: %s", args)
                 return (
@@ -427,7 +458,29 @@ class VapiToolHandler:
                 )
 
             # Format top 3 results for Sara to speak
-            formatted_results = self._format_property_results(results[:3])
+            presented_results = results[:3]
+            if session:
+                presented_ids = [
+                    str(item["property_id"])
+                    for item in presented_results
+                    if item.get("property_id")
+                ]
+                session.shown_property_ids = presented_ids
+                session.latest_recommended_property_order = list(presented_ids)
+                session.preference_snapshot = self._preference_snapshot(session)
+                if not isinstance(getattr(session, "property_snapshots", None), dict):
+                    session.property_snapshots = {}
+                for property_id in presented_ids:
+                    property = next(item for item in presented_results if str(item.get("property_id")) == property_id)
+                    session.property_snapshots[property_id] = self._property_snapshot(property)
+                    await self._record_interaction(
+                        session,
+                        property_id=property_id,
+                        action="shown",
+                        preference_snapshot=session.preference_snapshot,
+                        property_snapshot=session.property_snapshots[property_id],
+                    )
+            formatted_results = self._format_property_results(presented_results)
 
             response = (
                 f"Found {len(results)} verified properties matching aapki requirements. "
@@ -446,6 +499,74 @@ class VapiToolHandler:
                 "Kripya thori der baad dobara try karein ya "
                 "representative se rabta karein."
             )
+
+    async def _record_interaction(
+        self,
+        session: Any,
+        *,
+        property_id: str,
+        action: str,
+        reason: str | None = None,
+        metadata: dict | None = None,
+        preference_snapshot: dict | None = None,
+        property_snapshot: dict | None = None,
+    ) -> None:
+        if not session or not getattr(session, "customer_id", None) or not self.interaction_repository:
+            return
+        try:
+            await asyncio.to_thread(
+                self.interaction_repository.record_interaction,
+                customer_id=session.customer_id,
+                conversation_id=session.call_id,
+                property_id=property_id,
+                action=action,
+                reason=reason,
+                metadata=metadata,
+                preference_snapshot=preference_snapshot,
+                property_snapshot=property_snapshot,
+            )
+        except Exception as exc:
+            logger.warning(
+                "Interaction persistence failed for customer_id=%s action=%s: %s",
+                session.customer_id,
+                action,
+                exc,
+            )
+
+    @staticmethod
+    def _preference_snapshot(session: Any) -> dict:
+        profile = getattr(getattr(session, "sara_state", None), "user_profile", None)
+        if profile is None:
+            return {}
+        amenities = getattr(profile, "amenities_preferred", [])
+        if not isinstance(amenities, (list, tuple, set)):
+            amenities = []
+        return {
+            "city": getattr(profile, "city", None),
+            "area": getattr(profile, "area", None),
+            "budget_min": None,
+            "budget_max": getattr(profile, "budget", None),
+            "bedrooms": getattr(profile, "bedrooms", None),
+            "property_type": getattr(profile, "property_type", None),
+            "purpose": getattr(profile, "purpose", None),
+            "amenities": list(amenities),
+        }
+
+    @staticmethod
+    def _property_snapshot(property_data: dict) -> dict:
+        price = property_data.get("price")
+        if isinstance(price, Decimal):
+            price = float(price)
+        return {
+            "property_id": str(property_data.get("property_id")),
+            "city": property_data.get("city"),
+            "area": property_data.get("area"),
+            "price": price,
+            "bedrooms": property_data.get("bedrooms"),
+            "property_type": property_data.get("property_type"),
+            "purpose": property_data.get("purpose"),
+            "amenities": list(property_data.get("amenities") or []),
+        }
 
     async def _list_available_locations(self) -> str:
         """List cities from currently available, verified PostgreSQL inventory."""

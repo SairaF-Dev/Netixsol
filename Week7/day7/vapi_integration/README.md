@@ -36,6 +36,38 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+## Persistent customer identity (Phase 1)
+
+Apply the additive customer migration before enabling PostgreSQL-backed
+identity resolution:
+
+```powershell
+psql $env:DATABASE_URL -f customer_schema.sql
+```
+
+At VAPI call start, a valid `call.customer.number` is normalized to the
+Pakistani international format, used to find or create a customer UUID, and
+used to load that customer's saved preferences into Sara's new `UserProfile`.
+Missing or invalid caller numbers leave the session unidentified, which keeps
+Talk-button/browser tests from being forced to collect a phone number. Newly
+extracted preference persistence is the next phase; this phase provides the
+repositories and cross-session loading path.
+
+## Human-test data collection UI
+
+For identified development customers and explicit property feedback, run the
+separate internal collector from the `day7` directory:
+
+```powershell
+cd day7
+streamlit run dev_data_collection_app.py --server.port 8510
+```
+
+The UI uses the existing customer, preference, verified-property, and
+interaction repositories. It records `shown` only for rendered results and
+requires an explicit Like, Reject, or Shortlist click for outcomes. It does
+not train or load an ML model and does not write synthetic rows.
+
 ---
 
 ## Step 2 — VAPI Account Setup

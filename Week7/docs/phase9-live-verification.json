@@ -1,0 +1,20 @@
+{
+  "two_workers": [
+    8010,
+    8011
+  ],
+  "real_postgres": true,
+  "real_shared_nlu": true,
+  "isolated_fixture_listings": true,
+  "preference_hydration": true,
+  "preferences_3_to_4_crore": true,
+  "second_property_exact_feedback": true,
+  "shown_membership": true,
+  "historical_snapshots_preserved": true,
+  "new_session_new_budget": true,
+  "cross_user_denial": 404,
+  "bounded_context_across_workers": true,
+  "purpose_clarification_added": true,
+  "result": "passed",
+  "workers_stopped_and_schema_removed": true
+}
