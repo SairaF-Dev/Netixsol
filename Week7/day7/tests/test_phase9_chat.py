@@ -1,4 +1,4 @@
-﻿from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager
 from copy import deepcopy
 from types import SimpleNamespace
 from uuid import uuid4
@@ -266,3 +266,10 @@ def test_malformed_full_nlu_json_has_one_bounded_retry():
     outputs=iter(['bad','bad']); calls.clear()
     with pytest.raises(UnderstandingError): service.understand('hello',context={})
     assert len(calls)==2
+
+
+def test_app_dotenv_loads_day3_nlu_configuration():
+    from web_api.app import DAY3_ROOT, create_app
+    assert (DAY3_ROOT / ".env").exists()
+    app = create_app()
+    assert app is not None

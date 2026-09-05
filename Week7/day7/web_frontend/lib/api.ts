@@ -16,23 +16,76 @@ function validationMessage(detail: unknown): string {
   return typeof detail === "string" ? detail : "The request could not be completed.";
 }
 
+function combineHeaders(initHeaders?: HeadersInit, csrf?: string | null): Record<string, string> {
+  const result: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (initHeaders) {
+    if (initHeaders instanceof Headers) {
+      initHeaders.forEach((value, key) => {
+        result[key] = value;
+      });
+    } else if (Array.isArray(initHeaders)) {
+      for (const [key, value] of initHeaders) {
+        result[key] = value;
+      }
+    } else if (typeof initHeaders === "object") {
+      for (const [key, value] of Object.entries(initHeaders)) {
+        if (value !== undefined) {
+          result[key] = String(value);
+        }
+      }
+    }
+  }
+
+  for (const key of Object.keys(result)) {
+    if (key.toLowerCase() === "x-csrf-token") {
+      delete result[key];
+    }
+  }
+
+  if (csrf) {
+    result["X-CSRF-Token"] = csrf;
+  }
+
+  return result;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`${API_URL}${path}`, { ...init, credentials: "include", headers: { "Content-Type": "application/json", ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}), ...init?.headers } });
-    if (response.status === 403 && !csrfToken && !["GET", "HEAD", "OPTIONS"].includes((init?.method || "GET").toUpperCase())) {
+    const headers = combineHeaders(init?.headers, csrfToken);
+    response = await fetch(`${API_URL}${path}`, { ...init, credentials: "include", headers });
+
+    if (response.status === 403 && !["GET", "HEAD", "OPTIONS"].includes((init?.method || "GET").toUpperCase())) {
       const rejected = await response.clone().json().catch(() => ({}));
       if (rejected.detail === "CSRF validation failed") {
-        const csrf = await fetch(`${API_URL}/api/auth/csrf`, { credentials: "include" });
-        if (csrf.ok) csrfToken = String((await csrf.json()).csrf_token || "") || null;
-        if (csrfToken) response = await fetch(`${API_URL}${path}`, { ...init, credentials: "include", headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken, ...init?.headers } });
+        const csrfRes = await fetch(`${API_URL}/api/auth/csrf`, { credentials: "include" });
+        if (csrfRes.ok) {
+          const data = await csrfRes.json().catch(() => ({}));
+          const token = typeof data.csrf_token === "string" && data.csrf_token ? data.csrf_token : (typeof data.csrfToken === "string" ? data.csrfToken : null);
+          if (token) {
+            csrfToken = token;
+            const retryHeaders = combineHeaders(init?.headers, csrfToken);
+            response = await fetch(`${API_URL}${path}`, { ...init, credentials: "include", headers: retryHeaders });
+          }
+        }
       }
     }
   } catch {
     throw new ApiError("Could not reach Sara backend. Please check that it is running.");
   }
   const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new ApiError(validationMessage(body.detail), response.status);
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new ApiError(typeof body.detail === "string" && body.detail ? body.detail : "Authentication required. Please sign in to continue.", 401);
+    }
+    if (response.status === 403) {
+      throw new ApiError(typeof body.detail === "string" && body.detail ? body.detail : "Security request validation failed.", 403);
+    }
+    throw new ApiError(validationMessage(body.detail), response.status);
+  }
   return body as T;
 }
 

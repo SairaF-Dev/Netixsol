@@ -14,9 +14,15 @@ from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 
 DAY7_ROOT = Path(__file__).resolve().parents[1]
-DAY2_REPOSITORY = DAY7_ROOT.parent / "day2" / "03_structured_retrieval"
+DAY3_ROOT = DAY7_ROOT.parent / "day3"
+DAY2_ROOT = DAY7_ROOT.parent / "day2"
+DAY2_REPOSITORY = DAY2_ROOT / "03_structured_retrieval"
 load_dotenv(DAY7_ROOT / "vapi_integration" / ".env", override=False)
-for path in (str(DAY7_ROOT), str(DAY2_REPOSITORY)):
+if (DAY3_ROOT / ".env").exists():
+    load_dotenv(DAY3_ROOT / ".env", override=False)
+if (DAY2_ROOT / ".env").exists():
+    load_dotenv(DAY2_ROOT / ".env", override=False)
+for path in (str(DAY7_ROOT), str(DAY3_ROOT), str(DAY2_REPOSITORY)):
     if path not in sys.path:
         sys.path.insert(0, path)
 
@@ -55,9 +61,6 @@ def create_app(services: WebServices | None = None) -> FastAPI:
     )
     if services:
         app.state.services = services
-    origins = [value.strip() for value in os.getenv("SARA_WEB_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",") if value.strip()]
-    app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type", "X-CSRF-Token"])
-
     @app.middleware("http")
     async def csrf_protection(request: Request, call_next):
         exempt = {"/api/auth/login", "/api/auth/register"}
@@ -69,6 +72,15 @@ def create_app(services: WebServices | None = None) -> FastAPI:
             if token and validator and not await asyncio.to_thread(validator, token, request.headers.get("X-CSRF-Token")):
                 return JSONResponse(status_code=403, content={"detail": "CSRF validation failed"})
         return await call_next(request)
+
+    origins = [value.strip() for value in os.getenv("SARA_WEB_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",") if value.strip()]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     @app.exception_handler(Exception)
     async def unhandled_error(_request: Request, _exc: Exception):
