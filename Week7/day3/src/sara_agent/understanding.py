@@ -68,6 +68,13 @@ COMP_OPS = {
     "eq",
 }
 
+INTERACTION_ACTIONS = {
+    None,
+    "liked",
+    "rejected",
+    "shortlisted",
+}
+
 
 # These are schema vocabulary aliases, not business/property data.
 PROPERTY_TYPE_ALIASES = {
@@ -123,8 +130,10 @@ class UserUnderstandingService:
         self,
         client=None,
         model: str | None = None,
+        deterministic_first: bool = True,
     ):
         load_dotenv()
+        self.deterministic_first = deterministic_first
         self.edge = EdgeCasePolicy()
 
         self.model = (
@@ -141,6 +150,10 @@ class UserUnderstandingService:
             minimum=120,
             maximum=900,
         )
+        if not deterministic_first:
+            # Full structured turns include location, references and workflow
+            # slots; a voice-sized completion budget can truncate their JSON.
+            self.max_tokens = max(self.max_tokens, 700)
 
         self.timeout_seconds = self._env_float(
             "SARA_LLM_TIMEOUT_SECONDS",
@@ -212,7 +225,7 @@ class UserUnderstandingService:
             context=context or {},
         )
 
-        if deterministic is not None:
+        if deterministic is not None and self.deterministic_first:
             # Deterministic rich-turn parsing may return before the normal
             # post-LLM repair pipeline. Still apply explicit relaxation
             # language such as "area ka issue nahi" / "area flexible hai".
@@ -229,26 +242,30 @@ class UserUnderstandingService:
         }
 
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                temperature=0,
-                max_tokens=self.max_tokens,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": self._system_prompt(),
-                    },
-                    {
-                        "role": "user",
-                        "content": json.dumps(payload, ensure_ascii=False),
-                    },
-                ],
-            )
-
-            content = response.choices[0].message.content or ""
-            parsed = self._parse_json(content)
+            attempts = 1 if self.deterministic_first else 2
+            for attempt in range(attempts):
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    temperature=0,
+                    max_tokens=self.max_tokens,
+                    messages=[
+                        {"role": "system", "content": self._system_prompt()},
+                        {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+                    ],
+                )
+                content = response.choices[0].message.content or ""
+                try:
+                    parsed = self._parse_json(content)
+                    break
+                except (ValueError, json.JSONDecodeError):
+                    # One bounded retry of the same shared prompt for malformed
+                    # structured output. No partial extraction or tool effects.
+                    if attempt + 1 == attempts:
+                        raise
 
         except Exception as exc:
+            if not self.deterministic_first:
+                raise UnderstandingError("semantic understanding failed") from exc
             fallback = self._deterministic_understanding(
                 message=semantic_message,
                 context=context or {},
@@ -1141,6 +1158,10 @@ Schema:
   "relax": [],
   "reference_type": null,
   "selected_index": null,
+    "interaction_action": null,
+    "interaction_property_id": null,
+  "appointment_id": null,
+  "starts_at": null,
   "comparison": {
     "field": null,
     "operator": null,
@@ -1152,6 +1173,13 @@ Schema:
 }
 
 Allowed intents:
+
+For appointment requests extract appointment_id only when explicitly supplied.
+Extract starts_at as an ISO 8601 date/time with timezone only when the user
+supplies an unambiguous date and time. Use context.current_date and
+context.timezone for relative dates. Never invent a missing time or date.
+If context.pending_action is a visit workflow, a date/time answer continues
+that workflow's intent. Never treat identity/contact data as preferences.
 
 property_search
 property_details
@@ -1460,6 +1488,27 @@ third / teesri
 When selecting a numbered result:
 intent = property_selection
 
+FEEDBACK RULES
+
+For explicit customer feedback about a shown property, set exactly one:
+
+"interaction_action": "liked" | "rejected" | "shortlisted"
+
+"Mujhe second wali pasand hai" -> interaction_action liked, selected_index 1.
+"First wali reject kar dein" -> interaction_action rejected, selected_index 0.
+"Third property shortlist kar do" -> interaction_action shortlisted, selected_index 2.
+These are feedback actions, not requests for property details or new searches.
+context.last_results is the latest PRESENTED list in display order. An entry's
+property_id is sufficient to resolve its ordinal; no additional property facts
+are needed to resolve a numbered choice. Do not ask for clarification for an
+explicit ordinal within this list. An unselected "this one" with several
+results remains ambiguous.
+
+Use selected_index for "first", "second", or "third" shown results. Use
+interaction_property_id only when the customer explicitly names a property ID
+that is present in the current shown-result context. If the property cannot be
+resolved reliably, leave the interaction fields null and request clarification.
+
 "iski details"
 "uski details"
 "this property's details"
@@ -1651,6 +1700,18 @@ This layer only understands and structures what the user said.
         ):
             idx = None
 
+        interaction_action = p.get("interaction_action")
+        if interaction_action not in INTERACTION_ACTIONS:
+            interaction_action = None
+
+        interaction_property_id = p.get("interaction_property_id")
+        if not isinstance(interaction_property_id, str) or not interaction_property_id.strip():
+            interaction_property_id = None
+        elif len(interaction_property_id.strip()) > 50:
+            interaction_property_id = None
+        else:
+            interaction_property_id = interaction_property_id.strip()
+
         comparison_raw = p.get(
             "comparison",
             {},
@@ -1751,6 +1812,8 @@ This layer only understands and structures what the user said.
             relax=relax,
             reference_type=ref,
             selected_index=idx,
+            interaction_action=interaction_action,
+            interaction_property_id=interaction_property_id,
             comparison=ComparisonRequest(
                 comparison_field,
                 comparison_operator,
@@ -1760,6 +1823,8 @@ This layer only understands and structures what the user said.
             needs_clarification=needs_clarification,
             clarification_reason=clarification_reason,
             raw_message=raw,
+            appointment_id=p.get("appointment_id") if isinstance(p.get("appointment_id"), str) and len(p["appointment_id"]) <= 36 else None,
+            starts_at=p.get("starts_at") if isinstance(p.get("starts_at"), str) and len(p["starts_at"]) <= 64 else None,
         )
 
     def _clean_filter_map(

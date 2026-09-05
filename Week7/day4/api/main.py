@@ -69,6 +69,13 @@ def create_app(service: AppointmentWorkflowService | None = None) -> FastAPI:
     async def book(payload: AppointmentRequest, request: Request) -> WorkflowResult:
         try: return await request.app.state.service.book(payload)
         except SlotUnavailable as exc: raise HTTPException(409, str(exc)) from exc
+    @app.get("/appointments/{appointment_id}", response_model=WorkflowResult, dependencies=[Depends(require_api_key)])
+    async def get_appointment(appointment_id: UUID, request: Request) -> WorkflowResult:
+        try:
+            appointment = await request.app.state.service.crm.get_appointment(appointment_id)
+            return WorkflowResult(appointment=appointment, notification_sent=False)
+        except AppointmentNotFound as exc:
+            raise HTTPException(404, "Appointment not found") from exc
     @app.patch("/appointments/{appointment_id}/reschedule", response_model=WorkflowResult, dependencies=[Depends(require_api_key)])
     async def reschedule(appointment_id: UUID, payload: RescheduleRequest, request: Request) -> WorkflowResult:
         try: return await request.app.state.service.reschedule(appointment_id, payload.starts_at)

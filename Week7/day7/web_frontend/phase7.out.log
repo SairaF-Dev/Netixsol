@@ -1,0 +1,9 @@
+
+> sara-real-estate-web@0.7.0 start
+> next start -p 3000
+
+▲ Next.js 16.3.4
+- Local:         http://localhost:3000
+- Network:       http://192.168.137.1:3000
+✓ Ready in 853ms
+✓ Running next.config.ts took 211ms

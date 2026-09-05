@@ -21,10 +21,14 @@ class UserUnderstanding:
     relax: list[str] = field(default_factory=list)
     reference_type: str | None = None
     selected_index: int | None = None
+    interaction_action: str | None = None
+    interaction_property_id: str | None = None
     comparison: ComparisonRequest = field(default_factory=ComparisonRequest)
     needs_clarification: bool = False
     clarification_reason: str | None = None
     raw_message: str = ""
+    appointment_id: str | None = None
+    starts_at: str | None = None
 
 
 @dataclass

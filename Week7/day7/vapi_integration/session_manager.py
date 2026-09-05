@@ -24,6 +24,9 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from vapi_integration.guardrails import OffTopicGuardrail
+from vapi_integration.customer_identity import normalize_phone
+from vapi_integration.customer_service import CustomerContext, CustomerService
+from vapi_integration.interaction_repository import InteractionRepository
 from vapi_integration.learning import LearningRecordStore
 from vapi_integration.metrics import metrics
 
@@ -51,9 +54,15 @@ class VapiSession:
     """Per-call session state."""
     call_id: str
     caller_phone: str
+    customer_id: Optional[str] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     turn_count: int = 0
     appointment_id: Optional[str] = None
+    appointment_property_id: Optional[str] = None
+    shown_property_ids: list[str] = field(default_factory=list)
+    latest_recommended_property_order: list[str] = field(default_factory=list)
+    preference_snapshot: dict = field(default_factory=dict)
+    property_snapshots: dict[str, dict] = field(default_factory=dict)
     # Sara's native conversation state
     sara_state: Optional[object] = None
     # Fallback simple message history (used when Day 3 not available)
@@ -63,7 +72,11 @@ class VapiSession:
 class VapiSessionManager:
     """Manages per-call sessions and routes messages through Sara's agent."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        customer_service: CustomerService | None = None,
+        interaction_repository: InteractionRepository | None = None,
+    ) -> None:
         self._sessions: dict[str, VapiSession] = {}
         self._lock = asyncio.Lock()
 
@@ -73,27 +86,88 @@ class VapiSessionManager:
         self._speech_gen = None
         self._off_topic_guardrail = OffTopicGuardrail()
         self._learning_store = LearningRecordStore()
+        try:
+            self._customer_service = customer_service or CustomerService()
+        except Exception as exc:
+            logger.info("Customer persistence unavailable: %s", exc)
+            self._customer_service = None
+        try:
+            self._interaction_repository = interaction_repository or InteractionRepository()
+        except Exception as exc:
+            logger.info("Interaction persistence unavailable: %s", exc)
+            self._interaction_repository = None
 
     def active_count(self) -> int:
         return len(self._sessions)
 
-    async def create_session(self, call_id: str, caller_phone: str = "unknown") -> VapiSession:
+    async def create_session(
+        self,
+        call_id: str,
+        caller_phone: str = "unknown",
+        customer_id: str | None = None,
+    ) -> VapiSession:
         async with self._lock:
+            customer_context = CustomerContext()
+            normalized_phone = normalize_phone(caller_phone)
+            if self._customer_service is not None:
+                try:
+                    if customer_id:
+                        customer_context = await asyncio.to_thread(
+                            self._customer_service.resolve_for_customer_id,
+                            customer_id,
+                        )
+                    else:
+                        customer_context = await asyncio.to_thread(
+                            self._customer_service.resolve_for_phone,
+                            normalized_phone,
+                        )
+                except Exception as exc:
+                    logger.warning("Customer identity lookup failed: %s", exc)
+
+            customer = customer_context.customer
+            preferences = customer_context.preferences
+            resolved_phone = (
+                customer.phone_normalized if customer and customer.phone_normalized else caller_phone
+            )
+            if normalized_phone:
+                resolved_phone = normalized_phone
+            if not resolved_phone or resolved_phone == "unknown":
+                resolved_phone = "unknown"
+
             if _SARA_AVAILABLE:
+                user_profile = UserProfile(customer_phone=resolved_phone)
+                if customer:
+                    user_profile.customer_name = customer.full_name
+                if preferences:
+                    user_profile.city = preferences.city
+                    user_profile.area = preferences.area
+                    user_profile.budget = preferences.budget_max
+                    user_profile.bedrooms = preferences.bedrooms
+                    user_profile.property_type = preferences.property_type
+                    if preferences.purpose:
+                        user_profile.purpose = preferences.purpose
+                    user_profile.amenities_preferred = list(preferences.amenities)
                 sara_state = ConversationState(
                     session_id=call_id,
-                    user_profile=UserProfile(customer_phone=caller_phone),
+                    user_profile=user_profile,
                 )
             else:
                 sara_state = None
 
             session = VapiSession(
                 call_id=call_id,
-                caller_phone=caller_phone,
+                caller_phone=resolved_phone,
+                customer_id=customer.customer_id if customer else customer_id,
                 sara_state=sara_state,
             )
             self._sessions[call_id] = session
-            logger.info("Session created: %s (caller: %s)", call_id, caller_phone)
+            logger.info(
+                "Session created: %s (customer_id=%s, caller=%s, preferences_loaded=%s)",
+                call_id,
+                session.customer_id,
+                resolved_phone,
+                preferences is not None,
+            )
             return session
 
     async def get_session(self, call_id: str) -> Optional[VapiSession]:
@@ -168,22 +242,13 @@ class VapiSessionManager:
             intent = understanding.intent if understanding else "unknown"
             state.latest_intent = intent
 
-            # Update user profile from extracted constraints
-            if understanding and understanding.constraints:
-                profile = state.user_profile
-                c = understanding.constraints
-                if c.get("budget"):
-                    profile.budget = c["budget"]
-                if c.get("city"):
-                    profile.city = c["city"]
-                if c.get("area"):
-                    profile.area = c["area"]
-                if c.get("bedrooms"):
-                    profile.bedrooms = c["bedrooms"]
-                if c.get("customer_name"):
-                    profile.customer_name = c["customer_name"]
-                if c.get("purpose"):
-                    profile.purpose = c["purpose"]
+            # Update memory and persistence only from structured extraction.
+            if understanding:
+                await self._apply_understanding(session, understanding)
+                feedback_response = await self._apply_feedback(session, understanding)
+                if feedback_response:
+                    state.add_message("assistant", feedback_response)
+                    return feedback_response
 
             # Route to appropriate response
             response = await self._generate_response(state, intent, session)
@@ -194,6 +259,171 @@ class VapiSessionManager:
         except Exception as exc:
             logger.exception("Error in Sara processing: %s", exc)
             return await self._process_fallback(session, user_message)
+
+    async def _apply_understanding(self, session: VapiSession, understanding: object) -> None:
+        """Apply validated current-turn fields and persist them partially."""
+        profile = session.sara_state.user_profile
+        structured: dict[str, object] = {}
+        for source_name in ("required", "preferred"):
+            values = getattr(understanding, source_name, {}) or {}
+            if isinstance(values, dict):
+                structured.update(values)
+
+        profile_updates = {
+            "city": structured.get("city"),
+            "area": structured.get("area"),
+            "bedrooms": structured.get("bedrooms"),
+            "property_type": structured.get("property_type"),
+            "purpose": structured.get("purpose"),
+        }
+        if "budget" in structured:
+            profile_updates["budget"] = structured["budget"]
+        if "amenities" in structured:
+            amenities = self._clean_amenities(structured["amenities"])
+            if amenities:
+                profile_updates["amenities_preferred"] = amenities
+
+        for field_name, value in profile_updates.items():
+            if value is None or value == "":
+                continue
+            if field_name == "amenities_preferred":
+                profile.amenities_preferred = list(dict.fromkeys(value))
+            else:
+                setattr(profile, field_name, value)
+
+        # customer_name is intentionally read only if supplied by a future
+        # structured understanding schema; raw message text is never parsed.
+        customer_name = getattr(understanding, "customer_name", None)
+        if customer_name:
+            profile.customer_name = customer_name
+
+        if not session.customer_id or self._customer_service is None:
+            return
+
+        persisted = {}
+        field_map = {
+            "city": "city",
+            "area": "area",
+            "bedrooms": "bedrooms",
+            "property_type": "property_type",
+            "purpose": "purpose",
+            "amenities_preferred": "amenities",
+        }
+        for profile_field, database_field in field_map.items():
+            value = profile_updates.get(profile_field)
+            if value is not None and value != "":
+                persisted[database_field] = value
+        if "budget" in structured and structured["budget"] is not None:
+            persisted["budget_max"] = structured["budget"]
+
+        if persisted:
+            try:
+                await asyncio.to_thread(
+                    self._customer_service.update_preferences,
+                    session.customer_id,
+                    persisted,
+                )
+            except Exception as exc:
+                logger.warning(
+                    "Customer preference persistence failed for customer_id=%s: %s",
+                    session.customer_id,
+                    exc,
+                )
+
+        if customer_name:
+            try:
+                await asyncio.to_thread(
+                    self._customer_service.update_name,
+                    session.customer_id,
+                    customer_name,
+                )
+            except Exception as exc:
+                logger.warning(
+                    "Customer name persistence failed for customer_id=%s: %s",
+                    session.customer_id,
+                    exc,
+                )
+
+    @staticmethod
+    def _clean_amenities(value: object) -> list[str]:
+        if not isinstance(value, (list, tuple, set)):
+            return []
+        return list(dict.fromkeys(
+            str(item).strip()
+            for item in value
+            if str(item).strip()
+        ))
+
+    async def _apply_feedback(self, session: VapiSession, understanding: object) -> str | None:
+        """Resolve and record structured feedback against this call's results."""
+        action = getattr(understanding, "interaction_action", None)
+        if not action:
+            return None
+
+        property_id = getattr(understanding, "interaction_property_id", None)
+        if property_id:
+            if property_id not in session.shown_property_ids:
+                return "Yeh property current options mein nahi hai. Please dobara select karein."
+        else:
+            property_id = self._property_for_reference(session, understanding)
+
+        if not property_id:
+            return "Please batayein aap pehli, doosri ya teesri property ki baat kar rahe hain?"
+
+        await self._record_interaction(
+            session,
+            property_id=property_id,
+            action=action,
+            preference_snapshot=session.preference_snapshot,
+            property_snapshot=session.property_snapshots.get(property_id),
+        )
+        messages = {
+            "liked": "Ji, yeh option aap ko pasand aaya — note kar liya.",
+            "rejected": "Theek hai, yeh option aap ki preference mein nahi hai — note kar liya.",
+            "shortlisted": "Ji, yeh property shortlist kar li hai.",
+        }
+        return messages[action]
+
+    @staticmethod
+    def _property_for_reference(session: VapiSession, understanding: object) -> str | None:
+        from shared.sara_service import resolve_property_reference
+        return resolve_property_reference(
+            understanding, session.latest_recommended_property_order,
+            session.shown_property_ids[0] if len(session.shown_property_ids) == 1 else None,
+        )
+
+    async def _record_interaction(
+        self,
+        session: VapiSession,
+        *,
+        property_id: str,
+        action: str,
+        reason: str | None = None,
+        metadata: dict | None = None,
+        preference_snapshot: dict | None = None,
+        property_snapshot: dict | None = None,
+    ) -> None:
+        if not session.customer_id or self._interaction_repository is None:
+            return
+        try:
+            await asyncio.to_thread(
+                self._interaction_repository.record_interaction,
+                customer_id=session.customer_id,
+                conversation_id=session.call_id,
+                property_id=property_id,
+                action=action,
+                reason=reason,
+                metadata=metadata,
+                preference_snapshot=preference_snapshot,
+                property_snapshot=property_snapshot,
+            )
+        except Exception as exc:
+            logger.warning(
+                "Interaction persistence failed for customer_id=%s action=%s: %s",
+                session.customer_id,
+                action,
+                exc,
+            )
 
     async def _generate_response(
         self, state: ConversationState, intent: str, session: VapiSession

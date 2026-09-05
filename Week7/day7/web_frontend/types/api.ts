@@ -1,0 +1,13 @@
+export type Customer = { customer_id: string; full_name: string | null; email: string | null; phone: string | null };
+export type AuthUser = Customer;
+export type Preferences = { customer_id: string; city: string | null; area: string | null; budget_min: number | null; budget_max: number | null; bedrooms: number | null; property_type: string | null; purpose: string | null; amenities: string[] };
+export type PreferencePatch = Partial<Omit<Preferences, "customer_id">>;
+export type Property = { property_id: string; property_name: string; city: string; area: string; price: number; currency: string; bedrooms: number | null; bathrooms: number | null; property_type: string; purpose: string; amenities: string[]; available: boolean; status: string | null };
+export type SearchFilters = { customer_id?: string; city?: string; area?: string; budget_max?: number; bedrooms?: number; property_type?: string; purpose?: string; amenities?: string[]; limit?: number };
+export type RecommendationResponse = { recommendation_session_id: string; ml_mode: "off" | "shadow" | "active_dev"; properties: Property[] };
+export type InteractionAction = "liked" | "rejected" | "shortlisted";
+export type ChatResponse = { conversation_id: string; message: string; recommendation_session_id?: string; properties?: Property[]; appointment?: { appointment_id: string; status?: string }; requires_clarification: boolean };
+export type AppointmentInput = { customer_id: string; property_id: string; starts_at: string; duration_minutes: number; meeting_notes: string };
+export type SessionAppointment = { appointmentId: string; propertyId: string; propertyName: string; startsAt: string; status: "booked" | "rescheduled" | "cancelled" };
+export type BackendAppointment = { appointment_id: string; status: "pending" | "confirmed" | "rescheduled" | "cancelled"; request: { property_id: string | number; property_name: string; starts_at: string }; created_at: string; updated_at: string };
+export type Health = { status: string; database: string; ml_mode: string; ml_artifact_loaded: boolean; synthetic_development_model: boolean };
