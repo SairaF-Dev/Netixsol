@@ -25,6 +25,41 @@ describe("shared API client", () => {
     const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(() => ok([]));
     await api.searchProperties({ city: "Lahore", limit: 20 });
     expect(fetchMock.mock.calls[0][0]).toContain("/api/properties/search");
+    expect(fetchMock.mock.calls[0][1]).toMatchObject({ credentials: "include" });
+  });
+
+  it("searches properties using CSRF flow on 403 challenge", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch")
+      .mockImplementationOnce(() => ok({ detail: "CSRF validation failed" }, 403))
+      .mockImplementationOnce(() => ok({ csrf_token: "real_backend_csrf_token_value" }, 200))
+      .mockImplementationOnce(() => ok([{ property_id: "p1", title: "Villa" }], 200));
+
+    const results = await api.searchProperties({ city: "Lahore", limit: 20 });
+    expect(results).toEqual([{ property_id: "p1", title: "Villa" }]);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock.mock.calls[0][0]).toContain("/api/properties/search");
+    expect(fetchMock.mock.calls[0][1]).toMatchObject({ credentials: "include" });
+    expect(fetchMock.mock.calls[1][0]).toContain("/api/auth/csrf");
+
+    const retryOptions = fetchMock.mock.calls[2][1];
+    expect(retryOptions).toMatchObject({ credentials: "include" });
+    const retryHeaders = retryOptions?.headers as Record<string, string>;
+    expect(retryHeaders["X-CSRF-Token"]).toBe("real_backend_csrf_token_value");
+    expect(retryHeaders["X-CSRF-Token"].length).toBeGreaterThan(0);
+  });
+
+  it("handles 401 and 403 error responses with helpful messages", async () => {
+    vi.spyOn(globalThis, "fetch").mockImplementationOnce(() => ok({ detail: null }, 401));
+    await expect(api.searchProperties({ city: "Lahore" })).rejects.toMatchObject({
+      message: "Authentication required. Please sign in to continue.",
+      status: 401,
+    });
+
+    vi.spyOn(globalThis, "fetch").mockImplementationOnce(() => ok({ detail: null }, 403));
+    await expect(api.searchProperties({ city: "Lahore" })).rejects.toMatchObject({
+      message: "Security request validation failed.",
+      status: 403,
+    });
   });
 
   it("preserves recommendation session IDs", async () => {
