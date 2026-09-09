@@ -1,4 +1,4 @@
-# Sara Shared Website API (Phase 9)
+# Sara Shared Website API
 
 This development API is the website-facing HTTP layer over Sara's existing
 customer, preference, verified-property, deterministic-ranking, optional
@@ -43,7 +43,34 @@ probe reports exception types and provider status without printing credentials
 or customer messages. A successful probe verifies that connection at that moment;
 it does not verify the entire authenticated chat flow or a particular failed turn.
 
-## Sample requests
+## Authenticated website requests
+
+Use `/api/auth/register` or `/api/auth/login` to establish a cookie session.
+Include that cookie on subsequent requests, fetch `/api/auth/csrf`, and send
+the returned token in `X-CSRF-Token` on mutations. The website's central API
+client manages this flow. Use `/api/me/...` for website requests; identity is
+derived on the server. See [security](../../docs/API_SECURITY.md).
+
+For example, update saved preferences with `PATCH /api/me/preferences`:
+
+```json
+{"city":"Lahore","area":"DHA","budget_max":50000000,"property_type":"Apartment","purpose":"purchase"}
+```
+
+Load recommendations with `POST /api/me/recommendations` and `{"limit":10}`.
+Use the returned `recommendation_session_id` and one of its property IDs for
+`POST /api/me/interactions`, with action `liked`, `rejected`, or `shortlisted`.
+Book through `POST /api/me/appointments` using `property_id`, timezone-aware
+`starts_at`, and optional `duration_minutes`/`meeting_notes`. Read owned visits
+with `GET /api/me/appointments`. Rescheduling and cancellation still use the
+owned `/api/appointments/{appointment_id}` routes described below.
+
+## Legacy development request examples
+
+These routes remain for compatibility. Customer-ID requests validate ownership
+when authentication is configured. `POST /api/customers` is a development
+creation endpoint without a route-level login requirement; it does not register
+a website login. Restrict legacy development access before public deployment.
 
 Create or reuse a customer (the backend creates the UUID):
 
@@ -129,7 +156,7 @@ Send to `POST /api/appointments`. Reschedule with
 
 ## Authenticated shared chat (Phase 9)
 
-`POST /api/me/chat` accepts only `message` (1?2,000 characters) and an optional
+`POST /api/me/chat` accepts only `message` (1-2,000 characters) and an optional
 UUID `conversation_id`. Identity fields are rejected. Omit the conversation ID
 for a new server-generated conversation. The endpoint uses the same CSRF
 middleware as other authenticated mutations; the frontend uses `lib/api.ts`.
@@ -146,7 +173,7 @@ recommendations return 410. Dependency failures return safe 503 messages.
 The adapter reuses Day 3 understanding, QueryPlanner, ConversationState,
 ConversationPolicy, ResultPresentationPolicy, and NaturalSpeechPolicy. It uses
 complete structured extraction through the existing NLU prompt, with validated JSON
-output, one retry for malformed JSON, and a bounded 700?900 output-token allowance per attempt. Other Day 3/VAPI callers
+output, one retry for malformed JSON, and a bounded 700-900 output-token allowance per attempt. Other Day 3/VAPI callers
 retain their existing default extraction strategy. Configure the existing
 `OPENROUTER_API_KEY`, `OPENROUTER_BASE_URL`, and `SARA_LLM_MODEL` on the backend.
 No new assistant prompt, property retrieval, ranker, or ML pipeline is created.
@@ -213,6 +240,23 @@ comparison filters; Sara asks for explicit supported criteria instead of silentl
 using such filters. This adapter does not expose the full Day 3 RAG/FAQ/comparison
 surface.
 
-Browser voice, automated retraining, model promotion and further phases are
-outside this implementation. ML defaults to `off`; `shadow` and `active_dev`
-retain the existing synthetic-development constraints.
+## Browser voice and preference editing
+
+Browser voice is implemented through `POST /api/me/voice-sessions`,
+`POST /api/me/voice-sessions/close`, and the secret-authenticated
+`POST /api/internal/voice/webhook`. Startup applies `voice_schema.sql` after
+auth/chat schemas. The website API needs `VAPI_ASSISTANT_ID`; it must share
+`DATABASE_URL` and `VAPI_WEBHOOK_SECRET` with the VAPI webhook. Configure
+`SARA_WEB_API_INTERNAL_URL` on the webhook when the API is not at localhost:8010.
+See the [browser voice report](../../docs/BROWSER_VOICE_REPORT.md).
+
+Returning-customer editing uses the shared preference-edit policy. A request to
+change preferences can name a field before providing a replacement value;
+pending fields are retained and validated changes are persisted. See the
+[preference-edit audit](../../docs/preference-edit-audit.md).
+
+Automated retraining and model promotion are not implemented. ML defaults to
+`off`; `shadow` and `active_dev` retain synthetic-development constraints.
+For installation, environment loading, and all service commands, use the
+[root setup](../../README.md). Dated reports record historical verification,
+not a fresh pass for the current checkout.
