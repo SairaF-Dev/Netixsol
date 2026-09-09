@@ -510,6 +510,10 @@ When instructions conflict, follow this priority:
     print("Using default system prompt (Day 1 file not found)")
 
 # VAPI Server URL — update this after starting ngrok
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from vapi_integration.retrieval_policy import VOICE_RETRIEVAL_RULES
+system_prompt += "\n\n" + VOICE_RETRIEVAL_RULES
+
 # For now we create assistant with placeholder; update via PATCH later
 SERVER_URL = os.getenv("VAPI_SERVER_URL", "https://placeholder.ngrok.io")
 WEBHOOK_URL = f"{SERVER_URL.rstrip('/')}/vapi/webhook"
@@ -602,6 +606,8 @@ assistant_payload = {
                         "type": "object",
                         "properties": {
                             "location": {"type": "string", "description": "City/area e.g. DHA Karachi"},
+                            "budget_flexible": {"type": "boolean", "description": "Customer explicitly accepts any budget"},
+                            "area_flexible": {"type": "boolean", "description": "Customer explicitly accepts all areas"},
                             "max_price": {"type": "integer", "description": "Max budget PKR mein"},
                             "bedrooms": {"type": "integer"},
                             "purpose": {
@@ -663,7 +669,7 @@ assistant_payload = {
     # VAPI sends tool-calls and call lifecycle events here.
     "server": {
         "url": WEBHOOK_URL,
-        "timeoutSeconds": 500,
+        "timeoutSeconds": 60,
         **({"secret": WEBHOOK_SECRET} if WEBHOOK_SECRET else {}),
     },
     "serverMessages": ["tool-calls", "end-of-call-report"],

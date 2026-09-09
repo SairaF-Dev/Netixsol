@@ -90,6 +90,8 @@ def create_app(services: WebServices | None = None) -> FastAPI:
         return request.app.state.services
 
     def identity(request: Request):
+        if getattr(request.state, "voice_identity", None) is not None:
+            return request.state.voice_identity
         services = svc(request)
         if not services.auth:
             raise HTTPException(503, "Authentication is not configured")
@@ -448,6 +450,9 @@ def create_app(services: WebServices | None = None) -> FastAPI:
                 type(exc).__name__, type(exc.__cause__).__name__, getattr(exc.__cause__, "status_code", None))
             raise HTTPException(503, "Sara chat is temporarily unavailable. Please try again.")
 
+    from web_api.voice import register_voice_routes
+    register_voice_routes(app, identity, svc, update_my_preferences, my_recommendations,
+                          my_appointment, reschedule, cancel, my_interaction)
     return app
 
 

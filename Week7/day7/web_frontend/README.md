@@ -2,7 +2,7 @@
 
 Next.js App Router + TypeScript frontend for the authenticated shared FastAPI.
 It contains no backend credentials, ML implementation, fabricated property
-photos, fake chat, or browser voice.
+photos, or fake chat. Browser voice reuses the existing VAPI assistant.
 
 ## Run
 
@@ -20,12 +20,24 @@ Frontend:
 
 ```powershell
 cd E:\Netixsol\Week7\day7\web_frontend
-Copy-Item .env.example .env.local
 npm.cmd install
 npm.cmd run dev
 ```
 
 Open `http://localhost:3000`.
+
+Keep the existing `.env.local`; it needs `NEXT_PUBLIC_SARA_API_URL` and
+`NEXT_PUBLIC_VAPI_PUBLIC_KEY`. Never put the private VAPI key in this file.
+On `/sara`, sign in and select **Start voice call**, then allow microphone access.
+Mute and end controls are available during the call. HTTPS or localhost is
+required for browser microphone access.
+
+Restart the website API and VAPI webhook service after updating the code.
+The website API initializes the additive voice-session table on startup.
+The webhook forwards browser events to `SARA_WEB_API_INTERNAL_URL`
+(default `http://localhost:8010`); both services need the same PostgreSQL database
+and `VAPI_WEBHOOK_SECRET`. Keep the existing assistant ID and server configuration.
+See [browser voice verification](../../docs/BROWSER_VOICE_REPORT.md).
 
 ## Boundaries
 

@@ -7,6 +7,7 @@ import { useSession } from "@/components/SessionProvider";
 import { PropertyCard } from "@/components/PropertyCard";
 import { FeedbackButtons } from "@/components/FeedbackButtons";
 import { BookVisit } from "@/components/BookVisit";
+import { SaraVoice } from "@/components/SaraVoice";
 import type { ChatResponse, Property } from "@/types/api";
 
 type Message = { role: "user" | "assistant"; text: string; response?: ChatResponse };
@@ -51,10 +52,11 @@ export default function Sara() {
   if (!ready) return <p role="status">Checking your session…</p>;
   if (!customer) return null;
   return <section className="sara-chat">
-    <div className="page-title row"><div><span className="eyebrow">YOUR PROPERTY ASSISTANT</span><h1>Chat with Sara</h1><p>Apni preferences batayein, verified options dekhein, ya visit plan karein.</p></div>
+    <div className="page-title row"><div><span className="eyebrow">YOUR PROPERTY ASSISTANT</span><h1>Ask Sara</h1><p>Chat or speak with Sara to find properties, get personalized recommendations, and manage property visits.</p></div>
       <button disabled={busy} onClick={() => { setMessages([]); setConversationId(undefined); setError(""); }}>New chat</button></div>
+    <SaraVoice key={customer.customer_id} />
     <div role="log" aria-label="Conversation with Sara" aria-live="polite">
-      {messages.length === 0 && <p>Saved preferences se shuru kar sakte hain. “Options dikha dein.”</p>}
+      {messages.length === 0 && <p>Try asking: “Mujhe properties dikhayein."</p>}
       {messages.map((message, index) => <article className={`chat-message ${message.role}`} key={index}>
         <strong>{message.role === "user" ? "You" : "Sara"}</strong><p style={{ whiteSpace: "pre-wrap" }}>{message.text}</p>
         <div className="property-grid">{message.response?.properties?.map(property => <PropertyCard key={property.property_id} property={property}
@@ -65,7 +67,7 @@ export default function Sara() {
     </div>
     {busy && <p role="status">Sara is preparing a response…</p>}
     {error && <p className="notice error" role="alert">{error}</p>}
-    <form onSubmit={send}><label htmlFor="sara-message">Message Sara</label>
+    <form onSubmit={send}><label htmlFor="sara-message">Chat with Sara</label>
       <textarea id="sara-message" value={input} onChange={e => setInput(e.target.value)} maxLength={2000} disabled={busy} required />
       <button className="primary" disabled={busy || !input.trim()}>{busy ? "Sending…" : "Send"}</button>
     </form>

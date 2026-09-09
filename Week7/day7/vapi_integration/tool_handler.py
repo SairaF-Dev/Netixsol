@@ -27,6 +27,7 @@ from decimal import Decimal
 from typing import Any, Optional
 
 from vapi_integration.metrics import metrics
+from vapi_integration.retrieval_policy import RETRIEVAL_UNAVAILABLE
 from vapi_integration.customer_learning import (
     CustomerPreferenceRepository,
     ExplainablePreferenceRanker,
@@ -64,7 +65,7 @@ class VapiToolHandler:
         # Keep this below Vapi's server timeout while allowing the core Day 4
         # workflow enough time to return its confirmed result.
         self.timeout = 300.0
-        
+
         # Initialize PostgreSQL repository for property searches
         # This is the single source of truth for property facts
         self.repository = None
@@ -346,44 +347,71 @@ class VapiToolHandler:
         """
         Search properties using PostgreSQL (single source of truth).
 
-        Previously this method read Day 2 CSV files directly.
-        Now it uses PostgresPropertyRepository to query verified data
-        from PostgreSQL, ensuring data consistency and accuracy.
-
-        Supported filters:
-            - location (city/area name)
-            - max_price (budget in PKR)
-            - min_price (minimum budget in PKR)
-            - bedrooms (integer)
-            - purpose (buy, rent, invest, commercial)
+        Orchestration only; the heavy lifting lives in the helpers:
+            - _normalize_search_args: raw VAPI args -> repository filters
+            - _apply_policy_tier1: flexible-requirement conversation policy
+            - _rank_results: preference + ML ranking
+            - _persist_session_state: snapshot shown results onto the session
 
         Returns:
             Human-readable property matches formatted for Sara to speak.
         """
-
-        # Validate repository is available
         if not self.repository:
             logger.error("PostgreSQL repository not initialized")
+            return RETRIEVAL_UNAVAILABLE
+
+        normalized = self._normalize_search_args(args)
+        validation = self._validate_search_args(normalized, session)
+        if validation is not None:
+            return validation
+
+        try:
+            max_price, city, area = await self._apply_policy_tier1(args, normalized, session)
+            if getattr(self, "_tier1_decision", None):
+                return self._tier1_decision
+            results = await self._run_repository_search(max_price, city, area, normalized)
+
+            if session is not None and callable(getattr(self.repository, "budget_area_options", None)):
+                narrowing = self._policy.next_narrowing_requirement(
+                    state=self._policy_state, matching_count=len(results)
+                )
+                if narrowing:
+                    return narrowing.message
+
+            results = await self._rank_results(results, session)
+
+            if not results:
+                logger.info("No properties found for filters: %s", args)
+                return (
+                    f"Bohot sorri! Aapke criteria ke andar koi property "
+                    f"abhi available nahi hai (location: {normalized['location']}, "
+                    f"bedrooms: {normalized['bedrooms']}, max budget: {max_price}). "
+                    f"Kya aap apne requirements thora adjust kar sakte hain? "
+                    f"Maslan budget badha sakta hoon ya kisi aur location mein dekhun?"
+                )
+
+            presented_results = results[:3]
+            if session:
+                await self._persist_session_state(session, presented_results)
+            formatted_results = self._format_property_results(presented_results)
+
             return (
-                "Abhi property database se connection nahi ban pa raha. "
-                "please thori der baad dobara try karein."
+                f"Found {len(results)} verified properties matching aapki requirements. "
+                f"Here are the best ones:\n\n{formatted_results}\n\n"
+                f"Instruct the AI: Tell the customer about these options in natural UrduLish. "
+                f"Mention key features and amenities naturally. "
+                f"Then ask 'Kya aap in mein se kisi ko visit karna chahenge?'"
             )
 
-        # Extract and normalize filter arguments
+        except Exception as e:
+            logger.exception("Property search failed: %s", e)
+            return RETRIEVAL_UNAVAILABLE
+
+    def _normalize_search_args(self, args: dict) -> dict:
+        """Extract and normalize filter arguments from the raw VAPI tool args."""
         location = str(args.get("location", "")).strip()
-        max_price = args.get("max_price")
-        bedrooms = args.get("bedrooms")
-        property_type = str(args.get("property_type", "")).strip() or None
         purpose = str(args.get("purpose", "")).lower().strip()
-
-        # Validate location is provided
-        if not location:
-            return (
-                "Property search ke liye mujhe location batayen. "
-                "Maslan: DHA Lahore, Bahria Town Karachi, etc."
-            )
-
-        # Normalize purpose: map VAPI enum values to repository values
+        # Normalize purpose: map VAPI enum values to repository values.
         purpose_map = {
             "buy": "purchase",
             "purchase": "purchase",
@@ -394,110 +422,137 @@ class VapiToolHandler:
             "commercial": "commercial",
             "": None,
         }
-        repo_purpose = purpose_map.get(purpose, purpose or None)
+        return {
+            "location": location,
+            "max_price": args.get("max_price"),
+            "bedrooms": args.get("bedrooms"),
+            "property_type": str(args.get("property_type", "")).strip() or None,
+            "repo_purpose": purpose_map.get(purpose, purpose or None),
+        }
 
-        # Split a natural location into the repository's city and area fields.
-        # "DHA" is an area; "DHA Phase 6 Lahore" contains both filters.
-        city = None
-        area = location
-        for known_city in ("Lahore", "Karachi", "Islamabad", "Rawalpindi"):
-            if re.search(rf"\b{re.escape(known_city)}\b", location, re.IGNORECASE):
-                city = known_city
-                area = re.sub(
-                    rf"\b{re.escape(known_city)}\b",
-                    "",
-                    location,
-                    flags=re.IGNORECASE,
-                ).strip(" ,-") or None
-                break
-
-        try:
-            # Call repository in a thread-safe manner
-            # (repository uses sync psycopg, but we're in an async context)
-            results = await asyncio.to_thread(
-                self.repository.search,
-                budget=max_price,
-                city=city,
-                area=area,
-                bedrooms=bedrooms,
-                property_type=property_type,
-                purpose=repo_purpose,
-                amenities=None,
-                limit=10,  # Get more than top 3 for flexibility
-            )
-
-            profile = None
-            if self.preference_repository is not None and session is not None:
-                try:
-                    customer_key = customer_key_for_phone(session.caller_phone)
-                    if customer_key:
-                        profile = await asyncio.to_thread(
-                            self.preference_repository.get,
-                            customer_key,
-                        )
-                except Exception as profile_error:
-                    logger.warning("Preference profile lookup failed: %s", profile_error)
-            if profile is not None:
-                results = self.preference_ranker.rank(results, profile)
-
-            runtime_profile = None
-            if session is not None:
-                runtime_profile = getattr(
-                    getattr(session, "sara_state", None), "user_profile", None
-                )
-            results = self.ml_ranker.rank_properties(results, runtime_profile)
-
-            if not results:
-                logger.info("No properties found for filters: %s", args)
-                return (
-                    f"Bohot sorri! Aapke criteria ke andar koi property "
-                    f"abhi available nahi hai (location: {location}, "
-                    f"bedrooms: {bedrooms}, max budget: {max_price}). "
-                    f"Kya aap apne requirements thora adjust kar sakte hain? "
-                    f"Maslan budget badha sakta hoon ya kisi aur location mein dekhun?"
-                )
-
-            # Format top 3 results for Sara to speak
-            presented_results = results[:3]
-            if session:
-                presented_ids = [
-                    str(item["property_id"])
-                    for item in presented_results
-                    if item.get("property_id")
-                ]
-                session.shown_property_ids = presented_ids
-                session.latest_recommended_property_order = list(presented_ids)
-                session.preference_snapshot = self._preference_snapshot(session)
-                if not isinstance(getattr(session, "property_snapshots", None), dict):
-                    session.property_snapshots = {}
-                for property_id in presented_ids:
-                    property = next(item for item in presented_results if str(item.get("property_id")) == property_id)
-                    session.property_snapshots[property_id] = self._property_snapshot(property)
-                    await self._record_interaction(
-                        session,
-                        property_id=property_id,
-                        action="shown",
-                        preference_snapshot=session.preference_snapshot,
-                        property_snapshot=session.property_snapshots[property_id],
-                    )
-            formatted_results = self._format_property_results(presented_results)
-
-            response = (
-                f"Found {len(results)} verified properties matching aapki requirements. "
-                f"Here are the best ones:\n\n{formatted_results}\n\n"
-                f"Instruct the AI: Tell the customer about these options in natural UrduLish. "
-                f"Mention key features and amenities naturally. "
-                f"Then ask 'Kya aap in mein se kisi ko visit karna chahenge?'"
-            )
-
-            return response
-
-        except Exception as e:
-            logger.exception("Property search failed: %s", e)
+    def _validate_search_args(self, normalized: dict, session: Any) -> str | None:
+        """Return a clarifying reply when required arguments are missing."""
+        if session is not None and not normalized["repo_purpose"]:
+            return "Aap purchase karna chahte hain ya rent par lena hai?"
+        if not normalized["location"]:
             return (
-                "Property search mein ek masla aa gaya. "
-                "Kripya thori der baad dobara try karein ya "
-                "representative se rabta karein."
+                "Property search ke liye mujhe location batayen. "
+                "Maslan: DHA Lahore, Bahria Town Karachi, etc."
+            )
+        return None
+
+    async def _apply_policy_tier1(
+        self, args: dict, normalized: dict, session: Any
+    ) -> tuple[Any, str, str | None]:
+        """Apply the tier-1 requirement conversation policy and return (max_price, city, area).
+
+        Transcript observations carry explicit flexibility into the tools; a
+        flexible budget/area relaxes that filter before the repository search.
+        Sets self._policy_state / self._policy for the later narrowing step.
+        """
+        from vapi_integration.customer_identity import property_location
+        city, area = property_location(normalized["location"])
+        max_price = normalized["max_price"]
+
+        self._policy_state = None
+        self._policy = None
+        if session is None or not callable(getattr(self.repository, "budget_area_options", None)):
+            return max_price, city, area
+
+        from sara_agent.memory import ConversationState as RequirementState
+        from sara_agent.conversation_policy import ConversationPolicy
+        state = RequirementState(required={key: value for key, value in {
+            "city": city, "area": area, "purpose": normalized["repo_purpose"],
+            "budget": max_price, "property_type": normalized["property_type"],
+            "bedrooms": normalized["bedrooms"],
+        }.items() if value is not None})
+        flexibility = getattr(session, "search_flexible", [])
+        if isinstance(flexibility, (list, set, tuple)):
+            state.flexible.update(flexibility)
+        for field in ("budget", "area"):
+            if args.get(field + "_flexible") is True:
+                state.flexible.add(field)
+                state.required.pop(field, None)
+        self._policy = ConversationPolicy()
+        self._policy_state = state
+
+        decision = await asyncio.to_thread(
+            self._policy.next_tier1_requirement, state=state, knowledge=self.repository
+        )
+        if decision:
+            # Signal the caller to short-circuit with the policy message.
+            self._tier1_decision = decision.message
+        else:
+            self._tier1_decision = None
+        if "budget" in state.flexible:
+            max_price = None
+        if "area" in state.flexible:
+            area = None
+        return max_price, city, area
+
+    async def _run_repository_search(
+        self, max_price: Any, city: str, area: str | None, normalized: dict
+    ) -> list[dict]:
+        """Call the repository in a thread-safe manner (sync psycopg under the hood)."""
+        decision_message = getattr(self, "_tier1_decision", None)
+        if decision_message:
+            return []
+        return await asyncio.to_thread(
+            self.repository.search,
+            budget=max_price,
+            city=city,
+            area=area,
+            bedrooms=normalized["bedrooms"],
+            property_type=normalized["property_type"],
+            purpose=normalized["repo_purpose"],
+            amenities=None,
+            limit=10,  # Get more than top 3 for flexibility
+        )
+
+    async def _rank_results(self, results: list[dict], session: Any) -> list[dict]:
+        """Rank raw repository results by stored preference profile, then by the ML ranker."""
+        profile = None
+        if self.preference_repository is not None and session is not None:
+            try:
+                customer_key = customer_key_for_phone(session.caller_phone)
+                if customer_key:
+                    profile = await asyncio.to_thread(
+                        self.preference_repository.get,
+                        customer_key,
+                    )
+            except Exception as profile_error:
+                logger.warning("Preference profile lookup failed: %s", profile_error)
+        if profile is not None:
+            results = self.preference_ranker.rank(results, profile)
+
+        runtime_profile = None
+        if session is not None:
+            runtime_profile = getattr(
+                getattr(session, "sara_state", None), "user_profile", None
+            )
+        return self.ml_ranker.rank_properties(results, runtime_profile)
+
+    async def _persist_session_state(self, session: Any, presented_results: list[dict]) -> None:
+        """Snapshot the presented properties onto the session and log 'shown' interactions."""
+        presented_ids = [
+            str(item["property_id"])
+            for item in presented_results
+            if item.get("property_id")
+        ]
+        session.shown_property_ids = presented_ids
+        session.latest_recommended_property_order = list(presented_ids)
+        session.preference_snapshot = self._preference_snapshot(session)
+        if not isinstance(getattr(session, "property_snapshots", None), dict):
+            session.property_snapshots = {}
+        for property_id in presented_ids:
+            property = next(item for item in presented_results if str(item.get("property_id")) == property_id)
+            session.property_snapshots[property_id] = self._property_snapshot(property)
+            await self._record_interaction(
+                session,
+                property_id=property_id,
+                action="shown",
+                preference_snapshot=session.preference_snapshot,
+                property_snapshot=session.property_snapshots[property_id],
             )
 
     async def _record_interaction(
@@ -572,19 +627,13 @@ class VapiToolHandler:
         """List cities from currently available, verified PostgreSQL inventory."""
         if not self.repository:
             logger.error("PostgreSQL repository not initialized")
-            return (
-                "Abhi property database se connection nahi ban pa raha, is liye "
-                "main available cities verify nahi kar sakti."
-            )
+            return RETRIEVAL_UNAVAILABLE
 
         try:
             cities = await asyncio.to_thread(self.repository.list_available_cities)
         except Exception as exc:
             logger.exception("Available-city lookup failed: %s", exc)
-            return (
-                "Available cities verify karne mein masla aa gaya. "
-                "Please thori der baad dobara try karein."
-            )
+            return RETRIEVAL_UNAVAILABLE
 
         if not cities:
             return "Database mein is waqt koi verified available city nahi mili."

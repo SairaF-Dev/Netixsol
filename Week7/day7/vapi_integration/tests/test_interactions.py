@@ -113,7 +113,7 @@ async def test_search_records_only_presented_properties():
     ])
     session = SimpleNamespace(customer_id="customer-1", call_id="call-search")
 
-    result = await handler._search_properties({"location": "Lahore", "max_price": 10}, session=session)
+    result = await handler._search_properties({"location": "DHA Lahore", "purpose": "purchase", "max_price": 10}, session=session)
 
     assert "Found 4 verified properties" in result
     assert [event["property_id"] for event in interactions.events] == ["P001", "P002", "P003"]

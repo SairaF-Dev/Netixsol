@@ -10,6 +10,60 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+# ==============================================================================
+# Priority Order for Constraint Relaxation (Lowest Penalty = Relaxes First):
+# 1. Bedroom (w=1.0): Most flexible; buyers easily consider ±1 bed.
+# 2. Budget (w=2.0): Moderately flexible within strict tiered band.
+# 3. Property Type (w=3.0): Less flexible; switching type (House vs Apt) is significant.
+# 4. Area (w=4.0): Least flexible; buyer strongly prefers target area/neighborhood.
+# ==============================================================================
+DEFAULT_WEIGHT_BEDROOM = 1.0
+DEFAULT_WEIGHT_BUDGET = 2.0
+DEFAULT_WEIGHT_TYPE = 3.0
+DEFAULT_WEIGHT_AREA = 4.0
+
+# Budget Relaxation Tiers & Absolute Caps (PKR)
+PURCHASE_BUDGET_TIERS = [
+    (30_000_000, 0.15, 3_000_000),    # Economy (< 3 Crore): 15% tolerance, capped at 30 Lakh
+    (60_000_000, 0.10, 4_500_000),    # Mid (3-6 Crore): 10% tolerance, capped at 45 Lakh
+    (float("inf"), 0.05, 5_000_000),  # Luxury (> 6 Crore): 5% tolerance, capped at 50 Lakh
+]
+
+RENTAL_BUDGET_TIERS = [
+    (120_000, 0.15, 15_000),          # Economy (< 1.2 Lakh): 15% tolerance, capped at 15k
+    (200_000, 0.10, 18_000),          # Mid (1.2-2 Lakh): 10% tolerance, capped at 18k
+    (float("inf"), 0.08, 25_000),     # Luxury (> 2 Lakh): 8% tolerance, capped at 25k
+]
+
+
+def compute_allowed_budget_increase(
+    budget: int | float | Decimal | None,
+    purpose: str | None = "Purchase",
+) -> float:
+    """
+    Computes maximum allowed budget increase using tiered tolerance bands
+    and absolute PKR caps. Returns min(budget * tolerance_pct, absolute_cap_pkr).
+    Prevents unrealistic windows (e.g. 12 Crore on 80 Crore).
+    """
+    if budget is None:
+        return 0.0
+    try:
+        b = float(budget)
+    except (ValueError, TypeError):
+        return 0.0
+    if b <= 0:
+        return 0.0
+
+    p = (purpose or "Purchase").strip().lower()
+    is_rental = p == "rental" or (b <= 1_000_000 and p != "purchase")
+    tiers = RENTAL_BUDGET_TIERS if is_rental else PURCHASE_BUDGET_TIERS
+
+    for max_budget, tolerance_pct, absolute_cap in tiers:
+        if b <= max_budget:
+            return min(b * tolerance_pct, float(absolute_cap))
+    return min(b * 0.05, 5_000_000.0)
+
+
 QUERIES_FILE = Path(__file__).with_name("property_queries.sql")
 
 
@@ -526,13 +580,30 @@ class PostgresPropertyRepository:
     # Structured search
     # ------------------------------------------------------------------
 
-    def list_available_cities(self) -> list[str]:
-        """Return distinct cities that currently have verified available inventory."""
-        query = self._get_query("available_cities")
+    def list_available_cities(self, purpose: str | None = None) -> list[str]:
+        """Return distinct cities that currently have verified available inventory, optionally filtered by purpose."""
+        if not purpose:
+            query = self._get_query("available_cities")
+            with self._connect() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(query)
+                    return [str(row[0]).strip() for row in cur.fetchall() if row[0]]
 
+        norm_purpose = "rental" if str(purpose).strip().lower() in ("rent", "rental") else str(purpose).strip().lower()
+        sql = """
+            SELECT DISTINCT l.city
+            FROM properties p
+            JOIN locations l ON l.location_id = p.location_id
+            JOIN prices pr ON pr.property_id = p.property_id
+            WHERE p.available = TRUE
+              AND pr.verification_status = 'Verified'
+              AND NULLIF(TRIM(l.city), '') IS NOT NULL
+              AND LOWER(p.purpose) = %s
+            ORDER BY l.city;
+        """
         with self._connect() as conn:
             with conn.cursor() as cur:
-                cur.execute(query)
+                cur.execute(sql, (norm_purpose,))
                 return [str(row[0]).strip() for row in cur.fetchall() if row[0]]
 
     def search(
@@ -625,6 +696,256 @@ class PostgresPropertyRepository:
                     cur,
                     rows,
                 )
+
+    @staticmethod
+    def compute_distance_metrics(
+        candidate: dict[str, Any],
+        requested_bedrooms: int | None = None,
+        requested_budget: int | float | Decimal | None = None,
+        requested_area: str | None = None,
+        requested_type: str | None = None,
+        requested_purpose: str | None = "Purchase",
+    ) -> tuple[float, float, float, float]:
+        """
+        Compute normalized distance metrics for candidate property.
+        All metrics are strictly normalized between [0.0, 1.0].
+        Returns (d_bedroom, d_budget, d_area, d_type).
+        """
+        # 1. Bedroom distance: min(|diff|, 3) / 3.0 (capped at 1.0)
+        if requested_bedrooms is not None:
+            cand_bed = candidate.get("bedrooms")
+            cand_type = (candidate.get("property_type") or "").strip().lower()
+            if cand_bed is None or cand_type in ("plot", "commercial", "office"):
+                d_bedroom = 1.0
+            else:
+                diff = abs(int(cand_bed) - int(requested_bedrooms))
+                d_bedroom = min(diff, 3) / 3.0
+        else:
+            d_bedroom = 0.0
+
+        # 2. Budget distance: min(1.0, max(0, price - budget) / allowed_increase)
+        if requested_budget is not None:
+            cand_price = float(candidate.get("price") or 0)
+            req_budget = float(requested_budget)
+            if cand_price <= req_budget:
+                d_budget = 0.0
+            else:
+                allowed_inc = compute_allowed_budget_increase(req_budget, requested_purpose)
+                if allowed_inc > 0:
+                    d_budget = min(1.0, (cand_price - req_budget) / allowed_inc)
+                else:
+                    d_budget = 1.0
+        else:
+            d_budget = 0.0
+
+        # 3. Area distance: 0 if area matches else 1
+        if requested_area is not None and requested_area.strip():
+            cand_area = (candidate.get("area") or "").strip().lower()
+            req_area = requested_area.strip().lower()
+            if req_area in cand_area or cand_area in req_area:
+                d_area = 0.0
+            else:
+                d_area = 1.0
+        else:
+            d_area = 0.0
+
+        # 4. Type distance: 0 if property_type matches else 1
+        if requested_type is not None and requested_type.strip():
+            cand_type = (candidate.get("property_type") or "").strip().lower()
+            req_type = requested_type.strip().lower()
+            d_type = 0.0 if cand_type == req_type else 1.0
+        else:
+            d_type = 0.0
+
+        # Enforce strict normalization [0.0, 1.0]
+        d_bedroom = max(0.0, min(1.0, float(d_bedroom)))
+        d_budget = max(0.0, min(1.0, float(d_budget)))
+        d_area = max(0.0, min(1.0, float(d_area)))
+        d_type = max(0.0, min(1.0, float(d_type)))
+
+        return d_bedroom, d_budget, d_area, d_type
+
+    def search_relaxed(
+        self,
+        budget=None,
+        city=None,
+        area=None,
+        bedrooms=None,
+        property_type=None,
+        purpose=None,
+        amenities=None,
+        limit: int = DEFAULT_SEARCH_LIMIT,
+        w_bedroom: float = DEFAULT_WEIGHT_BEDROOM,
+        w_budget: float = DEFAULT_WEIGHT_BUDGET,
+        w_area: float = DEFAULT_WEIGHT_AREA,
+        w_type: float = DEFAULT_WEIGHT_TYPE,
+    ) -> dict[str, Any]:
+        """
+        Search properties with weighted relaxation if exact match returns 0 rows.
+
+        Priority order (Lowest penalty = Relaxes first):
+        1. Bedroom (w=1.0)
+        2. Budget (w=2.0)
+        3. Property Type (w=3.0)
+        4. Area (w=4.0)
+
+        Steps:
+        1. Run exact query. If non-empty, return exact_matches.
+        2. If 0 rows:
+           - Fetch candidate properties from city and purpose.
+           - HARD CUTOFF: Exclude any property where price > budget + allowed_increase.
+           - Normalize all distance metrics to [0.0, 1.0].
+           - Calculate score = w_bedroom * d_bedroom + w_budget * d_budget + w_area * d_area + w_type * d_type.
+           - Rank candidates ascending by score.
+           - Call list_available_areas() for cross-area alternatives.
+        """
+        exact_matches = self.search(
+            budget=budget,
+            city=city,
+            area=area,
+            bedrooms=bedrooms,
+            property_type=property_type,
+            purpose=purpose,
+            amenities=amenities,
+            limit=limit,
+        )
+
+        if exact_matches:
+            return {
+                "exact_matches": exact_matches,
+                "relaxed_matches": [],
+                "relaxed_scores": [],
+                "relaxed_constraint": None,
+                "relaxed_meta": {},
+                "cross_area_alternatives": [],
+            }
+
+        # 1. Fetch broader candidate set for the city & purpose
+        candidates = self.search(
+            city=city,
+            purpose=purpose,
+            limit=self.MAX_SEARCH_LIMIT,
+        )
+
+        # 2. HARD BUDGET CUTOFF BEFORE SCORING
+        # Candidates exceeding budget + allowed_increase are excluded entirely.
+        if budget is not None:
+            allowed_inc = compute_allowed_budget_increase(budget, purpose)
+            max_allowed_price = float(budget) + allowed_inc
+            candidates = [
+                c for c in candidates
+                if float(c.get("price") or 0) <= max_allowed_price
+            ]
+
+        # Filter candidates strictly for same area when area is requested
+        if area:
+            area_l = str(area).strip().lower()
+            candidates = [
+                c for c in candidates
+                if str(c.get("area") or "").strip().lower() == area_l
+            ]
+
+        # Filter candidates for amenities if requested
+        if amenities:
+            req_amenities = {a.strip().lower() for a in amenities}
+            candidates = [
+                c for c in candidates
+                if req_amenities.issubset({a.lower() for a in (c.get("amenities") or [])})
+            ]
+
+        # 3. Score candidates with normalized distances
+        scored_candidates: list[tuple[float, dict[str, Any], tuple[float, float, float, float]]] = []
+        for cand in candidates:
+            d_bed, d_bud, d_ar, d_ty = self.compute_distance_metrics(
+                cand,
+                requested_bedrooms=bedrooms,
+                requested_budget=budget,
+                requested_area=area,
+                requested_type=property_type,
+                requested_purpose=purpose,
+            )
+            score = (
+                w_bedroom * d_bed
+                + w_budget * d_bud
+                + w_area * d_ar
+                + w_type * d_ty
+            )
+            scored_candidates.append((score, cand, (d_bed, d_bud, d_ar, d_ty)))
+
+        # Sort by score ascending (lowest score = closest match)
+        scored_candidates.sort(key=lambda item: (item[0], float(item[1].get("price") or 0)))
+
+        relaxed_matches = [item[1] for item in scored_candidates[:limit]]
+        relaxed_scores = [item[0] for item in scored_candidates[:limit]]
+
+        # Determine primary relaxed constraint and metadata
+        relaxed_constraint = None
+        relaxed_meta = {}
+        if scored_candidates:
+            best_score, best_cand, (d_bed, d_bud, d_ar, d_ty) = scored_candidates[0]
+            if d_bed > 0:
+                relaxed_constraint = "bedrooms"
+                relaxed_meta = {
+                    "original_bedrooms": bedrooms,
+                    "relaxed_bedrooms": best_cand.get("bedrooms"),
+                    "score": best_score,
+                }
+            elif d_bud > 0:
+                relaxed_constraint = "budget"
+                relaxed_meta = {
+                    "original_budget": budget,
+                    "relaxed_price": float(best_cand.get("price") or 0),
+                    "score": best_score,
+                }
+            elif d_ty > 0:
+                relaxed_constraint = "property_type"
+                relaxed_meta = {
+                    "original_property_type": property_type,
+                    "relaxed_property_type": best_cand.get("property_type"),
+                    "score": best_score,
+                }
+            elif d_ar > 0:
+                relaxed_constraint = "area"
+                relaxed_meta = {
+                    "original_area": area,
+                    "relaxed_area": best_cand.get("area"),
+                    "score": best_score,
+                }
+
+        # 4. Cross-area alternatives using list_available_areas
+        cross_area_alternatives: list[str] = []
+        if city:
+            cross_areas = self.list_available_areas(
+                city=city,
+                property_type=property_type,
+                purpose=purpose,
+                budget=budget,
+                bedrooms=bedrooms,
+            )
+            if not cross_areas and bedrooms is not None:
+                cross_areas = self.list_available_areas(
+                    city=city,
+                    property_type=property_type,
+                    purpose=purpose,
+                    budget=budget,
+                )
+            if area:
+                area_clean = area.strip().lower()
+                cross_area_alternatives = [
+                    a for a in cross_areas
+                    if area_clean not in a.lower() and a.lower() not in area_clean
+                ]
+            else:
+                cross_area_alternatives = cross_areas
+
+        return {
+            "exact_matches": [],
+            "relaxed_matches": relaxed_matches,
+            "relaxed_scores": relaxed_scores,
+            "relaxed_constraint": relaxed_constraint,
+            "relaxed_meta": relaxed_meta,
+            "cross_area_alternatives": cross_area_alternatives,
+        }
 
     # ------------------------------------------------------------------
     # Natural language search
@@ -807,6 +1128,130 @@ class PostgresPropertyRepository:
                     cur,
                     cur.fetchall(),
                 )
+
+    def budget_area_options(self, *, city, purpose=None, budget=None, property_type=None):
+        """Aggregate ALL verified inventory, ranking affordable areas by proximity.
+
+        Budget is a hard ceiling. Above-budget inventory is returned separately
+        as the cheapest alternative, never silently advertised as a match.
+        """
+        budget = self._validate_optional_budget(budget)
+        city = self._validate_optional_string(city, "city")
+        purpose = self._validate_optional_string(purpose, "purpose")
+        property_type = self._validate_optional_string(property_type, "property_type")
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT l.area, MIN(pr.price) AS min_price, MAX(pr.price) AS max_price,
+                           MAX(CASE WHEN %(budget)s::numeric IS NULL OR pr.price <= %(budget)s
+                                    THEN pr.price END) AS match_price
+                    FROM properties p
+                    JOIN locations l ON p.location_id = l.location_id
+                    JOIN prices pr ON p.property_id = pr.property_id
+                    WHERE p.available = TRUE AND pr.verification_status = 'Verified'
+                      AND l.city ILIKE %(city)s
+                      AND (%(purpose)s::text IS NULL OR p.purpose ILIKE %(purpose)s)
+                      AND (%(property_type)s::text IS NULL OR p.property_type ILIKE %(property_type)s)
+                    GROUP BY l.area
+                    ORDER BY MIN(pr.price), l.area
+                """, {"city": city, "purpose": purpose, "budget": budget, "property_type": property_type})
+                rows = self._rows_to_dicts(cur, cur.fetchall())
+        matches = [row for row in rows if row["match_price"] is not None]
+        if budget is not None:
+            matches.sort(key=lambda row: (abs(Decimal(str(budget)) - Decimal(str(row["match_price"]))), row["area"]))
+        return {"areas": matches, "cheapest": rows[0] if rows else None}
+
+    def list_available_areas(
+        self,
+        city: str | None = None,
+        property_type: str | None = None,
+        purpose: str | None = None,
+        budget: int | float | Decimal | None = None,
+        limit: int = 6,
+        bedrooms: int | None = None,
+    ) -> list[str]:
+        """
+        Dynamically return distinct available areas in PostgreSQL for a city
+        matching optional property filters. Guarantees 100% search/list consistency
+        by querying self.search directly. No area names are hardcoded.
+        """
+        results = self.search(
+            budget=budget,
+            city=city,
+            area=None,
+            bedrooms=bedrooms,
+            property_type=property_type,
+            purpose=purpose,
+            limit=self.MAX_SEARCH_LIMIT,
+        )
+        areas: list[str] = []
+        if budget is not None:
+            results.sort(key=lambda row: abs(budget - (row.get("price") or 0)))
+        for r in results:
+            area_name = r.get("area")
+            if area_name and area_name not in areas:
+                areas.append(area_name)
+                if len(areas) >= limit:
+                    break
+        return areas
+
+    def get_city_price_summary(self, city: str, property_type: str | None = None, purpose: str | None = None) -> list[dict[str, Any]]:
+        """Return price summary by property_type and purpose for a city with verified prices."""
+        if not city:
+            return []
+        sql = """
+            SELECT p.property_type, p.purpose, MIN(pr.price) as min_price, MAX(pr.price) as max_price, COUNT(*) as count
+            FROM properties p
+            JOIN locations l ON p.location_id = l.location_id
+            JOIN prices pr ON p.property_id = pr.property_id
+            WHERE l.city ILIKE %s AND p.available = TRUE AND pr.verification_status = 'Verified'
+        """
+        params: list[Any] = [city.strip()]
+        if property_type:
+            sql += " AND p.property_type ILIKE %s"
+            params.append(property_type.strip())
+        if purpose:
+            sql += " AND p.purpose ILIKE %s"
+            params.append(purpose.strip())
+        sql += """
+            GROUP BY p.property_type, p.purpose
+            ORDER BY p.purpose, p.property_type
+        """
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+                cols = [desc[0] for desc in cur.description]
+                return [dict(zip(cols, row)) for row in cur.fetchall()]
+
+    def get_minimum_price(self, city: str, purpose: str = "Purchase", property_type: str | None = None) -> dict[str, Any] | None:
+        """Return lowest price verified listing for a city and purpose, optionally filtered by property type."""
+        if not city:
+            return None
+        sql = """
+            SELECT p.property_id, p.name AS property_name, l.area, l.city, p.property_type,
+                   p.bedrooms, p.bathrooms, pr.price, p.purpose
+            FROM properties p
+            JOIN locations l ON p.location_id = l.location_id
+            JOIN prices pr ON p.property_id = pr.property_id
+            WHERE l.city ILIKE %s AND p.available = TRUE AND pr.verification_status = 'Verified'
+        """
+        params: list[Any] = [city.strip()]
+        if purpose:
+            sql += " AND p.purpose ILIKE %s"
+            params.append(purpose.strip())
+        if property_type:
+            sql += " AND p.property_type ILIKE %s"
+            params.append(property_type.strip())
+        sql += " ORDER BY pr.price ASC LIMIT 1"
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+                row = cur.fetchone()
+                if not row:
+                    return None
+                cols = [desc[0] for desc in cur.description]
+                return dict(zip(cols, row))
+
 
     # ------------------------------------------------------------------
     # Developer lookup

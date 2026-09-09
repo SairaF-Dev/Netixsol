@@ -146,10 +146,10 @@ class TestPropertySearchPostgres:
             async def mock_thread(function, *args, **kwargs):
                 if function == handler.repository.search:
                     return candidates
-                return handler.preference_repository.get(*args, **kwargs)
+                return function(*args, **kwargs)
 
             mock_to_thread.side_effect = mock_thread
-            result = await handler._search_properties({"location": "Lahore", "max_price": 50_000_000}, session=session)
+            result = await handler._search_properties({"location": "DHA Lahore", "purpose": "purchase", "max_price": 50_000_000}, session=session)
 
         assert "1. First" in result
         assert "2. Second" in result
@@ -196,7 +196,7 @@ class TestPropertySearchPostgres:
             "location": "Lahore",
         })
 
-        assert "database" in result.lower() or "connection" in result.lower()
+        assert "verified property data access" in result.lower()
 
     @pytest.mark.asyncio
     async def test_search_properties_database_error(self, handler):
@@ -214,7 +214,7 @@ class TestPropertySearchPostgres:
             })
 
         # Should return user-friendly error message
-        assert "masla" in result.lower() or "error" in result.lower()
+        assert "issue" in result.lower()
         # Should NOT expose technical details
         assert "Exception" not in result
         assert "Connection failed" not in result
@@ -301,8 +301,9 @@ class TestAppointmentTools:
     """Verify appointment tools are not broken by PostgreSQL changes."""
 
     @pytest.fixture
-    def handler(self):
+    def handler(self, monkeypatch):
         """Create a handler for appointment tests."""
+        monkeypatch.setenv('DAY4_API_KEY', 'test-day4-key')
         return VapiToolHandler()
 
     @pytest.mark.asyncio

@@ -1118,6 +1118,14 @@ class Day2Adapter:
             key=lambda value: value.casefold(),
         )
 
+    def budget_area_options(self, **filters):
+        native = getattr(self.repository, "budget_area_options", None)
+        if callable(native):
+            return native(**filters)
+        # Compatibility for injected repositories: keep their verified filters.
+        city = filters.pop("city")
+        return {"areas": [{"area": area} for area in self.list_areas(city, filters)], "cheapest": None}
+
     def list_areas(
         self,
         city: str,

@@ -44,8 +44,9 @@ class SaraService:
         # Lazy construction avoids requiring an LLM key at API startup.
         # The Day 3 chatbot repairs partial deterministic extraction using its
         # own verified-location pass. This adapter needs complete structured NLU.
-        service = self.understanding or UserUnderstandingService(deterministic_first=False)
-        return service.understand(message, context=context)
+        if self.understanding is None:
+            self.understanding = UserUnderstandingService(deterministic_first=True)
+        return self.understanding.understand(message, context=context)
 
     def hydrate(self, preferences, saved):
         fields = ("city", "area", "bedrooms", "property_type", "purpose", "amenities")

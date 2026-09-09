@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
+import time
 from decimal import Decimal
 from typing import Any
 
@@ -10,6 +12,9 @@ from dotenv import load_dotenv
 
 from .models import ComparisonRequest, UserUnderstanding
 from .edge_case_policy import EdgeCasePolicy
+
+
+logger = logging.getLogger(__name__)
 
 
 INTENTS = {
@@ -27,6 +32,29 @@ INTENTS = {
     "reset",
     "off_topic",
     "unknown",
+    # Real-estate conversation & inquiry intents
+    "same_requirements",
+    "change_preference",
+    "budget_objection",
+    "minimum_budget_query",
+    "budget_feasibility_query",
+    "property_type_by_budget_query",
+    "cheapest_property_query",
+    "book_visit",
+    "SAME_REQUIREMENTS",
+    "CHANGE_PREFERENCE",
+    "BUDGET_OBJECTION",
+    "MINIMUM_BUDGET_QUERY",
+    "BUDGET_FEASIBILITY_QUERY",
+    "PROPERTY_TYPE_BY_BUDGET_QUERY",
+    "CHEAPEST_PROPERTY_QUERY",
+    "MOST_EXPENSIVE_PROPERTY_QUERY",
+    "AREAS_QUERY",
+    "CITIES_QUERY",
+    "LIST_AVAILABLE_OPTIONS_QUERY",
+    "PROPERTY_SEARCH",
+    "PROPERTY_DETAILS",
+    "BOOK_VISIT",
 }
 
 FIELDS = {
@@ -89,6 +117,10 @@ PROPERTY_TYPE_ALIASES = {
     "homes": "House",
     "villa": "House",
     "villas": "House",
+    "ghar": "House",
+    "ghars": "House",
+    "makan": "House",
+    "makaan": "House",
 
     "office": "Office",
     "office space": "Office",
@@ -120,6 +152,26 @@ PURPOSE_ALIASES = {
     "sale": "Purchase",
 }
 
+CITY_ALIASES = {
+    "islamabad": "Islamabad",
+    "isb": "Islamabad",
+    "lahore": "Lahore",
+    "lahor": "Lahore",
+    "lahoor": "Lahore",
+    "lahroe": "Lahore",
+    "karachi": "Karachi",
+    "khi": "Karachi",
+    "rawalpindi": "Rawalpindi",
+    "pindi": "Rawalpindi",
+    "rwp": "Rawalpindi",
+    "peshawar": "Peshawar",
+    "pesh": "Peshawar",
+    "multan": "Multan",
+    "faisalabad": "Faisalabad",
+    "fsd": "Faisalabad",
+    "quetta": "Quetta",
+}
+
 
 class UnderstandingError(RuntimeError):
     pass
@@ -138,6 +190,7 @@ class UserUnderstandingService:
 
         self.model = (
             model
+            or os.getenv("OPENROUTER_MODEL")
             or os.getenv(
                 "SARA_LLM_MODEL",
                 "openai/gpt-4o-mini",
@@ -146,9 +199,9 @@ class UserUnderstandingService:
 
         self.max_tokens = self._env_int(
             "SARA_NLU_MAX_TOKENS",
-            320,
-            minimum=120,
-            maximum=900,
+            600,
+            minimum=300,
+            maximum=1200,
         )
         if not deterministic_first:
             # Full structured turns include location, references and workflow
@@ -167,6 +220,17 @@ class UserUnderstandingService:
             1,
             minimum=0,
             maximum=3,
+        )
+
+        # Safety net against pathologically long input (voice transcripts
+        # gone wrong, copy-pasted documents, abuse). Regex-heavy parsing
+        # and LLM token costs both scale with message length, so we cap it
+        # rather than trusting every caller to validate first.
+        self.max_message_length = self._env_int(
+            "SARA_MAX_MESSAGE_LENGTH",
+            2000,
+            minimum=50,
+            maximum=10_000,
         )
 
         if client is not None:
@@ -188,6 +252,13 @@ class UserUnderstandingService:
                 "pip install -r requirements.txt"
             ) from exc
 
+        # NOTE: `max_retries` here already makes the OpenAI SDK retry
+        # transient errors (rate limits, timeouts, 5xx) internally with
+        # its own backoff. We intentionally do NOT re-implement a second
+        # retry loop for the same failure classes in `_call_llm` below —
+        # doing so previously caused duplicate, uncoordinated retries
+        # (e.g. client retries 429 while our own loop also slept and
+        # retried), which just multiplied latency without adding safety.
         self.client = OpenAI(
             api_key=key,
             base_url=os.getenv(
@@ -198,7 +269,30 @@ class UserUnderstandingService:
             max_retries=self.max_retries,
         )
 
-    def understand(
+    def understand(self, message, context=None):
+        from .preference_edit import edit_cues
+        if not isinstance(message, str) or not message.strip():
+            raise ValueError("message must be non-empty")
+        context = context if isinstance(context, dict) else {}
+        action, fields = edit_cues(message)
+        semantic_message = message
+        # In replacement clauses the left side is the OLD value, not a filter.
+        semantic_message = re.sub(r"\b[\w-]+\s+ki\s+jagah\s+", "", semantic_message, flags=re.I)
+        pending = context.get("preference_fields", [])
+        if len(pending) == 1 and not fields and action is None:
+            semantic_message = f"{pending[0].replace('_', ' ')} {semantic_message}"
+        # Field-only change commands need no search extraction or model call.
+        residue = re.sub(r"\b(?:preferences?|change|kar(?:na|ni|ne|o)?|kr(?:na|ni|ne|o)?|hai|hain|badal\w*|tabdeel\w*|city|budget|location|area|purpose|property|type|bedrooms?|rooms?)\b", "", message, flags=re.I)
+        if action in {"cancel", "continue"} or (action == "edit" and not residue.strip(" .!?")):
+            result = UserUnderstanding(intent="property_search" if action == "continue" else "unknown")
+        else:
+            result = self._understand(semantic_message, context)
+        result.preference_action = result.preference_action or action
+        result.preference_fields = list(dict.fromkeys(result.preference_fields + fields))
+        result.raw_message = message.strip()[: self.max_message_length]
+        return result
+
+    def _understand(
         self,
         message: str,
         context: dict[str, Any] | None = None,
@@ -209,6 +303,20 @@ class UserUnderstandingService:
         raw_message = message.strip()
         if not raw_message:
             raise ValueError("message must be non-empty")
+
+        if len(raw_message) > self.max_message_length:
+            logger.warning(
+                "understand(): message length %s exceeds max %s; truncating.",
+                len(raw_message),
+                self.max_message_length,
+            )
+            raw_message = raw_message[: self.max_message_length]
+
+        # Defensive normalization: callers (voice pipeline, API layer,
+        # tests) should pass a dict, but we never want a malformed
+        # context object to crash NLU — treat anything else as empty.
+        if not isinstance(context, dict):
+            context = {}
 
         # Repair only generic language/schema typos. Business/location
         # values are never rewritten here.
@@ -222,13 +330,18 @@ class UserUnderstandingService:
 
         deterministic = self._deterministic_understanding(
             message=semantic_message,
-            context=context or {},
+            context=context,
         )
 
         if deterministic is not None and self.deterministic_first:
             # Deterministic rich-turn parsing may return before the normal
-            # post-LLM repair pipeline. Still apply explicit relaxation
-            # language such as "area ka issue nahi" / "area flexible hai".
+            # post-LLM repair pipeline. Still apply explicit location and relaxation
+            # language such as "Islamabad" / "area flexible hai".
+            deterministic = self._repair_location_understanding(
+                result=deterministic,
+                raw_message=semantic_message,
+                context=context,
+            )
             deterministic = self._repair_relaxation_understanding(
                 result=deterministic,
                 raw_message=semantic_message,
@@ -236,39 +349,40 @@ class UserUnderstandingService:
             deterministic.raw_message = raw_message
             return deterministic
 
+        has_unsupported_script = bool(
+            re.search(
+                r"[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u0900-\u097F\u4e00-\u9fff\u0400-\u04FF]",
+                raw_message,
+            )
+        )
+        has_latin_or_digits = bool(
+            re.search(r"[a-zA-Z0-9\u0660-\u0669\u06F0-\u06F9]", raw_message)
+        )
+        if has_unsupported_script and not has_latin_or_digits:
+            raise UnderstandingError("unsupported_script")
+
         payload = {
-            "context": self._json_safe(context or {}),
+            "context": self._json_safe(context),
             "current_message": semantic_message,
         }
 
         try:
-            attempts = 1 if self.deterministic_first else 2
-            for attempt in range(attempts):
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    temperature=0,
-                    max_tokens=self.max_tokens,
-                    messages=[
-                        {"role": "system", "content": self._system_prompt()},
-                        {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
-                    ],
-                )
-                content = response.choices[0].message.content or ""
-                try:
-                    parsed = self._parse_json(content)
-                    break
-                except (ValueError, json.JSONDecodeError):
-                    # One bounded retry of the same shared prompt for malformed
-                    # structured output. No partial extraction or tool effects.
-                    if attempt + 1 == attempts:
-                        raise
+            parsed = self._call_llm(payload)
 
         except Exception as exc:
+            logger.warning(
+                "LLM understanding failed (%s: %s); falling back to "
+                "deterministic parsing.",
+                type(exc).__name__,
+                exc,
+            )
+
             if not self.deterministic_first:
                 raise UnderstandingError("semantic understanding failed") from exc
+
             fallback = self._deterministic_understanding(
                 message=semantic_message,
-                context=context or {},
+                context=context,
             )
 
             if fallback is not None:
@@ -287,6 +401,12 @@ class UserUnderstandingService:
                 raw_message=raw_message,
             )
 
+            schema_fallback = self._repair_location_understanding(
+                result=schema_fallback,
+                raw_message=semantic_message,
+                context=context,
+            )
+
             schema_fallback = self._repair_explicit_schema_understanding(
                 result=schema_fallback,
                 raw_message=semantic_message,
@@ -300,7 +420,7 @@ class UserUnderstandingService:
             schema_fallback = self._repair_budget_understanding(
                 result=schema_fallback,
                 raw_message=semantic_message,
-                context=context or {},
+                context=context,
             )
 
             if (
@@ -313,6 +433,11 @@ class UserUnderstandingService:
                     schema_fallback.intent = "property_search"
 
                 schema_fallback.raw_message = raw_message
+                logger.info(
+                    "Recovered a schema-only fallback understanding after "
+                    "LLM failure (intent=%s).",
+                    schema_fallback.intent,
+                )
                 return schema_fallback
 
             raise UnderstandingError(
@@ -333,13 +458,13 @@ class UserUnderstandingService:
         result = self._repair_location_understanding(
             result=result,
             raw_message=raw_message,
-            context=context or {},
+            context=context,
         )
 
         result = self._repair_correction_understanding(
             result=result,
             raw_message=semantic_message,
-            context=context or {},
+            context=context,
         )
 
         result = self._repair_relaxation_understanding(
@@ -355,12 +480,96 @@ class UserUnderstandingService:
         result = self._repair_budget_understanding(
             result=result,
             raw_message=semantic_message,
-            context=context or {},
+            context=context,
         )
 
         result.raw_message = raw_message
         return result
-        
+
+    def _call_llm(self, payload: dict[str, Any]) -> dict[str, Any]:
+        """
+        Call the LLM and return its parsed JSON response.
+
+        Includes response_format={"type": "json_object"} to force structured output,
+        transient empty-choice retries with backoff and raw response logging, and
+        JSON parse retries with brief delay and corrective prompt.
+        """
+        last_parse_err: Exception | None = None
+        user_content = json.dumps(payload, ensure_ascii=False)
+
+        for attempt in range(2):
+            messages = [
+                {"role": "system", "content": self._system_prompt()},
+                {"role": "user", "content": user_content},
+            ]
+
+            if attempt > 0:
+                time.sleep(0.5)
+                messages.append({
+                    "role": "user",
+                    "content": "IMPORTANT: Output ONLY a valid JSON object matching the required schema. No introductory text or markdown prose.",
+                })
+
+            response = None
+            choices = None
+
+            # Sub-retry loop specifically for transient empty choices / provider blips
+            for choice_attempt in range(3):
+                call_kwargs: dict[str, Any] = {
+                    "model": self.model,
+                    "temperature": 0,
+                    "max_tokens": self.max_tokens,
+                    "messages": messages,
+                    "response_format": {"type": "json_object"},
+                }
+
+                try:
+                    response = self.client.chat.completions.create(**call_kwargs)
+                except Exception as api_err:
+                    # Fallback if provider/model explicitly rejects response_format parameter
+                    if "response_format" in call_kwargs and ("response_format" in str(api_err).lower() or "unsupported" in str(api_err).lower()):
+                        call_kwargs.pop("response_format", None)
+                        response = self.client.chat.completions.create(**call_kwargs)
+                    else:
+                        raise api_err
+
+                choices = getattr(response, "choices", None)
+                if choices:
+                    break
+
+                logger.warning(
+                    "Provider returned no message choices (choice_attempt %s/3). Raw response object: %r",
+                    choice_attempt + 1,
+                    response,
+                )
+                time.sleep(1.0 * (choice_attempt + 1))
+
+            if not choices:
+                last_parse_err = ValueError(f"Provider returned no message choices after retries. Raw response: {response!r}")
+                logger.warning(
+                    "Provider returned no message choices after retries (attempt %s/2). Raw response: %r",
+                    attempt + 1,
+                    response,
+                )
+                continue
+
+            content = choices[0].message.content or ""
+            finish_reason = getattr(choices[0], "finish_reason", None)
+            if finish_reason and finish_reason not in ("stop", "length"):
+                logger.warning("LLM choice finish_reason is %r | Raw response: %r", finish_reason, response)
+
+            try:
+                return self._parse_json(content)
+            except (ValueError, json.JSONDecodeError) as parse_err:
+                last_parse_err = parse_err
+                logger.warning(
+                    "Malformed JSON from LLM (attempt %s/2): %s | Raw content: %r",
+                    attempt + 1,
+                    parse_err,
+                    content,
+                )
+
+        raise last_parse_err or ValueError("LLM returned unparsable content")
 
     def _deterministic_understanding(
         self,
@@ -393,12 +602,8 @@ class UserUnderstandingService:
 
         text = raw.casefold()
 
-        # Normalize common Roman-Urdu spelling noise and punctuation.
-        text = re.sub(
-            r"[^a-z0-9\s]",
-            " ",
-            text,
-        )
+        # Normalize common Roman-Urdu spelling noise and punctuation, preserving decimal numbers (e.g. 1.2 or 6.5).
+        text = re.sub(r"(?<!\d)\.|\.(?!\d)|[^a-z0-9\s\.]", " ", text)
 
         text = re.sub(
             r"\s+",
@@ -409,11 +614,389 @@ class UserUnderstandingService:
         if not text:
             return None
 
+        # Pure greeting detection
+        if re.fullmatch(
+            r"(?:hi+|hello|helo|hallo|hey+|yo|salam|salaam|as+alam\s*(?:o|u)?\s*alaikum|as+alamu?alaikum|aoa|a\s*o\s*a|good\s+(?:morning|evening|afternoon))",
+            text,
+            flags=re.IGNORECASE,
+        ):
+            return UserUnderstanding(
+                intent="greeting",
+                raw_message=raw,
+            )
+
+        # Area relaxation: "g dusrey areas dikha dein", "mazeed areas dikhao", "dusre areas", etc.
+        is_area_relax = bool(re.search(
+            r"\b(?:dusre|dusray|dusrey|doosre|doosray|doosrey|other|different|aur|aor|mazeed|more|qareebi)\s+areas?\b|"
+            r"\b(?:areas?|locations?)\s+(?:k[ayei]?\s+)?(?:options?\s+)?(?:dikha|dikhao|dikhayein|dikha\s*do|dikhado|check|dekh|dekhna)\b|"
+            r"\b(?:kisi\s+(?:aur|aor|dusre|doosre|dusrey|doosrey)\s+area)\b|"
+            r"\bkoi\s+bhi\s+(?:area|location)\b|"
+            r"\b(?:area|location)\s+(?:flexible|koi\s+bhi|matter\s+nahi)\b",
+            text, flags=re.IGNORECASE,
+        ))
+        if is_area_relax:
+            city = self._extract_explicit_city(text)
+            req = {"city": city} if city else {}
+            return UserUnderstanding(
+                intent="property_search",
+                required=req,
+                relax=["area"],
+                raw_message=raw,
+            )
+
+        if re.fullmatch(r"(?:budget (?:flexible(?: hai)?|koi masla nahi|ka masla nahi)|no budget limit|budget koi masla nahi hai)", text):
+            return UserUnderstanding(intent="property_search", relax=["budget"])
+        if re.fullmatch(r"(?:sab|all|saray|saare) (?:suggest kiye hue )?areas?(?: ke)?(?: options)?(?: dikha do| dikhao| dikhayein)?", text):
+            return UserUnderstanding(intent="property_search", relax=["area"])
+
         # Keep this fast-path limited to short conversational follow-ups.
         tokens = text.split()
 
-        if len(tokens) > 28:
-            return None
+        if text in {"flexible", "flexible hai", "area flexible", "area flexible hai", "koi bhi area", "area ka issue nahi"}:
+            return UserUnderstanding(
+                intent="property_search",
+                relax=["area"],
+                raw_message=raw,
+            )
+
+        # Generalized list available options queries (Cities / Areas)
+        explicit_area = self._extract_explicit_area(raw)
+        has_specific_area = explicit_area is not None
+
+        interrogatives = (
+            r"(?:k[ao]ns[aei]|knse?y?|"
+            r"k[ao]n\s+k[ao]n\s+s[aei]|kn\s+kn\s+se?y?|"
+            r"kin\s+kin|"
+            r"which|what|"
+            r"kitn[aei]|"
+            r"list\s+(?:of\s+)?)"
+        )
+        city_nouns = r"(?:cities|city|shehar|shahron)"
+        area_nouns = r"(?:areas?|locations?|il[ao]q[aei]|jagh[aei]|phases?|sectors?)"
+
+        is_city_list = False
+        is_area_list = False
+
+        if not has_specific_area:
+            explicit_city = self._extract_explicit_city(raw)
+            if not explicit_city:
+                is_city_list = bool(re.search(
+                    rf"\b{interrogatives}\s+{city_nouns}\b|"
+                    rf"\b{city_nouns}\s+(?:mein\s+)?(?:{interrogatives}\s+)?(?:options?\s+)?available\b|"
+                    rf"\b{city_nouns}\s+(?:batao|batayein|bata\s+dein)\b|"
+                    rf"\bwhich\s+cities\s+do\s+you\s+operate\b",
+                    text, flags=re.IGNORECASE
+                ))
+            
+            is_area_list = bool(re.search(
+                rf"\b{interrogatives}\s+{area_nouns}\b|"
+                rf"\b{area_nouns}\s+(?:k[ayei]?\s+)?(?:options?\s+)?available\b|"
+                rf"\b{area_nouns}\s+(?:batao|batayein|bata\s+dein)\b|"
+                rf"\boptions?\s+kya\s+hai[n]?\b|\bkya\s+options?\s+hai[n]?\b",
+                text, flags=re.IGNORECASE
+            ))
+            has_interrogative = bool(re.search(
+                rf"\b{interrogatives}\b|\bkya\s+hai[n]?\b|\bhai[n]?\s+kya\b|\bbata[aoaei]+\b|\bavailable\b",
+                text, flags=re.IGNORECASE
+            ))
+            if is_area_list and not has_interrogative:
+                is_area_list = False
+
+        if is_city_list:
+            purp = self._extract_explicit_purpose(text)
+            req = {"purpose": purp} if purp else {}
+            return UserUnderstanding(
+                intent="CITIES_QUERY",
+                required=req,
+                raw_message=raw,
+            )
+
+        if is_area_list:
+            city = self._extract_explicit_city(text)
+            p_types = self._extract_property_types(text)
+            purp = self._extract_explicit_purpose(text)
+            req = {}
+            if city:
+                req["city"] = city
+            if p_types:
+                req["property_type"] = p_types[0]
+            if purp:
+                req["purpose"] = purp
+            return UserUnderstanding(
+                intent="AREAS_QUERY",
+                required=req,
+                raw_message=raw,
+            )
+
+        # Area suggestion requests: "area suggest kro", "koi area recommend kro", "konsa area acha hai", "ap suggest kro", "g suggest krey"
+        suggest_area_pattern = (
+            r"\b(?:suggest|recommend|batao|bata dein|batayein|konsa|knsa|acha|ache)\s+(?:area|sector|location)\b|"
+            r"\b(?:area|sector|location)\s+(?:suggest|recommend|batao|bata dein|batayein)\b|"
+            r"\b(?:ap\s+(?:hi\s+)?)?(?:suggest|recommend)\s*(?:kro|karein|krey|krti|karti|krdo|kardo)?\b|"
+            r"\b(?:g|ji|jee|haan|yes)\s+(?:bhi\s+)?(?:suggest|recommend)\b|"
+            r"\bap\s+batao\b|\bpata\s+nahi\s+konsa\s+area\b"
+        )
+        if re.search(suggest_area_pattern, text, flags=re.IGNORECASE):
+            city = self._extract_explicit_city(text)
+            req = {"city": city} if city else {}
+            return UserUnderstanding(
+                intent="property_search",
+                required=req,
+                relax=["area"],
+                raw_message=raw,
+            )
+
+        # Same requirements check: "wahi requirements hai meri", "wahi requirements hain", "same requirements", "requiremenys wahi hai"
+        same_req_pattern = (
+            r"\b(?:wahi|same)\s+(?:requirements?|requiremenys?|preference|preferences|specs?|criteria)\b|"
+            r"\b(?:requirements?|requiremenys?|preference|preferences)\s+(?:wahi|same)\b|"
+            r"^\s*(?:wahi\s+chahiye|wahi\s+hai[n]?|same\s+hai[n]?|pichli\s+wali|pichli\s+dafa\s+wali)\s*$"
+        )
+        if re.search(same_req_pattern, text, flags=re.IGNORECASE):
+            return UserUnderstanding(
+                intent="SAME_REQUIREMENTS",
+                raw_message=raw,
+            )
+
+        # Most expensive property query: "sab se mehngi property konsi hai", "sb se menghi property knsi hai karachi mein", "most expensive house"
+        is_expensive_query = bool(re.search(
+            r"\b(?:s[ab]b?\s*se\s*m(?:ehng|engh)[aeiouy]*|most\s*expensive|highest\s*price|maximum\s*price|costliest|sab\s*se\s*costly|sab\s*se\s*zyada\s*(?:budget|price|qeemat)\s*wal[aei])\b|"
+            r"\b(?:m(?:ehng|engh)[aeiouy]*|expensive|costly)\s+(?:house|ghar|apartment|flat|plot|property|option)\s*(?:hai|kons[aei]|knsi|batao)\b",
+            text, flags=re.IGNORECASE,
+        )) and not bool(re.search(r"\b(?:bohat|bht|too|ye|yeh)\s+m(?:ehng|engh)[aeiouy]*\b", text, re.IGNORECASE))
+        if is_expensive_query:
+            city = self._extract_explicit_city(text)
+            area = self._extract_explicit_area(text)
+            p_types = self._extract_property_types(text)
+            req = {}
+            if city:
+                req["city"] = city
+            if area:
+                req["area"] = area
+            if p_types:
+                req["property_type"] = p_types[0]
+            return UserUnderstanding(
+                intent="MOST_EXPENSIVE_PROPERTY_QUERY",
+                query_property_types=p_types,
+                required=req,
+                raw_message=raw,
+            )
+
+        # Budget objection: "ye property bohat mehngi hai", "bohat mehnga hai", "ye bht mehngi hai"
+        is_price_objection = bool(re.search(
+            r"\b(?:mengh[aei]|mehng[aei]|expensive|bohat\s+mehng[aei]|bht\s+mehng[aei]|"
+            r"out\s+of\s+budget|budget\s+se\s+(?:bohat\s+|bht\s+)?(?:bahar|zyada)|"
+            r"price\s+(?:bohat\s+|bht\s+)?(?:zyada|high)|rate\s+(?:bohat\s+|bht\s+)?zyada)\b",
+            text, flags=re.IGNORECASE,
+        ))
+        if is_price_objection:
+            return UserUnderstanding(
+                intent="BUDGET_OBJECTION",
+                raw_message=raw,
+            )
+
+        # Cheapest property query: "sab se sasta house konsa hai", "cheapest property konsi hai"
+        is_cheapest_query = bool(re.search(
+            r"\b(?:sab\s*se\s*sast[aei]\s+(?:house|ghar|apartment|flat|plot|property|option)|"
+            r"cheapest\s+(?:house|property|apartment|option)|"
+            r"sab\s*se\s*kam\s*price\s*wal[aei]\s+(?:house|ghar|property|apartment))\b|"
+            r"\b(?:sab\s*se\s*sast[aei]|cheapest)\s*(?:hai|kons[aei]|knsi|batao)\b",
+            text, flags=re.IGNORECASE,
+        ))
+        if is_cheapest_query:
+            city = self._extract_explicit_city(text)
+            area = self._extract_explicit_area(text)
+            p_types = self._extract_property_types(text)
+            req = {}
+            if city:
+                req["city"] = city
+            if area:
+                req["area"] = area
+            if p_types:
+                req["property_type"] = p_types[0]
+            return UserUnderstanding(
+                intent="CHEAPEST_PROPERTY_QUERY",
+                query_property_types=p_types,
+                required=req,
+                raw_message=raw,
+            )
+
+        # Minimum budget query: "minimum budget kitna hona chahey", "minimum budget kitna hai", "starting price kya hai"
+        is_min_budget_query = bool(re.search(
+            r"\b(?:minimum\s*budget|min\s*budget|kam\s*(?:az\s*kam|se\s*kam)\s*budget|"
+            r"starting\s*price|starting\s*budget|sab\s*se\s*kam\s*(?:price|budget|rate))\s*(?:kitna|kya|hona|chahiye|chahey)?\b|"
+            r"\b(?:kitna|kya)\s*(?:minimum|min|kam\s*se\s*kam)\s*budget\b|"
+            r"\bminimum\s*budget\s*kitna\b|"
+            r"\bbudget\s*(?:kitna|kya)\s*hona\s*(?:chahiye|chahey)\b|"
+            r"\bstarting\s*price\b",
+            text, flags=re.IGNORECASE,
+        ))
+        if is_min_budget_query:
+            p_types = self._extract_property_types(text)
+            return UserUnderstanding(
+                intent="MINIMUM_BUDGET_QUERY",
+                query_property_types=p_types,
+                required={"property_type": p_types[0]} if len(p_types) == 1 else {},
+                raw_message=raw,
+            )
+
+        # Property type by budget query: "1.2 crore mein apartment aye ga ya house", "1.2 crore mein kya milega"
+        is_type_by_budget = bool(re.search(
+            r"\b(?:\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k)\b|\b\d+\b)\s+mein\s+(?:kya\s+milega|apartment\s+aye\s*ga\s+ya\s+house|house\s+aye\s*ga\s+ya\s+apartment|kya\s+aa\s+sakta\s+hai|kuch\s+milega|kya\s+options?\s+hai[n]?|options?\s+hai[n]?|kya\s+hai)\b|"
+            r"\bis\s+budget\s+mein\s+(?:apartment\s+milega\s+ya\s+house|house\s+milega\s+ya\s+apartment|kya\s+milega|kya\s+aa\s+sakta\s+hai|kya\s+options?\s+hai[n]?)\b|"
+            r"\bapartment\s+sasta\s+hai\s+ya\s+house\b|"
+            r"\bmera\s+budget\s+kis\s+property\s+type\s+ke\s+liye\s+enough\s+hai\b|"
+            r"\b(?:\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k)\b)\s+mein\s+.*\b(?:aye\s*ga|milega|aa\s*sakta|hoga)\b",
+            text, flags=re.IGNORECASE,
+        )) or (
+            ("?" in raw or re.search(r"\b(?:aye\s*ga|milega|hoga)\b", text, re.IGNORECASE))
+            and re.search(r"\b(?:apartment|house|flat|ghar)\b", text, re.IGNORECASE)
+            and re.search(r"\b\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k)\b", text, re.IGNORECASE)
+        )
+        if is_type_by_budget:
+            q_budget = self._extract_budget_amount(text)
+            p_types = self._extract_property_types(text)
+            return UserUnderstanding(
+                intent="PROPERTY_TYPE_BY_BUDGET_QUERY",
+                query_budget=q_budget,
+                query_property_types=p_types,
+                raw_message=raw,
+            )
+
+        # Budget feasibility query: "mera budget enough hai?", "kya 1.2 crore kafi hai?", "kiya dha phase 6 mein meray budget k according options available hai"
+        is_budget_feasibility = bool(re.search(
+            r"\b(?:mera\s+budget\s+enough\s+hai|kya\s+mera\s+budget\s+kafi\s+hai|kya\s+(?:\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k))\s+enough\s+hai|budget\s+kafi\s+hoga)\b|"
+            r"\b(?:kiya|kya)?\s*.*?\b(?:meray|mere|apka|mera)?\s*budget\s*(?:k|ke)?\s*(?:according|mutabiq|hisaab)\s*(?:options?|properties?)\s*(?:available|hai[n]?)\b|"
+            r"\b(?:budget\s*(?:ke|k)?\s*(?:according|mutabiq|hisaab))\b",
+            text, flags=re.IGNORECASE,
+        ))
+        if is_budget_feasibility:
+            q_budget = self._extract_budget_amount(text)
+            explicit_area = self._extract_explicit_area(raw)
+            req = {"area": explicit_area} if explicit_area else {}
+            return UserUnderstanding(
+                intent="BUDGET_FEASIBILITY_QUERY",
+                query_budget=q_budget,
+                required=req,
+                raw_message=raw,
+            )
+
+        # Change preference: explicit command like "mera budget 1.2 crore kar do", "ab mera budget 1.2 crore hai"
+        is_pref_update = bool(re.search(
+            r"\b(?:mera\s+budget|budget)\s*(?:ab\s+)?(?:\d+.*?)\s*(?:kar\s+do|kr\s+do|kardein|rakho|set\s+karo)\b|"
+            r"\b(?:ab\s+)?(?:mera\s+budget|budget)\s+(?:\d+.*?)\s*(?:hai|krna\s+hai)\b|"
+            r"\b(?:\d+.*?)\s*tak\s+(?:options?|properties?)\s+(?:dikhao|dikhayein|dikhado)\b",
+            text, flags=re.IGNORECASE,
+        ))
+        if is_pref_update:
+            b_amt = self._extract_budget_amount(text)
+            req = {"budget": b_amt} if b_amt else {}
+            return UserUnderstanding(
+                intent="CHANGE_PREFERENCE",
+                required=req,
+                raw_message=raw,
+            )
+
+        # Confirmation queries: "haan", "theek hai", "g dekhna chahu gi", "wahi chahiye", "haan dikha do"
+        confirmation_pattern = (
+            r"^\s*(?:"
+            r"haan|theek\s+hai|sahi\s+hai|ji\s+haan|ji\s+bilkul|ji|jee|g|yes|"
+            r"g\s+zaroor|ji\s+zaroor|zaroor|"
+            r"(?:g|ji|jee|haan)?\s*(?:dekhna\s+(?:chahu|chahungi|chahu\s*gi|chahti\s+hoon|chahta\s+hoon|hai)|dikhayein|dikha\s*do|dikhado|dikha\s+dein)|"
+            r"wahi|wahi\s+chahiye|wahi\s+requirement|wahi\s+requirements?\s*(?:hai[n]?)?|"
+            r"haan\s+wahi|haan\s+wahi\s+chahiye|haan\s+dikha\s*do|haan\s+dikhao|haan\s+dikhayein|"
+            r"haan\s+doosre\s+areas|haan\s+doosre\s+areas\s+bhi\s+dikha\s*do"
+            r")\s*$"
+        )
+        if re.search(confirmation_pattern, text, flags=re.IGNORECASE):
+            return UserUnderstanding(
+                intent="property_search",
+                raw_message=raw,
+            )
+
+        # Decline queries: "nahi", "nahi sirf b-17 hi chahiye", "nahi rehndo"
+        if re.search(r"^\s*(?:nahi|nahin|no)\b", text, flags=re.IGNORECASE):
+            explicit_area = self._extract_explicit_area(raw)
+            req = {"area": explicit_area} if explicit_area else {}
+            return UserUnderstanding(
+                intent="property_search",
+                required=req,
+                raw_message=raw,
+            )
+
+        # More options / pagination queries: "is k ilawa", "in k ilawa", "aur options", "koi aur option", "aur kya options"
+        more_options_pattern = (
+            r"\b(?:is|in|un|iske|inke|unke)\s*(?:ke|k|kay)?\s*(?:ilawa|elawa|alawa|lawa)\b|"
+            r"\b(?:aur|aor|mazeed|more|koi\s+(?:aur|aor)|agla|next|knsey|konse|kaunsay|kn\s*kn\s*se[y]?)\s+(?:kya\s+|knsey\s+|konse\s+|kaunsay\s+|kn\s*kn\s*se[y]?\s+|bhi\s+)?(?:options?|properties|plots?|ghars?|houses?|flats?|apartments?|dikhao|dikhayein|hai|hain|available)\b"
+        )
+        if re.search(more_options_pattern, text, flags=re.IGNORECASE):
+            explicit_area = self._extract_explicit_area(raw)
+            explicit_city = self._extract_explicit_city(raw)
+            req = {}
+            if explicit_area:
+                req["area"] = explicit_area
+            if explicit_city:
+                req["city"] = explicit_city
+            relax = ["budget"]
+            if not explicit_area:
+                relax.append("area")
+            return UserUnderstanding(
+                intent="property_search",
+                required=req,
+                relax=relax,
+                raw_message=raw,
+            )
+
+        # Recommendation / cheapest among options: "property recommend kro", "konsa best hai", "inme se sabse sasta wala kaunsa hai"
+        recommend_pattern = r"\b(?:recommend|mashwara|kons[ayie]\s+(?:best|ach[ayie]|sahi|sast[ayie]|kam)|best\s+option|behtareen\s+option|sabse\s+sast[ayie]|sabse\s+kam|cheapest|lowest\s+price)\b"
+        if re.search(recommend_pattern, text, flags=re.IGNORECASE):
+            return UserUnderstanding(
+                intent="recommendation",
+                raw_message=raw,
+            )
+
+        # Budget inquiry: "max budget kitna hona chahey", "kitna budget chahiye"
+        budget_inquiry_pattern = r"\b(?:budget\s*(?:kitna|kya|hona)|kitna\s*budget|max\s*budget|minimum\s*budget|min\s*budget|starting\s*price|price\s*range)\b"
+        if re.search(budget_inquiry_pattern, text, flags=re.IGNORECASE):
+            return UserUnderstanding(
+                intent="MINIMUM_BUDGET_QUERY",
+                raw_message=raw,
+            )
+
+        # Explicit area selection: "mujhey DHA Phase 8 mrein dekhna hai", "DHA Phase 8 mein", "DHA Phase 8 chahiye"
+        explicit_area = self._extract_explicit_area(raw)
+        has_contradiction = bool(re.search(
+            r"\b(?:lakin|lekin|magar|kyun|kyu|pehle|pahle|phir\s+bhi)\b",
+            text, re.IGNORECASE
+        ))
+        all_found_areas = re.findall(
+            r"\b(?:DHA\s+Phase\s*[-#]?\s*[A-Za-z0-9]+|Sector\s*[-#]?\s*[A-Za-z0-9]+|Block\s*[-#]?\s*[A-Za-z0-9]+)\b",
+            raw, re.IGNORECASE
+        )
+        has_multiple_areas = len(set(a.lower() for a in all_found_areas)) > 1
+        if (
+            explicit_area
+            and not has_contradiction
+            and not has_multiple_areas
+            and not re.search(r"\b(?:kitna|kya|enough|kafi|starting|sasta|cheap)\b", text, re.IGNORECASE)
+        ):
+            area_intent_cues = bool(re.search(
+                r"\b(?:dekhna|dekhni|dikhao|dikhayein|dikhado|dikha|chahiye|mein|me|main|mrein|options?)\b",
+                text, re.IGNORECASE
+            )) or len(text.split()) <= 4
+            if area_intent_cues:
+                req = {"area": explicit_area}
+                p_types = self._extract_property_types(text)
+                if len(p_types) == 1:
+                    req["property_type"] = p_types[0]
+                purp = self._extract_explicit_purpose(text)
+                if purp:
+                    req["purpose"] = purp
+                return UserUnderstanding(
+                    intent="property_search",
+                    required=req,
+                    raw_message=raw,
+                )
 
         # --------------------------------------------------------------
         # Generic/simple property-search intent
@@ -430,7 +1013,8 @@ class UserUnderstandingService:
                 r"investment\s+option|"
                 r"investment\s+property|"
                 r"invest\s+(?:karna|krna|karni|krni)|"
-                r"invest\s+(?:ke|k|kay)\s+liye"
+                r"invest\s+(?:ke|k|kay)\s+liye|"
+                r"purpose\s+investment"
                 r")\b",
                 text,
                 flags=re.IGNORECASE,
@@ -455,7 +1039,7 @@ class UserUnderstandingService:
             # bedrooms and other explicit current-turn constraints survive.
             has_money = bool(
                 re.search(
-                    r"\b\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|k)\b",
+                    r"\b\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k)\b",
                     text,
                     flags=re.IGNORECASE,
                 )
@@ -522,7 +1106,7 @@ class UserUnderstandingService:
                 flags=re.IGNORECASE,
             )
             or re.search(
-                r"\b\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|k)\b",
+                r"\b\d+(?:\.\d+)?\s*(?:crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k)\b",
                 text,
                 flags=re.IGNORECASE,
             )
@@ -631,6 +1215,24 @@ class UserUnderstandingService:
 
                 if len(bedroom_values) == 1:
                     required["bedrooms"] = next(iter(bedroom_values))
+
+                detected_amenities = []
+                amenity_patterns = {
+                    "Swimming Pool": r"\b(?:swimming\s*pool|pool)\b",
+                    "Servant Quarter": r"\b(?:servant\s*quarter|servant\s*room)\b",
+                    "Gym": r"\b(?:gym|fitness\s*center)\b",
+                    "Backup Generator": r"\b(?:generator|power\s*backup)\b",
+                    "Lift": r"\b(?:lift|elevator)\b",
+                    "Parking": r"\b(?:parking|garage)\b",
+                    "Security": r"\b(?:security|cctv|guard)\b",
+                    "Lawn": r"\b(?:lawn|garden)\b",
+                    "Balcony": r"\b(?:balcony|terrace)\b",
+                }
+                for amenity_name, pattern in amenity_patterns.items():
+                    if re.search(pattern, text, flags=re.IGNORECASE):
+                        detected_amenities.append(amenity_name)
+                if detected_amenities:
+                    preferred["amenities"] = detected_amenities
 
                 # If a clear purpose was not present, preserve the budget but
                 # let ConversationPolicy ask purpose instead of guessing.
@@ -862,15 +1464,25 @@ class UserUnderstandingService:
         normalized = " ".join(raw_message.casefold().split())
 
         # ---- Property type -------------------------------------------------
-        detected_types: list[str] = []
+        # We track BOTH the alias text that actually matched and its
+        # canonical form. The negation check below needs the original
+        # alias (e.g. "flat"), not the canonical "Apartment" — building
+        # that alias back out via a nested regex-inside-regex (as an
+        # earlier version of this function did) was fragile and easy to
+        # get wrong. Capturing it up front is simpler and correct.
+        detected_matches: list[tuple[str, str]] = []
         for alias, canonical in PROPERTY_TYPE_ALIASES.items():
             if re.search(
                 rf"\b{re.escape(alias)}\b",
                 normalized,
                 flags=re.IGNORECASE,
             ):
-                if canonical not in detected_types:
-                    detected_types.append(canonical)
+                detected_matches.append((alias, canonical))
+
+        detected_types: list[str] = []
+        for _alias, canonical in detected_matches:
+            if canonical not in detected_types:
+                detected_types.append(canonical)
 
         if len(detected_types) > 1:
             # "apartment ya house" is a choice, not permission to guess.
@@ -882,21 +1494,36 @@ class UserUnderstandingService:
 
         elif len(detected_types) == 1:
             property_type = detected_types[0]
+
+            matched_alias = next(
+                (
+                    alias
+                    for alias, canonical in detected_matches
+                    if canonical == property_type
+                ),
+                property_type.casefold(),
+            )
+
             # Do not turn explicit negation into a positive filter.
             negative = bool(
                 re.search(
-                    rf"\b{re.escape(next((a for a,c in PROPERTY_TYPE_ALIASES.items() if c == property_type and re.search(rf'\\b{re.escape(a)}\\b', normalized)), property_type.casefold()))}"
-                    rf"\b\s+(?:nahi|nai|nahin|not)\b",
+                    rf"\b(?:no|not)\s+{re.escape(matched_alias)}\b|\b{re.escape(matched_alias)}\b\s+(?:nahi|nai|nahin|not|nai lena)\b",
                     normalized,
                     flags=re.IGNORECASE,
                 )
             )
 
-            if (
-                not negative
-                and "property_type" not in result.required
+            if negative:
+                result.required.pop("property_type", None)
+                result.preferred.pop("property_type", None)
+                if "property_type" not in result.excluded:
+                    result.excluded["property_type"] = [property_type]
+                elif property_type not in result.excluded["property_type"]:
+                    result.excluded["property_type"].append(property_type)
+            elif (
+                "property_type" not in result.required
                 and "property_type" not in result.preferred
-                and "property_type" not in result.excluded
+                and property_type not in result.excluded.get("property_type", [])
             ):
                 result.required["property_type"] = property_type
 
@@ -923,19 +1550,96 @@ class UserUnderstandingService:
         rental = bool(
             re.search(r"\b(?:rent|rental|kiraya|kiraye)\b", normalized)
         )
+        rental_negated = bool(
+            re.search(r"\b(?:rent|rental|kiraya|kiraye)\s*(?:par|pe)?\s*(?:nahi|nahin|nai|not)\b|\b(?:no|not)\s+(?:rent|rental)\b", normalized)
+        )
         purchase = bool(
-            re.search(r"\b(?:purchase|purchasing|buy|buying|khareedna|kharidna)\b", normalized)
+            re.search(r"\b(?:purchase|purchasing|buy|buying|khareedna|kharidna|investment|invest)\b", normalized)
+        )
+        purchase_negated = bool(
+            re.search(r"\b(?:purchase|purchasing|buy|buying|khareedna|kharidna)\s*(?:nahi|nahin|nai|not)\b|\b(?:no|not)\s+(?:purchase|buy)\b", normalized)
         )
 
-        if rental and purchase:
+        if rental_negated:
+            result.required.pop("purpose", None)
+            result.preferred.pop("purpose", None)
+            if "purpose" not in result.excluded:
+                result.excluded["purpose"] = ["Rental"]
+            elif "Rental" not in result.excluded["purpose"]:
+                result.excluded["purpose"].append("Rental")
+
+        if purchase_negated:
+            result.required.pop("purpose", None)
+            result.preferred.pop("purpose", None)
+            if "purpose" not in result.excluded:
+                result.excluded["purpose"] = ["Purchase"]
+            elif "Purchase" not in result.excluded["purpose"]:
+                result.excluded["purpose"].append("Purchase")
+
+        if rental and purchase and not (rental_negated or purchase_negated):
             result.required.pop("purpose", None)
             result.preferred.pop("purpose", None)
             result.needs_clarification = True
             result.clarification_reason = "ambiguous_purpose"
-        elif rental and "purpose" not in result.required:
+        elif rental and not rental_negated and "Rental" not in result.excluded.get("purpose", []) and "purpose" not in result.required:
             result.required["purpose"] = "Rental"
-        elif purchase and "purpose" not in result.required:
+        elif purchase and not purchase_negated and "Purchase" not in result.excluded.get("purpose", []) and "purpose" not in result.required:
             result.required["purpose"] = "Purchase"
+        elif (
+            not rental
+            and not purchase
+            and result.required.get("property_type") == "Plot"
+            and "purpose" not in result.required
+            and "Purchase" not in result.excluded.get("purpose", [])
+        ):
+            # In Pakistani real estate, plots are exclusively for purchase/investment
+            result.required["purpose"] = "Purchase"
+
+        # ---- Budget -------------------------------------------------------
+        if "budget" not in result.required and "budget" not in result.preferred:
+            extracted_budget = self._extract_budget_amount(normalized)
+            if extracted_budget is not None:
+                if self._looks_like_soft_preference(normalized) or re.search(r"\b(?:around|approx|approximately|takreeban|taqreeban)\b", normalized, flags=re.IGNORECASE):
+                    result.preferred["budget"] = extracted_budget
+                else:
+                    result.required["budget"] = extracted_budget
+
+        # ---- Amenities ----------------------------------------------------
+        detected_amenities = []
+        excluded_amenities = []
+        amenity_patterns = {
+            "Swimming Pool": r"\b(?:swimming\s*pool|pool)\b",
+            "Servant Quarter": r"\b(?:servant\s*quarter|servant\s*room)\b",
+            "Gym": r"\b(?:gym|fitness\s*center)\b",
+            "Backup Generator": r"\b(?:generator|power\s*backup)\b",
+            "Lift": r"\b(?:lift|elevator)\b",
+            "Parking": r"\b(?:parking|garage)\b",
+            "Security": r"\b(?:security|cctv|guard)\b",
+            "Lawn": r"\b(?:lawn|garden)\b",
+            "Balcony": r"\b(?:balcony|terrace)\b",
+        }
+        for amenity_name, pattern in amenity_patterns.items():
+            if re.search(pattern, normalized, flags=re.IGNORECASE):
+                is_negated = bool(re.search(rf"\b(?:no|not|baghair|bagair|without)\s+.*{pattern}\b|{pattern}\s+.*(?:nahi|nahin|nai|not|baghair|bagair)\b|{pattern}\s+(?:nahi|nahin|nai|not|ke\s+baghair)\b", normalized, flags=re.IGNORECASE))
+                if is_negated:
+                    excluded_amenities.append(amenity_name)
+                elif amenity_name not in result.excluded.get("amenities", []):
+                    detected_amenities.append(amenity_name)
+
+        if excluded_amenities:
+            if "amenities" not in result.excluded:
+                result.excluded["amenities"] = excluded_amenities
+            else:
+                for a in excluded_amenities:
+                    if a not in result.excluded["amenities"]:
+                        result.excluded["amenities"].append(a)
+            if "amenities" in result.preferred:
+                result.preferred["amenities"] = [a for a in result.preferred["amenities"] if a not in excluded_amenities]
+            if "amenities" in result.required:
+                result.required["amenities"] = [a for a in result.required["amenities"] if a not in excluded_amenities]
+
+        if detected_amenities and "amenities" not in result.required and "amenities" not in result.preferred:
+            result.preferred["amenities"] = detected_amenities
 
         if (
             result.intent == "unknown"
@@ -988,54 +1692,109 @@ class UserUnderstandingService:
             )
         )
 
-        crore_match = re.search(
-            r"\b(\d+(?:\.\d+)?)\s*(?:crore|corore|carore|cror|cr)\b",
+        # Check for range: e.g. "50-60 million", "3 to 4 crore", "50 - 60 lakh"
+        range_match = re.search(
+            r"\b(\d+(?:\.\d+)?)\s*(?:-|to|se|tak)\s*(\d+(?:\.\d+)?)\s*(crore|corore|carore|cror|cr|lakh|lac|million|mil|m|k)\b",
             normalized,
             flags=re.IGNORECASE,
         )
+        raw_result = None
+        if range_match:
+            unit = range_match.group(3).lower()
+            val = float(range_match.group(2))
+            if unit in ("crore", "corore", "carore", "cror", "cr"):
+                raw_result = int(val * 10_000_000)
+            elif unit in ("lakh", "lac"):
+                raw_result = int(val * 100_000)
+            elif unit in ("million", "mil", "m"):
+                raw_result = int(val * 1_000_000)
+            elif unit == "k":
+                raw_result = int(val * 1_000)
 
-        if crore_match:
-            return int(
-                float(crore_match.group(1))
-                * 10_000_000
+        if raw_result is None:
+            crore_match = re.search(
+                r"\b(\d+(?:\.\d+)?)\s*(?:crore|corore|carore|cror|cr)\b",
+                normalized,
+                flags=re.IGNORECASE,
             )
+            if crore_match:
+                raw_result = int(
+                    float(crore_match.group(1))
+                    * 10_000_000
+                )
 
-        lakh_match = re.search(
-            r"\b(\d+(?:\.\d+)?)\s*(?:lakh|lac)\b",
-            normalized,
-            flags=re.IGNORECASE,
-        )
-
-        if lakh_match:
-            return int(
-                float(lakh_match.group(1))
-                * 100_000
+        if raw_result is None:
+            million_match = re.search(
+                r"\b(\d+(?:\.\d+)?)\s*(?:million|mil|m)\b",
+                normalized,
+                flags=re.IGNORECASE,
             )
+            if million_match:
+                raw_result = int(
+                    float(million_match.group(1))
+                    * 1_000_000
+                )
 
-        k_match = re.search(
-            r"\b(\d+(?:\.\d+)?)\s*k\b",
-            normalized,
-            flags=re.IGNORECASE,
-        )
-
-        if k_match:
-            return int(
-                float(k_match.group(1))
-                * 1_000
+        if raw_result is None:
+            lakh_match = re.search(
+                r"\b(\d+(?:\.\d+)?)\s*(?:lakh|lac)\b",
+                normalized,
+                flags=re.IGNORECASE,
             )
+            if lakh_match:
+                raw_result = int(
+                    float(lakh_match.group(1))
+                    * 100_000
+                )
 
-        if has_budget_word:
+        if raw_result is None:
+            # Match "k" as thousands, e.g. "50k", "150k".
+            # In Roman Urdu, "k" is commonly the preposition "ke" (e.g. "phase 8 k options", "meray budget k according").
+            for k_m in re.finditer(r"\b(\d+(?:\.\d+)?)\s*k\b", normalized, flags=re.IGNORECASE):
+                start, end = k_m.span()
+                full_str = k_m.group(0).lower()
+                prefix = normalized[:start].strip().split()
+                suffix = normalized[end:].strip().split()
+                last_before = prefix[-1].lower() if prefix else ""
+                first_after = suffix[0].lower() if suffix else ""
+                if last_before in {"phase", "sector", "block", "street", "gali", "floor", "bed", "bedroom", "room"}:
+                    continue
+                if " " in full_str:
+                    if first_after in {"options", "option", "mutabiq", "hisaab", "according", "liye", "baad", "se", "mein", "me", "main", "pe", "par", "wali", "wala", "walay", "wale", "dekhna", "dikha", "dikhayein", "dikhado"}:
+                        continue
+                    if not has_budget_word:
+                        continue
+                val = float(k_m.group(1))
+                if val >= 10 or has_budget_word:
+                    raw_result = int(val * 1_000)
+                    break
+
+        if raw_result is None and has_budget_word:
             number_match = re.search(
                 r"\b(\d{4,})\b",
                 normalized,
             )
 
             if number_match:
-                return int(
+                raw_result = int(
                     number_match.group(1)
                 )
 
+        if raw_result is not None and raw_result > 0:
+            return raw_result
+
         return None
+
+    def _extract_property_types(self, text: str) -> list[str]:
+        """Extract canonical property types (Apartment, House, Plot, etc.) mentioned in text."""
+        if not isinstance(text, str):
+            return []
+        types = []
+        for alias, canonical in PROPERTY_TYPE_ALIASES.items():
+            if re.search(rf"\b{re.escape(alias)}\b", text, flags=re.IGNORECASE):
+                if canonical not in types:
+                    types.append(canonical)
+        return types
 
     def _env_int(
         self,
@@ -1060,6 +1819,10 @@ class UserUnderstandingService:
             TypeError,
             ValueError,
         ):
+            logger.warning(
+                "Invalid int env value for %s=%r; using default %s.",
+                name, raw, default,
+            )
             return default
 
         return max(
@@ -1093,6 +1856,10 @@ class UserUnderstandingService:
             TypeError,
             ValueError,
         ):
+            logger.warning(
+                "Invalid float env value for %s=%r; using default %s.",
+                name, raw, default,
+            )
             return default
 
         return max(
@@ -1102,10 +1869,11 @@ class UserUnderstandingService:
                 value,
             ),
         )
+
     def _extract_explicit_purpose(
-    self,
-    text: str,
-) -> str | None:
+        self,
+        text: str,
+    ) -> str | None:
 
         normalized = text.casefold()
 
@@ -1152,6 +1920,8 @@ Schema:
 
 {
   "intent": "unknown",
+  "preference_action": null,
+  "preference_fields": [],
   "required": {},
   "preferred": {},
   "excluded": {},
@@ -1174,6 +1944,15 @@ Schema:
 
 Allowed intents:
 
+For changing saved preferences set preference_action to "edit" and
+preference_fields to the requested fields (city, area, budget, property_type,
+purpose, bedrooms, amenities). Use "continue" to keep them, "cancel" to cancel
+an edit. Recognize UrduLish paraphrases as well as English. Field-only edit
+requests have no required values. Never copy old values from context into
+required. context.preference_state and context.preference_fields identify an
+active edit and the values being requested; interpret short replies accordingly.
+In replacements such as "Karachi ki jagah Lahore", extract only the NEW value.
+
 For appointment requests extract appointment_id only when explicitly supplied.
 Extract starts_at as an ISO 8601 date/time with timezone only when the user
 supplies an unambiguous date and time. Use context.current_date and
@@ -1195,6 +1974,19 @@ greeting
 reset
 off_topic
 unknown
+same_requirements
+change_preference
+budget_objection
+minimum_budget_query
+budget_feasibility_query
+property_type_by_budget_query
+cheapest_property_query
+book_visit
+
+When user asks a question about what is available in a budget (e.g. "1.2 crore mein apartment aye ga ya house?", "1.2 crore mein kya milega?"):
+- Use intent "property_type_by_budget_query" or "budget_feasibility_query".
+- Do NOT extract the budget into "required"! A question is NOT a confirmed preference update.
+- Only extract "budget" into "required" when user explicitly commands an update (e.g. "mera budget 1.2 crore kar do", "ab mera budget 1.2 crore hai", "1.2 crore tak options dikhao").
 
 Use off_topic when the user's request is clearly outside real estate,
 property discovery, property visits, or the supported customer workflow.
@@ -1628,9 +2420,25 @@ This layer only understands and structures what the user said.
                 text,
             )
 
-        value = json.loads(
-            text
-        )
+        try:
+            value = json.loads(text)
+        except (ValueError, json.JSONDecodeError):
+            match = re.search(r"\{.*\}", text, re.DOTALL)
+            if match:
+                cleaned_text = match.group(0)
+                cleaned_text = re.sub(r",\s*([\}\]])", r"\1", cleaned_text)
+                cleaned_text = re.sub(r"([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:", r'\1"\2":', cleaned_text)
+                cleaned_text = re.sub(r"'([^'\\]*(?:\\.[^'\\]*)*)'", r'"\1"', cleaned_text)
+                try:
+                    value = json.loads(cleaned_text)
+                except (ValueError, json.JSONDecodeError):
+                    try:
+                        import ast
+                        value = ast.literal_eval(cleaned_text)
+                    except Exception:
+                        raise
+            else:
+                raise
 
         if not isinstance(
             value,
@@ -1806,6 +2614,8 @@ This layer only understands and structures what the user said.
 
         return UserUnderstanding(
             intent=intent,
+            preference_action=p.get("preference_action") if p.get("preference_action") in {"edit", "continue", "cancel"} else None,
+            preference_fields=[f for f in p.get("preference_fields", []) if f in FIELDS] if isinstance(p.get("preference_fields"), list) else [],
             required=required,
             preferred=preferred,
             excluded=excluded,
@@ -1944,6 +2754,11 @@ This layer only understands and structures what the user said.
                 value
             )
 
+        if field_name == "budget":
+            if isinstance(value, (int, float)):
+                return int(value) if value > 0 else None
+            return None
+
         if field_name == "bedrooms":
             if isinstance(
                 value,
@@ -2043,7 +2858,6 @@ This layer only understands and structures what the user said.
             for pattern in patterns
         )
 
-
     def _repair_correction_understanding(
         self,
         result: UserUnderstanding,
@@ -2121,6 +2935,9 @@ This layer only understands and structures what the user said.
         corrected_area = self._extract_correction_area(raw_message)
 
         if not corrected_area:
+            return result
+
+        if corrected_area in result.excluded.get("area", []):
             return result
 
         # A correction means "replace my previous area with this one".
@@ -2211,13 +3028,22 @@ This layer only understands and structures what the user said.
             r"\bsale\b",
         )
 
-        for pattern in rental_patterns:
-            if re.search(pattern, text, flags=re.IGNORECASE):
-                return "Rental"
+        rental_negated = bool(
+            re.search(r"\b(?:rent|rental|kiraya|kiraye)\s*(?:par|pe)?\s*(?:nahi|nahin|nai|not)\b|\b(?:no|not)\s+(?:rent|rental)\b", text)
+        )
+        purchase_negated = bool(
+            re.search(r"\b(?:purchase|purchasing|buy|buying|khareedna|kharidna)\s*(?:nahi|nahin|nai|not)\b|\b(?:no|not)\s+(?:purchase|buy)\b", text)
+        )
 
-        for pattern in purchase_patterns:
-            if re.search(pattern, text, flags=re.IGNORECASE):
-                return "Purchase"
+        if not rental_negated:
+            for pattern in rental_patterns:
+                if re.search(pattern, text, flags=re.IGNORECASE):
+                    return "Rental"
+
+        if not purchase_negated:
+            for pattern in purchase_patterns:
+                if re.search(pattern, text, flags=re.IGNORECASE):
+                    return "Purchase"
 
         return None
 
@@ -2230,26 +3056,18 @@ This layer only understands and structures what the user said.
         if not isinstance(value, str):
             return False
 
-        text = " ".join(
-            value.strip().casefold().split()
-        )
-
-        if not text:
-            return False
-
+        text = value.strip().casefold()
         purpose_words = (
-            "purchase",
-            "buy",
-            "buying",
             "rent",
             "rental",
             "kiraya",
             "kiraye",
+            "purchase",
+            "buy",
+            "buying",
             "khareedna",
             "kharidna",
-            "sale",
         )
-
         return any(
             re.search(
                 rf"\b{re.escape(word)}\b",
@@ -2266,7 +3084,17 @@ This layer only understands and structures what the user said.
         if not isinstance(message, str):
             return False
 
-        text = message.casefold()
+        text = message.casefold().strip()
+
+        # "X nahi Y chahiye" (where Y is not a verb like chahiye/lena) is an explicit correction
+        if re.search(r"\b[A-Za-z0-9-]+\s+(?:nahi|nahin|nai)\s+(?!chahiye|chahye|lena|karna|krna|dekhna)[A-Za-z0-9-]+", text):
+            return True
+
+        # Pure negation (e.g. "DHA nahi chahiye", "rent nahi chahiye", "rental nahi") is an exclusion, not a replacement
+        if re.search(r"\b(?:nahi|nahin|nai|not)\s*(?:chahiye|chahye|lena|chahie|ab|please|pls)?\s*$", text):
+            # Unless there's an explicit correction marker like "Bahria nahi DHA chahiye"
+            if not re.search(r"\b(?:sorry|actually|rather|instead\s+of)\b", text):
+                return False
 
         markers = (
             "sorry",
@@ -2278,6 +3106,7 @@ This layer only understands and structures what the user said.
             "nahi,",
             "nahin,",
             "no,",
+            "instead of",
         )
 
         return any(marker in text for marker in markers)
@@ -2297,6 +3126,20 @@ This layer only understands and structures what the user said.
         text = message.strip()
         if not text:
             return None
+
+        # Check "Y instead of X": Y is the target
+        instead_match = re.search(r"\b(.+?)\s+instead\s+of\s+(.+)\b", text, flags=re.IGNORECASE)
+        if instead_match:
+            candidate = self._extract_explicit_area(instead_match.group(1))
+            if candidate:
+                return candidate
+
+        # Check "X sorry Y" / "X nahi Y" / "X actually Y": Y is the target
+        marker_match = re.search(r"\b(?:sorry|actually|rather|i\s+mean|mera\s+matlab|matlab|nahi|nahin|no)\b\s*(?:mein\s+)?(.+)", text, flags=re.IGNORECASE)
+        if marker_match:
+            candidate = self._extract_explicit_area(marker_match.group(1))
+            if candidate:
+                return candidate
 
         # Remove correction discourse markers.
         cleaned = re.sub(
@@ -2372,7 +3215,6 @@ This layer only understands and structures what the user said.
             str(value).strip().casefold(),
         )
 
-
     def _repair_relaxation_understanding(
         self,
         result: UserUnderstanding,
@@ -2431,37 +3273,66 @@ This layer only understands and structures what the user said.
             "necessary nahi",
         )
 
-        area_relaxed = (
-            any(word in text for word in area_words)
-            and any(
-                marker in text
-                for marker in flexible_markers
-            )
+        has_flex_marker = any(
+            re.search(rf"\b{re.escape(marker)}\b", text)
+            for marker in flexible_markers
         )
 
-        if area_relaxed:
-            # "sector koi bhi ho" means remove the old area constraint;
-            # it must never create a fake area such as "sector koi".
-            result.required.pop(
-                "area",
-                None,
-            )
-            result.preferred.pop(
-                "area",
-                None,
-            )
-            result.excluded.pop(
-                "area",
-                None,
-            )
+        budget_relaxed = (
+            (any(w in text for w in ("budget", "price", "amount", "paise", "pese")) and has_flex_marker)
+            or "no budget limit" in text
+            or "budget koi masla nahi" in text
+            or "budget flexible" in text
+        )
 
+        bedrooms_relaxed = (
+            any(w in text for w in ("bedroom", "bedrooms", "bed", "beds", "room", "rooms"))
+            and (has_flex_marker or "adjustable" in text)
+        )
+
+        type_relaxed = (
+            any(w in text for w in ("property type", "property_type", "type"))
+            and (has_flex_marker or "any property type" in text or "any type" in text)
+        )
+
+        area_relaxed = (
+            (any(word in text for word in area_words) and has_flex_marker)
+            or bool(re.search(r"\b(?:kon\s*sey|kon\s*se|konsay|konsi|knsey|knsi|which|what)\s+areas?\b", text, flags=re.IGNORECASE))
+            or (has_flex_marker and not (budget_relaxed or bedrooms_relaxed or type_relaxed))
+        )
+
+        if budget_relaxed:
+            result.required.pop("budget", None)
+            result.preferred.pop("budget", None)
+            if "budget" not in result.relax:
+                result.relax.append("budget")
+            if result.intent == "unknown":
+                result.intent = "property_search"
+
+        if bedrooms_relaxed:
+            result.required.pop("bedrooms", None)
+            result.preferred.pop("bedrooms", None)
+            if "bedrooms" not in result.relax:
+                result.relax.append("bedrooms")
+            if result.intent == "unknown":
+                result.intent = "property_search"
+
+        if type_relaxed:
+            result.required.pop("property_type", None)
+            result.preferred.pop("property_type", None)
+            if "property_type" not in result.relax:
+                result.relax.append("property_type")
+            if result.intent == "unknown":
+                result.intent = "property_search"
+
+        if area_relaxed:
+            result.required.pop("area", None)
+            result.preferred.pop("area", None)
             if "area" not in result.relax:
                 result.relax.append("area")
-
             if result.clarification_reason == "incomplete_location":
                 result.needs_clarification = False
                 result.clarification_reason = None
-
             if result.intent == "unknown":
                 result.intent = "property_search"
 
@@ -2542,7 +3413,6 @@ This layer only understands and structures what the user said.
 
         return result
 
-
     def _repair_budget_understanding(
         self,
         result: UserUnderstanding,
@@ -2566,6 +3436,23 @@ This layer only understands and structures what the user said.
         text = " ".join(
             raw_message.casefold().split()
         )
+
+        informational_intents = {
+            "PROPERTY_TYPE_BY_BUDGET_QUERY", "property_type_by_budget_query",
+            "MINIMUM_BUDGET_QUERY", "minimum_budget_query",
+            "BUDGET_FEASIBILITY_QUERY", "budget_feasibility_query",
+            "CHEAPEST_PROPERTY_QUERY", "cheapest_property_query",
+        }
+        if result.intent in informational_intents or result.query_budget is not None:
+            if "budget" in result.required:
+                if result.query_budget is None:
+                    result.query_budget = result.required["budget"]
+                result.required.pop("budget", None)
+            if "budget" in result.preferred:
+                if result.query_budget is None:
+                    result.query_budget = result.preferred["budget"]
+                result.preferred.pop("budget", None)
+            return result
 
         budget_value = (
             result.required.get("budget")
@@ -2636,12 +3523,15 @@ This layer only understands and structures what the user said.
         ):
             return float(value)
 
+        if hasattr(value, "isoformat"):
+            return value.isoformat()
+
         if isinstance(
             value,
             dict,
         ):
             return {
-                key: self._json_safe(
+                str(key): self._json_safe(
                     item
                 )
                 for key, item
@@ -2650,7 +3540,7 @@ This layer only understands and structures what the user said.
 
         if isinstance(
             value,
-            (list, tuple),
+            (list, tuple, set),
         ):
             return [
                 self._json_safe(
@@ -2659,13 +3549,17 @@ This layer only understands and structures what the user said.
                 for item in value
             ]
 
-        return value
+        if isinstance(value, (int, float, str, bool, type(None))):
+            return value
+
+        return str(value)
+
     def _repair_location_understanding(
-    self,
-    result: UserUnderstanding,
-    raw_message: str,
-    context: dict[str, Any],
-) -> UserUnderstanding:
+        self,
+        result: UserUnderstanding,
+        raw_message: str,
+        context: dict[str, Any],
+    ) -> UserUnderstanding:
         """
         Repair obvious LLM inconsistencies for explicit location follow-ups.
 
@@ -2678,11 +3572,40 @@ This layer only understands and structures what the user said.
         No actual city/society names are hard-coded.
         """
 
+        for alias, canonical in CITY_ALIASES.items():
+            if re.search(rf"\b{re.escape(alias)}\b", raw_message, flags=re.IGNORECASE):
+                result.required["city"] = canonical
+                break
+
         explicit_area = self._extract_explicit_area(
             raw_message
         )
 
         if not explicit_area:
+            return result
+
+        # Check for explicit area negation: e.g. "DHA nahi chahiye", "no DHA please", "DHA ke ilawa"
+        is_negated_area = bool(
+            re.search(
+                rf"\b(?:no|not)\s+{re.escape(explicit_area)}\b|\b{re.escape(explicit_area)}\s+(?:nahi|nai|nahin|not|ke\s+ilawa|k\s+ilawa)\b|\b(?:nahi|nahin|no)\b.*\b{re.escape(explicit_area)}\s+(?:nahi|nahin|nai)\b",
+                raw_message,
+                flags=re.IGNORECASE,
+            )
+        )
+        if is_negated_area:
+            result.required.pop("area", None)
+            result.preferred.pop("area", None)
+            if "area" not in result.excluded:
+                result.excluded["area"] = [explicit_area]
+            elif explicit_area not in result.excluded["area"]:
+                result.excluded["area"].append(explicit_area)
+            if result.intent == "unknown":
+                result.intent = "property_search"
+            return result
+
+        if explicit_area in result.excluded.get("area", []):
+            result.required.pop("area", None)
+            result.preferred.pop("area", None)
             return result
 
         # A bare explicit location follow-up should be treated as a
@@ -2707,6 +3630,15 @@ This layer only understands and structures what the user said.
             if result.intent == "unknown":
                 result.intent = "property_search"
 
+        # If area is phase alone without city or parent society in message or context, it needs clarification
+        if explicit_area and re.fullmatch(r"Phase\s*[-#]?\s*[A-Za-z0-9]+", explicit_area, re.IGNORECASE):
+            has_city = result.required.get("city") or (context.get("required") or {}).get("city")
+            has_parent = (context.get("required") or {}).get("area")
+            if not has_city and not has_parent:
+                result.needs_clarification = True
+                result.clarification_reason = "incomplete_location"
+                return result
+
         # If the raw message contains a concrete identifier,
         # it is not an incomplete location.
         if self._has_location_identifier(
@@ -2720,6 +3652,21 @@ This layer only understands and structures what the user said.
                 result.clarification_reason = None
 
         return result
+
+    def _extract_explicit_city(
+        self,
+        message: str,
+    ) -> str | None:
+        """
+        Extract an explicit city name from the message.
+        """
+        if not isinstance(message, str):
+            return None
+        for alias, canonical in CITY_ALIASES.items():
+            if re.search(rf"\b{re.escape(alias)}\b", message, flags=re.IGNORECASE):
+                return canonical
+        return None
+
     def _extract_explicit_area(
         self,
         message: str,
@@ -2739,11 +3686,12 @@ This layer only understands and structures what the user said.
         # Remove conversational/action words, not real place names.
         cleaned = re.sub(
             r"\b("
-            r"mujhe|mujey|mjy|please|pls|"
-            r"mein|me|main|"
-            r"dikhao|dikhayein|dikhaein|show|"
-            r"property|properties|option|options|"
-            r"sirf|only"
+            r"mujhe|mujhey|mujey|mjy|mujy|humain|humein|main|hum|ap|aap|tum|"
+            r"mera|meri|meray|mere|kya|kiya|agar|to|bhi|aur|and|or|please|pls|"
+            r"dekhna|hai|hain|chahiye|chahta|chahti|chahu|chahungi|batao|batayein|bataiye|dikhao|dikhayein|dikhaein|dikha|show|"
+            r"property|properties|option|options|sirf|only|"
+            r"ke|k|ki|ka|mein|me|main|mrein|mien|mey|par|pe|se|ko|"
+            r"according|mutabiq|hisaab|budget"
             r")\b",
             " ",
             text,
@@ -2752,24 +3700,52 @@ This layer only understands and structures what the user said.
         cleaned = re.sub(r"\s+", " ", cleaned).strip(" ,.-")
 
         patterns = (
-            # Society/name + Phase identifier, e.g. "DHA Phase 5".
-            r"\b([A-Za-z][A-Za-z0-9.'-]*(?:\s+[A-Za-z][A-Za-z0-9.'-]*){0,3}"
-            r"\s+Phase\s*[-#]?\s*[A-Za-z0-9]+)\b",
+            # Known major societies + Phase identifier first (avoids greedy match on conversational words)
+            r"\b((?:DHA|Bahria(?:\s+Town)?|Askari|Gulberg|State\s+Life)\s+Phase\s*[-#]?\s*[A-Za-z0-9]+)\b",
 
-            # Phase alone, e.g. "Phase 5".
-            r"\b(Phase\s*[-#]?\s*[A-Za-z0-9]+)\b",
+            # Society/name + Phase identifier, e.g. "DHA Phase 5".
+            r"\b([A-Za-z][A-Za-z0-9.'-]*(?:\s+[A-Za-z][A-Za-z0-9.'-]*){0,2}"
+            r"\s+Phase\s*[-#]?\s*[A-Za-z0-9]+)\b",
 
             # Sector, e.g. "Sector F-11".
             r"\b(Sector\s*[-#]?\s*[A-Za-z0-9]+(?:[-/][A-Za-z0-9]+)?)\b",
 
             # Block, e.g. "Block C".
             r"\b(Block\s*[-#]?\s*[A-Za-z0-9]+)\b",
+
+            # Phase alone, e.g. "Phase 5".
+            r"\b(Phase\s*[-#]?\s*[A-Za-z0-9]+)\b",
+
+            # Bare society/area names, e.g. "DHA", "Bahria", "Askari", "Gulberg", "B-17".
+            r"\b(DHA|Bahria|Bahria Town|Bahria Enclave|Gulberg|Johar Town|Askari|Clifton|Gulshan|B-17|E-11|F-11|G-11|I-8|F-7|F-8|F-10)\b",
         )
+
+        noise_tokens = {
+            "mujhe", "mujhey", "mujey", "mjy", "mujy", "humain", "humein", "main", "hum",
+            "ap", "aap", "tum", "mera", "meri", "meray", "mere", "kya", "kiya", "agar",
+            "to", "bhi", "aur", "and", "or", "please", "pls", "dekhna", "hai", "hain",
+            "chahiye", "chahta", "chahti", "chahu", "chahungi", "batao", "batayein", "bataiye",
+            "dikhao", "dikhayein", "dikhaein", "dikha", "show", "property", "properties",
+            "option", "options", "sirf", "only", "ke", "k", "ki", "ka", "mein", "me",
+            "mrein", "mien", "mey", "par", "pe", "se", "ko", "according", "mutabiq", "hisaab", "budget"
+        }
 
         for pattern in patterns:
             match = re.search(pattern, cleaned, flags=re.IGNORECASE)
             if match:
-                return " ".join(match.group(1).split())
+                tokens = match.group(1).split()
+                while tokens and tokens[0].lower() in noise_tokens:
+                    tokens.pop(0)
+                while tokens and tokens[-1].lower() in noise_tokens:
+                    tokens.pop()
+                if not tokens:
+                    continue
+                extracted = " ".join(tokens)
+                if extracted.lower().startswith("dha "):
+                    extracted = re.sub(r"^dha\s+phase\b", "DHA Phase", extracted, flags=re.IGNORECASE)
+                    if not extracted.startswith("DHA "):
+                        extracted = "DHA " + extracted[4:]
+                return extracted
 
         return None
 
@@ -2798,5 +3774,3 @@ This layer only understands and structures what the user said.
             "flexible",
         )
         return any(marker in text for marker in markers)
-
-        

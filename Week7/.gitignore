@@ -1,3 +1,34 @@
+# Python bytecode, virtual environments, and build artifacts.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Test output and tool caches, including custom pytest base directories.
+.pytest_cache/
+.pytest_*/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage/
+
+# Frontend dependencies and generated Next.js / TypeScript output.
+node_modules/
+.next/
+*.tsbuildinfo
+
+# Local editor and operating system files.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local runtime data and logs.
 .n8n-runtime/
 .npm-cache/
 .n8n-data/

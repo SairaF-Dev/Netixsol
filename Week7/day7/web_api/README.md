@@ -32,6 +32,17 @@ python -m uvicorn web_api.app:app `
 Open `http://127.0.0.1:8010/health` and
 `http://127.0.0.1:8010/docs`.
 
+### Diagnosing chat failures
+
+If a chat POST returns 403 followed by 503, the client has refreshed its CSRF
+token and retried; investigate the 503 in the API terminal (`Chat turn failed`).
+The health endpoint checks the database, but does not test AI understanding.
+From the repository root, run `python day7/diagnose_chat.py` using the API's
+Python environment to send a sample greeting to the configured provider. The
+probe reports exception types and provider status without printing credentials
+or customer messages. A successful probe verifies that connection at that moment;
+it does not verify the entire authenticated chat flow or a particular failed turn.
+
 ## Sample requests
 
 Create or reuse a customer (the backend creates the UUID):
@@ -169,6 +180,7 @@ Preferences hydrate on every turn. Structured changes persist immediately via
 CustomerService/PreferenceRepository. Existing saved values are not repeatedly
 requested. Purpose is asked when genuinely missing, to distinguish purchase
 budgets from monthly rent. Day 3 owns city/area invalidation and relaxation.
+
 
 Recommendations call `WebServices.recommendations`, which retrieves verified
 available PostgreSQL rows, applies the existing deterministic/ML service, and

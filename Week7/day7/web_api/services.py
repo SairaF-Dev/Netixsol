@@ -58,6 +58,35 @@ class RecommendationContext:
     shown_recorded: bool = False
 
 
+class RecommendationResult(tuple):
+    """
+    Subclass of tuple (recommendation_id, properties) for 100% backward compatibility:
+        session_id, rows = await services.recommendations(...)
+    while exposing relaxed properties, relaxed constraint info, and cross-area fallbacks:
+        result.relaxed_properties
+        result.relaxed_constraint
+        result.relaxed_meta
+        result.fallback_areas
+    """
+    def __new__(
+        cls,
+        recommendation_id: UUID,
+        properties: list[dict[str, Any]],
+        relaxed_properties: list[dict[str, Any]] | None = None,
+        relaxed_constraint: str | None = None,
+        relaxed_meta: dict[str, Any] | None = None,
+        fallback_areas: list[str] | None = None,
+    ):
+        instance = super().__new__(cls, (recommendation_id, properties))
+        instance.recommendation_id = recommendation_id
+        instance.properties = properties
+        instance.relaxed_properties = list(relaxed_properties or [])
+        instance.relaxed_constraint = relaxed_constraint
+        instance.relaxed_meta = dict(relaxed_meta or {})
+        instance.fallback_areas = list(fallback_areas or [])
+        return instance
+
+
 class RecommendationSessionExpired(PermissionError):
     pass
 
@@ -169,6 +198,7 @@ class WebServices:
         self.appointments = appointment_gateway or AppointmentGateway()
         self.sessions = sessions or RecommendationSessionStore()
         self.auth = auth_service
+        self.voice = None
         self.chat = None
         if chat_store is not None:
             from web_api.chat import ChatAdapter
@@ -182,39 +212,82 @@ class WebServices:
         from web_api.conversation_service import PostgresConversationStore
         chat_store = PostgresConversationStore()
         chat_store.initialize()
-        return cls(customers, PostgresPropertyRepository(), InteractionRepository(),
+        from web_api.voice_sessions import VoiceSessionStore
+        voice_store = VoiceSessionStore()
+        voice_store.initialize()
+        services = cls(customers, PostgresPropertyRepository(), InteractionRepository(),
                    sessions=PostgresRecommendationSessionStore(), auth_service=AuthService(auth_repository, customers),
                    chat_store=chat_store)
+        services.voice = voice_store
+        return services
 
     async def recommendations(self, customer_id: str, limit: int, session_id: UUID | None,
-                              auth_user_id: str | None = None):
+                              auth_user_id: str | None = None,
+                              filter_overrides: dict | None = None):
         recommendation_id = session_id or uuid4()
         existing = await asyncio.to_thread(self.sessions.get, recommendation_id)
         if existing:
             if existing.customer_id != customer_id:
                 raise PermissionError("recommendation session belongs to another customer")
-            return recommendation_id, list(existing.property_snapshots.values())
+            return RecommendationResult(recommendation_id, list(existing.property_snapshots.values()))
         context = await asyncio.to_thread(self.customers.resolve_for_customer_id, customer_id)
         if not context.customer:
             raise LookupError("customer")
         preferences = context.preferences
         if not preferences:
             raise ValueError("preferences")
-        rows = await asyncio.to_thread(
-            self.properties.search,
-            budget=preferences.budget_max, city=preferences.city, area=preferences.area,
-            bedrooms=preferences.bedrooms, property_type=preferences.property_type,
-            purpose=preferences.purpose, amenities=preferences.amenities or None, limit=limit,
-        )
+        bedrooms_filter = None if (preferences.property_type and preferences.property_type.lower() in ("plot", "commercial", "office")) else preferences.bedrooms
+
+        # Apply filter_overrides for one-time queries without mutating customer preferences
+        req_area = (filter_overrides.get("area") if filter_overrides and "area" in filter_overrides else preferences.area)
+        req_city = (filter_overrides.get("city") if filter_overrides and "city" in filter_overrides else preferences.city)
+        req_budget = (filter_overrides.get("budget") if filter_overrides and "budget" in filter_overrides else (
+            filter_overrides.get("budget_max") if filter_overrides and "budget_max" in filter_overrides else preferences.budget_max
+        ))
+        req_type = (filter_overrides.get("property_type") if filter_overrides and "property_type" in filter_overrides else preferences.property_type)
+        req_purpose = (filter_overrides.get("purpose") if filter_overrides and "purpose" in filter_overrides else preferences.purpose)
+        req_bedrooms = (filter_overrides.get("bedrooms") if filter_overrides and "bedrooms" in filter_overrides else preferences.bedrooms)
+
+        bedrooms_filter = None if (req_type and req_type.lower() in ("plot", "commercial", "office")) else req_bedrooms
+
+        search_relaxed_fn = getattr(self.properties, "search_relaxed", None)
+        if search_relaxed_fn is not None:
+            search_res = await asyncio.to_thread(
+                search_relaxed_fn,
+                budget=req_budget, city=req_city, area=req_area,
+                bedrooms=bedrooms_filter, property_type=req_type,
+                purpose=req_purpose, amenities=preferences.amenities or None, limit=limit,
+            )
+            rows = search_res.get("exact_matches", [])
+            raw_relaxed = search_res.get("relaxed_matches", [])
+            relaxed_constraint = search_res.get("relaxed_constraint")
+            relaxed_meta = search_res.get("relaxed_meta", {})
+            fallback_areas = search_res.get("cross_area_alternatives", [])
+        else:
+            rows = await asyncio.to_thread(
+                self.properties.search,
+                budget=req_budget, city=req_city, area=req_area,
+                bedrooms=bedrooms_filter, property_type=req_type,
+                purpose=req_purpose, amenities=preferences.amenities or None, limit=limit,
+            )
+            raw_relaxed = []
+            relaxed_constraint = None
+            relaxed_meta = {}
+            fallback_areas = []
+
         profile = PreferenceProfile(
-            customer_key=customer_id, city=preferences.city, area=preferences.area,
-            budget=preferences.budget_max, bedrooms=preferences.bedrooms,
-            property_type=preferences.property_type, purpose=preferences.purpose,
+            customer_key=customer_id, city=req_city, area=req_area,
+            budget=req_budget, bedrooms=bedrooms_filter,
+            property_type=req_type, purpose=req_purpose,
             amenities=list(preferences.amenities or []),
         )
         deterministic = self.deterministic.rank(rows, profile)
         ranked = self.ml.rank_properties(deterministic, profile)
         response_rows = [public_property(row) for row in ranked]
+
+        # Relaxed candidates are already ranked by lowest penalty score in search_relaxed
+        response_relaxed: list[dict[str, Any]] = [public_property(row) for row in raw_relaxed]
+
         if not existing:
             stored = RecommendationContext(
                 customer_id=customer_id,
@@ -229,7 +302,7 @@ class WebServices:
                 existing = await asyncio.to_thread(self.sessions.get, recommendation_id)
                 if not existing or existing.customer_id != customer_id:
                     raise PermissionError("recommendation session belongs to another customer")
-                return recommendation_id, list(existing.property_snapshots.values())
+                return RecommendationResult(recommendation_id, list(existing.property_snapshots.values()))
             for row in ranked:
                 claimer = getattr(self.sessions, "claim_shown", None)
                 if claimer and not await asyncio.to_thread(claimer, recommendation_id, str(row["property_id"])):
@@ -242,4 +315,11 @@ class WebServices:
                     property_snapshot=property_snapshot(row),
                 )
             stored.shown_recorded = True
-        return recommendation_id, response_rows
+        return RecommendationResult(
+            recommendation_id=recommendation_id,
+            properties=response_rows,
+            relaxed_properties=response_relaxed,
+            relaxed_constraint=relaxed_constraint,
+            relaxed_meta=relaxed_meta,
+            fallback_areas=fallback_areas,
+        )

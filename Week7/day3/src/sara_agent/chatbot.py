@@ -3950,7 +3950,9 @@ class SaraChatbot:
         prefix = "Wa-Alaikum-Assalam!" if islamic_greeting else "Hello!"
 
         if not self.memory.required and not self.memory.preferred:
-            return prefix + " Ji batayein, aap kis tarah ki property dekh rahi hain?"
+            self.memory.pending_action = {"type": "collect_requirement", "field": "purpose"}
+            intro = " Main Sara hoon, aapki property assistant." if not self.memory.history else ""
+            return prefix + intro + " Aap purchase karna chahte hain ya rent par lena hai?"
 
         return (
             prefix

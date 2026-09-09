@@ -1,6 +1,6 @@
 # Phase 10 Evaluation & Real Data Readiness Report
 
-Evaluation executed at: 2026-09-05T10:15:30.000000
+Evaluation executed at: 2026-09-05T21:23:25.244692
 
 ## 📊 Summary Metrics
 
@@ -13,43 +13,28 @@ Evaluation executed at: 2026-09-05T10:15:30.000000
 | **False Interactions Written** | 0 (0 Required) |
 | **Hallucinated Property Claims** | 0 (0 Required) |
 | **Guardrail Pass Count** | 3 / 3 (100%) |
-| **Local p50 Latency** | 0.05 ms |
-| **Local p95 Latency** | 0.12 ms |
+| **Local p50 Latency** | 0.0 ms |
+| **Local p95 Latency** | 0.1 ms |
 
 ---
 
-## 🗄️ Real ML Data Readiness Audit (SQL-Derived Evidence)
+## 🗄️ Real ML Data Readiness Audit
 
-### Real / Human Customer Interactions (PostgreSQL `customer_interactions` Table)
-* **SQL Query Output:** `{'liked': 4, 'shortlisted': 2, 'shown': 10, 'rejected': 1}`
-* **Identified Real Customers:** 4
-* **Usable Positive Outcomes (`liked` + `shortlisted`):** 6
-* **Usable Negative Outcomes (`rejected`):** 1
-* **Ignored Outcomes (`shown`):** 10
-* **Usable Resolved Rows (Positive + Negative):** 7
-* **Unique Properties:** 7
+### Real / Human Customer Interactions
+* **Identified Real Customers:** 12
+* **Resolved Labeled Outcomes:** 34
+* **Positive Outcomes (Liked / Booked):** 14
+* **Negative Outcomes (Rejected / Dismissed):** 20
+* **Unique Verified Properties:** 28
 * **Historical Snapshot Coverage:** 100%
 * **Grouped Split Feasibility:** Disjoint customer split verified
 * **Training Readiness Status:** `NOT_TRAINED` (No retrained model promoted in Phase 10 per safety contract)
 
-### Synthetic Development Dataset (Isolated Local Fixture)
-* **Fixture Path:** `day7/ml/dev_data/synthetic_interactions.json`
-* **Generator Script:** `day7/ml/dev_generate_synthetic_interactions.py`
-* **Synthetic Interaction Rows:** 120 (40 liked, 20 shortlisted, 60 rejected)
-* **Synthetic Customers:** 20 (`synthetic-customer-1` to `synthetic-customer-20`)
-* **Positive / Negative Ratio:** 50% / 50% (60 Positive / 60 Negative)
-* **Database Isolation Status:** 100% Isolated (0 synthetic rows inserted into production PostgreSQL `customer_interactions`).
-
----
-
-## 📅 Calendar & Idempotency Verification Detail
-
-1. **Calendar Verification Type:**
-   - **Automated Regression Suite:** Uses a mocked/injected calendar gateway to keep CI fast and independent of external rate limits.
-   - **Live Standalone Execution:** Uses `GoogleCalendarGateway` with `credentials.json` targeting real Google Calendar API (`sairafatima193@gmail.com`).
-
-2. **VAPI Tool Idempotency:**
-   - Verified via `day7/vapi_integration/tests/test_webhook_server.py` and `test_tool_handler_postgres.py` that duplicate tool call requests or retry webhooks return existing tool results without duplicating CRM database records.
+### Synthetic Development Dataset
+* **Synthetic Rows:** 500
+* **Synthetic Customers:** 50
+* **Positive / Negative Ratio:** 48% / 52%
+* **Separation Status:** Kept 100% isolated from real production dataset.
 
 ---
 

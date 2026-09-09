@@ -29,6 +29,10 @@ class UserUnderstanding:
     raw_message: str = ""
     appointment_id: str | None = None
     starts_at: str | None = None
+    preference_action: str | None = None
+    preference_fields: list[str] = field(default_factory=list)
+    query_budget: int | None = None
+    query_property_types: list[str] = field(default_factory=list)
 
 
 @dataclass
