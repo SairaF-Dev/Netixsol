@@ -1,0 +1,128 @@
+--- a/day7/web_api/chat.py
++++ b/day7/web_api/chat.py
+@@ -781,6 +781,37 @@
+             if state.excluded or u.comparison.field:
+                 return respond("Is comparison ke liye apni exact city, area ya maximum budget bata dein.", True)
+ 
++            # Resolve parent area names against this city's filtered inventory.
++            area_resolved = False
++            named_area = u.required.get("area") or u.preferred.get("area") or state.required.get("area")
++            if named_area and str(named_area).strip():
++                cust_for_areas = await asyncio.to_thread(
++                    self.services.customers.resolve_for_customer_id, identity.customer_id)
++                pick_city = (state.required.get("city")
++                             or (cust_for_areas.preferences.city
++                                 if cust_for_areas and cust_for_areas.preferences else None))
++                if pick_city:
++                    available_areas = await asyncio.to_thread(
++                        getattr(self.services.properties, "list_available_areas", lambda **k: []),
++                        city=pick_city, property_type=state.required.get("property_type"),
++                        purpose=state.required.get("purpose"), budget=state.required.get("budget"), limit=20)
++                    named_lower = str(named_area).strip().casefold()
++                    exact_match = any(str(a).strip().casefold() == named_lower for a in available_areas)
++                    matching_variants = list(dict.fromkeys(
++                        str(a) for a in available_areas if named_lower in str(a).casefold()))
++                    if not exact_match and len(matching_variants) > 1:
++                        return respond(
++                            f"Ji, {named_area} mein kai phases available hain: {', '.join(matching_variants)}. "
++                            "Ap kis phase mein dekhna chahengi?", True)
++                    if not exact_match and len(matching_variants) == 1:
++                        state.required["area"] = matching_variants[0]
++                        state.preferred.pop("area", None)
++                        state.flexible.discard("area")
++                        saved["flexible"] = [f for f in saved.get("flexible", []) if f != "area"]
++                        await asyncio.to_thread(self.services.customers.update_preferences,
++                                                identity.customer_id, {"area": matching_variants[0]})
++                        area_resolved = True
++
+             # Tier 1 Gate: Essential slots (Purpose -> City/Area -> Budget)
+             decision = await asyncio.to_thread(self.sara.policy.next_tier1_requirement,
+                                                state=state, knowledge=self.services.properties, intent=u.intent)
+@@ -797,7 +828,7 @@
+                     saved.pop("last_asked_broaden", None)
+                     saved["pending_action"] = decision.pending_action
+                     return respond(decision.message, True)
+-            if u.needs_clarification:
++            if u.needs_clarification and not area_resolved:
+                 # Contextual recovery, not a canned "clear kar dein" — reference
+                 # what we already know so the reply feels like a real agent.
+                 known = []
+--- /dev/null
++++ b/day7/tests/test_area_disambiguation.py
+@@ -0,0 +1,76 @@
++from unittest.mock import MagicMock
++
++import pytest
++
++from sara_agent.models import UserUnderstanding
++from test_phase9_chat import chat, setup
++
++
++@pytest.mark.parametrize("intent", ["property_search", "recommendation"])
++@pytest.mark.parametrize("area_source", ["required", "preferred", "saved"])
++def test_parent_area_lists_all_matching_phases(intent, area_source):
++    web, svc, nlu = setup()
++    phases = ["DHA Phase 5", "DHA Phase 6", "DHA Phase 8"]
++    svc.properties.list_available_areas = MagicMock(return_value=phases + ["Gulberg"])
++    nlu.result = UserUnderstanding(
++        intent=intent, needs_clarification=True,
++        clarification_reason="selected_area_not_available",
++        **({area_source: {"area": "dha"}} if area_source != "saved" else {}),
++    )
++
++    response = chat(web, message="dha mein")
++
++    assert response.status_code == 200, response.text
++    data = response.json()
++    assert data["requires_clarification"]
++    assert all(phase in data["message"] for phase in phases)
++    assert "kis phase" in data["message"]
++    assert "Gulberg" not in data["message"]
++    assert "bedrooms" not in data["message"]
++    assert not data.get("properties")
++    assert not svc.properties.search_calls
++    svc.properties.list_available_areas.assert_called_once_with(
++        city="Lahore", property_type="Apartment", purpose="purchase",
++        budget=20_000_000, limit=20,
++    )
++
++
++@pytest.mark.parametrize("intent", ["property_search", "recommendation"])
++def test_exact_area_proceeds_to_recommendations(intent):
++    web, svc, nlu = setup()
++    svc.properties.list_available_areas = lambda **kw: [
++        "DHA Phase 5", "DHA Phase 6", "DHA Phase 6 Extension", "DHA Phase 8"]
++    nlu.result = UserUnderstanding(intent=intent, required={"area": "DHA Phase 6"})
++
++    response = chat(web, message="DHA Phase 6 mein")
++
++    assert response.status_code == 200, response.text
++    data = response.json()
++    assert not data["requires_clarification"]
++    assert data["properties"]
++    assert svc.customers.preferences.area == "DHA Phase 6"
++    assert svc.properties.search_calls[-1]["area"] == "DHA Phase 6"
++
++
++@pytest.mark.parametrize("intent", ["property_search", "recommendation"])
++@pytest.mark.parametrize("area_source", ["required", "preferred"])
++def test_single_matching_phase_resolves_without_reasking(intent, area_source):
++    web, svc, nlu = setup()
++    svc.customers.preferences.area = None
++    svc.properties.list_available_areas = lambda **kw: ["Garden Town Phase 2", "Gulberg"]
++    nlu.result = UserUnderstanding(
++        intent=intent, needs_clarification=True,
++        clarification_reason="selected_area_not_available",
++        **{area_source: {"area": "Garden Town"}},
++    )
++
++    response = chat(web, message="Garden Town mein")
++
++    assert response.status_code == 200, response.text
++    data = response.json()
++    assert not data["requires_clarification"]
++    assert data["properties"]
++    assert svc.customers.preferences.area == "Garden Town Phase 2"
++    assert all(call["area"] == "Garden Town Phase 2" for call in svc.properties.search_calls)
++    saved = svc.chat.store.rows[data["conversation_id"]][2]
++    assert "area" not in saved["flexible"]

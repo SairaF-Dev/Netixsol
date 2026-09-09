@@ -18,6 +18,7 @@ Usage:
 from __future__ import annotations
 
 import logging
+import json
 import hmac
 import os
 import sys
@@ -133,6 +134,19 @@ async def vapi_webhook(
     message_type: str = body.get("message", {}).get("type", "unknown")
     call_id: str = body.get("message", {}).get("call", {}).get("id", str(uuid.uuid4()))
 
+    call = body.get("message", {}).get("call", {})
+    variables = call.get("assistantOverrides", {}).get("variableValues", {})
+    if call.get("type") == "webCall" or "sara_voice_session" in variables:
+        # Browser calls never fall back to phone or caller-supplied customer identity.
+        base = os.getenv("SARA_WEB_API_INTERNAL_URL", "http://localhost:8010").rstrip("/")
+        try:
+            async with httpx.AsyncClient(timeout=45) as client:
+                response = await client.post(f"{base}/api/internal/voice/webhook", json=body,
+                                             headers={"x-vapi-secret": x_vapi_secret})
+            return JSONResponse(status_code=response.status_code, content=response.json())
+        except Exception:
+            raise HTTPException(503, "Browser voice service is unavailable")
+
     logger.info("VAPI event: type=%s call_id=%s", message_type, call_id)
 
     # ── assistant-request ─────────────────────────────────────────────────────
@@ -192,6 +206,13 @@ async def vapi_webhook(
             function = tc.get("function", {})
             function_name = tc.get("name") or function.get("name", "")
             arguments = tc.get("parameters") or function.get("arguments", {})
+            if isinstance(arguments, str):
+                try:
+                    arguments = json.loads(arguments)
+                except ValueError:
+                    raise HTTPException(422, "Invalid tool arguments")
+            if not isinstance(arguments, dict):
+                raise HTTPException(422, "Invalid tool arguments")
 
             logger.info("Tool call: %s args=%s", function_name, arguments)
 
@@ -477,6 +498,8 @@ def _get_sara_tools() -> list[dict]:
                             "type": "string",
                             "description": "City ya area (e.g. DHA Karachi, Bahria Town Lahore)",
                         },
+                        "budget_flexible": {"type": "boolean", "description": "True only when customer explicitly accepts any budget"},
+                        "area_flexible": {"type": "boolean", "description": "True only when customer explicitly accepts all city areas"},
                         "max_price": {
                             "type": "integer",
                             "description": "Maximum budget PKR mein",

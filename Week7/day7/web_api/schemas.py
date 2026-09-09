@@ -101,8 +101,8 @@ class CustomerResponse(APIModel):
 class PreferencesUpdate(APIModel):
     city: str | None = Field(default=None, max_length=100)
     area: str | None = Field(default=None, max_length=150)
-    budget_min: int | None = Field(default=None, ge=0)
-    budget_max: int | None = Field(default=None, ge=0)
+    budget_min: int | None = Field(default=None, gt=0)
+    budget_max: int | None = Field(default=None, gt=0)
     bedrooms: int | None = Field(default=None, ge=0, le=30)
     property_type: Literal["Apartment", "House", "Villa", "Plot", "Commercial"] | None = None
     purpose: Literal["purchase", "rental", "investment", "commercial"] | None = None

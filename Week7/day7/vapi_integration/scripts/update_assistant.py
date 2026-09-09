@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
@@ -17,6 +18,7 @@ if str(DAY7_ROOT) not in sys.path:
     sys.path.insert(0, str(DAY7_ROOT))
 
 from vapi_integration.webhook_server import _get_sara_tools
+from vapi_integration.retrieval_policy import VOICE_RETRIEVAL_RULES
 
 
 def load_dotenv() -> None:
@@ -57,6 +59,12 @@ def main() -> None:
         raise SystemExit("VAPI_SERVER_URL must be a real public HTTPS URL")
 
     webhook_url = f"{public_url}/vapi/webhook"
+    # A syntactically valid quick-tunnel URL may have expired. Verify the
+    # authenticated route before changing the hosted assistant.
+    probe = httpx.post(webhook_url, headers={"x-vapi-secret": webhook_secret},
+                      json={"message": {"type": "retrieval-connectivity-check"}}, timeout=20)
+    if probe.status_code != 200 or probe.json() != {"status": "ignored"}:
+        raise SystemExit("Public VAPI webhook preflight failed; assistant was not changed")
     headers = {"Authorization": f"Bearer {api_key}"}
     current_response = httpx.get(
         f"https://api.vapi.ai/assistant/{current_assistant_id}",
@@ -99,15 +107,20 @@ def main() -> None:
             "\n- If asked which cities or locations are available, call "
             "list_available_locations before naming any city and repeat only its results."
         )
-        if messages and "VERIFIED PROPERTY DATA RULES:" not in messages[0].get("content", ""):
-            messages[0]["content"] = messages[0].get("content", "") + retrieval_rules
-        else:
-            messages = [{"role": "system", "content": retrieval_rules.strip()}]
-        payload["model"] = {
-            key: current_model[key]
-            for key in ("provider", "model", "temperature", "maxTokens")
-            if key in current_model
-        }
+        if not messages:
+            messages = [{"role": "system", "content": ""}]
+        system_message = next((m for m in messages if m.get("role") == "system"), None)
+        if system_message is None:
+            system_message = {"role": "system", "content": ""}
+            messages.insert(0, system_message)
+        for rules in (retrieval_rules, VOICE_RETRIEVAL_RULES):
+            if rules is VOICE_RETRIEVAL_RULES and rules.strip() not in system_message.get("content", ""):
+                system_message["content"] = re.sub(
+                    r"VOICE RETRIEVAL RESPONSE RULES:\n(?:- [^\n]*(?:\n|$))*",
+                    "", system_message.get("content", ""))
+            if rules.strip().splitlines()[0] not in system_message.get("content", ""):
+                system_message["content"] = system_message.get("content", "") + "\n\n" + rules.strip()
+        payload["model"] = dict(current_model)
         payload["model"]["messages"] = messages
         payload["model"]["tools"] = tools
     response = httpx.patch(
@@ -117,7 +130,7 @@ def main() -> None:
         timeout=30,
     )
     if response.is_error:
-        raise SystemExit(f"VAPI update failed ({response.status_code}): {response.text}")
+        raise SystemExit(f"VAPI update failed ({response.status_code})")
 
     result = response.json()
     configured_url = (result.get("server") or {}).get("url", "")

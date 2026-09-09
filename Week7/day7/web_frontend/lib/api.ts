@@ -90,6 +90,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  startVoice: () => request<{ voice_session: string; assistant_id: string; preferences?: PreferencePatch }>("/api/me/voice-sessions", { method: "POST", body: "{}" }),
+  closeVoice: (voiceSession: string) => request<void>("/api/me/voice-sessions/close", { method: "POST", body: JSON.stringify({ voice_session: voiceSession }) }),
   chat: (message: string, conversationId?: string) => request<import("@/types/api").ChatResponse>("/api/me/chat", { method: "POST", body: JSON.stringify({ message, ...(conversationId ? { conversation_id: conversationId } : {}) }) }),
   register: (body: { full_name: string; email: string; phone: string; password: string }) => request<AuthUser>("/api/auth/register", { method: "POST", body: JSON.stringify(body) }),
   login: (body: { email: string; password: string }) => request<AuthUser>("/api/auth/login", { method: "POST", body: JSON.stringify(body) }),

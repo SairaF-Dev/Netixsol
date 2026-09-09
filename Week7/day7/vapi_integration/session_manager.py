@@ -1,3 +1,8 @@
+# WARNING [ARCHITECTURE / CODE DUPLICATION ALERT]:
+# day7/vapi_integration/session_manager.py reimplements VAPI voice session orchestration and turn logic.
+# The source of truth for Sara's agent capabilities is in day3/src/sara_agent.
+# Keep day3 logic aligned when modifying session_manager.py!
+
 """Session Manager — keeps per-call conversation state and routes
 user messages through Sara's Day 3 LangGraph conversation engine.
 
@@ -62,6 +67,8 @@ class VapiSession:
     shown_property_ids: list[str] = field(default_factory=list)
     latest_recommended_property_order: list[str] = field(default_factory=list)
     preference_snapshot: dict = field(default_factory=dict)
+    search_flexible: set[str] = field(default_factory=set)
+    preference_flow: dict = field(default_factory=dict)
     property_snapshots: dict[str, dict] = field(default_factory=dict)
     # Sara's native conversation state
     sara_state: Optional[object] = None
@@ -185,6 +192,12 @@ class VapiSessionManager:
             # Caller connected before call-start was processed — create lazily
             session = await self.create_session(call_id)
 
+        from sara_agent.understanding import UserUnderstandingService
+        parsed = UserUnderstandingService(deterministic_first=True)._deterministic_understanding(user_message, {})
+        if parsed:
+            session.search_flexible.update(parsed.relax)
+            session.search_flexible.difference_update(parsed.required)
+
         decision = self._off_topic_guardrail.evaluate(
             user_message,
             has_conversation_context=session.turn_count > 0,
@@ -233,17 +246,68 @@ class VapiSessionManager:
 
             # Use Day3 understanding service for intent classification
             understanding_svc = UserUnderstandingService()
-            understanding = await understanding_svc.understand(
+            context = {
+                "recent_turns": state.messages[-6:],  # last 3 turns
+                "user_profile": state.user_profile.__dict__ if hasattr(state.user_profile, "__dict__") else state.user_profile,
+                "preference_state": session.preference_flow.get("preference_state"),
+                "preference_fields": session.preference_flow.get("preference_fields", []),
+            }
+            understanding = await asyncio.to_thread(
+                understanding_svc.understand,
                 user_message,
-                conversation_history=state.messages[-6:],  # last 3 turns
-                user_profile=state.user_profile.__dict__,
+                context=context,
             )
 
             intent = understanding.intent if understanding else "unknown"
             state.latest_intent = intent
+            logger.info("Executed Sara Day 3 agent stack successfully for call %s (intent=%s)", session.call_id, intent)
 
             # Update memory and persistence only from structured extraction.
             if understanding:
+                from sara_agent.preference_edit import advance_edit, finish_edit, saved_requirement_summary
+                flow = session.preference_flow
+                if session.turn_count == 1 and understanding.intent == "greeting" and session.customer_id:
+                    profile = state.user_profile
+                    values = {key: getattr(profile, key, None) for key in ("city", "budget", "property_type", "purpose")}
+                    if values.get("city") or values.get("budget"):
+                        flow["pending_returning_confirm"] = True
+                        response = saved_requirement_summary(values)
+                        state.add_message("assistant", response)
+                        return response
+                question = advance_edit(session.preference_flow, understanding, user_message)
+                if question:
+                    state.add_message("assistant", question)
+                    return question
+                if session.preference_flow.get("preference_state") == "editing_preferences" and understanding.intent == "property_search" and not understanding.interaction_action:
+                    try:
+                        values = await self._persist_preference_edit(session, understanding)
+                    except Exception:
+                        logger.exception("Preference edit could not be saved")
+                        response = "Preference save nahi ho saki. Nayi value dobara bata dein, main phir koshish karti hoon."
+                        state.add_message("assistant", response)
+                        return response
+                    response = finish_edit(session.preference_flow, values)
+                    if session.preference_flow["preference_state"] == "ready_for_search":
+                        response += await self._generate_response(state, "property_search", session)
+                    state.add_message("assistant", response)
+                    return response
+                if flow.get("pending_returning_confirm"):
+                    import re
+                    if understanding.intent in {"schedule_visit", "reschedule_visit", "cancel_visit"} or understanding.interaction_action:
+                        flow["pending_returning_confirm"] = False
+                    elif understanding.preference_action == "continue" or re.search(r"\b(?:haan|yes|wahi|continue|theek hai)\b", user_message, re.I):
+                        flow["pending_returning_confirm"] = False
+                        flow["preference_state"] = "continuing_saved_preferences"
+                        understanding.intent = intent = "property_search"
+                    elif not understanding.required:
+                        response = "Saved requirement continue karni hai ya koi preference change karni hai?"
+                        state.add_message("assistant", response)
+                        return response
+                    else:
+                        flow["pending_returning_confirm"] = False
+                if flow.get("preference_state") == "continuing_saved_preferences":
+                    understanding.intent = intent = "property_search"
+                    flow["preference_state"] = "ready_for_search"
                 await self._apply_understanding(session, understanding)
                 feedback_response = await self._apply_feedback(session, understanding)
                 if feedback_response:
@@ -259,6 +323,35 @@ class VapiSessionManager:
         except Exception as exc:
             logger.exception("Error in Sara processing: %s", exc)
             return await self._process_fallback(session, user_message)
+
+    async def _persist_preference_edit(self, session, understanding):
+        """Use the same merge/conflict rules as chat; acknowledge only after storage."""
+        from sara_agent.memory import ConversationState as SearchState
+        from sara_agent.query_planner import QueryPlanner
+        from web_api.schemas import PreferencesUpdate
+        profile = session.sara_state.user_profile
+        fields = ("city", "area", "budget", "bedrooms", "property_type", "purpose")
+        before = {f: getattr(profile, f) for f in fields if getattr(profile, f, None) is not None}
+        if profile.amenities_preferred:
+            before["amenities"] = list(profile.amenities_preferred)
+        merged = SearchState(required=dict(before), flexible=set(session.search_flexible))
+        QueryPlanner().build_plan(understanding, merged)
+        values = {**merged.preferred, **merged.required}
+        updates = {("budget_max" if k == "budget" else k): values.get(k)
+                   for k in set(before) | set(values) if before.get(k) != values.get(k)}
+        if isinstance(updates.get("purpose"), str):
+            updates["purpose"] = updates["purpose"].lower()
+        validated = PreferencesUpdate(**updates).model_dump(exclude_unset=True)
+        if validated and session.customer_id and self._customer_service:
+            await asyncio.to_thread(self._customer_service.update_preferences, session.customer_id, validated)
+        for key in set(before) | set(values):
+            setattr(profile, "amenities_preferred" if key == "amenities" else key,
+                    values.get(key, [] if key == "amenities" else None))
+        session.search_flexible = merged.flexible
+        if updates:
+            session.latest_recommended_property_order.clear()
+            session.property_snapshots.clear()
+        return values
 
     async def _apply_understanding(self, session: VapiSession, understanding: object) -> None:
         """Apply validated current-turn fields and persist them partially."""

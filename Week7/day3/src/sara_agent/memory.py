@@ -59,6 +59,16 @@ class ConversationState:
 
         before = self._constraint_snapshot()
 
+        old_purpose = self.required.get("purpose") or self.preferred.get("purpose")
+        new_purpose = required.get("purpose") or preferred.get("purpose")
+        if old_purpose and new_purpose and not self._equivalent(old_purpose, new_purpose):
+            # Purchase totals cannot become monthly rent limits (or vice versa).
+            if "budget" not in required and "budget" not in preferred:
+                self.required.pop("budget", None)
+                self.preferred.pop("budget", None)
+                self.excluded.pop("budget", None)
+                self.flexible.discard("budget")
+
         # --------------------------------------------------------------
         # 0. Parent/child location consistency
         # --------------------------------------------------------------
@@ -82,6 +92,13 @@ class ConversationState:
             self.required.pop("area", None)
             self.preferred.pop("area", None)
             self.excluded.pop("area", None)
+
+        # Plot, Commercial, and Office properties do not have bedrooms.
+        prop_type = (required.get("property_type") or self.required.get("property_type") or "")
+        if isinstance(prop_type, str) and prop_type.lower() in ("plot", "commercial", "office"):
+            self.required.pop("bedrooms", None)
+            self.preferred.pop("bedrooms", None)
+            self.excluded.pop("bedrooms", None)
 
         # --------------------------------------------------------------
         # 1. Relax old constraints

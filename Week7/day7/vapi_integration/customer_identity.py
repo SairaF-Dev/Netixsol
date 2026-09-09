@@ -5,6 +5,15 @@ from __future__ import annotations
 import re
 
 
+def property_location(location: str) -> tuple[str | None, str | None]:
+    """Split the existing VAPI location argument into repository filters."""
+    for city in ("Lahore", "Karachi", "Islamabad", "Rawalpindi"):
+        if re.search(rf"\b{re.escape(city)}\b", location, re.IGNORECASE):
+            area = re.sub(rf"\b{re.escape(city)}\b", "", location, flags=re.IGNORECASE).strip(" ,-")
+            return city, area or None
+    return None, location
+
+
 def normalize_phone(phone: str | None) -> str | None:
     """Normalize a Pakistani mobile number to the +92 international form.
 

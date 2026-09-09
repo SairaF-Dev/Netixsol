@@ -92,26 +92,23 @@ class ResultPresentationPolicy:
         *,
         has_more: bool,
         first_batch: bool,
+        custom_intro: str | None = None,
     ) -> str:
         if not batch:
             return (
-                "Is search ke current loaded verified options khatam "
-                "ho gaye hain. Aap criteria refine ya change kar sakti hain."
+                "Aapke is criteria par aur mazeed options available nahi hain. "
+                "Kya aap criteria ya budget thora change karke dekhna chahenge?"
             )
 
-        if first_batch:
+        if custom_intro:
+            intro = custom_intro
+        elif first_batch:
             if self.mode == "voice":
-                intro = (
-                    "Ji. Aapke criteria ke matching verified options "
-                    "mein se pehle kuch ye hain:"
-                )
+                intro = "Ji! Aapke criteria ke mutabiq filhaal ye options available hain:"
             else:
-                intro = (
-                    "Ji. Aapke current criteria ke matching verified "
-                    "options mein se ye relevant options hain:"
-                )
+                intro = "Ji! Aapke criteria ke mutabiq filhaal ye behtareen verified options available hain:"
         else:
-            intro = "Ji, next verified options ye hain:"
+            intro = "Ji! Mazeed verified options ye rahe:"
 
         lines = [intro]
 
@@ -129,23 +126,34 @@ class ResultPresentationPolicy:
         if has_more:
             if self.mode == "voice":
                 lines.append(
-                    "Aur options bhi hain. 'Aur options' kahen to "
-                    "main next few bata dungi."
+                    "Is ke ilawa aur options bhi hain. 'Aur options' kahein to main mazeed dikha dungi."
                 )
             else:
                 lines.append(
-                    "Aur matching verified options bhi hain. "
-                    "'Aur options' kahen to next batch dikha dungi."
+                    "Is ke ilawa aur options bhi available hain. Agar aap aur dekhna chahein to 'aur options' keh dein."
                 )
-        else:
             lines.append(
-                "Ye current matching verified options ka last loaded batch hai."
+                "In mein se kisi option ki details dekhni hon ya visit schedule karni ho to batayein."
             )
-
-        lines.append(
-            "In mein se kisi option ki details, comparison ya "
-            "aur filtering chahiye?"
-        )
+        else:
+            if self.mode == "voice":
+                if len(batch) == 1:
+                    lines.append(
+                        "Filhaal yahi ek verified option available hai. Details chahiye ya visit schedule karein?"
+                    )
+                else:
+                    lines.append(
+                        "Filhaal yahi verified options hain. In mein se kaunsa pasand aaya — details chahiye ya visit schedule karein?"
+                    )
+            else:
+                if len(batch) == 1:
+                    lines.append(
+                        "Filhaal yahi ek verified option available hai. Details dekhni hon ya visit schedule karni ho to batayein."
+                    )
+                else:
+                    lines.append(
+                        "Filhaal yahi verified options available hain. In mein se kaunsa option aapko behtar lag raha hai — details dekhni hon ya visit schedule karni ho to batayein."
+                    )
 
         return "\n".join(lines)
 

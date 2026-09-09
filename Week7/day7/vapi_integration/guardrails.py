@@ -109,6 +109,7 @@ class OffTopicGuardrail:
             return GuardrailDecision(True, "real_estate_or_social")
         if has_conversation_context and (
             self._FOLLOW_UP.match(normalized) or self._DETAIL_ANSWER.fullmatch(normalized)
+            or re.fullmatch(r"(?:preferences?\s+)?(?:change|badal\w*)\s+(?:(?:kar\w*|kr\w*)\s+)?hai[n]?", normalized, re.I)
         ):
             return GuardrailDecision(True, "contextual_follow_up")
         return GuardrailDecision(False, "outside_supported_scope", OFF_TOPIC_RESPONSE)
