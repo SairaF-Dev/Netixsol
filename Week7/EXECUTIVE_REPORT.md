@@ -1,21 +1,31 @@
-# Executive Report — Sara Real Estate Voice Agent
+﻿# Executive Report - Sara Real Estate Assistant
 
-Sara demonstrates an UrduLish real-estate voice workflow spanning telephony,
-verified PostgreSQL/RAG knowledge, contextual conversation, recommendations,
-appointments, email, CRM, and n8n. The architecture separates language
-interpretation from authoritative business facts and now includes deterministic
-runtime security guardrails, executable LangGraph routing, CI, containers, and
-operational metrics.
+Documentation refreshed: 2026-09-09, based on the current repository.
 
-Automated suites cover retrieval, memory, workflows, graph routing, webhook
-security, and guardrails. Live read-only checks passed for PostgreSQL, SMTP
-authentication, and Google Calendar availability. Current limitations are the
-10.7-second recorded voice latency, failed UrduLish transcription in that sample,
-an inconclusive live RAG probe, and unexecuted fresh VAPI/n8n delivery checks.
-These must remain visible in stakeholder communication.
+Sara combines an authenticated customer website, UrduLish text chat, browser
+voice, and telephone integration. Shared services retrieve PostgreSQL property
+facts, persist preferences, rank recommendations, record feedback, and route
+appointments to Day 4 Calendar/email/CRM workflows. Returning customers can edit
+saved requirements through conversation or the website.
 
-The immediate roadmap is streaming latency optimization, repeated human voice
-evaluation, production time-series monitoring, controlled live provider tests,
-and expanded multilingual support. The solution is suitable for a supervised
-capstone demonstration; production launch requires the acceptance gates in the
-maintenance plan and client-specific security review.
+Website identity uses session cookies, CSRF protection, and ownership checks.
+Browser voice reuses the existing VAPI assistant through a capability bound to
+the authenticated session. Phone integration retains its separate identity path.
+ML training is offline; runtime ML defaults to off and synthetic development
+artifacts are not production models.
+
+Dated reports capture specific verification runs, including
+[shared chat](docs/PHASE9_REPORT.md), [browser voice](docs/BROWSER_VOICE_REPORT.md),
+and [preference editing](docs/preference-edit-audit.md). Their test counts and
+latencies are historical evidence. This documentation refresh did not repeat
+live provider, Calendar/email, or production acceptance checks.
+
+The system remains suitable for supervised development demonstrations. Production
+work includes validating real provider delivery and voice latency, restricting
+legacy development endpoints, configuring the website deployment alongside the
+existing Compose services, and implementing monitoring, backup, and retention
+procedures. Appointment side effects and local state are not atomic; interrupted
+bookings require status checks before retrying.
+
+See the [maintenance plan](docs/MAINTENANCE_PLAN.md) for proposed operational
+targets and the [demo script](DEMO_SCRIPT.md) for a reviewable walkthrough.

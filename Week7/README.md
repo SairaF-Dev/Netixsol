@@ -1,316 +1,197 @@
-# Sara Real Estate Voice Agent
+﻿# Sara Real Estate Assistant
 
-Sara is a production-oriented AI voice agent for real-estate conversations. It
-speaks natural UrduLish, remembers customer requirements, retrieves verified
-property information, recommends suitable listings, handles objections, and
-manages property-visit appointments through business workflows.
+Sara is a development real-estate assistant with an authenticated website,
+UrduLish text chat, browser voice, and VAPI phone integration. It saves customer
+preferences, retrieves verified properties, ranks recommendations, records
+feedback, and routes visits through the Day 4 appointment service.
 
-> Core rule: the language model interprets the customer; verified company data
-> determines property facts and availability.
+The model interprets requests; PostgreSQL and business services supply property
+facts and appointment results. Live provider delivery and production readiness
+require separate validation.
 
-## Capabilities
+## Current capabilities
 
-- Incoming phone-call handling through VAPI
-- Deepgram speech recognition and configurable voice synthesis
-- Natural UrduLish conversation and multi-turn memory
-- Buyer, renter, seller, commercial, and investor intent handling
-- PostgreSQL retrieval for prices, availability, and structured property facts
-- Vector RAG for FAQs, brochures, and project descriptions
-- Requirement-based property recommendations
-- Objection handling without unsupported claims or guaranteed returns
-- Booking, rescheduling, and cancellation of property visits
-- Calendar, email, CRM, and n8n workflow integration
-- FastAPI services, health checks, structured validation, and logging
-- Bearer-authenticated chat, voice, appointment, and operational endpoints
-- Runtime off-topic, prompt-injection, private-data, and fake-action guardrails
+- Website registration/login, saved preferences, and customer-owned appointments.
+- Property search, deterministic recommendations, and like/reject/shortlist feedback.
+- Shared chat with structured continuity and returning-customer preference editing.
+- Browser voice using the existing VAPI assistant and authenticated voice sessions.
+- Phone sessions with guardrails and customer preference persistence.
+- Day 2 structured retrieval and RAG. The website adapter exposes a narrower
+  surface than the full Day 3 FAQ/RAG and comparison flows.
+- Booking, rescheduling, and cancellation through Day 4 workflows.
+- Offline ML training and optional development scoring; ML defaults to `off`.
 
-## Architecture
+## Architecture and repository
 
 ```text
-Caller
-  │
-  ▼
-VAPI telephony
-  ├── Speech-to-text
-  └── Text-to-speech
-  │
-  ▼
-Day 7 FastAPI webhook
-  │
-  ├── Runtime guardrails
-  ├── Per-call session management
-  └── Tool-call validation
-  │
-  ▼
-Day 3 conversational agent / Day 5 LangGraph design
-  ├── Intent and constraint extraction
-  ├── Context memory
-  ├── RAG and structured retrieval
-  ├── Recommendation and objection handling
-  └── Appointment routing
-  │
-  ├── Day 2 PostgreSQL + vector knowledge layer
-  └── Day 4 calendar, email, CRM, and n8n workflows
+Website (3000) --> Website API (8010) --> Shared Sara services
+   |                    ^                     |
+   +--> VAPI voice --> Webhook (8007)          +--> Day 3 understanding/policies
+Phone --> VAPI ------> Webhook (8007)          +--> Day 2 PostgreSQL retrieval
+                                              +--> Deterministic/optional ML ranking
+                                              +--> Day 4 appointments (8004)
 ```
 
-## Repository layout
+Browser events are forwarded to the website API, which validates the voice
+capability and account ownership. Phone calls retain their own identity path.
+Day 7 adapters reuse Day 3 policies directly; Day 5 is a separate graph implementation.
 
 | Path | Purpose |
-|---|---|
-| `day1/` | Architecture, conversation flows, UrduLish persona, voice evaluation, and system prompt |
-| `day2/` | Knowledge base, RAG, PostgreSQL retrieval, recommendation engine, and grounding evaluation |
-| `day3/` | Conversational agent, memory, voice pipeline, APIs, UI, and human/latency evaluation |
-| `day4/` | Appointment API, Calendar/email/CRM services, and n8n automation |
-| `day5/` | LangGraph state, nodes, tools, validation, and orchestration design |
-| `day7/vapi_integration/` | VAPI webhook, live-call sessions, runtime tools, guardrails, and deployment integration |
+| --- | --- |
+| `day1/` | Architecture, persona, conversation flows, and prompt specifications |
+| `day2/` | Knowledge documents, PostgreSQL schema/seed, RAG, and retrieval |
+| `day3/` | Conversational agent, understanding, memory, and standalone interfaces |
+| `day4/` | Appointment API, Calendar/email/CRM, and n8n workflows |
+| `day5/` | LangGraph orchestration and tests |
+| `day6/` | Conversation and performance reports |
+| `day7/web_frontend/` | Next.js website |
+| `day7/web_api/` | Authentication, chat, browser voice, and owned API routes |
+| `day7/shared/` | Shared conversation service |
+| `day7/vapi_integration/` | Webhook, phone sessions, guardrails, and persistence |
+| `day7/ml/` | Dataset preparation, training, and development scorer |
+| `day7/tests/` | API, security, conversation, voice, and ML regression suites |
+| `docs/` | User/admin guides and dated implementation reports |
 
-Day 6 security and evaluation work is represented by tests and evaluation
-artifacts across the modules rather than a separate `day6/` directory.
+## Local setup
 
-## Prerequisites
+Use Python 3.11+, PostgreSQL, and Node.js/npm compatible with the frontend's
+Next.js dependency. Voice needs a configured VAPI assistant, public browser key,
+HTTPS webhook, and provider credentials. External Calendar/email delivery needs
+Day 4 integration configuration.
 
-- Python 3.11 or newer
-- PostgreSQL
-- A VAPI account and phone number for live calls
-- API credentials for the selected LLM, STT, TTS, Calendar, and email providers
-- n8n for the optional workflow automation path
-- Docker for containerized deployment
-
-Do not commit populated `.env` files, API keys, OAuth credentials, recordings,
-or customer data.
-
-## Configuration
-
-Each service owns its environment configuration. Start from the corresponding
-`.env.example` where available:
+From the repository root in PowerShell:
 
 ```powershell
-Copy-Item day2/.env.example day2/.env
-Copy-Item day3/.env.example day3/.env
-```
-
-For Day 7, create `day7/vapi_integration/.env` and configure the values required
-by your selected providers. Common settings include:
-
-```env
-VAPI_API_KEY=
-VAPI_WEBHOOK_SECRET=replace-with-a-long-random-secret
-VAPI_SERVER_URL=
-DAY4_API_URL=http://localhost:8004
-DAY4_API_KEY=replace-with-a-different-long-random-secret
-SARA_API_KEY=replace-with-another-long-random-secret
-DATABASE_URL=
-OPENAI_API_KEY=
-DEEPGRAM_API_KEY=
-FISH_AUDIO_API_KEY=
-N8N_WEBHOOK_URL=
-```
-
-Generate all three security credentials independently using a password manager
-or a command such as `openssl rand -hex 32`. The application fails closed when
-a required credential is missing; it does not silently disable authentication.
-Never reuse provider credentials such as `VAPI_API_KEY` as endpoint secrets.
-
-## Installation
-
-Install each independently deployable Python service in its own virtual
-environment. For example:
-
-```powershell
-cd day7/vapi_integration
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+python -m pip install -r day3/requirements.txt -r day7/vapi_integration/requirements.txt
 ```
 
-Day-specific installation and database initialization details are available in:
-
-- [Day 2 knowledge layer](day2/README.md)
-- [Day 3 conversational agent](day3/README.md)
-- [Day 4 business workflows](day4/README.md)
-- [Day 5 orchestration](day5/README.md)
-- [Day 7 VAPI integration](day7/vapi_integration/README.md)
-
-## Running locally
-
-Start the required infrastructure first, then run the application services in
-separate terminals.
-
-### 1. Appointment and workflow API
+Run Day 4 in its own environment using [its setup guide](day4/docs/SETUP.md).
+Initialize a development database with the Day 2
+[schema](day2/03_structured_retrieval/schema.sql) and
+[seed](day2/03_structured_retrieval/seed.sql), following the
+[knowledge-layer guide](day2/README.md). Seed listings are demonstration data.
+Before the first website startup, apply the customer and interaction migrations
+to that development database. With `DATABASE_URL` set in the terminal, run from
+the repository root:
 
 ```powershell
-cd day4
-python -m uvicorn api.main:app --host 127.0.0.1 --port 8004
+psql $env:DATABASE_URL -v ON_ERROR_STOP=1 -f day7/vapi_integration/customer_schema.sql
+psql $env:DATABASE_URL -v ON_ERROR_STOP=1 -f day7/vapi_integration/interaction_schema.sql
 ```
 
-### 2. VAPI webhook server
+Website startup then initializes additive auth, chat, and voice tables; its
+database role needs the corresponding schema permissions. PowerShell does not
+automatically load `.env` values into `$env:DATABASE_URL` for `psql`.
 
-From the `day7` directory so the `vapi_integration` package is importable:
+Create service environment files manually; `.env.example` files are not supplied
+in the current tree. Preserve existing local configuration. The website API loads
+`day7/vapi_integration/.env`, then `day3/.env`, then `day2/.env`, without overriding
+values already set in the process or an earlier file.
+
+Backend configuration names (supply your own values and keep secrets out of Git):
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/DATABASE
+OPENROUTER_API_KEY=
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+SARA_LLM_MODEL=
+DAY4_API_URL=http://localhost:8004
+DAY4_API_KEY=
+VAPI_ASSISTANT_ID=
+VAPI_WEBHOOK_SECRET=
+SARA_WEB_API_INTERNAL_URL=http://localhost:8010
+SARA_WEB_CORS_ORIGINS=http://localhost:3000
+SARA_AUTH_SECURE_COOKIE=0
+SARA_ML_RANKING_MODE=off
+```
+
+Set the LLM model to one supported by your provider. Assistant management scripts
+also use `VAPI_API_KEY` and `VAPI_SERVER_URL`; the standalone Day 3 API uses
+`SARA_API_KEY`. Generate independent random service secrets. Website users sign
+in with cookies rather than the Day 3 shared key.
+
+Create or update `day7/web_frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_SARA_API_URL=http://localhost:8010
+NEXT_PUBLIC_VAPI_PUBLIC_KEY=
+```
+
+Only the VAPI public key belongs in frontend configuration. Use `localhost`
+consistently in browser URLs so development cookies remain same-site.
+
+## Start the services
+
+Start PostgreSQL first. In separate terminals, activate the relevant environment
+and run these commands from the repository root:
+
+| Service | Command | URL |
+| --- | --- | --- |
+| Appointments | `python -m uvicorn api.main:app --app-dir day4 --host 127.0.0.1 --port 8004` | `http://localhost:8004` |
+| Website API | `python -m uvicorn web_api.app:app --app-dir day7 --host 127.0.0.1 --port 8010 --reload` | `http://localhost:8010/docs` |
+| VAPI webhook | `python -m uvicorn vapi_integration.webhook_server:app --app-dir day7 --host 0.0.0.0 --port 8007` | `http://localhost:8007/health` |
+
+Frontend:
 
 ```powershell
-cd day7
-python -m uvicorn vapi_integration.webhook_server:app --host 0.0.0.0 --port 8007
+cd day7/web_frontend
+npm.cmd ci
+npm.cmd run dev
 ```
 
-Check service health:
+Open `http://localhost:3000/start`, register or log in, save preferences, and
+open `/sara` for chat. For voice, expose port 8007 through HTTPS and configure
+the existing assistant's webhook URL and secret. Both Day 7 backends must share
+`DATABASE_URL` and `VAPI_WEBHOOK_SECRET`. Select **Start voice call** and allow
+microphone access.
+
+The root [Docker Compose file](docker-compose.yml) includes PostgreSQL, Day 4,
+the VAPI webhook, and n8n. It does not include the website API or Next.js.
+Its default Calendar backend is in memory. A successful booking does not by
+itself prove email or external Calendar delivery.
+
+## Verification
+
+From the repository root with the Day 7 environment activated:
 
 ```powershell
-Invoke-RestMethod http://localhost:8007/health
+python -m pytest day7/tests day7/vapi_integration/tests -q
 ```
 
-For live VAPI calls, expose port `8007` through an HTTPS endpoint, set
-`VAPI_SERVER_URL`, and register or update the assistant using the scripts under
-`day7/vapi_integration/scripts/`.
-
-## Runtime guardrails
-
-Every caller transcript is checked before intent classification, the LLM, RAG,
-or business tools. The guardrail:
-
-- redirects unrelated requests back to real estate;
-- rejects attempts to override instructions or reveal prompts and secrets;
-- refuses internal company, CRM, employee, and other-customer data requests;
-- refuses fake or unauthorized appointment actions;
-- checks security before domain relevance to catch mixed attacks;
-- allows greetings and explicit context-dependent replies such as prices,
-  selected options, dates, and times;
-- fails closed for unknown substantive requests.
-
-See the [guardrail evaluation](day7/vapi_integration/GUARDRAIL_EVALUATION.md)
-for cases, results, performance, and limitations.
-
-## Testing
-
-Run module tests from the directory that contains the relevant Python package.
-For the complete Day 7 runtime regression suite:
+From `day7/web_frontend`:
 
 ```powershell
-cd day7
-python -m pytest vapi_integration/tests -q
+npm.cmd test
+npm.cmd run build
 ```
 
-The focused guardrail, webhook, and PostgreSQL tool regression currently passes
-77 tests. The guardrail evaluation contains 40 primary conversations covering
-valid real-estate requests, off-topic requests, prompt injection, private-data
-extraction, and fake actions.
+Some tests/evaluators need PostgreSQL, providers, or additional dependencies.
+The [website API guide](day7/web_api/README.md) describes its isolated live verifier.
+For LLM diagnosis, run `python day7/diagnose_chat.py` from the root. Health checks
+do not verify a full chat turn or paid voice call. Counts and latency figures in
+dated reports describe those runs, not a fresh result for the current checkout.
 
-Additional suites:
+## Security and limitations
 
-```powershell
-cd day3
-python -m pytest tests -q
+Website sessions use HttpOnly cookies, CSRF validation on authenticated mutations,
+and account ownership checks. Day 3, Day 4, and VAPI use separate credentials.
+See [API security](docs/API_SECURITY.md) for route-specific boundaries and legacy
+endpoints. Use HTTPS and Secure cookies in production and restrict internal services.
 
-cd ../day4
-python -m pytest tests -q
+Chat retains compact structured state rather than raw transcripts. Expiration
+denies reuse but does not delete database rows. External appointment side effects
+and local state are not atomic; check appointment status before retrying an
+interrupted booking. Synthetic development ML is not a production model.
 
-cd ../day5
-python -m pytest tests -q
-```
+## Documentation
 
-Some integration tests require configured databases, provider credentials, or
-running dependent services. Never use production customer records in tests.
-
-## API entry points
-
-| Service | Default URL | Purpose |
-|---|---|---|
-| Day 3 API | `http://localhost:8000` | Conversational and voice-agent interfaces |
-| Day 4 API | `http://localhost:8004` | Appointment and workflow operations |
-| Day 7 webhook | `http://localhost:8007/vapi/webhook` | VAPI events, transcripts, and tool calls |
-| Day 7 health | `http://localhost:8007/health` | Liveness and active-session summary |
-
-FastAPI-generated OpenAPI documentation is normally available at `/docs` for a
-running service.
-
-## API security
-
-The APIs use separate credentials so a compromised public client does not gain
-access to internal appointment workflows:
-
-| Credential | Used by | Protects |
-|---|---|---|
-| `SARA_API_KEY` | Day 3 API clients | `/chat`, `/voice/turn`, `/tts-test`, `/ws/chat`, and `/ws/voice` |
-| `DAY4_API_KEY` | Day 7 and trusted internal callers | All Day 4 appointment mutation and follow-up endpoints |
-| `VAPI_WEBHOOK_SECRET` | VAPI | `/vapi/webhook` and Day 7 `/metrics` |
-
-Health and readiness endpoints remain public so load balancers and containers
-can probe the services. Business operations, paid-provider operations,
-WebSockets, and metrics require authentication.
-
-Send Day 3 and Day 4 credentials in the HTTP authorization header:
-
-```http
-Authorization: Bearer <service-api-key>
-```
-
-Example Day 3 request in PowerShell:
-
-```powershell
-$headers = @{ Authorization = "Bearer $env:SARA_API_KEY" }
-$body = @{ message = "Show me properties in DHA" } | ConvertTo-Json
-Invoke-RestMethod `
-  -Uri http://localhost:8000/chat `
-  -Method Post `
-  -Headers $headers `
-  -ContentType "application/json" `
-  -Body $body
-```
-
-VAPI sends `VAPI_WEBHOOK_SECRET` through the `X-Vapi-Secret` header. WebSocket
-clients can provide a bearer header; browser clients that cannot set WebSocket
-headers may use `?access_token=<SARA_API_KEY>`. Because URLs can appear in proxy
-logs and browser history, production browser deployments should exchange the
-long-lived key for a short-lived token instead.
-
-Authentication failures return `401`; invalid VAPI secrets return `403`; and a
-missing server-side credential returns `503`. Secret comparisons use a
-constant-time comparison to reduce timing side channels.
-
-See [API endpoint security](docs/API_SECURITY.md) for deployment requirements
-and the remaining JWT/ownership recommendations.
-
-## Deployment notes
-
-- Use HTTPS for all public endpoints.
-- Store credentials in the deployment platform's secret manager.
-- Restrict Day 4, PostgreSQL, n8n, and metrics access to trusted networks.
-- Configure webhook authentication and rotate secrets regularly.
-- Apply reverse-proxy rate limits to chat, voice, TTS, and webhook endpoints.
-- Persist PostgreSQL and vector-store data outside disposable containers.
-- Send structured logs and failure metrics to a monitoring service.
-- Back up databases and test restoration periodically.
-- Review guardrail false positives and false negatives using privacy-safe logs.
-
-Deployment manifests still need environment-specific values and infrastructure
-validation before this repository is used for a real client. The root
-`docker-compose.yml` requires PostgreSQL, VAPI, n8n, and Day 4 secrets before it
-will start protected services.
-
-## Documentation and reports
-
-- [Executive report](EXECUTIVE_REPORT.md)
-- [10-minute demo script](DEMO_SCRIPT.md)
-- [Conversation evaluation](day6/CONVERSATION_EVALUATION.md)
-- [Performance and integration report](day6/PERFORMANCE_AND_INTEGRATION_REPORT.md)
-- [Client user guide](docs/CLIENT_USER_GUIDE.md)
-- [Admin and troubleshooting guide](docs/ADMIN_AND_TROUBLESHOOTING_GUIDE.md)
-- [Monitoring and maintenance plan](docs/MAINTENANCE_PLAN.md)
-- [API endpoint security](docs/API_SECURITY.md)
-- [Audit summary](AUDIT_SUMMARY.md)
-- [Action items](ACTION_ITEMS_DAYS_4-7.md)
-- [VAPI retrieval audit](AUDIT_REPORT_VAPI_PROPERTY_RETRIEVAL.md)
-- [Quick-start code snippets](QUICK_START_CODE_SNIPPETS.md)
-- [System prompt](day1/05_system_prompt/system_prompt.md)
-- [Day 3 architecture](day3/docs/architecture.md)
-- [Day 4 API documentation](day4/docs/API_DOCUMENTATION.md)
-
-## Known limitations
-
-- Regex guardrails are a fast first layer, not a substitute for ongoing
-  adversarial evaluation and least-privilege tool authorization.
-- Live voice quality and latency depend on provider configuration and network
-  conditions.
-- Calendar, email, CRM, and n8n behavior must be validated with the target
-  client's accounts before production launch.
-- The root end-to-end Docker deployment, CI/CD pipeline, and production
-  monitoring backend require environment-specific completion.
+- [Documentation index](docs/README.md)
+- [Client guide](docs/CLIENT_USER_GUIDE.md)
+- [Administration and troubleshooting](docs/ADMIN_AND_TROUBLESHOOTING_GUIDE.md)
+- [Monitoring and maintenance](docs/MAINTENANCE_PLAN.md)
+- [Executive report](EXECUTIVE_REPORT.md) and [demo script](DEMO_SCRIPT.md)
+- [Website API](day7/web_api/README.md) and [frontend](day7/web_frontend/README.md)
+- [VAPI integration](day7/vapi_integration/README.md) and [offline ML](day7/ml/README.md)
+- [Day 3 agent](day3/README.md), [Day 4 workflows](day4/README.md), and [Day 5 graph](day5/README.md)

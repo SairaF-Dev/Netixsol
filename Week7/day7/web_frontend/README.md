@@ -1,58 +1,68 @@
-# Sara Real Estate Development Frontend — Phase 9
+﻿# Sara Website
 
-Next.js App Router + TypeScript frontend for the authenticated shared FastAPI.
-It contains no backend credentials, ML implementation, fabricated property
-photos, or fake chat. Browser voice reuses the existing VAPI assistant.
+Next.js App Router and TypeScript frontend for the shared website API. Pages
+include login/registration (`/start`), preferences, properties, recommendations,
+appointments, and Sara text chat/browser voice (`/sara`).
 
-## Run
+## Setup and run
 
-Backend:
+Start PostgreSQL and the website API using the [root setup](../../README.md).
+Create or update `.env.local` in this directory, preserving existing values:
 
-```powershell
-cd E:\Netixsol\Week7\day7
-python -m uvicorn web_api.app:app `
-    --host 127.0.0.1 `
-    --port 8010 `
-    --reload
+```env
+NEXT_PUBLIC_SARA_API_URL=http://localhost:8010
+NEXT_PUBLIC_VAPI_PUBLIC_KEY=
 ```
 
-Frontend:
+Use the VAPI public browser key, never its private key. No `.env.example` is
+supplied. Restart the dev server after configuration changes.
+
+From this directory:
 
 ```powershell
-cd E:\Netixsol\Week7\day7\web_frontend
-npm.cmd install
+npm.cmd ci
 npm.cmd run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000/start`. Use `localhost` for the browser API hostname
+as well so development cookies remain same-site. Production requires HTTPS,
+backend `SARA_AUTH_SECURE_COOKIE=1`, and appropriate API CORS origins.
 
-Keep the existing `.env.local`; it needs `NEXT_PUBLIC_SARA_API_URL` and
-`NEXT_PUBLIC_VAPI_PUBLIC_KEY`. Never put the private VAPI key in this file.
-On `/sara`, sign in and select **Start voice call**, then allow microphone access.
-Mute and end controls are available during the call. HTTPS or localhost is
-required for browser microphone access.
+## Browser voice
 
-Restart the website API and VAPI webhook service after updating the code.
-The website API initializes the additive voice-session table on startup.
-The webhook forwards browser events to `SARA_WEB_API_INTERNAL_URL`
-(default `http://localhost:8010`); both services need the same PostgreSQL database
-and `VAPI_WEBHOOK_SECRET`. Keep the existing assistant ID and server configuration.
-See [browser voice verification](../../docs/BROWSER_VOICE_REPORT.md).
+Start the VAPI webhook on 8007 and website API on 8010. Configure the existing
+assistant's HTTPS webhook and secret. Both backends need the same PostgreSQL
+database and `VAPI_WEBHOOK_SECRET`; the website API needs `VAPI_ASSISTANT_ID`.
+The webhook forwards browser events to `SARA_WEB_API_INTERNAL_URL`, defaulting
+to `http://localhost:8010`.
 
-## Boundaries
+Sign in on `/sara`, select **Start voice call**, and allow microphone access.
+Start/cancel/end/mute controls use `@vapi-ai/web`. The public key must permit the
+site and assistant. See the [browser voice report](../../docs/BROWSER_VOICE_REPORT.md)
+for implementation evidence and outstanding live checks.
 
-- Registration/login creates a backend-owned HttpOnly session cookie. The
-  browser restores identity through `/api/auth/me`; customer ownership and
-  passwords are never stored in localStorage.
-- Recommendations create one UUID per explicit load/refresh and retain the
-  returned ID with the visible cards for feedback.
-- Appointment listings use authenticated `/api/me/appointments` ownership.
-- `/sara` uses authenticated `/api/me/chat` via the central CSRF-aware client.
-  Cards retain backend recommendation IDs and reuse existing feedback and visit
-  components. Chat state stays in component memory (40 messages maximum); a
-  reload starts a new conversation. Browser voice remains outside Phase 9.
-- All ranking and the synthetic development ML boundary remain server-side.
+## State and API boundaries
 
-Use `http://localhost:8010` as the browser API URL so localhost frontend and
-backend remain same-site for the `SameSite=Lax` development cookie. Production
-must use HTTPS and set `SARA_AUTH_SECURE_COOKIE=1`.
+- Identity is restored through `/api/auth/me` using an HttpOnly session cookie.
+  The central `lib/api.ts` client includes cookies and manages CSRF tokens.
+- Recommendations retain the returned session ID for feedback; the server
+  validates recommendation membership and customer ownership.
+- Appointment listings use `/api/me/appointments`.
+- Chat uses `/api/me/chat` and retains at most 40 visible messages in component
+  memory. Navigation/reload starts a new conversation. Account changes discard
+  old state and stale responses.
+- Browser calls obtain an authenticated capability. Navigation or account
+  replacement stops the call and revokes it.
+- Retrieval, preference persistence, ranking, and ML remain on the backend.
+
+## Checks and production build
+
+```powershell
+npm.cmd test
+npm.cmd run build
+npm.cmd start
+```
+
+`start` serves a completed production build. Build success does not verify live
+VAPI audio or Calendar/email delivery. See the
+[troubleshooting guide](../../docs/ADMIN_AND_TROUBLESHOOTING_GUIDE.md).

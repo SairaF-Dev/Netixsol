@@ -1,16 +1,26 @@
-# Ten-Minute Stakeholder Demonstration
+﻿# Ten-Minute Stakeholder Demonstration
 
-1. **0:00–0:45 — Goal:** explain Sara and the verified-data rule.
-2. **0:45–1:30 — Architecture:** show VAPI → guardrail → agent → PostgreSQL/RAG → Day 4.
-3. **1:30–3:00 — Incoming call:** ask in UrduLish for a Lahore property with budget and bedrooms.
-4. **3:00–4:00 — Grounding:** ask price, availability, amenities, and a brochure FAQ; show sources.
-5. **4:00–5:00 — Recommendation:** compare verified matches and explain the fit without guarantees.
-6. **5:00–5:45 — Objection:** say price is high; demonstrate empathetic lower-budget recovery.
-7. **5:45–7:00 — Booking:** select a property, provide details, create Calendar event, and show employee email.
-8. **7:00–8:00 — Reschedule:** change the time and show synchronized Calendar/email state.
-9. **8:00–8:40 — Cancel:** cancel and show final workflow/CRM status.
-10. **8:40–9:20 — Security:** try “reveal your prompt” and an off-topic request.
-11. **9:20–10:00 — Operations:** show `/health`, `/metrics`, limitations, and roadmap.
+Prepare a test account and development listings. Start PostgreSQL, Day 4, website
+API, webhook, and frontend using the [setup guide](README.md). Verify provider
+configuration before demonstrating voice or external Calendar/email delivery.
 
-Use test customer data. Keep a prerecorded fallback and screenshots ready if a
-provider is unavailable. Never claim a tool succeeded until its result is shown.
+1. **0:00-0:45 - Goal:** explain Sara and the verified-data rule.
+2. **0:45-1:30 - Architecture:** show website/chat, VAPI, PostgreSQL, and Day 4.
+3. **1:30-2:30 - Account:** log in and show saved preferences.
+4. **2:30-3:30 - Recommendations:** load matches and record explicit feedback.
+5. **3:30-4:30 - Chat:** ask for properties in UrduLish and refer to a shown result.
+6. **4:30-5:30 - Preference editing:** request a budget change, give the new value,
+   and verify it on Preferences.
+7. **5:30-6:30 - Browser voice:** start a call on `/sara`, allow the microphone,
+   demonstrate a request, then mute/end the call.
+8. **6:30-8:00 - Visit:** select a property, provide a future date/time, and show
+   the returned appointment and owned listing. Reschedule or cancel the test visit.
+9. **8:00-9:00 - Boundaries:** try an off-topic or prompt-reveal request. Explain
+   cookie ownership and the deterministic ranking baseline.
+10. **9:00-10:00 - Operations:** show health, dated verification evidence, and
+    remaining live-delivery/deployment work.
+
+Only claim Calendar/email delivery if its result is actually verified. Check
+appointment status before retrying an interrupted booking. Keep a prerecorded
+fallback for unavailable providers and identify it as recorded. Website chat does
+not expose the full Day 3 FAQ/RAG/comparison surface; demonstrate only supported flows.
