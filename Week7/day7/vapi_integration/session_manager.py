@@ -480,11 +480,12 @@ class VapiSessionManager:
     @staticmethod
     def _property_for_reference(session: VapiSession, understanding: object) -> str | None:
         from shared.sara_service import resolve_property_reference
+
         return resolve_property_reference(
-            understanding, session.latest_recommended_property_order,
+            understanding,
+            session.latest_recommended_property_order,
             session.shown_property_ids[0] if len(session.shown_property_ids) == 1 else None,
         )
-
     async def _record_interaction(
         self,
         session: VapiSession,

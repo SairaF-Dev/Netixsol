@@ -649,6 +649,71 @@ class UserUnderstandingService:
         if re.fullmatch(r"(?:sab|all|saray|saare) (?:suggest kiye hue )?areas?(?: ke)?(?: options)?(?: dikha do| dikhao| dikhayein)?", text):
             return UserUnderstanding(intent="property_search", relax=["area"])
 
+        # Property feedback actions (liked/rejected): e.g. "Dha heights ye property pasand i hia", "second wali pasand hai", "ye pasand hai"
+        is_liked = bool(re.search(r"\b(?:pasand\s*(?:hai|aayi|ayi|i|agayi|agaye|aya)|achh?[aiy]\s+hai|like|shortlist)\b", text, re.IGNORECASE))
+        if is_liked:
+            idx = None
+            if re.search(r"\b(?:1st|first|pehli|pehla|pehle)\b", text, re.IGNORECASE):
+                idx = 0
+            elif re.search(r"\b(?:2nd|second|doosri|doosra|doosre|dusri|dusra|dusre)\b", text, re.IGNORECASE):
+                idx = 1
+            elif re.search(r"\b(?:3rd|third|teesri|teesra|teesre)\b", text, re.IGNORECASE):
+                idx = 2
+            elif re.search(r"\b(?:option|number|no\.?)\s*([1-3])\b", text, re.IGNORECASE):
+                m_opt = re.search(r"\b(?:option|number|no\.?)\s*([1-3])\b", text, re.IGNORECASE)
+                idx = int(m_opt.group(1)) - 1
+            return UserUnderstanding(
+                intent="feedback",
+                interaction_action="liked",
+                selected_index=idx,
+                reference_type="selected_property" if idx is None else None,
+                raw_message=raw,
+            )
+
+        is_rejected = bool(re.search(r"\b(?:reject|pasand\s+nahi|nahi\s+chahiye|mat\s+dikhao)\b", text, re.IGNORECASE))
+        if is_rejected:
+            idx = None
+            if re.search(r"\b(?:1st|first|pehli|pehla|pehle)\b", text, re.IGNORECASE):
+                idx = 0
+            elif re.search(r"\b(?:2nd|second|doosri|doosra|doosre|dusri|dusra|dusre)\b", text, re.IGNORECASE):
+                idx = 1
+            elif re.search(r"\b(?:3rd|third|teesri|teesra|teesre)\b", text, re.IGNORECASE):
+                idx = 2
+            elif re.search(r"\b(?:option|number|no\.?)\s*([1-3])\b", text, re.IGNORECASE):
+                m_opt = re.search(r"\b(?:option|number|no\.?)\s*([1-3])\b", text, re.IGNORECASE)
+                idx = int(m_opt.group(1)) - 1
+            return UserUnderstanding(
+                intent="feedback",
+                interaction_action="rejected",
+                selected_index=idx,
+                reference_type="selected_property" if idx is None else None,
+                raw_message=raw,
+            )
+
+        # Property details follow-up (e.g. "hnji details dey dein", "details de dein", "iski details")
+        if re.search(r"\b(?:details?\s*(?:de[ny]?\s*dein|bata[a-z]*|chahiye|de\s*do)|iski\s+details?|ski\s+details?)\b", text, re.IGNORECASE):
+            has_explicit_prop_name = bool(re.search(r"\b[A-Za-z0-9-]+\s+(?:heights|tower|towers|residence|residency|villa|villas|apartment|apartments|house|plot|suites?)\b", text, re.IGNORECASE))
+            return UserUnderstanding(
+                intent="property_details",
+                reference_type=None if has_explicit_prop_name else "selected_property",
+                raw_message=raw,
+            )
+
+        # Comparative more expensive / cheaper queries
+        if re.search(r"\b(?:is\s+se\s+m(?:ehng|engh)[aeiouy]*|us\s+se\s+m(?:ehng|engh)[aeiouy]*|isse\s+m(?:ehng|engh)[aeiouy]*|usse\s+m(?:ehng|engh)[aeiouy]*|more\s+expensive)\b", text, re.IGNORECASE):
+            return UserUnderstanding(
+                intent="property_search",
+                comparison=ComparisonRequest(field="price", operator="gt"),
+                raw_message=raw,
+            )
+
+        if re.search(r"\b(?:is\s+se\s+sast[aeiy]*|us\s+se\s+sast[aeiy]*|isse\s+sast[aeiy]*|usse\s+sast[aeiy]*|cheaper|less\s+expensive)\b", text, re.IGNORECASE):
+            return UserUnderstanding(
+                intent="property_search",
+                comparison=ComparisonRequest(field="price", operator="lt"),
+                raw_message=raw,
+            )
+
         # Keep this fast-path limited to short conversational follow-ups.
         tokens = text.split()
 
@@ -3718,6 +3783,8 @@ This layer only understands and structures what the user said.
 
             # Bare society/area names, e.g. "DHA", "Bahria", "Askari", "Gulberg", "B-17".
             r"\b(DHA|Bahria|Bahria Town|Bahria Enclave|Gulberg|Johar Town|Askari|Clifton|Gulshan|B-17|E-11|F-11|G-11|I-8|F-7|F-8|F-10)\b",
+            # Bare society/area names, e.g. "DHA", "Bahria", "Askari", "Gulberg", "B-17", "Blue Area".
+            r"\b(DHA|Bahria|Bahria Town|Bahria Enclave|Gulberg|Johar Town|Askari|Clifton|Gulshan|B-17|E-11|F-11|G-11|I-8|F-7|F-8|F-10|Blue\s+Area|Ghauri\s+Town)\b",
         )
 
         noise_tokens = {
