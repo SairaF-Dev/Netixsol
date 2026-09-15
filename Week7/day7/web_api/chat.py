@@ -1155,9 +1155,6 @@ class ChatAdapter:
         respond = lambda message, clarification=False, **fields: self._response(cid, message, clarification, **fields)
         raw_msg = (message or getattr(u, "raw_message", "") or "").casefold()
         order = saved.get("property_order", [])
-        selected = resolve_property_reference(u, order, saved.get("selected"))
-        has_reference = u.selected_index is not None or u.reference_type or u.interaction_property_id
-        if selected:
         if "shown_properties_map" not in saved:
             saved["shown_properties_map"] = {}
         for pid in order:
@@ -2514,10 +2511,8 @@ class ChatAdapter:
             ))
             or (u.intent in {"objection", "BUDGET_OBJECTION", "budget_objection"} and getattr(u.comparison, "field", None) == "price")
             or (u.intent in {"objection", "BUDGET_OBJECTION", "budget_objection"})
-        ) and not bool(re.search(r"\b(?:s[ab]b?\s*se\s*m(?:ehng|engh)[aeiouy]*|most\s*expensive|highest\s*price|maximum\s*price|costliest)\b", raw_msg, re.IGNORECASE))
         ) and not bool(re.search(r"\b(?:s[ab]b?\s*se\s*m(?:ehng|engh)[aeiouy]*|most\s*expensive|highest\s*price|maximum\s*price|costliest)\b", raw_msg, re.IGNORECASE)) and not is_comparative_expensive
 
-        if (is_cheaper_request or is_accepting_cheaper_offer or is_price_objection) and not (u.intent == "property_search" and getattr(u.comparison, "field", None)):
         if (is_cheaper_request or is_accepting_cheaper_offer or is_price_objection) and not (u.intent == "property_search" and getattr(u.comparison, "field", None) and getattr(u.comparison, "operator", None) != "lt"):
             ref_id = selected or saved.get("selected") or (order[0] if order else None)
             ref_prop = await asyncio.to_thread(self.services.properties.get_property, ref_id) if ref_id else None
