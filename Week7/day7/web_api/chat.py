@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 from pydantic import ValidationError
 
 from shared.sara_service import SaraService, resolve_property_reference
+from shared.sara_service import SaraService, resolve_property_reference, PropertyResolutionResult
 from sara_agent.understanding import UnderstandingError
 from sara_agent.preference_edit import advance_edit, finish_edit
 from web_api.schemas import PreferencesUpdate, MeInteractionCreate, MeAppointmentBook, AppointmentReschedule
@@ -303,6 +304,12 @@ class ChatAdapter:
                     ).strip()
                     if reply:
                         reply = reply[0].upper() + reply[1:]
+                # Anti-hallucination guard: If canonical_response is a clarification prompt without properties,
+                # but LLM reply invents property names, bedrooms, or prices, reject reply.
+                has_canon_props = bool(re.search(r"\b(?:\d+\s*bedrooms?|\d+(?:\.\d+)?\s*(?:crore|lakh|cr)|pkr)\b", canonical_response, re.IGNORECASE))
+                has_reply_props = bool(re.search(r"\b(?:\d+\s*bedrooms?|\d+(?:\.\d+)?\s*(?:crore|lakh|cr)|pkr)\b", reply, re.IGNORECASE))
+                if not has_canon_props and has_reply_props and ("details" in user_message.lower() or "option" in canonical_response.lower()):
+                    return clean_urdulish_vocabulary(canonical_response)
                 return clean_urdulish_vocabulary(reply)
         except Exception:
             pass
@@ -931,9 +938,39 @@ class ChatAdapter:
                 "LIST_AVAILABLE_OPTIONS_QUERY", "list_available_options_query",
                 "BUDGET_OBJECTION", "budget_objection",
             }
+            extract_fn = getattr(self.sara.understanding, "_extract_explicit_area", None)
+            extracted_area = extract_fn(raw) if extract_fn else None
+            m_area = understanding.required.get("area") or getattr(understanding, "preferred", {}).get("area") or extracted_area
+            is_area_curiosity = bool(m_area and re.search(
+                r"\b(?:available\s+hai\s*(?:kiya|kya)?|available\s+hain\s*(?:kiya|kya)?|"
+                r"koi\s+option\s+hai|koi\s+property\s+hai|hai\s*(?:kiya|kya)|hain\s*(?:kiya|kya)|"
+                r"kya\s+.*?\s*hai|kya\s+.*?\s*hain|kaisa\s+hai)\b",
+                raw, re.IGNORECASE
+            ))
+            is_explicit_area_switch = bool(re.search(
+                r"\b(?:dekh\w*(?:\s+(?:hai[n]?|chahiye|chahenge|chahengi|hon|hoon))?|dikhao|dikhayein|dikhaein|dikha\s*do|switch|shift|chahiye|options?\s+dikhao|options?\s+chahiye|options?\s+dekh\w*|le\s+chalo|le\s+jayein)\b",
+                raw, re.IGNORECASE
+            ))
+            has_explicit_search_criteria = bool(
+                understanding.required.get("property_type")
+                or understanding.required.get("bedrooms")
+                or understanding.required.get("budget")
+            )
+            is_area_exploratory = bool(m_area and not is_explicit_area_switch and not has_explicit_search_criteria)
+            is_comparative = (getattr(understanding.comparison, "field", None) == "price" or bool(re.search(r"\b(?:is\s+se\s+m(?:ehng|engh)|us\s+se\s+m(?:ehng|engh)|isse\s+m(?:ehng|engh)|usse\s+m(?:ehng|engh)|is\s+se\s+sast|us\s+se\s+sast|isse\s+sast|usse\s+sast)\b", raw, re.IGNORECASE)))
+            is_property_details = (understanding.intent in {"property_details", "property_selection"})
+
+            if is_area_curiosity or is_area_exploratory:
+                understanding.required.pop("area", None)
+                understanding.preferred.pop("area", None)
+
             is_informational_query = (
                 understanding.intent in informational_intents
                 or getattr(understanding, "query_budget", None) is not None
+                or is_comparative
+                or is_area_curiosity
+                or is_area_exploratory
+                or is_property_details
             )
 
             # Day 3 owns merge, city/area invalidation, relaxation and ambiguity rules.
@@ -1121,10 +1158,51 @@ class ChatAdapter:
         selected = resolve_property_reference(u, order, saved.get("selected"))
         has_reference = u.selected_index is not None or u.reference_type or u.interaction_property_id
         if selected:
+        if "shown_properties_map" not in saved:
+            saved["shown_properties_map"] = {}
+        for pid in order:
+            if pid not in saved["shown_properties_map"]:
+                try:
+                    p_obj = self.services.properties.get_property(pid)
+                    if p_obj:
+                        saved["shown_properties_map"][pid] = p_obj.get("property_name") or p_obj.get("name")
+                except Exception:
+                    pass
+
+        is_area_filter_query = bool(order and re.search(
+            r"\b([\w\s-]{2,25}?)\s+(?:mein|me|main)\s+(?:k[a]?n?\s*)?(?:kn\s*kn\s*sey|konsay|kaunsay|kya|kitney|which)\s+options?\b|"
+            r"\boptions?\s+(?:konsay|kaunsay|kya)\s+(?:hain|hai)\s+([\w\s-]{2,25}?)\s+(?:mein|me|main)\b|"
+            r"\b([\w\s-]{2,25}?)\s+(?:k[ay]?|ke)\s+options?\s+(?:konsay|kaunsay|kya)\s+(?:hain|hai)\b|"
+            r"\b([\w\s-]{2,25}?)\s+(?:mein|me|main)\s+(?:kya\s+hai|kya\s+options?\s+hai|kya\s+kya\s+hai)\b",
+            raw_msg, flags=re.IGNORECASE
+        ))
+
+        if not is_area_filter_query:
+            res = resolve_property_reference(
+                u, order, saved.get("selected"),
+                shown_properties_map=saved.get("shown_properties_map"),
+                raw_message=raw_msg,
+            )
+        else:
+            res = PropertyResolutionResult("no_match", None)
+        if res.status == "resolved":
+            selected = res.value
             saved["selected"] = selected
+        elif res.status == "ambiguous":
+            names = [saved.get("shown_properties_map", {}).get(pid, pid) for pid in res.value]
+            names_str = " ya ".join(f"**{n}**" for n in names)
+            return respond(f"Aap {names_str} ki baat kar rahe hain? Option number ya mukammal naam bata dein.", True)
+        else:
+            selected = None
+
+        has_reference = u.selected_index is not None or u.reference_type or u.interaction_property_id or bool(res.value)
         if u.interaction_action:
             if not selected or u.needs_clarification:
                 return respond("Please batayein aap pehli, doosri ya teesri property ki baat kar rahe hain?", True)
+            if u.interaction_action == "liked":
+                liked = saved.setdefault("liked_properties", [])
+                if selected not in liked:
+                    liked.append(selected)
             # Stale like/reject from a UI card whose search session was cleared
             # (e.g. preferences changed) must not crash with KeyError on the
             # recommendation_session_id lookup.
@@ -1679,6 +1757,62 @@ class ChatAdapter:
                 # area): restore so the question isn't silently swallowed.
                 saved["pending_expand_area"] = info
 
+        # -----------------------------------------------------------------
+        # Named Area Query / Switch / Curiosity Handler (Fix 2, Fix 3, Tightening 3, Bug 5)
+        # -----------------------------------------------------------------
+        extract_fn = getattr(self.sara.understanding, "_extract_explicit_area", None)
+        extracted_area = extract_fn(raw_msg) if extract_fn else None
+        mentioned_area = u.required.get("area") or getattr(u, "preferred", {}).get("area") or extracted_area
+        active_area = state.required.get("area") or (saved.get("pending_choice_frame") or {}).get("requested_area")
+        if mentioned_area and not is_area_filter_query and not ("details" in raw_msg or u.intent == "property_details"):
+            is_explicit_switch = bool(re.search(
+                r"\b(?:dekh\w*(?:\s+(?:hai[n]?|chahiye|chahenge|chahengi|hon|hoon))?|dikhao|dikhayein|dikhaein|dikha\s*do|switch|shift|chahiye|options?\s+dikhao|options?\s+chahiye|options?\s+dekh\w*|le\s+chalo|le\s+jayein)\b",
+                raw_msg, re.IGNORECASE
+            ))
+            is_curiosity = bool(re.search(
+                r"\b(?:available\s+hai\s*(?:kiya|kya)?|available\s+hain\s*(?:kiya|kya)?|"
+                r"koi\s+option\s+hai|koi\s+property\s+hai|hai\s*(?:kiya|kya)|hain\s*(?:kiya|kya)|"
+                r"kya\s+.*?\s*hai|kya\s+.*?\s*hain)\b",
+                raw_msg, re.IGNORECASE
+            )) and not is_explicit_switch
+            has_search_criteria = bool(
+                u.required.get("property_type")
+                or u.required.get("bedrooms")
+                or u.required.get("budget")
+            )
+            is_different_area = bool(not active_area or mentioned_area.lower() != active_area.lower())
+
+            if is_curiosity:
+                # Case B: Curiosity / Availability check (Tightening 3)
+                city = state.required.get("city") or "Islamabad"
+                area_matches = await asyncio.to_thread(
+                    self.services.properties.search,
+                    city=city,
+                    area=mentioned_area
+                )
+                if area_matches:
+                    return respond(f"Ji, {mentioned_area} mein verified options available hain. Kya aap {mentioned_area} ke options dekhna chahengi?", True)
+                else:
+                    return respond(f"{mentioned_area} mein filhaal koi verified option available nahi hai.", True)
+            elif is_explicit_switch or has_search_criteria:
+                if is_different_area:
+                    # Case A: Explicit switch (Fix 3 & Tightening 3)
+                    old_sel = saved.get("selected")
+                    if old_sel:
+                        liked = saved.setdefault("liked_properties", [])
+                        if old_sel not in liked:
+                            liked.append(old_sel)
+                    # Clear saved["selected"] = None so it does not leak into new area scope (Fix 3)
+                    saved["selected"] = None
+                    saved.pop("pending_choice_frame", None)
+                    saved.pop("pending_suggested_area", None)
+                    saved.pop("pending_suggested_areas", None)
+                    state.required["area"] = mentioned_area
+                    # Proceed to search pipeline
+            elif is_different_area:
+                # Case C: Ambiguous (Neither curiosity nor switch/search criteria) (Fix 2)
+                return respond(f"Kya aap {mentioned_area} explore karna chahengi, ya sirf yeh jaanna chahti hain ke wahan options hain?", True)
+
         # Check for active or interrupted pending_choice_frame
         if saved.get("pending_choice_frame"):
             frame = saved["pending_choice_frame"]
@@ -1790,6 +1924,12 @@ class ChatAdapter:
                                 pending_action=None,
                             )
                             intro = f"Ji bilkul! {opt_a_area} mein aapke liye ye option available hai:"
+                            cand_t = (frame.get("option_a") or {}).get("property_type")
+                            req_t = frame.get("property_type") or state.required.get("property_type")
+                            if cand_t and req_t and cand_t.lower() != req_t.lower():
+                                intro = f"Ji bilkul! {opt_a_area} mein {req_t} to available nahi hai, lekin ye {cand_t} options verified hain:"
+                            else:
+                                intro = f"Ji bilkul! {opt_a_area} mein aapke liye ye option available hai:"
                             msg = self.sara.presentation.format_batch(batch, has_more=False, first_batch=True, custom_intro=intro)
                             return respond(msg, properties=batch)
                         elif opt_a_area:
@@ -2238,6 +2378,105 @@ class ChatAdapter:
             return respond(msg, True)
 
         # -----------------------------------------------------------------
+        # Comparative More Expensive Request Handling (Bug 2)
+        # -----------------------------------------------------------------
+        is_comparative_expensive = (
+            bool(re.search(
+                r"\b(?:is\s+se\s+m(?:ehng|engh)[aeiouy]*|us\s+se\s+m(?:ehng|engh)[aeiouy]*|"
+                r"isse\s+m(?:ehng|engh)[aeiouy]*|usse\s+m(?:ehng|engh)[aeiouy]*|"
+                r"is\s+se\s+(?:zyada|barh|uper|ziada)|us\s+se\s+(?:zyada|barh|uper|ziada)|"
+                r"more\s+expensive|higher\s+price|pricier)\b",
+                raw_msg, re.IGNORECASE
+            ))
+            or (getattr(u.comparison, "field", None) == "price" and getattr(u.comparison, "operator", None) == "gt")
+        )
+
+        if is_comparative_expensive:
+            ref_id = selected or saved.get("selected") or (order[0] if order else None)
+            ref_prop = await asyncio.to_thread(self.services.properties.get_property, ref_id) if ref_id else None
+            if not ref_prop and not order:
+                return respond(
+                    "Aap kis city ya area mein aur kis budget se zyada ki property dekhna chahenge? Main aapke liye options search kar leti hoon.",
+                    True
+                )
+            ref_price = int(ref_prop.get("price", 0)) if ref_prop else 0
+            ref_city = (ref_prop.get("city") if ref_prop else None) or state.required.get("city") or "Islamabad"
+            ref_type = (ref_prop.get("property_type") if ref_prop else None) or state.required.get("property_type") or "House"
+            ref_purpose = (ref_prop.get("purpose") if ref_prop else None) or state.required.get("purpose") or "Purchase"
+            ref_area = ref_prop.get("area", "") if ref_prop else ""
+            ref_price_str = f"{ref_price / 10_000_000:.1f} Crore" if ref_price >= 10_000_000 else f"{ref_price / 100_000:.0f} Lakh"
+
+            all_higher = await asyncio.to_thread(
+                self.services.properties.search,
+                city=ref_city,
+                purpose=ref_purpose,
+                property_type=ref_type,
+            )
+            expensive_props = [
+                p for p in (all_higher or [])
+                if p.get("property_id") != ref_id and int(p.get("price", 0)) > ref_price
+            ]
+            expensive_props.sort(key=lambda p: int(p.get("price", 0)))
+
+            if expensive_props:
+                top_e = expensive_props[0]
+                e_price = int(top_e.get("price", 0))
+                e_price_str = f"{e_price / 10_000_000:.1f} Crore" if e_price >= 10_000_000 else f"{e_price / 100_000:.0f} Lakh"
+                e_name = top_e.get("property_name") or top_e.get("name")
+                e_area = top_e.get("area", "")
+                e_beds = top_e.get("bedrooms")
+                diff = e_price - ref_price
+                diff_str = f"{diff / 10_000_000:.1f} Crore" if diff >= 10_000_000 else f"{diff / 100_000:.0f} Lakh"
+
+                bed_info = f" — {e_beds} bedrooms" if e_beds else ""
+                intro = (
+                    f"Ji bilkul! {e_area} mein ye verified option available hai "
+                    f"jo pichle option ({ref_price_str} PKR) ke muqablay mein {diff_str} PKR mehnga ({e_price_str} PKR) hai:"
+                )
+                item_line = f"1. **{e_name}** — {e_area}, {ref_city}{bed_info} — **{e_price:,} PKR** ({e_price_str} PKR)"
+                closing = "Agar aap is property ki mazeed details dekhna chahte hain ya visit schedule karna chahte hain, to batayein."
+                msg = f"{intro}\n\n{item_line}\n\n{closing}"
+
+                from web_api.services import RecommendationContext, property_snapshot, preference_snapshot, public_property
+                rec_id = uuid4()
+                saved["recommendation_session_id"] = str(rec_id)
+                saved["selected"] = top_e["property_id"]
+                saved["property_order"] = [p["property_id"] for p in expensive_props[:2]]
+                saved.setdefault("shown_properties_map", {})
+                for p in expensive_props[:2]:
+                    saved["shown_properties_map"][p["property_id"]] = p.get("property_name") or p.get("name")
+                state.required["budget"] = e_price
+                state.required["area"] = e_area
+
+                cust_rec = await asyncio.to_thread(self.services.customers.resolve_for_customer_id, identity.customer_id)
+                pref_snap = preference_snapshot(cust_rec.preferences) if cust_rec and cust_rec.preferences else preference_snapshot(state.required)
+                ctx = RecommendationContext(
+                    customer_id=identity.customer_id,
+                    property_snapshots={p["property_id"]: public_property(p) for p in expensive_props[:2]},
+                    preference_snapshot=pref_snap,
+                )
+                try:
+                    await asyncio.to_thread(self.services.sessions.put, rec_id, ctx, identity.user_id)
+                except TypeError:
+                    await asyncio.to_thread(self.services.sessions.put, rec_id, ctx)
+
+                await asyncio.to_thread(
+                    self.services.interactions.record_interaction,
+                    customer_id=identity.customer_id,
+                    conversation_id=str(rec_id),
+                    property_id=str(top_e["property_id"]),
+                    action="shown",
+                    preference_snapshot=ctx.preference_snapshot,
+                    property_snapshot=property_snapshot(top_e),
+                )
+                return respond(msg, recommendation_session_id=str(rec_id), properties=[public_property(p) for p in expensive_props[:2]])
+            else:
+                return respond(
+                    f"Aapke samne maujood option ({ref_price_str} PKR) is category mein sab se high-end verified option hai. Is se zyada price ka option filhaal available nahi hai.",
+                    True
+                )
+
+        # -----------------------------------------------------------------
         # Comparative Cheaper Request & Price Objection Handling
         # -----------------------------------------------------------------
         is_cheaper_request = bool(re.search(
@@ -2276,8 +2515,10 @@ class ChatAdapter:
             or (u.intent in {"objection", "BUDGET_OBJECTION", "budget_objection"} and getattr(u.comparison, "field", None) == "price")
             or (u.intent in {"objection", "BUDGET_OBJECTION", "budget_objection"})
         ) and not bool(re.search(r"\b(?:s[ab]b?\s*se\s*m(?:ehng|engh)[aeiouy]*|most\s*expensive|highest\s*price|maximum\s*price|costliest)\b", raw_msg, re.IGNORECASE))
+        ) and not bool(re.search(r"\b(?:s[ab]b?\s*se\s*m(?:ehng|engh)[aeiouy]*|most\s*expensive|highest\s*price|maximum\s*price|costliest)\b", raw_msg, re.IGNORECASE)) and not is_comparative_expensive
 
         if (is_cheaper_request or is_accepting_cheaper_offer or is_price_objection) and not (u.intent == "property_search" and getattr(u.comparison, "field", None)):
+        if (is_cheaper_request or is_accepting_cheaper_offer or is_price_objection) and not (u.intent == "property_search" and getattr(u.comparison, "field", None) and getattr(u.comparison, "operator", None) != "lt"):
             ref_id = selected or saved.get("selected") or (order[0] if order else None)
             ref_prop = await asyncio.to_thread(self.services.properties.get_property, ref_id) if ref_id else None
 
@@ -2812,6 +3053,25 @@ class ChatAdapter:
 
             selected = selected or (saved.get("selected") if not has_reference else None) or (order[0] if len(order) == 1 and not has_reference else None)
             if not selected:
+                res = resolve_property_reference(
+                    u, order, saved.get("selected"),
+                    shown_properties_map=saved.get("shown_properties_map"),
+                    raw_message=raw_msg
+                )
+                if res.status == "resolved":
+                    selected = res.value
+                    saved["selected"] = selected
+                elif res.status == "ambiguous":
+                    names = [saved.get("shown_properties_map", {}).get(pid, pid) for pid in res.value]
+                    names_str = " ya ".join(f"**{n}**" for n in names)
+                    return respond(f"Aap {names_str} ki baat kar rahe hain? Option number ya mukammal naam bata dein.", True)
+                else:
+                    has_prop_name = bool(re.search(r"\b[A-Za-z0-9-]+\s+(?:heights|tower|towers|residence|residency|villa|villas|apartment|apartments|house|plot|suites?)\b", raw_msg, re.IGNORECASE))
+                    if not has_reference and not has_prop_name and len(order) == 1:
+                        selected = order[0]
+                        saved["selected"] = selected
+
+            if not selected:
                 return respond("Kis option ki details chahiye? Option number bata dein.", True)
             rid_saved = saved.get("recommendation_session_id")
             if not rid_saved:
@@ -2821,6 +3081,7 @@ class ChatAdapter:
             if not row or not row.get("available"):
                 return respond("Yeh property ab available nahi hai. Naye options dekhna chahenge?", True)
             return respond(self._format_property_details(row))
+            return respond(self._format_property_details(row), _skip_nlg=True)
 
         if u.intent in {"property_search", "recommendation", "SAME_REQUIREMENTS", "same_requirements"}:
             # Current web search contract cannot express exclusion/comparison filters.
@@ -3043,11 +3304,15 @@ class ChatAdapter:
                         }
                         saved["pending_suggested_areas"] = list(available_areas)
                         saved["pending_suggested_area"] = cross_area
+                        orig_bed_str = f"{orig_beds}-bed " if orig_beds else ""
+                        alt_bed_str = f"{alt_beds}-bed " if alt_beds else ""
 
                         if type_differs:
                             msg = (
                                 f"{requested_area} mein {orig_beds or ''}-bed {req_type} nahi mila, lekin {alt_beds or ''}-bed {cand_type} available hai. "
                                 f"Ya phir {cross_area} mein {orig_beds or ''}-bed exact match bhi hai — kaunsa dekhna chahenge?"
+                                f"{requested_area} mein {orig_bed_str}{req_type} nahi mila, lekin {alt_bed_str}{cand_type} available hai. "
+                                f"Ya phir {cross_area} mein {orig_bed_str}exact match bhi hai — kaunsa dekhna chahenge?"
                             )
                         elif orig_beds and alt_beds:
                             type_str = f" {req_type}" if req_type else ""
@@ -3084,9 +3349,13 @@ class ChatAdapter:
                         saved.pop("pending_suggested_area", None)
                         saved.pop("pending_suggested_areas", None)
 
+                        orig_bed_str = f"{orig_beds}-bed " if orig_beds else ""
+                        alt_bed_str = f"{alt_beds}-bed " if alt_beds else ""
+
                         if type_differs:
                             msg = (
                                 f"{requested_area} mein {orig_beds or ''}-bed {req_type} nahi mila, lekin {alt_beds or ''}-bed {cand_type} option available hai. "
+                                f"{requested_area} mein {orig_bed_str}{req_type} nahi mila, lekin {alt_bed_str}{cand_type} option available hai. "
                                 "Kya aap yeh option dekhna chahenge?"
                             )
                         elif orig_beds and alt_beds:
