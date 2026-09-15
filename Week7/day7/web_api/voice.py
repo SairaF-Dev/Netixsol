@@ -51,7 +51,10 @@ def register_voice_routes(app, identity, svc, preferences, recommendations, book
             raise HTTPException(403, "Invalid webhook authentication")
         message = (await request.json()).get("message", {})
         call = message.get("call", {})
-        token = call.get("assistantOverrides", {}).get("variableValues", {}).get("sara_voice_session")
+        token = (
+            call.get("assistantOverrides", {}).get("variableValues", {}).get("sara_voice_session")
+            or call.get("variableValues", {}).get("sara_voice_session")
+        )
         services = svc(request)
         if not services.voice:
             raise HTTPException(503, "Browser voice is unavailable")
@@ -105,7 +108,8 @@ def register_voice_routes(app, identity, svc, preferences, recommendations, book
                             city, area = property_location(str(args["location"]))
                             if city:
                                 updates["city"] = city
-                            updates["area"] = area
+                            if area:
+                                updates["area"] = area
                         if args.get("purpose"):
                             updates["purpose"] = {"buy": "purchase", "rent": "rental", "invest": "investment"}.get(args["purpose"], args["purpose"])
                         if updates:

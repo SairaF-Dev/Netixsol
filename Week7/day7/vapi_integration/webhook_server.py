@@ -135,7 +135,11 @@ async def vapi_webhook(
     call_id: str = body.get("message", {}).get("call", {}).get("id", str(uuid.uuid4()))
 
     call = body.get("message", {}).get("call", {})
-    variables = call.get("assistantOverrides", {}).get("variableValues", {})
+    variables = (
+        call.get("assistantOverrides", {}).get("variableValues", {})
+        or call.get("variableValues", {})
+        or {}
+    )
     if call.get("type") == "webCall" or "sara_voice_session" in variables:
         # Browser calls never fall back to phone or caller-supplied customer identity.
         base = os.getenv("SARA_WEB_API_INTERNAL_URL", "http://localhost:8010").rstrip("/")

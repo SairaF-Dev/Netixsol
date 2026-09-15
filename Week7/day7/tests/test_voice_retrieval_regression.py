@@ -11,9 +11,21 @@ from vapi_integration.retrieval_policy import RETRIEVAL_UNAVAILABLE, VOICE_RETRI
 
 def test_existing_stt_and_budget_normalization():
     assert 'phase 6' in normalize_transcript('DHA phase six').lower()
+    assert 'phase 6' in normalize_transcript('DHA AAA fes 6').lower()
+    assert 'phase 6' in normalize_transcript('DHAAS Fiz 6').lower()
+    assert 'phase 6' in normalize_transcript('ڈی ایچ اے فیز چھ').lower()
     nlu = UserUnderstandingService(client=Mock())
     result = nlu.understand('mera budget 4 crore hai', context={'required': {'city': 'Lahore', 'area': 'DHA Phase 6', 'property_type': 'Plot', 'purpose': 'purchase'}})
     assert result.required['budget'] == 40_000_000
+
+
+def test_browser_stt_location_normalization(monkeypatch):
+    from vapi_integration.customer_identity import property_location
+    assert property_location('DHA AAA fes 6 Lahore') == ('Lahore', 'DHA Phase 6')
+    assert property_location('DHAAS Fiz 6') == (None, 'DHA Phase 6')
+    assert property_location('ڈی ایچ اے فیز سکس لاہور') == ('Lahore', 'DHA Phase 6')
+    assert property_location('Bahria Town Karachi') == ('Karachi', 'Bahria Town')
+    assert property_location('Gulberg Lahore') == ('Lahore', 'Gulberg III')
 
 
 def test_browser_exact_search_zero_matches(monkeypatch):

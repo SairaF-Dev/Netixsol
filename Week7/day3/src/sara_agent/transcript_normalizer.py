@@ -677,6 +677,14 @@ class UrduLishTranscriptNormalizer:
             flags=re.IGNORECASE,
         )
 
+        # STT phonetic variations for DHA (e.g. DHAAS, DHAA, DHA AAA, DHAAA, DAH)
+        value = re.sub(
+            r"\b(?:DHAAS|DHAA|DHA\s*AAA|DHAAA|DAH|D\.H\.A\.?)\b",
+            "DHA",
+            value,
+            flags=re.IGNORECASE,
+        )
+
         phase_numbers = {
             "one": "1",
             "two": "2",
@@ -688,6 +696,23 @@ class UrduLishTranscriptNormalizer:
             "eight": "8",
             "nine": "9",
             "ten": "10",
+            "aik": "1",
+            "ek": "1",
+            "do": "2",
+            "teen": "3",
+            "char": "4",
+            "chaar": "4",
+            "panch": "5",
+            "paanch": "5",
+            "chay": "6",
+            "che": "6",
+            "chheh": "6",
+            "siks": "6",
+            "saat": "7",
+            "aath": "8",
+            "ath": "8",
+            "nau": "9",
+            "das": "10",
         }
 
         def replace_phase(match: re.Match[str]) -> str:
@@ -695,8 +720,8 @@ class UrduLishTranscriptNormalizer:
             return f"DHA Phase {phase_numbers.get(raw_number, raw_number)}"
 
         value = re.sub(
-            r"\bDHA\s+(?:phase|face|faze)\s+"
-            r"(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b",
+            r"\bDHA\s+(?:phase|face|faze|fiz|fes|faiss|fais|faise|feiz|fees)\s+"
+            r"(one|two|three|four|five|six|seven|eight|nine|ten|aik|ek|do|teen|char|chaar|panch|paanch|chay|che|chheh|siks|saat|aath|ath|nau|das|\d+)\b",
             replace_phase,
             value,
             flags=re.IGNORECASE,
