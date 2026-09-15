@@ -956,7 +956,17 @@ class ChatAdapter:
                 or understanding.required.get("bedrooms")
                 or understanding.required.get("budget")
             )
-            is_area_exploratory = bool(m_area and not is_explicit_area_switch and not has_explicit_search_criteria)
+            is_answering_phase = bool(saved.get("pending_phase_choice") or saved.get("pending_explore_area"))
+            is_search_intent = understanding.intent in {"property_search", "recommendation"}
+            has_active_listings = bool(saved.get("property_order") or saved.get("selected"))
+            is_area_exploratory = bool(
+                m_area
+                and has_active_listings
+                and not is_answering_phase
+                and not is_search_intent
+                and not is_explicit_area_switch
+                and not has_explicit_search_criteria
+            )
             is_comparative = (getattr(understanding.comparison, "field", None) == "price" or bool(re.search(r"\b(?:is\s+se\s+m(?:ehng|engh)|us\s+se\s+m(?:ehng|engh)|isse\s+m(?:ehng|engh)|usse\s+m(?:ehng|engh)|is\s+se\s+sast|us\s+se\s+sast|isse\s+sast|usse\s+sast)\b", raw, re.IGNORECASE)))
             is_property_details = (understanding.intent in {"property_details", "property_selection"})
 
@@ -1291,6 +1301,95 @@ class ChatAdapter:
             elif order:
                 return respond("Kis option ki baat kar rahe hain? Option number bata dein.", True)
 
+        # -----------------------------------------------------------------
+        # Pending Phase Choice Handler (e.g. user answering "DHA Phase 6" or "kisi b phase")
+        # -----------------------------------------------------------------
+        pending_phase = saved.get("pending_phase_choice")
+        if pending_phase:
+            variants = pending_phase.get("variants", [])
+            parent = pending_phase.get("parent_area", "")
+            city = pending_phase.get("city") or state.required.get("city")
+
+            is_any_phase = bool(re.search(
+                r"\b(?:kisi|koi)\s*(?:bh[ie]?|b)?\s*(?:phase|phases|mein|main)?\b|"
+                r"\b(?:all|sab|saare|saray|any)\s*(?:phase|phases)?\b|"
+                r"\b(?:phase\s+koi\s*(?:bh[ie]?|b)?|phase\s+flexible|koi\s+masla\s+nahi)\b",
+                raw_msg, re.IGNORECASE
+            ))
+
+            matched_variant = None
+            if not is_any_phase:
+                for v in variants:
+                    v_clean = str(v).lower()
+                    if v_clean in raw_msg:
+                        matched_variant = v
+                        break
+                    m_num = re.search(r"\bphase\s*(\d+)", v_clean)
+                    phase_num = m_num.group(1) if m_num else None
+                    if phase_num and re.search(rf"\b(?:phase\s*{phase_num}|{phase_num})\b", raw_msg):
+                        matched_variant = v
+                        break
+
+            if is_any_phase or matched_variant:
+                saved.pop("pending_phase_choice", None)
+                target_area = matched_variant if matched_variant else parent
+                state.required["area"] = target_area
+                saved["flexible"] = [f for f in saved.get("flexible", []) if f != "area"]
+                if matched_variant:
+                    await asyncio.to_thread(self.services.customers.update_preferences,
+                                            identity.customer_id, {"area": matched_variant})
+
+                filter_ov = {"area": matched_variant} if matched_variant else None
+                rid, rows = await self.services.recommendations(
+                    identity.customer_id, self.sara.presentation.batch_size, None, identity.user_id,
+                    filter_overrides=filter_ov
+                )
+                if rows:
+                    saved.update(
+                        recommendation_session_id=str(rid),
+                        property_order=[r["property_id"] for r in rows],
+                        selected=(rows[0]["property_id"] if len(rows) == 1 else None),
+                        pending_action=None,
+                    )
+                    area_label = matched_variant or parent
+                    intro = f"Theek hai! {area_label} mein aapke criteria ke mutabiq ye verified options available hain:"
+                    msg = self.sara.presentation.format_batch(rows, has_more=False, first_batch=True, custom_intro=intro)
+                    return respond(msg, recommendation_session_id=str(rid), properties=rows)
+                else:
+                    return respond(f"Filhaal {target_area} mein aapke criteria ke mutabiq koi verified option nahi mila. Kya aap budget ya kisi aur area ke sath dekhna chahengi?", True)
+
+        # -----------------------------------------------------------------
+        # Pending Explore Area Handler (e.g. user answered "explore" or "options dikhaye")
+        # -----------------------------------------------------------------
+        pending_explore = saved.get("pending_explore_area")
+        if pending_explore:
+            is_explore_confirm = bool(re.search(
+                r"\b(?:explore|options?\s+dikh\w*|dikh[aoaei]+|haan|ji\s+haan|yes|dekh\w*|dhoond\w*)\b",
+                raw_msg, re.IGNORECASE
+            ))
+            if is_explore_confirm:
+                saved.pop("pending_explore_area", None)
+                state.required["area"] = pending_explore
+                saved["flexible"] = [f for f in saved.get("flexible", []) if f != "area"]
+                await asyncio.to_thread(self.services.customers.update_preferences,
+                                        identity.customer_id, {"area": pending_explore})
+                rid, rows = await self.services.recommendations(
+                    identity.customer_id, self.sara.presentation.batch_size, None, identity.user_id,
+                    filter_overrides={"area": pending_explore}
+                )
+                if rows:
+                    saved.update(
+                        recommendation_session_id=str(rid),
+                        property_order=[r["property_id"] for r in rows],
+                        selected=(rows[0]["property_id"] if len(rows) == 1 else None),
+                        pending_action=None,
+                    )
+                    intro = f"Theek hai! {pending_explore} mein aapke criteria ke mutabiq ye verified options available hain:"
+                    msg = self.sara.presentation.format_batch(rows, has_more=False, first_batch=True, custom_intro=intro)
+                    return respond(msg, recommendation_session_id=str(rid), properties=rows)
+                else:
+                    return respond(f"Filhaal {pending_explore} mein aapke criteria ke mutabiq koi verified option nahi mila. Kya kisi doosre area mein dekhna chahengi?", True)
+
         # "bahria main dikha do", "dha mein dikhao" — user names an area and asks
         # to show listings. Resolve the area against known available areas even
         # when NLU returns needs_clarification for it.
@@ -1315,6 +1414,11 @@ class ChatAdapter:
                     if picked_lower in str(a).lower() or str(a).lower() in picked_lower or str(a).lower().split()[0] == picked_lower
                 ))
                 if not exact_match and len(matching_variants) > 1:
+                    saved["pending_phase_choice"] = {
+                        "parent_area": picked,
+                        "variants": matching_variants,
+                        "city": pick_city,
+                    }
                     return respond(
                         f"Ji, {picked} mein kai phases available hain: {', '.join(matching_variants)}. "
                         "Ap kis phase mein dekhna chahengi?", True)
@@ -1761,7 +1865,7 @@ class ChatAdapter:
         extracted_area = extract_fn(raw_msg) if extract_fn else None
         mentioned_area = u.required.get("area") or getattr(u, "preferred", {}).get("area") or extracted_area
         active_area = state.required.get("area") or (saved.get("pending_choice_frame") or {}).get("requested_area")
-        if mentioned_area and not is_area_filter_query and not ("details" in raw_msg or u.intent == "property_details"):
+        if mentioned_area and not is_area_filter_query and not ("details" in raw_msg or u.intent == "property_details") and not saved.get("pending_phase_choice"):
             is_explicit_switch = bool(re.search(
                 r"\b(?:dekh\w*(?:\s+(?:hai[n]?|chahiye|chahenge|chahengi|hon|hoon))?|dikhao|dikhayein|dikhaein|dikha\s*do|switch|shift|chahiye|options?\s+dikhao|options?\s+chahiye|options?\s+dekh\w*|le\s+chalo|le\s+jayein)\b",
                 raw_msg, re.IGNORECASE
@@ -1777,7 +1881,7 @@ class ChatAdapter:
                 or u.required.get("bedrooms")
                 or u.required.get("budget")
             )
-            is_different_area = bool(not active_area or mentioned_area.lower() != active_area.lower())
+            is_different_area = bool(active_area and mentioned_area.lower() != active_area.lower())
 
             if is_curiosity:
                 # Case B: Curiosity / Availability check (Tightening 3)
@@ -1791,7 +1895,8 @@ class ChatAdapter:
                     return respond(f"Ji, {mentioned_area} mein verified options available hain. Kya aap {mentioned_area} ke options dekhna chahengi?", True)
                 else:
                     return respond(f"{mentioned_area} mein filhaal koi verified option available nahi hai.", True)
-            elif is_explicit_switch or has_search_criteria:
+            elif is_explicit_switch or has_search_criteria or not active_area:
+                state.required["area"] = mentioned_area
                 if is_different_area:
                     # Case A: Explicit switch (Fix 3 & Tightening 3)
                     old_sel = saved.get("selected")
@@ -1804,11 +1909,12 @@ class ChatAdapter:
                     saved.pop("pending_choice_frame", None)
                     saved.pop("pending_suggested_area", None)
                     saved.pop("pending_suggested_areas", None)
-                    state.required["area"] = mentioned_area
-                    # Proceed to search pipeline
-            elif is_different_area:
+            elif is_different_area and (order or saved.get("selected")):
                 # Case C: Ambiguous (Neither curiosity nor switch/search criteria) (Fix 2)
+                saved["pending_explore_area"] = mentioned_area
                 return respond(f"Kya aap {mentioned_area} explore karna chahengi, ya sirf yeh jaanna chahti hain ke wahan options hain?", True)
+            else:
+                state.required["area"] = mentioned_area
 
         # Check for active or interrupted pending_choice_frame
         if saved.get("pending_choice_frame"):
@@ -3103,10 +3209,26 @@ class ChatAdapter:
                     matching_variants = list(dict.fromkeys(
                         str(a) for a in available_areas if named_lower in str(a).casefold()))
                     if not exact_match and len(matching_variants) > 1:
+                        saved["pending_phase_choice"] = {
+                            "parent_area": named_area,
+                            "variants": matching_variants,
+                            "city": pick_city,
+                        }
                         return respond(
                             f"Ji, {named_area} mein kai phases available hain: {', '.join(matching_variants)}. "
                             "Ap kis phase mein dekhna chahengi?", True)
-                    if not exact_match and len(matching_variants) == 1:
+                    if exact_match:
+                        matched_name = next(str(a) for a in available_areas if str(a).strip().casefold() == named_lower)
+                        state.required["area"] = matched_name
+                        state.preferred.pop("area", None)
+                        state.flexible.discard("area")
+                        saved["flexible"] = [f for f in saved.get("flexible", []) if f != "area"]
+                        existing_area_pref = getattr(getattr(cust_for_areas, "preferences", None), "area", None)
+                        if existing_area_pref is not None:
+                            await asyncio.to_thread(self.services.customers.update_preferences,
+                                                    identity.customer_id, {"area": matched_name})
+                        area_resolved = True
+                    elif len(matching_variants) == 1:
                         state.required["area"] = matching_variants[0]
                         state.preferred.pop("area", None)
                         state.flexible.discard("area")
