@@ -1892,7 +1892,7 @@ class ChatAdapter:
                     area=mentioned_area
                 )
                 if area_matches:
-                    return respond(f"Ji, {mentioned_area} mein verified options available hain. Kya aap {mentioned_area} ke options dekhna chahengi?", True)
+                    return respond(f"Ji bilkul, {mentioned_area} ({city}) mein verified options available hain. Kya aap {mentioned_area} ke options dekhna chahengi?", True)
                 else:
                     return respond(f"{mentioned_area} mein filhaal koi verified option available nahi hai.", True)
             elif is_explicit_switch or has_search_criteria or not active_area:
