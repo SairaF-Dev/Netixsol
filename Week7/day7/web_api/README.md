@@ -107,11 +107,13 @@ Search verified properties:
   "customer_id": "11111111-1111-1111-1111-111111111111",
   "city": "Lahore",
   "budget_max": 50000000,
-  "limit": 20
+  "limit": 20,
+  "offset": 0
 }
 ```
 
-Send to `POST /api/properties/search`.
+Send to `POST /api/properties/search`. Results include the matching `total_count`;
+increase `offset` by `limit` to page through the Week 8 catalog.
 
 Get recommendations and optionally reuse a session ID to avoid duplicate
 `shown` events:

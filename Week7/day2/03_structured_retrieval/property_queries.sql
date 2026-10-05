@@ -15,10 +15,6 @@
 --   7. rental_search
 --   8. agent_lookup
 --   9. property_agents
---
--- Week 8 (W8-*) catalog prices retain their imported verification status.
--- Those rows are searchable when available, but that does not certify that
--- the historical Kaggle listings are current or available from the agency.
 
 -- ============================================================
 -- QUERY: available_cities
@@ -27,15 +23,14 @@ FROM properties p
 JOIN locations l ON l.location_id = p.location_id
 JOIN prices pr ON pr.property_id = p.property_id
 WHERE p.available = TRUE
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
+  AND p.property_id LIKE 'W8-%'
   AND NULLIF(TRIM(l.city), '') IS NOT NULL
 ORDER BY l.city;
 
 -- QUERY: exact_property
 -- ============================================================
 
--- Return one property by exact property ID.
--- Only verified pricing is considered authoritative.
+-- Return one Week 8 property by exact property ID.
 
 SELECT
     p.property_id,
@@ -72,14 +67,14 @@ LEFT JOIN developers d
     ON p.developer_id = d.developer_id
 
 WHERE p.property_id = %(property_id)s::text
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-');
+  AND p.property_id LIKE 'W8-%';
 
 
 -- ============================================================
 -- QUERY: property_name_lookup
 -- ============================================================
 
--- Return one verified property by exact case-insensitive name.
+-- Return one Week 8 property by exact case-insensitive name.
 
 SELECT
     p.property_id,
@@ -117,7 +112,7 @@ LEFT JOIN developers d
 
 WHERE LOWER(TRIM(p.name))
         = LOWER(TRIM(%(property_name)s::text))
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
+  AND p.property_id LIKE 'W8-%'
 
 ORDER BY
     p.available DESC,
@@ -130,7 +125,7 @@ LIMIT 1;
 -- QUERY: buyer_search
 -- ============================================================
 
--- Search available properties using structured filters.
+-- Search available Week 8 properties using structured filters.
 --
 -- All exact property facts come from PostgreSQL.
 --
@@ -160,7 +155,9 @@ SELECT
         ARRAY_AGG(DISTINCT a.amenity)
         FILTER (WHERE a.amenity IS NOT NULL),
         '{}'::text[]
-    ) AS amenities
+    ) AS amenities,
+
+    COUNT(*) OVER () AS total_count
 
 FROM properties p
 
@@ -177,7 +174,7 @@ LEFT JOIN amenities a
     ON p.property_id = a.property_id
 
 WHERE p.available = TRUE
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
+  AND p.property_id LIKE 'W8-%'
 
   -- Budget
   AND (
@@ -262,14 +259,15 @@ ORDER BY
     pr.price ASC,
     p.property_id ASC
 
-LIMIT %(limit)s;
+LIMIT %(limit)s
+OFFSET %(offset)s;
 
 
 -- ============================================================
 -- QUERY: availability
 -- ============================================================
 
--- Return currently available properties with verified prices.
+-- Return currently available Week 8 properties.
 
 SELECT
     p.property_id,
@@ -292,7 +290,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
+  AND p.property_id LIKE 'W8-%'
 
   -- Optional city filter
   AND (
@@ -329,14 +327,15 @@ FROM properties p
 LEFT JOIN developers d
     ON p.developer_id = d.developer_id
 
-WHERE p.property_id = %(property_id)s::text;
+WHERE p.property_id = %(property_id)s::text
+  AND p.property_id LIKE 'W8-%';
 
 
 -- ============================================================
 -- QUERY: cheaper_alternatives
 -- ============================================================
 
--- Return available, verified properties cheaper than
+-- Return available Week 8 properties cheaper than
 -- the requested budget.
 --
 -- Results are ordered from highest price below the budget
@@ -365,7 +364,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
+  AND p.property_id LIKE 'W8-%'
 
   -- Optional purpose
   AND (
@@ -407,7 +406,7 @@ LIMIT %(limit)s;
 -- QUERY: rental_search
 -- ============================================================
 
--- Return verified rental properties only.
+-- Return Week 8 rental properties only.
 --
 -- Rental records must satisfy both:
 --   purpose = Rental
@@ -435,12 +434,11 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
+  AND p.property_id LIKE 'W8-%'
 
   AND LOWER(p.purpose) = 'rental'
 
   AND pr.transaction_type = 'Rental'
-
-  AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
 
   -- Optional city
   AND (
@@ -520,6 +518,7 @@ JOIN properties p
     ON p.property_id = ap.property_id
 
 WHERE ap.property_id = %(property_id)s::text
+  AND p.property_id LIKE 'W8-%'
   AND LOWER(a.status) = 'active'
 
 ORDER BY

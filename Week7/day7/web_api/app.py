@@ -30,7 +30,8 @@ from web_api.schemas import (
     AppointmentBook, AppointmentReschedule, CustomerCreate, CustomerResponse,
     AuthMeResponse, LoginRequest, MeAppointmentBook, MeInteractionCreate, RegisterRequest,
     InteractionCreate, InteractionResponse, PreferencesResponse, PreferencesUpdate,
-    PropertyResponse, PropertySearchRequest, RecommendationRequest, RecommendationResponse,
+    PropertySearchRequest, PropertySearchResponse,
+    RecommendationRequest, RecommendationResponse,
     ChatRequest, ChatResponse,
 )
 from web_api.services import RecommendationSessionExpired, WebServices, public_property
@@ -237,10 +238,13 @@ def create_app(services: WebServices | None = None) -> FastAPI:
         result = await asyncio.to_thread(services.customers.update_preferences, str(customer_id), updates)
         return _preferences_response(str(customer_id), result)
 
-    @app.post("/api/properties/search", response_model=list[PropertyResponse])
+    @app.post("/api/properties/search", response_model=list[PropertySearchResponse])
     async def search_properties(payload: PropertySearchRequest, request: Request):
         services = svc(request)
-        filters = payload.model_dump(exclude={"customer_id", "limit"}, exclude_none=True)
+        filters = payload.model_dump(
+            exclude={"customer_id", "limit", "offset"},
+            exclude_none=True,
+        )
         if payload.customer_id:
             authorize_customer(request, payload.customer_id)
             context = await asyncio.to_thread(services.customers.resolve_for_customer_id, str(payload.customer_id))
@@ -252,8 +256,19 @@ def create_app(services: WebServices | None = None) -> FastAPI:
                     if value not in (None, []):
                         filters.setdefault(field, value)
         try:
-            rows = await asyncio.to_thread(services.properties.search, budget=filters.pop("budget_max", None), limit=payload.limit, **filters)
-            return [public_property(row) for row in rows]
+            rows = await asyncio.to_thread(
+                services.properties.search,
+                budget=filters.pop("budget_max", None),
+                limit=payload.limit,
+                offset=payload.offset,
+                **filters,
+            )
+            results = []
+            for row in rows:
+                result = public_property(row)
+                result["total_count"] = int(row["total_count"])
+                results.append(result)
+            return results
         except Exception:
             raise HTTPException(503, "Property search is temporarily unavailable")
 
@@ -379,7 +394,7 @@ def create_app(services: WebServices | None = None) -> FastAPI:
             raise HTTPException(503, "Recommendations are temporarily unavailable")
         return {"recommendation_session_id": session_id, "ml_mode": services.ml.mode, "properties": rows}
 
-    @app.post("/api/me/properties/search", response_model=list[PropertyResponse])
+    @app.post("/api/me/properties/search", response_model=list[PropertySearchResponse])
     async def my_property_search(payload: PropertySearchRequest, request: Request):
         current = identity(request)
         owned = payload.model_copy(update={"customer_id": UUID(current.customer_id)})

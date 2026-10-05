@@ -137,6 +137,7 @@ class PropertySearchRequest(APIModel):
     purpose: Literal["purchase", "rental", "investment", "commercial"] | None = None
     amenities: list[str] | None = Field(default=None, max_length=50)
     limit: int = Field(default=20, ge=1, le=100)
+    offset: int = Field(default=0, ge=0)
 
 
 class PropertyResponse(APIModel):
@@ -153,6 +154,10 @@ class PropertyResponse(APIModel):
     amenities: list[str] = Field(default_factory=list)
     available: bool
     status: str | None = None
+
+
+class PropertySearchResponse(PropertyResponse):
+    total_count: int = Field(ge=0)
 
 
 class RecommendationRequest(APIModel):

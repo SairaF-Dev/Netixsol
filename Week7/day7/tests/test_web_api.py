@@ -30,17 +30,31 @@ def test_faisalabad_week8_catalog_search_returns_available_records():
     client, services = make_client()
     services.properties.rows = [property_row("W8-1422699")]
     services.properties.rows[0]["city"] = "Faisalabad"
+    services.properties.rows[0]["total_count"] = 190_731
 
     response = client.post(
         "/api/properties/search",
-        json={"city": "Faisalabad", "limit": 20},
+        json={"city": "Faisalabad", "limit": 20, "offset": 24},
     )
 
     assert response.status_code == 200
     assert response.json()[0]["property_id"] == "W8-1422699"
     assert response.json()[0]["city"] == "Faisalabad"
     assert response.json()[0]["available"] is True
+    assert response.json()[0]["total_count"] == 190_731
     assert services.properties.search_calls[0]["city"] == "Faisalabad"
+    assert services.properties.search_calls[0]["offset"] == 24
+
+
+def test_property_search_rejects_negative_offset():
+    client, _ = make_client()
+
+    response = client.post(
+        "/api/properties/search",
+        json={"offset": -1},
+    )
+
+    assert response.status_code == 422
 
 
 class Customers:
@@ -149,6 +163,8 @@ def test_preference_cross_field_budget_validation():
 def test_verified_property_search_uses_repository_and_filters_internal_fields():
     client, services = make_client()
     services.properties.rows[0]["_ml_probability"] = 0.99
+    for row in services.properties.rows:
+        row["total_count"] = len(services.properties.rows)
     response = client.post("/api/properties/search", json={"customer_id": CUSTOMER_ID, "limit": 5})
     assert response.status_code == 200
     assert services.properties.search_calls[0]["city"] == "Lahore"
