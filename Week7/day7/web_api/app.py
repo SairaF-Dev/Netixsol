@@ -306,7 +306,7 @@ def create_app(services: WebServices | None = None) -> FastAPI:
             raise HTTPException(404, "Customer not found")
         property_data = await asyncio.to_thread(services.properties.get_property, payload.property_id)
         if not property_data or not property_data.get("available"):
-            raise HTTPException(422, "Verified available property not found")
+            raise HTTPException(422, "Available property was not found in the catalog")
         body = {
             "client_name": customer.customer.full_name or "Website customer",
             "client_phone": customer.customer.phone_normalized or "",

@@ -11,9 +11,10 @@ with matching rows in `prices` and `locations`; do not import the same catalog a
 second time. The Week 8 FastAPI service reads those tables when `DATABASE_URL`
 is set, and uses the local processed CSV only for development when it is not.
 The Week 8 records were marked available at the operator's request so the
-website's listing queries can return them. This Kaggle-sourced catalog is not a
-live inventory feed; confirm listing freshness and actual availability with the
-agency before presenting an item as bookable or currently on sale.
+website's listing queries can return them, including records whose imported
+price verification status is not `Verified`. This Kaggle-sourced catalog is not
+a live inventory feed; confirm listing freshness and actual availability with
+the agency before presenting an item as currently on sale or confirming a visit.
 
 Deploy the Week 8 API as a separate Railway service with this repository's
 `Week8` directory as its root. Use:

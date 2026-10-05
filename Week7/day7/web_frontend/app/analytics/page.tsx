@@ -277,7 +277,7 @@ export default function AnalyticsPage() {
                     {selectedLocation}, {selectedCity}
                   </h2>
                   <span style={{ fontSize: "0.82rem", color: "var(--muted)" }}>
-                    Based on {lookupResult.total_listings_matched?.toLocaleString()} verified listings in dataset
+                    Based on {lookupResult.total_listings_matched?.toLocaleString()} catalog listings in dataset
                   </span>
                 </div>
 

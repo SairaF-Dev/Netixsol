@@ -15,6 +15,10 @@
 --   7. rental_search
 --   8. agent_lookup
 --   9. property_agents
+--
+-- Week 8 (W8-*) catalog prices retain their imported verification status.
+-- Those rows are searchable when available, but that does not certify that
+-- the historical Kaggle listings are current or available from the agency.
 
 -- ============================================================
 -- QUERY: available_cities
@@ -23,7 +27,7 @@ FROM properties p
 JOIN locations l ON l.location_id = p.location_id
 JOIN prices pr ON pr.property_id = p.property_id
 WHERE p.available = TRUE
-  AND pr.verification_status = 'Verified'
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
   AND NULLIF(TRIM(l.city), '') IS NOT NULL
 ORDER BY l.city;
 
@@ -68,7 +72,7 @@ LEFT JOIN developers d
     ON p.developer_id = d.developer_id
 
 WHERE p.property_id = %(property_id)s::text
-  AND pr.verification_status = 'Verified';
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%');
 
 
 -- ============================================================
@@ -113,7 +117,7 @@ LEFT JOIN developers d
 
 WHERE LOWER(TRIM(p.name))
         = LOWER(TRIM(%(property_name)s::text))
-  AND pr.verification_status = 'Verified'
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
 
 ORDER BY
     p.available DESC,
@@ -173,7 +177,7 @@ LEFT JOIN amenities a
     ON p.property_id = a.property_id
 
 WHERE p.available = TRUE
-  AND pr.verification_status = 'Verified'
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
 
   -- Budget
   AND (
@@ -288,7 +292,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND pr.verification_status = 'Verified'
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
 
   -- Optional city filter
   AND (
@@ -361,7 +365,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND pr.verification_status = 'Verified'
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
 
   -- Optional purpose
   AND (
@@ -436,7 +440,7 @@ WHERE p.available = TRUE
 
   AND pr.transaction_type = 'Rental'
 
-  AND pr.verification_status = 'Verified'
+  AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
 
   -- Optional city
   AND (
