@@ -5,9 +5,9 @@ High-performance in-memory data store for actual property listings and leads.
 Used by Comparable Properties, Market Stats, Property Search, and Lead Prioritization.
 
 Guarantees:
-- Queries actual recorded properties from data/processed/properties_clean.csv.
+- Queries only Week 8 property listings from Neon or its local clean CSV.
 - Never invents, hallucinates, or estimates property records.
-- All prices and statistics are derived strictly from genuine datasets.
+- Area-based statistics omit records without a known plot size.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ LEADS_DATA_PATH = PROJECT_ROOT / "data" / "processed" / "leads_clean.csv"
 
 
 class PropertyDataStore:
-    """Thread-safe singleton store backed by Neon in production, with a CSV dev fallback."""
+    """Thread-safe singleton store backed by Neon in production and Week 8 CSV locally."""
 
     _instance: Optional["PropertyDataStore"] = None
 
@@ -45,7 +45,7 @@ class PropertyDataStore:
         return cls._instance
 
     def _load_data(self) -> None:
-        """Load the property catalog from Neon when configured, otherwise from the local CSV."""
+        """Load only Week 8 listings, preferring the normalized Neon catalog."""
         database_url = os.getenv("DATABASE_URL")
         if database_url:
             self._load_neon_data(database_url)
@@ -53,8 +53,8 @@ class PropertyDataStore:
 
         if not self.data_path.exists():
             raise FileNotFoundError(
-                f"Property catalog not found at {self.data_path}; configure DATABASE_URL "
-                "for Neon or provide the local properties_clean.csv."
+                f"Week 8 property data not found at {self.data_path}; "
+                "configure DATABASE_URL for Neon or provide the Week 8 CSV."
             )
 
         usecols = [
@@ -78,15 +78,15 @@ class PropertyDataStore:
         ]
         self.df = pd.read_csv(self.data_path, usecols=usecols)
         self._normalize_dataframe()
-        logger.info("PropertyDataStore loaded %d property records from CSV.", len(self.df))
+        logger.info("PropertyDataStore loaded %d Week 8 records from CSV.", len(self.df))
 
     def _load_neon_data(self, database_url: str) -> None:
-        """Load Week 8 listings already migrated to the normalized Neon catalog."""
+        """Read Week 8 listings from Neon without using the legacy Week 7 catalog."""
         import psycopg
 
         query = """
             SELECT
-                p.property_id,
+                substring(p.property_id FROM 4)::bigint AS property_id,
                 CASE WHEN p.property_type = 'Apartment' THEN 'Flat'
                      ELSE p.property_type END AS property_type,
                 pr.price,
@@ -122,19 +122,30 @@ class PropertyDataStore:
                     cursor.execute(query)
                     rows = cursor.fetchall()
                     columns = [column.name for column in cursor.description]
-            self.df = pd.DataFrame.from_records(rows, columns=columns)
-            self._normalize_dataframe()
-            self.df["area"] = self.df["area_marla"].map(
-                lambda value: f"{float(value):g} Marla" if pd.notna(value) else None
-            )
-            logger.info("PropertyDataStore loaded %d Week 8 listings from Neon.", len(self.df))
-        except Exception as exc:
+        except Exception:
             logger.exception("Could not load the Week 8 property catalog from Neon.")
-            raise RuntimeError("Could not load the Week 8 property catalog from Neon.") from exc
+            raise
+
+        self.df = pd.DataFrame.from_records(rows, columns=columns)
+        self._normalize_dataframe()
+        self.df["area"] = self.df.apply(
+            lambda row: (
+                f"{float(row['area_marla']):g} Marla"
+                if pd.notna(row["area_marla"])
+                else ""
+            ),
+            axis=1,
+        )
+        logger.info(
+            "PropertyDataStore loaded %d Week 8 listings from Neon (%d without plot size).",
+            len(self.df),
+            int(self.df["area_marla"].isna().sum()),
+        )
 
     def _normalize_dataframe(self) -> None:
-        """Normalize numeric columns shared by the CSV and Neon catalog sources."""
+        """Normalize values shared by the Week 8 CSV and Neon sources."""
         assert self.df is not None
+        self.df["property_id"] = pd.to_numeric(self.df["property_id"], errors="coerce")
         self.df["price"] = pd.to_numeric(self.df["price"], errors="coerce")
         self.df["area_marla"] = pd.to_numeric(self.df["area_marla"], errors="coerce")
         self.df["price_per_marla"] = pd.to_numeric(
@@ -144,42 +155,34 @@ class PropertyDataStore:
             self.df["available"] = True
         if "status" not in self.df:
             self.df["status"] = "Available"
-        self.df = self.df.dropna(subset=["price", "area_marla"])
+        self.df = self.df.dropna(subset=["property_id"])
         self._by_id = {}
 
     @staticmethod
     def _row_to_dict(row: Any) -> dict[str, Any]:
-        raw_property_id = str(row["property_id"]).strip()
-        if raw_property_id.startswith("W8-"):
-            pid = raw_property_id.removeprefix("W8-")
-        else:
-            try:
-                pid = str(int(float(raw_property_id)))
-            except ValueError:
-                pid = raw_property_id
+        pid = str(int(row["property_id"])) if pd.notna(row["property_id"]) else ""
         beds = int(row["bedrooms"]) if pd.notna(row.get("bedrooms")) else None
         baths = int(row["baths"]) if pd.notna(row.get("baths")) else None
-        ptype = str(row["property_type"]) if pd.notna(row.get("property_type")) else "House"
-        loc = str(row["location"]) if pd.notna(row.get("location")) else "Central"
-        city = str(row["city"]) if pd.notna(row.get("city")) else "Lahore"
-        prov = str(row["province_name"]) if pd.notna(row.get("province_name")) else "Punjab"
-        area_str = str(row["area"]) if pd.notna(row.get("area")) and str(row.get("area")).strip() else (
-            f"{row.get('area_marla')} Marla" if pd.notna(row.get("area_marla")) else "1 Kanal"
-        )
-        purpose = str(row["purpose"]) if pd.notna(row.get("purpose")) else "For Sale"
-
+        ptype = str(row["property_type"]) if pd.notna(row.get("property_type")) else ""
+        loc = str(row["location"]) if pd.notna(row.get("location")) else ""
+        city = str(row["city"]) if pd.notna(row.get("city")) else ""
+        prov = str(row["province_name"]) if pd.notna(row.get("province_name")) else ""
+        area_str = str(row["area"]) if pd.notna(row.get("area")) and str(row.get("area")).strip() else ""
+        purpose = str(row["purpose"]) if pd.notna(row.get("purpose")) else ""
         agency = str(row["agency"]).strip() if pd.notna(row.get("agency")) else ""
         agent = str(row["agent"]).strip() if pd.notna(row.get("agent")) else ""
-        page_url = str(row["page_url"]).strip() if pd.notna(row.get("page_url")) else ""
-
-        lat = float(row["latitude"]) if pd.notna(row.get("latitude")) else None
-        lng = float(row["longitude"]) if pd.notna(row.get("longitude")) else None
+        page_url = str(row["page_url"]) if pd.notna(row.get("page_url")) else ""
         available_value = row.get("available", True)
         available = bool(available_value) if pd.notna(available_value) else False
         status_value = row.get("status")
-        status = str(status_value) if available and pd.notna(status_value) else (
-            "Available" if available else "Unavailable"
+        status = (
+            str(status_value)
+            if pd.notna(status_value) and str(status_value).strip()
+            else ("Available" if available else "Unavailable")
         )
+
+        lat = float(row["latitude"]) if pd.notna(row.get("latitude")) else None
+        lng = float(row["longitude"]) if pd.notna(row.get("longitude")) else None
 
         prop_name = f"{f'{beds} Bed ' if beds else ''}{ptype} in {loc}, {city}"
 
@@ -192,12 +195,12 @@ class PropertyDataStore:
             "location": loc,
             "province_name": prov,
             "area": area_str,
-            "area_marla": float(row["area_marla"]) if pd.notna(row.get("area_marla")) else 0.0,
+            "area_marla": float(row["area_marla"]) if pd.notna(row.get("area_marla")) else None,
             "bedrooms": beds,
             "bathrooms": baths,
             "baths": baths,
-            "price": float(row["price"]) if pd.notna(row.get("price")) else 0.0,
-            "price_pkr": float(row["price"]) if pd.notna(row.get("price")) else 0.0,
+            "price": float(row["price"]) if pd.notna(row.get("price")) else None,
+            "price_pkr": float(row["price"]) if pd.notna(row.get("price")) else None,
             "purpose": purpose,
             "latitude": lat,
             "longitude": lng,
@@ -213,14 +216,17 @@ class PropertyDataStore:
         if hasattr(self, "_by_id") and raw_id in self._by_id:
             return self._by_id[raw_id]
         if self.df is not None and not self.df.empty:
-            property_ids = self.df["property_id"].astype(str).str.replace(
-                r"^W8-", "", regex=True
-            )
-            sub = self.df[property_ids == raw_id]
-            if not sub.empty:
-                prop = self._row_to_dict(sub.iloc[0])
-                self._by_id[raw_id] = prop
-                return prop
+            try:
+                numeric_id = int(raw_id)
+                sub = self.df[self.df["property_id"] == numeric_id]
+                if not sub.empty:
+                    prop = self._row_to_dict(sub.iloc[0])
+                    if not hasattr(self, "_by_id"):
+                        self._by_id = {}
+                    self._by_id[raw_id] = prop
+                    return prop
+            except (ValueError, TypeError):
+                pass
         return None
 
     def search_properties(
@@ -238,7 +244,7 @@ class PropertyDataStore:
         if self.df is None or self.df.empty:
             return {"total": 0, "properties": []}
 
-        mask = pd.Series(True, index=self.df.index)
+        mask = self.df["available"].fillna(False).astype(bool)
 
         if city:
             c = city.strip().lower()
@@ -311,7 +317,7 @@ class PropertyDataStore:
 
         if area_marla is not None and area_marla > 0:
             sub["area_diff"] = (sub["area_marla"] - float(area_marla)).abs()
-            sub = sub.sort_values(by="area_diff")
+            sub = sub.sort_values(by="area_diff", na_position="last")
         else:
             sub = sub.sort_values(by="price", ascending=False)
 
@@ -320,11 +326,11 @@ class PropertyDataStore:
         for _, row in top_matches.iterrows():
             price_val = float(row["price"])
             results.append({
-                "property_id": self._row_to_dict(row)["property_id"],
+                "property_id": int(row["property_id"]),
                 "property_type": str(row["property_type"]),
                 "city": str(row["city"]),
                 "location": str(row["location"]),
-                "area_marla": float(row["area_marla"]),
+                "area_marla": float(row["area_marla"]) if pd.notna(row["area_marla"]) else None,
                 "bedrooms": int(row["bedrooms"]) if pd.notna(row["bedrooms"]) else None,
                 "baths": int(row["baths"]) if pd.notna(row["baths"]) else None,
                 "price_pkr": round(price_val, 2),
@@ -381,6 +387,17 @@ class PropertyDataStore:
             }
 
         ppm = sub["price_per_marla"].dropna()
+        if len(ppm) < 3:
+            return {
+                "available": False,
+                "found": False,
+                "reason": "Insufficient listings with known area for market statistics",
+                "record_count": int(len(ppm)),
+                "total_listings_matched": count,
+                "city": city_clean or "All Cities",
+                "location": location or "All Locations",
+                "purpose": purpose_clean,
+            }
         avg_ppm = float(ppm.mean())
         med_ppm = float(ppm.median())
         min_ppm = float(ppm.min())
