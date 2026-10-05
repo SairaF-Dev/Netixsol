@@ -26,6 +26,23 @@ def property_row(property_id="P-1", price=10_000_000):
     }
 
 
+def test_faisalabad_week8_catalog_search_returns_available_records():
+    client, services = make_client()
+    services.properties.rows = [property_row("W8-1422699")]
+    services.properties.rows[0]["city"] = "Faisalabad"
+
+    response = client.post(
+        "/api/properties/search",
+        json={"city": "Faisalabad", "limit": 20},
+    )
+
+    assert response.status_code == 200
+    assert response.json()[0]["property_id"] == "W8-1422699"
+    assert response.json()[0]["city"] == "Faisalabad"
+    assert response.json()[0]["available"] is True
+    assert services.properties.search_calls[0]["city"] == "Faisalabad"
+
+
 class Customers:
     def __init__(self):
         self.customer = Customer(CUSTOMER_ID, "Ali", "ali@example.com", "+923001234567")
@@ -191,11 +208,13 @@ def test_invalid_action_property_and_customer_isolation():
 
 def test_appointment_routes_delegate_to_day4_gateway():
     client, services = make_client()
-    book = client.post("/api/appointments", json={"customer_id": CUSTOMER_ID, "property_id": "P-1", "starts_at": "2030-01-02T10:00:00+05:00"})
+    services.properties.rows = [property_row("W8-1422699")]
+    book = client.post("/api/appointments", json={"customer_id": CUSTOMER_ID, "property_id": "W8-1422699", "starts_at": "2030-01-02T10:00:00+05:00"})
     appointment_id = str(uuid4())
     move = client.patch(f"/api/appointments/{appointment_id}/reschedule", json={"starts_at": "2030-01-03T10:00:00+05:00"})
     cancel = client.delete(f"/api/appointments/{appointment_id}")
     assert (book.status_code, move.status_code, cancel.status_code) == (201, 200, 200)
+    assert services.appointments.calls[0][2]["property_id"] == "W8-1422699"
     assert [call[0] for call in services.appointments.calls] == ["POST", "PATCH", "DELETE"]
 
 

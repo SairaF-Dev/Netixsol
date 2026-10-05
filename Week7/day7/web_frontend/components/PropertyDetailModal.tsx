@@ -502,7 +502,7 @@ export function PropertyDetailModal({
               }}
             >
               <h4 style={{ fontSize: "0.92rem", fontWeight: 700, color: "#6e4b1f", margin: "0 0 12px 0" }}>
-                📅 Schedule a Property Site Visit
+                📅 Request a Property Site Visit
               </h4>
 
               <form onSubmit={handleBookingSubmit} style={{ display: "grid", gap: "12px" }}>
