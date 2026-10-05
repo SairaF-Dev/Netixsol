@@ -62,6 +62,9 @@ def create_app(services: WebServices | None = None) -> FastAPI:
     )
     if services:
         app.state.services = services
+
+    origins = [value.strip() for value in os.getenv("SARA_WEB_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",") if value.strip()]
+
     @app.middleware("http")
     async def csrf_protection(request: Request, call_next):
         exempt = {"/api/auth/login", "/api/auth/register"}
@@ -71,10 +74,15 @@ def create_app(services: WebServices | None = None) -> FastAPI:
             token = request.cookies.get(SESSION_COOKIE)
             validator = getattr(auth, "validate_csrf", None)
             if token and validator and not await asyncio.to_thread(validator, token, request.headers.get("X-CSRF-Token")):
-                return JSONResponse(status_code=403, content={"detail": "CSRF validation failed"})
+                response = JSONResponse(status_code=403, content={"detail": "CSRF validation failed"})
+                origin = request.headers.get("Origin")
+                if origin in origins:
+                    response.headers["Access-Control-Allow-Origin"] = origin
+                    response.headers["Access-Control-Allow-Credentials"] = "true"
+                    response.headers["Vary"] = "Origin"
+                return response
         return await call_next(request)
 
-    origins = [value.strip() for value in os.getenv("SARA_WEB_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",") if value.strip()]
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,

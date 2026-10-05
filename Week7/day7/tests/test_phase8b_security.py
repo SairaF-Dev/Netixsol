@@ -13,6 +13,20 @@ def test_csrf_required_for_authenticated_mutation_but_not_get():
     assert web.patch("/api/me/preferences", json={"area": "DHA"}, headers={"X-CSRF-Token": "valid"}).status_code == 200
 
 
+def test_csrf_rejection_includes_cors_headers_for_frontend(monkeypatch):
+    origin = "https://sara-frontend-production.up.railway.app"
+    monkeypatch.setenv("SARA_WEB_CORS_ORIGINS", origin)
+    web, auth = client()
+    auth.validate_csrf = lambda session, csrf: False
+    web.cookies.set("sara_session", "token-a")
+
+    response = web.post("/api/me/appointments", json={}, headers={"Origin": origin})
+
+    assert response.status_code == 403
+    assert response.headers["access-control-allow-origin"] == origin
+    assert response.headers["access-control-allow-credentials"] == "true"
+
+
 def test_login_rate_limit_returns_generic_429():
     web, auth = client()
     auth.rate_allowed = lambda *args: False
