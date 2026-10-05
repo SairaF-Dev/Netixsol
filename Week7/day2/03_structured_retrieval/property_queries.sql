@@ -23,7 +23,7 @@ FROM properties p
 JOIN locations l ON l.location_id = p.location_id
 JOIN prices pr ON pr.property_id = p.property_id
 WHERE p.available = TRUE
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
   AND NULLIF(TRIM(l.city), '') IS NOT NULL
 ORDER BY l.city;
 
@@ -67,7 +67,7 @@ LEFT JOIN developers d
     ON p.developer_id = d.developer_id
 
 WHERE p.property_id = %(property_id)s::text
-  AND p.property_id LIKE 'W8-%';
+  AND LEFT(p.property_id, 3) = 'W8-';
 
 
 -- ============================================================
@@ -112,7 +112,7 @@ LEFT JOIN developers d
 
 WHERE LOWER(TRIM(p.name))
         = LOWER(TRIM(%(property_name)s::text))
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
 
 ORDER BY
     p.available DESC,
@@ -174,7 +174,7 @@ LEFT JOIN amenities a
     ON p.property_id = a.property_id
 
 WHERE p.available = TRUE
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
 
   -- Budget
   AND (
@@ -290,7 +290,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
 
   -- Optional city filter
   AND (
@@ -328,7 +328,7 @@ LEFT JOIN developers d
     ON p.developer_id = d.developer_id
 
 WHERE p.property_id = %(property_id)s::text
-  AND p.property_id LIKE 'W8-%';
+  AND LEFT(p.property_id, 3) = 'W8-';
 
 
 -- ============================================================
@@ -364,7 +364,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
 
   -- Optional purpose
   AND (
@@ -434,7 +434,7 @@ JOIN prices pr
     ON p.property_id = pr.property_id
 
 WHERE p.available = TRUE
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
 
   AND LOWER(p.purpose) = 'rental'
 
@@ -518,7 +518,7 @@ JOIN properties p
     ON p.property_id = ap.property_id
 
 WHERE ap.property_id = %(property_id)s::text
-  AND p.property_id LIKE 'W8-%'
+  AND LEFT(p.property_id, 3) = 'W8-'
   AND LOWER(a.status) = 'active'
 
 ORDER BY

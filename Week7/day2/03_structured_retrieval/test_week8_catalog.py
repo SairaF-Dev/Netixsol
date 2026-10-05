@@ -113,7 +113,7 @@ def test_search_includes_available_week8_catalog_records(monkeypatch):
     assert rows[0]["available"] is True
     assert rows[0]["total_count"] == 190_731
     assert "p.available = TRUE" in cursor.query
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
     assert "COUNT(*) OVER () AS total_count" in cursor.query
     assert "OFFSET %(offset)s" in cursor.query
     assert "pr.verification_status = 'Verified'" not in cursor.query
@@ -129,7 +129,7 @@ def test_exact_lookup_includes_week8_catalog_records(monkeypatch):
     assert row is not None
     assert row["property_id"] == "W8-1422699"
     assert row["available"] is True
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
 
 
 def test_all_property_queries_exclude_legacy_catalog_rows():
@@ -151,7 +151,7 @@ def test_all_property_queries_exclude_legacy_catalog_rows():
 
     for query_name in property_queries:
         query = repository._get_query(query_name)
-        assert "p.property_id LIKE 'W8-%'" in query
+        assert "LEFT(p.property_id, 3) = 'W8-'" in query
         assert "pr.verification_status = 'Verified'" not in query
 
 
@@ -159,13 +159,13 @@ def test_inline_property_catalog_queries_are_week8_only(monkeypatch):
     repository, cursor = make_repository(monkeypatch)
 
     repository.list_available_cities(purpose="Purchase")
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
 
     repository.budget_area_options(city="Lahore")
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
 
     repository.get_city_price_summary("Lahore")
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
 
     repository.get_minimum_price("Lahore")
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
