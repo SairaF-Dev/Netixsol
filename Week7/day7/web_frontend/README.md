@@ -11,6 +11,7 @@ Create or update `.env.local` in this directory, preserving existing values:
 
 ```env
 NEXT_PUBLIC_SARA_API_URL=http://localhost:8010
+NEXT_PUBLIC_WEEK8_API_URL=http://localhost:8000
 NEXT_PUBLIC_VAPI_PUBLIC_KEY=
 ```
 
@@ -27,6 +28,10 @@ npm.cmd run dev
 Open `http://localhost:3000/start`. Use `localhost` for the browser API hostname
 as well so development cookies remain same-site. Production requires HTTPS,
 backend `SARA_AUTH_SECURE_COOKIE=1`, and appropriate API CORS origins.
+For Railway, set `NEXT_PUBLIC_SARA_API_URL` and
+`NEXT_PUBLIC_WEEK8_API_URL` to the deployed API service URLs before building
+the frontend. These public values are baked into the client bundle; redeploy
+after changing them. Never put `DATABASE_URL` in frontend variables.
 
 ## Browser voice
 
