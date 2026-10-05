@@ -57,6 +57,16 @@ def test_property_search_rejects_negative_offset():
     assert response.status_code == 422
 
 
+def test_property_detail_looks_up_week8_records():
+    client, services = make_client()
+    services.properties.rows = [property_row("W8-1422699")]
+
+    response = client.get("/api/properties/W8-1422699")
+
+    assert response.status_code == 200
+    assert response.json()["property_id"] == "W8-1422699"
+
+
 class Customers:
     def __init__(self):
         self.customer = Customer(CUSTOMER_ID, "Ali", "ali@example.com", "+923001234567")
