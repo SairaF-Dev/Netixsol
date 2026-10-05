@@ -19,8 +19,11 @@ Deploy the Week 8 API as a separate Railway service with this repository's
 `Week8` directory as its root. Use:
 
 ```text
-Start command: uvicorn src.api.app:app --host 0.0.0.0 --port $PORT
+Railway builder: Dockerfile (Week8/Dockerfile)
 ```
+
+The container installs `requirements-api.txt`, includes `src/` and `models/`,
+excludes local datasets and notebooks, and binds Uvicorn to Railway's `PORT`.
 
 Set `DATABASE_URL` on the **Week 8 API service** to the Neon connection string
 (use the pooled connection string for serverless deployment). Keep it private;
