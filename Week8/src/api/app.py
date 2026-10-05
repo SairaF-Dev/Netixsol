@@ -598,7 +598,7 @@ async def get_market_insights() -> Dict[str, Any]:
 # ==============================================================================
 @app.get(
     "/properties",
-    summary="Search genuine verified properties from clean Week 8 dataset",
+    summary="Search Week 8 property listings from the configured catalog",
     tags=["Properties"],
 )
 async def get_properties(
@@ -693,5 +693,4 @@ async def get_single_lead(lead_id: str) -> Dict[str, Any]:
             detail=f"Lead '{lead_id}' not found in verified dataset.",
         )
     return lead
-
 
