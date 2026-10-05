@@ -30,7 +30,7 @@ from web_api.schemas import (
     AppointmentBook, AppointmentReschedule, CustomerCreate, CustomerResponse,
     AuthMeResponse, LoginRequest, MeAppointmentBook, MeInteractionCreate, RegisterRequest,
     InteractionCreate, InteractionResponse, PreferencesResponse, PreferencesUpdate,
-    PropertySearchRequest, PropertySearchResponse,
+    PropertyResponse, PropertySearchRequest, PropertySearchResponse,
     RecommendationRequest, RecommendationResponse,
     ChatRequest, ChatResponse,
 )
@@ -271,6 +271,20 @@ def create_app(services: WebServices | None = None) -> FastAPI:
             return results
         except Exception:
             raise HTTPException(503, "Property search is temporarily unavailable")
+
+    @app.get("/api/properties/{property_id}", response_model=PropertyResponse)
+    async def get_property(property_id: str, request: Request):
+        services = svc(request)
+        try:
+            row = await asyncio.to_thread(
+                services.properties.get_property,
+                property_id,
+            )
+        except Exception:
+            raise HTTPException(503, "Property lookup is temporarily unavailable")
+        if row is None:
+            raise HTTPException(404, "Property not found in the Week 8 catalog")
+        return public_property(row)
 
     @app.post("/api/customers/{customer_id}/recommendations", response_model=RecommendationResponse)
     async def recommendations(customer_id: UUID, payload: RecommendationRequest, request: Request):

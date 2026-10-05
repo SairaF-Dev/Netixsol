@@ -114,6 +114,8 @@ Search verified properties:
 
 Send to `POST /api/properties/search`. Results include the matching `total_count`;
 increase `offset` by `limit` to page through the Week 8 catalog.
+Fetch one catalog record by ID with `GET /api/properties/{property_id}`; IDs
+outside the Week 8 catalog return `404`.
 
 Get recommendations and optionally reuse a session ID to avoid duplicate
 `shown` events:
