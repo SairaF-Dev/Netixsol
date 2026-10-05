@@ -96,7 +96,7 @@ def test_search_includes_available_week8_catalog_records(monkeypatch):
     assert rows[0]["available"] is True
     assert rows[0]["verification_status"] == "Imported"
     assert "p.available = TRUE" in cursor.query
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query
     assert cursor.params["city"] == "Faisalabad"
 
 
@@ -108,4 +108,4 @@ def test_exact_lookup_includes_week8_catalog_records(monkeypatch):
     assert row is not None
     assert row["property_id"] == "W8-1422699"
     assert row["available"] is True
-    assert "p.property_id LIKE 'W8-%'" in cursor.query
+    assert "LEFT(p.property_id, 3) = 'W8-'" in cursor.query

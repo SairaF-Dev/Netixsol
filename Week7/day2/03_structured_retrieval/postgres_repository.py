@@ -596,7 +596,7 @@ class PostgresPropertyRepository:
             JOIN locations l ON l.location_id = p.location_id
             JOIN prices pr ON pr.property_id = p.property_id
             WHERE p.available = TRUE
-              AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
+              AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
               AND NULLIF(TRIM(l.city), '') IS NOT NULL
               AND LOWER(p.purpose) = %s
             ORDER BY l.city;
@@ -1149,7 +1149,7 @@ class PostgresPropertyRepository:
                     JOIN locations l ON p.location_id = l.location_id
                     JOIN prices pr ON p.property_id = pr.property_id
                     WHERE p.available = TRUE
-                      AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
+                      AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
                       AND l.city ILIKE %(city)s
                       AND (%(purpose)s::text IS NULL OR p.purpose ILIKE %(purpose)s)
                       AND (%(property_type)s::text IS NULL OR p.property_type ILIKE %(property_type)s)
@@ -1206,7 +1206,7 @@ class PostgresPropertyRepository:
             JOIN locations l ON p.location_id = l.location_id
             JOIN prices pr ON p.property_id = pr.property_id
             WHERE l.city ILIKE %s AND p.available = TRUE
-              AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
+              AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
         """
         params: list[Any] = [city.strip()]
         if property_type:
@@ -1236,7 +1236,7 @@ class PostgresPropertyRepository:
             JOIN locations l ON p.location_id = l.location_id
             JOIN prices pr ON p.property_id = pr.property_id
             WHERE l.city ILIKE %s AND p.available = TRUE
-              AND (pr.verification_status = 'Verified' OR p.property_id LIKE 'W8-%')
+              AND (pr.verification_status = 'Verified' OR LEFT(p.property_id, 3) = 'W8-')
         """
         params: list[Any] = [city.strip()]
         if purpose:
