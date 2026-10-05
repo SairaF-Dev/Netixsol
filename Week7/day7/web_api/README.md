@@ -18,6 +18,15 @@ routes validate cookie ownership whenever authentication is configured.
 VAPI and the internal Streamlit collector retain their separate trusted
 development identity paths.
 
+## Appointment scheduling dependency
+
+`POST /api/me/appointments` forwards to the Day 4 workflow API using
+`DAY4_API_URL` and `DAY4_API_KEY`. In production, that service must also have
+its Google Calendar service-account file and a deliverable `SMTP_SENDER`
+configured; see [the Day 4 deployment guide](../../day4/docs/DEPLOYMENT.md).
+If the workflow API cannot be reached, the website API returns `503` rather
+than treating the connection failure as an internal error.
+
 ## Run
 
 ```powershell
