@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0201
+Patient Name : Sana Malik
+Age / Gender : 38 / Female
+Test Panel   : Complete Blood Count (CBC)
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Hemoglobin             16.8       g/dL       13.5 - 17.5
+WBC Count              3.8        x10^3/uL   4.5 - 11.0
+Platelet Count         419.6      x10^3/uL   150 - 450
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

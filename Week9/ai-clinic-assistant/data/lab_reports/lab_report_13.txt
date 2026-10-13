@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0089
+Patient Name : Muhammad Usman
+Age / Gender : 52 / Male
+Test Panel   : Liver Function Tests (LFT)
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+ALT (SGPT)             51.0       U/L        7 - 56
+AST (SGOT)             35.0       U/L        10 - 40
+Serum Bilirubin        1.1        mg/dL      0.3 - 1.2
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

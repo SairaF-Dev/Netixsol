@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0042
+Patient Name : Ayesha Khan
+Age / Gender : 34 / Female
+Test Panel   : Complete Blood Count (CBC)
+Report Date  : 2026-10-05
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Hemoglobin             16.1       g/dL       13.5 - 17.5
+WBC Count              3.6        x10^3/uL   4.5 - 11.0
+Platelet Count         173.5      x10^3/uL   150 - 450
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

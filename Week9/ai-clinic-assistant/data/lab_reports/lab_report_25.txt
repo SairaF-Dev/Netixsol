@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0164
+Patient Name : Bilal Ahmed
+Age / Gender : 61 / Male
+Test Panel   : Lipid Profile
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Total Cholesterol      196.8      mg/dL      125 - 200
+Triglycerides          141.3      mg/dL      50 - 150
+HDL Cholesterol        52.2       mg/dL      40 - 60
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

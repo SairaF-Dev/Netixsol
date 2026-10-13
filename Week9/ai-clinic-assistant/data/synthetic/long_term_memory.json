@@ -1,0 +1,18 @@
+{
+  "PAT-0042": {
+    "patient_id": "PAT-0042",
+    "patient_name": "Hussein Hussain",
+    "preferred_doctor_id": "DOC-005",
+    "preferred_doctor_name": "Dr. Bilal Ahmed",
+    "preferred_branch_id": "BRANCH-ISB-01",
+    "preferred_branch_name": "F-7 Markaz Branch",
+    "preferred_language": "UrduLish",
+    "past_visit_complaints": [
+      "Severe headache and dizziness",
+      "Severe headache and dizziness",
+      "Severe headache and dizziness",
+      "Severe headache and dizziness"
+    ],
+    "chronic_conditions": []
+  }
+}

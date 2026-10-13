@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0164
+Patient Name : Bilal Ahmed
+Age / Gender : 61 / Male
+Test Panel   : Diabetes Panel
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Fasting Blood Sugar    73.5       mg/dL      70 - 99
+HbA1c                  5.0        %          4.0 - 5.6
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================
