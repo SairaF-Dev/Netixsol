@@ -300,7 +300,18 @@ def execute_tools(state: AgentState) -> Dict[str, Any]:
             }
             results["explainer_tool"] = explainer_tool(target="lead", lead_payload=lead_payload)
         else:
-            results["explainer_tool"] = explainer_tool(target="price")
+            results["explainer_tool"] = explainer_tool(
+                target="price",
+                property_payload={
+                    "city": city,
+                    "location": location,
+                    "area_marla": area_marla,
+                    "purpose": purpose,
+                    "property_type": property_type,
+                    "bedrooms": bedrooms,
+                    "baths": baths,
+                },
+            )
 
     verified_nums = extract_numbers_from_payload(results)
     return {
@@ -426,8 +437,8 @@ def synthesize_response(state: AgentState) -> Dict[str, Any]:
         e_res = results["explainer_tool"]
         if e_res.get("target") == "lead" and e_res.get("explanation_available"):
             lines.append(f"Rationale: {e_res.get('urdulish_summary', '')}")
-        elif e_res.get("target") == "price":
-            lines.append("Explanation note: TreeSHAP price feature attributions are pending Day 4 Task 2 integration.")
+        elif e_res.get("target") == "price" and e_res.get("explanation_available"):
+            lines.append(f"Price drivers: {e_res.get('urdulish_summary', '')}")
 
     # Valuation disclaimer propagation (Task 5 requirement)
     if "price_predictor_tool" in results and results["price_predictor_tool"].get("success"):

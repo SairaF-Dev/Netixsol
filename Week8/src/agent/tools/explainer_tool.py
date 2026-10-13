@@ -4,14 +4,12 @@ explainer_tool.py
 LangGraph tool for Model Interpretability and Explanations.
 Provides:
 - Lead Scoring: TreeSHAP local feature attribution and UrduLish conversion rationale.
-- Property Valuation: Explicitly marks price TreeSHAP as pending Task 2/future milestone;
-  never fabricates synthetic price explanations or artificial feature values.
+- Property Valuation: Returns local TreeSHAP attribution from the active sale or rent model.
 """
 
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -20,6 +18,8 @@ import shap
 
 from src.agent.tools.lead_tool import get_lead_scorer
 from src.features.lead_features import add_lead_features
+from src.agent.tools.price_tool import get_valuator
+from src.models.explain_valuation import explain_valuation
 
 logger = logging.getLogger(__name__)
 
@@ -58,15 +58,28 @@ def explainer_tool(
     target_clean = target.strip().lower()
 
     if target_clean == "price":
-        # Strictly honest: TreeSHAP price explainer contract
-        return {
-            "target": "price",
-            "explanation_available": False,
-            "status": "contract_active_explainer_pending_task2",
-            "message": "Property valuation TreeSHAP feature attribution module is currently scheduled for Day 4 Task 2. Model point prediction and quantile range are operational.",
-            "top_features": [],
-            "urdulish_summary": "Tafseeli feature breakdown model ke aglay marhalay mein dastiyab hoga. Abhi fair price point aur range operational hain.",
-        }
+        if not property_payload:
+            return {
+                "target": "price",
+                "explanation_available": False,
+                "error": "No property_payload provided for property valuation explanation.",
+            }
+        try:
+            return {
+                "target": "price",
+                **explain_valuation(
+                    get_valuator(),
+                    property_payload,
+                    purpose=property_payload.get("purpose"),
+                ),
+            }
+        except Exception as exc:
+            logger.exception("Valuation explainer tool error")
+            return {
+                "target": "price",
+                "explanation_available": False,
+                "error": f"Failed to compute valuation explanation: {exc}",
+            }
 
     # Otherwise, explain lead
     if not lead_payload:

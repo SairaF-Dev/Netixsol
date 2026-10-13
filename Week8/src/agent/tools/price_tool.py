@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from src.models.predict_valuation import PropertyValuator
+from src.models.prediction_logger import prediction_audit_logger
 
 logger = logging.getLogger(__name__)
 
@@ -87,6 +88,14 @@ def price_predictor_tool(
     try:
         val = get_valuator()
         res = val.predict(listing_payload, purpose=purpose_clean)
+        prediction_audit_logger.log_valuation(
+            inputs=listing_payload,
+            output=res,
+            validation_status="passed",
+            purpose=purpose_clean,
+            source="assistant",
+            model_version=res["model_version"],
+        )
         return {
             "success": True,
             "purpose": res["purpose"],
@@ -105,6 +114,14 @@ def price_predictor_tool(
     except Exception as e:
         logger.error("Valuation tool error: %s", e, exc_info=True)
         is_ood = "OUT_OF_DISTRIBUTION" in str(e)
+        prediction_audit_logger.log_valuation(
+            inputs=listing_payload,
+            output=None,
+            validation_status="rejected" if is_ood else "error",
+            rejection_reason="OUT_OF_DISTRIBUTION" if is_ood else type(e).__name__,
+            purpose=purpose_clean,
+            source="assistant",
+        )
         return {
             "success": False,
             "prediction_allowed": False if is_ood else True,

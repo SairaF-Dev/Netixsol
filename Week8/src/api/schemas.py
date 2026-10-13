@@ -154,6 +154,8 @@ class LeadScoringRequest(BaseModel):
 class LeadScoringResponse(BaseModel):
     conversion_probability: float
     lead_score_pct: float
+    training_label_provenance: str
+    crm_validated: bool
     tier: str
     priority_rank: int
     recommended_sla_action: str
@@ -171,10 +173,15 @@ class LeadScoringResponse(BaseModel):
 class PriceExplanationResponse(BaseModel):
     status: str
     message: str
+    explanation_available: bool
     predicted_fair_price_pkr: Optional[float]
+    lower_bound_pkr: Optional[float]
+    upper_bound_pkr: Optional[float]
     top_features: List[Dict[str, Any]]
     urdulish_summary: Optional[str]
     inference_latency_ms: float
+    model_version: str
+    target_scale: str
 
 
 class LeadExplanationResponse(BaseModel):
@@ -242,5 +249,3 @@ class ChatResponse(BaseModel):
     language: str = Field("english", description="Detected language: english, urdulish, or urdu")
     guard_triggered: bool = Field(False, description="True if numeric safety guard intervened to prevent hallucination")
     inference_latency_ms: float = Field(..., description="End-to-end processing latency in milliseconds")
-
-

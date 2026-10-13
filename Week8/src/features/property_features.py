@@ -349,17 +349,12 @@ class HuberPropertyPreprocessor:
         self.numeric_cols = [
             "baths", "bedrooms", "latitude", "longitude",
             "area_marla", "listing_year", "listing_month", "listing_quarter",
-            "property_age_years", "floors", "corner", "park_facing",
-            "covered_area_sqft", "parking", "security", "electricity_backup",
-            "gas", "water_supply", "park_nearby", "amenity_score",
-            "distance_main_road_km", "distance_school_km", "distance_hospital_km",
-            "bed_bath_ratio", "covered_area_ratio", "location_frequency",
-            "is_furnished", "is_brand_new", "is_corner", "is_park_facing", "is_main_road",
+            "location_frequency", "is_furnished", "is_brand_new", "is_main_road",
             "loc_te", "log_area_marla", "total_rooms", "bed_bath_prod", "is_prime_city", "area_per_bed"
         ]
         self.categorical_cols = [
             "property_type", "city", "province_name",
-            "listing_season", "property_age_bucket", "society_tier"
+            "listing_season", "society_tier"
         ]
 
     def _enrich(self, df: pd.DataFrame) -> pd.DataFrame:
