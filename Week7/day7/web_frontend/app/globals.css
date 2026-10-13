@@ -3,3 +3,176 @@
 @media(max-width:1100px){.dashboard-grid{grid-template-columns:1fr 1fr}.search-bar{grid-template-columns:repeat(3,1fr)}.property-card{grid-template-columns:130px 1fr}.property-title{display:block}}
 @media(max-width:760px){.app-shell{display:block}.sidebar{position:relative;height:auto;padding:17px}.sidebar nav{display:flex;overflow:auto;margin-top:18px}.sidebar nav a{white-space:nowrap}.session-card{display:none}.topbar{padding:0 20px}.page{padding:28px 18px 60px}.hero{grid-template-columns:1fr;padding:40px 25px}.hero-art{display:none}.onboarding{grid-template-columns:1fr}.dashboard-grid,.property-grid,.preference-grid{grid-template-columns:1fr}.search-bar{grid-template-columns:1fr 1fr}.property-card{grid-template-columns:1fr}.property-visual{min-height:100px}.wide,.form-footer{grid-column:auto}.section-head,.page-title.row{align-items:start;gap:18px;flex-direction:column}.appointment-list article{align-items:start;gap:15px;flex-direction:column}}
 .chat-message{padding:20px;margin:16px 0;border:1px solid var(--line);border-radius:12px;overflow-wrap:anywhere}.chat-message.user{background:var(--cream)}.sara-chat form{margin-top:24px;max-width:850px}.sara-chat .property-grid{grid-template-columns:1fr}
+
+/* Upgraded PropertyCard Polish */
+.property-card {
+  border: 1px solid #dfe6e1;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: 195px minmax(0, 1fr);
+  min-height: 245px;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(23, 51, 45, 0.05);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+}
+
+.property-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(23, 51, 45, 0.12);
+  border-color: #b2c9be;
+}
+
+.property-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.property-card:hover .property-card-img {
+  transform: scale(1.06);
+}
+
+@media(max-width: 1100px) {
+  .property-card {
+    grid-template-columns: 160px minmax(0, 1fr);
+  }
+}
+
+@media(max-width: 760px) {
+  .property-card {
+    grid-template-columns: 1fr;
+  }
+  .property-card .property-visual {
+    min-height: 190px !important;
+  }
+}
+
+/* Modern Form Controls & Number Spinner Cleanup */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Custom sleek scrollbar for CRM panels */
+.crm-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.crm-scrollbar::-webkit-scrollbar-track {
+  background: #f1f3f1;
+  border-radius: 4px;
+}
+.crm-scrollbar::-webkit-scrollbar-thumb {
+  background: #c5d3cc;
+  border-radius: 4px;
+}
+.crm-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ab4a7;
+}
+
+/* Mobile responsive navigation & UI enhancements */
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: inline-flex !important;
+  }
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    z-index: 1000;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+  }
+  .sidebar.open {
+    display: flex !important;
+  }
+  .sidebar nav {
+    overflow-y: auto;
+  }
+}
+
+/* Luxury Data & Dashboard UI Tokens */
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(23, 51, 45, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(23, 51, 45, 0.07);
+}
+
+.kpi-title {
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.kpi-value {
+  font-family: "Playfair Display", serif;
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 8px 0 4px;
+}
+.kpi-sub {
+  font-size: 0.76rem;
+  color: #637770;
+}
+
+/* Badges */
+.badge-hot {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.badge-warm {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.badge-cold {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+

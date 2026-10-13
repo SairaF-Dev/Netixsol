@@ -117,7 +117,7 @@ export default function LeadScoringStudio() {
       setError(
         err instanceof MlApiError
           ? err.message
-          : "Failed to score lead. Please verify Week 8 FastAPI server is running."
+          : "Could not create a lead-priority suggestion. Please try again."
       );
     } finally {
       setLoading(false);
@@ -133,18 +133,18 @@ export default function LeadScoringStudio() {
   return (
     <div style={{ display: "grid", gap: "24px" }}>
       <div>
-        <span className="eyebrow">MACHINE LEARNING DECISION ENGINE</span>
+        <span className="eyebrow">LEAD FOLLOW-UP</span>
         <h1 style={{ fontFamily: "Playfair Display, serif", fontSize: "clamp(2rem, 3.5vw, 2.7rem)", margin: "4px 0 8px" }}>
-          Lead Scoring & TreeSHAP Explainability
+          Lead Priority & Follow-Up Factors
         </h1>
         <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.95rem" }}>
-          LightGBM conversion probability, Hot/Warm/Cold prioritization, K-Means customer personas, and local TreeSHAP attribution.
+          Review the details that contribute to a lead-priority suggestion.
         </p>
       </div>
 
       <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
         <span style={{ fontSize: "0.74rem", fontWeight: 700, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-          Load Presets:
+          Quick Select:
         </span>
         {PRESET_LEADS.map((p) => (
           <button
@@ -328,22 +328,22 @@ export default function LeadScoringStudio() {
             {error && <ErrorNotice message={error} />}
 
             <button type="submit" className="button primary" disabled={loading} style={{ padding: "12px", marginTop: "4px" }}>
-              {loading ? "Computing TreeSHAP & Scoring…" : "Evaluate Lead & Compute SHAP"}
+              {loading ? "Preparing suggestion…" : "Show Lead Suggestion"}
             </button>
           </form>
         </div>
 
         <div style={{ display: "grid", gap: "20px" }}>
-          {loading && <Loading label="Calculating Optuna LightGBM prediction & TreeSHAP contributions…" />}
+          {loading && <Loading label="Preparing lead-priority suggestion…" />}
 
           {!loading && !scoreResult && (
             <div className="panel" style={{ textAlign: "center", padding: "60px 24px", color: "var(--muted)" }}>
               <span style={{ fontSize: "3rem" }}>🎯</span>
               <h3 style={{ fontFamily: "Playfair Display, serif", color: "var(--ink)", margin: "14px 0 6px" }}>
-                Ready to Prioritize Deal
+                Ready to Review Lead
               </h3>
               <p style={{ margin: "auto", maxWidth: "340px", fontSize: "0.88rem" }}>
-                Configure lead features on the left or select a sample preset to simulate machine-learning lead qualification and explainability.
+                Enter lead details or choose a quick option to see what may affect its suggested priority.
               </p>
             </div>
           )}
@@ -352,13 +352,10 @@ export default function LeadScoringStudio() {
             <div className="panel" style={{ padding: "26px", display: "grid", gap: "20px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px" }}>
                 <div>
-                  <span className="eyebrow">CONVERSION PREDICTION</span>
+                  <span className="eyebrow">LEAD PRIORITY</span>
                   <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
                     <span style={{ fontFamily: "Playfair Display, serif", fontSize: "2.8rem", fontWeight: 700, color: "var(--ink)" }}>
-                      {scoreResult.lead_score_pct}%
-                    </span>
-                    <span style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
-                      ({(scoreResult.conversion_probability * 100).toFixed(1)}% probability)
+                      {scoreResult.lead_score_pct.toFixed(0)}/100
                     </span>
                   </div>
                 </div>
@@ -385,7 +382,7 @@ export default function LeadScoringStudio() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                 <div style={{ background: "#f8faf9", padding: "14px", borderRadius: "10px", border: "1px solid #edf1ee" }}>
                   <span style={{ fontSize: "0.68rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)", fontWeight: 700 }}>
-                    Customer Persona
+                    Buyer Profile
                   </span>
                   <div style={{ fontWeight: 700, color: "var(--ink)", fontSize: "0.95rem", marginTop: "4px" }}>
                     {scoreResult.customer_persona || "Urban Homebuyer"}
@@ -394,7 +391,7 @@ export default function LeadScoringStudio() {
 
                 <div style={{ background: "#fdf8f0", padding: "14px", borderRadius: "10px", border: "1px solid #faeedb" }}>
                   <span style={{ fontSize: "0.68rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--gold)", fontWeight: 700 }}>
-                    Recommended SLA Action
+                    Recommended Follow-Up
                   </span>
                   <div style={{ fontWeight: 700, color: "#854d0e", fontSize: "0.95rem", marginTop: "4px" }}>
                     {scoreResult.recommended_sla_action}
@@ -405,7 +402,7 @@ export default function LeadScoringStudio() {
               {scoreResult.urdulish_explanation && (
                 <div style={{ background: "#f0f7f4", padding: "14px 16px", borderRadius: "8px", border: "1px solid #d8eae1", fontSize: "0.88rem", color: "#17332d", lineHeight: 1.5 }}>
                   <span style={{ fontWeight: 700, display: "block", marginBottom: "4px", fontSize: "0.75rem", textTransform: "uppercase", color: "var(--forest)" }}>
-                    💡 Model Decision Rationale (UrduLish)
+                    💡 Why this suggestion
                   </span>
                   {scoreResult.urdulish_explanation}
                 </div>
@@ -414,15 +411,12 @@ export default function LeadScoringStudio() {
               {shapResult && (
                 <div style={{ marginTop: "4px", display: "grid", gap: "14px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className="eyebrow">TREESHAP LOCAL ATTRIBUTION</span>
-                    <span style={{ fontSize: "0.72rem", color: "var(--muted)" }}>
-                      Computed in {shapResult.inference_latency_ms}ms
-                    </span>
+                    <span className="eyebrow">FACTORS BEHIND THIS SUGGESTION</span>
                   </div>
 
                   <div style={{ display: "grid", gap: "8px" }}>
                     <span style={{ fontSize: "0.76rem", fontWeight: 700, color: "#166534" }}>
-                      ▲ Positive Conversion Drivers (Pushing score higher)
+                      ▲ Factors that raise the priority
                     </span>
                     {shapResult.top_positive_features?.map((item) => {
                       const widthPct = Math.min(100, Math.round((Math.abs(item.shap_value) / maxAbsShap) * 100));
@@ -430,7 +424,7 @@ export default function LeadScoringStudio() {
                         <div key={item.feature} style={{ display: "grid", gap: "3px" }}>
                           <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem" }}>
                             <span>{formatFeatureName(item.feature)}</span>
-                            <strong style={{ color: "#166534" }}>+{item.shap_value.toFixed(3)}</strong>
+                            <strong style={{ color: "#166534" }}>Raises priority</strong>
                           </div>
                           <div style={{ height: "6px", background: "#e8edea", borderRadius: "3px", overflow: "hidden" }}>
                             <div style={{ width: `${widthPct}%`, height: "100%", background: "#16a34a", borderRadius: "3px" }} />
@@ -443,7 +437,7 @@ export default function LeadScoringStudio() {
                   {shapResult.top_negative_features && shapResult.top_negative_features.length > 0 && (
                     <div style={{ display: "grid", gap: "8px", marginTop: "8px" }}>
                       <span style={{ fontSize: "0.76rem", fontWeight: 700, color: "#991b1b" }}>
-                        ▼ Negative Friction Drivers (Holding score lower)
+                        ▼ Factors that lower the priority
                       </span>
                       {shapResult.top_negative_features.map((item) => {
                         const widthPct = Math.min(100, Math.round((Math.abs(item.shap_value) / maxAbsShap) * 100));
@@ -451,7 +445,7 @@ export default function LeadScoringStudio() {
                           <div key={item.feature} style={{ display: "grid", gap: "3px" }}>
                             <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem" }}>
                               <span>{formatFeatureName(item.feature)}</span>
-                              <strong style={{ color: "#dc2626" }}>{item.shap_value.toFixed(3)}</strong>
+                              <strong style={{ color: "#dc2626" }}>Lowers priority</strong>
                             </div>
                             <div style={{ height: "6px", background: "#fef2f2", borderRadius: "3px", overflow: "hidden" }}>
                               <div style={{ width: `${widthPct}%`, height: "100%", background: "#ef4444", borderRadius: "3px" }} />

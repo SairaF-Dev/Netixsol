@@ -191,13 +191,13 @@ export default function MarketInsightsPage() {
       <div className="page-title row" style={{ marginBottom: "26px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "20px", flexWrap: "wrap" }}>
         <div>
           <span className="eyebrow" style={{ color: "#c28b4b", fontWeight: 700, letterSpacing: "0.14em" }}>
-            MARKET INTELLIGENCE & PRICE INDEX
+            PROPERTY MARKET OVERVIEW
           </span>
           <h1 style={{ margin: "10px 0 12px", fontFamily: "Playfair Display" }}>
             Pakistan Property Market Insights
           </h1>
           <p style={{ maxWidth: "680px", color: "var(--muted)", lineHeight: 1.6, fontSize: "0.95rem" }}>
-            Live capital valuations, gross rental yields, and verified transaction liquidity computed across 190,000+ listings in Pakistan&apos;s primary metropolitan hubs.
+            Explore indicative asking prices and rental information across Pakistan. Figures can vary by property and location.
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "10px" }}>
@@ -216,7 +216,7 @@ export default function MarketInsightsPage() {
             }}
           >
             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#2e7d32", display: "inline-block" }}></span>
-            190,715 Verified Market Listings
+            Property listings
           </div>
         </div>
       </div>
@@ -225,7 +225,7 @@ export default function MarketInsightsPage() {
         <div className="panel" style={{ textAlign: "center", padding: "60px 20px" }}>
           <div className="spinner" style={{ margin: "auto" }}></div>
           <p style={{ marginTop: "16px", color: "var(--muted)", fontSize: "0.92rem" }}>
-            Loading market benchmarks & city distributions…
+            Loading market information…
           </p>
         </div>
       )}
@@ -248,7 +248,7 @@ export default function MarketInsightsPage() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ color: "#c28b4b", fontSize: "0.72rem", letterSpacing: "0.1em", fontWeight: 700 }}>
-                  TOTAL VERIFIED INVENTORY
+                  PROPERTY LISTINGS
                 </span>
                 <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "#e8f2ef", display: "grid", placeItems: "center", color: "#17332d" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -262,7 +262,7 @@ export default function MarketInsightsPage() {
                 {insights.total_dataset_records.toLocaleString()}
               </h3>
               <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-                Comprehensive Pakistan property transaction index.
+                Listings across the areas shown below.
               </p>
             </div>
 
@@ -278,7 +278,7 @@ export default function MarketInsightsPage() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ color: "#c28b4b", fontSize: "0.72rem", letterSpacing: "0.1em", fontWeight: 700 }}>
-                  CAPITAL VALUE LEADER
+                  SALE LISTING MARKETS
                 </span>
                 <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "#e8f0fe", display: "grid", placeItems: "center", color: "#1e429f" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -287,10 +287,10 @@ export default function MarketInsightsPage() {
                 </div>
               </div>
               <h3 style={{ margin: "16px 0 6px", fontSize: "1.75rem", fontFamily: "Playfair Display", color: "var(--ink)" }}>
-                PKR 25.08 Lac
+                {insights.sale_by_city.length}
               </h3>
               <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-                Islamabad prime capital rate per marla.
+                Cities with available sale listing information.
               </p>
             </div>
 
@@ -306,7 +306,7 @@ export default function MarketInsightsPage() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ color: "#c28b4b", fontSize: "0.72rem", letterSpacing: "0.1em", fontWeight: 700 }}>
-                  TOP RENTAL YIELD METRO
+                  RENTAL LISTING MARKETS
                 </span>
                 <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "#e8f5e9", display: "grid", placeItems: "center", color: "#2e7d32" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -316,10 +316,10 @@ export default function MarketInsightsPage() {
                 </div>
               </div>
               <h3 style={{ margin: "16px 0 6px", fontSize: "1.75rem", fontFamily: "Playfair Display", color: "var(--ink)" }}>
-                4.1% Annual ROI
+                {insights.rent_by_city.length}
               </h3>
               <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-                Karachi leads national rental cashflow returns.
+                Cities with available rental listing information.
               </p>
             </div>
 
@@ -335,7 +335,7 @@ export default function MarketInsightsPage() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ color: "#c28b4b", fontSize: "0.72rem", letterSpacing: "0.1em", fontWeight: 700 }}>
-                  METROPOLITAN HUBS
+                  CITIES COVERED
                 </span>
                 <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "#fdf4e7", display: "grid", placeItems: "center", color: "#c28b4b" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -345,10 +345,10 @@ export default function MarketInsightsPage() {
                 </div>
               </div>
               <h3 style={{ margin: "16px 0 6px", fontSize: "1.75rem", fontFamily: "Playfair Display", color: "var(--ink)" }}>
-                5 Key Metros
+                {insights.cities.length}
               </h3>
               <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-                Lahore, Karachi, Islamabad, Rawalpindi, Faisalabad.
+                Cities with available property listing information.
               </p>
             </div>
           </div>
@@ -356,19 +356,19 @@ export default function MarketInsightsPage() {
           {/* Main Content Grid: Balanced Layout */}
           <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "28px", alignItems: "start" }}>
             
-            {/* Left Column: Metropolitan Market Intelligence */}
+            {/* Left column: market figures by city */}
             <div className="panel" style={{ padding: "26px", borderRadius: "14px" }}>
               
               {/* Segmented View Mode Switcher */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px", flexWrap: "wrap", gap: "10px" }}>
                 <div>
                   <h3 style={{ fontFamily: "Playfair Display", margin: "0 0 2px", fontSize: "1.25rem" }}>
-                    Metropolitan Market Intelligence
+                    Market Figures by City
                   </h3>
                   <small style={{ color: "var(--muted)", fontSize: "0.78rem" }}>
-                    {viewMode === "sale" && "Ranked by capital rate per marla"}
-                    {viewMode === "rent" && "Ranked by gross annual rental yield (ROI %)"}
-                    {viewMode === "matrix" && "Comparative investment & liquidity breakdown"}
+                    {viewMode === "sale" && "Sorted by average sale listing price per Marla"}
+                    {viewMode === "rent" && "Sorted by estimated yearly rent compared with sale listing prices"}
+                    {viewMode === "matrix" && "Compare available asking prices and rent estimates"}
                   </small>
                 </div>
 
@@ -655,7 +655,7 @@ export default function MarketInsightsPage() {
                   Society Rate Explorer
                 </h3>
                 <p style={{ fontSize: "0.82rem", color: "var(--muted)", margin: 0, lineHeight: 1.5 }}>
-                  Instant verified price benchmarks & plot unit estimates across Pakistan sectors.
+                  Indicative price information that can vary by property.
                 </p>
               </div>
 
@@ -773,7 +773,7 @@ export default function MarketInsightsPage() {
                     {lookupResult.location}, {lookupResult.city}
                   </h3>
                   <div style={{ fontSize: "0.74rem", color: "var(--muted)", marginBottom: "12px" }}>
-                    Verified market appraisal benchmark
+                    Listing price benchmark; not a formal appraisal
                   </div>
 
                   {/* Rates Row */}

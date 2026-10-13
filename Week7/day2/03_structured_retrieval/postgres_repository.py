@@ -100,6 +100,8 @@ class PostgresPropertyRepository:
         "exact_property",
         "property_name_lookup",
         "buyer_search",
+        "browse_catalog",
+        "browse_catalog_property",
         "availability",
         "developer_lookup",
         "cheaper_alternatives",
@@ -596,7 +598,7 @@ class PostgresPropertyRepository:
             JOIN locations l ON l.location_id = p.location_id
             JOIN prices pr ON pr.property_id = p.property_id
             WHERE p.available = TRUE
-              AND LEFT(p.property_id, 3) = 'W8-'
+              AND pr.verification_status = 'Verified'
               AND NULLIF(TRIM(l.city), '') IS NOT NULL
               AND LOWER(p.purpose) = %s
             ORDER BY l.city;
@@ -616,10 +618,9 @@ class PostgresPropertyRepository:
         purpose=None,
         amenities=None,
         limit: int = DEFAULT_SEARCH_LIMIT,
-        offset: int = 0,
     ) -> list[dict[str, Any]]:
         """
-        Search available Week 8 properties.
+        Search verified available properties.
 
         All filters are applied by PostgreSQL.
 
@@ -662,11 +663,6 @@ class PostgresPropertyRepository:
         limit = self._validate_limit(
             limit
         )
-        offset = self._validate_optional_integer(
-            offset,
-            "offset",
-        )
-        offset = offset or 0
 
         query = self._get_query(
             "buyer_search"
@@ -686,7 +682,6 @@ class PostgresPropertyRepository:
             "purpose": purpose,
             "amenities": amenities,
             "limit": limit,
-            "offset": offset,
         }
 
         with self._connect() as conn:
@@ -703,6 +698,63 @@ class PostgresPropertyRepository:
                     cur,
                     rows,
                 )
+
+    def search_catalog(
+        self,
+        budget=None,
+        city=None,
+        area=None,
+        bedrooms=None,
+        property_type=None,
+        purpose=None,
+        amenities=None,
+        limit: int = DEFAULT_SEARCH_LIMIT,
+        offset: int = 0,
+    ) -> list[dict[str, Any]]:
+        """Browse historical catalog records without marking them current."""
+        budget = self._validate_optional_budget(budget)
+        city = self._validate_optional_string(city, "city")
+        area = self._validate_optional_string(area, "area")
+        bedrooms = self._validate_optional_integer(bedrooms, "bedrooms")
+        property_type = self._validate_optional_string(property_type, "property_type")
+        purpose = self._validate_optional_string(purpose, "purpose")
+        amenities = self._validate_amenities(amenities)
+        limit = self._validate_limit(limit)
+        if isinstance(offset, bool) or not isinstance(offset, int) or offset < 0:
+            raise ValueError("offset must be a non-negative integer")
+
+        params = {
+            "budget": budget,
+            "city": city,
+            "area": area,
+            "area_pattern": f"%{area}%" if area else None,
+            "bedrooms": bedrooms,
+            "property_type": property_type,
+            "purpose": purpose,
+            "amenities": amenities,
+            "limit": limit,
+            "offset": offset,
+        }
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(self._get_query("browse_catalog"), params)
+                return self._rows_to_dicts(cur, cur.fetchall())
+
+    def get_catalog_property(self, property_id: str) -> dict[str, Any] | None:
+        """Return a catalog record for browsing, including unverified records."""
+        if not isinstance(property_id, str):
+            raise TypeError("property_id must be a string")
+        property_id = property_id.strip()
+        if not property_id:
+            raise ValueError("property_id is required")
+
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    self._get_query("browse_catalog_property"),
+                    {"property_id": property_id},
+                )
+                return self._row_to_dict(cur, cur.fetchone())
 
     @staticmethod
     def compute_distance_metrics(
@@ -1155,8 +1207,7 @@ class PostgresPropertyRepository:
                     FROM properties p
                     JOIN locations l ON p.location_id = l.location_id
                     JOIN prices pr ON p.property_id = pr.property_id
-                    WHERE p.available = TRUE
-                      AND LEFT(p.property_id, 3) = 'W8-'
+                    WHERE p.available = TRUE AND pr.verification_status = 'Verified'
                       AND l.city ILIKE %(city)s
                       AND (%(purpose)s::text IS NULL OR p.purpose ILIKE %(purpose)s)
                       AND (%(property_type)s::text IS NULL OR p.property_type ILIKE %(property_type)s)
@@ -1212,8 +1263,7 @@ class PostgresPropertyRepository:
             FROM properties p
             JOIN locations l ON p.location_id = l.location_id
             JOIN prices pr ON p.property_id = pr.property_id
-            WHERE l.city ILIKE %s AND p.available = TRUE
-              AND LEFT(p.property_id, 3) = 'W8-'
+            WHERE l.city ILIKE %s AND p.available = TRUE AND pr.verification_status = 'Verified'
         """
         params: list[Any] = [city.strip()]
         if property_type:
@@ -1242,8 +1292,7 @@ class PostgresPropertyRepository:
             FROM properties p
             JOIN locations l ON p.location_id = l.location_id
             JOIN prices pr ON p.property_id = pr.property_id
-            WHERE l.city ILIKE %s AND p.available = TRUE
-              AND LEFT(p.property_id, 3) = 'W8-'
+            WHERE l.city ILIKE %s AND p.available = TRUE AND pr.verification_status = 'Verified'
         """
         params: list[Any] = [city.strip()]
         if purpose:

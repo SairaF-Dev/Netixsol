@@ -9,7 +9,7 @@ import { Loading, ErrorNotice } from "@/components/States";
 import type { Preferences, PreferencePatch } from "@/types/api";
 
 export default function SettingsPage() {
-  const { customer, ready, switchCustomer } = useSession();
+  const { customer, ready, role, setRole, switchCustomer } = useSession();
   const router = useRouter();
 
   const [form, setForm] = useState<Preferences | null>(null);
@@ -92,7 +92,7 @@ export default function SettingsPage() {
       const saved = await api.updateMyPreferences(patch);
       setForm(saved);
       original.current = saved;
-      setPrefStatus("Preferences successfully updated in CRM database.");
+      setPrefStatus("Preferences updated successfully.");
     } catch (e) {
       setPrefStatus(e instanceof ApiError ? e.message : "Could not update preferences.");
     } finally {
@@ -112,7 +112,7 @@ export default function SettingsPage() {
           Platform Settings
         </h1>
         <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.95rem" }}>
-          Manage your verified account profile, property matching preferences, active workspace role, and system connections.
+          Manage your account, property preferences, workspace role, and service connections.
         </p>
       </div>
 
@@ -142,11 +142,44 @@ export default function SettingsPage() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #edf1ee", paddingBottom: "8px" }}>
                 <span style={{ color: "var(--muted)" }}>Phone</span>
-                <span>{customer?.phone || "+92 (Verified)"}</span>
+                <span>{customer?.phone || "Not provided"}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #edf1ee", paddingBottom: "8px" }}>
                 <span style={{ color: "var(--muted)" }}>Active Role</span>
-                <strong>Customer</strong>
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <button
+                    type="button"
+                    onClick={() => setRole("customer")}
+                    style={{
+                      padding: "4px 10px",
+                      borderRadius: "6px",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      border: "none",
+                      cursor: "pointer",
+                      background: role === "customer" ? "#214e43" : "#e0e6e3",
+                      color: role === "customer" ? "#ffffff" : "#4a5a54",
+                    }}
+                  >
+                    Customer
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole("sales_agent")}
+                    style={{
+                      padding: "4px 10px",
+                      borderRadius: "6px",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      border: "none",
+                      cursor: "pointer",
+                      background: role === "sales_agent" ? "#214e43" : "#e0e6e3",
+                      color: role === "sales_agent" ? "#ffffff" : "#4a5a54",
+                    }}
+                  >
+                    Sales Agent
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -187,8 +220,8 @@ export default function SettingsPage() {
             <div style={{ display: "grid", gap: "10px", fontSize: "0.84rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", background: "#f8faf9", borderRadius: "8px" }}>
                 <div>
-                  <strong>Week 7 API & CRM Gateway</strong>
-                  <div style={{ fontSize: "0.74rem", color: "var(--muted)" }}>Port 8010 • Auth & PostgreSQL</div>
+                  <strong>Account & appointment services</strong>
+                  <div style={{ fontSize: "0.74rem", color: "var(--muted)" }}>Sign-in, customer profiles, and bookings</div>
                 </div>
                 <span style={{ color: saraHealth?.status === "ok" ? "#166534" : "#991b1b", fontWeight: 700, fontSize: "0.76rem" }}>
                   {saraHealth?.status === "ok" ? "● Connected" : "● Offline/Degraded"}
@@ -197,11 +230,11 @@ export default function SettingsPage() {
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", background: "#f8faf9", borderRadius: "8px" }}>
                 <div>
-                  <strong>Week 8 ML Serving Engine</strong>
-                  <div style={{ fontSize: "0.74rem", color: "var(--muted)" }}>Port 8000 • Huber, LightGBM, TreeSHAP</div>
+                  <strong>Property insights & pricing</strong>
+                  <div style={{ fontSize: "0.74rem", color: "var(--muted)" }}>Market information and indicative price estimates</div>
                 </div>
                 <span style={{ color: mlHealth?.system_ready ? "#166534" : "#991b1b", fontWeight: 700, fontSize: "0.76rem" }}>
-                  {mlHealth?.system_ready ? "● Operational (7 Models)" : "● Offline/Degraded"}
+                  {mlHealth?.system_ready ? "● Available" : "● Unavailable"}
                 </span>
               </div>
             </div>
@@ -326,8 +359,8 @@ export default function SettingsPage() {
                     padding: "10px 14px",
                     borderRadius: "8px",
                     fontSize: "0.84rem",
-                    background: prefStatus.includes("success") ? "#e8f5e9" : "#fef3c7",
-                    color: prefStatus.includes("success") ? "#166534" : "#92400e",
+                    background: prefStatus.includes("successfully") ? "#e8f5e9" : "#fef3c7",
+                    color: prefStatus.includes("successfully") ? "#166534" : "#92400e",
                     border: "1px solid",
                     borderColor: prefStatus.includes("success") ? "#bbf7d0" : "#fde68a",
                   }}
@@ -342,7 +375,7 @@ export default function SettingsPage() {
                 disabled={prefBusy}
                 style={{ padding: "12px", marginTop: "4px" }}
               >
-                {prefBusy ? "Saving to CRM Database…" : "Save Preferences"}
+                {prefBusy ? "Saving preferences…" : "Save Preferences"}
               </button>
             </form>
           )}

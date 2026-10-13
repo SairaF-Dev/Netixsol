@@ -55,6 +55,7 @@ from vapi_integration.models import (
     VapiMessageResponse,
     VapiToolCallResult,
 )
+from vapi_integration.lead_scoring_service import score_call_lead, send_hot_lead_email
 
 # ── logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -240,6 +241,33 @@ async def vapi_webhook(
         summary = body.get("message", {}).get("summary", "")
         transcript_full = body.get("message", {}).get("transcript", "")
         recording_url = body.get("message", {}).get("recordingUrl", "")
+        duration_seconds = float(body.get("message", {}).get("durationSeconds", 0) or 0)
+
+        session = await session_manager.get_session(call_id)
+        if session:
+            try:
+                prefs = getattr(session, "preference_snapshot", {}) or {}
+                visit_booked = bool(getattr(session, "appointment_id", None))
+                score_data = await score_call_lead(
+                    caller_phone=getattr(session, "caller_phone", "") or "",
+                    call_duration_seconds=duration_seconds,
+                    visit_booked=visit_booked,
+                    client_name=prefs.get("client_name"),
+                    preferred_city=prefs.get("city"),
+                    preferred_location=prefs.get("location"),
+                    budget_pkr=prefs.get("max_price"),
+                    property_type=prefs.get("property_type"),
+                    purpose=prefs.get("purpose"),
+                )
+                if score_data and score_data.get("tier") == "Hot":
+                    await send_hot_lead_email(
+                        score_data=score_data,
+                        caller_phone=getattr(session, "caller_phone", "") or "",
+                        client_name=prefs.get("client_name"),
+                        call_duration_seconds=duration_seconds,
+                    )
+            except Exception as e:
+                logger.warning("Lead scoring on call end failed: %s", e)
 
         await session_manager.close_session(
             call_id=call_id,

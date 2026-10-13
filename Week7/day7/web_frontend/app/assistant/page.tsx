@@ -48,7 +48,7 @@ function formatToolName(raw: string): string {
     price_predictor_tool: "⚡ Price Valuation Engine",
     lead_scorer_tool: "👥 Deal Qualification Scorer",
     explainer_tool: "💡 Decision Attribution Driver",
-    comparable_properties_tool: "🏡 Listing Database Matcher",
+    comparable_properties_tool: "🏡 Property Listings",
     market_stats_tool: "📊 Metropolitan Market Index",
   };
   return map[raw] || raw;
@@ -141,7 +141,7 @@ export default function AssistantPage() {
       setError(
         err instanceof MlApiError
           ? err.message
-          : "Sara AI could not process your query. Please ensure Week 8 serving service is active."
+          : "The assistant could not process your request. Please check your connection and try again."
       );
     } finally {
       setBusy(false);
@@ -172,7 +172,7 @@ export default function AssistantPage() {
             AI Real Estate Assistant
           </h1>
           <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.88rem" }}>
-            Dual-regression property valuation, lead qualification, and verified listing intelligence in UrduLish.
+            Search property listings, explore indicative prices, and plan site visits in English or Urdu.
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -265,11 +265,6 @@ export default function AssistantPage() {
                           {formatToolName(tool)}
                         </span>
                       ))}
-                      {m.meta.inference_latency_ms && (
-                        <span style={{ fontSize: "0.65rem", color: "var(--muted)", alignSelf: "center" }}>
-                          {m.meta.inference_latency_ms}ms
-                        </span>
-                      )}
                     </div>
                   )}
 
@@ -284,7 +279,7 @@ export default function AssistantPage() {
               <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 4px" }}>
                 <div className="spinner" style={{ width: "18px", height: "18px", borderWidth: "2px" }} />
                 <span style={{ fontSize: "0.84rem", color: "var(--muted)", fontStyle: "italic" }}>
-                  Sara is analyzing property market data & executing verified tools…
+                  Sara is checking property and market information…
                 </span>
               </div>
             )}
@@ -387,13 +382,13 @@ export default function AssistantPage() {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
-              <span className="eyebrow">VERIFIED CONTEXT</span>
+              <span className="eyebrow">PROPERTY SUGGESTIONS</span>
               <h2 style={{ fontFamily: "Playfair Display, serif", fontSize: "1.25rem", margin: "2px 0 0" }}>
                 Matching Properties
               </h2>
             </div>
             <span style={{ fontSize: "0.72rem", color: "var(--muted)", background: "#e8edea", padding: "3px 8px", borderRadius: "10px", fontWeight: 700 }}>
-              {contextProperties.length} Verified
+              {contextProperties.length} listings
             </span>
           </div>
 
@@ -462,7 +457,7 @@ export default function AssistantPage() {
 
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px dashed #e8edea", paddingTop: "8px" }}>
                     <div>
-                      <div style={{ fontSize: "0.7rem", color: "var(--muted)" }}>Verified Price</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--muted)" }}>Listed price</div>
                       <div style={{ fontFamily: "Playfair Display, serif", fontWeight: 700, fontSize: "1.05rem", color: "var(--forest)" }}>
                         PKR {prop.price ? (prop.price >= 10000000 ? `${(prop.price / 10000000).toFixed(2)} Cr` : `${(prop.price / 100000).toFixed(1)} Lakh`) : "Price on Request"}
                       </div>

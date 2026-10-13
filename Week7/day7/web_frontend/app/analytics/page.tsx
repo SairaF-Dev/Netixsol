@@ -92,27 +92,27 @@ export default function AnalyticsPage() {
   };
 
   if (loading) {
-    return <Loading label="Loading real estate analytics & verified model performance…" />;
+    return <Loading label="Loading property and price information…" />;
   }
 
   return (
     <div style={{ display: "grid", gap: "24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "12px" }}>
         <div>
-          <span className="eyebrow">DATA INTELLIGENCE & MODEL METRICS</span>
+          <span className="eyebrow">PROPERTY & PRICE INSIGHTS</span>
           <h1 style={{ fontFamily: "Playfair Display, serif", fontSize: "clamp(2rem, 3.5vw, 2.7rem)", margin: "4px 0 8px" }}>
-            Real Estate & ML Analytics
+            Property Market & Estimate Insights
           </h1>
           <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.95rem" }}>
-            Empirical valuations, metropolitan price benchmarks, rental yields, and verified machine learning validation metrics.
+            Explore listing prices, neighborhood benchmarks, rental information, and a plain-language summary of estimate accuracy.
           </p>
         </div>
 
         <div style={{ display: "flex", background: "#e8edea", borderRadius: "8px", padding: "3px", gap: "4px" }}>
           {[
-            { id: "market", label: "Metropolitan Market" },
-            { id: "society", label: "Society Benchmarks" },
-            { id: "models", label: "ML Model Verification" },
+            { id: "market", label: "Market Overview" },
+            { id: "society", label: "Area Price Guide" },
+            { id: "models", label: "Estimate Accuracy" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -143,13 +143,13 @@ export default function AnalyticsPage() {
           <div className="panel" style={{ padding: "24px", overflowX: "auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
               <div>
-                <span className="eyebrow">ACROSS 5 MAJOR METROS</span>
+                <span className="eyebrow">PROPERTY LISTING OVERVIEW</span>
                 <h2 style={{ fontFamily: "Playfair Display, serif", fontSize: "1.35rem", margin: "4px 0" }}>
-                  Capital Values & Rental Yield Matrix
+                  Sale Prices & Rental Estimates
                 </h2>
               </div>
               <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
-                Source: {insights.total_dataset_records?.toLocaleString()} clean listings
+                {insights.total_dataset_records?.toLocaleString()} property listings
               </span>
             </div>
 
@@ -157,7 +157,7 @@ export default function AnalyticsPage() {
               <thead>
                 <tr style={{ borderBottom: "2px solid #e1e7e4", color: "var(--muted)", fontSize: "0.74rem", textTransform: "uppercase", letterSpacing: "0.08em" }}>
                   <th style={{ padding: "12px 14px" }}>Metro City</th>
-                  <th style={{ padding: "12px 14px" }}>Verified Listings</th>
+                  <th style={{ padding: "12px 14px" }}>Listings</th>
                   <th style={{ padding: "12px 14px" }}>Avg Sale Price / Marla</th>
                   <th style={{ padding: "12px 14px" }}>Median Sale / Marla</th>
                   <th style={{ padding: "12px 14px" }}>Avg Monthly Rent / Marla</th>
@@ -277,7 +277,7 @@ export default function AnalyticsPage() {
                     {selectedLocation}, {selectedCity}
                   </h2>
                   <span style={{ fontSize: "0.82rem", color: "var(--muted)" }}>
-                    Based on {lookupResult.total_listings_matched?.toLocaleString()} catalog listings in dataset
+                    Based on {lookupResult.total_listings_matched?.toLocaleString()} matching listings
                   </span>
                 </div>
 
@@ -322,44 +322,37 @@ export default function AnalyticsPage() {
             <div className="panel" style={{ padding: "24px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                 <div>
-                  <span className="eyebrow">DUAL-REGRESSION HUBER</span>
+                  <span className="eyebrow">PRICE GUIDANCE</span>
                   <h3 style={{ fontFamily: "Playfair Display, serif", fontSize: "1.3rem", margin: "4px 0" }}>
-                    Sale Valuation Model
+                    Sale Price Estimate
                   </h3>
                 </div>
                 <span style={{ fontSize: "0.72rem", background: "#e8f5e9", color: "#2e7d32", padding: "3px 8px", borderRadius: "6px", fontWeight: 700 }}>
-                  {modelInfo.sale_valuation?.version}
+                  Guidance only
                 </span>
               </div>
 
               <p style={{ fontSize: "0.82rem", color: "var(--muted)", margin: "0 0 16px" }}>
-                LightGBM with Huber objective (alpha=0.9) to resist extreme market outliers.
+                Price estimates are a guide, not formal appraisals. Accuracy can vary by location and property.
               </p>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                 <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TEST MAPE</span>
+                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>AVERAGE ESTIMATE DIFFERENCE</span>
                   <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--forest)" }}>
                     {modelInfo.sale_valuation?.locked_test_metrics?.mape}%
                   </div>
                 </div>
 
                 <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TEST MdAPE</span>
+                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TYPICAL ESTIMATE DIFFERENCE</span>
                   <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--forest)" }}>
                     {modelInfo.sale_valuation?.locked_test_metrics?.mdape}%
                   </div>
                 </div>
 
                 <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TEST R² SCORE</span>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--ink)" }}>
-                    {modelInfo.sale_valuation?.locked_test_metrics?.r2}
-                  </div>
-                </div>
-
-                <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TEST MAE</span>
+                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>AVERAGE PRICE DIFFERENCE</span>
                   <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--ink)" }}>
                     {formatPkr(modelInfo.sale_valuation?.locked_test_metrics?.mae_pkr)}
                   </div>
@@ -370,49 +363,19 @@ export default function AnalyticsPage() {
             <div className="panel" style={{ padding: "24px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                 <div>
-                  <span className="eyebrow">OPTUNA BAYESIAN OPTIMIZED</span>
+                  <span className="eyebrow">LEAD FOLLOW-UP</span>
                   <h3 style={{ fontFamily: "Playfair Display, serif", fontSize: "1.3rem", margin: "4px 0" }}>
-                    Lead Scoring Classifier
+                    Lead-Priority Suggestions
                   </h3>
                 </div>
                 <span style={{ fontSize: "0.72rem", background: "#fef3c7", color: "#92400e", padding: "3px 8px", borderRadius: "6px", fontWeight: 700 }}>
-                  {modelInfo.lead_scoring?.version}
+                  Guidance only
                 </span>
               </div>
 
               <p style={{ fontSize: "0.82rem", color: "var(--muted)", margin: "0 0 16px" }}>
-                LightGBM binary classifier tuned for imbalanced conversion prioritization.
+                Lead-priority suggestions can help organise follow-up. Review each enquiry before taking action.
               </p>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TEST ROC-AUC</span>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#166534" }}>
-                    {modelInfo.lead_scoring?.locked_test_metrics?.roc_auc}
-                  </div>
-                </div>
-
-                <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TEST PR-AUC</span>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#166534" }}>
-                    {modelInfo.lead_scoring?.locked_test_metrics?.pr_auc}
-                  </div>
-                </div>
-
-                <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TOP 20% LIFT</span>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#c28b4b" }}>
-                    {modelInfo.lead_scoring?.locked_test_metrics?.top_20_lift}x
-                  </div>
-                </div>
-
-                <div style={{ background: "#f8faf9", padding: "12px", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 700 }}>TOP 20 PRECISION</span>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--ink)" }}>
-                    {modelInfo.lead_scoring?.locked_test_metrics?.precision_at_top_20}%
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

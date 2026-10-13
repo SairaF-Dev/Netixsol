@@ -3,6 +3,7 @@
 !**/.env.example
 **/credentials.json
 **/*credentials*.json
+**/*service-account*.json
 **/*.pem
 **/*.key
 **/__pycache__
@@ -10,6 +11,10 @@
 **/.pytest_cache
 **/.venv
 **/venv
+**/node_modules
+**/.next
+**/dist
+**/build
 **/realestate_env
 **/*.log
 **/*.db

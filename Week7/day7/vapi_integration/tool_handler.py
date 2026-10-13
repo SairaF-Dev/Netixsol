@@ -60,6 +60,7 @@ class VapiToolHandler:
     def __init__(self, day4_api_url: str = "http://localhost:8004", interaction_repository=None) -> None:
         self.day4_url = day4_api_url.rstrip("/")
         self.day4_api_key = os.getenv("DAY4_API_KEY", "").strip()
+        self.week8_url = os.getenv("WEEK8_API_URL", "http://localhost:8000").rstrip("/")
         self.n8n_appointment_url = os.getenv("N8N_APPOINTMENT_WEBHOOK_URL", "").rstrip("/")
         # Calendar + SMTP may legitimately take longer than a simple DB call.
         # Keep this below Vapi's server timeout while allowing the core Day 4
@@ -142,6 +143,8 @@ class VapiToolHandler:
                 result = await self._search_properties(arguments, session=session)
             elif tool_name == "list_available_locations":
                 result = await self._list_available_locations()
+            elif tool_name in ["predict_property_price", "get_property_valuation"]:
+                result = await self._predict_property_price(arguments)
             else:
                 result = f"Tool '{tool_name}' is not supported yet."
 
@@ -159,13 +162,93 @@ class VapiToolHandler:
         logger.info("Tool '%s' completed in %.1f ms", tool_name, elapsed_ms)
         return result
 
+    async def _predict_property_price(self, args: dict) -> str:
+        """
+        Query Week 8 Price Valuation model via POST /predict/price.
+        Validates required parameters (city, area_marla) and returns
+        natural UrduLish pricing estimate without hallucinations.
+        """
+        city = str(args.get("city") or "").strip()
+        area_marla = args.get("area_marla")
+        location = str(args.get("location") or "DHA Defence").strip()
+        purpose = str(args.get("purpose") or "For Sale").strip()
+        property_type = str(args.get("property_type") or "House").strip()
+        bedrooms = args.get("bedrooms", 3)
+        baths = args.get("baths", 3)
+
+        # Validation: do not assume missing mandatory fields
+        if not city:
+            return (
+                "Aap ki property ka shehar konsa hai? "
+                "Barah-e-karam shehar (jaise Lahore, Karachi, Islamabad) batayein taake fair price calculate ki ja sakay."
+            )
+
+        try:
+            area_val = float(area_marla) if area_marla is not None else 0.0
+            if area_val <= 0:
+                raise ValueError()
+        except (TypeError, ValueError):
+            return (
+                "Aap ke ghar ya property ka total area kitne marlay hai? "
+                "Barah-e-karam area marlay mein batayein taake model sahi price calculate kare."
+            )
+
+        payload = {
+            "city": city,
+            "location": location or "Unknown",
+            "area_marla": area_val,
+            "purpose": "For Rent" if "rent" in purpose.lower() else "For Sale",
+            "property_type": property_type.title() if property_type else "House",
+            "bedrooms": int(bedrooms) if bedrooms else 3,
+            "baths": int(baths) if baths else 3,
+        }
+
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                res = await client.post(f"{self.week8_url}/predict/price", json=payload)
+                if res.status_code == 200:
+                    data = res.json()
+                    fair_price = float(data["predicted_fair_price_pkr"])
+                    p_min = float(data["lower_bound_pkr"])
+                    p_max = float(data["upper_bound_pkr"])
+
+                    def fmt(val: float) -> str:
+                        if val >= 10_000_000:
+                            return f"{val / 10_000_000:.2f} Crore"
+                        if val >= 100_000:
+                            return f"{val / 100_000:.2f} Lac"
+                        return f"{int(val):,} PKR"
+
+                    return (
+                        f"Week 8 valuation model ke mutabiq {location}, {city} mein {area_val:.0f} marla "
+                        f"{payload['property_type']} ki fair price taqreeban {fmt(fair_price)} ({int(fair_price):,} PKR) hai. "
+                        f"Iski estimate range {fmt(p_min)} se {fmt(p_max)} ke darmiyan banti hai. "
+                        "Disclaimer: yeh model estimate hai, official valuation nahi."
+                    )
+                else:
+                    logger.warning("Week 8 price prediction API returned %d: %s", res.status_code, res.text)
+                    if res.status_code == 422:
+                        try:
+                            error_data = res.json()
+                        except ValueError:
+                            error_data = {}
+                        if isinstance(error_data, dict) and error_data.get("error_code") == "OUT_OF_DISTRIBUTION":
+                            return (
+                                f"{area_val:.0f} marla ki property model ki supported range se bahir hai, "
+                                "is liye reliable estimate nahi diya ja sakta. Representative se rabta karein."
+                            )
+                    return "Valuation service se is waqt pricing estimate hasil nahi ho saka. Barah-e-karam thori der baad dobara koshish karein."
+        except Exception as exc:
+            logger.exception("Error calling Week 8 price prediction API: %s", exc)
+            return "Valuation model service offline hai ya rabta nahi ho pa raha. Representative aap se jald rabta karega."
+
     def _get_assigned_agent(self, property_id: str) -> tuple[str, str]:
         """
         Lookup assigned real estate agent name and email.
         Tries PostgresPropertyRepository.get_agents_for_property() (Day 2) first, with CSV fallback.
         Returns (agent_name, agent_email).
         """
-        default_email = os.getenv("EMPLOYEE_EMAIL", os.getenv("SMTP_USERNAME", "sairafatima193@gmail.com"))
+        default_email = os.getenv("EMPLOYEE_EMAIL", "").strip()
         default_name = "Sara AI Agent"
 
         if not property_id:
@@ -179,7 +262,7 @@ class VapiToolHandler:
                     first_agent = agents[0]
                     agent_name = first_agent.get("name") or first_agent.get("agent_name") or default_name
                     logger.info("Postgres agent lookup success for %s: %s", property_id, agent_name)
-                    return agent_name, default_email
+                    return agent_name, first_agent.get("email") or default_email
             except Exception as e:
                 logger.warning("Postgres agent lookup failed for %s: %s", property_id, e)
 
@@ -207,7 +290,7 @@ class VapiToolHandler:
         with open(agent_file, mode="r", encoding="utf-8") as f:
             for row in csv.DictReader(f):
                 if str(row.get("agent_id", "")).strip().lower() == agent_id.lower():
-                    return row.get("name", default_name), default_email
+                    return row.get("name", default_name), row.get("email") or default_email
 
         return default_name, default_email
 
@@ -215,6 +298,9 @@ class VapiToolHandler:
     async def _book_appointment(self, args: dict, session: Any) -> str:
         pid = args.get("property_id", "")
         emp_name, emp_email = self._get_assigned_agent(pid)
+        if not emp_email:
+            logger.error("Appointment booking skipped because no employee email is configured.")
+            return "Appointment book nahi ho saki kyun ke assigned agent ka email configured nahi hai."
 
         payload = {
             "client_name": args.get("client_name", ""),
