@@ -1,0 +1,42 @@
+### **Header & Laboratory Information**
+* **Logo Text:** CHUGHTAI LAB / ONE NATION - ONE LAB
+* **Patient Details:** SUMERA AMBREEN 35 Yr(s) / Female
+* **Mobile:** -, 03216862034
+* **Registration Location:** Lahore: Baghrian Chowk College Road
+* **Registration Date:** 26-Aug-2019 21:00
+* **Reference:** Standard
+* **Consultant:** -
+* **Patient Number:** 44001-19104922302
+* **Case Number:** 44010-26-08
+
+---
+
+### **Department & Reporting Info**
+* **Department:** Department of Hematology
+* **Reporting Time:** 27 August, 2019 - 10:11 AM
+* **Test Category:** Blood C/E (Complete, CBC)
+
+---
+
+### **Test Results Table**
+
+| Test | Normal Value | Unit | Result (Case: 44010-26-08 / Date: 26-Aug-2019 21:00) |
+| :--- | :--- | :--- | :--- |
+| **Hb** | 11.5 - 16 | g/dl | 11.9 |
+| **Total RBC** | 4 - 6 | x10^12/l | **3.9** *(red text)* |
+| **HCT** | 36 - 46 | % | 36 |
+| **MCV** | 75 - 95 | fl | 93 |
+| **MCH** | 26 - 32 | pg | 31 |
+| **MCHC** | 30 - 35 | g/dl | 33 |
+| **Platelet Count** | 150 - 400 | x10^9/l | **125** *(red text)* |
+| **WBC Count (TLC)** | 4 - 11 | x10^9/l | 6.3 |
+| **Neutrophils** | 40 - 75 | % | 49 |
+| **Lymphocytes** | 20 - 50 | % | 43 |
+| **Monocytes** | 02 - 10 | % | 06 |
+| **Eosinophils** | 01 - 06 | % | 02 |
+
+---
+
+### **Notes**
+* **NOTE:** Platelet count verified on peripheral smear
+

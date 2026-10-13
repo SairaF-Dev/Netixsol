@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0164
+Patient Name : Bilal Ahmed
+Age / Gender : 61 / Male
+Test Panel   : Renal Function Profile
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Serum Creatinine       1.2        mg/dL      0.7 - 1.3
+Blood Urea             16.9       mg/dL      7 - 20
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

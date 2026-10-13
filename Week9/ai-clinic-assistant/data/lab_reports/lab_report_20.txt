@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0115
+Patient Name : Fatima Zahra
+Age / Gender : 29 / Female
+Test Panel   : Lipid Profile
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Total Cholesterol      159.8      mg/dL      125 - 200
+Triglycerides          174.4      mg/dL      50 - 150
+HDL Cholesterol        34.0       mg/dL      40 - 60
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

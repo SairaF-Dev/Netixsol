@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0012
+Patient Name : Tariq Mahmood
+Age / Gender : 45 / Male
+Test Panel   : Liver Function Tests (LFT)
+Report Date  : 2026-10-02
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+ALT (SGPT)             8.7        U/L        7 - 56
+AST (SGOT)             10.9       U/L        10 - 40
+Serum Bilirubin        0.3        mg/dL      0.3 - 1.2
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

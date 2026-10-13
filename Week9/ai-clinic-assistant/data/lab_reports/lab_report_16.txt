@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0115
+Patient Name : Fatima Zahra
+Age / Gender : 29 / Female
+Test Panel   : Complete Blood Count (CBC)
+Report Date  : 2026-10-05
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Hemoglobin             16.6       g/dL       13.5 - 17.5
+WBC Count              13.5       x10^3/uL   4.5 - 11.0
+Platelet Count         440.9      x10^3/uL   150 - 450
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

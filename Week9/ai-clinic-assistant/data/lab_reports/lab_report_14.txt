@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0089
+Patient Name : Muhammad Usman
+Age / Gender : 52 / Male
+Test Panel   : Renal Function Profile
+Report Date  : 2026-10-02
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Serum Creatinine       0.3        mg/dL      0.7 - 1.3
+Blood Urea             7.7        mg/dL      7 - 20
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  medcare-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medcare_clinic_app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8000
+      - CLINIC_DB_PATH=/app/data/synthetic/clinic.db
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - PRESCRIPTION_SAFETY_MODE=STRICT
+      - OBSERVABILITY_LOG_LEVEL=INFO
+    volumes:
+      - clinic-data:/app/data/synthetic
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  clinic-data:
+    driver: local
+

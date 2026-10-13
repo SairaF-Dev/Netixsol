@@ -1,0 +1,45 @@
+
+
+Here is the complete transcription of the medical laboratory test report, including patient details, report metadata, and the hematology test results presented in clean markdown tables.
+
+---
+
+### Patient & Report Details
+
+| Detail | Value |
+| :--- | :--- |
+| **Laboratory** | CHUGHTAI LAB (ONE NATION - ONE LAB) |
+| **Patient Name** | MUHAMMAD ALI 42 Yr(s) / Male |
+| **Mobile** | -, 03001234567 |
+| **Registration Location** | Lahore: Main Boulevard Gulberg |
+| **Registration Date** | 11-Oct-2026 10:00 |
+| **Reference** | Standard |
+| **Consultant** | - |
+| **Patient Number** | 44001-1910556778 |
+| **Case Number** | 44010-30-09 |
+| **Department** | Department of Hematology |
+| **Reporting Time** | 11 October, 2026 - 04:30 PM |
+| **Test Type** | Blood C/E (Complete, CBC) |
+
+---
+
+### Blood C/E (Complete, CBC) Results
+
+| Test | Normal Value | Unit | Result (Case: 44010-30-09 / 11-Oct-2026 10:00) |
+| :--- | :--- | :--- | :--- |
+| **Hb** | 11.5 - 16 | g/dl | 14.2 |
+| **Total RBC** | 4 - 6 | x10^12/l | 4.8 |
+| **HCT** | 36 - 46 | % | 42 |
+| **MCV** | 75 - 95 | fl | 88 |
+| **MCH** | 26 - 32 | pg | 29 |
+| **MCHC** | 30 - 35 | g/dl | 33 |
+| **Platelet Count** | 150 - 400 | x10^9/l | 280 |
+| **WBC Count (TLC)** | 4 - 11 | x10^9/l | 7.5 |
+| **Neutrophils** | 40 - 75 | % | 55 |
+| **Lymphocytes** | 20 - 50 | % | 38 |
+| **Monocytes** | 02 - 10 | % | 05 |
+| **Eosinophils** | 01 - 06 | % | 02 |
+
+---
+
+**NOTE:** Platelet count verified on peripheral smear

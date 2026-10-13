@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0089
+Patient Name : Muhammad Usman
+Age / Gender : 52 / Male
+Test Panel   : Lipid Profile
+Report Date  : 2026-10-04
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Total Cholesterol      205.6      mg/dL      125 - 200
+Triglycerides          120.0      mg/dL      50 - 150
+HDL Cholesterol        43.9       mg/dL      40 - 60
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

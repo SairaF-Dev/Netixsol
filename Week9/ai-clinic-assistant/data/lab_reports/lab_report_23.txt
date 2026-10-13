@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0164
+Patient Name : Bilal Ahmed
+Age / Gender : 61 / Male
+Test Panel   : Liver Function Tests (LFT)
+Report Date  : 2026-10-05
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+ALT (SGPT)             40.2       U/L        7 - 56
+AST (SGOT)             62.4       U/L        10 - 40
+Serum Bilirubin        1.1        mg/dL      0.3 - 1.2
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

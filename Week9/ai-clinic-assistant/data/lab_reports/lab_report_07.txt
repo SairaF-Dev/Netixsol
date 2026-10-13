@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0042
+Patient Name : Ayesha Khan
+Age / Gender : 34 / Female
+Test Panel   : Diabetes Panel
+Report Date  : 2026-10-02
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Fasting Blood Sugar    139.0      mg/dL      70 - 99
+HbA1c                  3.9        %          4.0 - 5.6
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

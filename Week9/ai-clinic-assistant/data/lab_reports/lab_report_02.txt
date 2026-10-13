@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0012
+Patient Name : Tariq Mahmood
+Age / Gender : 45 / Male
+Test Panel   : Diabetes Panel
+Report Date  : 2026-10-03
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Fasting Blood Sugar    72.3       mg/dL      70 - 99
+HbA1c                  3.7        %          4.0 - 5.6
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================
