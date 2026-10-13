@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0089
+Patient Name : Muhammad Usman
+Age / Gender : 52 / Male
+Test Panel   : Diabetes Panel
+Report Date  : 2026-10-06
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Fasting Blood Sugar    66.9       mg/dL      70 - 99
+HbA1c                  5.0        %          4.0 - 5.6
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

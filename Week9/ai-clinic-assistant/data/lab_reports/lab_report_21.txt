@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0164
+Patient Name : Bilal Ahmed
+Age / Gender : 61 / Male
+Test Panel   : Complete Blood Count (CBC)
+Report Date  : 2026-10-04
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Hemoglobin             10.6       g/dL       13.5 - 17.5
+WBC Count              3.6        x10^3/uL   4.5 - 11.0
+Platelet Count         243.1      x10^3/uL   150 - 450
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

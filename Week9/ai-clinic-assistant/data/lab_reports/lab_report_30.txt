@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0201
+Patient Name : Sana Malik
+Age / Gender : 38 / Female
+Test Panel   : Lipid Profile
+Report Date  : 2026-10-01
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Total Cholesterol      252.7      mg/dL      125 - 200
+Triglycerides          101.3      mg/dL      50 - 150
+HDL Cholesterol        34.2       mg/dL      40 - 60
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

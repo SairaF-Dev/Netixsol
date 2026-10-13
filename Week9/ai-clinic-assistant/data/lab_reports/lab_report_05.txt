@@ -1,0 +1,17 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0012
+Patient Name : Tariq Mahmood
+Age / Gender : 45 / Male
+Test Panel   : Lipid Profile
+Report Date  : 2026-10-05
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Total Cholesterol      211.4      mg/dL      125 - 200
+Triglycerides          52.8       mg/dL      50 - 150
+HDL Cholesterol        53.2       mg/dL      40 - 60
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================

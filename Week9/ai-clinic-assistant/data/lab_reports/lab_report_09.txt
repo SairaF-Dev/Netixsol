@@ -1,0 +1,16 @@
+=========================================================
+           CITY CARE CLINICS - LAB REPORT                
+=========================================================
+Patient ID   : PAT-0042
+Patient Name : Ayesha Khan
+Age / Gender : 34 / Female
+Test Panel   : Renal Function Profile
+Report Date  : 2026-10-04
+---------------------------------------------------------
+TEST NAME              RESULT     UNIT       REFERENCE RANGE
+---------------------------------------------------------
+Serum Creatinine       1.2        mg/dL      0.7 - 1.3
+Blood Urea             8.2        mg/dL      7 - 20
+---------------------------------------------------------
+Status: Final Verified by Pathologist
+=========================================================
