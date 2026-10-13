@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import io
 import logging
+import os
 import sys
 import time
 from contextlib import asynccontextmanager
@@ -53,6 +54,8 @@ from src.api.schemas import (
 )
 from src.features.lead_features import add_lead_features
 from src.models.predict_lead_scoring import LeadScorer
+from src.models.explain_valuation import explain_valuation
+from src.models.prediction_logger import prediction_audit_logger
 from src.models.predict_valuation import PropertyValuator
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -78,10 +81,6 @@ async def lifespan(app: FastAPI):
     lead_scorer = LeadScorer(models_dir=MODELS_DIR)
     lead_scorer.load()
 
-    from src.agent.data_store import PropertyDataStore
-
-    PropertyDataStore.get_instance()
-
     if lead_scorer.model is not None:
         try:
             lead_tree_explainer = shap.TreeExplainer(lead_scorer.model)
@@ -104,8 +103,15 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=[
+        origin.strip()
+        for origin in os.getenv(
+            "CORS_ALLOWED_ORIGINS",
+            "http://localhost:3000,http://127.0.0.1:3000",
+        ).split(",")
+        if origin.strip()
+    ],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -151,10 +157,33 @@ async def predict_price(request: PricePredictionRequest) -> PricePredictionRespo
     try:
         input_data = request.model_dump()
         result = valuator.predict(input_data, purpose=request.purpose)
+        model_prefix = "sale" if request.purpose == "For Sale" else "rent"
+        model_artifact = (
+            f"{model_prefix}_model_huber"
+            if result["model_version"] == "huber_v1.0"
+            else f"{model_prefix}_model_tuned"
+        )
+        prediction_audit_logger.log_valuation(
+            inputs=input_data,
+            output=result,
+            validation_status="passed",
+            purpose=request.purpose,
+            source="api",
+            model_name=model_artifact,
+            model_version=result["model_version"],
+        )
         return PricePredictionResponse(**result)
     except Exception as e:
         logger.error("Error during price prediction: %s", e, exc_info=True)
         if "OUT_OF_DISTRIBUTION" in str(e):
+            prediction_audit_logger.log_valuation(
+                inputs=request.model_dump(),
+                output=None,
+                validation_status="rejected",
+                rejection_reason="OUT_OF_DISTRIBUTION",
+                purpose=request.purpose,
+                source="api",
+            )
             return JSONResponse(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 content={
@@ -207,27 +236,28 @@ async def predict_lead_score(request: LeadScoringRequest) -> LeadScoringResponse
     tags=["Explainability"],
 )
 async def explain_price(request: PricePredictionRequest) -> PriceExplanationResponse:
-    t0 = time.time()
     if valuator is None or not valuator._is_loaded:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Property valuation service is not loaded.",
         )
-    input_data = request.model_dump()
-    val_res = valuator.predict(input_data, purpose=request.purpose)
-    latency_ms = (time.time() - t0) * 1000.0
-
-    return PriceExplanationResponse(
-        status="contract_active_explainer_pending_task2",
-        message="Property valuation TreeSHAP explainer module is scheduled for Day 4 Task 2. Model prediction contract is operational.",
-        predicted_fair_price_pkr=val_res.get("predicted_fair_price_pkr"),
-        top_features=[],
-        urdulish_summary=(
-            f"Model ke mutabiq {request.city} mein {request.area_marla} marla {request.property_type} ki fair price "
-            f"{val_res.get('predicted_fair_price_pkr'):,.0f} PKR hai. Tafseeli feature breakdown aglay marhalay mein dastiyab hoga."
-        ),
-        inference_latency_ms=round(latency_ms, 2),
-    )
+    try:
+        return PriceExplanationResponse(**explain_valuation(
+            valuator,
+            request.model_dump(),
+            purpose=request.purpose,
+        ))
+    except ValueError as exc:
+        if "OUT_OF_DISTRIBUTION" in str(exc):
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        logger.exception("Invalid property valuation explanation request")
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.exception("Error computing valuation explanation")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Valuation explanation error: {exc}",
+        ) from exc
 
 
 # ==============================================================================
@@ -363,12 +393,29 @@ async def predict_batch(file: UploadFile = File(...)) -> BatchPredictionResponse
             if batch_type == "valuation":
                 validated = PricePredictionRequest(**row_dict)
                 pred = valuator.predict(validated.model_dump(), purpose=validated.purpose)
+                prediction_audit_logger.log_valuation(
+                    inputs=validated.model_dump(),
+                    output=pred,
+                    validation_status="passed",
+                    purpose=validated.purpose,
+                    source="batch",
+                    model_version=pred["model_version"],
+                )
                 results.append({"row_index": int(idx), "status": "success", "prediction": pred})
             else:
                 validated = LeadScoringRequest(**row_dict)
                 pred = lead_scorer.score_lead(validated.model_dump())
                 results.append({"row_index": int(idx), "status": "success", "prediction": pred})
         except Exception as e:
+            if batch_type == "valuation":
+                prediction_audit_logger.log_valuation(
+                    inputs=row_dict,
+                    output=None,
+                    validation_status="rejected",
+                    rejection_reason="OUT_OF_DISTRIBUTION" if "OUT_OF_DISTRIBUTION" in str(e) else type(e).__name__,
+                    purpose=str(row_dict.get("purpose", "For Sale")),
+                    source="batch",
+                )
             errors.append({"row_index": int(idx), "error": str(e)})
 
     total_latency_ms = (time.time() - t0) * 1000.0
@@ -598,7 +645,7 @@ async def get_market_insights() -> Dict[str, Any]:
 # ==============================================================================
 @app.get(
     "/properties",
-    summary="Search Week 8 property listings from the configured catalog",
+    summary="Search genuine verified properties from clean Week 8 dataset",
     tags=["Properties"],
 )
 async def get_properties(
@@ -693,4 +740,3 @@ async def get_single_lead(lead_id: str) -> Dict[str, Any]:
             detail=f"Lead '{lead_id}' not found in verified dataset.",
         )
     return lead
-

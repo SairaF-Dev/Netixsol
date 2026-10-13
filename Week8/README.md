@@ -3,46 +3,6 @@
 **Client:** Real Estate Agency (UrduLish Voice Agent Integration)  
 **Objective:** A production-ready Machine Learning platform that predicts fair market prices for real estate properties across **BOTH Capital Sale and Rental Yield** valuations (Dual Regression Models), and scores inbound sales leads by conversion probability (Classification), with explainable AI and UrduLish voice/chat integration.
 
-## Railway + Neon Runtime Integration
-
-The Week 7 website uses Neon PostgreSQL for its operational data. The Week 8
-property catalog is already migrated there as `W8-*` rows in `properties`,
-with matching rows in `prices` and `locations`; do not import the same catalog a
-second time. The Week 8 FastAPI service reads those tables when `DATABASE_URL`
-is set, and uses the local processed CSV only for development when it is not.
-The Week 8 records were marked available at the operator's request so the
-website's listing queries can return them, including records whose imported
-price verification status is not `Verified`. This Kaggle-sourced catalog is not
-a live inventory feed; confirm listing freshness and actual availability with
-the agency before presenting an item as currently on sale or confirming a visit.
-
-Deploy the Week 8 API as a separate Railway service with this repository's
-`Week8` directory as its root. Use:
-
-```text
-Railway builder: Dockerfile (Week8/Dockerfile)
-```
-
-The container installs `requirements-api.txt`, includes `src/` and `models/`,
-excludes local datasets and notebooks, and binds Uvicorn to Railway's `PORT`.
-
-Set `DATABASE_URL` on the **Week 8 API service** to the Neon connection string
-(use the pooled connection string for serverless deployment). Keep it private;
-do not set it on the browser-facing frontend. Configure the frontend Railway
-service with:
-
-```text
-NEXT_PUBLIC_WEEK8_API_URL=https://week8api-production.up.railway.app
-NEXT_PUBLIC_SARA_API_URL=https://web-api-production-07a8.up.railway.app
-```
-
-These `NEXT_PUBLIC_*` values are embedded during the frontend build, so redeploy
-the frontend after changing them. Ensure the Week 8 API service includes the
-model artifacts in `models/`; property CSVs are not required when Neon is
-configured. The synthetic lead train/validation/test CSVs are for model
-development, not live customer records; real customer leads remain in the
-website API/CRM flow.
-
 ---
 
 ## 1. Valuation Engine Architecture (Sale & Rent)
@@ -209,4 +169,19 @@ pytest tests/test_day1_pipeline.py -v
 ## 6. Current Completion Status
 
 - **Day 1 (Data Understanding, Cleaning, EDA, Feature Engineering & Preprocessing):** **100% COMPLETE & VERIFIED**
-- **Day 2 through Day 5:** Pending
+- **Day 2 (Dual Sale/Rent Valuation):** Implemented and tested; after removing simulated listing features, locked-test MAPE is 17.17% for Sale and 16.96% for Rent. Both remain above the PDF target of <15%.
+- **Day 3 (Lead Scoring, Personas & Lead SHAP):** Implemented and tested; test PR-AUC is 0.6055 and Precision@Top-20% is 58.0%. Training leads are synthetic.
+- **Day 4 (API, Assistant, Week 7 Integration & Explainability):** Implemented and tested; price and lead explanations return TreeSHAP attributions. Valuation reports include global summary plots and local waterfalls; price contributions are explicitly described on log-price scale. Week 7 labels generated Week 8 leads as simulated.
+- **Day 5 (Monitoring, Retraining & Deployment):** Monitoring, validation-gated promotion, rollback, Docker configuration and handover documentation are implemented. The Docker image has not been built in this environment because no container engine is installed. Operations must provide refreshed, labeled data before scheduled retraining.
+
+Run the focused suites from the Week 8 project root:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests\test_day1_pipeline.py tests\test_day2_valuation.py tests\test_day3_lead_scoring.py tests\test_day4_agent.py tests\test_day4_api.py tests\test_day5_guardrails.py tests\test_day5_mlops.py -q
+```
+
+Day 5 operations and deployment instructions are in [`docs/day5/operations.md`](docs/day5/operations.md), with a dedicated [Railway Free guide](docs/day5/railway_free_deployment.md); model limitations and metrics are in [`docs/day5/model_cards.md`](docs/day5/model_cards.md). The system diagram and sales-agent guide are in [`docs/day5/architecture.md`](docs/day5/architecture.md) and [`docs/day5/sales_agent_guide.md`](docs/day5/sales_agent_guide.md). Validation-only valuation tuning results are recorded in [`reports/day5/valuation_accuracy_experiments.md`](reports/day5/valuation_accuracy_experiments.md).
+
+The serving Docker image installs only inference dependencies from `requirements-api.txt`; the full `requirements.txt` remains available for development, testing, and model training.
+
+

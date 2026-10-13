@@ -1,0 +1,61 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Pytest cache
+.pytest_cache/
+
+# IDE and Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files & office locks
+~$*.docx
+*.tmp
+
+# Local data and generated training artifacts are not part of the public source.
+data/raw/
+data/interim/
+data/processed/
+models/candidates/
+models/rollback/
+catboost_info/
+mlruns/
+Week8_Capstone_*.pdf
+
+# Local credentials.
+.env
+.env.*
+!.env.example
