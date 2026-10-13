@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
@@ -31,6 +30,8 @@ def public_property(row: dict[str, Any]) -> dict[str, Any]:
     result["amenities"] = list(result["amenities"] or [])
     result["available"] = bool(result["available"])
     result["currency"] = result["currency"] or "PKR"
+    if result["status"] in {"Historical", "Archived"}:
+        result["status"] = None
     return result
 
 
@@ -168,17 +169,8 @@ class AppointmentGateway:
     async def request(self, method: str, path: str, payload: dict[str, Any] | None = None) -> tuple[int, dict[str, Any]]:
         if not self.api_key:
             return 503, {"detail": "Appointment service is not configured"}
-        try:
-            async with httpx.AsyncClient(timeout=30) as client:
-                response = await client.request(method, f"{self.base_url}{path}", json=payload, headers={"Authorization": f"Bearer {self.api_key}"})
-        except httpx.RequestError as exc:
-            logging.getLogger(__name__).warning(
-                "Appointment service request failed: %s %s (%s)",
-                method,
-                path,
-                type(exc).__name__,
-            )
-            return 503, {"detail": "Appointment scheduling service is temporarily unavailable"}
+        async with httpx.AsyncClient(timeout=30) as client:
+            response = await client.request(method, f"{self.base_url}{path}", json=payload, headers={"Authorization": f"Bearer {self.api_key}"})
         try:
             body = response.json()
         except ValueError:

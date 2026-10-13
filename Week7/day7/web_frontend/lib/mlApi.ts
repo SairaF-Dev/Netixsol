@@ -15,8 +15,7 @@
  */
 
 const ML_API_URL = (
-  process.env.NEXT_PUBLIC_WEEK8_API_URL ||
-  (process.env.NODE_ENV !== "production" ? "http://localhost:8000" : "")
+  process.env.NEXT_PUBLIC_WEEK8_API_URL || "http://localhost:8000"
 ).replace(/\/$/, "");
 
 export class MlApiError extends Error {
@@ -81,7 +80,7 @@ export interface LeadScoringRequest {
 export interface LeadScoringResponse {
   conversion_probability: number;
   lead_score_pct: number;
-  training_label_provenance: "synthetic" | string;
+  training_label_provenance: string;
   crm_validated: boolean;
   tier: "Hot" | "Warm" | "Cold" | string;
   priority_rank: number;
@@ -255,13 +254,6 @@ async function fetchWithFallback(url: string, init?: RequestInit): Promise<Respo
 }
 
 async function mlRequest<T>(path: string, options?: RequestInit): Promise<T> {
-  if (!ML_API_URL) {
-    throw new MlApiError(
-      "Week 8 ML API is not configured. Set NEXT_PUBLIC_WEEK8_API_URL to the deployed FastAPI service URL.",
-      0
-    );
-  }
-
   const url = `${ML_API_URL}${path}`;
   try {
     const res = await fetchWithFallback(url, {
@@ -289,7 +281,7 @@ async function mlRequest<T>(path: string, options?: RequestInit): Promise<T> {
       throw err;
     }
     throw new MlApiError(
-      `Could not connect to Week 8 ML Serving Service at ${ML_API_URL}. Verify the Railway service is running and allows requests from this website.`,
+      `Could not connect to Week 8 ML Serving Service at ${ML_API_URL}. Please ensure the FastAPI backend is running.`,
       0,
       err
     );

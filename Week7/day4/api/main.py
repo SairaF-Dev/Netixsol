@@ -14,7 +14,11 @@ from day4_workflows.appointment_service import AppointmentWorkflowService, Inval
 from day4_workflows.calendar_service import CalendarEventNotFound, GoogleCalendarGateway, InMemoryCalendarGateway, SlotUnavailable
 from day4_workflows.config import Settings
 from day4_workflows.crm_logging import AppointmentNotFound, InMemoryCRMRepository, PostgresCRMRepository
-from day4_workflows.email_service import InMemoryEmailGateway, SMTPEmailGateway
+from day4_workflows.email_service import (
+    GoogleAppsScriptEmailGateway,
+    InMemoryEmailGateway,
+    SMTPEmailGateway,
+)
 from day4_workflows.models import AppointmentRequest, WorkflowResult
 from day4_workflows.n8n_orchestrator import N8NPublisher
 
@@ -41,15 +45,40 @@ class RescheduleRequest(BaseModel):
         return value
 
 def build_service(settings: Settings) -> AppointmentWorkflowService:
+    settings.validate_for_production(base_dir=DAY4_ROOT)
     credential_file = settings.google_service_account_file or ""
     if credential_file and not Path(credential_file).is_absolute():
         credential_file = str(DAY4_ROOT / credential_file)
-    calendar = GoogleCalendarGateway(credential_file) if settings.calendar_backend == "google" else InMemoryCalendarGateway()
+    calendar = (
+        GoogleCalendarGateway(
+            credential_file or None,
+            service_account_json=settings.google_service_account_json,
+        )
+        if settings.calendar_backend == "google"
+        else InMemoryCalendarGateway()
+    )
     if settings.database_url.startswith(("postgres://", "postgresql://")):
         crm = PostgresCRMRepository(settings.database_url)
     else:
         crm = InMemoryCRMRepository()
-    email = SMTPEmailGateway(settings.smtp_host, settings.smtp_port, settings.smtp_sender, settings.smtp_username, settings.smtp_password, settings.smtp_use_tls) if settings.smtp_host else InMemoryEmailGateway()
+    if settings.email_backend == "google_apps_script":
+        email = GoogleAppsScriptEmailGateway(
+            settings.google_apps_script_url or "",
+            settings.google_apps_script_token or "",
+        )
+    elif settings.email_backend == "smtp" and settings.smtp_host:
+        email = SMTPEmailGateway(
+            settings.smtp_host,
+            settings.smtp_port,
+            settings.smtp_sender,
+            settings.smtp_username,
+            settings.smtp_password,
+            settings.smtp_use_tls,
+        )
+    elif settings.app_env.casefold() not in {"prod", "production"}:
+        email = InMemoryEmailGateway()
+    else:
+        raise ValueError(f"Unsupported production email backend: {settings.email_backend}")
     publisher = N8NPublisher(settings.n8n_webhook_url, settings.n8n_api_key, settings.workflow_timeout_seconds, settings.workflow_max_attempts)
     return AppointmentWorkflowService(calendar, email, crm, publisher)
 
@@ -94,3 +123,4 @@ def create_app(service: AppointmentWorkflowService | None = None) -> FastAPI:
     return app
 
 app = create_app()
+# Reload trigger: 2026-10-03T21:22:00

@@ -211,7 +211,7 @@ export default function LeadScoringPage() {
           rawLeads = w8.leads;
         }
       } catch {
-        // Fallback to Sara agent leads
+        // Try the authenticated Sara CRM endpoint next.
       }
 
       if (rawLeads.length === 0) {
@@ -221,7 +221,7 @@ export default function LeadScoringPage() {
             rawLeads = agentLeads;
           }
         } catch {
-          // Fallback to preset customers
+          // Use clearly-labelled sample records when neither API is available.
         }
       }
 
@@ -229,30 +229,15 @@ export default function LeadScoringPage() {
         rawLeads = [...FALLBACK_REAL_CUSTOMERS];
       }
 
-      // Ensure active customer or Saira Siddiq is prioritized at the top of the sales pipeline
-      const targetClientName = customer?.full_name || "Saira Siddiq";
-      const existingIdx = rawLeads.findIndex(
-        (l) => l.name.toLowerCase() === targetClientName.toLowerCase()
-      );
-
-      if (existingIdx >= 0) {
-        const [targetLead] = rawLeads.splice(existingIdx, 1);
-        rawLeads.unshift(targetLead);
-      } else {
-        rawLeads.unshift({
-          id: `cust-${customer?.customer_id || "crm-saira"}`,
-          name: targetClientName,
-          phone: customer?.phone || "+92 317 1730390",
-          city: "Lahore",
-          location: "DHA Defence Phase 5",
-          budget_pkr: 30000000,
-          lead_source: "Call",
-          calls: 3,
-          duration_min: 15,
-          visit_booked: 1,
-          property_type: "House",
-          purpose: "Buy",
-        });
+      const targetClientName = customer?.full_name;
+      if (targetClientName) {
+        const existingIdx = rawLeads.findIndex(
+          (l) => l.name.toLowerCase() === targetClientName.toLowerCase()
+        );
+        if (existingIdx > 0) {
+          const [targetLead] = rawLeads.splice(existingIdx, 1);
+          rawLeads.unshift(targetLead);
+        }
       }
 
       if (mounted) {
@@ -270,37 +255,16 @@ export default function LeadScoringPage() {
   }, []);
 
   useEffect(() => {
-    const customerName = customer?.full_name?.trim();
+    const customerName = customer?.full_name;
     if (!customerName) return;
-    const customerId = customer?.customer_id;
-    const customerPhone = customer?.phone;
     setLeads((prev) => {
       const idx = prev.findIndex(
         (l) => l.name.toLowerCase() === customerName.toLowerCase()
       );
-      if (idx === 0) return prev;
-      if (idx > 0) {
-        const copy = [...prev];
-        const [target] = copy.splice(idx, 1);
-        return [target, ...copy];
-      }
-      return [
-        {
-          id: `cust-${customerId || "active"}`,
-          name: customerName,
-          phone: customerPhone || "+92 317 1730390",
-          city: "Lahore",
-          location: "DHA Defence Phase 5",
-          budget_pkr: 30000000,
-          lead_source: "Call",
-          calls: 3,
-          duration_min: 15,
-          visit_booked: 1,
-          property_type: "House",
-          purpose: "Buy",
-        },
-        ...prev,
-      ];
+      if (idx <= 0) return prev;
+      const copy = [...prev];
+      const [target] = copy.splice(idx, 1);
+      return [target, ...copy];
     });
   }, [customer]);
 
@@ -555,13 +519,13 @@ export default function LeadScoringPage() {
       <div className="page-title row" style={{ marginBottom: "26px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "20px", flexWrap: "wrap" }}>
         <div>
           <span className="eyebrow" style={{ color: "#c28b4b", fontWeight: 700, letterSpacing: "0.14em" }}>
-            AI-POWERED CRM & LEAD SCORING
+            LEAD FOLLOW-UP
           </span>
           <h1 style={{ margin: "10px 0 12px", fontFamily: "Playfair Display" }}>
             Client Pipeline & Lead Prioritization
           </h1>
           <p style={{ maxWidth: "680px", color: "var(--muted)", lineHeight: 1.6, fontSize: "0.95rem" }}>
-            Intelligent lead qualification, buyer personas, and actionable follow-up recommendations to maximize deal conversion across your sales pipeline.
+            Review enquiry details, suggested priorities, and helpful follow-up factors.
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "10px" }}>
@@ -580,7 +544,7 @@ export default function LeadScoringPage() {
             }}
           >
             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#2e7d32", display: "inline-block" }}></span>
-            Real-Time Conversion Engine Active
+            Lead Pipeline
           </div>
         </div>
       </div>
@@ -614,7 +578,7 @@ export default function LeadScoringPage() {
             {totalLeads} Clients
           </h3>
           <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-            Verified active buyers in agency CRM.
+            Enquiries available for review.
           </p>
         </div>
 
@@ -644,7 +608,7 @@ export default function LeadScoringPage() {
             PKR {(totalBudget / 100_000_000).toFixed(1)} Cr
           </h3>
           <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-            Total active purchasing capacity.
+            Sum of stated budgets on displayed records; not confirmed purchasing capacity.
           </p>
         </div>
 
@@ -660,7 +624,7 @@ export default function LeadScoringPage() {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ color: "#c28b4b", fontSize: "0.72rem", letterSpacing: "0.1em", fontWeight: 700 }}>
-              FIELD SITE VISITS
+              VISIT SIGNALS
             </span>
             <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "#e8f0fe", display: "grid", placeItems: "center", color: "#1e429f" }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -676,7 +640,7 @@ export default function LeadScoringPage() {
             {totalVisits} Booked
           </h3>
           <p style={{ color: "var(--muted)", fontSize: "0.82rem", margin: 0 }}>
-            Confirmed property inspection tours.
+            Visits marked as booked on these enquiries.
           </p>
         </div>
 
@@ -865,7 +829,7 @@ export default function LeadScoringPage() {
             {formError && <div className="notice error">{formError}</div>}
 
             <button type="submit" className="primary" disabled={formLoading} style={{ marginTop: "10px" }}>
-              {formLoading ? "Analyzing Conversion Probability…" : "Qualify Lead & Predict Conversion"}
+              {formLoading ? "Preparing suggestion…" : "Suggest Lead Priority"}
             </button>
           </form>
 
@@ -887,7 +851,7 @@ export default function LeadScoringPage() {
                     {getTierColor(activeScore.tier).badge}
                   </span>
                   <h2 style={{ fontFamily: "Playfair Display", margin: "4px 0", color: getTierColor(activeScore.tier).text, fontSize: "1.85rem" }}>
-                    {activeScore.lead_score_pct.toFixed(1)}% Conversion Probability
+                    {activeScore.lead_score_pct.toFixed(0)}/100 Priority Score
                   </h2>
                 </div>
                 <span
@@ -907,10 +871,10 @@ export default function LeadScoringPage() {
 
               <div style={{ background: "white", padding: "16px", borderRadius: "10px", margin: "14px 0", border: "1px solid #e5ede8" }}>
                 <p style={{ margin: "0 0 8px", fontSize: "0.86rem" }}>
-                  <strong>Buyer Persona:</strong> {activeScore.customer_persona}
+                  <strong>Buyer Profile:</strong> {activeScore.customer_persona}
                 </p>
                 <p style={{ margin: "0 0 8px", fontSize: "0.86rem", color: "var(--forest)" }}>
-                  <strong>Action Strategy:</strong> {activeScore.recommended_sla_action}
+                  <strong>Suggested Follow-Up:</strong> {activeScore.recommended_sla_action}
                 </p>
                 <p style={{ margin: "0", fontSize: "0.84rem", fontStyle: "italic", color: "var(--muted)", lineHeight: 1.5 }}>
                   &ldquo;{activeScore.urdulish_explanation}&rdquo;
@@ -925,22 +889,22 @@ export default function LeadScoringPage() {
                 disabled={explainLoading}
                 style={{ width: "100%", background: "white", fontSize: "0.82rem", fontWeight: 600 }}
               >
-                {explainLoading ? "Analyzing Key Decision Drivers…" : "View Deal Conversion Drivers"}
+                {explainLoading ? "Reviewing key factors…" : "View Key Factors"}
               </button>
 
               {explanation && (
                 <div style={{ marginTop: "14px", background: "white", padding: "16px", borderRadius: "10px", border: "1px solid #e5ede8" }}>
-                  <h4 style={{ margin: "0 0 12px", fontSize: "0.9rem", color: "var(--ink)" }}>Key Deal Drivers & Factor Impact</h4>
+                  <h4 style={{ margin: "0 0 12px", fontSize: "0.9rem", color: "var(--ink)" }}>Key Factors</h4>
 
                   <div style={{ marginBottom: "12px" }}>
                     <small style={{ fontWeight: 700, color: "#2e7d32", textTransform: "uppercase", fontSize: "0.72rem", letterSpacing: "0.06em" }}>
-                      ▲ Positive Conversion Drivers:
+                      ▲ Factors Raising the Priority:
                     </small>
                     <ul style={{ margin: "8px 0 0", paddingLeft: "18px", fontSize: "0.82rem", display: "grid", gap: "4px" }}>
                       {explanation.top_positive_features.map((f, i) => (
                         <li key={i} style={{ color: "#2e7d32" }}>
                           <span style={{ color: "var(--ink)", fontWeight: 500 }}>{formatFeatureName(f.feature)}</span>:{" "}
-                          <strong>+{(f.shap_value * 100).toFixed(1)}% Impact</strong>
+                          <strong>Raises priority</strong>
                         </li>
                       ))}
                     </ul>
@@ -948,13 +912,13 @@ export default function LeadScoringPage() {
 
                   <div>
                     <small style={{ fontWeight: 700, color: "#c62828", textTransform: "uppercase", fontSize: "0.72rem", letterSpacing: "0.06em" }}>
-                      ▼ Areas Requiring Follow-Up:
+                      ▼ Factors Lowering the Priority:
                     </small>
                     <ul style={{ margin: "8px 0 0", paddingLeft: "18px", fontSize: "0.82rem", display: "grid", gap: "4px" }}>
                       {explanation.top_negative_features.map((f, i) => (
                         <li key={i} style={{ color: "#c62828" }}>
                           <span style={{ color: "var(--ink)", fontWeight: 500 }}>{formatFeatureName(f.feature)}</span>:{" "}
-                          <strong>{(f.shap_value * 100).toFixed(1)}% Impact</strong>
+                          <strong>Lowers priority</strong>
                         </li>
                       ))}
                     </ul>
@@ -982,8 +946,8 @@ export default function LeadScoringPage() {
                 💡
               </div>
               <div style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5 }}>
-                <strong style={{ color: "var(--ink)", display: "block" }}>Interactive Client Qualification</strong>
-                Select any client from the pipeline to inspect conversion drivers, or submit new parameters above to predict conversion probability.
+                <strong style={{ color: "var(--ink)", display: "block" }}>Review Lead Priority</strong>
+                Select an enquiry to review its priority factors, or enter details above to get a suggestion.
               </div>
             </div>
           )}
@@ -1004,9 +968,9 @@ export default function LeadScoringPage() {
               <span
                 style={{
                   fontSize: "0.72rem",
-                  background: "#e6f4ea",
-                  color: "#137333",
-                  border: "1px solid #ceead6",
+                  background: "#eef5f2",
+                  color: "#17332d",
+                  border: "1px solid #d4ded8",
                   padding: "4px 10px",
                   borderRadius: "20px",
                   fontWeight: 600,
@@ -1015,7 +979,8 @@ export default function LeadScoringPage() {
                   gap: "6px",
                 }}
               >
-                <span style={{ fontSize: "0.55rem" }}>●</span> Live CRM Connected
+                <span style={{ fontSize: "0.55rem" }}>●</span>{" "}
+                Lead Pipeline
               </span>
               <button
                 type="button"
@@ -1040,6 +1005,10 @@ export default function LeadScoringPage() {
               </button>
             </div>
           </div>
+
+          <p style={{ margin: "0 0 12px", color: "#795548", fontSize: "0.76rem", lineHeight: 1.5 }}>
+            Priority suggestions are a guide. Review each enquiry before deciding how to follow up.
+          </p>
 
           {/* Real-Time Search Bar */}
           <div style={{ position: "relative", marginBottom: "12px" }}>
@@ -1368,7 +1337,7 @@ export default function LeadScoringPage() {
                             gap: "4px",
                           }}
                         >
-                          <span>🎯</span> SLA: {item.score_result.recommended_sla_action}
+                          <span>🎯</span> Follow-Up: {item.score_result.recommended_sla_action}
                         </span>
                       </div>
                     )}

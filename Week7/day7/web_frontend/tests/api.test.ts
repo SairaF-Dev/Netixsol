@@ -28,6 +28,12 @@ describe("shared API client", () => {
     expect(fetchMock.mock.calls[0][1]).toMatchObject({ credentials: "include" });
   });
 
+  it("loads a property by ID from the public property API", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(() => ok({ property_id: "W8-1" }));
+    await api.getProperty("W8-1");
+    expect(fetchMock.mock.calls[0][0]).toContain("/api/properties/W8-1");
+  });
+
   it("searches properties using CSRF flow on 403 challenge", async () => {
     const fetchMock = vi.spyOn(globalThis, "fetch")
       .mockImplementationOnce(() => ok({ detail: "CSRF validation failed" }, 403))

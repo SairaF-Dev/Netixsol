@@ -104,7 +104,7 @@ class PreferencesUpdate(APIModel):
     budget_min: int | None = Field(default=None, gt=0)
     budget_max: int | None = Field(default=None, gt=0)
     bedrooms: int | None = Field(default=None, ge=0, le=30)
-    property_type: Literal["Apartment", "House", "Villa", "Plot", "Commercial"] | None = None
+    property_type: Literal["Apartment", "Farm House", "House", "Lower Portion", "Penthouse", "Room", "Upper Portion"] | None = None
     purpose: Literal["purchase", "rental", "investment", "commercial"] | None = None
     amenities: list[str] | None = Field(default=None, max_length=50)
 
@@ -133,7 +133,7 @@ class PropertySearchRequest(APIModel):
     area: str | None = Field(default=None, max_length=150)
     budget_max: int | None = Field(default=None, ge=0)
     bedrooms: int | None = Field(default=None, ge=0, le=30)
-    property_type: Literal["Apartment", "House", "Villa", "Plot", "Commercial"] | None = None
+    property_type: Literal["Apartment", "Farm House", "House", "Lower Portion", "Penthouse", "Room", "Upper Portion"] | None = None
     purpose: Literal["purchase", "rental", "investment", "commercial"] | None = None
     amenities: list[str] | None = Field(default=None, max_length=50)
     limit: int = Field(default=20, ge=1, le=100)
@@ -154,10 +154,7 @@ class PropertyResponse(APIModel):
     amenities: list[str] = Field(default_factory=list)
     available: bool
     status: str | None = None
-
-
-class PropertySearchResponse(PropertyResponse):
-    total_count: int = Field(ge=0)
+    total_count: int | None = None
 
 
 class RecommendationRequest(APIModel):

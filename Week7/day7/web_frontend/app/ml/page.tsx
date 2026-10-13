@@ -157,13 +157,13 @@ export default function PriceValuationPage() {
       <div className="page-title row" style={{ marginBottom: "26px" }}>
         <div>
           <span className="eyebrow" style={{ color: "#c28b4b", fontWeight: 700, letterSpacing: "0.14em" }}>
-            SMART PROPERTY VALUATION & APPRAISAL
+            PROPERTY PRICE GUIDANCE
           </span>
           <h1 style={{ margin: "10px 0 12px", fontFamily: "Playfair Display" }}>
-            Property Price Valuation Engine
+            Property Price Estimate
           </h1>
           <p style={{ maxWidth: "620px", color: "var(--muted)", lineHeight: 1.6, fontSize: "0.95rem" }}>
-            Instant fair-market valuation, realistic price ranges, and deal verifications backed by verified historical transaction intelligence across major Pakistani metropolitan hubs.
+            Get an indicative price range to guide your research. This is not a formal appraisal.
           </p>
         </div>
         <div
@@ -180,7 +180,7 @@ export default function PriceValuationPage() {
             gap: "6px",
           }}
         >
-          <span style={{ fontSize: "0.6rem" }}>●</span> Verified Valuation Index (Active)
+          <span style={{ fontSize: "0.6rem" }}>●</span> Indicative estimate
         </div>
       </div>
 
@@ -200,7 +200,7 @@ export default function PriceValuationPage() {
         }}
       >
         <span style={{ fontSize: "0.74rem", fontWeight: 700, color: "#c28b4b", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-          Sample Presets:
+          Quick Options:
         </span>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
           {PRESET_PROPERTIES.map((p, idx) => (
@@ -346,7 +346,7 @@ export default function PriceValuationPage() {
             <div className="panel" style={{ textAlign: "center", padding: "50px 20px", borderRadius: "14px" }}>
               <div className="spinner" style={{ margin: "auto" }}></div>
               <p style={{ marginTop: "16px", color: "var(--muted)", fontSize: "0.92rem" }}>
-                Analyzing comparable historical transactions & market factors…
+                Preparing your price estimate…
               </p>
             </div>
           )}
@@ -355,10 +355,10 @@ export default function PriceValuationPage() {
             <div className="panel" style={{ textAlign: "center", padding: "50px 24px", borderRadius: "14px" }}>
               <span style={{ fontSize: "2.6rem" }}>🏡</span>
               <h3 style={{ fontFamily: "Playfair Display", margin: "16px 0 8px", fontSize: "1.3rem" }}>
-                Instant Market Appraisal Ready
+                Ready for a Price Estimate
               </h3>
               <p style={{ color: "var(--muted)", maxWidth: "340px", margin: "auto", fontSize: "0.88rem", lineHeight: 1.5 }}>
-                Fill in the specifications on the left or select a sample preset above to generate an authentic fair market valuation and deal verdict.
+                Enter the property details or choose a quick option to get an indicative price estimate.
               </p>
             </div>
           )}
@@ -479,7 +479,7 @@ export default function PriceValuationPage() {
                   lineHeight: 1.4,
                 }}
               >
-                💡 <strong>Market Note:</strong> Calculated using verified transaction comparables in {city}. Final negotiated prices may vary depending on property condition, finishing, and road access.
+                💡 <strong>Market note:</strong> A property’s condition, finishing, and road access can affect its price in {city}.
               </div>
 
               {/* Explainability Action */}
@@ -497,13 +497,25 @@ export default function PriceValuationPage() {
                 {explanation && (
                   <div className="notice" style={{ marginTop: "12px", fontSize: "0.82rem", background: "#f0f4f2", borderRadius: "8px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: 700, color: "var(--forest)", marginBottom: "4px" }}>
-                      <span>✓</span> Factor Attribution Active
+                      <span>✓</span> Factors behind this estimate
                     </div>
                     {explanation.urdulish_summary && (
                       <p style={{ fontStyle: "italic", margin: "6px 0 0", color: "var(--ink)", lineHeight: 1.5 }}>
                         &ldquo;{explanation.urdulish_summary}&rdquo;
                       </p>
                     )}
+                    {explanation.top_features.length > 0 && (
+                      <ul style={{ margin: "10px 0 0", paddingLeft: "18px", color: "var(--ink)" }}>
+                        {explanation.top_features.map((item) => (
+                          <li key={item.feature} style={{ margin: "4px 0" }}>
+                            {item.direction === "increases" ? "Raises" : "Lowers"} the estimate: {item.feature}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <small style={{ display: "block", marginTop: "8px", color: "var(--muted)" }}>
+                      These factors show what influenced the estimate; they are not separate price adjustments in PKR.
+                    </small>
                   </div>
                 )}
               </div>

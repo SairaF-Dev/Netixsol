@@ -104,6 +104,7 @@ export const api = {
   getPreferences: (id: string) => request<Preferences>(`/api/customers/${id}/preferences`),
   updatePreferences: (id: string, body: PreferencePatch) => request<Preferences>(`/api/customers/${id}/preferences`, { method: "PATCH", body: JSON.stringify(body) }),
   searchProperties: (body: SearchFilters) => request<Property[]>("/api/properties/search", { method: "POST", body: JSON.stringify(body) }),
+  getProperty: (propertyId: string) => request<Property>(`/api/properties/${encodeURIComponent(propertyId)}`),
   getRecommendations: (customerId: string, sessionId: string, limit = 10) => request<RecommendationResponse>(`/api/customers/${customerId}/recommendations`, { method: "POST", body: JSON.stringify({ recommendation_session_id: sessionId, limit }) }),
   recordInteraction: (customerId: string, propertyId: string, action: InteractionAction, sessionId: string) => request<{ interaction_id: string }>("/api/interactions", { method: "POST", body: JSON.stringify({ customer_id: customerId, property_id: propertyId, action, recommendation_session_id: sessionId }) }),
   bookAppointment: (body: AppointmentInput) => request<Record<string, unknown>>("/api/appointments", { method: "POST", body: JSON.stringify(body) }),

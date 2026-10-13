@@ -29,9 +29,10 @@ class TestPropertySearchPostgres:
     """Test property search using PostgreSQL."""
 
     @pytest.fixture
-    def handler(self):
+    def handler(self, monkeypatch):
         """Create a VapiToolHandler for testing."""
         # Mock the repository to avoid actual DB connection during tests
+        monkeypatch.setenv("EMPLOYEE_EMAIL", "fallback-agent@example.com")
         with patch("tool_handler.PostgresPropertyRepository"):
             handler = VapiToolHandler()
             # Create a mock repository
@@ -304,11 +305,18 @@ class TestAppointmentTools:
     def handler(self, monkeypatch):
         """Create a handler for appointment tests."""
         monkeypatch.setenv('DAY4_API_KEY', 'test-day4-key')
-        return VapiToolHandler()
+        monkeypatch.setenv("EMPLOYEE_EMAIL", "fallback-agent@example.com")
+        with patch("tool_handler.PostgresPropertyRepository"):
+            handler = VapiToolHandler()
+            handler.repository = Mock()
+            return handler
 
     @pytest.mark.asyncio
     async def test_book_appointment_still_works(self, handler):
         """Verify book_appointment tool is unaffected."""
+        handler.repository.get_agents_for_property.return_value = [
+            {"agent_name": "Assigned Agent", "email": "assigned@example.com"}
+        ]
         with patch("tool_handler.httpx.AsyncClient") as mock_client_class:
             mock_response = Mock()
             mock_response.status_code = 201
@@ -328,11 +336,19 @@ class TestAppointmentTools:
                 "client_name": "Ali",
                 "client_phone": "+923001234567",
                 "property_name": "Skyline",
+                "property_id": "prop-1",
                 "starts_at": "2025-09-05T10:00:00+05:00",
             }, session=None)
 
             assert "successfully book" in result or "confirm" in result
             mock_client.post.assert_called_once()
+            assert mock_client.post.call_args.kwargs["json"]["employee_email"] == "assigned@example.com"
+
+    def test_assigned_agent_email_is_used_for_notifications(self, handler):
+        handler.repository.get_agents_for_property.return_value = [
+            {"agent_name": "Assigned Agent", "email": "assigned@example.com"}
+        ]
+        assert handler._get_assigned_agent("prop-1") == ("Assigned Agent", "assigned@example.com")
 
     @pytest.mark.asyncio
     async def test_cancel_appointment_still_works(self, handler):

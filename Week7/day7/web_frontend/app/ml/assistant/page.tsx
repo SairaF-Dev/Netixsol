@@ -45,11 +45,11 @@ const EXAMPLE_PROMPTS: ExamplePrompt[] = [
 
 function formatToolName(raw: string): string {
   const map: Record<string, string> = {
-    price_predictor_tool: "⚡ Price Valuation Engine",
-    lead_scorer_tool: "👥 Deal Qualification Scorer",
-    explainer_tool: "💡 Decision Attribution Driver",
-    comparable_properties_tool: "🏡 Listing Database Matcher",
-    market_stats_tool: "📊 Metropolitan Market Index",
+    price_predictor_tool: "⚡ Price Estimate",
+    lead_scorer_tool: "👥 Lead Follow-Up",
+    explainer_tool: "💡 Key Factors",
+    comparable_properties_tool: "🏡 Property Listings",
+    market_stats_tool: "📊 Market Overview",
   };
   return map[raw] || raw;
 }
@@ -192,7 +192,7 @@ export default function AssistantChatPage() {
                 marginBottom: "8px",
               }}
             >
-              Verified Database Matches:
+              Property Listings:
             </span>
             <div style={{ display: "grid", gap: "8px" }}>
               {listingLines.map((l, li) => {
@@ -226,7 +226,7 @@ export default function AssistantChatPage() {
                         fontWeight: 600,
                       }}
                     >
-                      Verified
+                      Listing
                     </span>
                   </div>
                 );
@@ -272,7 +272,7 @@ export default function AssistantChatPage() {
             Sara AI • Real Estate Co-Pilot
           </h1>
           <p style={{ maxWidth: "620px", color: "var(--muted)", lineHeight: 1.6, fontSize: "0.95rem" }}>
-            Autonomous real-estate intelligence assistant. Instant property valuations, verified comparable listings, lead qualification, and metropolitan market benchmarks in English or UrduLish.
+            Get property price estimates, browse listings, review lead follow-up suggestions, and explore market information in English or UrduLish.
           </p>
         </div>
         <button
@@ -477,7 +477,7 @@ export default function AssistantChatPage() {
             {busy && (
               <div style={{ padding: "14px 18px", color: "var(--muted)", fontStyle: "italic", fontSize: "0.86rem", display: "flex", alignItems: "center", gap: "8px" }}>
                 <div className="spinner" style={{ width: "16px", height: "16px" }}></div>
-                <span>Sara is querying verified market database & orchestrating tools…</span>
+                <span>Sara is finding relevant information…</span>
               </div>
             )}
 
@@ -528,7 +528,7 @@ export default function AssistantChatPage() {
           </form>
         </div>
 
-        {/* Sidebar with Example Prompts & Live Capabilities */}
+        {/* Sidebar with example prompts and features */}
         <div style={{ display: "grid", gap: "18px" }}>
           {/* Example Prompts Card */}
           <div className="panel" style={{ padding: "22px", borderRadius: "14px" }}>
@@ -569,10 +569,10 @@ export default function AssistantChatPage() {
           <div className="panel" style={{ padding: "22px", borderRadius: "14px", background: "white", border: "1px solid #e2ded5" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
               <h4 style={{ fontFamily: "Playfair Display", margin: 0, fontSize: "1.05rem" }}>
-                AI Capabilities & Engine
+                What Sara Can Help With
               </h4>
               <span style={{ fontSize: "0.68rem", background: "#e6f4ea", color: "#137333", padding: "2px 8px", borderRadius: "12px", fontWeight: 600 }}>
-                ● 5 Tools Active
+                Available features
               </span>
             </div>
 
@@ -580,42 +580,41 @@ export default function AssistantChatPage() {
               <div style={{ display: "flex", alignItems: "start", gap: "8px" }}>
                 <span style={{ color: "#2e7d32", fontSize: "0.75rem", marginTop: "2px" }}>●</span>
                 <div>
-                  <strong>Fair Price Valuation:</strong> Automated market pricing & realistic range bounds.
+                  <strong>Price Estimates:</strong> Get an indicative range for a property.
                 </div>
               </div>
 
               <div style={{ display: "flex", alignItems: "start", gap: "8px" }}>
                 <span style={{ color: "#2e7d32", fontSize: "0.75rem", marginTop: "2px" }}>●</span>
                 <div>
-                  <strong>Deal Qualification:</strong> Buyer conversion scoring & persona identification.
+                  <strong>Lead Follow-Up:</strong> Review suggested priorities and helpful factors.
                 </div>
               </div>
 
               <div style={{ display: "flex", alignItems: "start", gap: "8px" }}>
                 <span style={{ color: "#2e7d32", fontSize: "0.75rem", marginTop: "2px" }}>●</span>
                 <div>
-                  <strong>Verified Listings:</strong> 190,000+ clean real-estate transaction records.
+                  <strong>Property Search:</strong> Browse listings by location, price, and property features.
                 </div>
               </div>
 
               <div style={{ display: "flex", alignItems: "start", gap: "8px" }}>
                 <span style={{ color: "#2e7d32", fontSize: "0.75rem", marginTop: "2px" }}>●</span>
                 <div>
-                  <strong>Factor Attribution:</strong> Explainable deal conversion & pricing drivers.
+                  <strong>Key Factors:</strong> Understand what may affect a suggestion or estimate.
                 </div>
               </div>
 
               <div style={{ display: "flex", alignItems: "start", gap: "8px" }}>
                 <span style={{ color: "#2e7d32", fontSize: "0.75rem", marginTop: "2px" }}>●</span>
                 <div>
-                  <strong>Metropolitan Statistics:</strong> Live city & society average per-marla rates.
+                  <strong>Market Overview:</strong> Explore average asking prices by city and area.
                 </div>
               </div>
             </div>
 
             <div style={{ marginTop: "14px", paddingTop: "10px", borderTop: "1px dashed var(--line)", fontSize: "0.74rem", color: "var(--muted)", display: "flex", justifyContent: "space-between" }}>
               <span>Bilingual: English & UrduLish</span>
-              <span>Latency: &lt;500ms</span>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 """Calendar ports and Google/in-memory implementations."""
 from __future__ import annotations
 import asyncio
+import json
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
@@ -20,6 +21,7 @@ class CalendarEvent:
     description: str
     attendees: tuple[str, ...] = ()
     link: str | None = None
+    location: str | None = None
 
 class CalendarGateway(Protocol):
     async def is_available(self, calendar_id: str, starts_at: datetime, ends_at: datetime, *, exclude_event_id: str | None = None) -> bool: ...
@@ -63,13 +65,36 @@ class InMemoryCalendarGateway:
 class GoogleCalendarGateway:
     """Async wrapper using service-account credentials; no browser OAuth in the API."""
     scopes = ("https://www.googleapis.com/auth/calendar",)
-    def __init__(self, service_account_file: str) -> None:
-        if not service_account_file: raise CalendarError("GOOGLE_SERVICE_ACCOUNT_FILE is required")
+    def __init__(
+        self,
+        service_account_file: str | None = None,
+        *,
+        service_account_json: str | None = None,
+    ) -> None:
+        if not service_account_file and not service_account_json:
+            raise CalendarError(
+                "GOOGLE_SERVICE_ACCOUNT_FILE or GOOGLE_SERVICE_ACCOUNT_JSON is required"
+            )
         try:
             from google.oauth2 import service_account
             from googleapiclient.discovery import build
         except ImportError as exc: raise CalendarError("Install Google Calendar dependencies") from exc
-        credentials = service_account.Credentials.from_service_account_file(service_account_file, scopes=self.scopes)
+        if service_account_json:
+            try:
+                credentials_info = json.loads(service_account_json)
+            except json.JSONDecodeError as exc:
+                raise CalendarError("GOOGLE_SERVICE_ACCOUNT_JSON must contain valid JSON") from exc
+            if not isinstance(credentials_info, dict):
+                raise CalendarError("GOOGLE_SERVICE_ACCOUNT_JSON must contain a JSON object")
+            credentials = service_account.Credentials.from_service_account_info(
+                credentials_info,
+                scopes=self.scopes,
+            )
+        else:
+            credentials = service_account.Credentials.from_service_account_file(
+                service_account_file,
+                scopes=self.scopes,
+            )
         self._service = build("calendar", "v3", credentials=credentials, cache_discovery=False)
 
     async def is_available(self, calendar_id: str, starts_at: datetime, ends_at: datetime, *, exclude_event_id: str | None = None) -> bool:

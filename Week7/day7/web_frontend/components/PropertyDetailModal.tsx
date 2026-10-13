@@ -161,7 +161,7 @@ export function PropertyDetailModal({
             </svg>
           </button>
 
-          {/* Verified Pill */}
+          {/* Listing source pill */}
           <span
             style={{
               position: "absolute",
@@ -190,7 +190,7 @@ export function PropertyDetailModal({
                 boxShadow: "0 0 6px rgba(22, 163, 74, 0.8)",
               }}
             />
-            Verified Listing
+            Property listing
           </span>
 
           {/* Property Type and Purpose Pills */}
@@ -423,9 +423,9 @@ export function PropertyDetailModal({
                   padding: "10px 12px",
                 }}
               >
-                <div style={{ fontSize: "0.7rem", color: "var(--muted)" }}>MLS Status</div>
-                <div style={{ fontSize: "0.95rem", fontWeight: 700, color: property.available ? "#16a34a" : "#b91c1c", marginTop: "2px" }}>
-                  {property.available ? "Active & Available" : "Under Contract"}
+                <div style={{ fontSize: "0.7rem", color: "var(--muted)" }}>Dataset</div>
+                <div style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--ink)", marginTop: "2px" }}>
+                  Week 8 property catalog
                 </div>
               </div>
 
@@ -445,7 +445,7 @@ export function PropertyDetailModal({
             </div>
           </div>
 
-          {/* Full Verified Amenities (Every item in database) */}
+          {/* Amenities recorded for this listing */}
           <div style={{ marginBottom: "22px" }}>
             <h4
               style={{
@@ -457,7 +457,7 @@ export function PropertyDetailModal({
                 margin: "0 0 10px 0",
               }}
             >
-              Verified Amenities ({property.amenities.length})
+              Listed Amenities ({property.amenities.length})
             </h4>
 
             {property.amenities.length > 0 ? (
@@ -502,7 +502,7 @@ export function PropertyDetailModal({
               }}
             >
               <h4 style={{ fontSize: "0.92rem", fontWeight: 700, color: "#6e4b1f", margin: "0 0 12px 0" }}>
-                📅 Request a Property Site Visit
+                📅 Schedule a Property Site Visit
               </h4>
 
               <form onSubmit={handleBookingSubmit} style={{ display: "grid", gap: "12px" }}>

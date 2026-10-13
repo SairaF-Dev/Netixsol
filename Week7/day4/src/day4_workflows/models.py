@@ -20,7 +20,7 @@ class AppointmentStatus(str, Enum):
 class AppointmentRequest(BaseModel):
     """Information that must be resolved before a visit can be booked."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="allow")
 
     session_id: UUID = Field(default_factory=uuid4)
     client_name: str = Field(min_length=2, max_length=120)
@@ -36,6 +36,23 @@ class AppointmentRequest(BaseModel):
     starts_at: datetime
     duration_minutes: int = Field(default=60, ge=15, le=240)
     meeting_notes: str = Field(default="", max_length=2000)
+    property_type: str | None = None
+    location: str | None = None
+    city: str | None = None
+    province_name: str | None = None
+    area: str | None = None
+    bedrooms: int | str | None = None
+    bathrooms: int | str | None = None
+    baths: int | str | None = None
+    purpose: str | None = None
+    price: str | None = None
+    agency: str | None = None
+    agent: str | None = None
+    agent_phone: str | None = None
+    meeting_spot: str | None = None
+    page_url: str | None = None
+    latitude: float | str | None = None
+    longitude: float | str | None = None
 
     @field_validator("client_phone")
     @classmethod
