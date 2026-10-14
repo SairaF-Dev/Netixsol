@@ -9,6 +9,14 @@ import json
 import urllib.request
 from typing import Dict, Any, List, Optional
 
+try:
+    from langsmith import traceable
+except ImportError:
+    def traceable(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+
 def load_env_file(env_path: str = ".env"):
     """Native parser for .env file to load OPENROUTER_API_KEY and environment variables."""
     possible_paths = [
@@ -28,8 +36,7 @@ def load_env_file(env_path: str = ".env"):
                         key, val = line_strip.split("=", 1)
                         key = key.strip()
                         val = val.strip().strip("'").strip('"')
-                        if key not in os.environ or not os.environ[key]:
-                            os.environ[key] = val
+                        os.environ[key] = val
 
 # Automatically load .env on import
 load_env_file()
@@ -55,6 +62,7 @@ class LLMClient:
         else:
             self.default_model = configured_model
 
+    @traceable(run_type="llm", name="OpenRouter_Completion")
     def generate_completion(
         self,
         messages: List[Dict[str, str]],

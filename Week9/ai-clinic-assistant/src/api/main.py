@@ -39,6 +39,10 @@ UPLOADS_DIR = os.path.join(BASE_DIR, "data", "uploads")
 os.makedirs(UPLOADS_DIR, exist_ok=True)
 sys.path.insert(0, BASE_DIR)
 
+from src.tools.llm_client import load_env_file
+# Ensure environment variables (including LangSmith tracing flags) are loaded
+load_env_file()
+
 from src.agents.supervisor_graph import ClinicSupervisorGraph
 from src.agents.triage_agent import TriageAgent
 from src.agents.intake_agent import IntakeAgent
@@ -66,6 +70,11 @@ def ensure_db_schema():
         cols = [c[1] for c in cursor.fetchall()]
         if "file_path" not in cols:
             cursor.execute("ALTER TABLE lab_reports ADD COLUMN file_path TEXT")
+            conn.commit()
+        cursor.execute("PRAGMA table_info(agent_traces)")
+        trace_cols = [c[1] for c in cursor.fetchall()]
+        if "langsmith_run_id" not in trace_cols:
+            cursor.execute("ALTER TABLE agent_traces ADD COLUMN langsmith_run_id TEXT")
             conn.commit()
         conn.close()
     except Exception as e:
@@ -159,14 +168,17 @@ def persist_trace_record(trace: Dict[str, Any]):
         status = trace.get("status", "COMPLETED")
         created_at = trace.get("start_time") or datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        langsmith_run_id = trace.get("langsmith_run_id")
+
         cursor.execute("""
             INSERT OR REPLACE INTO agent_traces 
-            (id, trace_id, session_id, patient_id, nodes_json, tool_calls_json, total_tokens, estimated_cost_usd, latency_ms, status, escalations_json, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (id, trace_id, session_id, patient_id, nodes_json, tool_calls_json, total_tokens, estimated_cost_usd, latency_ms, status, escalations_json, created_at, langsmith_run_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             trace_id, trace_id, session_id, patient_id,
             nodes_json, tool_calls_json, total_tokens,
-            estimated_cost_usd, latency_ms, status, escalations_json, created_at
+            estimated_cost_usd, latency_ms, status, escalations_json, created_at,
+            langsmith_run_id
         ))
         conn.commit()
         conn.close()
@@ -936,6 +948,9 @@ def assistant_chat(req: AssistantChatRequest):
     start_time = datetime.datetime.now()
     updated_state = supervisor_graph.step(state, user_message=req.message_text)
     latency_ms = (datetime.datetime.now() - start_time).total_seconds() * 1000
+
+    if updated_state.get("langsmith_run_id"):
+        tracer.set_langsmith_run_id(trace_id, updated_state["langsmith_run_id"])
 
     tracer.log_agent_step(trace_id=trace_id, agent_name="IntakeAgent", action="process_turn", output=updated_state["intake_form"], latency_ms=latency_ms)
 
@@ -2569,7 +2584,8 @@ def get_observability_traces(limit: int = 25):
     cursor = conn.cursor()
     cursor.execute("""
         SELECT id, trace_id, session_id, patient_id, nodes_json, tool_calls_json, 
-               total_tokens, estimated_cost_usd, latency_ms, status, escalations_json, created_at
+               total_tokens, estimated_cost_usd, latency_ms, status, escalations_json, created_at,
+               langsmith_run_id
         FROM agent_traces 
         ORDER BY created_at DESC 
         LIMIT ?
@@ -2578,8 +2594,15 @@ def get_observability_traces(limit: int = 25):
     conn.close()
 
     parsed_traces = []
+    project = os.getenv("LANGCHAIN_PROJECT", "medcare-clinic-assistant")
     for r in rows:
         d = dict(r)
+        run_id = d.get("langsmith_run_id")
+        if run_id:
+            d["langsmith_url"] = f"https://smith.langchain.com/o/default/projects/p/{project}/r/{run_id}"
+        else:
+            d["langsmith_url"] = None
+
         try:
             d["steps"] = json.loads(d.get("nodes_json") or "[]")
         except:
@@ -2609,6 +2632,9 @@ def get_observability_traces(limit: int = 25):
     return {
         "traces": parsed_traces,
         "total_traces": total_traces,
+        "langsmith_configured": bool(os.getenv("LANGCHAIN_API_KEY") and os.getenv("LANGCHAIN_TRACING_V2") == "true"),
+        "langsmith_project": project,
+        "langsmith_project_url": f"https://smith.langchain.com/o/default/projects/p/{project}",
         "metrics_summary": {
             "avg_latency_ms": avg_latency,
             "total_tokens": total_tokens,

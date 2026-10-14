@@ -3,11 +3,20 @@ Observability & Tracing Engine for AI Clinic Assistant
 Tracks execution steps, tool calls, latency, cost estimation, and emergency escalations.
 """
 
+import os
 import time
 import json
 import logging
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
+
+try:
+    from langsmith import traceable
+except ImportError:
+    def traceable(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
 
 # Setup logger
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +34,8 @@ class ObservabilityTracer:
             "patient_id": patient_id,
             "start_time": datetime.now(timezone.utc).isoformat(),
             "input_text": input_text,
+            "langsmith_run_id": None,
+            "langsmith_url": None,
             "steps": [],
             "tool_calls": [],
             "escalations": [],
@@ -38,6 +49,15 @@ class ObservabilityTracer:
         self.traces.append(trace_entry)
         logger.info(f"[Trace {trace_id}] Started for Session {session_id}, Patient {patient_id}")
         return trace_id
+
+    def set_langsmith_run_id(self, trace_id: str, run_id: str):
+        trace = self._get_trace(trace_id)
+        if trace:
+            trace["langsmith_run_id"] = run_id
+            project = os.getenv("LANGCHAIN_PROJECT", "medcare-clinic-assistant")
+            trace["langsmith_url"] = f"https://smith.langchain.com/o/default/projects/p/{project}/r/{run_id}"
+            logger.info(f"[Trace {trace_id}] Linked to LangSmith Run ID: {run_id}")
+
 
     def log_agent_step(self, trace_id: str, agent_name: str, action: str, output: Any, latency_ms: float, tokens_used: int = 50):
         trace = self._get_trace(trace_id)
