@@ -11,7 +11,7 @@ from typing import Dict, Any, List
 # Deterministic Red-Flag Symptoms (Triggers 100% Emergency Escalation)
 RED_FLAG_KEYWORDS = [
     # Cardiac
-    "chest pain", "seene mein dard", "seene mein", "dil mein dard", "dil mein", "chest tightness", "radiating to arm", "crushing pressure", "crushing pain", "pasina aa raha hai",
+    "heart pain", "heart attack", "chest pain", "seene mein dard", "seene mein", "dil mein dard", "dil mein", "dil ka dard", "chest tightness", "radiating to arm", "crushing pressure", "crushing pain", "pasina aa raha hai",
     # Respiratory
     "difficulty breathing", "saans mein masla", "saans phool", "unable to breathe", "shortness of breath", "gasping", "asphyxia", "saans nahi aa rahi",
     # Neurological / Stroke (FAST)
@@ -39,9 +39,9 @@ SPECIALTY_KEYWORDS = {
     "Obstetrics & Gynaecology": ["pregnancy", "period", "menstrual", "pregnant", "haaml", "pelvic", "morning sickness"],
     "Gynaecology": ["period", "menstrual", "gynaecology"],
     "ENT": ["ear", "nose", "throat", "gala", "kaan", "nasal", "sinus", "tonsil"],
-    "Dental": ["dant", "teeth", "tooth", "dental", "gum"],
+    "Dental": ["dant", "daant", "teeth", "tooth", "dental", "gum", "masoorh"],
     "Dermatology": ["skin", "rash", "itching", "acne", "spots", "kharish", "jillad"],
-    "Ophthalmology": ["ankh", "eye", "vision", "screen"],
+    "Ophthalmology": ["ankh", "aankh", "eye", "vision", "screen", "motia"],
     "Nutrition": ["diet", "nutrition", "weight loss", "nutritionist"],
     "General Medicine": ["fever", "cough", "bukhar", "khansi", "body ache", "weakness", "gastric", "stomach", "pait", "checkup", "gardan", "fatigue"]
 }
@@ -89,7 +89,7 @@ class TriageAgent:
                 "confidence": 1.0,
                 "is_red_flag_triggered": True,
                 "red_flags": red_flags_found,
-                "recommended_specialty": "Cardiology" if any(w in all_text for w in ["chest", "seene", "dil"]) else "General Medicine",
+                "recommended_specialty": "Cardiology" if any(w in all_text for w in ["chest", "seene", "dil", "heart", "cardiac", "cardio"]) else "General Medicine",
                 "escalation_required": True,
                 "escalation_message": "[EMERGENCY ALERT] High symptom severity. Please visit the nearest Emergency Room or call 1122 immediately."
             }
