@@ -695,6 +695,18 @@ Write ONLY the warm conversational Roman Urdu reply for {next_target}. Keep it c
             reply = "[EMERGENCY ALERT] High symptom severity detected. Please visit the nearest Emergency Room or call 1122 immediately."
             return reply, state, True
 
+        # =========================================================================
+        # RULE 3: AI Safety Boundary - Direct Prescription Requests Refusal
+        # =========================================================================
+        prescription_request_patterns = [
+            "prescription likh", "prescription dein", "prescription do", "nuskha likh",
+            "dawai likh", "dawa likh", "tablet likh", "prescribe", "write prescription",
+            "give prescription", "nuskha dein", "dawai bata do", "dawai tajweez"
+        ]
+        if any(pat in msg_lower for pat in prescription_request_patterns) or ("prescription" in msg_lower and any(w in msg_lower for w in ["likh", "bana", "dein", "do", "chahiye", "send"])):
+            reply = "Main aik AI assistant hoon aur direct prescription ya dawai tajweez nahi kar sakta. Barah-e-karam clinic par doctor se appointment book karein taake woh aap ka mukammal muaina kar ke munasib nuskha likh sakein."
+            return reply, state, False
+
         # Automatic Symptom Extraction & Memory
         new_symptoms = self.extract_symptoms(user_message)
         for s in new_symptoms:
