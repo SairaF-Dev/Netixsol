@@ -25,6 +25,9 @@ class SchedulingAgent:
         if not doctors:
             # Fallback to any branch in city
             doctors = self.mcp.find_doctors(city=city)
+        if not doctors and city != "Lahore":
+            # Fallback to central clinic branch in Lahore
+            doctors = self.mcp.find_doctors(specialty=specialty, city="Lahore") or self.mcp.find_doctors(city="Lahore")
 
         if not doctors:
             return {
@@ -77,8 +80,9 @@ class SchedulingAgent:
         branch_name = selected_doctor["branch_name"]
         fee = selected_doctor["fee_pkr"]
 
+        spec_tag = f" ({specialty})" if specialty.lower() not in doc_name.lower() else ""
         options_msg = (
-            f"{doc_name} ({specialty}) {tomorrow} ko {branch_name} ({city}) mein available hain. "
+            f"{doc_name}{spec_tag} {tomorrow} ko {branch_name} ({city}) mein available hain. "
             f"Available slots: {', '.join(slots[:2])}. Fee: PKR {fee:,}. "
             f"Kya main aap ki appointment confirm kar doon?"
         )
@@ -147,16 +151,17 @@ class SchedulingAgent:
         branch_name = doc_row["branch_name"] if doc_row else "Main Clinic Branch"
         branch_city = doc_row["city"] if doc_row else "Lahore"
         
+        spec_tag = f" ({doc_spec})" if doc_spec.lower() not in doc_name.lower() else ""
         # Dispatch email confirmation via HTTPS API (Port 443)
         email_res = self.notifications_mcp.send_email_confirmation(
             email=f"{patient_id.lower()}@patient.clinic.pk",
             subject=f"Appointment Confirmed with {doc_name} - {apt_id}",
-            body_text=f"Your appointment ({apt_id}) with {doc_name} ({doc_spec}) at {branch_name} has been confirmed for {date_str} at {time_slot}. Please arrive 15 minutes before your scheduled time."
+            body_text=f"Your appointment ({apt_id}) with {doc_name}{spec_tag} at {branch_name} has been confirmed for {date_str} at {time_slot}. Please arrive 15 minutes before your scheduled time."
         )
 
         msg = (
             f"Aap ki appointment confirm ho gayi hai. "
-            f"Doctor: {doc_name} ({doc_spec}) | Branch: {branch_name}, {branch_city} | "
+            f"Doctor: {doc_name}{spec_tag} | Branch: {branch_name}, {branch_city} | "
             f"Appointment ID: {apt_id} | Date: {date_str} | Slot: {time_slot}. "
             f"Please 15 min pehle clinic reception par pohnch jayein."
         )
@@ -252,6 +257,15 @@ class SchedulingAgent:
                 chosen_slot = "06:00 PM"
             elif re.search(r'\b6[:\.]?30\b|\b06[:\.]?30\b', msg_lower) and not_neg(r'6[:\.]?30'):
                 chosen_slot = "06:30 PM"
+
+        is_already_cancelled = appt_data.get("status") == "Cancelled" or b_details.get("status") == "Cancelled"
+        if is_already_cancelled and not chosen_slot and not any(w in msg_lower for w in ["slot", "available", "time", "dobara", "rebook", "booking", "pehla", "doosra"]):
+            reply = (
+                "Aap ki appointment pehle hi cancel ho chuki hai. "
+                "Agar aap dobara booking karna chahte hain ya kisi naye masle ke liye consultation chahte hain, "
+                "toh baraye meharbani apni alamaat batayein."
+            )
+            return reply, state
 
         # Extract requested date if patient mentioned a specific date or relative day
         requested_date = None

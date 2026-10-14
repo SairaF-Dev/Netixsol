@@ -3540,8 +3540,8 @@
             doctor_specialty: data.recommended_specialty || 'General Medicine',
             appointment_date: data.appointment_date || slotParts[0] || new Date(Date.now() + 86400000).toISOString().split('T')[0],
             time_slot: data.time_slot || slotParts[1] || '10:30 AM',
-            status: 'Scheduled',
-            branch_name: 'DHA Phase 5 Branch, Lahore'
+            status: data.progress_label === 'Cancelled' ? 'Cancelled' : 'Scheduled',
+            branch_name: data.branch_name || 'DHA Phase 5 Branch, Lahore'
           };
           if (PATIENT_DATABASE[state.currentPatientId]) {
             PATIENT_DATABASE[state.currentPatientId].upcomingAppointment = state.latestAppointment;

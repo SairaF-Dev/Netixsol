@@ -50,6 +50,7 @@ from src.tools.observability import ObservabilityTracer
 from src.mcp_servers.notifications_server import NotificationsMCPServer
 from src.mcp_servers.patient_records_server import PatientRecordsMCPServer
 from src.mcp_servers.scheduling_server import SchedulingMCPServer
+from src.api.channel_gateway import ChannelGateway
 
 DB_PATH = os.path.join(BASE_DIR, "data", "synthetic", "clinic.db")
 
@@ -895,7 +896,7 @@ def assistant_chat(req: AssistantChatRequest):
         triage_preview = triage_agent.evaluate_triage({"chief_complaint": req.message_text, "patient_type": "self"})
         is_emergency = triage_preview["urgency_level"] == "Emergency"
     else:
-        is_emergency = any(kw in msg_lower for kw in ["chest pain", "seene mein dard", "dil mein dard", "khoon", "stroke", "behoshi", "saans nahi aa rahi", "unconscious"])
+        is_emergency = any(kw in msg_lower for kw in ["heart pain", "heart attack", "chest pain", "seene mein dard", "dil mein dard", "khoon", "stroke", "behoshi", "saans nahi aa rahi", "unconscious"])
 
     if is_emergency:
         tracer.log_escalation(trace_id=trace_id, level="EMERGENCY", reason="Casual or direct emergency symptom detected.")
@@ -1012,14 +1013,16 @@ def assistant_chat(req: AssistantChatRequest):
 
     appt_data = updated_state.get("appointment_data") or {}
     b_details = appt_data.get("booking_details") or {}
+    is_cancelled = appt_data.get("status") == "Cancelled" or b_details.get("status") == "Cancelled"
     doc_val = b_details.get("doctor_name") or appt_data.get("doctor_name") or "Dr. Bilal Ahmed"
     doc_spec = b_details.get("doctor_specialty") or appt_data.get("doctor_specialty") or "General Physician"
     doc_branch = b_details.get("branch_name") or appt_data.get("branch_name") or "DHA Branch"
-    booked_doc = f"{doc_val} ({doc_spec}, {doc_branch})" if has_booking else "Dr. Bilal Ahmed (General Physician, DHA Branch)"
+    spec_str = f" ({doc_branch})" if doc_spec.lower() in doc_val.lower() else f" ({doc_spec}, {doc_branch})"
+    booked_doc = f"{doc_val}{spec_str}" if has_booking else (f"{doc_val}{spec_str}" if is_cancelled else "Dr. Bilal Ahmed (General Physician, DHA Branch)")
 
     date_val = b_details.get("appointment_date") or appt_data.get("appointment_date") or "Tomorrow"
     slot_val = b_details.get("time_slot") or appt_data.get("time_slot") or "10:30 AM"
-    booked_slot = f"{date_val} at {slot_val}" if has_booking else "Tomorrow 10:30 AM"
+    booked_slot = f"{date_val} at {slot_val}" if has_booking else ("Cancelled" if is_cancelled else "Tomorrow 10:30 AM")
 
     triage_info = updated_state.get("triage_result") or {}
     triage_urgency = triage_info.get("urgency_level", "Routine")
@@ -1035,20 +1038,36 @@ def assistant_chat(req: AssistantChatRequest):
         "is_emergency": False,
         "is_manual_override": False,
         "progress_step": progress_step,
-        "progress_label": progress_label,
+        "progress_label": "Cancelled" if is_cancelled else progress_label,
         "detected_symptoms": symptoms,
         "triage_level": triage_urgency if progress_step >= 2 else "Pending Intake",
         "triage_assessment": triage_eval,
         "recommended_specialty": triage_info.get("recommended_specialty", "General Medicine"),
         "recommended_doctor": booked_doc if progress_step >= 3 else None,
+        "branch_name": doc_branch if (has_booking or is_cancelled) else None,
         "appointment_slot": booked_slot if progress_step >= 4 else None,
-        "appointment_id": (b_details.get("appointment_id") or appt_data.get("appointment_id")) if has_booking else None,
+        "appointment_id": (b_details.get("appointment_id") or appt_data.get("appointment_id")) if (has_booking or is_cancelled) else None,
         "appointment_date": date_val if has_booking else None,
         "time_slot": slot_val if has_booking else None,
         "quick_responses": alternate_slots,
-        "next_step": "Appointment Confirmed — Please arrive 15 mins prior" if has_booking else "Select Appointment Time Slot",
+        "next_step": "Appointment Confirmed — Please arrive 15 mins prior" if has_booking else ("Appointment Cancelled — You can book a new slot anytime" if is_cancelled else "Select Appointment Time Slot"),
         "graph_state": updated_state
     }
+
+@app.post("/api/chat")
+def channel_chat(req: AssistantChatRequest):
+    gateway = ChannelGateway(graph=supervisor_graph)
+    session_id = f"SESS-{req.patient_id}"
+    current_state = req.current_state or ACTIVE_CHAT_SESSIONS.get(session_id)
+    res = gateway.process_incoming_message(
+        patient_id=req.patient_id,
+        message_text=req.message_text,
+        channel=req.channel,
+        current_state=current_state
+    )
+    if "graph_state" in res:
+        ACTIVE_CHAT_SESSIONS[session_id] = res["graph_state"]
+    return res
 
 @app.post("/api/assistant/reset")
 def reset_assistant_session(req: Dict[str, str] = Body(...)):

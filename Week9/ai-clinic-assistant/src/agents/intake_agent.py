@@ -18,7 +18,7 @@ EMERGENCY_RED_FLAGS = [
     "saans mein masla", "saans phool", "unable to breathe", "shortness of breath", "gasping", 
     "saans nahi aa rahi", "gala phool", "asphyxia", "choking", "stridor", "saans band",
     # Cardiac
-    "chest pain", "seene mein dard", "seene mein", "dil mein dard", "dil mein", 
+    "heart pain", "heart attack", "chest pain", "seene mein dard", "seene mein", "dil mein dard", "dil mein", "dil ka dard",
     "chest tightness", "crushing pressure", "crushing pain", "pasina aa raha hai",
     # Neurological / Stroke (FAST) / Seizures
     "stroke", "face drooping", "chehra sunn", "slurred speech", "bolne mein masla", 
@@ -41,13 +41,16 @@ SYMPTOM_LEXICON = {
     "cough": ["khansi", "cough", "dry cough", "balghami khansi"],
     "cold/nasal congestion": ["zukaam", "zukam", "nazla", "cold", "runny nose", "chheenk", "chheankein", "band naak", "naak behna"],
     "sore throat": ["gala", "gala kharab", "gale mein dard", "sore throat", "throat pain", "khushk gala", "swallowing difficulty"],
-    "headache": ["headache", "sar dard", "sar mein dard"],
+    "headache": ["headache", "sar dard", "sar mein dard", "saar dard", "saar mein dard", "sir dard", "sir mein dard", "sar me dard", "saar me dard", "sar mai dard", "saar mai dard"],
     "vomiting": ["vomiting", "ulti", "ultiyan", "nausea"],
     "stomach pain": ["stomach pain", "pait dard", "pait mein dard", "acidity"],
-    "chest pain": ["chest pain", "seene mein dard", "dil mein dard"],
+    "chest pain": ["chest pain", "heart pain", "seene mein dard", "dil mein dard", "dil ka dard", "heart attack"],
     "breathing issue": ["saans mein masla", "saans lene mein masla", "shortness of breath", "saans phool"],
     "leg pain": ["leg pain", "taang", "tango", "tangon", "taango", "legs pain"],
-    "body ache / pain": ["body pain", "body ache", "pain", "dard", "jism mein dard", "back pain", "kamar dard", "joint pain", "jodon mein dard"]
+    "body ache / pain": ["body pain", "body ache", "jism mein dard", "back pain", "kamar dard", "joint pain", "jodon mein dard", "badan mein dard", "badan toot raha", "poore jism mein dard"],
+    "toothache / dental": ["daant", "dant", "tooth", "teeth", "molar", "masoorh", "gums", "toothache", "daant mein dard", "dant dard"],
+    "eye issue": ["ankh", "aankh", "eye", "eyes", "nazar", "vision", "motia"],
+    "ear issue": ["kaan", "kaan mein dard", "ear pain", "peep", "ear discharge"]
 }
 
 class IntakeAgent:
@@ -155,13 +158,20 @@ class IntakeAgent:
             "penicillin": "Penicillin",
             "brufen": "Brufen",
             "brufin": "Brufen",
+            "brufiin": "Brufen",
+            "brufeen": "Brufen",
+            "ibuprofen": "Brufen",
             "aspirin": "Aspirin",
+            "disprin": "Aspirin",
             "paracetamol": "Paracetamol",
+            "panadol": "Paracetamol",
             "amoxicillin": "Amoxicillin",
+            "augmentin": "Augmentin",
             "sulfa": "Sulfa",
             "dust": "Dust",
             "pollen": "Pollen",
-            "peanuts": "Peanuts"
+            "peanuts": "Peanuts",
+            "peanut": "Peanuts"
         }
         if s.lower() in known:
             return known[s.lower()]
@@ -267,7 +277,31 @@ class IntakeAgent:
         assoc = ", ".join(state.get("associated_symptoms") or []) or "None reported"
 
         # Allergies display
-        rep_algs = ", ".join(state.get("allergies") or []) or "None reported"
+        algs = state.get("allergies") or []
+        unique_algs = []
+        for a in algs:
+            if a and a not in unique_algs and not any(a.lower() == u.lower() for u in unique_algs):
+                unique_algs.append(a)
+
+        alg_details_map = {}
+        for d in state.get("allergy_details") or []:
+            sub = (d.get("substance") or "").lower()
+            rx = (d.get("reaction") or "").strip()
+            if rx and rx.lower() not in ["none", "unknown"]:
+                if sub:
+                    alg_details_map[sub] = rx
+                if len(unique_algs) == 1:
+                    alg_details_map[unique_algs[0].lower()] = rx
+
+        formatted_algs = []
+        for a in unique_algs:
+            rx = alg_details_map.get(a.lower())
+            if rx:
+                formatted_algs.append(f"{a} (Reaction: {rx})")
+            else:
+                formatted_algs.append(a)
+
+        rep_algs = ", ".join(formatted_algs) or "None reported"
         ehr_algs = ", ".join(state.get("ehr_allergies_on_file") or []) or "None recorded"
         
         # Meds display
@@ -278,20 +312,27 @@ class IntakeAgent:
         if state.get("reconciliation_flags"):
             flags_text = "\n" + "\n".join([f"  • {f}" for f in state["reconciliation_flags"]])
 
-        # Determine appropriate specialty based on symptoms
-        all_sym_text = f"{chief} {assoc}".lower()
-        if any(w in all_sym_text for w in ["dant", "tooth", "teeth", "molar", "gums", "masoorh", "jaw"]):
-            spec_display = "Dentistry / Oral Surgery"
-        elif any(w in all_sym_text for w in ["gala", "throat", "zukaam", "cold", "naak", "ear", "kaan", "sinus"]):
-            spec_display = "ENT / General Medicine"
-        elif any(w in all_sym_text for w in ["leg", "bone", "joint", "haddi", "kamar", "back pain", "taang", "muscle"]):
-            spec_display = "Orthopedics / General Medicine"
-        elif any(w in all_sym_text for w in ["skin", "rash", "khareesh", "jild"]):
-            spec_display = "Dermatology / General Medicine"
-        elif any(w in all_sym_text for w in ["pait", "stomach", "vomit", "ulti", "gastric"]):
-            spec_display = "Gastroenterology / General Medicine"
-        else:
-            spec_display = "General Medicine"
+        # Determine appropriate specialty using TriageAgent mapping for full clinical consistency
+        try:
+            from src.agents.triage_agent import TriageAgent
+            t_eval = TriageAgent().evaluate_triage(state)
+            spec_display = t_eval.get("recommended_specialty") or "General Medicine"
+        except Exception:
+            all_sym_text = f"{chief} {assoc}".lower()
+            if re.search(r'\b(heart|cardiac|cardio|chest|dil|bp|hypertension|palpitation|palpitations)\b', all_sym_text):
+                spec_display = "Cardiology"
+            elif re.search(r'\b(dant|daant|tooth|teeth|molar|gums|masoorh|jaw|dental)\b', all_sym_text):
+                spec_display = "Dental"
+            elif re.search(r'\b(gala|throat|zukaam|zukam|cold|naak|ear|ears|kaan|sinus|tonsil|tonsils)\b', all_sym_text):
+                spec_display = "ENT"
+            elif re.search(r'\b(leg|bone|joint|haddi|kamar|back pain|taang|tango|tangon|muscle)\b', all_sym_text):
+                spec_display = "Orthopedics"
+            elif re.search(r'\b(skin|rash|khareesh|kharish|jild|jillad|acne|spots)\b', all_sym_text):
+                spec_display = "Dermatology"
+            elif re.search(r'\b(pait|stomach|vomit|ulti|ultiyan|gastric|acidity)\b', all_sym_text):
+                spec_display = "Gastroenterology"
+            else:
+                spec_display = "General Medicine"
 
         summary = (
             "Bohot shukriya! Main ne aap ki tamam clinical intake information record kar li hai.\n\n"
@@ -392,11 +433,13 @@ class IntakeAgent:
                 dur = self.extract_duration(user_message)
                 if dur:
                     state["duration"] = dur
-                elif re.search(r'\b([0-9]|10)\b', user_message):
+                elif re.search(r'\b([0-9]|10)\b', user_message) and not self.is_severity_answer(user_message):
                     m = re.search(r'\b([0-9]|10)\b', user_message)
                     state["duration"] = f"{m.group(1)} din"
-                else:
+                elif len(user_message.strip()) <= 30 and not self.is_severity_answer(user_message):
                     state["duration"] = user_message.strip()
+                else:
+                    state["duration"] = "Unspecified duration"
 
         elif curr == "SEVERITY":
             if is_unk:
@@ -414,9 +457,15 @@ class IntakeAgent:
                 state["associated_symptoms"].append("Unknown")
                 state["associated_symptoms_done"] = True
             else:
-                parts = [p.strip() for p in re.split(r',\s*|\s+aur\s+|\s+and\s+', user_message.strip()) if p.strip()]
-                state["associated_symptoms"].extend(parts)
-                state["associated_symptoms_done"] = True
+                s_text = user_message.strip()
+                if re.match(r'^\d{1,2}(?:/10)?$', s_text):
+                    state["associated_symptoms"] = ["None reported (only primary complaints)"]
+                    state["associated_symptoms_done"] = True
+                else:
+                    parts = [p.strip() for p in re.split(r',\s*|\s+aur\s+|\s+and\s+', s_text) if p.strip()]
+                    cleaned_parts = [p for p in parts if not re.match(r'^\d{1,2}(?:/10)?$', p)]
+                    state["associated_symptoms"].extend(cleaned_parts if cleaned_parts else ["None reported (only primary complaints)"])
+                    state["associated_symptoms_done"] = True
 
         elif curr == "ALLERGIES":
             is_clarification = any(w in msg_lower for w in ["matlab", "mtlb", "samajh", "samjh", "what", "kyun", "kyu", "why", "kaise", "kese"])
@@ -452,10 +501,12 @@ class IntakeAgent:
             elif is_no_more or is_clarification:
                 state["allergy_followup_needed"] = False
             else:
-                # Patient reported an additional allergy (e.g. "banana se hai", "peanuts")
+                # Patient reported an additional allergy or confirmed existing
                 clean_alg2 = self.clean_allergy_name(user_message)
-                if clean_alg2 and clean_alg2 not in state["allergies"]:
-                    state["allergies"].append(clean_alg2)
+                existing_lower = [a.lower() for a in state.get("allergies", [])]
+                if clean_alg2:
+                    if clean_alg2.lower() not in existing_lower and not any(clean_alg2.lower() in ex or ex in clean_alg2.lower() for ex in existing_lower):
+                        state["allergies"].append(clean_alg2)
                 state["allergy_followup_needed"] = False
 
         elif curr == "CURRENT_MEDICATIONS":
@@ -538,8 +589,9 @@ You MUST ask about: {next_target}.
 - If next target is DURATION: ask how long they have had this issue (e.g. kitne din ya waqt se hai).
 - If next target is ASSOCIATED_SYMPTOMS: ask if they have any other symptoms (gale mein dard, sar dard, etc.).
 - If next target is ALLERGIES: ask if they have any drug/food allergies (Penicillin, Aspirin, ya koi allergy nahi). DO NOT ask about symptoms or severity again!
+- If next target is ALLERGY_DETAILS: acknowledge the reported allergy ({state.get('allergies')}) and ask what specific reaction happens (e.g. skin rash, swelling, hives, breathing issue / saans ka masla).
 - If next target is CURRENT_MEDICATIONS: ask if they are taking any home medicines (Panadol, Rizek, ya koi nahi).
-- If next target is MEDICATION_DETAILS: ask dose, frequency, and when last taken. (If EHR has active meds [{ehr_meds_str}], ask if still taking them; if none on file, DO NOT mention any other drugs).
+- If next target is MEDICATION_DETAILS: acknowledge the reported medication ({state.get('current_medications', ['dawai'])[0]}) and ask dose (e.g. kitni mg ya tablet) and frequency (rozana kitni martaba). DO NOT ask for the medication name again because the patient already told you ({state.get('current_medications', ['dawai'])[0]}). (If EHR has active meds [{ehr_meds_str}], ask if still taking them; if none on file, DO NOT mention any other drugs).
 
 Write ONLY the warm conversational Roman Urdu reply for {next_target}. Keep it concise (1-2 sentences).
 """
@@ -550,15 +602,18 @@ Write ONLY the warm conversational Roman Urdu reply for {next_target}. Keep it c
             {"role": "user", "content": prompt}
         ], temperature=0.15, max_tokens=150)
 
-        reply = res.get("content", "").strip()
+        reply = (res.get("content") or "").strip()
         if not reply or res.get("status") == "ERROR" or reply.startswith("LLM API Error"):
+            alg_name = (state.get("allergies") or ["is dawai"])[0]
+            med_name = (state.get("current_medications") or ["yeh dawai"])[0]
             fallbacks = {
                 "DURATION": "Assalam-o-Alaikum! Yeh takleef ya alamaat aap ko kitne arse se hain? (Jaise 2 din ya aik hafta)",
                 "SEVERITY": "Aap ka dard ya takleef 1 se 10 ke paimane par kitni shadeed hai? (1 halki, 10 shadeed)",
                 "ASSOCIATED_SYMPTOMS": "Kya is ke ilawa koi aur alamaat bhi hain, jaise gale mein dard, sar dard ya vomiting?",
                 "ALLERGIES": "Kya aap ko kisi dawai ya cheez se allergy hai? (Jaise Penicillin, Aspirin ya koi allergy nahi)",
+                "ALLERGY_DETAILS": f"Aap ko {alg_name} se kis qisam ka reaction hota hai? (Jaise jild par rash, kharish, ya soojan)?",
                 "CURRENT_MEDICATIONS": "Kya aap is waqt koi dawai ya ghareloo nuskha istemal kar rahe hain?",
-                "MEDICATION_DETAILS": "Barah-e-karam batayein dawai ka naam aur rozana kitni martaba lete hain?",
+                "MEDICATION_DETAILS": f"Aap {med_name} ki kitni dose (e.g. 500mg ya tablet) aur rozana kitni martaba lete hain?",
             }
             reply = fallbacks.get(next_target, "Barah-e-karam apni alamaat ke bare mein mazeed thori tafseel batayein.")
 
@@ -681,11 +736,13 @@ Write ONLY the warm conversational Roman Urdu reply for {next_target}. Keep it c
         # HYBRID AI LAYER: LLM Conversational Processing (GPT-4o-mini via OpenRouter)
         # =========================================================================
         if self.use_llm and (self.llm_client.openrouter_api_key or self.llm_client.openai_api_key):
+            state_backup = json.loads(json.dumps(state))
             try:
                 return self._process_turn_llm(user_message, state, patient_id)
             except Exception as e:
-                # Silently fallback to deterministic state machine below
-                pass
+                # Silently restore clean state before deterministic fallback
+                state.clear()
+                state.update(state_backup)
 
         detected_dur = self.extract_duration(user_message)
         is_dur_msg = bool(detected_dur and any(u in msg_lower for u in ["din", "day", "hafte", "week", "mahine", "month", "ghante", "hour", "kal", "yesterday", "subah", "morning", "four"]))
@@ -728,7 +785,16 @@ Write ONLY the warm conversational Roman Urdu reply for {next_target}. Keep it c
                 state["sub_stage"] = "DURATION"
                 return reply, state, False
             else:
-                state["duration"] = user_message.strip()
+                dur = self.extract_duration(user_message)
+                if dur:
+                    state["duration"] = dur
+                elif re.search(r'\b([0-9]|10)\b', user_message) and not self.is_severity_answer(user_message):
+                    m = re.search(r'\b([0-9]|10)\b', user_message)
+                    state["duration"] = f"{m.group(1)} din"
+                elif len(user_message.strip()) <= 30 and not self.is_severity_answer(user_message):
+                    state["duration"] = user_message.strip()
+                else:
+                    state["duration"] = "Unspecified duration"
 
             reply = "Theek hai. Takleef kitni ziada hai? (0 se 10 ke scale par kitni severity hai?)"
             state["sub_stage"] = "SEVERITY"
@@ -798,8 +864,12 @@ Write ONLY the warm conversational Roman Urdu reply for {next_target}. Keep it c
                 state["associated_symptoms"] = ["Unknown"]
             else:
                 s_text = user_message.strip()
-                parts = [p.strip() for p in re.split(r',\s*|\s+aur\s+|\s+and\s+', s_text) if p.strip()]
-                state["associated_symptoms"] = parts if parts else [s_text]
+                if re.match(r'^\d{1,2}(?:/10)?$', s_text):
+                    state["associated_symptoms"] = ["None reported (only primary complaints)"]
+                else:
+                    parts = [p.strip() for p in re.split(r',\s*|\s+aur\s+|\s+and\s+', s_text) if p.strip()]
+                    cleaned_parts = [p for p in parts if not re.match(r'^\d{1,2}(?:/10)?$', p)]
+                    state["associated_symptoms"] = cleaned_parts if cleaned_parts else ["None reported (only primary complaints)"]
 
             # Check for red flags in associated symptoms
             if any(rf in msg_lower for rf in EMERGENCY_RED_FLAGS):
