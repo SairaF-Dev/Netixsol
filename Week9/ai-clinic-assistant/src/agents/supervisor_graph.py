@@ -19,6 +19,10 @@ from src.agents.records_agent import RecordsAgent
 from src.agents.clinical_summary_agent import ClinicalSummaryAgent
 from src.agents.prescription_safety_agent import PrescriptionSafetyAgent
 from src.agents.followup_agent import FollowupAgent
+from src.tools.llm_client import load_env_file
+
+# Ensure environment variables (including LangSmith tracing flags) are loaded
+load_env_file()
 
 
 class ClinicState(TypedDict, total=False):
@@ -36,6 +40,7 @@ class ClinicState(TypedDict, total=False):
     transition_logs: List[str]
     error_count: int
     user_message: Optional[str]
+    langsmith_run_id: Optional[str]
 
 
 class ClinicSupervisorGraph:
@@ -445,10 +450,26 @@ class ClinicSupervisorGraph:
         state_copy = dict(state)
         state_copy["user_message"] = user_message
         thread_id = state_copy.get("patient_id", "default_thread")
-        config = {"configurable": {"thread_id": thread_id}}
+        config = {
+            "configurable": {"thread_id": thread_id},
+            "metadata": {
+                "patient_id": thread_id,
+                "current_node": state_copy.get("current_node", "INTAKE"),
+                "channel": state_copy.get("channel", "web")
+            },
+            "tags": ["clinic-assistant", "supervisor-graph"]
+        }
 
         try:
-            result = self.app.invoke(state_copy, config=config)
+            try:
+                from langchain_core.tracers.context import collect_runs
+                with collect_runs() as cb:
+                    result = self.app.invoke(state_copy, config=config)
+                    if cb.traced_runs:
+                        result["langsmith_run_id"] = str(cb.traced_runs[0].id)
+            except Exception:
+                result = self.app.invoke(state_copy, config=config)
+
             result["user_message"] = None
             return result
         except Exception as e:
