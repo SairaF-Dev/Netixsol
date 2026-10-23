@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  zarya-bank-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zarya_bank_serving_engine
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - MODEL_NAME=zarya-qwen2.5-3b-dpo-q4_k_m
+      - ENVIRONMENT=production
+    volumes:
+      - ./data:/app/data
+      - ./docs:/app/docs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - zarya-network
+
+networks:
+  zarya-network:
+    driver: bridge
+

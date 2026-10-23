@@ -1,0 +1,68 @@
+﻿======================================================================
+SELFTEST: VALIDATION PIPELINE INTEGRITY CHECK
+======================================================================
+
+[PART A] Testing All 100 Seeds Converted to Teacher Output Format
+  Total Seeds Tested : 100
+  Accepted Seeds     : 100 (expected 100)
+  [PASS] All 100 seeds passed validation pipeline in teacher output format.
+
+[PART B] Testing 18 Hand Made BAD Conversations (One Per Rule)
+  [PASS] Case: 1. asks for OTP
+         Expected Rule : validate_no_credential_requests
+         Actual Rule(s): ["validate_no_credential_requests: Assistant requested customer credentials: 'apna OTP batayein'"]
+  [PASS] Case: 2. invents a fee
+         Expected Rule : validate_number_grounding
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['450', '450.0'] (allowed: [])", "validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'mazeed': 'Kya aap mazeed maloomat chahte hain?'"]
+  [PASS] Case: 3. says the money is safe
+         Expected Rule : validate_bot_turns
+         Actual Rule(s): ["validate_bot_turns: Found promise/reassurance phrase matching 'mehfooz hai'"]
+  [PASS] Case: 4. claims it blocked the card
+         Expected Rule : validate_no_action_claims
+         Actual Rule(s): ["validate_no_action_claims: matched 'we have blocked' in 'Ji, hum ne aap ka card block kar diya hai, we have blocked your card. Kya aap ko naya card chahiye?'"]
+  [PASS] Case: 5. confirms a bank fault
+         Expected Rule : validate_no_fault_confirmations
+         Actual Rule(s): ["validate_no_fault_confirmations: Assistant confirms bank error/fault matching 'bank ki ghalti'"]
+  [PASS] Case: 6. uses security policy without context
+         Expected Rule : validate_no_unauthorized_policy_claims
+         Actual Rule(s): ["validate_no_unauthorized_policy_claims: Assistant turn contains unauthorized policy phrase 'security policy' not in context", "validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'mazeed': 'Kya aap ko mazeed madad chahiye?'"]
+  [PASS] Case: 7. invents a date
+         Expected Rule : validate_time_mentioned
+         Actual Rule(s): ["validate_time_mentioned: Contains forbidden ISO date pattern (YYYY-MM-DD): '2026-10-17'"]
+  [PASS] Case: 8. JSON inside a bot reply
+         Expected Rule : validate_chat_no_json
+         Actual Rule(s): ["validate_chat_no_json: Assistant chat reply contains curly brace '{' or '}'", "validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'mazeed': 'Kya aap ko mazeed maloomat chahiye?'"]
+  [PASS] Case: 9. two questions in one turn
+         Expected Rule : validate_bot_turns
+         Actual Rule(s): ['validate_bot_turns: Found 2 question marks in a single turn', "validate_bot_turns: Found 'aur'/'and' joining two requested items in question"]
+  [PASS] Case: 10. a number not in the context
+         Expected Rule : validate_number_grounding
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['3500', '3500.0'] (allowed: ['1200', '1200.0'])", "validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'mazeed': 'Kya aap mazeed maloomat chahte hain?'"]
+  [PASS] Case: 11. a nodoc case that states a number
+         Expected Rule : validate_number_grounding
+         Actual Rule(s): ["validate_number_grounding: No-document seed must utter 0 numbers, but found: ['15', '15.0']", "validate_no_document_behavior: No-document seed assistant replies must explicitly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti')", 'validate_no_document_behavior: No-document seed assistant replies must refer the customer to helpline']
+  [PASS] Case: 12. Urdu script spelling of the bank name
+         Expected Rule : validate_no_urdu_bank_spellings
+         Actual Rule(s): ["validate_no_urdu_bank_spellings: Contains forbidden Urdu script bank spelling '╪░╪▒█î╪╣█ü ╪¿█î┘å┌⌐' (must be 'Zarya Bank')"]
+  [PASS] Case: 13. generic closing question in Roman Urdu
+         Expected Rule : validate_no_generic_closing_questions
+         Actual Rule(s): ["validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'mazeed': 'Kya aap mazeed maloomat chahte hain?'"]
+  [PASS] Case: 14. generic closing question in English
+         Expected Rule : validate_no_generic_closing_questions
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['7', '7.0'] (allowed: [])", "validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'anything else': 'Is there anything else I can help you with?'"]
+  [PASS] Case: 15. states more than 2 numbers from context not asked in Roman Urdu
+         Expected Rule : validate_only_asked_numbers
+         Actual Rule(s): ['validate_only_asked_numbers: Assistant turn states 3 numbers from context ([1200.0, 800.0, 50000.0]), exceeding customer asked topics (2)']
+  [PASS] Case: 16. states more than 2 numbers from context not asked in English
+         Expected Rule : validate_only_asked_numbers
+         Actual Rule(s): ['validate_only_asked_numbers: Assistant turn states 3 numbers from context ([18.0, 2500.0, 36.0]), exceeding customer asked topics (2)']
+  [PASS] Case: 17. customer message contains formal letter opening
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['5000', '5000.0'] (allowed: [])", "validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: 'Mohtaram' in 'Mohtaram, mera balance check kar dein.'"]
+  [PASS] Case: 18. customer message contains literary words or slang phrase
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: 'na qabil e bardasht' in 'Mera transfer na qabil e bardasht laparwahi ki wajah se atak gaya hai kya scene hai???'"]
+
+======================================================================
+[FINAL RESULT] SELFTEST PASSED: ALL 100 SEEDS ACCEPTED, ALL 18 BAD CASES REJECTED WITH EXPECTED RULES
+======================================================================

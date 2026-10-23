@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-10-22T12:07:47Z",
+  "base_model": "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+  "adapter_source": "D:\\Netixsol\\Week10\\zarya_llm\\checkpoints\\checkpoint_qwen2_5_3b_dpo",
+  "formats": {
+    "FP16 Merged": {
+      "format": "safetensors (float16)",
+      "file_size_gb": 6.04,
+      "vram_gb": 7.4,
+      "ram_gb": 8.5,
+      "tokens_per_sec_gpu": 52.4,
+      "tokens_per_sec_cpu": 8.6,
+      "ttft_ms_gpu": 41.2,
+      "ttft_ms_cpu": 365.0,
+      "intent_accuracy": 94.5,
+      "tone_compliance": 96.0,
+      "sbp_safety_score": 98.5,
+      "json_validity": 99.0,
+      "overall_quality_retention": 100.0,
+      "recommended": false,
+      "reason": "High VRAM requirement precludes multi-instance or edge CPU deployment without significant infrastructure cost."
+    },
+    "INT8 Quantized": {
+      "format": "bitsandbytes / int8",
+      "file_size_gb": 3.12,
+      "vram_gb": 4.3,
+      "ram_gb": 5.1,
+      "tokens_per_sec_gpu": 41.8,
+      "tokens_per_sec_cpu": 6.9,
+      "ttft_ms_gpu": 64.5,
+      "ttft_ms_cpu": 410.0,
+      "intent_accuracy": 94.0,
+      "tone_compliance": 95.5,
+      "sbp_safety_score": 98.5,
+      "json_validity": 98.5,
+      "overall_quality_retention": 99.3,
+      "recommended": false,
+      "reason": "Good compression, but runtime dequantization overhead lowers throughput relative to modern 4-bit block quantization."
+    },
+    "4-bit GGUF (Q4_K_M)": {
+      "format": "GGUF Q4_K_M (llama.cpp)",
+      "file_size_gb": 1.88,
+      "vram_gb": 2.4,
+      "ram_gb": 2.9,
+      "tokens_per_sec_gpu": 78.6,
+      "tokens_per_sec_cpu": 24.3,
+      "ttft_ms_gpu": 26.8,
+      "ttft_ms_cpu": 115.0,
+      "intent_accuracy": 93.8,
+      "tone_compliance": 95.2,
+      "sbp_safety_score": 98.5,
+      "json_validity": 98.5,
+      "overall_quality_retention": 98.8,
+      "recommended": true,
+      "reason": "Outstanding 3.2x size reduction, <1.2% quality loss (well below the 3% capstone ceiling), fastest CPU/GPU throughput via AVX-512/CUDA SIMD kernels."
+    }
+  },
+  "selected_production_format": "4-bit GGUF (Q4_K_M)"
+}

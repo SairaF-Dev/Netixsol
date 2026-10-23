@@ -1,0 +1,78 @@
+{
+  "mode": "pilot",
+  "plan_total": 20,
+  "requested": 2,
+  "accepted": 2,
+  "rejected": 0,
+  "current_index": 2,
+  "requested_by_task_type": {
+    "faq": 2,
+    "complaint": 0,
+    "fraud": 0,
+    "out_of_scope": 0
+  },
+  "task_types": {
+    "faq": 2,
+    "complaint": 0,
+    "fraud": 0,
+    "out_of_scope": 0
+  },
+  "languages": {
+    "urdulish": 1,
+    "roman_urdu": 0,
+    "english": 0,
+    "urdu_script": 1
+  },
+  "turn_types": {
+    "single_turn": 2,
+    "multi_turn": 0
+  },
+  "nodoc_counts": {
+    "nodoc": 1,
+    "with_context": 1
+  },
+  "total_prompt_tokens": 4995,
+  "total_completion_tokens": 346,
+  "total_bot_turns": 2,
+  "bot_turns_with_question": 0,
+  "first_bot_sentences": {
+    "جی، راست ٹرانسفر کے چارجز کی الجھن کے حوالے سے، Zarya Bank میں راست کے ذریعے رقم بھیجنے کی فیس 150 روپے ہے۔": 1,
+    "Ji, loan installment ki akhri tareekh ke hawale se abhi tasdeeq nahi kar sakti.": 1
+  },
+  "total_user_messages": 2,
+  "customer_trigrams": {
+    "اس کی کتنی": 1,
+    "راست ٹرانسفر کے": 1,
+    "کے چارجز کے": 1,
+    "سے الجھن ہو": 1,
+    "رہی ہے بتائیں": 1,
+    "کی کتنی فیس": 1,
+    "کے حوالے سے": 1,
+    "چارجز کے حوالے": 1,
+    "حوالے سے الجھن": 1,
+    "کتنی فیس ہے": 1,
+    "الجھن ہو رہی": 1,
+    "ٹرانسفر کے چارجز": 1,
+    "ہو رہی ہے": 1,
+    "ہے بتائیں اس": 1,
+    "بتائیں اس کی": 1,
+    "krwane ki akhri": 1,
+    "loan ki mahana": 1,
+    "mahana kist jama": 1,
+    "maloom krni h": 1,
+    "krni h rehnumai": 1,
+    "ki akhri tareeq": 1,
+    "farma skte hn": 1,
+    "ki mahana kist": 1,
+    "akhri tareeq maloom": 1,
+    "h rehnumai farma": 1,
+    "rehnumai farma skte": 1,
+    "kist jama krwane": 1,
+    "jama krwane ki": 1,
+    "tareeq maloom krni": 1
+  },
+  "rejection_rules": {},
+  "rejection_examples": {},
+  "consecutive_error_type": null,
+  "consecutive_error_count": 0
+}

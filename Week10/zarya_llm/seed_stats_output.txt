@@ -1,0 +1,832 @@
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 1 (seeds.jsonl)
+Total Type A Examples: 30
+======================================================================
+
+--- Counts Per Category ---
+  fraud               :   7 ( 23.3%)
+  complaint           :   6 ( 20.0%)
+  card                :   6 ( 20.0%)
+  account             :   5 ( 16.7%)
+  out_of_scope        :   3 ( 10.0%)
+  loan                :   2 (  6.7%)
+  transfer            :   1 (  3.3%)
+
+--- Counts Per Language ---
+  urdulish            :  16 ( 53.3%)
+  roman_urdu          :   6 ( 20.0%)
+  english             :   6 ( 20.0%)
+  urdu_script         :   2 (  6.7%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :  19 ( 63.3%)
+  Multi-turn          :  11 ( 36.7%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :  10 ( 33.3%)
+  Conversational only :  20 ( 66.7%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :  18 ( 60.0%)
+  No Document (koi doc)    :   0 (  0.0%)
+  Without Context          :  12 ( 40.0%)
+  Total Seeds              :  30 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [1x -  3.3%] "Ji, ye sun kar afsos hua."
+  2. [1x -  3.3%] "Ji, aap ki card block karne ki request darj kar li gayi hai."
+  3. [1x -  3.3%] "Ji maazrat chahte hain aap ko pareshani hui."
+  4. [1x -  3.3%] "Ji yeh bilkul theek nahi hai, yeh fraud call hai!"
+  5. [1x -  3.3%] "Ji hargiz is link ko open na karein, yeh phishing scam hai."
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 2 (seeds_batch2.jsonl)
+Total Type A Examples: 16
+======================================================================
+
+--- Counts Per Category ---
+  transfer            :  12 ( 75.0%)
+  card                :   2 ( 12.5%)
+  complaint           :   1 (  6.2%)
+  account             :   1 (  6.2%)
+
+--- Counts Per Language ---
+  urdulish            :   7 ( 43.8%)
+  english             :   4 ( 25.0%)
+  roman_urdu          :   3 ( 18.8%)
+  urdu_script         :   2 ( 12.5%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :  10 ( 62.5%)
+  Multi-turn          :   6 ( 37.5%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :   8 ( 50.0%)
+  Conversational only :   8 ( 50.0%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :   9 ( 56.2%)
+  No Document (koi doc)    :   6 ( 37.5%)
+  Without Context          :   1 (  6.2%)
+  Total Seeds              :  16 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [2x - 12.5%] "Ji maazrat chahte hain aap ko pareshani hui."
+  2. [1x -  6.2%] "Ji, raqam transfer na hone par afsos hua."
+  3. [1x -  6.2%] "Ji Zarya Bank mein Raast transfer ki daily limit 250000 rupees hai."
+  4. [1x -  6.2%] "Ji, hum aap ki pareshani samajh sakte hain."
+  5. [1x -  6.2%] "Ji, we understand your concern regarding the pending transfer."
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 3 (seeds_batch3.jsonl)
+Total Type A Examples: 11
+======================================================================
+
+--- Counts Per Category ---
+  fraud               :  11 (100.0%)
+
+--- Counts Per Language ---
+  urdulish            :   6 ( 54.5%)
+  english             :   2 ( 18.2%)
+  roman_urdu          :   2 ( 18.2%)
+  urdu_script         :   1 (  9.1%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :   7 ( 63.6%)
+  Multi-turn          :   4 ( 36.4%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :   6 ( 54.5%)
+  Conversational only :   5 ( 45.5%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :   0 (  0.0%)
+  No Document (koi doc)    :   0 (  0.0%)
+  Without Context          :  11 (100.0%)
+  Total Seeds              :  11 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [1x -  9.1%] "Ji yeh shadeed pareshan kun mamla hai."
+  2. [1x -  9.1%] "Ji, main aap ka PIN nahi bata sakti, aur Zarya Bank kabhi bhi call ya SMS par aap ka OTP ya PIN nahi maangta."
+  3. [1x -  9.1%] "Ji hargiz yeh code kisi ke sath share na karein, yeh fraud hai."
+  4. [1x -  9.1%] "Ji, I cannot follow that instruction as I will never request your sensitive credentials."
+  5. [1x -  9.1%] "Ji, please do not install any software or grant remote viewing access to your device."
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 4 (seeds_batch4.jsonl)
+Total Type A Examples: 10
+======================================================================
+
+--- Counts Per Category ---
+  loan                :  10 (100.0%)
+
+--- Counts Per Language ---
+  urdulish            :   6 ( 60.0%)
+  roman_urdu          :   2 ( 20.0%)
+  english             :   1 ( 10.0%)
+  urdu_script         :   1 ( 10.0%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :   7 ( 70.0%)
+  Multi-turn          :   3 ( 30.0%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :   2 ( 20.0%)
+  Conversational only :   8 ( 80.0%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :   7 ( 70.0%)
+  No Document (koi doc)    :   3 ( 30.0%)
+  Without Context          :   0 (  0.0%)
+  Total Seeds              :  10 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [1x - 10.0%] "Ji, personal loan eligibility ke liye kam az kam 55000 rupees monthly salary, 22 saal umar aur 9 maah ka job period darkar hota hai."
+  2. [1x - 10.0%] "Ji, is waqt documents dastiyab na hone ki wajah se main markup rate ki tasdeeq nahi kar sakti."
+  3. [1x - 10.0%] "Ji, installment ki wazahat ke liye aap kis loan ki baat kar rahe hain?"
+  4. [1x - 10.0%] "Ji, early loan payoff is allowed subject to an early settlement fee of 4.5 percent on the remaining balance."
+  5. [1x - 10.0%] "Ji, ye sun kar afsos hua."
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 5 (seeds_batch5.jsonl)
+Total Type A Examples: 10
+======================================================================
+
+--- Counts Per Category ---
+  out_of_scope        :   7 ( 70.0%)
+  account             :   3 ( 30.0%)
+
+--- Counts Per Language ---
+  urdulish            :   4 ( 40.0%)
+  roman_urdu          :   3 ( 30.0%)
+  english             :   2 ( 20.0%)
+  urdu_script         :   1 ( 10.0%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :   9 ( 90.0%)
+  Multi-turn          :   1 ( 10.0%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :   0 (  0.0%)
+  Conversational only :  10 (100.0%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :   2 ( 20.0%)
+  No Document (koi doc)    :   1 ( 10.0%)
+  Without Context          :   7 ( 70.0%)
+  Total Seeds              :  10 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [1x - 10.0%] "Ji, main siyasi mamlay par koi raye nahi de sakti aur sirf Zarya Bank ki services mein madad kar sakti hoon."
+  2. [1x - 10.0%] "Ji, main tibbi mashwara faraham nahi kar sakti, baraye meherbani kisi doctor se rujoo karein."
+  3. [1x - 10.0%] "Ji, main sarmayakari ka mashwara nahi de sakti."
+  4. [1x - 10.0%] "Ji, I cannot comment on or evaluate services from other banks."
+  5. [1x - 10.0%] "Ji, mere paas khelon aur live scores ki maloomat dastiyab nahi hoti hain."
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 6 (seeds_batch6.jsonl)
+Total Type A Examples: 10
+======================================================================
+
+--- Counts Per Category ---
+  card                :   6 ( 60.0%)
+  complaint           :   4 ( 40.0%)
+
+--- Counts Per Language ---
+  urdulish            :   4 ( 40.0%)
+  roman_urdu          :   3 ( 30.0%)
+  english             :   2 ( 20.0%)
+  urdu_script         :   1 ( 10.0%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :   7 ( 70.0%)
+  Multi-turn          :   3 ( 30.0%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :   5 ( 50.0%)
+  Conversational only :   5 ( 50.0%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :   6 ( 60.0%)
+  No Document (koi doc)    :   1 ( 10.0%)
+  Without Context          :   3 ( 30.0%)
+  Total Seeds              :  10 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [1x - 10.0%] "Ji, card block hone par pareshani samajh sakte hain."
+  2. [1x - 10.0%] "Ji, card decline hone par humein afsos hai."
+  3. [1x - 10.0%] "Ji, according to bank policy, a replacement card costs 850 rupees and delivery takes 13 working days."
+  4. [1x - 10.0%] "Ji, is waqt documents dastiyab na hone ki wajah se main daily ATM withdrawal limit ki tasdeeq nahi kar sakti."
+  5. [1x - 10.0%] "جی، Zarya Bank کی پالیسی کے تحت نیا کارڈ میعاد ختم ہونے سے 19 دن پہلے رجسٹرڈ ایڈریس پر بھیج دیا جاتا ہے۔"
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+
+--- Batch 7 Human Lines Exact Match Validation ---
+  Lines compared: 0
+  [PASS] All 0 customer lines in Batch 7 exactly match human_lines_batch7.json.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Batch 7 (seeds_batch7.jsonl)
+Total Type A Examples: 13
+======================================================================
+
+--- Counts Per Category ---
+  transfer            :   5 ( 38.5%)
+  account             :   5 ( 38.5%)
+  complaint           :   3 ( 23.1%)
+
+--- Counts Per Language ---
+  urdulish            :   5 ( 38.5%)
+  english             :   3 ( 23.1%)
+  roman_urdu          :   3 ( 23.1%)
+  urdu_script         :   2 ( 15.4%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :   8 ( 61.5%)
+  Multi-turn          :   5 ( 38.5%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :   5 ( 38.5%)
+  Conversational only :   8 ( 61.5%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :   6 ( 46.2%)
+  No Document (koi doc)    :   3 ( 23.1%)
+  Without Context          :   4 ( 30.8%)
+  Total Seeds              :  13 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [1x -  7.7%] "Ji, raqam na milne ki itla ka shukriya."
+  2. [1x -  7.7%] "Ji, the maximum amount per single IBFT transfer is 300000 rupees."
+  3. [1x -  7.7%] "Ji, main is waqt is sahulat ki tasdeeq nahi kar sakti."
+  4. [1x -  7.7%] "Ji, raqam do dafa katne par afsos hua."
+  5. [1x -  7.7%] "جی، میں اس وقت اس سہولت کی تصدیق نہیں کر سکتی۔"
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+
+--- Batch 7 Human Lines Exact Match Validation ---
+  Lines compared: 18
+  [PASS] All 18 customer lines in Batch 7 exactly match human_lines_batch7.json.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - Combined Batches 1 to 7 (All 100 Seeds)
+Total Type A Examples: 100
+======================================================================
+
+--- Counts Per Category ---
+  fraud               :  18 ( 18.0%)
+  transfer            :  18 ( 18.0%)
+  complaint           :  14 ( 14.0%)
+  card                :  14 ( 14.0%)
+  account             :  14 ( 14.0%)
+  loan                :  12 ( 12.0%)
+  out_of_scope        :  10 ( 10.0%)
+
+--- Counts Per Language ---
+  urdulish            :  48 ( 48.0%)
+  roman_urdu          :  22 ( 22.0%)
+  english             :  20 ( 20.0%)
+  urdu_script         :  10 ( 10.0%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :  67 ( 67.0%)
+  Multi-turn          :  33 ( 33.0%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :  36 ( 36.0%)
+  Conversational only :  64 ( 64.0%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :  48 ( 48.0%)
+  No Document (koi doc)    :  14 ( 14.0%)
+  Without Context          :  38 ( 38.0%)
+  Total Seeds              : 100 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [3x -  3.0%] "Ji, ye sun kar afsos hua."
+  2. [3x -  3.0%] "Ji maazrat chahte hain aap ko pareshani hui."
+  3. [2x -  2.0%] "Ji, aap ki pareshani ka andaza hai."
+  4. [1x -  1.0%] "Ji, aap ki card block karne ki request darj kar li gayi hai."
+  5. [1x -  1.0%] "Ji yeh bilkul theek nahi hai, yeh fraud call hai!"
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+
+--- Batch 7 Human Lines Exact Match Validation ---
+  Lines compared: 18
+  [PASS] All 18 customer lines in Batch 7 exactly match human_lines_batch7.json.
+======================================================================
+
+======================================================================
+DATASET STATISTICS: TYPE B (TICKET EXTRACTION / JSON TASKS)
+File path: D:\Netixsol\Week10\zarya_llm\data\seeds\seeds_json_tasks.jsonl
+Total Type B Tasks: 36
+======================================================================
+
+--- Counts Per Category ---
+  complaint           :  14 ( 38.9%)
+  fraud               :   9 ( 25.0%)
+  transfer            :   8 ( 22.2%)
+  card                :   3 (  8.3%)
+  loan                :   2 (  5.6%)
+
+--- Counts Per Language ---
+  urdulish            :  23 ( 63.9%)
+  english             :   6 ( 16.7%)
+  roman_urdu          :   6 ( 16.7%)
+  urdu_script         :   1 (  2.8%)
+
+--- Pure JSON Output Validation ---
+  [PASS] All Type B assistant messages are 100% pure, parseable JSON.
+  [PASS] Zero code fences or extraneous text in assistant messages.
+  [PASS] All output tickets strictly conform to Pydantic BankingTicket schema.
+  [PASS] Zero date or clock patterns in time_mentioned.
+======================================================================

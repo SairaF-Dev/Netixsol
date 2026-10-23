@@ -1,0 +1,106 @@
+{
+  "models": {
+    "qwen2_5_3b": {
+      "hf_id": "Qwen/Qwen2.5-3B-Instruct",
+      "param_count": "3.09B",
+      "vocab_size": 151665,
+      "context_window": "128k native (32k recommended serving)",
+      "license": "Apache 2.0 (Unrestricted commercial & on-premise use)",
+      "architecture": "Qwen2ForCausalLM (GQA, RoPE theta=1,000,000, SwiGLU)",
+      "memory_fp16_gb": 6.18,
+      "memory_int8_gb": 3.09,
+      "memory_qlora_4bit_gb": 1.95,
+      "tokenizer_eval": {
+        "avg_tokens": 65.43125,
+        "avg_words": 34.99375,
+        "tokens_per_word": 1.9306781480258226,
+        "total_tokens": 10469,
+        "total_words": 5599
+      }
+    },
+    "llama3_2_3b": {
+      "hf_id": "meta-llama/Llama-3.2-3B-Instruct",
+      "param_count": "3.21B",
+      "vocab_size": 128256,
+      "context_window": "128k native",
+      "license": "Llama 3.2 Community License (Restricted: requires attribution, >700M MAU special license, Meta acceptable use policy)",
+      "architecture": "LlamaForCausalLM (GQA, RoPE theta=500,000, SwiGLU)",
+      "memory_fp16_gb": 6.42,
+      "memory_int8_gb": 3.21,
+      "memory_qlora_4bit_gb": 2.08,
+      "tokenizer_eval": {
+        "avg_tokens": 63.8375,
+        "avg_words": 34.99375,
+        "tokens_per_word": 1.8629097142171502,
+        "total_tokens": 10214,
+        "total_words": 5599
+      }
+    }
+  },
+  "per_language": {
+    "urdulish": {
+      "qwen": {
+        "avg_tokens": 52.7,
+        "avg_words": 29.375,
+        "tokens_per_word": 1.880230762429915,
+        "total_tokens": 2108,
+        "total_words": 1175
+      },
+      "llama": {
+        "avg_tokens": 51.2,
+        "avg_words": 29.375,
+        "tokens_per_word": 1.7668123081987641,
+        "total_tokens": 2048,
+        "total_words": 1175
+      }
+    },
+    "roman_urdu": {
+      "qwen": {
+        "avg_tokens": 66.2,
+        "avg_words": 37.275,
+        "tokens_per_word": 1.7634664129170456,
+        "total_tokens": 2648,
+        "total_words": 1491
+      },
+      "llama": {
+        "avg_tokens": 64.925,
+        "avg_words": 37.275,
+        "tokens_per_word": 1.7237201172728802,
+        "total_tokens": 2597,
+        "total_words": 1491
+      }
+    },
+    "english": {
+      "qwen": {
+        "avg_tokens": 52.1,
+        "avg_words": 32.925,
+        "tokens_per_word": 1.4681519627092725,
+        "total_tokens": 2084,
+        "total_words": 1317
+      },
+      "llama": {
+        "avg_tokens": 50.95,
+        "avg_words": 32.925,
+        "tokens_per_word": 1.4027698605885373,
+        "total_tokens": 2038,
+        "total_words": 1317
+      }
+    },
+    "urdu_script": {
+      "qwen": {
+        "avg_tokens": 90.725,
+        "avg_words": 40.4,
+        "tokens_per_word": 2.6108634540470583,
+        "total_tokens": 3629,
+        "total_words": 1616
+      },
+      "llama": {
+        "avg_tokens": 88.275,
+        "avg_words": 40.4,
+        "tokens_per_word": 2.5583365708084194,
+        "total_tokens": 3531,
+        "total_words": 1616
+      }
+    }
+  }
+}

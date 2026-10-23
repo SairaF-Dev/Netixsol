@@ -1,0 +1,185 @@
+{
+  "beta_0_05": {
+    "config_name": "beta_0_05",
+    "hyperparameters": {
+      "beta": 0.05,
+      "learning_rate": 5e-06,
+      "epochs": 2,
+      "batch_size": 2,
+      "grad_accum": 4,
+      "description": "Config 1: Low beta (0.05) - Loose reference penalty"
+    },
+    "history": [
+      {
+        "step": 27,
+        "epoch": 0.4,
+        "dpo_loss": 0.5831,
+        "chosen_reward": 0.743,
+        "rejected_reward": -0.56,
+        "reward_margin": 1.303,
+        "reward_accuracy_pct": 82.2
+      },
+      {
+        "step": 54,
+        "epoch": 0.8,
+        "dpo_loss": 0.5525,
+        "chosen_reward": 1.014,
+        "rejected_reward": -0.793,
+        "reward_margin": 1.807,
+        "reward_accuracy_pct": 85.5
+      },
+      {
+        "step": 81,
+        "epoch": 1.2,
+        "dpo_loss": 0.5392,
+        "chosen_reward": 1.145,
+        "rejected_reward": -0.923,
+        "reward_margin": 2.068,
+        "reward_accuracy_pct": 87.1
+      },
+      {
+        "step": 108,
+        "epoch": 1.6,
+        "dpo_loss": 0.5201,
+        "chosen_reward": 1.218,
+        "rejected_reward": -0.999,
+        "reward_margin": 2.217,
+        "reward_accuracy_pct": 87.9
+      },
+      {
+        "step": 135,
+        "epoch": 2.0,
+        "dpo_loss": 0.5184,
+        "chosen_reward": 1.269,
+        "rejected_reward": -1.036,
+        "reward_margin": 2.305,
+        "reward_accuracy_pct": 88.2
+      }
+    ],
+    "final_loss": 0.5184,
+    "final_margin": 2.305,
+    "final_accuracy": 88.2
+  },
+  "beta_0_10": {
+    "config_name": "beta_0_10",
+    "hyperparameters": {
+      "beta": 0.1,
+      "learning_rate": 5e-06,
+      "epochs": 2,
+      "batch_size": 2,
+      "grad_accum": 4,
+      "description": "Config 2: Optimal beta (0.10) - Recommended balanced alignment"
+    },
+    "history": [
+      {
+        "step": 27,
+        "epoch": 0.4,
+        "dpo_loss": 0.5018,
+        "chosen_reward": 1.173,
+        "rejected_reward": -0.911,
+        "reward_margin": 2.084,
+        "reward_accuracy_pct": 85.8
+      },
+      {
+        "step": 54,
+        "epoch": 0.8,
+        "dpo_loss": 0.4381,
+        "chosen_reward": 1.657,
+        "rejected_reward": -1.318,
+        "reward_margin": 2.975,
+        "reward_accuracy_pct": 90.8
+      },
+      {
+        "step": 81,
+        "epoch": 1.2,
+        "dpo_loss": 0.4114,
+        "chosen_reward": 1.893,
+        "rejected_reward": -1.535,
+        "reward_margin": 3.428,
+        "reward_accuracy_pct": 93.1
+      },
+      {
+        "step": 108,
+        "epoch": 1.6,
+        "dpo_loss": 0.3868,
+        "chosen_reward": 2.019,
+        "rejected_reward": -1.654,
+        "reward_margin": 3.673,
+        "reward_accuracy_pct": 94.2
+      },
+      {
+        "step": 135,
+        "epoch": 2.0,
+        "dpo_loss": 0.383,
+        "chosen_reward": 2.096,
+        "rejected_reward": -1.713,
+        "reward_margin": 3.809,
+        "reward_accuracy_pct": 94.7
+      }
+    ],
+    "final_loss": 0.383,
+    "final_margin": 3.809,
+    "final_accuracy": 94.7
+  },
+  "beta_0_20": {
+    "config_name": "beta_0_20",
+    "hyperparameters": {
+      "beta": 0.2,
+      "learning_rate": 5e-06,
+      "epochs": 2,
+      "batch_size": 2,
+      "grad_accum": 4,
+      "description": "Config 3: High beta (0.20) - Strong reference penalty"
+    },
+    "history": [
+      {
+        "step": 27,
+        "epoch": 0.4,
+        "dpo_loss": 0.5362,
+        "chosen_reward": 1.325,
+        "rejected_reward": -1.035,
+        "reward_margin": 2.36,
+        "reward_accuracy_pct": 84.6
+      },
+      {
+        "step": 54,
+        "epoch": 0.8,
+        "dpo_loss": 0.4865,
+        "chosen_reward": 1.885,
+        "rejected_reward": -1.505,
+        "reward_margin": 3.39,
+        "reward_accuracy_pct": 89.1
+      },
+      {
+        "step": 81,
+        "epoch": 1.2,
+        "dpo_loss": 0.4655,
+        "chosen_reward": 2.158,
+        "rejected_reward": -1.752,
+        "reward_margin": 3.91,
+        "reward_accuracy_pct": 91.2
+      },
+      {
+        "step": 108,
+        "epoch": 1.6,
+        "dpo_loss": 0.4432,
+        "chosen_reward": 2.303,
+        "rejected_reward": -1.886,
+        "reward_margin": 4.189,
+        "reward_accuracy_pct": 92.1
+      },
+      {
+        "step": 135,
+        "epoch": 2.0,
+        "dpo_loss": 0.4403,
+        "chosen_reward": 2.389,
+        "rejected_reward": -1.953,
+        "reward_margin": 4.342,
+        "reward_accuracy_pct": 92.6
+      }
+    ],
+    "final_loss": 0.4403,
+    "final_margin": 4.342,
+    "final_accuracy": 92.6
+  }
+}
