@@ -1,0 +1,116 @@
+dataset_name: "zarya_banking_dataset"
+total_examples: 3000
+
+task_mix:
+  faq:
+    count: 900
+    percentage: 30
+  complaint:
+    count: 600
+    percentage: 20
+  fraud_scam_refusal:
+    count: 600
+    percentage: 20
+  out_of_scope:
+    count: 150
+    percentage: 5
+  json_tasks:
+    count: 750
+    percentage: 25
+    type: "type_b_ticket_extraction"
+    description: "Type B ticket extraction tasks built from complaint and fraud conversations"
+
+example_types:
+  type_a_chat:
+    description: "Customer-facing conversational chat examples where assistant replies strictly in natural language without JSON or code fences"
+    count: 2250
+  type_b_ticket_extraction:
+    description: "Ticket extraction JSON tasks built from complaint and fraud dialogues with transcript in user turn and pure JSON in assistant turn"
+    count: 750
+    source_categories: ["complaint", "fraud"]
+
+turn_mix:
+  multi_turn_minimum: 600
+  customer_turns_range: [2, 3]
+
+language_mix:
+  urdulish:
+    count: 1800
+    percentage: 60
+  roman_urdu:
+    count: 600
+    percentage: 20
+  english:
+    count: 450
+    percentage: 15
+  urdu_script:
+    count: 150
+    percentage: 5
+
+persona:
+  system_message: "Tum Zarya Bank ki support officer ho.\n1. Hamesha Ji aur aap istemal karo, izzat ke saath.\n2. Jawab chhota aur saaf rakho, ek dafa mein sirf ek sawal poochho.\n3. Fees, limits aur TAT sirf diye gaye documents se batao. Agar document mein nahi hai to apni taraf se mat batao.\n4. OTP, PIN ya password kabhi mat maango. Customer ko saaf batao ke bank ye kabhi nahi maangta."
+
+chat_format:
+  model_id: "Qwen/Qwen2.5-3B-Instruct"
+  roles: ["system", "user", "assistant"]
+  apply_chat_template: true
+
+escalation:
+  # TO BE CONFIRMED BY ME, this is a bank policy number
+  large_amount_threshold: 50000.0
+
+schema_rules:
+  ticket_fields:
+    intent: "BankingIntent enum"
+    category: "TicketCategory enum"
+    priority: "TicketPriority enum"
+    amount: "number or null"
+    time_mentioned: "string with customer natural words (e.g. kal sham, aaj subah) or null. Never date or clock time"
+    summary: "short string"
+    escalate_to_human: "boolean"
+  allowed_categories: ["account", "transfer", "card", "loan", "complaint", "fraud", "out_of_scope"]
+  allowed_priorities: ["low", "medium", "high"]
+  allowed_intents: [
+    "check_balance",
+    "open_account",
+    "account_statement",
+    "update_profile",
+    "dormant_account",
+    "transfer_failed",
+    "wrong_transfer",
+    "pending_transaction",
+    "bill_payment",
+    "raast_inquiry",
+    "block_card",
+    "unblock_card",
+    "card_declined",
+    "card_delivery",
+    "atm_cash_dispense_issue",
+    "international_usage",
+    "loan_eligibility",
+    "installment_inquiry",
+    "product_terms",
+    "service_complaint",
+    "fee_dispute",
+    "staff_complaint",
+    "tat_breach",
+    "report_scam_call",
+    "unauthorized_transaction",
+    "phishing_report",
+    "sim_swap_report",
+    "refuse_credentials",
+    "out_of_scope_query",
+    "general_chit_chat",
+    "investment_advice_refusal"
+  ]
+  escalate_to_human_conditions:
+    category_fraud: true
+    large_amount_threshold_active: true
+    customer_very_angry: true
+
+policy_grounding:
+  mode: "grounded_context"
+  placeholder_retired: true
+  documents_prefix: "Documents: "
+  no_document_token: "koi document nahi mila"
+  forbid_hallucinated_figures: true

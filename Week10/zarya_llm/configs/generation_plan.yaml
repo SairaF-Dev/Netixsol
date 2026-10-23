@@ -1,0 +1,2076 @@
+dataset_name: zarya_banking_dataset
+plan_version: '1.7'
+full_generation:
+  total_conversations: 2250
+  task_types:
+    faq:
+      count: 900
+      percentage: 40.0
+    complaint:
+      count: 600
+      percentage: 26.67
+    fraud:
+      count: 600
+      percentage: 26.67
+    out_of_scope:
+      count: 150
+      percentage: 6.67
+  languages:
+    urdulish:
+      count: 1350
+      percentage: 60.0
+    roman_urdu:
+      count: 450
+      percentage: 20.0
+    english:
+      count: 338
+      percentage: 15.0
+    urdu_script:
+      count: 112
+      percentage: 5.0
+  turn_requirements:
+    multi_turn_minimum_percentage: 26.67
+    multi_turn_minimum_count: 600
+  grounded_context_requirements:
+    fact_based_task_types:
+    - faq
+    - complaint
+    fact_based_total: 1500
+    nodoc_percentage: 13.0
+    nodoc_count: 195
+pilot_generation:
+  total_conversations: 20
+  task_types:
+    faq:
+      count: 8
+      percentage: 40.0
+    complaint:
+      count: 5
+      percentage: 25.0
+    fraud:
+      count: 5
+      percentage: 25.0
+    out_of_scope:
+      count: 2
+      percentage: 10.0
+  languages:
+    urdulish:
+      count: 12
+      percentage: 60.0
+    roman_urdu:
+      count: 4
+      percentage: 20.0
+    english:
+      count: 3
+      percentage: 15.0
+    urdu_script:
+      count: 1
+      percentage: 5.0
+  turn_requirements:
+    multi_turn_minimum_percentage: 30.0
+    multi_turn_minimum_count: 6
+  grounded_context_requirements:
+    fact_based_task_types:
+    - faq
+    - complaint
+    fact_based_total: 13
+    nodoc_percentage: 13.0
+    nodoc_count: 2
+derivation_rules:
+  task_type:
+    fraud: category == 'fraud'
+    out_of_scope: category == 'out_of_scope'
+    complaint: category != 'fraud' and ticket is not None
+    faq: everything else
+generation_parameters:
+  temperature: 0.9
+  random_seed: 42
+pricing:
+  input_per_million: null
+  output_per_million: null
+model_limits:
+  gemini-3.8-flash:
+    min_seconds_between_requests: 13
+    daily_request_limit: 18
+  gemini-3.1-flash-lite:
+    min_seconds_between_requests: 6
+    daily_request_limit: 450
+opening_styles:
+  acknowledge:
+  - Express genuine empathy and polite reassurance in the assistant's own phrasing
+    without repeating the customer's words
+  - Open with a concise empathetic statement in the assistant's own words showing
+    understanding of the situation
+  - Begin by acknowledging the customer distress politely in original phrasing without
+    echoing their exact words
+  - Show polite empathy and concern in the assistant's own words before addressing
+    the matter
+  direct:
+  - Start immediately with the direct answer to the customer question without preamble
+  - Provide the requested answer in the very first sentence without introductory filler
+  - Answer the inquiry directly and concisely in the opening sentence
+  - Deliver the direct response immediately as the opening statement
+  refusal:
+  - State in the assistant's own words that it cannot help with this subject
+  - Name the requested topic directly and state that it is outside what the assistant
+    handles
+  - Begin with a short polite acknowledgement followed immediately by stating the
+    limitation
+  - State clearly in the assistant's own words that this matter is outside what the
+    assistant can assist with
+  scam:
+  - Name the suspected security danger in plain words in the opening sentence
+  - Open by identifying the potential danger in clear and plain language
+  - Start with a short question asking what exactly happened in the incident
+  - Begin by asking a concise question about what took place
+  detail:
+  - Start with a short question asking for the single missing detail needed
+  - Begin by asking a direct clarifying question for the single missing detail
+  - Open with a concise question requesting the one missing detail needed to proceed
+  - Start immediately by asking for the single missing detail required
+customer_style_pool:
+  roman_urdu:
+  - mood: calm
+    spelling: clean
+    text: kya joint account online khul sakta hai
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: salary account mein convert karwana hai kya documents chahiye
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: debit card ki expiry date qareeb hai naya card kab tak milega
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: check book mangwani thi kitne din mein aayegi
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: online shopping ke liye card activate karwana hai
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: fund transfer limit barhwanay ka kya tariqa hai
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: kia joint acnt online khul skta hy
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: salary acct m convrt krwana hy kia dcmnts chahye
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: debit crd ki expr date qareeb hy new crd kb tk aye ga
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: chq buk mgwani thi ktne din lgte hen
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: online shoping k lye crd actvate krna hy
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: fnd trnsfr limit brhany ka kia tareeqa he
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: subah se intezar kar raha hun transfer abhi tak pending hai!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: card ATM machine mein phans gaya hai nikalwa dein!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: app login nahi ho rahi baar baar error aa jata hai!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: customer support se rabta nahi ho pa raha meri complaint pending hai!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: paise kat gaye hain lekin notification nahi aayi!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: kal se transfer ka status pending dikha raha hai!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: subha se wate kr rha hu trnsfr abhi tk pnding hy!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: crd atm m phns gya hy nikalwa den foran!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: app log in ni ho rhi bar bar eror a rha hy!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: custmr suprt se rbta ni ho rha compalint pnding he!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: paise kt gye hen pr koi sms ya notifctn ni aya!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: kl se status pnding show ho rha he kch kro!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: fazool tareen bank hai mera card band kar diya tum logon ne!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: CHOR HO TUM LOG MERA TRANSFER FORAN CLEAR KARO
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: bakwas service hai kitni dafa complain karni paregi!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: zaleel kar diya hai do din se paise atkaye hue hain!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: FRAUD HAI SAB KUCH MERA ACCOUNT UNBLOCK KARO ABHI
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: thak gaya hun tum logon ke jhoot sun sun kar!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: fzol trn bnk hy mera crd bnd kr dya tm logo ne!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: CHOR HE SB MERI RQM FORAN WAPIS DILWAO
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: bkwas sarvis hy ktni dfa bolna pry ga tm sb ko!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: zaleel kr k rkh dya hy pise atkye hue hen kbi se!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: FROD HE YE BNK MERA ACNT UNBLOK KRO ABI
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: thk gya hu tm sb k jhot sun sun k bnd kro sb!!!
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: national assembly ke aam intikhabat kab hon ge
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: sugar test ki normal range kitni honi chahiye
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: solar panel lagwana behtar hai ya prize bond lena
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: champions trophy ka final kahan khela jaye ga
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: hbl ka mobile app kaise activate hota hai
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: gravitational force ka formula bata dein physics ka homework hai
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: true
+    text: aap ka pasandeeda mausam konsa hai
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: elctn k result kb anay hen
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: khansi k lye koi syrup btao
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: crpto buy krna safe he ya ni
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: aaj k match ki timing kia hy
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: alfalah bnk ki helpline ka number chahye
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: maths ki equatn solve kr dain plz
+  - mood: calm
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: true
+    text: ap se dosti ho skti hy kia
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: hukumat ke petrol tax par kuch to bolo!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: sir dard se bura haal hai koi dawai to recommend kar do!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: dollar rate barh raha hai savings kahan invest karun!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: cricket team baar baar haar rahi hai management change honi chahiye!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: dusray bank ka transfer code to bata dein kab se pooch raha hun!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: subah assignment jama karwani hai essay likh kar do!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: true
+    text: aap se baat karna bekaar hai kisi insaan se connect karein!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: ptrol q mehnga ho rha he kch to btao!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: kl se bkhar hy koi goli btao foran!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: dlr uper ja rha hy ma kia kru kch to bolo!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: mtch khrab ho gya he sb bekwr khel rhy!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: dusre bnk ki app ka issue kyu ni bta rhy!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: asigmnt submit krni he subha kch solve krdo!
+  - mood: frustrated
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: true
+    text: tm bndi ho ya bot dhang se bat kro!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: SIYASATDAN MULK LOOT GAYE TUM LOG BHI UN JAISE HO!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: DOCTOR NAHI MIL RAHA MERI TABIAT KHARAB HAI DAWA BATAO FORAN!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: MERA PAISA DOOB RAHA HAI KUCH TO BATAO KAHAN LAGAUN!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: YE CRICKET BOARD CHOR HAI MERI TICKET KE PAISE KHA GAYE!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: DOOSRA BANK BEHTAR HAI TUM LOGON SE WO FORAN SERVICE DETE HAIN!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: MERA EXAM HAI AUR TUM LOG AIK FORMULA BHI NAHI BATA SAKTE FAZOOL BOT!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: true
+    text: BAKWAAS ROBOT HO TUM REAL HUMAN SE CONNECT KARO YA BOT BAND KARO!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: MLK KHRB KR DYA HE TM LOGO NE BHI!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: DWA KA NAAM B BTAO FORAN DARD HO RHA HY!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: SARA PESA LOOT LYA SB DBO DYA KCH TO BTAO AB!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: MTCH HRWA DYA CHOR TM SB!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: DUSRA BNK TMSE HZAR GUNA ACCHA HY FZOL TRN!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: false
+    text: SUBHA PAPER HE AIK QS KA ANSWER B NAHI DIA!!!
+  - mood: very_angry
+    spelling: typo_heavy
+    topic: refusal
+    chit_chat: true
+    text: BKWAS BOT HE BND KRO ISKO FORAN!!!
+  urdu_script:
+  - mood: calm
+    spelling: clean
+    text: کیا مشترکہ اکاؤنٹ آن لائن کھولا جا سکتا ہے
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: سیلری اکاؤنٹ کے لیے کون سے کاغذات درکار ہیں
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    text: چیک بک کتنے دنوں میں موصول ہوتی ہے
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: کیا جوئنٹ اکاونٹ آنلین کھل سکتا ہے
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: سلری اکاونٹ بنوانا ہے کونسے ڈاکومنٹ لگیں گے
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: typo_heavy
+    text: چیک بک کتنے دن مے آۓ گی
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: صبح سے انتظار کر رہا ہوں ٹرانسفر ابھی تک پینڈنگ ہے!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: کارڈ مشین میں پھنس گیا ہے جلدی مدد کریں!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: clean
+    text: ایپ لاگ ان نہیں ہو رہی بار بار ایرر آ رہا ہے!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: صبح سے ویٹ کر رہا ہو ٹرانسفر اب تک پینڈنگ ھے!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: کارڈ مشین مے پھنس گیا ھے جلد نکالیں!
+    topic: banking
+    chit_chat: false
+  - mood: frustrated
+    spelling: typo_heavy
+    text: ایپ لاگن نہی ہو رہی بار بار ایرر آ رھا ھے!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: فضول ترین سروس ہے تم لوگوں نے میرا اکاؤنٹ بلاک کر دیا!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: چور ہو تم سب میرا ٹرانسفر فورا کلیئر کرو
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: clean
+    text: ذلیل کر دیا ہے تم لوگوں نے مجھے میری رقم واپس کرو!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: فضول ترین بینک ہے تم نے مرا اکاونٹ بند کر دیا!!!
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: چور ھو تم سب فورا ٹرانسفر ٹھیک کرو
+    topic: banking
+    chit_chat: false
+  - mood: very_angry
+    spelling: typo_heavy
+    text: ذلیل کر کے رکھ دیا ھے کب سے رکے ھوۓ ہیں پیسے!!!
+    topic: banking
+    chit_chat: false
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: قومی اسمبلی کے الیکشن کب ہوں گے
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: شوگر ٹیسٹ کی نارمل رینج کیا ہوتی ہے
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: سولر پینل لگوانا چاہیے یا پرائز بانڈ لینا بہتر ہے
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: چیمپئنز ٹرافی کا فائنل کہاں ہوگا
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: ایچ بی ایل کی ایپ کیسے ایکٹیویٹ ہوتی ہے
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: گریویٹیشنل فورس کا فارمولا بتا دیں فزکس کا ہوم ورک ہے
+  - mood: calm
+    spelling: clean
+    topic: refusal
+    chit_chat: true
+    text: آپ کا پسندیدہ موسم کونسا ہے
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: پٹرول اتنا مہنگا کیوں ہو رہا ہے کچھ تو بتائیں!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: سر میں شدید درد ہے کوئی گولی بتا دیں!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: ڈالر ریٹ بڑھ رہا ہے پیسے کہاں انویسٹ کروں!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: ہماری ٹیم ہر میچ ہار جاتی ہے کب ٹھیک کھیلیں گے!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: دوسرے بینک کا ہیلپ لائن نمبر ہی بتا دیں!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: صبح اسائنمنٹ جمع کروانی ہے کچھ تو لکھ کر دیں!
+  - mood: frustrated
+    spelling: clean
+    topic: refusal
+    chit_chat: true
+    text: آپ سے بات کرنا بیکار ہے کسی انسان سے بات کروائیں!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: حکومت نے سب برباد کر دیا ہے تم لوگ بھی لوٹ رہے ہو!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: طبیعت خراب ہے ایمرجنسی میں کوئی دوا بتاؤ فورا!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: کرپٹو میں سارا نقصان ہو گیا تم لوگ مشورہ بھی نہیں دیتے!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: بورڈ کے سارے لوگ چور ہیں میچ فکس کرواتے ہیں!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: دوسرا بینک تم لوگوں سے لاکھ گنا بہتر ہے!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: false
+    text: میرا پیپر ہے اور تم لوگ ایک فارمولا نہیں بتا رہے بکو اس بوٹ!!!
+  - mood: very_angry
+    spelling: clean
+    topic: refusal
+    chit_chat: true
+    text: فضول روبوٹ بند کرو فورا اصلی بندے سے کنیکٹ کرو!!!
+mood_distribution:
+  calm: 0.45
+  frustrated: 0.35
+  very_angry: 0.2
+sampled_number_ranges:
+  fee:
+  - 25
+  - 35
+  - 50
+  - 75
+  - 95
+  - 120
+  - 150
+  - 185
+  - 220
+  - 250
+  - 275
+  - 310
+  - 340
+  - 385
+  - 420
+  - 460
+  - 500
+  - 550
+  - 620
+  - 680
+  - 725
+  - 750
+  - 825
+  - 875
+  - 925
+  - 980
+  - 1050
+  - 1125
+  - 1200
+  - 1275
+  - 1350
+  - 1425
+  - 1500
+  - 1580
+  - 1650
+  - 1725
+  - 1800
+  - 1890
+  - 1950
+  - 2050
+  - 2150
+  - 2250
+  - 2340
+  - 2420
+  - 2500
+  daily_limit:
+  - 15000
+  - 18500
+  - 22000
+  - 25000
+  - 28500
+  - 32500
+  - 36000
+  - 42000
+  - 48000
+  - 50000
+  - 55000
+  - 62000
+  - 68000
+  - 75000
+  - 82000
+  - 88000
+  - 95000
+  - 100000
+  - 115000
+  - 125000
+  - 135000
+  - 150000
+  - 165000
+  - 175000
+  - 190000
+  - 200000
+  - 215000
+  - 230000
+  - 250000
+  - 275000
+  - 290000
+  - 320000
+  - 350000
+  - 385000
+  - 420000
+  - 450000
+  - 485000
+  - 500000
+  - 550000
+  - 600000
+  - 675000
+  - 750000
+  turnaround_hours:
+  - 6
+  - 8
+  - 10
+  - 12
+  - 14
+  - 16
+  - 18
+  - 20
+  - 22
+  - 24
+  - 26
+  - 28
+  - 30
+  - 32
+  - 36
+  - 40
+  - 42
+  - 44
+  - 48
+  - 52
+  - 54
+  - 56
+  - 60
+  - 64
+  - 66
+  - 70
+  - 72
+  - 76
+  - 80
+  - 84
+  - 88
+  - 90
+  - 92
+  - 96
+  - 100
+  - 102
+  - 104
+  - 108
+  - 112
+  - 114
+  - 116
+  - 120
+  turnaround_days:
+  - 1
+  - 1.5
+  - 2
+  - 2.5
+  - 3
+  - 3.5
+  - 4
+  - 4.5
+  - 5
+  - 5.5
+  - 6
+  - 6.5
+  - 7
+  - 7.5
+  - 8
+  - 8.5
+  - 9
+  - 9.5
+  - 10
+  - 10.5
+  - 11
+  - 11.5
+  - 12
+  - 12.5
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  percentage:
+  - 1.5
+  - 2.2
+  - 2.5
+  - 2.8
+  - 3.2
+  - 3.5
+  - 3.8
+  - 4.2
+  - 4.5
+  - 4.8
+  - 5.2
+  - 5.5
+  - 5.8
+  - 6.2
+  - 6.5
+  - 7.2
+  - 7.5
+  - 8.2
+  - 8.5
+  - 9.2
+  - 9.5
+  - 10.5
+  - 11.2
+  - 11.8
+  - 12.5
+  - 13.2
+  - 13.8
+  - 14.5
+  - 15.2
+  - 15.8
+  - 16.5
+  - 17.2
+  - 17.8
+  - 18.2
+  - 18.5
+  - 19.2
+  - 19.8
+  - 20.5
+  - 21.2
+  - 22.5
+  - 23.8
+  - 24.5
+  customer_amount:
+  - 650
+  - 950
+  - 1350
+  - 1750
+  - 2250
+  - 2500
+  - 2800
+  - 3400
+  - 3850
+  - 4200
+  - 4500
+  - 4750
+  - 5300
+  - 5850
+  - 6400
+  - 7000
+  - 7250
+  - 8100
+  - 8900
+  - 9600
+  - 10500
+  - 11800
+  - 12000
+  - 12600
+  - 13500
+  - 14800
+  - 16200
+  - 17500
+  - 18000
+  - 19200
+  - 21500
+  - 23400
+  - 25000
+  - 26500
+  - 28900
+  - 31200
+  - 35000
+  - 38000
+  - 42500
+  - 46800
+  - 51500
+  - 55000
+  transfer_raast_fee:
+  - 15
+  - 18
+  - 20
+  - 22
+  - 25
+  - 30
+  - 35
+  - 38
+  - 40
+  - 45
+  - 48
+  - 50
+  - 55
+  - 60
+  - 65
+  - 68
+  - 70
+  - 75
+  - 78
+  - 80
+  - 85
+  - 88
+  - 90
+  - 95
+  - 100
+  - 105
+  - 110
+  - 115
+  - 120
+  - 125
+  - 130
+  - 135
+  - 140
+  - 145
+  - 150
+  statement_fee:
+  - 100
+  - 120
+  - 130
+  - 150
+  - 160
+  - 175
+  - 180
+  - 200
+  - 210
+  - 225
+  - 250
+  - 275
+  - 300
+  - 325
+  - 340
+  - 350
+  - 375
+  - 400
+  - 425
+  - 450
+  - 475
+  - 480
+  - 500
+  - 525
+  - 550
+  - 575
+  - 600
+  - 625
+  - 650
+  - 675
+  - 700
+  - 725
+  - 750
+  - 775
+  - 800
+  card_fee:
+  - 300
+  - 350
+  - 400
+  - 450
+  - 500
+  - 550
+  - 600
+  - 650
+  - 700
+  - 750
+  - 800
+  - 850
+  - 900
+  - 950
+  - 1000
+  - 1100
+  - 1200
+  - 1250
+  - 1350
+  - 1400
+  - 1500
+  - 1600
+  - 1700
+  - 1750
+  - 1800
+  - 1900
+  - 2000
+  - 2100
+  - 2200
+  - 2250
+  - 2350
+  - 2400
+  - 2500
+  loan_processing_fee:
+  - 500
+  - 600
+  - 750
+  - 850
+  - 1000
+  - 1150
+  - 1250
+  - 1350
+  - 1400
+  - 1500
+  - 1650
+  - 1750
+  - 1850
+  - 1900
+  - 2000
+  - 2200
+  - 2400
+  - 2500
+  - 2700
+  - 2850
+  - 3000
+  - 3200
+  - 3400
+  - 3500
+  - 3750
+  - 4000
+  - 4200
+  - 4400
+  - 4500
+  - 4750
+  - 4900
+  - 5000
+  loan_markup:
+  - 14.0
+  - 14.5
+  - 14.8
+  - 15.0
+  - 15.5
+  - 15.8
+  - 16.0
+  - 16.2
+  - 16.5
+  - 16.8
+  - 17.0
+  - 17.5
+  - 17.8
+  - 18.0
+  - 18.5
+  - 18.8
+  - 19.0
+  - 19.5
+  - 20.0
+  - 20.5
+  - 21.0
+  - 21.5
+  - 22.0
+  - 22.5
+  - 23.0
+  - 23.5
+  - 24.0
+  - 24.5
+  - 25.0
+  - 25.5
+  - 26.0
+  - 26.5
+  - 27.0
+  - 27.5
+  - 28.0
+  late_payment_fee:
+  - 300
+  - 350
+  - 400
+  - 450
+  - 500
+  - 550
+  - 600
+  - 650
+  - 700
+  - 750
+  - 800
+  - 850
+  - 900
+  - 950
+  - 1000
+  - 1100
+  - 1200
+  - 1250
+  - 1300
+  - 1400
+  - 1500
+  - 1600
+  - 1700
+  - 1750
+  - 1800
+  - 1900
+  - 2000
+  - 2100
+  - 2200
+  - 2300
+  - 2400
+  - 2500
+  bill_payment_fee:
+  - 10
+  - 12
+  - 15
+  - 18
+  - 20
+  - 22
+  - 25
+  - 28
+  - 30
+  - 32
+  - 35
+  - 38
+  - 40
+  - 42
+  - 45
+  - 48
+  - 50
+  - 52
+  - 55
+  - 58
+  - 60
+  - 62
+  - 65
+  - 68
+  - 70
+  - 72
+  - 75
+  - 78
+  - 80
+  - 85
+  - 90
+  - 95
+  - 100
+  dormant_reactivation_fee:
+  - 0
+  - 15
+  - 25
+  - 35
+  - 50
+  - 65
+  - 75
+  - 85
+  - 90
+  - 100
+  - 110
+  - 120
+  - 135
+  - 140
+  - 150
+  - 175
+  - 200
+  - 220
+  - 240
+  - 250
+  - 275
+  - 300
+  - 320
+  - 340
+  - 350
+  - 375
+  - 400
+  - 420
+  - 440
+  - 450
+  - 475
+  - 490
+  - 500
+  resolution_time_hours:
+  - 12
+  - 14
+  - 16
+  - 18
+  - 20
+  - 22
+  - 24
+  - 26
+  - 28
+  - 30
+  - 32
+  - 36
+  - 38
+  - 40
+  - 42
+  - 44
+  - 48
+  - 50
+  - 52
+  - 54
+  - 56
+  - 60
+  - 62
+  - 64
+  - 66
+  - 70
+  - 72
+  - 76
+  - 80
+  - 84
+  - 88
+  - 90
+  - 92
+  - 96
+  resolution_time_days:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  daily_limits:
+  - 25000
+  - 30000
+  - 35000
+  - 40000
+  - 45000
+  - 50000
+  - 60000
+  - 70000
+  - 75000
+  - 80000
+  - 90000
+  - 100000
+  - 110000
+  - 125000
+  - 135000
+  - 150000
+  - 165000
+  - 175000
+  - 190000
+  - 200000
+  - 215000
+  - 225000
+  - 250000
+  - 275000
+  - 300000
+  - 325000
+  - 350000
+  - 375000
+  - 400000
+  - 425000
+  - 450000
+  - 475000
+  - 500000
+  resolution_time:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 18
+  - 20
+  - 22
+  - 24
+  - 26
+  - 28
+  - 30
+  - 32
+  - 36
+  - 38
+  - 40
+  - 42
+  - 44
+  - 48
+  - 50
+  - 52
+  - 54
+  - 56
+  - 60
+  - 62
+  - 64
+  - 66
+  - 70
+  - 72
+  - 76
+  - 80
+  - 84
+  - 88
+  - 90
+  - 92
+  - 96
+scenario_facets:
+  account_statement:
+    already_tried:
+    - app mein khate ka hisab kitab talash kiya
+    - SMS par purani adaigi ki ittela dekhi
+    - app mein guzashta len den ka safah khola
+    - WhatsApp par khate ka khulasa maanga
+    - app par pichle mahine ki maloomat parhi
+    - khate ki tafseel do martaba dekhi
+    message_seen:
+    - app par khata na khulne ka pegham aya
+    - parde par takneeki rukawat ka ishara dekha
+    - SMS par raqam katne ki tasdeeq aayi
+    - surkh patti par intezar karne ka ishara aya
+    - app mein na mukammal maloomat ka ishara dekha
+    - pegham mila ke tafseel dastiyab nahi hai
+    duration:
+    - kal subah se tafseel ka intezar kar raha hai
+    - guzashta raat se koshish jari hai
+    - do din se hisab kitab dekhne ki koshish ki
+    - chand ghanton se safah kholne ki koshish ki
+    - aaj dopahar se maloomat talash kar raha hai
+    - aik ghante se intezar mein betha hai
+  atm_cash_dispense_issue:
+    already_tried:
+    - ATM ke samne khare ho kar intezar kiya
+    - ATM se nikli hui kagazi parchi uthayi
+    - ATM par baqi bachi raqam dekhi
+    - ATM mein dobara koshish ki
+    - app khol kar raqam ki soorathal dekhi
+    - SMS ke zariye raqam katne ki tasdeeq dekhi
+    message_seen:
+    - ATM par raqam phansne ka ishara aya
+    - ATM par koshish nakam hone ka pegham dekha
+    - SMS aya ke raqam nikal chuki hai magar hath nahi aayi
+    - ATM par kharabi ka pegham parha
+    - parchi par adaigi na hone ka indraj aya
+    - ATM ka parda shuroo wale safah par chala gaya
+    duration:
+    - ATM ke samne thori der se khara hai
+    - aaj dopahar se raqam wapsi ka intezar hai
+    - chand lamhe pehle yeh hadsa pesh aya
+    - kal shaam se khate ki raqam ghaib hai
+    - do ghante se ATM ke paas pareshan hai
+    - aaj subah se madad ki talash mein hai
+  bill_payment:
+    already_tried:
+    - app mein bijli gas ka shanakhti hinsa darj kiya
+    - app ke zariye adaigi ki koshish ki
+    - SMS par adaigi ki tasdeeq talash ki
+    - app mein dobara raqam bhejne ki koshish ki
+    - idaray ka naam dhyan se parha
+    - app mein baqi bachi raqam tasdeeq ki
+    message_seen:
+    - app par pegham aya ke adaigi pehle hi ho chuki hai
+    - surkh rang ki patti par adaigi nakam likha aya
+    - SMS par raqam katne ka pegham mila
+    - parde par takneeki rukawat ka ishara nazar aya
+    - app par ghalat shanakhti hinsa ka ishara aya
+    - raabta tootne ka ishara parde par ubhra
+    duration:
+    - kal dopahar se adaigi karne ki koshish mein hai
+    - aaj raat aakhri tareekh khatam ho rahi hai
+    - kayi ghanton se adaigi latki hui hai
+    - aaj subah se baar baar koshish kar raha hai
+    - do din se tasdeeqi pegham ka intezar hai
+    - chand ghanton mein aakhri mohlat guzar jayegi
+  block_card:
+    already_tried:
+    - jeib aur gaari mein talash kiya
+    - app ke zariye khata foran band karne ki koshish ki
+    - SMS par aane wali itlaat dhyan se dekhi
+    - pichli dukaan par ja kar poocha
+    - WhatsApp par pegham bhej kar daryaft kiya
+    - app mein hifazati intikhab talash kiya
+    message_seen:
+    - SMS par anjaan khareedari ki ittela mili
+    - app par khata aarzi tor par band likha aya
+    - SMS par ghair tasdeeq shuda raqam katne ka pegham aya
+    - hifazati khatray ka pegham parde par dikhai diya
+    - SMS par band karne ki darkhwast ka indraj aya
+    - app mein len den radd hone ki ittela dekhi
+    duration:
+    - aadha ghanta pehle cheez gum hone ka pata chala
+    - kal shaam se cheez nahi mil rahi
+    - aik ghante se idhar udhar dhoond raha hai
+    - aaj subah se chori hone ka andesha hai
+    - chand lamhe pehle anjaan SMS mila
+    - safar ke dauran raste mein gum hui
+  card_declined:
+    already_tried:
+    - dukaan par do martaba adaigi ki koshish ki
+    - khufia hinsa dhyan se dobara darj kiya
+    - app mein baqi bachi raqam dekhi
+    - ATM par ja kar tasdeeq karne ki koshish ki
+    - plastic patti ko saaf kar ke dobara lagaya
+    - app mein khate ki hifazat ka safah khola
+    message_seen:
+    - dukaan par adaigi radd hone ka pegham aya
+    - parde par khata chalane wala idara dastiyab nahi likha aya
+    - SMS par adaigi nakam hone ki ittela mili
+    - parchi par likha aya ke apne idaray se rabta karein
+    - app par rozana ki hadd khatam hone ka ishara dekha
+    - safah par ijazat na milne ka pegham dikhai diya
+    duration:
+    - dukaan ke samne is waqt khara hai
+    - kal se baar baar adaigi radd ho rahi hai
+    - aik ghante ke dauran teen dafa radd hui
+    - aaj dopahar ko achanak yeh rukawat aayi
+    - subah se adaigi ki koshish mein nakaami hui
+    - chand lamhe pehle adaigi radd hui
+  card_delivery:
+    already_tried:
+    - ghar ke bahar daak ka dabba dekha
+    - app mein rawangi ki soorathal talash ki
+    - SMS mein aane wala rawangi ka hinsa parha
+    - daak wale ke aane ka intezar kiya
+    - pichli darkhwast ki tareekh dhyan se dekhi
+    - app mein ghar ka pata do martaba parha
+    message_seen:
+    - SMS par pegham mila ke daak rawana ho chuki hai
+    - app par daak pohanchane ki koshish nakam likhi aayi
+    - pegham aya ke diya gaya pata na mukammal tha
+    - SMS par nayi tareekh ka ishara mila
+    - parde par tay shuda waqt guzar jane ka ishara dekha
+    - app mein rawangi ruki hui nazar aayi
+    duration:
+    - do hafton se daak ka intezar kar raha hai
+    - tay shuda waqt teen din pehle guzar gaya
+    - pichle das din se raste mein atki hui hai
+    - aik maah se nayi cheez nahi mili
+    - kal se daak aane ki umeed par betha hai
+    - kayi din se har subah intezar karta hai
+  check_balance:
+    already_tried:
+    - app khol kar samne wala safah dekha
+    - SMS par khate ki raqam janne ka lafz bheja
+    - ATM par ja kar kagazi parchi nikali
+    - app ko band kar ke dobara khola
+    - SMS ki pichli itlaat dhyan se parhein
+    - app mein taza tareen raqam dekhne ki koshish ki
+    message_seen:
+    - parde par raqam ki maloomat dastiyab nahi likha aya
+    - app mein ghalat ya ajeeb raqam nazar aayi
+    - SMS par purani bachi hui raqam aayi
+    - app par khata arzi tor par masroof dikhai diya
+    - parde par khate ka khulasa khali nazar aya
+    - SMS ka koi jawab wapas nahi aya
+    duration:
+    - aaj subah se khate par nazar rakhe hue hai
+    - aaj dopahar ko achanak ajeeb raqam dekhi
+    - kal se baqi bachi raqam badal nahi rahi
+    - chand ghanton se taza maloomat nahi mil rahi
+    - aik ghante se app kholne ki koshish kar raha hai
+    - chand lamhe pehle SMS bheja tha
+  dormant_account:
+    already_tried:
+    - kayi mahinon baad app kholne ki koshish ki
+    - IBFT ke zariye thori si raqam bhejne ki koshish ki
+    - ATM par ja kar khufia hinsa darj kiya
+    - SMS ke zariye khate ki maloomat maangi
+    - Raast ke zariye raqam mangwane ki koshish ki
+    - app mein khate ki hifazati tasdeeq talash ki
+    message_seen:
+    - parde par khata ghair fa aal hone ka pegham dekha
+    - app par raqam nikalwane par pabandi ka ishara aya
+    - SMS aya ke khata taweel arsay se band hai
+    - app mein shanakht ki tasdeeq mangi gayi
+    - parde par likha aya ke koshish radd kar di gayi hai
+    - surkh patti par khata dobara chalu karne ki hidayat aayi
+    duration:
+    - aik saal se khata istemal nahi kiya
+    - kal se dakhil hone mein rukawat pesh aa rahi hai
+    - kayi mahinon baad pehli martaba khola
+    - do din se khata chalu karne ki koshish mein hai
+    - subah se raqam bhejna band hai
+    - pichle haftay se len den ruka hua hai
+  fee_dispute:
+    already_tried:
+    - app mein khate ka hisab kitab ghour se dekha
+    - katne wali raqam ka pichli adaigi se mawazna kiya
+    - SMS mein aane wali katori ka pegham parha
+    - app par kharchay ki fehrist talash ki
+    - khate ki raseed par hinsa parha
+    - WhatsApp par pichla pegham dekha
+    message_seen:
+    - SMS par ghair mutawaqqe kharcha katne ka pegham mila
+    - app par ajeeb kharcha likha nazar aya
+    - hisab kitab mein do martaba raqam katne ka indraj aya
+    - SMS par zayada raqam katne ki tasdeeq aayi
+    - parde par anjaan kharchay ka naam ubhra
+    - khate mein se achanak raqam kam nazar aayi
+    duration:
+    - aaj subah katori dekh kar afsos hua
+    - do din pehle khate se raqam kaati gayi
+    - kal shaam se is kharchay ki waja talash kar raha hai
+    - pichle mahine bhi aisi hi raqam kati thi
+    - chand ghante pehle achanak SMS aya
+    - teen din se wazahat ka intezar hai
+  general_chit_chat:
+    already_tried:
+    - app mein guftagu ka khana khola
+    - guftagu ke khane mein salam likha
+    - madad ke safah par ja kar dekha
+    - app ke naye parde par nazar daali
+    - WhatsApp par salam bheja
+    - app mein khidmaat ki fehrist dekhi
+    message_seen:
+    - parde par khush aamdeed ka pegham ubhra
+    - guftagu ke khane mein sawal likhne ka ishara aya
+    - app par nayi sahulat ka nishan dekha
+    - parde par rabta karne ki dawat nazar aayi
+    - app mein shuroo karne ka ishara aya
+    - parde par khidmat ka intikhab nazar aya
+    duration:
+    - chand lamhe pehle guftagu shuroo ki
+    - aaj dopahar ko app ka naya safah dekh raha hai
+    - thori der se parda dekh raha hai
+    - aaj subah app kholi thi
+    - abhi thori der pehle rabta kiya
+    - chand lamhe pehle salam likha tha
+  installment_inquiry:
+    already_tried:
+    - app mein aasan adaigi ke mansoobay dekhe
+    - mahina war qist ka hisab kitab kiya
+    - SMS mein aane wali aasan adaigi ki ittela parhi
+    - app par mukhtalif mahinon ki fehrist dekhi
+    - khate mein bachi hui gunjaish dekhi
+    - app par qist ki sharah parhi
+    message_seen:
+    - app par aasan qist mein badalne ka ishara aya
+    - parde par bila munafa qist ki khushkhabri aayi
+    - SMS par qist ki sahulat ka pegham mila
+    - app mein mahina war raqam ka hisab ubhra
+    - parde par aakhri mohlat ki tafseel aayi
+    - SMS mein zayada munafa na lagne ki ittela aayi
+    duration:
+    - is haftay ghar ke liye khareedari ka irada hai
+    - kal se mukhtalif mahinon ka hisab laga raha hai
+    - aaj subah se qist ki sharah maloom karne ki koshish ki
+    - do din se khareedari ki mansooba bandi kar raha hai
+    - pichle haftay aasan qist ka ishtihar dekha tha
+    - chand ghanton se qist ki tafseel talash kar raha hai
+  international_usage:
+    already_tried:
+    - app mein bairoon e mulk len den ka intikhab chalu kiya
+    - bairoon e mulk adaigi ki koshish ki
+    - SMS par aane wali itlaat dekhi
+    - ATM par bairoon e mulk ja kar koshish ki
+    - app mein mulk se bahar istemal ki ijazat talash ki
+    - WhatsApp par rabta karne ki koshish ki
+    message_seen:
+    - parde par bairoon e mulk len den band hone ka pegham aya
+    - SMS par sarhad paar adaigi nakam hone ki ittela mili
+    - app par bairoon e mulk sahulat band hone ka ishara aya
+    - parde par ghair mulki adaigi radd hone ka pegham aya
+    - SMS par hifazati rukawat ki ittela aayi
+    - app mein mulk se bahar len den ki hadd sifar dikhai di
+    duration:
+    - is waqt hawai adday par adaigi ke waqt khara hai
+    - kal subah se mulk se bahar safar mein hai
+    - chand lamhe pehle bairoon e mulk adaigi radd hui
+    - aaj dopahar se mulk se bahar adaigi mein masla hai
+    - do din se bairoon e mulk safar par hai
+    - aik ghante se bairoon e mulk len den ki koshish kar raha hai
+  investment_advice_refusal:
+    already_tried:
+    - munafa bakhsh sarmayakari ke kaghzat parhe
+    - mahina war munafa ki sharah dekhi
+    - app mein bachaye hue paison ka safah khola
+    - WhatsApp par tijarat ka poocha
+    - khate mein izafi raqam ka jaiza liya
+    - SMS mein aane wali bachatt ki ittela parhi
+    message_seen:
+    - parde par sarmayakari ke fawaid ka safah aya
+    - app par munafa ki mukhtalif soortein nazar aayi
+    - SMS par bachatt ki nayi sahulat ka pegham aya
+    - parde par tijarat mein utaar charhao ka ishara dekha
+    - app mein taveel muddat bachatt ka ishara dekha
+    - parde par izafi munafa ka ishtihar dekha
+    duration:
+    - pichle mahine se bachatt lagane ka soch raha hai
+    - is haftay izafi raqam kahin lagane ka mansooba hai
+    - kal shaam se munafa ki sharah dekh raha hai
+    - aaj subah se tijarat ke bare mein maloomat dhoond raha hai
+    - kayi hafton se sarmaya lagane ka irada hai
+    - do din se bachatt ke mukhtalif raste talash kar raha hai
+  loan_eligibility:
+    already_tried:
+    - tankhwah ki kagazi parchi dhyan se dekhi
+    - qarz lene ke liye aamdani ki sharaait parhi
+    - app mein qarz ki darkhwast ka safah khola
+    - SMS par aane wali aasan qarz ki ittela dekhi
+    - app ke hisab kitab wale aalay par mahina war adaigi janchi
+    - WhatsApp par pichli maloomat dekhi
+    message_seen:
+    - app par foran qarz milne ka ishtihar dikhai diya
+    - parde par kam az kam aamdani ki shart likhi aayi
+    - SMS par qarz ki nayi sahulat ka pegham aya
+    - app par aamdani ki tasdeeq mangi gayi
+    - parde par qarz ki aakhri hadd nazar aayi
+    - surkh patti par aamdani kam hone ka ishara aya
+    duration:
+    - aik maah se naya qarz lene ka soch raha hai
+    - kal se aamdani ki sharaait dekh raha hai
+    - aaj subah tankhwah ki parchi mili thi
+    - do hafton se qarz lene ki tayari kar raha hai
+    - kayi din se aamdani ke kaghzat jama kar raha hai
+    - chand ghanton se qarz ki sahulat dhoond raha hai
+  open_account:
+    already_tried:
+    - app par naya khata kholne ka intikhab kiya
+    - shanakhti hinsa dhyan se darj kiya
+    - SMS mein aane wala tasdeeqi hinsa likha
+    - app ke samne chehre ki tasweer banayi
+    - app par aamdani aur pesha darj kiya
+    - WhatsApp par tasdeeqi pegham dekha
+    message_seen:
+    - app par darkhwast par amal jari hai likha aya
+    - parde par shanakht ki tasweer saaf na hone ka ishara aya
+    - SMS par naya khata kholne ki darkhwast ka indraj aya
+    - parde par takneeki kharabi ki waja se rukawat nazar aayi
+    - app mein tasdeeqi pegham der se aane ka ishara dekha
+    - surkh nishan ke sath dobara tasweer lene ki hidayat aayi
+    duration:
+    - kal dopahar se naya khata kholne ki koshish mein hai
+    - aaj subah shanakht ki tasweer bheji thi
+    - do din se darkhwast par amal ka intezar hai
+    - aik ghante se app par khata banane ki koshish kar raha hai
+    - pichle haftay pehli dafa koshish ki thi
+    - chand lamhe pehle tasdeeqi hinsa darj kiya tha
+  out_of_scope_query:
+    already_tried:
+    - app mein guftagu ka khana khola
+    - apna sawal guftagu mein likha
+    - WhatsApp par pegham likh kar bheja
+    - madad ke safah par rasta talash kiya
+    - app par maloomat janne ki koshish ki
+    - guftagu mein dobara sawal dohrane ki koshish ki
+    message_seen:
+    - parde par sawal ka khana khali nazar aya
+    - app par rabta karne ka safah ubhra
+    - parde par madadi pegham nazar aya
+    - guftagu mein intezar ka ishara dekha
+    - app par guftagu chalu hone ka pegham aya
+    - parde par khush aamdeed ka lafz dikhai diya
+    duration:
+    - chand lamhe pehle sawal likha tha
+    - aaj subah se is mamlay par soch raha hai
+    - thori der pehle rabta shuroo kiya
+    - chand ghanton se is baare mein maloomat dhoond raha hai
+    - kal shaam yeh sawal zehen mein aya tha
+    - dopahar se is mozu par baat karne ka irada tha
+  pending_transaction:
+    already_tried:
+    - app mein len den ki taza tareen soorathal dekhi
+    - SMS mein aane wali tasdeeqi ittela parhi
+    - jis ko raqam bheji us se WhatsApp par poocha
+    - app ko band kar ke dobara chalaya
+    - khate mein se bachi hui raqam janchi
+    - IBFT ka tasdeeqi hinsa dhyan se parha
+    message_seen:
+    - app par len den abhi ruka hua hai likha aya
+    - SMS par raqam katne ka pegham mila magar aage nahi pohanchi
+    - parde par tasdeeq ka intezar karne ka ishara nazar aya
+    - app mein len den par amal jari hai likha dekha
+    - surkh patti par takheer ka ishara ubhra
+    - SMS aya ke doosray idaray se rabta kiya ja raha hai
+    duration:
+    - do ghante se raqam darmiyan mein atki hui hai
+    - kal shaam se len den ruka hua hai
+    - aaj subah se tasdeeqi SMS ka intezar kar raha hai
+    - pichle barah ghanton se raqam nahi pohanchi
+    - aadha ghanta pehle bheji thi magar abhi tak latki hai
+    - chaubees ghante guzarne ke baad bhi amal nahi hua
+  phishing_report:
+    already_tried:
+    - SMS par aane wale mashkook pegham ko ghour se dekha
+    - pegham mein diye gaye pate par bilkul ungli nahi lagayi
+    - SMS bhejne wale ka anjaan hinsa note kiya
+    - app khol kar khate ki hifazat janchi
+    - WhatsApp par aane wale ajeeb pegham ko radd kiya
+    - aalay ko band kar ke dobara chalaya
+    message_seen:
+    - SMS par khata band hone ki jhooti dhamki aayi
+    - pegham mein ajeeb pate par jane ka lalach diya gaya
+    - SMS mein inaam nikalne ka fareb diya gaya
+    - pegham mein foran tasdeeq karne ka jhoot bola gaya
+    - SMS par anjaan pate par maloomat darj karne ko kaha gaya
+    - pegham par foran dhyan na dene par nuqsan ka daraya gaya
+    duration:
+    - thori der pehle yeh dhokay baz SMS aya
+    - aaj subah anjaan pegham mila tha
+    - chand lamhe pehle anjaan pegham dekh kar chonk gaya
+    - kal shaam ko achanak aisi jhooti ittela aayi thi
+    - aadha ghanta pehle yeh faryad likhne ka faisla kiya
+    - aaj dopahar ko anjaan jagah se pegham aya
+  product_terms:
+    already_tried:
+    - app mein khate ki qisam aur sharait parhi
+    - har mahine katne wale kharchay ki fehrist dekhi
+    - ATM istemal karne ki rozana ki hadd janchi
+    - app par mukhtalif khaton ka mawazna kiya
+    - SMS mein aane wali nayi sharait dekhi
+    - khate ki raseed par likhi sharait parhi
+    message_seen:
+    - app par kharchay aur qawaneen ki fehrist dikhai di
+    - parde par rozana raqam nikalwane ki hadd likhi aayi
+    - SMS par nayi sharait laagu hone ka pegham aya
+    - app mein mahina war kharchay ka hisab nazar aya
+    - parde par kam az kam raqam rakhne ki shart dekhi
+    - app par mukhtalif darja bandi ke fawaid dikhai diye
+    duration:
+    - kal se khate ki sharait ka mawazna kar raha hai
+    - is haftay khata tabdeel karne ka irada hai
+    - aaj subah kharchay ki fehrist dekh raha tha
+    - do din se mukhtalif sahulatain samajhne ki koshish ki
+    - pichle mahine nayi sharait laagu hui theen
+    - chand ghanton se qawaneen ki wazahat talash kar raha hai
+  raast_inquiry:
+    already_tried:
+    - app mein apna shanakhti hinsa Raast ke sath jora
+    - Raast ke zariye foran raqam bhejne ki koshish ki
+    - jis ko raqam bheji uska Raast shanakhti hinsa darj kiya
+    - SMS par Raast tasdeeq ka pegham dhyan se parha
+    - app mein Raast ki sahulat dobara janchi
+    - khate mein se bachi hui raqam dekhi
+    message_seen:
+    - parde par Raast shanakht darj na hone ka pegham aya
+    - app par Raast kamyabi se judne ki ittela dikhai di
+    - SMS aya ke Raast ke zariye raqam foran pohanch gayi
+    - surkh patti par Raast nizam mein takneeki rukawat aayi
+    - app par Raast len den nakam hone ka ishara aya
+    - parde par Raast shanakht pehle se mojood likha aya
+    duration:
+    - aik ghante se Raast ke zariye raqam bhejne ki koshish mein hai
+    - aaj subah apna shanakhti hinsa Raast ke sath jora tha
+    - kal shaam se Raast len den mein rukawat aa rahi hai
+    - chand lamhe pehle Raast se raqam bheji thi
+    - do din se Raast sahulat chalane ki koshish kar raha hai
+    - aaj dopahar ko Raast tasdeeq ka pegham mila tha
+  refuse_credentials:
+    already_tried:
+    - rabta karne wale se uski shanakht poochi
+    - kisi ko bhi apna khufia hinsa ya OTP batane se inkar kiya
+    - SMS mein aane wala OTP kisi ke sath sajha nahi kiya
+    - foran rabta kaat kar silsila band kiya
+    - app mein ja kar khate ki hifazat dekhi
+    - WhatsApp par ajeeb maang ko radd kiya
+    message_seen:
+    - guftagu karne wale ne OTP maangne ki zid ki
+    - SMS par aya ke apna chaar hindson ka khufia hinsa batao
+    - guftagu mein jhoota dawa kiya gaya ke khata band ho jayega
+    - pegham mein foran OTP dene ka dabao dala gaya
+    - guftagu mein anjaan shakhs ne khud ko afsar zahir kiya
+    - SMS par aaya ke OTP batayein warna raqam zaya ho jayegi
+    duration:
+    - thori der pehle aisi mashkook guftagu aayi thi
+    - aaj dopahar ko anjaan shakhs ne OTP maanga
+    - chand lamhe pehle rabta band kiya
+    - kal shaam aisi hi ghair qanooni koshish hui thi
+    - aadha ghanta pehle yeh waqia pesh aya
+    - aaj subah do martaba aisi guftagu hui
+  report_scam_call:
+    already_tried:
+    - rabta karne wale ka hinsa dhyan se kagaz par likha
+    - jab khufia maloomat maangi to foran rabta kaat diya
+    - app khol kar raqam ki soorathal janchi
+    - SMS ki pichli itlaat dhyan se dekhi
+    - WhatsApp par ajeeb awaz sun kar rabta roka
+    - ghair tasdeeq shuda raabtay ko foran band kiya
+    message_seen:
+    - rabta karne wale ne jaali afsar ban kar dhoka dena chaha
+    - jhoot bola gaya ke khate se anjaan raqam nikal chuki hai
+    - guftagu mein dara kar OTP cheenne ki koshish ki gayi
+    - jaali awaz mein foran madad ka bahana banaya gaya
+    - guftagu mein kaha gaya ke khata foran band ho raha hai
+    - anjaan shakhs ne khud ko madadgar zahir kiya
+    duration:
+    - thori der pehle yeh jaali rabta aya tha
+    - aaj dopahar ko achanak anjaan shakhs se rabta hua
+    - chand lamhe pehle rabta band kiya hai
+    - kal subah bhi aisi hi mashkook baat hui thi
+    - aadha ghanta pehle dhokay baz ne rabta kiya
+    - aaj shaam ko ajeeb baatein kar ke daraya gaya
+  service_complaint:
+    already_tried:
+    - app ko band kar ke dobara chalane ki koshish ki
+    - aalay ko band kar ke dobara chalu kiya
+    - app ko naye tareeqay par laane ki koshish ki
+    - mukhtalif waqt par len den ki koshish ki
+    - WhatsApp par shikayat darj karne ka safah dhoonda
+    - app par khidmat ka safah kholne ki baar baar koshish ki
+    message_seen:
+    - app par takneeki kharabi ka hinsa ubhra
+    - parde par khidmat aarzi tor par ghair fa aal likhi aayi
+    - safah baar baar band ho kar shuroo par aa gaya
+    - surkh patti par rabta na hone ka ishara nazar aya
+    - app par pegham aya ke thori der baad koshish karein
+    - parde par safah na khulne ka ishara aya
+    duration:
+    - teen din se musalsal yeh kharabi pesh aa rahi hai
+    - kal shaam se app bilkul kaam nahi kar rahi
+    - aaj subah se har koshish par kharabi aati hai
+    - pichle do din se sahulat band pari hai
+    - kayi ghanton se takneeki rukawat ka samna hai
+    - aaj dopahar se khidmat bilkul ruki hui hai
+  sim_swap_report:
+    already_tried:
+    - aalay ke signal gayab hone par aalay ko band kar ke chalaya
+    - choti patti doosray aalay mein daali
+    - SMS bhejne ki koshish ki magar na ja saka
+    - WhatsApp par rabta karne ki koshish ki magar nishan na aya
+    - app kholne ki koshish ki magar rabta na hua
+    - doosray aalay se apne pate par rabta milaya
+    message_seen:
+    - aalay ke parde par koi khidmat dastiyab nahi likha aya
+    - parde par sirf imdadi rabta ki sahulat nazar aayi
+    - parde par signal ka nishan bilkul gayab ho gaya
+    - pegham aya ke yeh shanakhti hinsa fa aal nahi hai
+    - parde par achanak rabta tootne ka ishara aya
+    - doosray aalay par milane par rabta band mila
+    duration:
+    - aadha ghanta pehle aalay ke signal achanak gayab hue
+    - aaj subah se koi rabta nahi ho raha
+    - chand lamhe pehle achanak parda khali ho gaya
+    - kal shaam se koi SMS nahi aa raha
+    - do ghante se aala mukammal tor par khamosh hai
+    - aaj dopahar se shanakht gayab hone ka khadsha hai
+  staff_complaint:
+    already_tried:
+    - apna masla adab ke sath wazeh alfaz mein samjhaya
+    - qanoon aur tariqakar ki wazahat dhyan se maangi
+    - afsar se narmi se baat karne ki darkhwast ki
+    - shikayat likhne ke liye kaghaz qalam maanga
+    - dusre afsar se baat karne ki koshish ki
+    - app mein guftagu ki tafseel likhi
+    message_seen:
+    - afsar ne be rukhi se baat sun kar rabta kaat diya
+    - afsar ne bad tameezi se baat ki aur masla hal na kiya
+    - afsar ne ghair ikhlaqi rawaiyya apnaya
+    - madad karne ke bajaye taalne ki koshish ki gayi
+    - shikayat sunne se saaf inkar kar diya gaya
+    - afsar ne be parwahi ka muzahira kiya
+    duration:
+    - aaj subah yeh bad tameezi pesh aayi
+    - kal dopahar ko aisi na munasib guftagu hui
+    - chand ghante pehle afsar ne rabta kaat diya
+    - do din se is be rukhi par afsos hai
+    - aaj shaam ko achanak aisi bad sulooki hui
+    - pichle haftay se koi sunwai nahi ho rahi
+  tat_breach:
+    already_tried:
+    - app mein purani shikayat ka shanakhti hinsa talash kiya
+    - pehli tasdeeq mein diya gaya waqt dhyan se parha
+    - SMS mein aane wala waqt tasdeeq kiya
+    - app mein shikayat ki mojooda soorathal dekhi
+    - WhatsApp par shikayat ka hinsa bhej kar poocha
+    - pehle diye gaye waqt ka hisab lagaya
+    message_seen:
+    - app par tay shuda waqt guzarne ka ishara nazar aya
+    - purani shikayat par abhi tak koi amal na hone ka indraj aya
+    - SMS par mazid intezar karne ka pegham mila
+    - parde par shikayat hal na hone ki soorathal dikhai di
+    - app mein tay shuda mohlat khatam likhi aayi
+    - pegham aya ke masla abhi tak atka hua hai
+    duration:
+    - tay shuda mohlat do din pehle khatam ho chuki hai
+    - paanch din zayada guzar gaye magar koi jawab nahi aya
+    - chaubees ghante ka waqt diya gaya tha jo guzar gaya
+    - aik haftay se faislay ka intezar kar raha hai
+    - pichle teen din se rozana intezar karta hai
+    - mohlati waqt khatam hue kayi din ho gaye
+  transfer_failed:
+    already_tried:
+    - jis ko raqam bheji uska khata dhyan se parha
+    - raqam bhejne se pehle aur baad mein bachi hui raqam dekhi
+    - IBFT ke zariye dobara bhejne ki koshish ki
+    - SMS mein aane wali tasdeeq parhi
+    - WhatsApp par daryaft kiya ke raqam mili ya nahi
+    - app ko band kar ke dobara chala kar jancha
+    message_seen:
+    - surkh patti par raqam ki muntaqli nakam likhi aayi
+    - SMS aya ke raqam kat gayi hai magar aage nahi gayi
+    - parde par takneeki rukawat ki waja se len den radd hua
+    - app par koshish nakam hone ka pegham ubhra
+    - SMS par raqam wapsi na hone ka ishara mila
+    - parde par len den na mukammal hone ki ittela dekhi
+    duration:
+    - aadha ghanta pehle raqam bhejne ki koshish ki thi
+    - kal raqam kati thi magar abhi tak wapas nahi aayi
+    - aaj subah se raqam atki hui hai
+    - do ghante se khate ki raqam ghaib hai
+    - pichle barah ghanton se pareshan hai
+    - aaj dopahar ko achanak yeh nakami hui
+  unauthorized_transaction:
+    already_tried:
+    - jeib mein se khate ki plastic patti nikaal kar dekhi
+    - SMS mein aane wali anjaan khareedari ki ittela parhi
+    - app mein ja kar taza tareen hisab kitab dekha
+    - app ke zariye khata foran band karne ki koshish ki
+    - khate ki raseed dhyan se parhi
+    - SMS ka anjaan len den hinsa kagaz par likha
+    message_seen:
+    - SMS par anjaan adaigi ki ittela aayi jo khud nahi ki
+    - app par anjaan dukaan se khareedari ka indraj aya
+    - SMS par achanak bhari raqam katne ka pegham mila
+    - parde par ghair mutawaqqe len den ki tasdeeq aayi
+    - app mein anjaan shakhs ko raqam jane ka ishara mila
+    - SMS par aadhi raat ko raqam katne ki ittela aayi
+    duration:
+    - thori der pehle yeh anjaan SMS aya
+    - aaj subah anjaan katori dekh kar afsos hua
+    - chand lamhe pehle khate se raqam nikalne ka pata chala
+    - kal shaam achanak bhari raqam kat gayi
+    - aadha ghanta pehle anjaan adaigi ka pegham mila
+    - aaj dopahar ko ghaibana katori hui
+  unblock_card:
+    already_tried:
+    - apne thailay mein se gumshuda cheez talash ki
+    - app ke zariye khata dobara kholne ki koshish ki
+    - SMS mein aane wali hifazati tasdeeq parhi
+    - ATM par ja kar khufia hinsa darj kiya
+    - app mein hifazat ka safah khol kar dekha
+    - WhatsApp par tasdeeqi pegham dekha
+    message_seen:
+    - app par khata is waqt band hai likha aya
+    - parde par khata aarzi tor par munjamid dikhai diya
+    - SMS par khata dobara chalu na hone ka pegham aya
+    - ATM ne khata band hone ka ishara diya
+    - app par likha aya ke shanakht ki tasdeeq darkar hai
+    - surkh patti par khata chalu karne mein rukawat aayi
+    duration:
+    - kal gum hone par band karwaya tha magar ab mil gaya
+    - aaj subah cheez mil gayi magar abhi tak band hai
+    - do ghante se khata dobara kholne ki koshish mein hai
+    - kal shaam se khata band para hua hai
+    - aik ghante se app par chalu karne ki koshish kar raha hai
+    - chand lamhe pehle cheez mili hai
+  update_profile:
+    already_tried:
+    - app mein shakhsi maloomat wale safah par gaya
+    - naya rehaishi pata aur daak ka hinsa darj kiya
+    - shanakhti kagaz ki taza tasweer khainch kar lagayi
+    - SMS mein aane wala tasdeeqi OTP darj kiya
+    - app mein naya rabta likhne ki koshish ki
+    - khate ki maloomat par dobara nazar daali
+    message_seen:
+    - app par pegham aya ke maloomat ki tasdeeq jari hai
+    - parde par tasweer ka naap zayada bara hone ka ishara aya
+    - SMS par shakhsi maloomat tabdeel hone ki tasdeeq aayi
+    - surkh patti par naya pata darj na hone ka pegham dekha
+    - app par takneeki rukawat ki waja se safah band ho gaya
+    - parde par dastaweez na mukammal hone ka ishara nazar aya
+    duration:
+    - pichle haftay naye ghar mein muntaqil hua tha
+    - teen din pehle naya shanakhti kagaz banwaya tha
+    - kal se naya pata darj karne ki koshish kar raha hai
+    - aaj subah nayi tasweer lagayi thi
+    - do din se tasdeeqi pegham ka intezar kar raha hai
+    - aik ghante se app par maloomat badalne mein masla hai
+  wrong_transfer:
+    already_tried:
+    - jis khate mein raqam bheji uska har hinsa dhyan se milaya
+    - parchi par khata rakhne wale ka naam ghour se parha
+    - IBFT ki pichli parchi dhyan se dekhi
+    - SMS mein aane wali tasdeeqi ittela parhi
+    - khate ki tafseel app par dobara janchi
+    - app mein raqam bhejne ka safah do martaba khola
+    message_seen:
+    - SMS aya ke raqam kisi anjaan shakhs ko chali gayi hai
+    - app par len den kamyab hone ka pegham dikhai diya
+    - parde par ghalat shanakhti naam likha nazar aya
+    - SMS par raqam katne ki tasdeeq aayi magar naam ghalat tha
+    - app par raqam wapsi ka koi rasta nazar nahi aya
+    - surkh patti par len den mukammal hone ka indraj aya
+    duration:
+    - thori der pehle ghalti se anjaan khate mein raqam chali gayi
+    - aaj subah ghalat khate par raqam bhej di thi
+    - chand lamhe pehle yeh bhari ghalti hui
+    - aadha ghanta pehle raqam muntaqil hui thi
+    - kal shaam ghalti se kisi aur ko raqam bhej di thi
+    - do ghante se raqam rokne ki koshish kar raha hai

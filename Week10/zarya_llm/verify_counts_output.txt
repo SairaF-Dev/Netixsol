@@ -1,0 +1,185 @@
+======================================================================
+VERIFY COUNTS: DATASET VERIFICATION SUITE
+======================================================================
+
+[SECTION 1] Checking Seed Files and Example Counts
+  [PASS] Batch 1 (seeds.jsonl): 30 seeds (expected 30)
+  [PASS] Batch 2 (seeds_batch2.jsonl): 16 seeds (expected 16)
+  [PASS] Batch 3 (seeds_batch3.jsonl): 11 seeds (expected 11)
+  [PASS] Batch 4 (seeds_batch4.jsonl): 10 seeds (expected 10)
+  [PASS] Batch 5 (seeds_batch5.jsonl): 10 seeds (expected 10)
+  [PASS] Batch 6 (seeds_batch6.jsonl): 10 seeds (expected 10)
+  [PASS] Batch 7 (seeds_batch7.jsonl): 13 seeds (expected 13)
+
+  Total Type A Seeds Found: 100 (expected 100)
+
+[SECTION 2] Checking Seed ID Uniqueness
+  [PASS] All 100 seed IDs are strictly unique (seed_001 to seed_100).
+
+[SECTION 3] Combined Dataset Distributions
+
+  Category Distribution:
+    fraud             :  18 ( 18.0%)
+    transfer          :  18 ( 18.0%)
+    complaint         :  14 ( 14.0%)
+    card              :  14 ( 14.0%)
+    account           :  14 ( 14.0%)
+    loan              :  12 ( 12.0%)
+    out_of_scope      :  10 ( 10.0%)
+
+  Language Distribution:
+    urdulish          :  48 ( 48.0%)
+    roman_urdu        :  22 ( 22.0%)
+    english           :  20 ( 20.0%)
+    urdu_script       :  10 ( 10.0%)
+
+  Turn Type Distribution:
+    Single turn       :  67 ( 67.0%)
+    Multi turn        :  33 ( 33.0%)
+
+  Ticket Metadata Distribution (Type B Sources):
+    Conversational only   :  64 ( 64.0%)
+    With Ticket Meta      :  36 ( 36.0%)
+
+  Context Distribution:
+    With Grounded Context   :  48 ( 48.0%)
+    Without Context         :  38 ( 38.0%)
+    No Document             :  14 ( 14.0%)
+
+[SECTION 4] Type B JSON Tasks Verification
+  [PASS] Total Type B Tasks: 36 (expected 36)
+
+[SECTION 5] Executing Full Seed Validation Suite
+======================================================================
+DATASET STATISTICS: TYPE A (CHAT INTERFACES) - All 100 Seeds Combined Validation
+Total Type A Examples: 100
+======================================================================
+
+--- Counts Per Category ---
+  fraud               :  18 ( 18.0%)
+  transfer            :  18 ( 18.0%)
+  complaint           :  14 ( 14.0%)
+  card                :  14 ( 14.0%)
+  account             :  14 ( 14.0%)
+  loan                :  12 ( 12.0%)
+  out_of_scope        :  10 ( 10.0%)
+
+--- Counts Per Language ---
+  urdulish            :  48 ( 48.0%)
+  roman_urdu          :  22 ( 22.0%)
+  english             :  20 ( 20.0%)
+  urdu_script         :  10 ( 10.0%)
+
+--- Counts Per Turn Type ---
+  Single-turn         :  67 ( 67.0%)
+  Multi-turn          :  33 ( 33.0%)
+
+--- Top-Level Ticket Metadata (Source for Type B Tasks) ---
+  With Ticket Meta    :  36 ( 36.0%)
+  Conversational only :  64 ( 64.0%)
+
+--- Grounded Context Distribution ---
+  With Grounded Context    :  48 ( 48.0%)
+  No Document (koi doc)    :  14 ( 14.0%)
+  Without Context          :  38 ( 38.0%)
+  Total Seeds              : 100 (100.0%)
+
+--- Clean Chat Replies Validation (No JSON / No Braces) ---
+  [PASS] All assistant chat replies are 100% pure natural language.
+  [PASS] Zero curly braces '{' or '}' and zero markdown code fences in chat replies.
+
+--- Bot Persona Rules Validation ---
+  [PASS] All bot turns strictly satisfy ONE QUESTION, ONE THING (0 multi-question/multi-item turns).
+  [PASS] All bot turns strictly satisfy NO PROMISES (0 unverified reassurance/promise phrases).
+
+--- Time Mentioned Validation ---
+  [PASS] All ticket metadata strictly adheres to customer natural wording or null.
+  [PASS] Zero date or clock patterns detected in time_mentioned.
+  [PASS] Zero legacy 'time_reported' references found.
+
+--- Procedure Words / UI Features Validation ---
+  [PASS] All assistant turns avoid hardcoding app menus, screens, download buttons or branch visits.
+  [PASS] Zero procedure words detected (app, menu, section, option, download, click, branch visit).
+
+--- Bot Openings Variety & Frequency Validation (Max <= 3) ---
+  [PASS] All first bot sentences satisfy variety constraint (max <= 3 occurrences across seeds).
+
+--- Top 5 Most Common Bot Openings ---
+  1. [3x -  3.0%] "Ji, ye sun kar afsos hua."
+  2. [3x -  3.0%] "Ji maazrat chahte hain aap ko pareshani hui."
+  3. [2x -  2.0%] "Ji, aap ki pareshani ka andaza hai."
+  4. [1x -  1.0%] "Ji, aap ki card block karne ki request darj kar li gayi hai."
+  5. [1x -  1.0%] "Ji yeh bilkul theek nahi hai, yeh fraud call hai!"
+
+--- Action Claims Validation (LLM Has No Tools) ---
+  [PASS] All assistant turns strictly avoid active bank/system action claims.
+  [PASS] Zero hits for 'kar dete hain', 'check karte', 'jaanch karte', 'we are checking', etc.
+
+--- Retirement of [FROM_RAG] Placeholder Validation ---
+  [PASS] All seeds strictly retired '[FROM_RAG]' (0 occurrences across dataset).
+
+--- Number Grounding Validation (0 Hallucinated Figures) ---
+  [PASS] All assistant numbers are strictly grounded in policy context, customer turns, or ticket amount.
+  [PASS] Zero ungrounded figures, fees, limits, or durations uttered by assistant.
+
+--- No-Document Grounding Behavior Validation ---
+  [PASS] All no-document seeds correctly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti').
+  [PASS] All no-document seeds direct customer to helpline with zero phone numbers invented.
+
+--- Context Safety Validation (No Credential Prompts / No USSD / No Short Codes) ---
+  [PASS] All context policies strictly avoid instructing customer entry of OTP/PIN/password/CVV.
+  [PASS] Zero USSD (*digits#) or SMS 4-digit short codes in policy contexts.
+
+--- Credential Request Validation (0 Credential Demands) ---
+  [PASS] All assistant turns strictly avoid requesting customer credentials (OTP, PIN, password, CVV, card number).
+  [PASS] Warnings against sharing and past sharing triage inquiries correctly allowed.
+
+--- Bank Fault / Error Confirmation Validation (0 Fault Confirmations) ---
+  [PASS] All assistant turns strictly avoid confirming bank error or fault.
+
+--- Unperformable Action Offer Validation (0 Action Offers / Permission Requests) ---
+  [PASS] All assistant turns strictly avoid offering or requesting permission to perform unperformable actions.
+
+--- Unauthorized Policy Claims Validation (Null Context Seeds) ---
+  [PASS] All null context assistant turns strictly avoid unauthorized policy statements or negations.
+
+--- No Maazrat Khwah Validation (0 maazrat khwah) ---
+  [PASS] All assistant turns strictly avoid 'maazrat khwah' phrasing.
+
+--- No Urdu Bank Spellings Validation (Must Be Latin 'Zarya Bank') ---
+  [PASS] All messages strictly avoid Urdu script bank spellings (zero occurrences).
+
+--- Unsupported Delay Words Validation (Context Stating Delay Required) ---
+  [PASS] All assistant turns avoid 'delay', 'takheer' or 'dair' when context does not state a delay.
+
+--- Batch 7 Human Lines Exact Match Validation ---
+  Lines compared: 18
+  [PASS] All 18 customer lines in Batch 7 exactly match human_lines_batch7.json.
+======================================================================
+======================================================================
+DATASET STATISTICS: TYPE B (TICKET EXTRACTION / JSON TASKS)
+File path: D:\Netixsol\Week10\zarya_llm\data\seeds\seeds_json_tasks.jsonl
+Total Type B Tasks: 36
+======================================================================
+
+--- Counts Per Category ---
+  complaint           :  14 ( 38.9%)
+  fraud               :   9 ( 25.0%)
+  transfer            :   8 ( 22.2%)
+  card                :   3 (  8.3%)
+  loan                :   2 (  5.6%)
+
+--- Counts Per Language ---
+  urdulish            :  23 ( 63.9%)
+  english             :   6 ( 16.7%)
+  roman_urdu          :   6 ( 16.7%)
+  urdu_script         :   1 (  2.8%)
+
+--- Pure JSON Output Validation ---
+  [PASS] All Type B assistant messages are 100% pure, parseable JSON.
+  [PASS] Zero code fences or extraneous text in assistant messages.
+  [PASS] All output tickets strictly conform to Pydantic BankingTicket schema.
+  [PASS] Zero date or clock patterns in time_mentioned.
+======================================================================
+
+[FINAL RESULT] ALL 100 SEEDS AND TYPE B TASKS FULLY VERIFIED WITH ZERO ERRORS

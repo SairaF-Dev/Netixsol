@@ -1,0 +1,161 @@
+{
+  "rank_8": {
+    "config_name": "rank_8",
+    "hyperparameters": {
+      "lora_r": 8,
+      "lora_alpha": 16,
+      "lora_dropout": 0.05,
+      "learning_rate": 0.0003,
+      "num_train_epochs": 3,
+      "per_device_train_batch_size": 4,
+      "gradient_accumulation_steps": 4,
+      "description": "Config 1: Fast baseline adapter (Rank 8, Alpha 16, LR 3e-4)"
+    },
+    "history": [
+      {
+        "step": 98,
+        "epoch": 0.75,
+        "train_loss": 1.7643,
+        "val_loss": 1.8331,
+        "learning_rate": 0.00024015267175572517
+      },
+      {
+        "step": 196,
+        "epoch": 1.5,
+        "train_loss": 1.3904,
+        "val_loss": 1.464,
+        "learning_rate": 0.00018030534351145037
+      },
+      {
+        "step": 294,
+        "epoch": 2.24,
+        "train_loss": 1.1472,
+        "val_loss": 1.2147,
+        "learning_rate": 0.00012045801526717556
+      },
+      {
+        "step": 392,
+        "epoch": 2.99,
+        "train_loss": 0.9903,
+        "val_loss": 1.0928,
+        "learning_rate": 6.061068702290075e-05
+      },
+      {
+        "step": 393,
+        "epoch": 3.0,
+        "train_loss": 0.9944,
+        "val_loss": 1.0823,
+        "learning_rate": 5.999999999999998e-05
+      }
+    ],
+    "final_train_loss": 0.9944,
+    "final_val_loss": 1.0823,
+    "adapter_path": "D:\\Netixsol\\Week10\\zarya_llm\\checkpoints\\checkpoint_qwen2_5_3b_rank_8"
+  },
+  "rank_16": {
+    "config_name": "rank_16",
+    "hyperparameters": {
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "lora_dropout": 0.05,
+      "learning_rate": 0.0002,
+      "num_train_epochs": 3,
+      "per_device_train_batch_size": 4,
+      "gradient_accumulation_steps": 4,
+      "description": "Config 2: Balanced enterprise adapter (Rank 16, Alpha 32, LR 2e-4) - Recommended"
+    },
+    "history": [
+      {
+        "step": 98,
+        "epoch": 0.75,
+        "train_loss": 1.5151,
+        "val_loss": 1.5884,
+        "learning_rate": 0.00016010178117048347
+      },
+      {
+        "step": 196,
+        "epoch": 1.5,
+        "train_loss": 1.07,
+        "val_loss": 1.1419,
+        "learning_rate": 0.00012020356234096692
+      },
+      {
+        "step": 294,
+        "epoch": 2.24,
+        "train_loss": 0.8225,
+        "val_loss": 0.8822,
+        "learning_rate": 8.030534351145038e-05
+      },
+      {
+        "step": 392,
+        "epoch": 2.99,
+        "train_loss": 0.6818,
+        "val_loss": 0.7729,
+        "learning_rate": 4.040712468193384e-05
+      },
+      {
+        "step": 393,
+        "epoch": 3.0,
+        "train_loss": 0.6862,
+        "val_loss": 0.7626,
+        "learning_rate": 3.999999999999999e-05
+      }
+    ],
+    "final_train_loss": 0.6862,
+    "final_val_loss": 0.7626,
+    "adapter_path": "D:\\Netixsol\\Week10\\zarya_llm\\checkpoints\\checkpoint_qwen2_5_3b_rank_16"
+  },
+  "rank_32": {
+    "config_name": "rank_32",
+    "hyperparameters": {
+      "lora_r": 32,
+      "lora_alpha": 64,
+      "lora_dropout": 0.1,
+      "learning_rate": 0.00015,
+      "num_train_epochs": 3,
+      "per_device_train_batch_size": 2,
+      "gradient_accumulation_steps": 8,
+      "description": "Config 3: High-capacity adapter (Rank 32, Alpha 64, LR 1.5e-4)"
+    },
+    "history": [
+      {
+        "step": 98,
+        "epoch": 0.75,
+        "train_loss": 1.3073,
+        "val_loss": 1.5174,
+        "learning_rate": 0.00012007633587786259
+      },
+      {
+        "step": 196,
+        "epoch": 1.5,
+        "train_loss": 0.8357,
+        "val_loss": 1.0989,
+        "learning_rate": 9.015267175572518e-05
+      },
+      {
+        "step": 294,
+        "epoch": 2.24,
+        "train_loss": 0.6089,
+        "val_loss": 0.7282,
+        "learning_rate": 6.022900763358778e-05
+      },
+      {
+        "step": 392,
+        "epoch": 2.99,
+        "train_loss": 0.4934,
+        "val_loss": 0.7642,
+        "learning_rate": 3.0305343511450376e-05
+      },
+      {
+        "step": 393,
+        "epoch": 3.0,
+        "train_loss": 0.4979,
+        "val_loss": 0.755,
+        "learning_rate": 2.999999999999999e-05
+      }
+    ],
+    "final_train_loss": 0.4979,
+    "final_val_loss": 0.755,
+    "adapter_path": "D:\\Netixsol\\Week10\\zarya_llm\\checkpoints\\checkpoint_qwen2_5_3b_rank_32"
+  }
+}

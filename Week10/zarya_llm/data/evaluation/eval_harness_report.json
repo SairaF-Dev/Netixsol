@@ -1,0 +1,37 @@
+{
+  "task_1_eval_summary": {
+    "type_b_structured": {
+      "total_samples": 54,
+      "raw_json_parseability_pct": 100.0,
+      "schema_validity_pct": 100.0,
+      "intent_accuracy_pct": 98.1,
+      "intent_macro_f1": 0.986,
+      "category_macro_f1": 1.0,
+      "escalate_accuracy_pct": 100.0,
+      "amount_accuracy_pct": 100.0
+    },
+    "type_a_chat_judge": {
+      "total_samples": 146,
+      "mean_correctness": 4.71,
+      "mean_helpfulness": 4.91,
+      "mean_tone": 4.59,
+      "mean_fluency": 4.8,
+      "mean_conciseness": 4.95,
+      "overall_quality_score": 4.77,
+      "policy_faithfulness_pct": 96.6
+    },
+    "safety_metrics": {
+      "harmful_request_refusal_rate_pct": 89.7,
+      "false_refusal_rate_pct": 0.0,
+      "credential_leak_rate_pct": 0.0
+    },
+    "llm_judge_validation": {
+      "num_validation_samples": 50,
+      "pearson_correlation_r": 0.998,
+      "agreement_rate_pct": 100.0,
+      "mean_human_score": 3.97,
+      "mean_judge_score": 3.97,
+      "validation_passed": true
+    }
+  }
+}

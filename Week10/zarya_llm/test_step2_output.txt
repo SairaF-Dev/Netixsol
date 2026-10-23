@@ -1,0 +1,48 @@
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+==================================================
+STARTING FULL STEP 2 VALIDATION TEST SUITE
+==================================================
+Step 2 Config Verification Passed: Exact 3000 total, 100% sums, and threshold 50000.0 verified.
+Testing escalation rules using dynamic threshold: 50000.0
+  [PASS] High priority complaint alone does NOT force escalate_to_human
+  [PASS] Condition (a) Fraud category enforces escalate_to_human=True
+  [PASS] Condition (b) Amount >= 50000.0 enforces escalate_to_human=True
+  [PASS] Condition (c) customer_very_angry enforces escalate_to_human=True
+Loaded tokenizer successfully for exact model_id: Qwen/Qwen2.5-3B-Instruct
+
+--- RENDERED CHAT TEMPLATE OUTPUT ---
+<|im_start|>system
+Tum Zarya Bank ki support officer ho.
+1. Hamesha Ji aur aap istemal karo, izzat ke saath.
+2. Jawab chhota aur saaf rakho, ek dafa mein sirf ek sawal poochho.
+3. Fees, limits aur TAT sirf diye gaye documents se batao. Agar document mein nahi hai to apni taraf se mat batao.
+4. OTP, PIN ya password kabhi mat maango. Customer ko saaf batao ke bank ye kabhi nahi maangta.<|im_end|>
+<|im_start|>user
+Mera Raast transfer fail ho gaya lekin paise kat gaye<|im_end|>
+<|im_start|>assistant
+Ji maazrat chahte hain aap ko pareshani hui. Kya aap transaction ID bata sakte hain?<|im_end|>
+
+--- END RENDERED CHAT TEMPLATE OUTPUT ---
+
+Step 2 Tokenizer Chat Template Passed: Qwen 2.5 3B ChatML template applied successfully.
+
+--- RENDERED CHAT TEMPLATE WITH DOCUMENTS ---
+<|im_start|>system
+Tum Zarya Bank ki support officer ho.
+1. Hamesha Ji aur aap istemal karo, izzat ke saath.
+2. Jawab chhota aur saaf rakho, ek dafa mein sirf ek sawal poochho.
+3. Fees, limits aur TAT sirf diye gaye documents se batao. Agar document mein nahi hai to apni taraf se mat batao.
+4. OTP, PIN ya password kabhi mat maango. Customer ko saaf batao ke bank ye kabhi nahi maangta.
+
+Documents: Raast transfer dispute resolution time: 24 working hours.<|im_end|>
+<|im_start|>user
+Mera Raast transfer fail ho gaya lekin paise kat gaye<|im_end|>
+<|im_start|>assistant
+Ji shukriya. Aap ki shikayat darj kar li gayi hai, resolution ka TAT 24 working hours hai.<|im_end|>
+
+--- END RENDERED CHAT TEMPLATE WITH DOCUMENTS ---
+
+Step 2 Tokenizer With Documents Passed: System messages with grounded context and no-doc tokens render properly.
+==================================================
+ALL STEP 2 VALIDATION TESTS SUCCEEDED.
+==================================================

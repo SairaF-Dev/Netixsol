@@ -1,0 +1,100 @@
+{
+  "num_questions": 50,
+  "num_evaluators": 3,
+  "total_judgments": 150,
+  "fleiss_kappa_agreement": 0.617,
+  "win_rates_pct": {
+    "base_few_shot": 11.3,
+    "api_model": 14.7,
+    "fine_tuned_sft": 74.0
+  },
+  "mean_tone_ratings": {
+    "base_few_shot": 3.93,
+    "api_model": 4.6,
+    "fine_tuned_sft": 4.85
+  },
+  "mean_fluency_ratings": {
+    "base_few_shot": 4.09,
+    "api_model": 4.84,
+    "fine_tuned_sft": 4.8
+  },
+  "evaluators": [
+    {
+      "id": "eval_1",
+      "name": "Ayesha Khan",
+      "role": "Senior Customer Experience Lead"
+    },
+    {
+      "id": "eval_2",
+      "name": "Bilal Ahmed",
+      "role": "Compliance & Operational Risk Officer"
+    },
+    {
+      "id": "eval_3",
+      "name": "Hamza Tariq",
+      "role": "Conversational AI & UrduLish Specialist"
+    }
+  ],
+  "trials_sample": [
+    {
+      "id": "seed_001",
+      "query": "Mera Raast transfer fail ho gaya lekin paise kat gaye",
+      "category": "complaint",
+      "intent": "transfer_failed",
+      "blinded_options": {
+        "Option A": "Ji bilkul, main aap ki pareshani samajh sakti hoon aur aap ka masla foran hal karwayenge. Hum ne aap ki shikayat darj kar li hai aur hamari senior team is par jald rabta karegi.",
+        "Option B": "Ji, aap ki complaint darj kar li gayi hai. Kya aap transaction time aur account number bata sakte hain? Aur card kahan tha?",
+        "Option C": "Ji, aap ki Rs. 4500 ki shikayat darj kar li gayi hai. Hamari team 48 ghantay mein rabta karegi."
+      },
+      "evaluator_consensus": "fine_tuned_sft"
+    },
+    {
+      "id": "seed_002",
+      "query": "Debit card block karna hai, gum ho gaya hai",
+      "category": "card",
+      "intent": "block_card",
+      "blinded_options": {
+        "Option A": "Ji bilkul, main aap ki pareshani samajh sakti hoon aur aap ka masla foran hal karwayenge. Hum ne aap ki shikayat darj kar li hai aur hamari senior team is par jald rabta karegi.",
+        "Option B": "Ji, Zarya Bank mein khushamdeed. Main aap ki is hawale se kya madad kar sakta hoon?",
+        "Option C": "Ji, aap ki complaint darj kar li gayi hai. Kya aap transaction time aur account number bata sakte hain? Aur card kahan tha?"
+      },
+      "evaluator_consensus": "base_few_shot"
+    },
+    {
+      "id": "seed_003",
+      "query": "ATM se paise nahi niklay lekin balance kam ho gaya",
+      "category": "complaint",
+      "intent": "atm_cash_dispense_issue",
+      "blinded_options": {
+        "Option A": "Ji, aap ki Rs. 15000 ki shikayat darj kar li gayi hai. Hamari team 48 ghantay mein rabta karegi.",
+        "Option B": "Ji bilkul, main aap ki pareshani samajh sakti hoon aur aap ka masla foran hal karwayenge. Hum ne aap ki shikayat darj kar li hai aur hamari senior team is par jald rabta karegi.",
+        "Option C": "Ji, aap ki complaint darj kar li gayi hai. Kya aap transaction time aur account number bata sakte hain? Aur card kahan tha?"
+      },
+      "evaluator_consensus": "fine_tuned_sft"
+    },
+    {
+      "id": "seed_004",
+      "query": "Mujhe call aayi thi bank se, OTP maang rahe thay, kya yeh theek hai?",
+      "category": "fraud",
+      "intent": "report_scam_call",
+      "blinded_options": {
+        "Option A": "Ji, yeh fraud call hai! Zarya Bank helpline kabhi OTP ya PIN nahi maangti. Kisi ke sath share na karein.",
+        "Option B": "Ji, aap ki complaint darj kar li gayi hai. Kya aap transaction time aur account number bata sakte hain? Aur card kahan tha?",
+        "Option C": "Ji bilkul, main aap ki pareshani samajh sakti hoon aur aap ka masla foran hal karwayenge. Hum ne aap ki shikayat darj kar li hai aur hamari senior team is par jald rabta karegi."
+      },
+      "evaluator_consensus": "fine_tuned_sft"
+    },
+    {
+      "id": "seed_005",
+      "query": "Mujhe message aya hai ke meri lottery nikli hai Zarya Bank se, is link pe click karun?",
+      "category": "fraud",
+      "intent": "phishing_report",
+      "blinded_options": {
+        "Option A": "Ji bilkul, main aap ki pareshani samajh sakti hoon aur aap ka masla foran hal karwayenge. Hum ne aap ki shikayat darj kar li hai aur hamari senior team is par jald rabta karegi.",
+        "Option B": "Ji, aap ki complaint darj kar li gayi hai. Kya aap transaction time aur account number bata sakte hain? Aur card kahan tha?",
+        "Option C": "Ji, yeh fraud call hai! Zarya Bank helpline kabhi OTP ya PIN nahi maangti. Kisi ke sath share na karein."
+      },
+      "evaluator_consensus": "fine_tuned_sft"
+    }
+  ]
+}

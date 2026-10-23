@@ -1,0 +1,52 @@
+{
+  "mode": "pilot",
+  "random_seed": 42,
+  "plan_total": 20,
+  "requested": 1,
+  "accepted": 0,
+  "rejected": 1,
+  "current_index": 1,
+  "requested_by_task_type": {
+    "faq": 0,
+    "complaint": 1,
+    "fraud": 0,
+    "out_of_scope": 0
+  },
+  "task_types": {
+    "faq": 0,
+    "complaint": 0,
+    "fraud": 0,
+    "out_of_scope": 0
+  },
+  "languages": {
+    "urdulish": 0,
+    "roman_urdu": 0,
+    "english": 0,
+    "urdu_script": 0
+  },
+  "turn_types": {
+    "single_turn": 0,
+    "multi_turn": 0
+  },
+  "nodoc_counts": {
+    "nodoc": 0,
+    "with_context": 0
+  },
+  "total_prompt_tokens": 3690,
+  "total_completion_tokens": 327,
+  "total_bot_turns": 0,
+  "bot_turns_with_question": 0,
+  "first_bot_sentences": {},
+  "total_user_messages": 0,
+  "customer_trigrams": {},
+  "total_accepted_contexts": 0,
+  "context_number_frequencies": {},
+  "rejection_rules": {
+    "validate_no_filler_sentences": 1
+  },
+  "rejection_examples": {
+    "validate_no_filler_sentences": "validate_no_filler_sentences: Assistant turn contains forbidden filler sentence 'noted for the investigation' in 'Ji, that information is noted for the investigation process.'"
+  },
+  "consecutive_error_type": null,
+  "consecutive_error_count": 0
+}

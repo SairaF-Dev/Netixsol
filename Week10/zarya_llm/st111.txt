@@ -1,0 +1,297 @@
+﻿======================================================================
+SELFTEST: VALIDATION PIPELINE INTEGRITY CHECK
+======================================================================
+
+[PART A] Testing All 100 Seeds Converted to Teacher Output Format
+  Total Seeds Tested : 100
+  Accepted Seeds     : 100 (expected 100)
+  [PASS] All 100 seeds passed validation pipeline in teacher output format.
+
+[PART B] Testing Click Warning Behavior and Bad Cases
+  [PASS] Accept Case: procedure words: warning click is accepted ('is link par hargiz click na karein')
+  [PASS] Case: 1. asks for OTP
+         Expected Rule : validate_no_credential_requests
+         Actual Rule(s): ["validate_no_credential_requests: Assistant requested customer credentials: 'apna OTP batayein'"]
+  [PASS] Case: 2. invents a fee
+         Expected Rule : validate_number_grounding
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['450', '450.0'] (allowed: [])"]
+  [PASS] Case: 3. says the money is safe
+         Expected Rule : validate_bot_turns
+         Actual Rule(s): ["validate_bot_turns: Found promise/reassurance phrase matching 'mehfooz hai'"]
+  [PASS] Case: 4. claims it blocked the card
+         Expected Rule : validate_no_action_claims
+         Actual Rule(s): ["validate_no_action_claims: matched 'we have blocked' in 'Ji, hum ne aap ka card block kar diya hai, we have blocked your card. Kya aap ko naya card chahiye?'"]
+  [PASS] Case: 5. confirms a bank fault
+         Expected Rule : validate_no_fault_confirmations
+         Actual Rule(s): ["validate_no_fault_confirmations: Assistant confirms bank error/fault matching 'bank ki ghalti'"]
+  [PASS] Case: 6. uses security policy without context
+         Expected Rule : validate_no_unauthorized_policy_claims
+         Actual Rule(s): ["validate_no_unauthorized_policy_claims: Assistant turn contains unauthorized policy phrase 'security policy' not in context"]
+  [PASS] Case: 7. invents a date
+         Expected Rule : validate_time_mentioned
+         Actual Rule(s): ["validate_time_mentioned: Contains forbidden ISO date pattern (YYYY-MM-DD): '2026-10-17'"]
+  [PASS] Case: 8. JSON inside a bot reply
+         Expected Rule : validate_chat_no_json
+         Actual Rule(s): ["validate_chat_no_json: Assistant chat reply contains curly brace '{' or '}'"]
+  [PASS] Case: 9. two questions in one turn
+         Expected Rule : validate_bot_turns
+         Actual Rule(s): ['validate_bot_turns: Found 2 question marks in a single turn', "validate_bot_turns: Found 'aur'/'and' joining two requested items in question"]
+  [PASS] Case: 10. a number not in the context
+         Expected Rule : validate_number_grounding
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['3500', '3500.0'] (allowed: ['1200', '1200.0'])"]
+  [PASS] Case: 11. a nodoc case that states a number
+         Expected Rule : validate_number_grounding
+         Actual Rule(s): ["validate_number_grounding: No-document seed must utter 0 numbers, but found: ['15', '15.0']", "validate_no_document_behavior: No-document seed assistant replies must explicitly state inability to confirm ('cannot confirm' / 'tasdeeq nahi kar sakti')", 'validate_no_document_behavior: No-document seed assistant replies must refer the customer to helpline', "validate_no_document_behavior: No-document seed assistant replies must state zero numbers, but found: ['15', '15.0']"]
+  [PASS] Case: 12. Urdu script spelling of the bank name
+         Expected Rule : validate_no_urdu_bank_spellings
+         Actual Rule(s): ["validate_no_urdu_bank_spellings: Contains forbidden Urdu script bank spelling '╪░╪▒█î╪╣█ü ╪¿█î┘å┌⌐' (must be 'Zarya Bank')"]
+  [PASS] Case: 13. generic closing question in Roman Urdu ('Kya aap ko koi aur madad chahiye?')
+         Expected Rule : validate_no_generic_closing_questions
+         Actual Rule(s): ["validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'koi aur madad': 'Kya aap ko koi aur madad chahiye?'", "validate_no_customer_echo: Assistant reply first sentence contains 5 or more consecutive words copied from customer's last message: 'naya account kholne par koi'"]
+  [PASS] Case: 14. generic closing question in English ('Is there anything else I can help with?')
+         Expected Rule : validate_no_generic_closing_questions
+         Actual Rule(s): ["validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'anything else': 'Is there anything else I can help with?'"]
+  [PASS] Case: 15. states more than 2 numbers from context not asked in Roman Urdu
+         Expected Rule : validate_only_asked_numbers
+         Actual Rule(s): ['validate_only_asked_numbers: Assistant turn states 3 numbers from context ([1200.0, 800.0, 50000.0]), exceeding customer asked topics (2)']
+  [PASS] Case: 16. states more than 2 numbers from context not asked in English
+         Expected Rule : validate_only_asked_numbers
+         Actual Rule(s): ['validate_only_asked_numbers: Assistant turn states 3 numbers from context ([18.0, 2500.0, 36.0]), exceeding customer asked topics (2)']
+  [PASS] Case: 17. customer message contains formal letter opening
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: 'Mohtaram' in 'Mohtaram, mera balance check kar dein.'"]
+  [PASS] Case: 18. customer message contains literary words or slang phrase
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: 'na qabil e bardasht' in 'Mera transfer na qabil e bardasht laparwahi ki wajah se atak gaya hai kya scene hai???'"]
+  [PASS] Case: 19. procedure words: click without warning ('is button par click karein')
+         Expected Rule : validate_no_procedure_words
+         Actual Rule(s): ["validate_no_procedure_words: word 'click' in 'Ji, is button par click karein.'"]
+  [PASS] Case: 20. opening diversity filter: sentence already appears 2 times
+         Expected Rule : validate_opening_diversity
+         Actual Rule(s): ["validate_opening_diversity: First sentence 'Ji, aap ki request darj kar li gayi hai.' already appears 2 times in generated records"]
+  [PASS] Case: 21. personal identifiers: Pakistani mobile number in message
+         Expected Rule : validate_no_personal_identifiers
+         Actual Rule(s): ["validate_no_personal_identifiers: user message contains Pakistani mobile number pattern: '03001234567'", "validate_no_personal_identifiers: user message contains 10+ digit number without letters: '03001234567'"]
+  [PASS] Case: 22. personal identifiers: 10 or more digits without letters
+         Expected Rule : validate_no_personal_identifiers
+         Actual Rule(s): ["validate_no_personal_identifiers: user message contains 10+ digit number without letters: '42101-1234567-1'"]
+  [PASS] Case: 23. ticket mood mismatch: very_angry customer with no anger signs
+         Expected Rule : validate_customer_mood
+         Actual Rule(s): ['validate_customer_mood: very_angry customer lacks required anger signs (insults, shouting, or 3+ exclamation marks)']
+  [PASS] Case: 24. ticket mood mismatch: calm customer with exclamation marks
+         Expected Rule : validate_customer_mood
+         Actual Rule(s): ['validate_customer_mood: calm customer contains 1 exclamation mark(s)']
+  [PASS] Case: 25. time_mentioned is month name / statement period
+         Expected Rule : validate_time_mentioned_natural
+         Actual Rule(s): ["validate_time_mentioned_natural: time_mentioned is month name or statement period ('october'), must be event time in customer words"]
+  [PASS] Case: 26. sampled numbers mismatch: context uses numbers not in supplied range
+         Expected Rule : validate_context_numbers_match_sampled
+         Actual Rule(s): ['validate_context_numbers_match_sampled: Context is missing supplied numbers [500.0]']
+  [PASS] Case: 27. bot asks card ke aakhri 4 digit
+         Expected Rule : validate_no_personal_identifiers
+         Actual Rule(s): ["validate_no_personal_identifiers: Assistant asked customer for prohibited identifier matching '\\b(?:card\\s+ke\\s+)?(?:aakhri|last)\\s+\\d+\\s+digits?\\b'"]
+  [PASS] Case: 28. bot asks apna mobile number bata dein
+         Expected Rule : validate_no_personal_identifiers
+         Actual Rule(s): ["validate_no_personal_identifiers: Assistant asked customer for prohibited identifier matching '\\b(?:apna\\s+)?(?:phone|mobile)\\s+number\\s+(?:bata\\s+dein|batayein|share|dein|likhein|batao)\\b'"]
+  [PASS] Case: 29. sampled customer amount mismatch
+         Expected Rule : validate_customer_amount_matches
+         Actual Rule(s): ['validate_customer_amount_matches: Ticket amount (5000.0) does not match supplied customer amount (8000.0)']
+  [PASS] Case: 30. customer message contains literary phrase in Roman Urdu ('ke hawale se')
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: 'ke hawale se' in 'Mera account balance ke hawale se sawal tha.'"]
+  [PASS] Case: 31. customer message contains literary phrase in Urdu script ('╪¡┘ê╪º┘ä█Æ ╪│█Æ')
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: '╪¡┘ê╪º┘ä█Æ ╪│█Æ' in '╪º┌⌐╪º╪ñ┘å┘╣ ╪¿█î┘ä┘å╪│ ┌⌐█Æ ╪¡┘ê╪º┘ä█Æ ╪│█Æ ┘à╪╣┘ä┘ê┘à╪º╪¬ ╪»╪▒┌⌐╪º╪▒ █ü█î┌║█ö'"]
+  [PASS] Case: 32. opening diversity: non warning first sentence already appears twice (after warning)
+         Expected Rule : validate_opening_diversity
+         Actual Rule(s): ["validate_opening_diversity: First sentence 'Ji, aap ki request darj kar li gayi hai.' already appears 2 times in generated records"]
+  [PASS] Case: 33. nodoc: bot says cannot confirm but customer did not ask about time, fee, charge, limit or duration
+         Expected Rule : validate_nodoc_question_asked
+         Actual Rule(s): ['validate_nodoc_question_asked: Assistant stated inability to confirm, but customer did not ask about time, fee, charge, limit, or duration']
+  [PASS] Case: 34. number format: bot turn contains number with trailing .0 ('18.0 percent')
+         Expected Rule : validate_no_trailing_zero_decimals
+         Actual Rule(s): ["validate_number_grounding: Ungrounded numbers uttered by assistant: ['18', '18.0'] (allowed: [])", "validate_no_trailing_zero_decimals: Assistant turn 2 contains number with trailing .0: '18.0'"]
+  [PASS] Case: 35. customer echo: bot begins with 5+ consecutive words copied from customer ('subah se intezar kar raha hoon koi hal nahi nikla')
+         Expected Rule : validate_no_customer_echo
+         Actual Rule(s): ["validate_no_customer_echo: Assistant reply first sentence contains 5 or more consecutive words copied from customer's last message: 'subah se intezar kar raha'"]
+  [PASS] Case: 36. ji first: assistant turn does not begin with Ji
+         Expected Rule : validate_ji_first
+         Actual Rule(s): ["validate_ji_first: Assistant turn 2 does not begin with 'Ji' or '╪¼█î': 'Your request has been recorded.'"]
+  [PASS] Case: 37. ji first: scam warning opens turn without Ji first
+         Expected Rule : validate_ji_first
+         Actual Rule(s): ["validate_ji_first: Assistant turn 2 does not begin with 'Ji' or '╪¼█î': 'Zarya Bank kabhi bhi call ya SMS par aap ka OTP ya'"]
+  [PASS] Case: 38. facet anti-copying: customer message copies 4+ consecutive words from sampled facet value
+         Expected Rule : validate_no_facet_copying
+         Actual Rule(s): ["validate_no_facet_copying: Customer message contains 3 or more consecutive content words copied from sampled facet value: 'attempted immediate debit'", 'validate_no_facet_copying: Customer message contains 71.4% of content words from sampled facet value (at least 70% forbidden): 5/7 words']
+  [PASS] Case: 39. ticket summary: ticket summary contains Roman Urdu words ('Customer ne agent shop se 12000 transfer karwaye jo receive nahi huay')
+         Expected Rule : validate_ticket_summary_language
+         Actual Rule(s): ["validate_ticket_summary_language: Ticket summary contains Roman Urdu word(s) ['ne', 'se', 'nahi'], must be English only: 'Customer ne agent shop se 12000 transfer karwaye jo receive nahi huay'"]
+  [PASS] Case: 40. ticket summary: ticket summary contains Urdu script
+         Expected Rule : validate_ticket_summary_language
+         Actual Rule(s): ["validate_ticket_summary_language: Ticket summary contains Urdu script, must be English only: '┌⌐╪│┘╣┘à╪▒ ┘å█Æ 5000 ┘╣╪▒╪º┘å╪│┘ü╪▒ ┌⌐█î█Æ ╪¼┘ê ┘å█ü█î┌║ ┘╛█ü┘å┌å█Æ'"]
+  [PASS] Case: 41. structure claims: bot mentions unauthorized organizational division without context ('Fraud monitoring division')
+         Expected Rule : validate_no_structure_claims
+         Actual Rule(s): ["validate_no_structure_claims: Assistant turn contains unauthorized structure claim 'division' not present in context: 'Ji, Fraud monitoring division ke liye aap ki report darj kar li gayi hai.'"]
+  [PASS] Case: 42. structure claims: bot mentions unauthorized agent shop without context
+         Expected Rule : validate_no_structure_claims
+         Actual Rule(s): ["validate_no_structure_claims: Assistant turn contains unauthorized structure claim 'agent shop' not present in context: 'Ji, aap qareebi agent shop se maloomat hasil kar sakte hain.'"]
+  [PASS] Case: 43. context numbers: 2 extra numbers in context ('50000', '3')
+         Expected Rule : validate_context_numbers_match_sampled
+         Actual Rule(s): ['validate_context_numbers_match_sampled: Context contains 2 extra numbers [3.0, 50000.0], at most 1 extra allowed']
+  [PASS] Case: 44. context numbers: extra number equals number from seed context ('1200')
+         Expected Rule : validate_context_numbers_match_sampled
+         Actual Rule(s): ["validate_context_numbers_match_sampled: Extra context number [1200.0] appears in seed's own context"]
+  [PASS] Case: 45. end style: statement style but bot ends with a question
+         Expected Rule : validate_end_style
+         Actual Rule(s): ["validate_end_style: Candidate end_style is 'statement' but last bot turn ends with question mark: 'zero rupees hai. Kya aap ne account khol liya hai?'"]
+  [PASS] Case: 46. end style: question style but bot ends with a statement
+         Expected Rule : validate_end_style
+         Actual Rule(s): ["validate_end_style: Candidate end_style is 'question' but last bot turn does not end with question mark: 'Ji, account fee zero rupees hai.'"]
+  [PASS] Case: 47. promise wording: turns resolution time into commitment ('is ka hal 24 ghanton mein mumken hai')
+         Expected Rule : validate_bot_turns
+         Actual Rule(s): ["validate_bot_turns: Found promise/reassurance phrase matching 'mumken hai'"]
+  [PASS] Case: 48. scam warning: warning sentence in wrong language (English warning in roman_urdu conversation)
+         Expected Rule : validate_scam_warning
+         Actual Rule(s): ['validate_scam_warning: warning sentence in wrong language for roman_urdu conversation']
+  [PASS] Case: 49. scam warning: more than one warning sentence in conversation
+         Expected Rule : validate_scam_warning
+         Actual Rule(s): ['validate_scam_warning: more than one warning sentence (2) in conversation']
+  [PASS] Case: 50. scam warning: warning sentence present in forbidden intent ('check_balance')
+         Expected Rule : validate_scam_warning
+         Actual Rule(s): ["validate_scam_warning: warning sentence present for intent 'check_balance' not in scam warning list"]
+  [PASS] Case: 51. refusals: out_of_scope bot reply contains question mark ('Kya aap ko banking mein madad chahiye?')
+         Expected Rule : validate_refusals
+         Actual Rule(s): ['validate_refusals: out_of_scope bot reply must not contain any question mark', "validate_no_generic_closing_questions: Assistant turn ends with generic closing question matching 'madad chahiye': 'Kya aap ko banking mein madad chahiye?'"]
+  [PASS] Case: 52. refusals: out_of_scope bot reply exceeds 30 words
+         Expected Rule : validate_refusals
+         Actual Rule(s): ["validate_no_procedure_words: word 'app' in 'Ji, main live cricket match ke scores ya sports ki updates faraham nahi kar sakti kyun ke mera ikhtiyar sirf Zarya Bank ki bunyadi digital banking khidmat tak mehdood hai baraye meherbani sports app dekhein.'", 'validate_refusals: out_of_scope bot reply contains 35 words (at most 30 allowed)']
+  [PASS] Case: 53. facets: bot question contains forbidden personal relation word ('friend')
+         Expected Rule : validate_no_facet_questions
+         Actual Rule(s): ["validate_no_facet_questions: assistant question contains forbidden personal contact word: 'Ji, kya aap ne kisi friend ko apna debit card istemal karne ke liye diya tha?'"]
+  [PASS] Case: 54. customer amount: ticket amount present on non-amount intent ('check_balance')
+         Expected Rule : validate_ticket_amount_allowed
+         Actual Rule(s): ["validate_ticket_amount_allowed: ticket amount 5000 not allowed for intent 'check_balance'", "ticket_schema: 1 validation error for BankingTicket\ncategory\n  Input should be 'account', 'transfer', 'card', 'loan', 'complaint', 'fraud' or 'out_of_scope' [type=enum, input_value='inquiry', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/enum"]
+  [PASS] Case: 55. no ranges: range expression in context ('2 to 4 days')
+         Expected Rule : validate_no_context_ranges
+         Actual Rule(s): ["validate_no_context_ranges: range expression '2 to 4' found in context: 'Loan processing turnaround time is 2 to 4 days.'"]
+  [PASS] Case: 56. help offers: bot question offers help ('madad kar sakti hoon')
+         Expected Rule : validate_no_help_offers_and_numbers
+         Actual Rule(s): ["validate_no_help_offers_and_numbers: bot question offers help: 'Ji, kya main aap ki kisi aur maslay mein madad kar sakti hoon?'"]
+  [PASS] Case: 57. helpline offer: bot offers helpline number ('helpline ka number')
+         Expected Rule : validate_no_help_offers_and_numbers
+         Actual Rule(s): ["validate_no_help_offers_and_numbers: bot offers helpline or phone number: 'helpline ka number' in 'Ji, main aap ko helpline ka number faraham kar sakti hoon.'"]
+  [PASS] Case: 58. action claims: bot claims 'mere paas record' without context
+         Expected Rule : validate_no_action_claims
+         Actual Rule(s): ["validate_no_action_claims: matched 'mere paas record' in 'Ji, mere paas record mojood hai ke transaction fail hua tha.'"]
+  [PASS] Case: 59. promises: bot uses forbidden promise phrase ('khud ba khud')
+         Expected Rule : validate_bot_turns
+         Actual Rule(s): ["validate_bot_turns: Found promise/reassurance phrase matching 'khud ba khud'"]
+  [PASS] Case: 60. length: customer message exceeds 40 words
+         Expected Rule : validate_lengths
+         Actual Rule(s): ['validate_lengths: customer message has 54 words (maximum 40 allowed)']
+  [PASS] Case: 61. length: bot turn exceeds 3 sentences
+         Expected Rule : validate_lengths
+         Actual Rule(s): ["validate_bot_turns: Found promise/reassurance phrase matching 'rabta karenge'", 'validate_lengths: bot turn has 4 sentences (maximum 3 allowed)', "validate_no_structure_claims: Assistant turn contains unauthorized structure claim 'team' not present in context: 'Ji, aap ki darkhwast darj kar li gayi hai. Hamari team jaanch kar rahi hai. Baraye meherbani intizar farmayein. Hum jald rabta karenge.'"]
+  [PASS] Case: 62. customer words: customer message contains forbidden word 'tafseelat'
+         Expected Rule : validate_no_forbidden_customer_words
+         Actual Rule(s): ["validate_no_forbidden_customer_words: Customer message contains forbidden word/phrase: 'tafseelat' in 'Mujhe account ki tamam tafseelat janni hain.'"]
+  [PASS] Case: 63. ehsas: bot turn contains forbidden word 'ehsas'
+         Expected Rule : validate_no_ehsas
+         Actual Rule(s): ["validate_no_ehsas: Found forbidden phrase 'pareshani ka ehsas'"]
+  [PASS] Case: 64. opening variety: same first 3 words in >= 5 percent of accepted records once >= 60 records exist
+         Expected Rule : validate_opening_variety
+         Actual Rule(s): ["validate_opening_variety: Bot opening first 3 words 'ji aap ka' appears in 3/60 (5.0%) accepted records (limit is 5.0% once >= 60 records exist)"]
+  [PASS] Case: 65. customer greeting tic: customer message starts with Ji or ╪¼█î ('Ji mera balance check kar dein')
+         Expected Rule : validate_no_customer_ji
+         Actual Rule(s): ["validate_no_customer_ji: Customer message starts with forbidden greeting tic 'Ji'/'╪¼█î': 'Ji mera balance check kar dein.'"]
+
+[PART C] Testing Opening Styles Distribution and Pilot Shuffling
+  Style group distribution (200 requests per task type):
+    faq: {'direct': 200}
+    complaint: {'direct': 55, 'acknowledge': 138, 'detail': 7}
+    fraud: {'acknowledge': 124, 'scam': 70, 'detail': 6}
+    out_of_scope: {'refusal': 200}
+  [PASS] out_of_scope never gets the detail style group (over 200 sampled requests)
+  [PASS] refusal group never contains a question
+  First 8 pilot task types: ['complaint', 'faq', 'complaint', 'faq', 'complaint', 'fraud', 'faq', 'fraud'] (unique count: 3)
+  [PASS] pilot order contains at least 3 task types in its first 8 requests
+
+[PART D] Testing Prompt v1.5 Features and Invariants
+  [PASS] opening diversity accepts reply starting with warning sentence existing 5 times
+  [PASS] opening diversity rejects reply whose non warning first sentence already exists twice
+  [PASS] scam opening styles start by naming danger or asking question, with zero directing to start with warning
+  [PASS] customer style pool contains at least 6 refusal lines per mood (Roman Urdu: {'calm': 14, 'frustrated': 14, 'very_angry': 14}, Urdu script: {'calm': 7, 'frustrated': 7, 'very_angry': 7})
+  [PASS] out_of_scope requests sample only lines tagged refusal (tested across 100 samples)
+  [PASS] urdu normalization replaces arabic kaf and yeh with urdu kaf and yeh (U+0643 -> U+06A9, U+064A -> U+06CC, U+0649 -> U+06CC)
+  [PASS] save_accepted fails if any saved urdu text contains arabic code points
+  [PASS] all seeds and customer style pool lines contain zero arabic code points
+
+[PART E] Testing Prompt v1.6 Features and Invariants
+  [PASS] nodoc accepts flexible wording ('tasdeeq abhi nahi kar sakti') with helpline
+  [PASS] nodoc rejects reply stating a number
+  [PASS] nodoc validator rejects cannot confirm when customer did not ask about time, fee, charge, limit, or duration
+  [PASS] nodoc sampled only for faq requests or complaint requests with inquiry target
+  [PASS] sampled percentage ranges drop trailing .0 ([2.5, 3.5, 5, 12.5, 15, 18, 22])
+  [PASS] number format helper drops trailing .0 (18.0 -> '18', 2.5 -> '2.5', '22.0' -> '22')
+  [PASS] number format validator rejects context or bot turn containing number followed by .0
+  [PASS] acknowledge opening styles express empathy in own words with zero customer repetition instructions
+  [PASS] acknowledge style group used only for complaint and fraud requests with frustrated or very_angry customer
+  [PASS] faq requests with any mood use direct style group
+  [PASS] customer echo validator rejects bot reply first sentence copying 5 or more consecutive words from customer
+  [PASS] ji first validator enforces every assistant turn begins with Ji or ╪¼█î across languages
+  [PASS] ji first validator accepts scam warning sentence following Ji first
+  [PASS] scenario_facets covers all 31 intents with at least 3 facet lists of 5 to 8 plain values each (person_contacted removed)
+  [PASS] facet sampling selects one value from two different facet lists per request (and zero for out_of_scope)
+
+[PART F] Testing v1.7 Features: Request Log, Daily Limit, Echo Refinements, Facet Anti-Copying, Derived Style, English Ticket Summary, and Structure Claims
+  [PASS] request log accurately counts today's requests in Pacific time zone (zoneinfo America/Los_Angeles)
+  [PASS] quota 429 errors correctly identified for immediate termination without retry
+  [PASS] echo validator permits context-grounded repetitions and digits, rejects non-context echo
+  [PASS] customer writing style derived strictly from mood (calm: plain and polite, frustrated: informal, very_angry: informal and shouting)
+  [PASS] ticket summary validator enforces English only and rejects Roman Urdu or Urdu script
+  [PASS] structure claims validator rejects unauthorized organizational terms unless verbatim in context
+  [PASS] interval logic enforces min_seconds_between_requests using last timestamp
+  [PASS] per model daily count accurately isolates today's Pacific requests per model
+  [PASS] model limits table lookup retrieves correct model limits and rejects missing models
+  [PASS] reset time correctly calculates next Pacific midnight and corresponding Asia/Karachi time
+
+[PART G] Testing v1.8 Features: Context Numbers, Click Warning Exception, Closing Questions, End Style, and Promise Wording
+  [PASS] context numbers accepts supplied numbers plus 1 new extra number not in seed context
+  [PASS] context numbers rejects context when any supplied number is missing
+  [PASS] context numbers rejects context containing 2 extra numbers
+  [PASS] context numbers rejects extra number equal to a number in seed context
+  [PASS] click warning exception accepts 'click hargiz na karein', 'click bilkul mat karein', and 'hargiz click na karein', rejects 'is button par click karein'
+  [PASS] closing questions accepts specific action questions ('koi aur maloomat darj ki hain?', 'share any other details with them?'), rejects generic help offers ('koi aur madad chahiye?', 'anything else I can help with?')
+  [PASS] end style validator accepts statement ending with period and question ending with question mark, rejects opposite
+  [PASS] promise wording rejects commitment ('is ka hal 24 ghanton mein mumken hai'), accepts neutral timing ('resolution ka waqt 24 ghantay hai')
+  [PASS] all 511 complaint requests with context supply a resolution time (tat_hours or tat_days)
+  [PASS] end style sampled with fixed seed yields 58.2% statement and 41.8% question (expected ~55%/45%)
+
+[PART H] Testing Prompt v1.9 Features and Invariants
+  [INFO] Max bot turn words in 100 seeds: 52 -> N = 55
+  [PASS] dynamic N calculation correctly computes largest bot turn length rounded to next multiple of 5 (N = 55)
+  [PASS] scam warning validator enforces language-specific warning sentence and rejects mismatched language
+  [PASS] refusals validator enforces zero question marks and <= 30 words for out_of_scope
+  [PASS] customer echo validator is bypassed for out_of_scope conversations
+  [PASS] procedure words and action claims permit verbatim occurrences in context text and reject ungrounded occurrences
+  [PASS] context ranges validator rejects range expressions ('2 to 4 days') and accepts single exact values ('3 days')
+  [PASS] ticket amount validator rejects amounts on non-amount intents and accepts allowed intents
+
+[PART I] Testing Prompt v1.10 Features and Invariants
+  [PASS] refusal templates pool contains >= 12 Roman Urdu, >= 6 English, >= 6 Urdu script templates per topic group (all <= 25 words, no question mark, start with Ji/╪¼█î)
+  [PASS] refusal selector builds 200 records passing all validators with max template usage <= 4 percent and <= 3 repeats per 100 refusals
+  [PASS] scenario_facets in generation_plan.yaml contains pure Roman Urdu descriptions across all 31 intents with zero English words outside whitelist
+  [PASS] customer echo validator requires 5 or more words and permits words from context or intent name
+  [PASS] opening variety diversity filter accepts below 5 percent frequency and rejects at or above 5 percent once 60 records exist
+  [PASS] ehsas validator rejects 'ehsas' and 'pareshani ka ehsas' across instructions and chat turns
+  [PASS] customer variety correctly extracts and ranks 3-word phrases appearing in 5 or more customer messages
+
+[PART J] Testing Prompt v1.11 Features and Invariants
+  [PASS] out_of_scope end style always sets statement across 200 targets and passes validate_end_style
+  [PASS] facet copying validator compares content words ignoring stoplist, accepts <70% non-consecutive, rejects 3 consecutive content words and >= 70% content words
+  [PASS] sampled_number_ranges pools all contain at least 40 distinct values with non-round values, proper bounds and no trailing .0
+  [PASS] customer greeting tic validator rejects customer message starting with Ji or ╪¼█î and accepts messages without greeting tic
+
+======================================================================
+[FINAL RESULT] SELFTEST PASSED: ALL 100 SEEDS ACCEPTED, ALL BAD CASES REJECTED WITH EXPECTED RULES
+======================================================================

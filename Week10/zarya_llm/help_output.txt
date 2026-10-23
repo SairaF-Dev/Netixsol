@@ -1,0 +1,21 @@
+usage: generate.py [-h] [--selftest] [--dry-run] [--seed-id SEED_ID]
+                   [--seed-index SEED_INDEX] [--nodoc] [--pilot] [--run]
+                   [--resume] [--limit LIMIT]
+
+Zarya LLM Synthetic Data Generator
+
+options:
+  -h, --help            show this help message and exit
+  --selftest            Run validator pipeline integrity checks on 100 seeds
+                        and 12 bad cases
+  --dry-run             Print sample teacher prompt without executing API
+                        calls
+  --seed-id SEED_ID     Specific seed ID to preview or force during generation
+  --seed-index SEED_INDEX
+                        Seed index to preview
+  --nodoc               Force no document requirement in preview
+  --pilot               Run pilot generation mode (20 conversations)
+  --run                 Run full generation mode (2250 conversations)
+  --resume              Resume generation from existing raw data state
+  --limit LIMIT         Maximum number of teacher API calls to execute in this
+                        run

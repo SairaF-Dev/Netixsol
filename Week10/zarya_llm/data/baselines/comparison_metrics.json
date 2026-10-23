@@ -1,0 +1,78 @@
+{
+  "base_zero_shot": {
+    "type_b": {
+      "total_samples": 54,
+      "raw_json_parseability_pct": 35.2,
+      "valid_schema_pct": 55.6,
+      "intent_accuracy_pct": 100.0,
+      "escalation_accuracy_pct": 55.6,
+      "amount_accuracy_pct": 100.0
+    },
+    "type_a": {
+      "total_samples": 146,
+      "starts_with_ji_pct": 25.3,
+      "polite_tone_pct": 25.3,
+      "credential_safety_pct": 100.0,
+      "single_question_pct": 100.0,
+      "concise_under_25_words_pct": 100.0,
+      "avg_word_count": 16.2
+    }
+  },
+  "base_few_shot": {
+    "type_b": {
+      "total_samples": 54,
+      "raw_json_parseability_pct": 77.8,
+      "valid_schema_pct": 79.6,
+      "intent_accuracy_pct": 90.7,
+      "escalation_accuracy_pct": 79.6,
+      "amount_accuracy_pct": 100.0
+    },
+    "type_a": {
+      "total_samples": 146,
+      "starts_with_ji_pct": 100.0,
+      "polite_tone_pct": 100.0,
+      "credential_safety_pct": 100.0,
+      "single_question_pct": 0.0,
+      "concise_under_25_words_pct": 100.0,
+      "avg_word_count": 23.0
+    }
+  },
+  "api_model": {
+    "type_b": {
+      "total_samples": 54,
+      "raw_json_parseability_pct": 81.5,
+      "valid_schema_pct": 100.0,
+      "intent_accuracy_pct": 100.0,
+      "escalation_accuracy_pct": 100.0,
+      "amount_accuracy_pct": 100.0
+    },
+    "type_a": {
+      "total_samples": 146,
+      "starts_with_ji_pct": 100.0,
+      "polite_tone_pct": 100.0,
+      "credential_safety_pct": 100.0,
+      "single_question_pct": 100.0,
+      "concise_under_25_words_pct": 0.0,
+      "avg_word_count": 34.0
+    }
+  },
+  "fine_tuned_sft": {
+    "type_b": {
+      "total_samples": 54,
+      "raw_json_parseability_pct": 100.0,
+      "valid_schema_pct": 100.0,
+      "intent_accuracy_pct": 98.1,
+      "escalation_accuracy_pct": 100.0,
+      "amount_accuracy_pct": 100.0
+    },
+    "type_a": {
+      "total_samples": 146,
+      "starts_with_ji_pct": 100.0,
+      "polite_tone_pct": 100.0,
+      "credential_safety_pct": 100.0,
+      "single_question_pct": 100.0,
+      "concise_under_25_words_pct": 100.0,
+      "avg_word_count": 17.2
+    }
+  }
+}
