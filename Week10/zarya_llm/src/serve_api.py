@@ -292,6 +292,9 @@ async def serve_home_ui():
     """
     Renders the modern, fintech-themed Zarya Digital Bank Dual-Role Web UI.
     """
+    space_html = PROJECT_ROOT / "hf_space" / "index.html"
+    if space_html.exists():
+        return HTMLResponse(content=space_html.read_text(encoding="utf-8"))
     html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
