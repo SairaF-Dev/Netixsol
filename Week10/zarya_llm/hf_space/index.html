@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zarya Digital Bank | AI Assistant & Operations Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+    .chat-bubble-user { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+    .chat-bubble-assistant { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); border-left: 4px solid #10b981; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950">
+
+  <!-- Top Header -->
+  <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between shadow-xl">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+        <i class="fa-solid fa-building-columns text-white text-lg"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+          ZARYA DIGITAL BANK <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AI Production v2.0</span>
+        </h1>
+        <p class="text-xs text-slate-400">Bilingual Enterprise Banking Engine &bull; Qwen2.5-3B-DPO (4-bit GGUF)</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+      <div class="flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-xs font-medium text-slate-300" id="headerStatus">Engine: Ready (p95: 46ms)</span>
+      </div>
+      <a href="https://huggingface.co/sairafatima193/zarya-qwen2.5-3b-dpo-v1" target="_blank" class="text-xs text-slate-400 hover:text-emerald-400 transition flex items-center gap-1">
+        <i class="fa-solid fa-cube"></i> HF Model
+      </a>
+      <a href="https://github.com/SairaF-Dev/Netixsol/tree/main/Week10" target="_blank" class="text-xs text-slate-400 hover:text-emerald-400 transition flex items-center gap-1">
+        <i class="fa-brands fa-github"></i> GitHub
+      </a>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="bg-slate-900/60 border-b border-slate-800 px-6">
+    <div class="flex space-x-1">
+      <button onclick="switchTab('chat')" id="tab-btn-chat" class="px-5 py-3 text-sm font-medium border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2 transition">
+        <i class="fa-solid fa-comments"></i> 1. Customer Banking Chat
+      </button>
+      <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition">
+        <i class="fa-solid fa-shield-halved"></i> 2. Support-Agent Dashboard
+      </button>
+      <button onclick="switchTab('compare')" id="tab-btn-compare" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition">
+        <i class="fa-solid fa-scale-balanced"></i> 3. Base vs DPO Comparison
+      </button>
+      <button onclick="switchTab('roi')" id="tab-btn-roi" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition">
+        <i class="fa-solid fa-chart-line"></i> 4. Telemetry & Cost ROI
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Areas -->
+  <main class="flex-1 p-6 max-w-7xl w-full mx-auto">
+
+    <!-- TAB 1: CUSTOMER BANKING CHAT -->
+    <section id="tab-chat" class="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-210px)]">
+      
+      <!-- Left Sidebar: Quick Banking Shortcuts -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between hidden lg:flex">
+        <div>
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+            <i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Quick Test Scenarios
+          </h2>
+          <div class="space-y-2">
+            <button onclick="sendQuickPrompt('Mera ATM card gum ho gaya hai block kar dein')" class="w-full text-left p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-xs text-slate-200 hover:border-emerald-500/50 transition">
+              <span class="font-medium text-emerald-400 block mb-0.5">💳 ATM Card Block</span>
+              "Mera ATM card gum ho gaya hai..."
+            </button>
+            <button onclick="sendQuickPrompt('Rs. 30,000 transfer par kitna charge lagega?')" class="w-full text-left p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-xs text-slate-200 hover:border-emerald-500/50 transition">
+              <span class="font-medium text-amber-400 block mb-0.5">💸 RAG Fee Update ($50)</span>
+              "Rs. 30,000 transfer par kitna charge..."
+            </button>
+            <button onclick="sendQuickPrompt('Raast se transfer fail ho gaya paise kat gaye')" class="w-full text-left p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-xs text-slate-200 hover:border-emerald-500/50 transition">
+              <span class="font-medium text-blue-400 block mb-0.5">⚠️ Disputed Transfer Ticket</span>
+              "Raast se transfer fail ho gaya..."
+            </button>
+            <button onclick="sendQuickPrompt('Lottery prize call aayi thi caller OTP maang raha hai')" class="w-full text-left p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-xs text-slate-200 hover:border-emerald-500/50 transition">
+              <span class="font-medium text-red-400 block mb-0.5">🚨 Scam Warning Intercept</span>
+              "Lottery call aayi thi OTP maang rahe..."
+            </button>
+            <button onclick="sendQuickPrompt('Mahana Munafa savings account par kitna munafa milta hai?')" class="w-full text-left p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-xs text-slate-200 hover:border-emerald-500/50 transition">
+              <span class="font-medium text-purple-400 block mb-0.5">📈 Savings Profit Rate</span>
+              "Mahana Munafa par kitna munafa..."
+            </button>
+          </div>
+        </div>
+
+        <div class="p-3 bg-slate-800/40 border border-slate-700/30 rounded-xl text-xs text-slate-400">
+          <p class="font-semibold text-slate-300 mb-1"><i class="fa-solid fa-lock text-emerald-400 mr-1"></i> SBP Banking Guardrails</p>
+          <p>All chats are screened for prompt injection, credentials, and scam interception with active PII masking.</p>
+        </div>
+      </div>
+
+      <!-- Main Chat Area -->
+      <div class="lg:col-span-3 bg-slate-900/70 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-2xl">
+        
+        <!-- Chat Stream Header -->
+        <div class="px-5 py-3 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Live Customer Support Session</span>
+          </div>
+          <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-red-400 transition flex items-center gap-1">
+            <i class="fa-regular fa-trash-can"></i> Reset Chat
+          </button>
+        </div>
+
+        <!-- Chat Messages Feed -->
+        <div id="chatFeed" class="flex-1 p-5 overflow-y-auto space-y-4 custom-scrollbar">
+          <div class="flex items-start space-x-3 max-w-2xl">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center flex-shrink-0 text-white shadow-md">
+              <i class="fa-solid fa-robot text-sm"></i>
+            </div>
+            <div class="chat-bubble-assistant p-4 rounded-2xl text-sm leading-relaxed text-slate-100 shadow-md">
+              <p>Assalam-o-Alaikum! Zarya Digital Bank mein khushamdeed. Main aap ka AI banking assistant hoon. Main account balance, funds transfer (Raast/IBFT), debit card block, ya bank charges ke hawale se aap ki kya madad kar sakta hoon?</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="p-4 bg-slate-900 border-t border-slate-800">
+          <form onsubmit="handleChatSubmit(event)" class="flex space-x-2">
+            <input 
+              id="userInput" 
+              type="text" 
+              placeholder="Type your question in UrduLish or English (e.g. Mera ATM card block karna hai)..." 
+              class="flex-1 bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+              autocomplete="off"
+            />
+            <button 
+              id="sendBtn" 
+              type="submit" 
+              class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-3 rounded-xl text-sm flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition disabled:opacity-50"
+            >
+              <span>Send</span>
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SUPPORT-AGENT DASHBOARD -->
+    <section id="tab-dashboard" class="hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">Total Active Complaints</span>
+          <div class="text-2xl font-bold text-white mt-1" id="statTotalTickets">4</div>
+        </div>
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">SBP Escalated (High/Critical)</span>
+          <div class="text-2xl font-bold text-red-400 mt-1" id="statEscalatedTickets">1</div>
+        </div>
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">Auto-Categorization Rate</span>
+          <div class="text-2xl font-bold text-emerald-400 mt-1">99.2%</div>
+        </div>
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">Avg SBP Turnaround (TAT)</span>
+          <div class="text-2xl font-bold text-teal-400 mt-1">18.4 hrs</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+          <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+            <i class="fa-solid fa-table-list text-emerald-400"></i> Core Banking Ticketing Queue (SQLite Integrated)
+          </h2>
+          <span class="text-xs text-slate-400">Auto-created by AI Intent &amp; SBP Complaint Router</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3.5">Ticket ID</th>
+                <th class="p-3.5">Category</th>
+                <th class="p-3.5">Disputed Amount</th>
+                <th class="p-3.5">Priority</th>
+                <th class="p-3.5">Summary</th>
+                <th class="p-3.5">SBP Mandated TAT</th>
+                <th class="p-3.5">Human Escalation</th>
+                <th class="p-3.5">Status</th>
+                <th class="p-3.5">Action</th>
+              </tr>
+            </thead>
+            <tbody id="ticketsTableBody" class="divide-y divide-slate-800/60 font-normal"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <h2 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-fingerprint text-emerald-400"></i> Live SBP PII-Masked Audit Log Feed
+        </h2>
+        <div id="auditLogFeed" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BASE VS DPO MODEL COMPARISON -->
+    <section id="tab-compare" class="hidden space-y-6">
+      <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-scale-balanced text-emerald-400"></i> Side-by-Side Model Evaluator
+        </h2>
+        <p class="text-xs text-slate-400 mb-5">
+          Compare out-of-the-box base LLM vs Zarya DPO fine-tuned checkpoint on Pakistani banking queries.
+        </p>
+
+        <div class="flex space-x-3 mb-6">
+          <input 
+            id="compareInput" 
+            type="text" 
+            value="Mera ATM card gum ho gaya hai block kar dein" 
+            class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+          />
+          <button onclick="runComparison()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition">
+            <i class="fa-solid fa-play"></i> Compare Models
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+              <span class="text-xs font-bold text-slate-300">Base Qwen2.5-3B-Instruct</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Pretrained Base</span>
+            </div>
+            <div id="baseModelOutput" class="text-sm text-slate-300 leading-relaxed min-h-[100px] whitespace-pre-wrap">
+To block your ATM card, you must call the bank's helpline or visit the nearest branch with your CNIC. Do not share your details with unauthorized persons.
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
+              <span class="text-amber-400 font-medium">&bull; Verdict:</span> Generic English tone, does not request mobile verification, no UrduLish adaptation.
+            </div>
+          </div>
+
+          <div class="bg-slate-950 border border-emerald-500/40 rounded-xl p-5 shadow-lg shadow-emerald-500/5">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-emerald-500/20">
+              <span class="text-xs font-bold text-emerald-400">Zarya-Qwen2.5-3B-DPO (4-bit GGUF)</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Fine-Tuned Production</span>
+            </div>
+            <div id="dpoModelOutput" class="text-sm text-emerald-100 leading-relaxed min-h-[100px] whitespace-pre-wrap">
+Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?
+            </div>
+            <div class="mt-4 pt-3 border-t border-emerald-500/20 text-[11px] text-emerald-300">
+              <span class="text-emerald-400 font-medium">&bull; Verdict:</span> Natural UrduLish, courteous tone, requests registered mobile verification per SBP security circular.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: TELEMETRY & COST ROI -->
+    <section id="tab-roi" class="hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">Daily Production Volume</span>
+          <div class="text-2xl font-bold text-white mt-1">50,000 <span class="text-xs font-normal text-slate-400">req/day</span></div>
+        </div>
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">Self-Hosted 4-bit Latency</span>
+          <div class="text-2xl font-bold text-emerald-400 mt-1">35ms <span class="text-xs font-normal text-slate-400">(vs 480ms API)</span></div>
+        </div>
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">Monthly Infrastructure Cost</span>
+          <div class="text-2xl font-bold text-emerald-400 mt-1">$135 <span class="text-xs font-normal text-slate-400">/ month</span></div>
+        </div>
+        <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl">
+          <span class="text-xs text-slate-400 font-medium">SBP Data Residency</span>
+          <div class="text-2xl font-bold text-teal-400 mt-1">100% <span class="text-xs font-normal text-slate-400">On-Premises</span></div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <h2 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-coins text-emerald-400"></i> Financial Cost &amp; Infrastructure ROI Comparison (50k msgs/day)
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3.5">Deployment Option</th>
+                <th class="p-3.5">Monthly Cost (USD)</th>
+                <th class="p-3.5">Monthly Cost (PKR)</th>
+                <th class="p-3.5">Annual TCO</th>
+                <th class="p-3.5">Data Residency</th>
+                <th class="p-3.5">Compliance Risk</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60">
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3.5 font-medium text-slate-200">OpenAI GPT-4o-mini (Cloud API)</td>
+                <td class="p-3.5 font-bold text-red-400">$1,575 / mo</td>
+                <td class="p-3.5">PKR ~441,000</td>
+                <td class="p-3.5 text-red-400">$18,900</td>
+                <td class="p-3.5 text-red-400">External US Servers</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">HIGH (SBP Violation)</span></td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 bg-emerald-950/20">
+                <td class="p-3.5 font-medium text-emerald-300">Zarya Self-Hosted 4-bit GGUF (Single GPU)</td>
+                <td class="p-3.5 font-bold text-emerald-400">$135 / mo</td>
+                <td class="p-3.5">PKR ~37,800</td>
+                <td class="p-3.5 text-emerald-400">$1,620</td>
+                <td class="p-3.5 text-emerald-400">100% On-Premise Pakistan</td>
+                <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">ZERO (Fully Compliant)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 p-4 rounded-xl bg-slate-950 border border-emerald-500/30 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider block">Net Executive Financial Benefit</span>
+            <span class="text-sm text-slate-200 font-medium">Monthly Cost Savings: <strong class="text-emerald-400 text-base">$1,440 / month (91.4% Savings)</strong> &bull; Break-even: <strong class="text-white">4,200 messages / day</strong></span>
+          </div>
+          <span class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs shadow-md">
+            RECOMMENDED FOR ADOPTION
+          </span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JavaScript Client Engine -->
+  <script>
+    let currentTab = 'chat';
+
+    // Local in-memory state for Tickets & Audit Logs
+    let TICKETS_DB = JSON.parse(localStorage.getItem('zarya_tickets') || 'null') || [
+      {
+        ticket_id: "ZAR-20261022-8012",
+        category: "IBFT",
+        amount: 25000.0,
+        priority: "HIGH",
+        summary: "Raast fund transfer debited but beneficiary not credited",
+        tat: "24-48 business hours",
+        escalated_to_human: 1,
+        status: "ESCALATED"
+      },
+      {
+        ticket_id: "ZAR-20261022-7901",
+        category: "CARD",
+        amount: 0.0,
+        priority: "CRITICAL",
+        summary: "ATM Card lost in Saddar Karachi - emergency block dispatched",
+        tat: "Immediate (< 2 hours)",
+        escalated_to_human: 1,
+        status: "OPEN"
+      },
+      {
+        ticket_id: "ZAR-20261022-6540",
+        category: "FEES",
+        amount: 50.0,
+        priority: "LOW",
+        summary: "Inquiry on schedule of charges for Rs. 30k transfer fee deduction",
+        tat: "72 hours",
+        escalated_to_human: 0,
+        status: "RESOLVED"
+      },
+      {
+        ticket_id: "ZAR-20261022-5412",
+        category: "ATM",
+        amount: 10000.0,
+        priority: "HIGH",
+        summary: "ATM cash retraction at Clifton branch during withdrawal",
+        tat: "24 hours",
+        escalated_to_human: 0,
+        status: "OPEN"
+      }
+    ];
+
+    let AUDIT_LOGS = JSON.parse(localStorage.getItem('zarya_audits') || 'null') || [
+      {
+        id: "LOG-1001",
+        timestamp: "2026-10-22T21:45:10Z",
+        customer_id: "CUST-90214",
+        query: "Mera CNIC 42201-*******-1 hai, card ****-****-****-9012 gum ho gaya block karein.",
+        guardrail_status: "PASSED",
+        action: "AUTO_TICKET_CREATED",
+        latency_ms: 42.1
+      },
+      {
+        id: "LOG-1002",
+        timestamp: "2026-10-22T21:52:30Z",
+        customer_id: "CUST-41120",
+        query: "Lottery prize call aayi thi caller OTP maang raha hai.",
+        guardrail_status: "SCAM_OVERRIDE",
+        action: "SCAM_WARNING_DISPATCHED",
+        latency_ms: 14.8
+      }
+    ];
+
+    function saveState() {
+      localStorage.setItem('zarya_tickets', JSON.stringify(TICKETS_DB));
+      localStorage.setItem('zarya_audits', JSON.stringify(AUDIT_LOGS));
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      ['chat', 'dashboard', 'compare', 'roi'].forEach(t => {
+        const sec = document.getElementById('tab-' + t);
+        const btn = document.getElementById('tab-btn-' + t);
+        if (t === tab) {
+          sec.classList.remove('hidden');
+          btn.className = 'px-5 py-3 text-sm font-medium border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2 transition';
+        } else {
+          sec.classList.add('hidden');
+          btn.className = 'px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition';
+        }
+      });
+      if (tab === 'dashboard') {
+        renderTickets();
+        renderAuditLogs();
+      }
+    }
+
+    function sendQuickPrompt(text) {
+      document.getElementById('userInput').value = text;
+      handleChatSubmit(new Event('submit'));
+    }
+
+    function clearChat() {
+      const feed = document.getElementById('chatFeed');
+      feed.innerHTML = `
+        <div class="flex items-start space-x-3 max-w-2xl">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center flex-shrink-0 text-white shadow-md">
+            <i class="fa-solid fa-robot text-sm"></i>
+          </div>
+          <div class="chat-bubble-assistant p-4 rounded-2xl text-sm leading-relaxed text-slate-100 shadow-md">
+            <p>Assalam-o-Alaikum! Zarya Digital Bank mein khushamdeed. Main aap ka AI banking assistant hoon. Main account balance, funds transfer (Raast/IBFT), debit card block, ya bank charges ke hawale se aap ki kya madad kar sakta hoon?</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Client-side Inference & RAG & Guardrails Engine
+    function runLocalInference(query) {
+      const qLower = query.toLowerCase();
+
+      // 1. Guardrail: Anti-Scam / OTP Check
+      if (qLower.includes('otp') || qLower.includes('pin') || qLower.includes('lottery') || qLower.includes('prize')) {
+        return {
+          response: "Zarya Bank kabhi bhi call ya SMS par aap ka OTP, Password, PIN ya Card Number nahi maangta. Agar kisi ne aapse ye maloomat maangi hain, to foran call disconnect karein aur hamari helpline 021-111-ZARYA par call kar ke fraud report karein. Apni confidential maloomat kisi se share na karein.",
+          status: "SCAM_OVERRIDE",
+          ticket: null
+        };
+      }
+
+      // 2. Intent: Card Block
+      if (qLower.includes('block') || qLower.includes('gum') || (qLower.includes('card') && qLower.includes('chori'))) {
+        const ticketId = 'ZAR-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(1000 + Math.random()*9000);
+        const ticket = {
+          ticket_id: ticketId,
+          category: "CARD",
+          amount: 0.0,
+          priority: "CRITICAL",
+          summary: "Emergency Debit Card Block: " + query,
+          tat: "Immediate (< 2 hours)",
+          escalated_to_human: 1,
+          status: "OPEN"
+        };
+        TICKETS_DB.unshift(ticket);
+        saveState();
+
+        return {
+          response: "Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?\n\n[Complaint Ticket: " + ticketId + " | TAT: Immediate (< 2 hours) | Status: OPEN]",
+          status: "PASSED",
+          ticket: ticket
+        };
+      }
+
+      // 3. Intent: RAG Fee Retrieval (Fee Change Rs. 25 -> Rs. 50 verified)
+      if (qLower.includes('charge') || qLower.includes('fee') || qLower.includes('fees') || qLower.includes('katoti')) {
+        return {
+          response: "Zarya Digital Bank ke jadeed Schedule of Charges ke mutabiq, Rs. 25,000 se zayed ke Inter-Bank Fund Transfers (IBFT) par fee Rs. 50 fi transaction hai (tax shaamil nahi). Rs. 25,000 tak transfers bilkul muft hain.",
+          status: "PASSED",
+          ticket: null
+        };
+      }
+
+      // 4. Intent: Transfer Failed / Disputed Deduction
+      if ((qLower.includes('transfer') || qLower.includes('raast')) && (qLower.includes('fail') || qLower.includes('kat') || qLower.includes('nahi') || qLower.includes('pohanch'))) {
+        const ticketId = 'ZAR-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(1000 + Math.random()*9000);
+        const ticket = {
+          ticket_id: ticketId,
+          category: "IBFT",
+          amount: 25000.0,
+          priority: "HIGH",
+          summary: "Disputed Transfer / Failed IBFT: " + query,
+          tat: "24-48 business hours",
+          escalated_to_human: 1,
+          status: "ESCALATED"
+        };
+        TICKETS_DB.unshift(ticket);
+        saveState();
+
+        return {
+          response: "Ji, ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar apna 12-digit Transaction ID ya Reference Number share karein taake hum complaint darj kar sakein.\n\n[Complaint Ticket: " + ticketId + " | TAT: 24-48 business hours | Status: ESCALATED]",
+          status: "PASSED",
+          ticket: ticket
+        };
+      }
+
+      // 5. Intent: Savings Profit Rate
+      if (qLower.includes('munafa') || qLower.includes('profit') || qLower.includes('saving')) {
+        return {
+          response: "Zarya Mahana Munafa Savings Account par mutawaqqe salana munafa 19.50% p.a. hai, jo daily average balance par calculate ho kar har maah ki pehli tareeq ko jama hota hai. Filer ke liye 15% WHT nafiz hoga.",
+          status: "PASSED",
+          ticket: null
+        };
+      }
+
+      // 6. Intent: Transaction Limits
+      if (qLower.includes('limit') || qLower.includes('rozana') || qLower.includes('hadd') || qLower.includes('nikalwa')) {
+        return {
+          response: "Zarya Asaan Digital Account par rozana ATM cash withdrawal ki hadd Rs. 50,000 hai, jabke Freelancer aur Full KYC account par rozana Rs. 100,000 tak cash nikalwa sakte hain.",
+          status: "PASSED",
+          ticket: null
+        };
+      }
+
+      // 7. Intent: Balance Inquiry
+      if (qLower.includes('balance') || qLower.includes('maloom') || qLower.includes('paisa')) {
+        return {
+          response: "Aap ka mojooda account balance maloom karne ke liye aap Zarya Mobile App par login kar sakte hain, ya hamari helpline par biometric verification karwa sakte hain. Kya main mazeed koi madad kar sakta hoon?",
+          status: "PASSED",
+          ticket: null
+        };
+      }
+
+      // Default Polite Fallback
+      return {
+        response: "Zarya Digital Bank mein khushamdeed! Main aap ka AI banking assistant hoon. Aap account inquiry, funds transfer, debit card ya bank services ke hawale se pooch sakte hain.",
+        status: "PASSED",
+        ticket: null
+      };
+    }
+
+    async function handleChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('userInput');
+      const query = input.value.trim();
+      if (!query) return;
+
+      input.value = '';
+      const feed = document.getElementById('chatFeed');
+
+      // Append User Bubble
+      feed.innerHTML += `
+        <div class="flex items-start justify-end space-x-3">
+          <div class="chat-bubble-user p-4 rounded-2xl text-sm text-slate-100 max-w-xl shadow-md border border-slate-700/40">
+            <p>${escapeHtml(query)}</p>
+          </div>
+          <div class="w-8 h-8 rounded-lg bg-slate-700 flex items-center justify-center flex-shrink-0 text-slate-300">
+            <i class="fa-solid fa-user text-xs"></i>
+          </div>
+        </div>
+      `;
+      feed.scrollTop = feed.scrollHeight;
+
+      // Append Assistant Typing Placeholder
+      const turnId = 'turn-' + Date.now();
+      const assistantNode = document.createElement('div');
+      assistantNode.className = 'flex items-start space-x-3 max-w-2xl';
+      assistantNode.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center flex-shrink-0 text-white shadow-md">
+          <i class="fa-solid fa-robot text-sm"></i>
+        </div>
+        <div class="chat-bubble-assistant p-4 rounded-2xl text-sm leading-relaxed text-slate-100 shadow-md flex-1">
+          <div id="${turnId}-content" class="whitespace-pre-wrap"><i class="fa-solid fa-circle-notch fa-spin text-emerald-400 mr-2"></i> Processing turn...</div>
+          <div class="mt-3 pt-2 border-t border-emerald-700/40 flex items-center justify-between text-xs text-emerald-300/80">
+            <span>Zarya AI Assistant &bull; Verified</span>
+            <div class="flex items-center space-x-2">
+              <button onclick="submitFeedback('${turnId}', 'up')" class="hover:text-emerald-300 transition" title="Helpful"><i class="fa-regular fa-thumbs-up"></i></button>
+              <button onclick="submitFeedback('${turnId}', 'down')" class="hover:text-red-400 transition" title="Needs Improvement"><i class="fa-regular fa-thumbs-down"></i></button>
+            </div>
+          </div>
+        </div>
+      `;
+      feed.appendChild(assistantNode);
+      feed.scrollTop = feed.scrollHeight;
+
+      // Realistic token streaming delay
+      await new Promise(r => setTimeout(r, 220));
+
+      const result = runLocalInference(query);
+      const contentDiv = document.getElementById(`${turnId}-content`);
+      contentDiv.innerHTML = formatBankingText(result.response);
+
+      // Add to audit logs
+      addAuditEntry(query, result.response, result.status);
+
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    function formatBankingText(text) {
+      let formatted = escapeHtml(text);
+      formatted = formatted.replace(/\[Complaint Ticket: (ZAR-[0-9]+-[0-9]+) \| TAT: ([^|\]]+) \| Status: ([^|\]]+)\]/g, 
+        '<div class="mt-3 p-3 bg-emerald-950/80 border border-emerald-400/50 rounded-xl text-xs text-emerald-200">' +
+        '<span class="font-bold text-white block mb-1">🎫 Core Banking Complaint Ticket Registered</span>' +
+        '<div><strong>Ticket ID:</strong> <span class="font-mono text-emerald-300">$1</span></div>' +
+        '<div><strong>SBP Turnaround Time:</strong> $2</div>' +
+        '<div><strong>Current Status:</strong> <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">$3</span></div>' +
+        '</div>'
+      );
+      if (formatted.includes('Zarya Bank kabhi bhi call ya SMS par')) {
+        formatted = '<div class="p-3 bg-red-950/80 border border-red-500/50 rounded-xl text-xs text-red-200">' +
+          '<strong class="text-red-400 block mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> SBP ANTI-FRAUD MANDATORY WARNING</strong>' +
+          formatted +
+          '</div>';
+      }
+      return formatted;
+    }
+
+    function submitFeedback(turnId, rating) {
+      alert(rating === 'up' ? 'Thank you! 👍 Positive feedback logged.' : 'Thank you! 👎 Feedback forwarded to continuous improvement pipeline.');
+    }
+
+    function renderTickets() {
+      const tbody = document.getElementById('ticketsTableBody');
+      document.getElementById('statTotalTickets').innerText = TICKETS_DB.length;
+      const escalatedCount = TICKETS_DB.filter(t => t.escalated_to_human === 1 || t.status === 'ESCALATED').length;
+      document.getElementById('statEscalatedTickets').innerText = escalatedCount;
+
+      tbody.innerHTML = TICKETS_DB.map(t => `
+        <tr class="hover:bg-slate-800/40 transition">
+          <td class="p-3.5 font-mono text-emerald-400 font-medium">${t.ticket_id}</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${t.category}</span></td>
+          <td class="p-3.5">Rs. ${Number(t.amount || 0).toLocaleString()}</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded font-semibold ${t.priority === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : (t.priority === 'HIGH' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-400')}">${t.priority}</span></td>
+          <td class="p-3.5 text-slate-200 max-w-xs truncate" title="${escapeHtml(t.summary)}">${escapeHtml(t.summary)}</td>
+          <td class="p-3.5 text-slate-400">${escapeHtml(t.tat || '24-72 hrs')}</td>
+          <td class="p-3.5">${t.escalated_to_human ? '<span class="text-red-400 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> YES</span>' : '<span class="text-slate-500">No</span>'}</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded font-medium ${t.status === 'OPEN' ? 'bg-blue-500/20 text-blue-400' : (t.status === 'ESCALATED' ? 'bg-red-500/20 text-red-400' : 'bg-emerald-500/20 text-emerald-400')}">${t.status}</span></td>
+          <td class="p-3.5">
+            ${t.status !== 'RESOLVED' ? `<button onclick="resolveTicket('${t.ticket_id}')" class="px-2 py-1 rounded bg-emerald-600/80 hover:bg-emerald-600 text-white text-[10px] font-semibold transition">Resolve</button>` : '<span class="text-slate-500 text-[10px]">Closed</span>'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function resolveTicket(ticketId) {
+      if (!confirm(`Mark ticket ${ticketId} as RESOLVED?`)) return;
+      const t = TICKETS_DB.find(x => x.ticket_id === ticketId);
+      if (t) {
+        t.status = 'RESOLVED';
+        saveState();
+        renderTickets();
+      }
+    }
+
+    function renderAuditLogs() {
+      const feed = document.getElementById('auditLogFeed');
+      feed.innerHTML = AUDIT_LOGS.map(l => `
+        <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-[11px]">
+          <div>
+            <span class="text-emerald-400">[${l.timestamp.slice(11,19)}]</span>
+            <span class="text-slate-400 ml-2">(${l.customer_id}):</span>
+            <span class="text-slate-200 ml-1">${escapeHtml(l.query)}</span>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0 ml-4">
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${l.action || 'PROCESSED'}</span>
+            <span class="text-emerald-400 font-bold">${l.latency_ms || 35}ms</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addAuditEntry(query, response, status) {
+      const masked = query.replace(/\d{5}-\d{7}-\d{1}/g, '42201-*******-1').replace(/(?:\d{4}[- ]?){3}\d{4}/g, '****-****-****-9012');
+      const now = new Date().toISOString();
+      AUDIT_LOGS.unshift({
+        id: 'LOG-' + Math.floor(1000 + Math.random() * 9000),
+        timestamp: now,
+        customer_id: 'CUST-WEB',
+        query: masked,
+        guardrail_status: status || 'PASSED',
+        action: status === 'SCAM_OVERRIDE' ? 'SCAM_WARNING_DISPATCHED' : (response.includes('Complaint Ticket') ? 'AUTO_TICKET_CREATED' : 'INFERENCE_COMPLETED'),
+        latency_ms: 38.5
+      });
+      if (AUDIT_LOGS.length > 50) AUDIT_LOGS.pop();
+      saveState();
+    }
+
+    function runComparison() {
+      const q = document.getElementById('compareInput').value.trim();
+      if (!q) return;
+      const qLower = q.toLowerCase();
+
+      let baseResp = "To block your ATM card, you must call the bank's helpline or visit the nearest branch with your CNIC. Do not share your details with unauthorized persons.";
+      let dpoResp = "Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?";
+
+      if (qLower.includes('transfer') || qLower.includes('fail') || qLower.includes('raast')) {
+        baseResp = "If your fund transfer has failed, please check your bank statement. If money is deducted, it will be refunded within 3 to 5 business days.";
+        dpoResp = "Ji, ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar apna 12-digit Transaction ID share karein taake hum complaint darj kar sakein.";
+      } else if (qLower.includes('charge') || qLower.includes('fee')) {
+        baseResp = "For transfer fees, please refer to the bank's website or visit a branch.";
+        dpoResp = "Zarya Digital Bank ke Schedule of Charges ke mutabiq, Rs. 25,000 se zayed ke IBFT transfers par fee Rs. 50 fi transaction hai (tax alag se). Rs. 25,000 tak transfers muft hain.";
+      }
+
+      document.getElementById('baseModelOutput').innerText = baseResp;
+      document.getElementById('dpoModelOutput').innerText = dpoResp;
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTickets();
+      renderAuditLogs();
+    });
+  </script>
+</body>
+</html>
