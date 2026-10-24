@@ -68,7 +68,7 @@
 <body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
 
   <!-- Premium Top Navigation Bar -->
-  <header class="glass-panel sticky top-0 z-50 border-b border-slate-800/80 px-6 py-3 shadow-xl">
+  <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-6 py-3 shadow-xl">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       
       <!-- Brand & Persona Identity -->
@@ -95,22 +95,24 @@
         </div>
       </div>
 
-      <!-- Verified KYC Customer Selector (Simulates Authenticated Core Banking Session) -->
+      <!-- Real Banking: Authenticated Customer Profile Badge with Secure Switch Option -->
       <div class="flex items-center flex-wrap gap-2.5">
-        <div class="flex items-center space-x-2 bg-slate-900/90 px-3 py-1.5 rounded-xl border border-emerald-500/40 shadow-sm">
-          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
-          <div class="text-left">
-            <span class="text-[9px] uppercase tracking-wider text-emerald-400 block font-bold">Active Customer Session</span>
-            <select id="customerSelect" onchange="onCustomerChange(this.value)" class="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer">
-              <option value="CUST-90214" class="bg-slate-900 text-white">Saira Fatima (CUST-90214 • Platinum)</option>
-              <option value="CUST-41120" class="bg-slate-900 text-white">Ahmed Khan (CUST-41120 • Gold)</option>
-              <option value="CUST-10882" class="bg-slate-900 text-white">Bilal Tariq (CUST-10882 • Asaan)</option>
-            </select>
+        <div class="flex items-center space-x-2.5 bg-slate-900/90 px-3.5 py-1.5 rounded-xl border border-emerald-500/30 shadow-sm">
+          <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs" id="userAvatarInitial">
+            SF
           </div>
+          <div class="text-left pr-1">
+            <span class="text-[9px] uppercase tracking-wider text-emerald-400 block font-bold" id="userTierBadge">Platinum Member</span>
+            <span class="text-xs font-bold text-white block" id="userFullName">Saira Fatima</span>
+          </div>
+          <button onclick="openLoginModal()" class="ml-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300 hover:text-white transition flex items-center gap-1 border border-slate-700/60" title="Switch Account / Sign In">
+            <i class="fa-solid fa-arrow-right-from-bracket text-emerald-400"></i>
+            <span>Switch</span>
+          </button>
         </div>
 
         <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span class="text-xs font-medium text-slate-300">SBP Gateway Online</span>
         </div>
 
@@ -480,7 +482,82 @@ Ji Saira sahiba, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifa
 
   </main>
 
-  <!-- Interactive Client-side Script with Multi-Customer Session Handling -->
+  <!-- Real Banking: Biometric / KYC Session Login Modal -->
+  <div id="loginModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <!-- Glow decoration -->
+      <div class="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-emerald-500/10 pointer-events-none"></div>
+
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-bold text-lg shadow-md">
+            <i class="fa-solid fa-fingerprint"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Biometric Sign In</h3>
+            <p class="text-xs text-slate-400">Zarya Core Banking &bull; Authenticated Accounts</p>
+          </div>
+        </div>
+        <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-300 mb-4">
+        Select a verified customer to authenticate and launch their private banking session:
+      </p>
+
+      <!-- Account Selection Cards -->
+      <div class="space-y-2.5">
+        <button onclick="selectCustomer('CUST-90214')" class="w-full text-left p-3.5 rounded-2xl bg-slate-950/80 hover:bg-emerald-950/30 border border-slate-800 hover:border-emerald-500/50 transition flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs group-hover:scale-105 transition-transform">
+              SF
+            </div>
+            <div>
+              <span class="text-xs font-bold text-white block">Saira Fatima</span>
+              <span class="text-[10px] text-slate-400 block font-mono">CUST-90214 &bull; Platinum Tier &bull; Card **** 9012</span>
+            </div>
+          </div>
+          <span class="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-xl">Rs. 245,000</span>
+        </button>
+
+        <button onclick="selectCustomer('CUST-41120')" class="w-full text-left p-3.5 rounded-2xl bg-slate-950/80 hover:bg-emerald-950/30 border border-slate-800 hover:border-emerald-500/50 transition flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-xs group-hover:scale-105 transition-transform">
+              AK
+            </div>
+            <div>
+              <span class="text-xs font-bold text-white block">Ahmed Khan</span>
+              <span class="text-[10px] text-slate-400 block font-mono">CUST-41120 &bull; Gold Tier &bull; Card **** 4112</span>
+            </div>
+          </div>
+          <span class="text-[11px] font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-xl">Rs. 87,500</span>
+        </button>
+
+        <button onclick="selectCustomer('CUST-10882')" class="w-full text-left p-3.5 rounded-2xl bg-slate-950/80 hover:bg-emerald-950/30 border border-slate-800 hover:border-emerald-500/50 transition flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-xs group-hover:scale-105 transition-transform">
+              BT
+            </div>
+            <div>
+              <span class="text-xs font-bold text-white block">Bilal Tariq</span>
+              <span class="text-[10px] text-slate-400 block font-mono">CUST-10882 &bull; Asaan Digital &bull; Card **** 8821</span>
+            </div>
+          </div>
+          <span class="text-[11px] font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-xl">Rs. 14,200</span>
+        </button>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
+        <span><i class="fa-solid fa-lock text-emerald-400 mr-1"></i> 256-Bit SSL Encrypted Session</span>
+        <span>SBP BCPG Compliant</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Client-side Script with Single-User Authenticated Session -->
   <script>
     let activeTab = 'chat';
 
@@ -603,12 +680,33 @@ Ji Saira sahiba, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifa
       localStorage.setItem('zarya_audits', JSON.stringify(AUDIT_LOGS));
     }
 
-    function onCustomerChange(newId) {
+    function openLoginModal() {
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+
+    function selectCustomer(newId) {
       currentCustomerId = newId;
       localStorage.setItem('zarya_active_customer', newId);
-      const cust = getActiveCustomer();
-      document.getElementById('sessionBadge').innerText = `Authenticated: ${cust.name} (${cust.tier})`;
+      updateCustomerHeaderUI();
       resetConversation();
+      closeLoginModal();
+    }
+
+    function updateCustomerHeaderUI() {
+      const cust = getActiveCustomer();
+      const initials = cust.first_name[0] + (cust.name.split(' ')[1] ? cust.name.split(' ')[1][0] : '');
+      const avatarNode = document.getElementById('userAvatarInitial');
+      if (avatarNode) avatarNode.innerText = initials;
+      const tierBadge = document.getElementById('userTierBadge');
+      if (tierBadge) tierBadge.innerText = `${cust.tier} Member`;
+      const nameNode = document.getElementById('userFullName');
+      if (nameNode) nameNode.innerText = cust.name;
+      const sessionBadge = document.getElementById('sessionBadge');
+      if (sessionBadge) sessionBadge.innerText = `Authenticated: ${cust.name} (${cust.tier})`;
     }
 
     function switchTab(tab) {
@@ -1065,13 +1163,8 @@ Ji Saira sahiba, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifa
       const savedCustId = localStorage.getItem('zarya_active_customer');
       if (savedCustId && CUSTOMERS_DB[savedCustId]) {
         currentCustomerId = savedCustId;
-        const sel = document.getElementById('customerSelect');
-        if (sel) sel.value = savedCustId;
       }
-      const cust = getActiveCustomer();
-      const badge = document.getElementById('sessionBadge');
-      if (badge) badge.innerText = `Authenticated: ${cust.name} (${cust.tier})`;
-
+      updateCustomerHeaderUI();
       resetConversation();
       renderTickets();
       renderAuditLogs();
