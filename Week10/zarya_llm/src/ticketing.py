@@ -75,7 +75,7 @@ class BankingTicketingSystem:
 
     def _init_database(self) -> None:
         """
-        Initializes the complaints table in SQLite.
+        Initializes the complaints table in SQLite and seeds default verified customers.
         """
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         with sqlite3.connect(self.db_path) as conn:
@@ -98,7 +98,56 @@ class BankingTicketingSystem:
                     updated_at TEXT NOT NULL
                 )
             """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS customers (
+                    customer_id TEXT PRIMARY KEY,
+                    full_name TEXT NOT NULL,
+                    first_name TEXT NOT NULL,
+                    salutation TEXT NOT NULL,
+                    phone TEXT NOT NULL,
+                    masked_card TEXT NOT NULL,
+                    account_no TEXT NOT NULL,
+                    tier TEXT DEFAULT 'Platinum',
+                    balance REAL DEFAULT 154200.0,
+                    created_at TEXT NOT NULL
+                )
+            """)
+            cursor.execute("SELECT COUNT(*) FROM customers")
+            if cursor.fetchone()[0] == 0:
+                demo_customers = [
+                    ("CUST-90214", "Saira Fatima", "Saira", "sahiba", "0300-*******-1", "**** **** **** 9012", "PK12ZARYA0001239012", "Platinum", 245000.0, datetime.datetime.now().isoformat()),
+                    ("CUST-41120", "Ahmed Khan", "Ahmed", "sahib", "0321-*******-4", "**** **** **** 4112", "PK12ZARYA0004564112", "Gold", 87500.0, datetime.datetime.now().isoformat()),
+                    ("CUST-10882", "Bilal Tariq", "Bilal", "sahib", "0333-*******-9", "**** **** **** 8821", "PK12ZARYA0007898821", "Asaan", 14200.0, datetime.datetime.now().isoformat())
+                ]
+                cursor.executemany("""
+                    INSERT INTO customers (customer_id, full_name, first_name, salutation, phone, masked_card, account_no, tier, balance, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, demo_customers)
             conn.commit()
+
+    def get_customer(self, customer_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Retrieves a verified customer record from SQLite.
+        """
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM customers WHERE customer_id = ?", (customer_id,))
+            row = cursor.fetchone()
+            if row:
+                return dict(row)
+        return None
+
+    def list_customers(self) -> List[Dict[str, Any]]:
+        """
+        Lists all registered bank customers.
+        """
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM customers ORDER BY customer_id ASC")
+            rows = cursor.fetchall()
+            return [dict(r) for r in rows]
 
     def generate_ticket_id(self) -> str:
         """

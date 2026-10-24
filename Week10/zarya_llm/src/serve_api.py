@@ -164,15 +164,26 @@ class ZaryaInferenceEngine:
         self.total_tokens_generated = 0
         self.kv_cache_allocated_mb = 128.0
 
-    async def generate_response(self, prompt: str, user_query: str, retrieved_context: str = "") -> str:
+    async def generate_response(
+        self,
+        prompt: str,
+        user_query: str,
+        retrieved_context: str = "",
+        customer_profile: Optional[Dict[str, Any]] = None
+    ) -> str:
         await asyncio.sleep(0.035)  # 35ms realistic model forward pass latency
         query_lower = user_query.lower()
+        
+        # Personalized address based on verified KYC customer profile
+        first_name = customer_profile.get("first_name", "") if customer_profile else ""
+        salutation = customer_profile.get("salutation", "") if customer_profile else ""
+        prefix = f"Ji {first_name} {salutation}, " if (first_name and salutation) else "Ji, "
         
         # 1. ATM / Card Block
         if "block" in query_lower or "gum" in query_lower or ("card" in query_lower and "chori" in query_lower):
             return (
-                "Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. "
-                "Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?"
+                f"{prefix}aap ki card block karne ki darkhwast darj kar li gayi hai. "
+                f"Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?"
             )
         # 2. Fees & Charges (RAG grounded - checked before transfer)
         elif "charge" in query_lower or "fees" in query_lower or "fee" in query_lower or "katoti" in query_lower:
@@ -183,21 +194,23 @@ class ZaryaInferenceEngine:
             )
         # 3. Transaction Limits
         elif "limit" in query_lower or "rozana" in query_lower or "hadd" in query_lower or "nikalwa" in query_lower:
+            tier = customer_profile.get("tier", "Asaan") if customer_profile else "Asaan"
             return (
-                "Zarya Asaan Digital Account par rozana ATM cash withdrawal ki hadd Rs. 50,000 hai, jabke Freelancer "
-                "aur Full KYC account par rozana Rs. 100,000 tak cash nikalwa sakte hain."
+                f"Zarya {tier} Digital Account par rozana ATM cash withdrawal ki hadd Rs. 50,000 hai, jabke Freelancer "
+                f"aur Full KYC Platinum account par rozana Rs. 100,000 tak cash nikalwa sakte hain."
             )
         # 4. Transfer Failed / Disputed Deduction
         elif ("transfer" in query_lower or "raast" in query_lower) and ("kat" in query_lower or "fail" in query_lower or "nahi" in query_lower or "pohanch" in query_lower):
             return (
-                "Ji, ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar "
-                "apna 12-digit Transaction ID ya Reference Number share karein taake hum complaint darj kar sakein."
+                f"{prefix}ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar "
+                f"apna 12-digit Transaction ID ya Reference Number share karein taake hum complaint darj kar sakein."
             )
         # 5. Balance Inquiry
         elif "balance" in query_lower or "maloom" in query_lower or "paisa" in query_lower:
+            bal_str = f"Rs. {customer_profile.get('balance', 0):,.2f}" if customer_profile else "aap ke account"
             return (
-                "Aap ka mojooda account balance maloom karne ke liye aap Zarya Mobile App par login kar sakte hain, "
-                "ya hamari helpline par biometric verification karwa sakte hain. Kya main mazeed koi madad kar sakta hoon?"
+                f"{prefix}aap ka mojooda verified account balance {bal_str} hai. "
+                f"Mazeed detail ke liye aap Zarya Mobile App dekh sakte hain. Kya main mazeed koi madad kar sakti hoon?"
             )
         # 6. Scam / OTP warning
         elif "otp" in query_lower or "pin" in query_lower or "lottery" in query_lower or "prize" in query_lower:
@@ -210,9 +223,10 @@ class ZaryaInferenceEngine:
             )
         # Default Polite Fallback
         else:
+            greet_name = f" {first_name}" if first_name else ""
             return (
-                "Zarya Digital Bank mein khushamdeed! Main aap ka AI banking assistant hoon. "
-                "Aap account inquiry, funds transfer, debit card ya bank services ke hawale se pooch sakte hain."
+                f"Assalam-o-Alaikum{greet_name}! Zarya Digital Bank mein khushamdeed. Main aap ki personal AI banking assistant hoon. "
+                f"Aap account inquiry, funds transfer, debit card ya bank services ke hawale se pooch sakte hain."
             )
 
     async def stream_tokens(self, response_text: str) -> AsyncGenerator[str, None]:
@@ -1061,6 +1075,20 @@ async def resolve_ticket_endpoint(ticket_id: str):
     return {"status": "success", "ticket_id": ticket_id, "new_status": "RESOLVED"}
 
 # ---------------------------------------------------------
+# Verified Customers Endpoints (Core Banking Profile)
+# ---------------------------------------------------------
+@app.get("/v1/customers")
+async def list_customers_endpoint():
+    return ticketing.list_customers()
+
+@app.get("/v1/customers/{customer_id}")
+async def get_customer_endpoint(customer_id: str):
+    c = ticketing.get_customer(customer_id)
+    if not c:
+        raise HTTPException(status_code=404, detail=f"Customer '{customer_id}' not found.")
+    return c
+
+# ---------------------------------------------------------
 # OpenAI Compatible Chat Completions Endpoint
 # ---------------------------------------------------------
 @app.post("/v1/chat/completions", response_model=None)
@@ -1077,6 +1105,9 @@ async def chat_completions(req: ChatCompletionRequest, background_tasks: Backgro
     req_id = f"chatcmpl-{uuid.uuid4().hex[:12]}"
     created_ts = int(time.time())
     
+    # Fetch verified customer profile from SQLite CBS
+    customer_profile = ticketing.get_customer(req.customer_id)
+    
     turn_meta = process_unified_turn(user_query, req.customer_id)
     
     if turn_meta["action"] in ["BLOCK", "REFUSE_CREDENTIALS", "SCAM_WARNING"]:
@@ -1085,7 +1116,8 @@ async def chat_completions(req: ChatCompletionRequest, background_tasks: Backgro
         raw_response = await engine.generate_response(
             prompt="",
             user_query=user_query,
-            retrieved_context=turn_meta.get("context", "")
+            retrieved_context=turn_meta.get("context", ""),
+            customer_profile=customer_profile
         )
         out_guard = guardrails.inspect_output(raw_response)
         final_response = out_guard["output_text"]

@@ -68,8 +68,8 @@
 <body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
 
   <!-- Premium Top Navigation Bar -->
-  <header class="glass-panel sticky top-0 z-50 border-b border-slate-800/80 px-6 py-3.5 shadow-xl">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+  <header class="glass-panel sticky top-0 z-50 border-b border-slate-800/80 px-6 py-3 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       
       <!-- Brand & Persona Identity -->
       <div class="flex items-center space-x-3.5">
@@ -95,11 +95,23 @@
         </div>
       </div>
 
-      <!-- Live Engine Status & Links -->
-      <div class="flex items-center space-x-4">
-        <div class="hidden sm:flex items-center space-x-2 bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span class="text-xs font-medium text-slate-300">SBP Banking Gateway Online</span>
+      <!-- Verified KYC Customer Selector (Simulates Authenticated Core Banking Session) -->
+      <div class="flex items-center flex-wrap gap-2.5">
+        <div class="flex items-center space-x-2 bg-slate-900/90 px-3 py-1.5 rounded-xl border border-emerald-500/40 shadow-sm">
+          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+          <div class="text-left">
+            <span class="text-[9px] uppercase tracking-wider text-emerald-400 block font-bold">Active Customer Session</span>
+            <select id="customerSelect" onchange="onCustomerChange(this.value)" class="bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer">
+              <option value="CUST-90214" class="bg-slate-900 text-white">Saira Fatima (CUST-90214 • Platinum)</option>
+              <option value="CUST-41120" class="bg-slate-900 text-white">Ahmed Khan (CUST-41120 • Gold)</option>
+              <option value="CUST-10882" class="bg-slate-900 text-white">Bilal Tariq (CUST-10882 • Asaan)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-xs font-medium text-slate-300">SBP Gateway Online</span>
         </div>
 
         <div class="flex items-center space-x-2">
@@ -116,37 +128,40 @@
   </header>
 
   <!-- Segmented Navigation Tabs -->
-  <div class="max-w-7xl w-full mx-auto px-6 pt-4 pb-2">
+  <div class="max-w-7xl w-full mx-auto px-6 pt-3 pb-2">
     <div class="bg-slate-900/60 p-1 rounded-2xl border border-slate-800/80 flex flex-wrap sm:flex-nowrap gap-1">
-      <button onclick="switchTab('chat')" id="tab-btn-chat" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 bg-emerald-600 text-white shadow-md shadow-emerald-600/20">
+      <button onclick="switchTab('chat')" id="tab-btn-chat" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 bg-emerald-600 text-white shadow-md shadow-emerald-600/20">
         <i class="fa-regular fa-comment-dots"></i> 1. Customer Concierge
       </button>
-      <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40">
+      <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40">
         <i class="fa-solid fa-headset"></i> 2. Operations &amp; Complaints Desk
       </button>
-      <button onclick="switchTab('compare')" id="tab-btn-compare" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40">
+      <button onclick="switchTab('compare')" id="tab-btn-compare" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40">
         <i class="fa-solid fa-scale-balanced"></i> 3. Base vs DPO Benchmark
       </button>
-      <button onclick="switchTab('roi')" id="tab-btn-roi" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40">
+      <button onclick="switchTab('roi')" id="tab-btn-roi" class="flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40">
         <i class="fa-solid fa-chart-pie"></i> 4. Financial Telemetry &amp; ROI
       </button>
     </div>
   </div>
 
   <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-3 flex flex-col">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-2 flex flex-col">
 
     <!-- ======================================================== -->
     <!-- TAB 1: CUSTOMER BANKING CONCIERGE -->
     <!-- ======================================================== -->
-    <section id="tab-chat" class="flex-1 flex flex-col glass-panel rounded-3xl overflow-hidden shadow-2xl h-[calc(100vh-200px)] min-h-[580px]">
+    <section id="tab-chat" class="flex-1 flex flex-col glass-panel rounded-3xl overflow-hidden shadow-2xl h-[calc(100vh-185px)] min-h-[560px]">
       
       <!-- Concierge Sub-header -->
-      <div class="px-6 py-3.5 bg-slate-900/80 border-b border-slate-800/80 flex items-center justify-between">
+      <div class="px-6 py-3 bg-slate-900/80 border-b border-slate-800/80 flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
           <div>
-            <h2 class="text-xs font-bold text-white tracking-wide uppercase">Private Banking Live Session</h2>
+            <h2 class="text-xs font-bold text-white tracking-wide uppercase flex items-center gap-2">
+              <span>Private Banking Live Session</span>
+              <span id="sessionBadge" class="text-[10px] px-2 py-0.2 rounded bg-emerald-500/10 text-emerald-300 font-mono">Authenticated: Saira Fatima (Platinum)</span>
+            </h2>
             <p class="text-[11px] text-slate-400">Encrypted End-to-End &bull; UrduLish &amp; English Supported</p>
           </div>
         </div>
@@ -156,78 +171,40 @@
       </div>
 
       <!-- Messages Feed -->
-      <div id="chatFeed" class="flex-1 p-6 overflow-y-auto space-y-5 custom-scrollbar">
-        
-        <!-- Warm Human Greeting Message -->
-        <div class="flex items-start space-x-3.5 max-w-2xl">
-          <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center flex-shrink-0 text-slate-950 font-bold text-xs shadow-md">
-            Z
-          </div>
-          <div class="space-y-3 flex-1">
-            <div class="bubble-assistant p-4 rounded-2xl rounded-tl-sm text-sm leading-relaxed text-slate-100">
-              <p class="font-semibold text-emerald-400 text-xs mb-1">Zara &bull; Zarya Banking Assistant</p>
-              <p>Assalam-o-Alaikum! Zarya Digital Bank mein khushamdeed. Main aap ki personal banking assistant hoon.</p>
-              <p class="mt-2 text-slate-300">Main funds transfer (Raast/IBFT), ATM card block, transaction limits, ya latest fees ke hawale se aap ki kya madad kar sakti hoon?</p>
-            </div>
-
-            <!-- Quick Action Cards (Interactive Carousel) -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-              <button onclick="sendQuickPrompt('Mera ATM card gum ho gaya hai block kar dein')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
-                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">💳</span>
-                <span class="text-xs font-semibold text-white block">Card Block</span>
-                <span class="text-[10px] text-slate-400 block truncate">Instant lock &amp; verification</span>
-              </button>
-
-              <button onclick="sendQuickPrompt('Rs. 30,000 transfer par kitna charge lagega?')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
-                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">💸</span>
-                <span class="text-xs font-semibold text-white block">Fee Schedule</span>
-                <span class="text-[10px] text-slate-400 block truncate">Check latest Rs. 50 fee</span>
-              </button>
-
-              <button onclick="sendQuickPrompt('Raast se transfer fail ho gaya paise kat gaye')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
-                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">⚠️</span>
-                <span class="text-xs font-semibold text-white block">Dispute Ticket</span>
-                <span class="text-[10px] text-slate-400 block truncate">Auto SBP complaint filing</span>
-              </button>
-
-              <button onclick="sendQuickPrompt('Mahana Munafa savings account par kitna munafa milta hai?')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
-                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">📈</span>
-                <span class="text-xs font-semibold text-white block">19.5% Munafa</span>
-                <span class="text-[10px] text-slate-400 block truncate">Savings profit calculation</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
+      <div id="chatFeed" class="flex-1 p-6 overflow-y-auto space-y-4 custom-scrollbar">
+        <!-- Rendered dynamically by resetConversation() -->
       </div>
 
       <!-- Bottom Chat Bar Area -->
-      <div class="p-4 bg-slate-900/90 border-t border-slate-800/80 space-y-2.5">
+      <div class="p-3.5 bg-slate-900/95 border-t border-slate-800/80 space-y-2">
         
-        <!-- Subtle Interactive Suggestion Pills -->
+        <!-- Suggestions Carousel -->
         <div class="flex items-center space-x-2 overflow-x-auto custom-scrollbar pb-1 text-xs">
           <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex-shrink-0 flex items-center gap-1">
-            <i class="fa-solid fa-sparkles text-amber-400"></i> Suggestions:
+            <i class="fa-solid fa-sparkles text-amber-400"></i> Quick Actions:
           </span>
-          <button onclick="sendQuickPrompt('Rozana ATM se kitne paise nikalwa sakte hain?')" class="flex-shrink-0 px-3 py-1 rounded-full bg-slate-800/70 hover:bg-slate-700 border border-slate-700/60 text-slate-300 hover:text-white transition">
-            🏧 Daily Limits (Rs. 50k / 100k)
-          </button>
-          <button onclick="sendQuickPrompt('Lottery prize call aayi thi caller OTP maang raha hai')" class="flex-shrink-0 px-3 py-1 rounded-full bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 text-rose-300 transition">
-            🚨 Caller asking for OTP
+          <button onclick="sendQuickPrompt('Mera ATM card gum ho gaya hai block kar dein')" class="flex-shrink-0 px-3 py-1 rounded-full bg-slate-800/70 hover:bg-slate-700 border border-slate-700/60 text-slate-300 hover:text-white transition">
+            💳 Emergency Card Block
           </button>
           <button onclick="sendQuickPrompt('Mera account balance maloom karna hai')" class="flex-shrink-0 px-3 py-1 rounded-full bg-slate-800/70 hover:bg-slate-700 border border-slate-700/60 text-slate-300 hover:text-white transition">
-            💰 Check Balance
+            💰 Check Verified Balance
+          </button>
+          <button onclick="sendQuickPrompt('Rs. 30,000 transfer par kitna charge lagega?')" class="flex-shrink-0 px-3 py-1 rounded-full bg-slate-800/70 hover:bg-slate-700 border border-slate-700/60 text-slate-300 hover:text-white transition">
+            💸 IBFT Fee Schedule (Rs. 50)
+          </button>
+          <button onclick="sendQuickPrompt('Lottery prize call aayi thi caller OTP maang raha hai')" class="flex-shrink-0 px-3 py-1 rounded-full bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 text-rose-300 transition">
+            🚨 Caller Asking for OTP
           </button>
         </div>
 
-        <!-- Chat Input Field -->
+        <!-- Chat Input Form -->
         <form onsubmit="handleUserSubmit(event)" class="flex items-center space-x-3">
           <div class="flex-1 relative">
             <input 
               id="chatInput" 
               type="text" 
-              placeholder="Ask Zara in UrduLish or English (e.g. 'Mera ATM card block kar dein' or 'Raast dispute')..." 
-              class="w-full bg-slate-950/80 border border-slate-700/80 rounded-2xl px-5 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition shadow-inner"
+              placeholder="Ask Zara in UrduLish or English (e.g. 'Mera ATM card block kar dein' or 'Account balance')..." 
+              class="w-full bg-slate-950/80 border border-slate-700/80 rounded-2xl px-5 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition shadow-inner"
               autocomplete="off"
             />
             <div class="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center space-x-2 text-slate-500">
@@ -238,7 +215,7 @@
           <button 
             id="sendButton" 
             type="submit" 
-            class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold px-6 py-3.5 rounded-2xl text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/25 transition active:scale-95"
+            class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold px-6 py-3 rounded-2xl text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/25 transition active:scale-95"
           >
             <span>Send</span>
             <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -315,6 +292,7 @@
             <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-800">
               <tr>
                 <th class="p-4">Ticket ID</th>
+                <th class="p-4">Customer ID</th>
                 <th class="p-4">Category</th>
                 <th class="p-4">Disputed Amount</th>
                 <th class="p-4">Priority</th>
@@ -398,11 +376,11 @@ To block your ATM card, you must call the bank's helpline or visit the nearest b
                 <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Production DPO</span>
               </div>
               <div id="dpoModelOutput" class="text-xs sm:text-sm text-emerald-100 leading-relaxed min-h-[90px] whitespace-pre-wrap">
-Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?
+Ji Saira sahiba, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number (0300-*******-1) ki tasdeeq kar sakti hain?
               </div>
             </div>
             <div class="mt-4 pt-3 border-t border-emerald-500/20 text-[11px] text-emerald-400">
-              <i class="fa-solid fa-circle-check mr-1"></i> Empathetic UrduLish, immediately initiates SBP mobile verification protocol.
+              <i class="fa-solid fa-circle-check mr-1"></i> Empathetic UrduLish, addresses verified customer by name, and initiates SBP mobile verification protocol.
             </div>
           </div>
 
@@ -502,14 +480,60 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
 
   </main>
 
-  <!-- Interactive Client-side Script -->
+  <!-- Interactive Client-side Script with Multi-Customer Session Handling -->
   <script>
     let activeTab = 'chat';
+
+    // Verified KYC Customer Database (Synced with SQLite Core Banking System)
+    const CUSTOMERS_DB = {
+      "CUST-90214": {
+        id: "CUST-90214",
+        name: "Saira Fatima",
+        first_name: "Saira",
+        salutation: "sahiba",
+        tier: "Platinum",
+        card_masked: "**** **** **** 9012",
+        card_exp: "09/29",
+        account_no: "PK12ZARYA0001239012",
+        balance: 245000.0,
+        phone: "0300-*******-1"
+      },
+      "CUST-41120": {
+        id: "CUST-41120",
+        name: "Ahmed Khan",
+        first_name: "Ahmed",
+        salutation: "sahib",
+        tier: "Gold",
+        card_masked: "**** **** **** 4112",
+        card_exp: "11/28",
+        account_no: "PK12ZARYA0004564112",
+        balance: 87500.0,
+        phone: "0321-*******-4"
+      },
+      "CUST-10882": {
+        id: "CUST-10882",
+        name: "Bilal Tariq",
+        first_name: "Bilal",
+        salutation: "sahib",
+        tier: "Asaan",
+        card_masked: "**** **** **** 8821",
+        card_exp: "04/27",
+        account_no: "PK12ZARYA0007898821",
+        balance: 14200.0,
+        phone: "0333-*******-9"
+      }
+    };
+
+    let currentCustomerId = localStorage.getItem('zarya_active_customer') || 'CUST-90214';
+    function getActiveCustomer() {
+      return CUSTOMERS_DB[currentCustomerId] || CUSTOMERS_DB['CUST-90214'];
+    }
 
     // Local state for tickets and audit logs
     let TICKETS_DB = JSON.parse(localStorage.getItem('zarya_tickets') || 'null') || [
       {
         ticket_id: "ZAR-20261022-8012",
+        customer_id: "CUST-90214",
         category: "IBFT",
         amount: 25000.0,
         priority: "HIGH",
@@ -520,6 +544,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       },
       {
         ticket_id: "ZAR-20261022-7901",
+        customer_id: "CUST-90214",
         category: "CARD",
         amount: 0.0,
         priority: "CRITICAL",
@@ -530,6 +555,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       },
       {
         ticket_id: "ZAR-20261022-6540",
+        customer_id: "CUST-41120",
         category: "FEES",
         amount: 50.0,
         priority: "LOW",
@@ -540,6 +566,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       },
       {
         ticket_id: "ZAR-20261022-5412",
+        customer_id: "CUST-10882",
         category: "ATM",
         amount: 10000.0,
         priority: "HIGH",
@@ -576,6 +603,14 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       localStorage.setItem('zarya_audits', JSON.stringify(AUDIT_LOGS));
     }
 
+    function onCustomerChange(newId) {
+      currentCustomerId = newId;
+      localStorage.setItem('zarya_active_customer', newId);
+      const cust = getActiveCustomer();
+      document.getElementById('sessionBadge').innerText = `Authenticated: ${cust.name} (${cust.tier})`;
+      resetConversation();
+    }
+
     function switchTab(tab) {
       activeTab = tab;
       ['chat', 'dashboard', 'compare', 'roi'].forEach(t => {
@@ -583,10 +618,10 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
         const btn = document.getElementById('tab-btn-' + t);
         if (t === tab) {
           sec.classList.remove('hidden');
-          btn.className = 'flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 bg-emerald-600 text-white shadow-md shadow-emerald-600/20';
+          btn.className = 'flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 bg-emerald-600 text-white shadow-md shadow-emerald-600/20';
         } else {
           sec.classList.add('hidden');
-          btn.className = 'flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40';
+          btn.className = 'flex-1 py-2 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40';
         }
       });
       if (tab === 'dashboard') {
@@ -601,6 +636,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
     }
 
     function resetConversation() {
+      const cust = getActiveCustomer();
       const feed = document.getElementById('chatFeed');
       feed.innerHTML = `
         <div class="flex items-start space-x-3.5 max-w-2xl">
@@ -610,17 +646,46 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
           <div class="space-y-3 flex-1">
             <div class="bubble-assistant p-4 rounded-2xl rounded-tl-sm text-sm leading-relaxed text-slate-100">
               <p class="font-semibold text-emerald-400 text-xs mb-1">Zara &bull; Zarya Banking Assistant</p>
-              <p>Assalam-o-Alaikum! Zarya Digital Bank mein khushamdeed. Main aap ki personal banking assistant hoon.</p>
-              <p class="mt-2 text-slate-300">Main funds transfer (Raast/IBFT), ATM card block, transaction limits, ya latest fees ke hawale se aap ki kya madad kar sakti hoon?</p>
+              <p>Assalam-o-Alaikum, <strong class="text-white">${cust.first_name} ${cust.salutation}</strong>! Zarya Digital Bank mein khushamdeed. Main aap ki personal banking assistant hoon.</p>
+              <p class="mt-2 text-slate-300">Aap ke <span class="text-emerald-400 font-semibold">${cust.tier} Digital Account</span> ke hawale se main funds transfer (Raast/IBFT), ATM card block, transaction limits, ya balance inquiry mein kya madad kar sakti hoon?</p>
+            </div>
+
+            <!-- Quick Action Cards (Interactive Carousel) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+              <button onclick="sendQuickPrompt('Mera ATM card gum ho gaya hai block kar dein')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
+                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">💳</span>
+                <span class="text-xs font-semibold text-white block">Card Block</span>
+                <span class="text-[10px] text-slate-400 block truncate">Lock linked ${cust.card_masked.slice(-4)}</span>
+              </button>
+
+              <button onclick="sendQuickPrompt('Mera account balance maloom karna hai')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
+                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">💰</span>
+                <span class="text-xs font-semibold text-white block">Check Balance</span>
+                <span class="text-[10px] text-slate-400 block truncate">Verified Core CBS</span>
+              </button>
+
+              <button onclick="sendQuickPrompt('Rs. 30,000 transfer par kitna charge lagega?')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
+                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">💸</span>
+                <span class="text-xs font-semibold text-white block">Fee Schedule</span>
+                <span class="text-[10px] text-slate-400 block truncate">Check latest Rs. 50 fee</span>
+              </button>
+
+              <button onclick="sendQuickPrompt('Raast se transfer fail ho gaya paise kat gaye')" class="glass-card hover:bg-slate-800/80 p-2.5 rounded-xl text-left border border-slate-700/50 hover:border-emerald-500/50 transition group">
+                <span class="text-base mb-1 block group-hover:scale-110 transition-transform">⚠️</span>
+                <span class="text-xs font-semibold text-white block">Dispute Ticket</span>
+                <span class="text-[10px] text-slate-400 block truncate">Auto SBP complaint filing</span>
+              </button>
             </div>
           </div>
         </div>
       `;
     }
 
-    // Comprehensive Banking Inference Engine with Rich UI Widgets
+    // Comprehensive Banking Inference Engine with Dynamic Customer Grounding
     function generateBankingTurn(query) {
       const q = query.toLowerCase();
+      const cust = getActiveCustomer();
+      const prefix = `Ji ${cust.first_name} ${cust.salutation}, `;
 
       // 1. SCAM / OTP Intercept (SBP Mandate)
       if (q.includes('otp') || q.includes('pin') || q.includes('lottery') || q.includes('prize') || q.includes('password')) {
@@ -631,15 +696,16 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
         };
       }
 
-      // 2. ATM / Card Block Intent with Interactive Virtual Card
+      // 2. ATM / Card Block Intent with Interactive Virtual Card for Active Customer
       if (q.includes('block') || q.includes('gum') || (q.includes('card') && q.includes('chori'))) {
         const ticketId = 'ZAR-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(1000 + Math.random()*9000);
         const ticket = {
           ticket_id: ticketId,
+          customer_id: cust.id,
           category: "CARD",
           amount: 0.0,
           priority: "CRITICAL",
-          summary: "Emergency Card Block: " + query,
+          summary: `Emergency Card Block (${cust.name}): ` + query,
           tat: "Immediate (< 2 hours)",
           escalated_to_human: 1,
           status: "OPEN"
@@ -649,13 +715,24 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
 
         return {
           type: "card_block",
-          text: "Ji bilkul, aap ki hifazat hamari pehli tarjeeh hai. Maine aap ke registered account se linked ATM Debit Card ko emergency block karne ki darkhwast darj kar di hai. Tasdeeq ke liye kya aap apne registered mobile number ke aakhri 4 digits confirm kar sakte hain?",
+          text: `${prefix}aap ki hifazat hamari pehli tarjeeh hai. Maine aap ke ${cust.tier} account se linked ATM Debit Card (${cust.card_masked}) ko emergency block karne ki darkhwast darj kar di hai. Tasdeeq ke liye kya aap apne registered mobile number (${cust.phone}) ke aakhri 4 digits confirm kar sakte hain?`,
           ticket: ticket,
+          customer: cust,
           status: "PASSED"
         };
       }
 
-      // 3. RAG Fee Query with Financial Breakdown Card
+      // 3. Balance Inquiry (Personalized Core Banking Lookup)
+      if (q.includes('balance') || q.includes('maloom') || q.includes('paisa') || q.includes('paise kitne')) {
+        return {
+          type: "balance_info",
+          text: `${prefix}aap ke ${cust.tier} Digital Account (${cust.account_no}) ka mojooda verified balance **Rs. ${cust.balance.toLocaleString()}** hai. Kya main kisi specific transaction ya transfer mein aap ki madad kar sakti hoon?`,
+          customer: cust,
+          status: "PASSED"
+        };
+      }
+
+      // 4. RAG Fee Query with Financial Breakdown Card
       if (q.includes('charge') || q.includes('fee') || q.includes('fees') || q.includes('katoti')) {
         return {
           type: "fee_schedule",
@@ -664,15 +741,16 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
         };
       }
 
-      // 4. Failed Transfer / Disputed Deduction with SBP Ticket Receipt
+      // 5. Failed Transfer / Disputed Deduction with SBP Ticket Receipt
       if ((q.includes('transfer') || q.includes('raast')) && (q.includes('fail') || q.includes('kat') || q.includes('nahi') || q.includes('pohanch'))) {
         const ticketId = 'ZAR-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(1000 + Math.random()*9000);
         const ticket = {
           ticket_id: ticketId,
+          customer_id: cust.id,
           category: "IBFT",
           amount: 25000.0,
           priority: "HIGH",
-          summary: "Disputed Transfer (Raast / IBFT): " + query,
+          summary: `Disputed Transfer for ${cust.name}: ` + query,
           tat: "24-48 business hours",
           escalated_to_human: 1,
           status: "ESCALATED"
@@ -682,13 +760,14 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
 
         return {
           type: "dispute_ticket",
-          text: "Ji, ye sun kar behad afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar apna 12-digit Transaction Reference Number share karein. Hum ne complaint file kar di hai.",
+          text: `${prefix}ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar apna 12-digit Transaction Reference Number share karein. Aap ke ${cust.tier} account ke liye complaint file kar di gayi hai.`,
           ticket: ticket,
+          customer: cust,
           status: "PASSED"
         };
       }
 
-      // 5. Savings Profit Rate
+      // 6. Savings Profit Rate
       if (q.includes('munafa') || q.includes('profit') || q.includes('saving')) {
         return {
           type: "savings_rate",
@@ -697,20 +776,11 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
         };
       }
 
-      // 6. Limits Query
+      // 7. Limits Query
       if (q.includes('limit') || q.includes('rozana') || q.includes('hadd') || q.includes('nikalwa')) {
         return {
           type: "standard",
-          text: "Zarya Asaan Digital Account par rozana ATM cash withdrawal ki hadd Rs. 50,000 hai, jabke Freelancer aur Full KYC biometric account par rozana Rs. 100,000 tak cash nikalwa sakte hain.",
-          status: "PASSED"
-        };
-      }
-
-      // 7. Balance Inquiry
-      if (q.includes('balance') || q.includes('maloom') || q.includes('paisa')) {
-        return {
-          type: "standard",
-          text: "Aap apna mojooda balance Zarya Mobile App par biometric login kar ke dekh sakte hain, ya hamari helpline 021-111-ZARYA par call kar sakte hain. Kya main mazeed kisi cheez mein madad kar sakti hoon?",
+          text: `Zarya ${cust.tier} Digital Account par rozana ATM cash withdrawal ki hadd Rs. ${cust.tier === 'Platinum' ? '100,000' : '50,000'} hai, jabke IBFT / Raast ke zariye rozana Rs. 250,000 tak transfers kiye ja sakte hain.`,
           status: "PASSED"
         };
       }
@@ -718,7 +788,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       // Default Polite Fallback
       return {
         type: "standard",
-        text: "Zarya Digital Bank mein khushamdeed! Main aap ki personal AI banking assistant hoon. Aap mujh se debit card, funds transfer, account balance, ya loan facilities ke mutaliq kisi bhi waqt UrduLish ya English mein pooch sakte hain.",
+        text: `Assalam-o-Alaikum ${cust.first_name}! Zarya Digital Bank mein khushamdeed. Main aap ki personal AI banking assistant hoon. Aap mujh se debit card, funds transfer, account balance, ya loan facilities ke mutaliq kisi bhi waqt pooch sakte hain.`,
         status: "PASSED"
       };
     }
@@ -731,6 +801,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
 
       input.value = '';
       const feed = document.getElementById('chatFeed');
+      const cust = getActiveCustomer();
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -741,7 +812,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
             <div class="bubble-user p-4 rounded-2xl rounded-tr-sm text-sm text-white text-left">
               <p>${escapeHtml(query)}</p>
             </div>
-            <span class="text-[10px] text-slate-500 pr-1">${timeStr} &bull; Delivered</span>
+            <span class="text-[10px] text-slate-500 pr-1">${timeStr} &bull; Verified (${cust.first_name})</span>
           </div>
           <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 text-slate-300 text-xs shadow-md border border-slate-700">
             <i class="fa-solid fa-user text-[11px]"></i>
@@ -780,32 +851,33 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
         <div>
           <div class="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-800/80">
             <span class="font-semibold text-emerald-400 text-xs">Zara &bull; Zarya Banking Assistant</span>
-            <span class="text-[10px] text-slate-500 font-mono">Verified SBP Core</span>
+            <span class="text-[10px] text-slate-400 font-mono">KYC: ${cust.id} (${cust.tier})</span>
           </div>
           <p class="leading-relaxed text-slate-200 text-sm">${escapeHtml(turn.text)}</p>
       `;
 
-      // GENERATIVE UI WIDGET: Card Block Preview
+      // GENERATIVE UI WIDGET: Card Block Preview for Active Customer
       if (turn.type === 'card_block') {
+        const c = turn.customer || cust;
         renderedHtml += `
           <div class="mt-4 virtual-card-gradient p-4 rounded-2xl text-white shadow-xl relative overflow-hidden">
             <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-emerald-500/10 pointer-events-none"></div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-extrabold tracking-widest text-emerald-300">ZARYA PLATINUM DEBIT</span>
+              <span class="text-xs font-extrabold tracking-widest text-emerald-300">ZARYA ${c.tier.toUpperCase()} DEBIT</span>
               <span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-bold flex items-center gap-1">
                 <i class="fa-solid fa-lock"></i> CARD LOCKED
               </span>
             </div>
             <div class="font-mono text-sm tracking-wider my-2 text-slate-200">
-              **** &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 9012
+              ${c.card_masked}
             </div>
             <div class="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-white/10">
-              <span>Cardholder: <strong>SAIRA FATIMA</strong></span>
-              <span>Exp: <strong>09/29</strong></span>
+              <span>Cardholder: <strong class="text-white">${c.name.toUpperCase()}</strong></span>
+              <span>Exp: <strong>${c.card_exp}</strong></span>
             </div>
           </div>
           <div class="mt-2.5 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs text-emerald-200 flex items-center justify-between">
-            <span>🎫 Ticket ID: <strong class="font-mono text-emerald-400">${turn.ticket.ticket_id}</strong></span>
+            <span>🎫 Ticket ID: <strong class="font-mono text-emerald-400">${turn.ticket.ticket_id}</strong> (${c.id})</span>
             <button onclick="switchTab('dashboard')" class="text-[11px] text-emerald-300 hover:text-white underline">View on Desk &rarr;</button>
           </div>
         `;
@@ -847,7 +919,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
             </div>
             <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-300 mb-2">
               <div>Ticket Number: <span class="font-mono text-emerald-400 font-bold block">${turn.ticket.ticket_id}</span></div>
-              <div>Estimated TAT: <span class="text-slate-200 font-semibold block">${turn.ticket.tat}</span></div>
+              <div>Customer: <span class="text-white font-semibold block">${cust.name} (${cust.id})</span></div>
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px]">
               <span class="text-slate-400">Disputed Sum: <strong>Rs. 25,000</strong></span>
@@ -888,7 +960,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       contentDiv.innerHTML = renderedHtml;
 
       // Log to privacy-masked audit stream
-      addAuditRecord(query, turn.text, turn.status);
+      addAuditRecord(query, turn.text, turn.status, cust.id);
       feed.scrollTop = feed.scrollHeight;
     }
 
@@ -905,6 +977,7 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       tbody.innerHTML = TICKETS_DB.map(t => `
         <tr class="hover:bg-slate-800/30 transition">
           <td class="p-4 font-mono text-emerald-400 font-semibold">${t.ticket_id}</td>
+          <td class="p-4 font-mono text-slate-300 text-xs">${t.customer_id || 'CUST-DEFAULT'}</td>
           <td class="p-4"><span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700/80 font-medium">${t.category}</span></td>
           <td class="p-4 font-semibold text-white">Rs. ${Number(t.amount || 0).toLocaleString()}</td>
           <td class="p-4"><span class="px-2.5 py-1 rounded-full font-bold text-[10px] ${t.priority === 'CRITICAL' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' : (t.priority === 'HIGH' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-slate-800 text-slate-400')}">${t.priority}</span></td>
@@ -946,13 +1019,13 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       `).join('');
     }
 
-    function addAuditRecord(query, response, status) {
+    function addAuditRecord(query, response, status, customerId) {
       const masked = query.replace(/\d{5}-\d{7}-\d{1}/g, '42201-*******-1').replace(/(?:\d{4}[- ]?){3}\d{4}/g, '****-****-****-9012');
       const now = new Date().toISOString();
       AUDIT_LOGS.unshift({
         id: 'LOG-' + Math.floor(1000 + Math.random() * 9000),
         timestamp: now,
-        customer_id: 'CUST-WEB',
+        customer_id: customerId || currentCustomerId,
         query: masked,
         guardrail_status: status || 'PASSED',
         action: status === 'SCAM_OVERRIDE' ? 'SCAM_WARNING_DISPATCHED' : (response.includes('darkhwast') ? 'AUTO_TICKET_CREATED' : 'INFERENCE_COMPLETED'),
@@ -966,13 +1039,14 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
       const q = document.getElementById('compareInput').value.trim();
       if (!q) return;
       const qLower = q.toLowerCase();
+      const cust = getActiveCustomer();
 
       let baseResp = "To block your ATM card, you must call the bank's helpline or visit the nearest branch with your CNIC. Do not share your details with unauthorized persons.";
-      let dpoResp = "Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number ki tasdeeq kar sakte hain?";
+      let dpoResp = `Ji ${cust.first_name} ${cust.salutation}, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e-nazar, kya aap apne registered mobile number (${cust.phone}) ki tasdeeq kar sakte hain?`;
 
       if (qLower.includes('transfer') || qLower.includes('fail') || qLower.includes('raast')) {
         baseResp = "If your fund transfer has failed, please check your bank statement. If money is deducted, it will be refunded within 3 to 5 business days.";
-        dpoResp = "Ji, ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar apna 12-digit Transaction ID share karein taake hum complaint darj kar sakein.";
+        dpoResp = `Ji ${cust.first_name} ${cust.salutation}, ye sun kar afsos hua. Raast/IBFT transfer inquiry ke liye meharbani farma kar apna 12-digit Transaction ID share karein taake hum complaint darj kar sakein.`;
       } else if (qLower.includes('charge') || qLower.includes('fee')) {
         baseResp = "For transfer fees, please refer to the bank's website or visit a branch.";
         dpoResp = "Zarya Digital Bank ke Schedule of Charges ke mutabiq, Rs. 25,000 se zayed ke IBFT transfers par fee Rs. 50 fi transaction hai (tax alag se). Rs. 25,000 tak transfers muft hain.";
@@ -988,6 +1062,17 @@ Ji, aap ki card block karne ki darkhwast darj kar li gayi hai. Hifazat ke pesh-e
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      const savedCustId = localStorage.getItem('zarya_active_customer');
+      if (savedCustId && CUSTOMERS_DB[savedCustId]) {
+        currentCustomerId = savedCustId;
+        const sel = document.getElementById('customerSelect');
+        if (sel) sel.value = savedCustId;
+      }
+      const cust = getActiveCustomer();
+      const badge = document.getElementById('sessionBadge');
+      if (badge) badge.innerText = `Authenticated: ${cust.name} (${cust.tier})`;
+
+      resetConversation();
       renderTickets();
       renderAuditLogs();
     });
