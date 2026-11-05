@@ -3,7 +3,6 @@
 **Model Base:** [`Qwen/Qwen2.5-3B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)  
 **Trained Models:** [`sairafatima193/zarya-qwen2.5-3b-sft-v1`](https://huggingface.co/sairafatima193/zarya-qwen2.5-3b-sft-v1) & [`sairafatima193/zarya-qwen2.5-3b-dpo-v1`](https://huggingface.co/sairafatima193/zarya-qwen2.5-3b-dpo-v1)  
 **Dataset:** [`sairafatima193/zarya_banking_dataset`](https://huggingface.co/datasets/sairafatima193/zarya_banking_dataset)  
-**Status:** Complete Turnkey Enterprise Solution (Days 1 through 5)  
 
 ---
 
