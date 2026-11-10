@@ -1,5 +1,5 @@
 """
-Automated tests for Day 2 — Task 4: Comprehensive Offline Evaluation of All 7 Models.
+Automated tests for Day 2 — Task 4: Comprehensive Offline Evaluation of All 8 Models.
 """
 
 from __future__ import annotations
@@ -9,15 +9,15 @@ from shopkaro.recommendations.evaluation import run_day2_task4_offline_evaluatio
 
 
 def test_day2_task4_offline_evaluation() -> None:
-    """Verify that all 7 models are evaluated across accuracy, diversity, novelty, and cold-start."""
+    """Verify that all 8 models are evaluated across accuracy, diversity, novelty, and cold-start."""
     comparison_df, models, fig_path = run_day2_task4_offline_evaluation(
         k=10,
         max_eval_users=500,
         max_cold_users=300,
     )
 
-    assert len(comparison_df) == 7
-    assert len(models) == 7
+    assert len(comparison_df) == 8
+    assert len(models) == 8
     assert fig_path.exists()
     assert (settings.reports_dir / "day2_model_comparison.csv").exists()
 
@@ -41,7 +41,7 @@ def test_day2_task4_offline_evaluation() -> None:
     max_baseline_ndcg = float(
         comparison_df[comparison_df["model_family"] == "Baseline"]["ndcg_at_10"].max()
     )
-    hybrid_row = comparison_df[comparison_df["model_family"] == "Hybrid Two-Tower"].iloc[0]
+    hybrid_row = comparison_df[comparison_df["model_family"] == "Hybrid Blend"].iloc[0]
     assert float(hybrid_row["ndcg_at_10"]) > max_baseline_ndcg * 5.0
 
     # Intra-List Diversity must be in (0, 1] and Novelty must be positive bits
@@ -55,3 +55,14 @@ def test_day2_task4_offline_evaluation() -> None:
         comparison_df.iloc[0]["cold_user_ndcg_at_10"]
     )
 
+
+    # Neural two-tower (PyTorch): trained, selected on validation, beats every baseline, and can surface cold items
+    neural = models["neural_two_tower"]
+    assert neural.training_log.best_epoch >= 1
+    assert neural.training_log.best_val_ndcg_at_10 > 0.0
+    neural_row = comparison_df[comparison_df["model_family"] == "Neural Two-Tower (PyTorch)"].iloc[0]
+    assert float(neural_row["ndcg_at_10"]) > max_baseline_ndcg
+    assert float(neural_row["cold_item_hit_rate_at_10"]) > 0.0
+    # New users: onboarding category through the user tower must beat plain popularity clearly
+    assert neural.training_log.cold_start_selected["validation_users"] > 0
+    assert float(neural_row["cold_user_ndcg_at_10"]) > 3.0 * float(comparison_df.iloc[0]["cold_user_ndcg_at_10"])

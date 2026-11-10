@@ -297,7 +297,7 @@ class HybridTwoTowerRecommender(BaseRecommender):
     For cold-start users or cold-start items, automatically routes to `ColdStartEngine`.
     """
 
-    name = "7. Hybrid Two-Tower (CF + Content + Features)"
+    name = "7. Hybrid Blend (Item-CF + ALS + Content + Features)"
 
     def __init__(
         self,
@@ -499,12 +499,12 @@ def evaluate_cold_start_performance(
         WITH top_cold_users AS (
             SELECT
                 user_id,
-                ANY_VALUE(category) AS onboarding_category,
+                ARG_MIN(category, event_timestamp) AS onboarding_category,  -- first event's category, deterministic
                 COUNT(DISTINCT product_id) AS n_items
             FROM cold_start_test
             WHERE is_cold_user = TRUE
             GROUP BY user_id
-            ORDER BY n_items DESC
+            ORDER BY n_items DESC, user_id
             LIMIT {int(max_cold_users)}
         )
         SELECT
