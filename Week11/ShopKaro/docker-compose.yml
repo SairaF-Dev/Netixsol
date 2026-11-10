@@ -1,0 +1,71 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: shopkaro-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  shopkaro-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shopkaro-api
+    environment:
+      - APP_NAME=ShopKaro
+      - APP_ENV=production
+      - REDIS_URL=redis://redis:6379/0
+      - DUCKDB_PATH=data/processed/shopkaro.duckdb
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+      retries: 3
+    restart: unless-stopped
+    command: ["python", "-m", "uvicorn", "shopkaro.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  shopkaro-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shopkaro-dashboard
+    environment:
+      - APP_NAME=ShopKaro
+      - APP_ENV=production
+      - REDIS_URL=redis://redis:6379/0
+      - DUCKDB_PATH=data/processed/shopkaro.duckdb
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+    ports:
+      - "8501:8501"
+    depends_on:
+      shopkaro-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+    restart: unless-stopped
+    command: ["python", "-m", "streamlit", "run", "src/shopkaro/dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+

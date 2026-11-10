@@ -1,0 +1,7 @@
+query_set,architecture_name,queries_evaluated,ndcg_at_10,mrr_at_10,precision_at_5,budget_compliance_pct,zero_relevant_queries,avg_latency_ms
+dev_50,1. Lexical Only (Okapi BM25),50,0.7712,0.8575,0.784,40.0,2,8.016
+dev_50,2. Semantic Vector Only (Dense Cosine),50,0.8141,0.9145,0.856,43.6364,1,53.1716
+dev_50,3. Hybrid Search (BM25 + Semantic + RRF + feature + cross-encoder re-ranker),50,0.9673,1.0,0.992,100.0,0,1023.3996
+holdout_20,1. Lexical Only (Okapi BM25),20,0.6016,0.6458,0.63,65.0,5,8.292
+holdout_20,2. Semantic Vector Only (Dense Cosine),20,0.7143,0.75,0.73,60.0,3,53.2425
+holdout_20,3. Hybrid Search (BM25 + Semantic + RRF + feature + cross-encoder re-ranker),20,0.8369,0.85,0.85,100.0,3,1006.741

@@ -1,0 +1,210 @@
+{
+  "experiment_summary": {
+    "experiment_id": "EXP-2026-REC-ITEMCF-V1",
+    "decision": "SHIP",
+    "decision_reason": "Primary metric significantly better and all guardrails pass.",
+    "decision_rule": "SHIP: primary metric significantly better (alpha=0.05) and all guardrails pass. DO NOT SHIP: primary metric significantly worse, or any guardrail fails. EXTEND / RAMP: otherwise; keep running until the pre-registered sample size is reached (if the leading indicator CTR is significantly better, ramp traffic to reach it sooner).",
+    "control_arm": "Control_A: top-10 most popular in-stock products",
+    "treatment_arm": "Treatment_B: item-to-item CF + business re-ranker (production pipeline)",
+    "visitors": 162386,
+    "control_users": 81163,
+    "treatment_users": 81223,
+    "returning_visitor_share_pct": 6.86,
+    "primary_metric": "Conversion Rate (CVR)",
+    "relative_mde_pct": 20.0,
+    "achieved_power_at_mde": 0.054,
+    "aov_note": "AOV not tested: fewer than 20 converters in an arm (7 vs 42).",
+    "model": "4. Item-to-Item Collaborative Filtering (Cosine)",
+    "trained_on": "train_interactions + val_interactions",
+    "fit_seconds": 15.4,
+    "pretest_users": 698150,
+    "aa_test": false,
+    "test_window_start": "2025-06-19"
+  },
+  "attribution": {
+    "control_converters": 7,
+    "treatment_converters": 42,
+    "control_converters_bought_previously_browsed": 0,
+    "treatment_converters_bought_previously_browsed": 37,
+    "control_converters_bought_new_item": 7,
+    "treatment_converters_bought_new_item": 5,
+    "monthly_visitors_assumed": 1000000,
+    "est_monthly_homepage_revenue_gain_pkr": 8310000,
+    "est_monthly_homepage_revenue_gain_ci_pkr": [
+      2380000,
+      14250000
+    ]
+  },
+  "guardrails": {
+    "srm_p_value": 0.8816373403926848,
+    "srm_check_passed": true,
+    "oos_impression_rate_control_pct": 0.0,
+    "oos_impression_rate_treatment_pct": 0.0,
+    "oos_guardrail_passed": true,
+    "treatment_max_items_one_brand": 2,
+    "brand_guardrail_passed": true,
+    "recommendation_latency_p95_ms": 6.96,
+    "latency_guardrail_passed": true,
+    "all_passed": true
+  },
+  "power_plan": {
+    "baseline_rate": 8.6e-05,
+    "target_rate": 0.0001032,
+    "relative_mde_pct": 20.0,
+    "alpha": 0.05,
+    "power": 0.8,
+    "daily_traffic": 33333.333333333336,
+    "required_n_per_arm": 5019157,
+    "required_total_users": 10038314,
+    "estimated_duration_days": 301.1,
+    "mde_power_curve": [
+      {
+        "relative_mde_pct": 5.0,
+        "n_per_arm": 74831558,
+        "total_users": 149663116,
+        "estimated_days": 4489.9
+      },
+      {
+        "relative_mde_pct": 10.0,
+        "n_per_arm": 19164138,
+        "total_users": 38328276,
+        "estimated_days": 1149.8
+      },
+      {
+        "relative_mde_pct": 15.0,
+        "n_per_arm": 8720171,
+        "total_users": 17440342,
+        "estimated_days": 523.2
+      },
+      {
+        "relative_mde_pct": 20.0,
+        "n_per_arm": 5019157,
+        "total_users": 10038314,
+        "estimated_days": 301.1
+      },
+      {
+        "relative_mde_pct": 30.0,
+        "n_per_arm": 2332123,
+        "total_users": 4664246,
+        "estimated_days": 139.9
+      },
+      {
+        "relative_mde_pct": 50.0,
+        "n_per_arm": 912562,
+        "total_users": 1825124,
+        "estimated_days": 54.8
+      }
+    ]
+  },
+  "aa_test": {
+    "metrics": [
+      {
+        "metric": "Conversion Rate (CVR)",
+        "test_type": "Fisher's exact test (few events)",
+        "control_mean": 0.0074,
+        "treatment_mean": 0.0099,
+        "unit": "%",
+        "control_successes": 6,
+        "treatment_successes": 8,
+        "absolute_lift": 0.0025,
+        "relative_lift_pct": 34.01,
+        "ci_95_low": -0.0065,
+        "ci_95_high": 0.0115,
+        "rel_ci_95_low_pct": -88.57,
+        "rel_ci_95_high_pct": 156.58,
+        "test_statistic": 0.544,
+        "p_value": 0.606313667501477,
+        "role": "primary",
+        "p_value_holm": 0.606313667501477,
+        "significant": false
+      },
+      {
+        "metric": "Click-Through Rate (CTR)",
+        "test_type": "Two-proportion z-test",
+        "control_mean": 0.8956,
+        "treatment_mean": 0.8606,
+        "unit": "%",
+        "control_successes": 729,
+        "treatment_successes": 697,
+        "absolute_lift": -0.035,
+        "relative_lift_pct": -3.91,
+        "ci_95_low": -0.1257,
+        "ci_95_high": 0.0558,
+        "rel_ci_95_low_pct": -14.04,
+        "rel_ci_95_high_pct": 6.23,
+        "test_statistic": -0.7554,
+        "p_value": 0.45001771274727265,
+        "role": "secondary",
+        "p_value_holm": 1.0,
+        "significant": false
+      },
+      {
+        "metric": "Discovery CTR (items not seen before)",
+        "test_type": "Two-proportion z-test",
+        "control_mean": 0.8772,
+        "treatment_mean": 0.8446,
+        "unit": "%",
+        "control_successes": 714,
+        "treatment_successes": 684,
+        "absolute_lift": -0.0326,
+        "relative_lift_pct": -3.72,
+        "ci_95_low": -0.1225,
+        "ci_95_high": 0.0573,
+        "rel_ci_95_low_pct": -13.96,
+        "rel_ci_95_high_pct": 6.53,
+        "test_statistic": -0.711,
+        "p_value": 0.477070052110685,
+        "role": "secondary",
+        "p_value_holm": 1.0,
+        "significant": false
+      },
+      {
+        "metric": "Discovery CVR (items not seen before)",
+        "test_type": "Fisher's exact test (few events)",
+        "control_mean": 0.0074,
+        "treatment_mean": 0.0062,
+        "unit": "%",
+        "control_successes": 6,
+        "treatment_successes": 5,
+        "absolute_lift": -0.0012,
+        "relative_lift_pct": -16.24,
+        "ci_95_low": -0.0092,
+        "ci_95_high": 0.0068,
+        "rel_ci_95_low_pct": -124.83,
+        "rel_ci_95_high_pct": 92.34,
+        "test_statistic": -0.2931,
+        "p_value": 1.0,
+        "role": "secondary",
+        "p_value_holm": 1.0,
+        "significant": false
+      },
+      {
+        "metric": "Revenue Per Visitor (RPV)",
+        "test_type": "Welch t-test (+ Mann-Whitney U)",
+        "control_mean": 0.17,
+        "treatment_mean": 0.21,
+        "unit": "PKR",
+        "control_successes": 81398,
+        "treatment_successes": 80988,
+        "absolute_lift": 0.04,
+        "relative_lift_pct": 25.27,
+        "ci_95_low": -0.16,
+        "ci_95_high": 0.24,
+        "rel_ci_95_low_pct": -93.36,
+        "rel_ci_95_high_pct": 143.9,
+        "test_statistic": 0.4175,
+        "p_value": 0.676323581637998,
+        "mann_whitney_p_value": 0.5864666015351305,
+        "role": "secondary",
+        "p_value_holm": 1.0,
+        "significant": false
+      }
+    ]
+  },
+  "peeking": {
+    "days": 28,
+    "simulations": 2000,
+    "false_positive_rate_fixed_horizon_pct": 5.2,
+    "false_positive_rate_daily_peeking_pct": 26.8
+  }
+}

@@ -1,0 +1,4 @@
+policy,demand_units,fill_rate_pct,lost_units,lost_revenue_pkr,lost_gross_margin_pkr,stockout_sku_days,avg_stock_value_pkr,orders_placed,lost_units | Ramadan + Eid ul Fitr 2025,stockout_sku_days | Ramadan + Eid ul Fitr 2025,lost_units | Eid ul Adha 2025 (incl. 2 weeks before),stockout_sku_days | Eid ul Adha 2025 (incl. 2 weeks before),avg_dead_capital_pkr,dead_capital_days_measured
+moving_average,1890435.0,87.39,238290.0,2908852067.0,850063596.0,6495,561589140.0,12419,105849.0,2494,59570.0,1031,7881021.0,305
+seasonal_naive,1890435.0,91.97,151881.0,1519336501.0,481938477.0,4523,466539272.0,13047,69944.0,1703,51514.0,925,318814.0,305
+forecast,1890435.0,98.73,24098.0,402519425.0,106837767.0,2272,438933704.0,13856,4571.0,289,3257.0,203,118581.0,305

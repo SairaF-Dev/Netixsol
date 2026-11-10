@@ -1,0 +1,5 @@
+product_id,brand,category,reviews_prior,positive_pct_prior,reviews_recent,positive_pct_recent,change_pct_points,p_value
+SK-00058,Sufi,Groceries & Staples,7,100.0,4,25.0,-75.0,0.024242424242424242
+SK-00406,Rivaj UK,Beauty & Fragrances,11,90.9,4,25.0,-65.9,0.03296703296703296
+SK-00484,Almirah,Men's Kurta & Ethnic,7,85.7,5,20.0,-65.7,0.045454545454545456
+SK-00302,Gul Ahmed,Women's Lawn & Unstitched,6,100.0,7,42.9,-57.1,0.04895104895104895

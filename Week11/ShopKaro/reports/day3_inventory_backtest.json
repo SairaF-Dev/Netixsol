@@ -1,0 +1,24 @@
+{
+  "skus": 300,
+  "forecast_refits": 29,
+  "evaluation_period": "2025-01-01..2025-12-31",
+  "note": "Demand is synthetic; percentages show the effect of the forecast inside this simulation, not a measured business result.",
+  "forecast_vs_moving_average_pct_change": {
+    "lost_units": -89.9,
+    "lost_gross_margin_pkr": -87.4,
+    "stockout_sku_days": -65.0,
+    "lost_units_Ramadan + Eid ul Fitr 2025": -95.7,
+    "lost_units_Eid ul Adha 2025 (incl. 2 weeks before)": -94.5,
+    "avg_stock_value_pkr": -21.8,
+    "avg_dead_capital_pkr": -98.5
+  },
+  "forecast_vs_seasonal_naive_pct_change": {
+    "lost_units": -84.1,
+    "lost_gross_margin_pkr": -77.8,
+    "stockout_sku_days": -49.8,
+    "lost_units_Ramadan + Eid ul Fitr 2025": -93.5,
+    "lost_units_Eid ul Adha 2025 (incl. 2 weeks before)": -93.7,
+    "avg_stock_value_pkr": -5.9,
+    "avg_dead_capital_pkr": -62.8
+  }
+}
