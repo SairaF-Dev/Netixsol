@@ -1,0 +1,46 @@
+{
+  "sentiment_holdout": [
+    {
+      "text": "Lovely print, shame the trousers are too short.",
+      "expected": "Neutral",
+      "predicted": "Positive"
+    },
+    {
+      "text": "Overpriced for what you get, but the seller was polite.",
+      "expected": "Neutral",
+      "predicted": "Negative"
+    },
+    {
+      "text": "Blender is powerful and easy to clean.",
+      "expected": "Positive",
+      "predicted": "Neutral"
+    },
+    {
+      "text": "Qeemat zyada hai lekin seller ka rawaiya acha tha.",
+      "expected": "Neutral",
+      "predicted": "Positive"
+    },
+    {
+      "text": "گھڑی سستی لگتی ہے اور پٹا ایک ہفتے میں ٹوٹ گیا۔",
+      "expected": "Negative",
+      "predicted": "Neutral"
+    },
+    {
+      "text": "قیمت زیادہ ہے لیکن دکاندار کا رویہ اچھا تھا۔",
+      "expected": "Neutral",
+      "predicted": "Positive"
+    },
+    {
+      "text": "چیز تفصیل جیسی بالکل نہیں تھی، رقم واپسی مانگی کوئی جواب نہیں۔",
+      "expected": "Negative",
+      "predicted": "Neutral"
+    }
+  ],
+  "spam_holdout": [
+    {
+      "text": "Follow our page for daily sale updates and giveaways!!!",
+      "expected_spam": true,
+      "predicted_spam": false
+    }
+  ]
+}

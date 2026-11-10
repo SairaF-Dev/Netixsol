@@ -1,0 +1,46 @@
+hierarchy_level,model_name,horizon_days,n_folds,n_series,wape_pct,mae,rmse,smape_pct,mape_pct,zero_actual_days_pct
+Category_Level,1. Naive (Last Observed Value),7,4,11,42.67,311.477,730.948,45.06,38.426,0.0
+Category_Level,2. Seasonal Naive (7-Day Cycle),7,4,11,38.7,282.497,742.823,40.996,32.198,0.0
+Category_Level,3. Classical Holt-Winters ETS (s=7),7,4,11,39.058,285.113,746.184,42.234,31.795,0.0
+Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),7,4,11,6.108,44.588,83.375,13.349,14.052,0.0
+Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),7,4,11,5.975,43.616,88.393,12.982,13.429,0.0
+Category_Level,1. Naive (Last Observed Value),14,4,11,42.859,333.669,786.457,46.922,40.262,0.0
+Category_Level,2. Seasonal Naive (7-Day Cycle),14,4,11,42.285,329.205,839.072,43.988,34.628,0.0
+Category_Level,3. Classical Holt-Winters ETS (s=7),14,4,11,41.826,325.63,826.865,45.771,33.289,0.0
+Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,4,11,6.222,48.438,88.745,13.437,15.373,0.0
+Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,4,11,6.042,47.035,88.213,12.94,14.199,0.0
+Category_Level,1. Naive (Last Observed Value),30,4,11,43.471,279.274,665.802,46.054,44.652,0.08
+Category_Level,2. Seasonal Naive (7-Day Cycle),30,4,11,40.153,257.962,687.009,40.637,35.445,0.08
+Category_Level,3. Classical Holt-Winters ETS (s=7),30,4,11,40.598,260.82,689.794,44.121,36.222,0.08
+Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),30,4,11,6.651,42.727,78.644,13.375,14.91,0.08
+Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),30,4,11,6.424,41.271,76.477,12.894,14.086,0.08
+Top50_SKU_Level,1. Naive (Last Observed Value),7,4,50,52.343,37.297,56.255,54.026,54.126,0.0
+Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),7,4,50,50.507,35.989,55.79,53.865,47.508,0.0
+Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),7,4,50,47.554,33.885,53.799,48.377,42.535,0.0
+Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),7,4,50,26.347,18.773,27.907,27.986,30.532,0.0
+Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),7,4,50,25.329,18.048,26.887,27.11,31.54,0.0
+Top50_SKU_Level,1. Naive (Last Observed Value),14,4,50,52.361,40.275,61.787,55.154,53.873,0.0
+Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,4,50,52.704,40.539,63.372,56.662,49.855,0.0
+Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,4,50,49.811,38.314,61.221,51.297,44.773,0.0
+Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,4,50,27.273,20.978,32.398,28.805,31.792,0.0
+Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,4,50,26.454,20.347,31.288,28.039,32.916,0.0
+Top50_SKU_Level,1. Naive (Last Observed Value),30,4,50,54.776,34.774,53.588,53.7,62.634,0.0
+Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),30,4,50,53.039,33.671,53.548,53.486,54.621,0.0
+Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),30,4,50,50.862,32.289,52.08,49.409,52.086,0.0
+Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),30,4,50,27.691,17.58,27.324,29.513,32.726,0.0
+Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),30,4,50,26.893,17.073,26.298,28.72,33.807,0.0
+SKU_By_Velocity_60,1. Naive (Last Observed Value),7,4,60,54.334,22.355,43.136,65.512,61.99,22.44
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),7,4,60,53.243,21.907,42.872,68.027,57.002,22.44
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),7,4,60,50.483,20.771,41.427,86.304,51.413,22.44
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),7,4,60,28.38,11.677,21.558,79.798,41.45,22.44
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),7,4,60,28.538,11.742,21.312,74.973,40.231,22.44
+SKU_By_Velocity_60,1. Naive (Last Observed Value),14,4,60,52.721,23.41,46.093,65.144,61.226,22.44
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,4,60,54.353,24.135,47.773,70.525,59.144,22.44
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,4,60,51.667,22.942,46.137,87.285,53.162,22.44
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,4,60,29.051,12.9,24.519,80.066,42.451,22.44
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,4,60,29.242,12.985,24.122,75.212,41.414,22.44
+SKU_By_Velocity_60,1. Naive (Last Observed Value),30,4,60,56.891,19.893,39.987,64.378,73.23,22.4
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),30,4,60,55.558,19.427,39.822,68.198,65.321,22.4
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),30,4,60,53.552,18.726,38.822,83.43,61.568,22.4
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),30,4,60,29.522,10.323,20.291,79.841,42.704,22.4
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),30,4,60,29.412,10.285,19.771,75.332,41.669,22.4

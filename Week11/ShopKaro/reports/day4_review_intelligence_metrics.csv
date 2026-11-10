@@ -1,0 +1,15 @@
+task,set,system,n,accuracy,macro_f1,n_reviews,mentions,detection_precision,detection_recall,detection_f1,polarity_accuracy_when_detected,cell_accuracy,mean_aspect_macro_f1,precision,recall,f1
+sentiment,dev_60,majority (always Positive),60.0,0.4,0.1905,,,,,,,,,,,
+sentiment,dev_60,word count (no clauses / negation),60.0,0.8333,0.7497,,,,,,,,,,,
+sentiment,dev_60,rule analyzer,60.0,1.0,1.0,,,,,,,,,,,
+sentiment,holdout_30,majority (always Positive),30.0,0.4,0.1905,,,,,,,,,,,
+sentiment,holdout_30,word count (no clauses / negation),30.0,0.5667,0.5667,,,,,,,,,,,
+sentiment,holdout_30,rule analyzer,30.0,0.7667,0.7526,,,,,,,,,,,
+aspects,dev_60,all zero (nothing mentioned),,,,60.0,78.0,0.0,0.0,0.0,0.0,0.7833,0.2905,,,
+aspects,dev_60,rule analyzer,,,,60.0,78.0,0.9615,0.9615,0.9615,1.0,0.9833,0.9826,,,
+aspects,holdout_30,all zero (nothing mentioned),,,,30.0,39.0,0.0,0.0,0.0,0.0,0.7833,0.2904,,,
+aspects,holdout_30,rule analyzer,,,,30.0,39.0,1.0,0.5897,0.7419,0.8696,0.8944,0.6632,,,
+spam,dev_16,previous regex patterns,16.0,,,,,,,,,,,0.75,0.375,0.5
+spam,dev_16,rule detector,16.0,,,,,,,,,,,1.0,1.0,1.0
+spam,holdout_10,previous regex patterns,10.0,,,,,,,,,,,1.0,0.4,0.5714
+spam,holdout_10,rule detector,10.0,,,,,,,,,,,1.0,0.8,0.8889

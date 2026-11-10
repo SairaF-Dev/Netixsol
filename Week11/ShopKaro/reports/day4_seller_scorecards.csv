@@ -1,0 +1,1429 @@
+seller_id,total_genuine_reviews,distinct_products,avg_rating,avg_delivery_delay_days,quality_pos_pct,delivery_neg_pct,packaging_neg_pct,seller_pos_pct,intrinsic_quality_index,seller_tier,management_recommendation
+cc419e0650a3,149,129,4.19,-12.55,87.92,12.08,9.4,17.45,59.73,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6560211a19b4,139,118,3.89,-10.5,80.58,13.67,12.95,14.39,54.1,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1f50f920176f,125,108,4.0,-11.56,84.0,12.0,13.6,20.8,58.72,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4a3ca9315b74,121,108,3.69,-8.72,77.69,16.53,14.05,18.18,53.88,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+955fee9216a6,121,115,3.91,-10.69,82.64,13.22,12.4,10.74,53.88,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+da8622b14eb1,110,100,4.01,-11.05,85.45,7.27,8.18,20.91,59.64,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7c67e1448b00,94,86,3.38,-11.45,72.34,19.15,23.4,14.89,49.36,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1025f0e2d44d,94,89,3.49,-9.84,69.15,11.7,22.34,14.89,47.45,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ea8482cd71df,90,85,4.0,-9.86,84.44,6.67,13.33,15.56,56.89,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3d871de0142c,82,74,4.0,-12.06,86.59,15.85,7.32,9.76,55.85,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7a67c85e85bb,74,71,4.35,-11.81,91.89,10.81,6.76,10.81,59.46,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4869f7a5dfa2,66,60,4.21,-12.24,89.39,9.09,7.58,16.67,60.3,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cca3071e3e9b,61,59,3.51,-14.46,73.77,14.75,19.67,11.48,48.85,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8b321bb66939,60,57,4.23,-9.38,88.33,15.0,8.33,21.67,61.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e9779976487b,59,56,4.27,-10.24,88.14,8.47,8.47,13.56,58.31,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+620c87c171fb,52,49,4.29,-12.58,90.38,7.69,5.77,19.23,61.92,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a1043bafd471,51,49,4.04,-11.92,84.31,5.88,13.73,19.61,58.43,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f8db351d8c4c,50,47,4.38,-11.5,92.0,6.0,4.0,20.0,63.2,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d2374cbcbb3c,44,43,3.48,-19.48,72.73,9.09,15.91,15.91,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+85d9eb9ddc5d,39,39,4.36,-16.49,97.44,15.38,2.56,38.46,73.85,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+fa1c13f2614d,39,38,4.49,-7.92,94.87,15.38,5.13,23.08,66.15,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d91fb3b7d041,39,36,4.0,-14.56,84.62,12.82,12.82,17.95,57.95,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1da3aeb70d79,36,35,4.19,-13.14,83.33,5.56,13.89,22.22,58.89,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7d13fca15225,36,34,4.33,-14.56,91.67,2.78,2.78,8.33,58.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4d6d651bd768,36,35,4.0,-13.0,80.56,11.11,19.44,13.89,53.89,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+391fc6631aeb,35,34,4.23,-12.17,91.43,14.29,5.71,17.14,61.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2138ccb85b11,34,33,4.0,-11.29,85.29,11.76,8.82,17.65,58.24,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+87142160b413,33,32,4.3,-12.64,93.94,15.15,3.03,12.12,61.21,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1900267e848c,33,32,3.82,-9.52,75.76,3.03,12.12,21.21,53.94,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+128639473a13,32,31,4.19,-14.03,93.75,15.62,6.25,21.88,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4e922959ae96,32,32,4.0,-15.03,84.38,15.62,12.5,31.25,63.12,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dbc22125167c,32,32,3.56,-13.91,81.25,15.62,12.5,18.75,56.25,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+855668e0971d,32,32,4.0,-10.81,81.25,6.25,9.38,15.62,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4c2b230173bb,31,31,4.06,-10.0,83.87,6.45,12.9,6.45,52.9,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c826c40d7b19,30,30,4.0,-9.83,83.33,3.33,6.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+92eb0f42c219,30,29,3.57,-9.13,80.0,13.33,13.33,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+06a2c3af7b3a,30,29,3.73,-8.93,80.0,16.67,13.33,16.67,54.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8581055ce74a,29,29,4.62,-11.03,96.55,6.9,3.45,24.14,67.59,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+53e4c6e0f431,29,27,3.72,-13.14,72.41,6.9,24.14,3.45,44.83,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+218d46b86c18,28,28,3.79,-8.86,82.14,14.29,17.86,10.71,53.57,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8160255418d5,28,26,2.79,-3.43,53.57,17.86,35.71,21.43,40.71,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+46dc3b2cc098,27,26,4.48,-8.74,96.3,7.41,0.0,29.63,69.63,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+9f505651f4a6,27,27,4.22,-10.19,88.89,11.11,0.0,14.81,59.26,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1835b56ce799,27,27,3.89,-10.85,85.19,14.81,11.11,14.81,57.04,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fa40cc5b9345,26,25,4.65,-13.77,100.0,7.69,0.0,26.92,70.77,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c70c1b0d8ca8,26,25,4.42,-7.85,88.46,7.69,7.69,15.38,59.23,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+53243585a1d6,26,26,4.08,-12.46,88.46,15.38,11.54,7.69,56.15,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b2ba3715d723,26,25,3.88,-8.54,80.77,15.38,11.54,15.38,54.62,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c3867b4666c7,25,24,4.0,-7.56,76.0,4.0,16.0,28.0,56.8,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+77530e9772f5,25,25,3.96,-8.68,76.0,8.0,12.0,12.0,50.4,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+562fc2f2c286,24,22,4.58,-13.67,95.83,4.17,4.17,20.83,65.83,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a3a38f4affed,24,23,4.38,-14.54,91.67,12.5,8.33,12.5,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+37be5a7c7511,24,24,4.33,-13.58,87.5,4.17,8.33,12.5,57.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7142540dd4c9,23,23,3.74,-11.96,78.26,13.04,4.35,17.39,53.91,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0ea22c1cfbdc,22,22,4.41,-18.0,90.91,0.0,9.09,22.73,63.64,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ef506c96320a,22,21,4.14,-11.91,90.91,13.64,4.55,13.64,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+897060da8b9a,22,22,3.95,-11.36,81.82,9.09,13.64,18.18,56.36,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e9bc59e7b60f,21,21,4.24,-14.1,85.71,0.0,14.29,28.57,62.86,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+16090f2ca825,21,19,3.76,-7.05,90.48,14.29,4.76,14.29,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+001cca7ae9ae,21,20,3.38,-13.67,76.19,19.05,23.81,33.33,59.05,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c3cfdc648177,20,20,4.8,-14.9,100.0,0.0,0.0,15.0,66.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7ddcbb64b5bc,20,20,3.5,-7.85,80.0,30.0,15.0,10.0,52.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+86ccac0b8350,20,19,4.0,-13.85,80.0,25.0,15.0,10.0,52.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5dceca129747,20,20,3.6,-11.65,70.0,5.0,20.0,10.0,46.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dc4a0fc896dc,20,20,3.4,-11.55,70.0,10.0,30.0,10.0,46.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+88460e8ebdec,20,20,3.35,-7.25,65.0,20.0,25.0,0.0,39.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7178f9f4dd81,19,18,4.74,-22.74,100.0,5.26,0.0,36.84,74.74,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6edacfd9f907,19,19,4.42,-9.95,89.47,5.26,10.53,15.79,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0bae85eb84b9,19,19,4.05,-15.53,78.95,0.0,21.05,21.05,55.79,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ca3bd7cd9f14,18,18,4.28,-12.56,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7299e27ed73d,18,18,4.39,-13.28,100.0,22.22,0.0,22.22,68.89,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0241d4d5d36f,18,17,4.44,-9.39,88.89,0.0,11.11,33.33,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+634964b17796,18,17,4.39,-11.44,88.89,11.11,5.56,22.22,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4830e4064073,18,17,4.0,-12.17,77.78,11.11,22.22,16.67,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e5a3438891c0,18,18,3.67,-9.11,72.22,11.11,22.22,16.67,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+edb1ef5e36e0,17,17,4.53,-16.71,94.12,11.76,5.88,17.65,63.53,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1c68394e931a,17,17,4.29,-17.35,88.24,0.0,0.0,17.65,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+de722cd6dad9,17,17,4.35,-14.59,88.24,5.88,5.88,17.65,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f7ba60f8c3f9,17,17,3.94,-13.47,82.35,11.76,5.88,11.76,54.12,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8d956fec2e43,17,17,3.35,-7.88,70.59,35.29,29.41,17.65,49.41,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+213b25e6f546,17,17,3.41,-13.18,64.71,23.53,23.53,23.53,48.24,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2c9e548be185,17,17,3.12,-5.18,52.94,17.65,23.53,11.76,36.47,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+520b493b5780,16,16,4.94,-14.0,100.0,0.0,0.0,31.25,72.5,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5cf13accae32,16,16,4.19,-16.62,87.5,6.25,12.5,37.5,67.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5656537e5888,16,15,4.56,-12.31,93.75,0.0,6.25,25.0,66.25,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0dd184061fb0,16,16,4.19,-8.44,93.75,12.5,6.25,18.75,63.75,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+729f06993dac,16,16,4.25,-8.88,87.5,6.25,6.25,18.75,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7e93a43ef30c,16,16,4.38,-13.0,87.5,12.5,12.5,18.75,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f457c46070d0,16,15,4.0,-9.19,81.25,12.5,18.75,18.75,56.25,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fe2032dab1a6,16,16,4.19,-10.75,81.25,12.5,18.75,0.0,48.75,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2eb70248d66e,16,16,2.69,-8.0,50.0,12.5,31.25,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ccc4bbb5f32a,15,13,4.67,-19.73,100.0,0.0,0.0,46.67,78.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b76dba6c951a,15,15,4.53,-21.67,100.0,0.0,0.0,26.67,70.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+640e21a7d01d,15,15,4.0,-10.27,93.33,26.67,6.67,26.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+17e34d8224d2,15,15,4.47,-9.27,100.0,6.67,0.0,6.67,62.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c003204e1ab0,15,15,4.4,-10.27,93.33,0.0,6.67,6.67,58.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+79ebd9a61bac,15,15,3.53,-10.13,73.33,6.67,13.33,33.33,57.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cbd996ad3c1b,15,15,3.8,-4.6,80.0,13.33,13.33,13.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2528513dd952,15,15,3.73,-10.27,73.33,13.33,20.0,13.33,49.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a3e9a2c70048,15,15,3.53,-8.87,66.67,6.67,20.0,13.33,45.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0be8ff43f22e,15,12,3.27,-9.8,53.33,13.33,40.0,13.33,37.33,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+37515688008a,14,14,4.21,-7.43,92.86,14.29,0.0,42.86,72.86,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a416b6a846a1,14,14,4.14,-6.43,85.71,7.14,14.29,42.86,68.57,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d98eec89afa3,14,14,4.43,-24.57,100.0,14.29,0.0,21.43,68.57,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+850f4f8af5ea,14,14,4.36,-14.36,92.86,7.14,7.14,14.29,61.43,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+41b39e28db00,14,14,4.29,-17.86,85.71,0.0,14.29,21.43,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7e3f87d16fb3,14,13,3.86,-12.64,85.71,14.29,14.29,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+813348c99646,14,14,3.93,-12.5,85.71,14.29,7.14,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+95e03ca3d414,14,14,4.29,-16.5,85.71,14.29,14.29,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7ad32824caee,14,14,3.5,-4.79,78.57,21.43,14.29,7.14,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b33e7c55446e,14,14,3.93,-14.21,71.43,0.0,14.29,7.14,45.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6d66611d7c44,14,14,3.21,-7.29,64.29,14.29,28.57,7.14,41.43,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c33847515fa6,14,14,2.57,-16.07,42.86,35.71,57.14,0.0,25.71,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+e5a38146df06,13,12,4.62,-12.38,100.0,0.0,0.0,38.46,75.38,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2a84855fd20a,13,13,4.85,-13.23,100.0,0.0,0.0,30.77,72.31,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f45122a9ab94,13,13,4.69,-11.23,100.0,0.0,0.0,23.08,69.23,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1a3df491d1c4,13,12,4.23,-13.0,100.0,7.69,0.0,15.38,66.15,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+70a12e78e608,13,13,4.08,-8.92,92.31,7.69,7.69,15.38,61.54,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7aa4334be125,13,13,4.0,-5.62,76.92,15.38,15.38,30.77,58.46,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1554a6853018,13,13,4.0,-14.46,76.92,0.0,7.69,15.38,52.31,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+01fdefa7697d,13,13,3.54,-12.0,84.62,15.38,7.69,0.0,50.77,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7008613ea464,13,13,3.92,-10.77,76.92,7.69,23.08,7.69,49.23,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+75d34ebb1bd0,13,13,3.92,-21.69,69.23,7.69,30.77,15.38,47.69,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e26901d5ab43,12,12,4.5,-10.75,100.0,0.0,0.0,41.67,76.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+259f7b5e6e48,12,12,5.0,-14.33,100.0,0.0,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+17a053fcb14b,12,12,4.5,-12.0,91.67,0.0,8.33,25.0,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+aafe36600ce6,12,12,4.33,-13.67,83.33,8.33,16.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0b90b6df587e,12,12,4.33,-16.83,91.67,8.33,8.33,16.67,61.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7e1fb0a3ebfb,12,12,4.25,-12.0,91.67,0.0,8.33,8.33,58.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+537eb890efff,12,12,3.42,-14.25,83.33,33.33,8.33,16.67,56.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7d76b645482b,12,12,3.92,-9.33,83.33,8.33,16.67,16.67,56.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d1c281d3ae14,12,12,3.92,-10.42,83.33,0.0,8.33,16.67,56.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1e8b33f18b4f,12,12,4.08,-12.25,83.33,16.67,16.67,8.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a673821011d0,12,12,3.67,-14.33,75.0,33.33,25.0,8.33,48.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+00fc707aaaad,11,11,4.55,-12.18,100.0,9.09,0.0,45.45,78.18,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+cab85505710c,11,10,4.64,-16.64,90.91,0.0,0.0,36.36,69.09,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5f1dc28029d2,11,11,4.82,-19.45,100.0,9.09,0.0,9.09,63.64,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+59fb871bf6f4,11,11,4.45,-13.91,90.91,0.0,0.0,18.18,61.82,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+36a968b54469,11,11,3.91,-10.0,81.82,9.09,18.18,18.18,56.36,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cfb1a0337436,11,11,3.55,-9.91,72.73,18.18,18.18,0.0,43.64,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cd68562d3f44,11,11,3.0,3.0,54.55,9.09,27.27,9.09,36.36,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e9d99831abad,10,10,4.4,-9.5,100.0,0.0,0.0,60.0,84.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+669ae81880e0,10,9,5.0,-12.7,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+12b9676b00f6,10,10,4.4,-23.3,90.0,0.0,0.0,30.0,66.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+48436dade18a,10,10,4.0,-11.6,90.0,10.0,10.0,30.0,66.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+004c9cd9d87a,10,9,4.7,-11.8,100.0,0.0,0.0,10.0,64.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0c8380b62e38,10,10,4.3,-12.7,90.0,10.0,10.0,20.0,62.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1c129092bf23,10,10,4.5,-12.1,90.0,0.0,10.0,20.0,62.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+25c5c91f6360,10,10,4.2,-12.6,90.0,10.0,10.0,20.0,62.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ac3508719a1d,10,10,4.6,-13.4,90.0,20.0,10.0,20.0,62.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+de23c3b98a88,10,10,4.3,-8.2,90.0,0.0,10.0,20.0,62.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8b28d0966340,10,10,3.9,-8.0,80.0,10.0,20.0,30.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+95f83f51203c,10,9,3.9,-12.6,80.0,20.0,20.0,30.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+db4350fd57ae,10,10,4.4,-13.1,90.0,0.0,10.0,10.0,58.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5a8e7d5003a1,10,10,3.8,-12.9,80.0,10.0,10.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b4ffb71f0cb1,10,10,4.0,-14.8,80.0,10.0,20.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6b243f80ed07,10,10,3.9,-12.0,80.0,20.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b1fc4f64df5a,10,10,4.0,-12.3,80.0,10.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b14db04aa788,10,10,3.2,-6.6,70.0,30.0,30.0,10.0,46.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+891071be6ba8,10,10,3.5,-6.9,70.0,10.0,30.0,0.0,42.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+98dac6635aee,10,10,3.8,-14.8,70.0,10.0,20.0,0.0,42.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5343d0649eca,10,10,3.6,-11.3,60.0,10.0,30.0,0.0,36.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+18a349e75d30,10,10,2.3,-13.2,30.0,10.0,40.0,10.0,22.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+516e7738bd8f,9,9,4.78,-19.89,100.0,0.0,0.0,55.56,82.22,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+00ee68308b45,9,9,4.44,-5.67,100.0,11.11,0.0,22.22,68.89,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7ea5bfa6c340,9,9,4.11,-13.67,100.0,0.0,0.0,22.22,68.89,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ceaec5548eef,9,9,4.67,-15.11,100.0,0.0,0.0,22.22,68.89,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+dbb9b48c841a,9,9,4.33,-12.67,100.0,11.11,0.0,22.22,68.89,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f3da5b2ff499,9,9,4.22,-11.56,100.0,11.11,0.0,22.22,68.89,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+289cdb325fb7,9,9,4.44,-12.78,88.89,11.11,11.11,33.33,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+76d5af76d027,9,9,4.44,-12.89,88.89,0.0,11.11,33.33,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+82e0a475a88c,9,9,4.44,-8.56,88.89,0.0,11.11,33.33,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+643214e62b87,9,9,4.56,-13.11,100.0,0.0,0.0,11.11,64.44,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2e1c9f22be26,9,9,4.22,-11.67,88.89,0.0,11.11,22.22,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8648b1e89e9b,9,9,4.56,-13.0,88.89,0.0,11.11,22.22,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ad781527c93d,9,8,3.44,-7.11,66.67,0.0,33.33,55.56,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ececbfcff980,9,9,4.22,-7.67,88.89,11.11,11.11,22.22,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f84fa566034f,9,9,4.22,-6.78,88.89,11.11,11.11,22.22,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fd386aa7bed2,9,9,4.67,-11.22,88.89,11.11,0.0,22.22,62.22,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0509040ea3fe,9,9,4.44,-9.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+080102cd0a76,9,9,3.78,-7.33,77.78,22.22,22.22,33.33,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6cd68b3ed6d5,9,9,4.44,-15.22,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f5a590cf3625,9,9,4.67,-15.22,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+17ca9b9e9b9e,9,9,4.11,-9.89,88.89,22.22,0.0,11.11,57.78,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+33a6f4b1e7cd,9,8,4.44,-12.56,88.89,22.22,11.11,11.11,57.78,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+229c3efbfb0e,9,9,4.22,-18.44,88.89,22.22,11.11,0.0,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+827f8f69dfa5,9,9,4.33,-9.89,77.78,0.0,11.11,11.11,51.11,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ede0c0364559,9,9,3.89,-11.22,77.78,11.11,22.22,11.11,51.11,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fc906263ca50,9,9,3.89,-14.78,66.67,11.11,33.33,22.22,48.89,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7040e82f899a,9,9,3.56,-10.89,66.67,11.11,33.33,11.11,44.44,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b499c00f28f4,9,9,3.22,-9.0,66.67,22.22,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b2479f944e1b,9,9,2.89,-5.0,55.56,33.33,33.33,11.11,37.78,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2a261b5b644f,9,9,2.22,-3.11,33.33,11.11,44.44,0.0,20.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+65a7c0788e4d,8,8,5.0,-6.0,100.0,0.0,0.0,62.5,85.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b6d44737c043,8,8,4.62,-13.62,100.0,0.0,0.0,37.5,75.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f80edd2c5aaa,8,8,4.62,-12.38,100.0,0.0,0.0,37.5,75.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f4aba7c0bca5,8,8,4.62,-12.75,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+44073f8b7e41,8,8,3.38,-21.12,87.5,25.0,12.5,37.5,67.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8c16d1f32a54,8,8,4.38,-15.38,87.5,12.5,12.5,37.5,67.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0432ead42b6c,8,8,4.75,-14.62,100.0,12.5,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+08633c14ef2d,8,8,4.5,-11.88,100.0,0.0,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1127b7f25946,8,8,4.5,-10.12,100.0,12.5,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4371b634e0ef,8,8,4.88,-9.12,100.0,12.5,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+54a1852d1b8f,8,8,5.0,-16.5,100.0,0.0,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+612170e34b97,8,8,4.75,-20.5,100.0,0.0,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9de4643a8dbd,8,8,4.88,-12.88,100.0,0.0,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c9aafcd0621b,8,8,4.5,-17.38,100.0,0.0,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ef0ace09169a,8,8,4.75,-14.88,100.0,0.0,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f262cbc1c910,8,8,4.5,-10.75,100.0,12.5,0.0,12.5,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+70eea00b476a,8,8,4.12,-10.62,87.5,12.5,12.5,25.0,62.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2e90cb1677d3,8,8,4.62,-10.25,100.0,12.5,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b925e1d006e,8,8,4.75,-12.12,100.0,12.5,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+709e16e2b25c,8,8,3.62,-13.75,100.0,25.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+725c32fa80c2,8,8,4.88,-15.38,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+80e6699fe291,8,7,4.0,-22.75,75.0,0.0,12.5,37.5,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d94a40fd4235,8,8,3.88,-14.75,75.0,0.0,12.5,37.5,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+06e5eefc71ec,8,8,3.88,-14.75,87.5,25.0,0.0,12.5,57.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0df3984f9dfb,8,8,4.38,-17.62,87.5,0.0,12.5,12.5,57.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6a8b085f816a,8,8,4.5,-16.5,87.5,12.5,12.5,12.5,57.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+eeb6de78f791,8,8,4.38,-13.0,87.5,0.0,12.5,12.5,57.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+59b22a78efb7,8,8,4.0,-12.88,75.0,0.0,12.5,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bfd27a966d91,8,8,3.75,-13.62,75.0,0.0,0.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3c7c4a49ec3c,8,8,4.12,-9.25,75.0,0.0,25.0,12.5,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+972d0f9cf61b,8,8,3.62,-15.88,75.0,0.0,25.0,12.5,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ce27a3cc3c8c,8,8,3.75,-10.88,75.0,0.0,25.0,12.5,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7722b1df1b0e,8,8,3.62,-14.0,75.0,0.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8e6cc767478e,8,8,4.0,-15.5,75.0,0.0,12.5,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+973f21788dfa,8,8,2.5,-25.88,75.0,62.5,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9b013e03b2ab,8,8,4.0,-14.0,75.0,0.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bd0389da23d8,8,8,3.62,-11.38,75.0,12.5,12.5,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+522620dcb18a,8,8,3.12,-12.88,62.5,12.5,25.0,12.5,42.5,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+701938c45070,8,8,2.62,-16.38,37.5,12.5,37.5,0.0,22.5,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+dee656f0f566,7,7,4.86,-12.71,100.0,0.0,0.0,57.14,82.86,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+42b729f85972,7,7,5.0,-6.57,100.0,14.29,0.0,42.86,77.14,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+9d4db00d65d7,7,7,4.71,-11.14,100.0,0.0,0.0,42.86,77.14,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7b07b3c7487f,7,7,4.43,-11.29,85.71,0.0,14.29,57.14,74.29,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2ff97219cb86,7,7,4.71,-11.14,100.0,14.29,0.0,28.57,71.43,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+66922902710d,7,7,4.86,-15.43,100.0,0.0,0.0,28.57,71.43,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c8b0e2b0a709,7,7,4.43,-7.57,100.0,14.29,0.0,28.57,71.43,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d20b021d3efd,7,7,4.43,-10.29,100.0,0.0,0.0,28.57,71.43,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3be634553519,7,7,4.0,-11.29,85.71,0.0,14.29,42.86,68.57,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+822166ed1e47,7,7,4.29,-14.14,85.71,0.0,14.29,42.86,68.57,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+bccf933e006e,7,7,4.29,-14.57,85.71,14.29,14.29,42.86,68.57,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2b3e4a2a3ea8,7,7,4.71,-13.29,100.0,0.0,0.0,14.29,65.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6df688df543f,7,7,4.43,-17.14,100.0,28.57,0.0,14.29,65.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+834f8533b2ec,7,7,4.29,-8.14,100.0,28.57,0.0,14.29,65.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+91f848e9f4be,7,7,4.43,-12.57,100.0,14.29,0.0,14.29,65.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a7f13822ceb9,7,7,4.86,-12.57,100.0,0.0,0.0,14.29,65.71,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4e17c65a516f,7,6,4.43,-15.71,85.71,0.0,14.29,28.57,62.86,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+530ec6109d11,7,7,4.29,-12.86,85.71,0.0,14.29,28.57,62.86,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+744dac408745,7,7,4.0,-16.86,85.71,0.0,0.0,28.57,62.86,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e8b3a3a38279,7,7,4.29,-21.0,85.71,0.0,0.0,28.57,62.86,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+715bbd5ba4e6,7,7,4.71,-15.86,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9616352088dc,7,7,3.71,-17.0,71.43,0.0,14.29,42.86,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dbd66278cbfe,7,7,4.71,-7.86,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1d8dbc4f3237,7,6,4.14,-5.86,85.71,28.57,14.29,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+382229d1e840,7,7,4.29,-12.71,85.71,0.0,14.29,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6039e27294dc,7,7,4.14,-7.57,85.71,0.0,0.0,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+76d64c4aca3a,7,7,3.71,-14.57,85.71,14.29,0.0,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c31eff8334d6,7,7,3.71,-7.0,85.71,28.57,14.29,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dd7ddc04e1b6,7,7,4.0,-8.29,85.71,28.57,14.29,14.29,57.14,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3b15288545f8,7,7,3.0,-6.0,71.43,42.86,28.57,28.57,54.29,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8f2ce03f928b,7,7,3.29,-12.86,71.43,0.0,14.29,28.57,54.29,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4e06067cc08b,7,7,4.57,-32.86,85.71,0.0,14.29,0.0,51.43,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0adac9fbd9a2,7,7,3.29,-11.0,71.43,28.57,28.57,14.29,48.57,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+431af27f296b,7,7,3.57,-1.57,71.43,14.29,28.57,14.29,48.57,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8444e55c1f13,7,7,3.14,-17.57,71.43,28.57,28.57,14.29,48.57,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9674754b5a0c,7,7,3.86,-9.71,71.43,14.29,14.29,14.29,48.57,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fdb9095204a3,7,7,3.57,-3.43,71.43,0.0,0.0,14.29,48.57,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0db783cfcd3b,7,7,3.86,-3.71,71.43,14.29,28.57,0.0,42.86,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+751bdc4d83a4,7,7,2.71,-7.14,42.86,0.0,14.29,14.29,31.43,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+903037660cf8,7,7,2.71,0.29,42.86,14.29,57.14,14.29,31.43,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+c8417879a153,7,7,2.0,-4.0,28.57,28.57,42.86,28.57,28.57,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4b9750c8ad28,6,6,4.17,-11.17,100.0,16.67,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+08d2d642cf72,6,6,4.67,-11.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+165fc07beebd,6,6,4.5,-12.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+31344c16881c,6,6,4.83,-16.0,100.0,16.67,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+318f287a62ab,6,6,4.33,-8.67,100.0,16.67,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3504c0cb71d7,6,6,4.5,-8.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5b85809efd0d,6,6,4.5,-19.83,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+670c26e0f1bf,6,6,4.67,-15.17,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8a432f4e5b47,6,6,4.33,-14.33,100.0,16.67,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8e6d7754bc7e,6,6,4.17,-10.17,100.0,16.67,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b372ee768ed6,6,6,4.0,-12.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ba143b05f011,6,6,4.5,-9.5,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c458e2045a8a,6,6,4.17,-20.83,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f7ccf836d21b,6,5,4.0,-4.83,83.33,0.0,16.67,50.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1771297ac436,6,6,4.83,-19.33,100.0,0.0,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2e13c71026e1,6,6,4.5,-16.5,100.0,16.67,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9c0e69c7bf26,6,6,4.5,-8.83,100.0,0.0,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d12c926d74ce,6,6,4.83,-16.0,100.0,0.0,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dfa0c4c6229a,6,6,4.83,-16.0,100.0,0.0,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+efcd8d2104f1,6,6,4.17,-11.17,100.0,16.67,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ff063b022a9a,6,6,4.67,-12.17,100.0,16.67,0.0,16.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+817245bcc3ba,6,6,4.33,-16.5,83.33,0.0,16.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8b9d6eec4a7e,6,6,3.83,-21.17,83.33,0.0,16.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cac4c8e7b1ca,6,6,3.83,-12.33,83.33,16.67,16.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d673a59aac7a,6,6,4.0,-17.83,83.33,0.0,0.0,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d921b68bf747,6,6,4.33,-18.83,83.33,16.67,16.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e333046ce651,6,6,4.33,-12.5,83.33,0.0,16.67,33.33,63.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+02c988090b76,6,6,5.0,-9.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+116ccb1a1604,6,6,5.0,-12.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+50c997569500,6,6,4.33,-13.83,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+527801b552d0,6,6,4.5,-12.17,100.0,16.67,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+81f89e422672,6,6,4.33,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dd2bdf855a91,6,6,4.33,-27.0,100.0,16.67,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+06579cb253ec,6,6,4.0,-11.5,83.33,0.0,16.67,16.67,56.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7dc8c42cc750,6,6,4.17,-11.67,83.33,0.0,0.0,16.67,56.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+db2956745b3a,6,6,3.83,-12.17,83.33,16.67,0.0,16.67,56.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+582d4f8675b9,6,6,3.67,-12.5,66.67,0.0,33.33,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b17b679f4f5c,6,6,3.67,-7.67,66.67,16.67,33.33,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+376a891762bb,6,6,4.33,-17.5,83.33,0.0,16.67,0.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+45d33f715e24,6,6,4.33,-9.67,83.33,16.67,16.67,0.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+58f1a6197ed8,6,6,3.83,-9.33,83.33,16.67,16.67,0.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bd23da735481,6,6,4.17,-9.0,83.33,0.0,16.67,0.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+432c37c9dfba,6,6,3.5,-6.17,66.67,16.67,33.33,16.67,46.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8a32e327fe2c,6,6,2.83,-15.0,50.0,33.33,50.0,33.33,43.33,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+04308b1ee57b,6,6,3.5,-8.83,66.67,16.67,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+23613d49c3ac,6,6,3.83,-10.5,66.67,16.67,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+54965bbe3e4f,6,6,2.83,-9.83,66.67,33.33,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0176f73cc119,6,6,3.33,-8.33,50.0,16.67,50.0,16.67,36.67,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+05d2173d43ea,6,6,3.0,-12.5,50.0,16.67,33.33,16.67,36.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b56192780764,6,5,3.17,3.83,50.0,50.0,50.0,16.67,36.67,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+48162d548f5b,6,6,2.0,-12.0,33.33,16.67,33.33,0.0,20.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c847e0753018,5,5,4.2,-17.6,100.0,0.0,0.0,60.0,84.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1f9ab4708f30,5,5,4.2,-16.8,100.0,20.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+25e6ffe976bd,5,5,4.4,-13.2,100.0,20.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2dee2ce60de9,5,5,4.6,-15.4,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3586b8580d9c,5,5,4.8,-24.6,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+718539d38d07,5,5,4.8,-12.4,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+82cb9f452fe8,5,5,4.2,-26.0,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c9c7905cffc4,5,5,4.6,-11.0,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+dc317f341ab0,5,5,4.6,-19.8,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f0b47fbbc6de,5,5,4.8,-13.0,100.0,0.0,0.0,40.0,76.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0c7533c71df8,5,5,4.6,-11.0,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1bb2bdb95f48,5,5,4.8,-19.6,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+30a2f535bb48,5,5,5.0,-14.8,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+33a17d60c643,5,5,4.2,-20.8,100.0,40.0,0.0,20.0,68.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+34056b8b55c1,5,5,3.8,-13.4,100.0,20.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+39d54ff91877,5,5,4.8,-15.2,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3f995f07c49d,5,5,4.2,-7.2,100.0,20.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5b8154610ebb,5,5,4.2,-1.0,100.0,40.0,0.0,20.0,68.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+6860153b69cc,5,5,4.6,-9.8,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6b3bd31ad8fc,5,5,4.8,-12.2,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+93b9a99027bd,5,5,4.8,-18.0,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+94e93ce877be,5,5,4.4,-11.4,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+aba1721a889e,5,5,4.6,-9.4,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+aced59e9b31e,5,5,5.0,-14.8,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ad420dd0c4f9,5,5,4.0,-22.8,100.0,40.0,0.0,20.0,68.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+e59aa562b9f8,5,5,4.2,-7.4,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f3b80352b986,5,5,4.6,-16.8,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f680f85bee2d,5,5,4.6,-19.8,100.0,0.0,0.0,20.0,68.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+11bfa6633277,5,5,4.4,-6.8,80.0,20.0,20.0,40.0,64.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+17f51e719870,5,5,3.8,-7.6,80.0,0.0,20.0,40.0,64.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+440dd6ab2443,5,5,3.8,-6.2,80.0,0.0,20.0,40.0,64.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7202e2ba2057,5,5,4.4,-8.0,80.0,0.0,20.0,40.0,64.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+066a6914e1eb,5,5,4.0,-18.6,100.0,20.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+25cf099de446,5,5,4.8,-14.8,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+406822777a0b,5,5,5.0,-20.2,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9e6229250fed,5,5,4.0,-17.4,100.0,20.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e7d5b006eb62,5,5,5.0,-17.4,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+eb5b6204dde3,5,5,3.8,-7.2,100.0,40.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+fffd5413c070,5,5,4.6,-7.6,100.0,20.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+04e38a233f72,5,5,3.8,-6.8,80.0,20.0,0.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+575df70bde3f,5,5,4.2,-27.4,80.0,0.0,20.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+900ba814c251,5,5,3.6,-6.8,80.0,0.0,0.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+99eaacc9e604,5,4,3.4,-5.4,80.0,20.0,20.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b56906f7fd16,5,5,4.0,-19.2,80.0,0.0,0.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ce7d1888639e,5,5,4.2,-16.0,80.0,0.0,0.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e882b2a25a10,5,5,4.2,-17.8,80.0,0.0,0.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+febab0275244,5,5,3.6,-5.2,80.0,20.0,0.0,20.0,56.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5f2684dab12e,5,4,3.2,-8.6,60.0,0.0,20.0,40.0,52.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d05ae8f7a5bd,5,5,3.0,-12.8,60.0,0.0,40.0,40.0,52.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+1eade46fba20,5,5,4.0,-4.2,80.0,0.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3db66a856d18,5,5,3.6,-15.4,80.0,0.0,0.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6338ea67c410,5,5,3.8,-14.0,80.0,20.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6c7d50c24b3c,5,5,3.8,-9.0,80.0,0.0,0.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+abe42c5d0369,5,5,3.6,-10.8,80.0,60.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+adbc26658d6c,5,5,3.6,-9.8,80.0,20.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cd06602b43d8,5,5,3.8,-10.8,80.0,20.0,0.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d6b1ce66b035,5,5,3.8,-7.2,80.0,20.0,0.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f7720c4fa8e3,5,5,3.6,-12.0,80.0,40.0,20.0,0.0,48.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+138dbe45fc62,5,5,2.8,-15.6,60.0,60.0,40.0,20.0,44.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+bbad7e518d7a,5,5,3.4,-1.0,60.0,20.0,0.0,20.0,44.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+712e6ed8aa4a,5,5,3.2,10.4,60.0,20.0,40.0,0.0,36.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+a420f60ff1aa,5,5,3.2,-11.8,60.0,20.0,20.0,0.0,36.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4200ddf1967c,5,5,3.2,-8.4,40.0,20.0,60.0,20.0,32.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+6973a06f484a,5,5,2.6,-7.0,40.0,20.0,20.0,20.0,32.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4992e76a42cb,5,5,2.6,-14.8,40.0,0.0,20.0,0.0,24.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0885aaf11679,4,4,4.25,-6.25,100.0,0.0,0.0,75.0,90.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+056b4ada5bbc,4,4,4.5,-13.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+080199a181c4,4,4,4.75,-10.75,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4c498c7345e8,4,3,4.75,-11.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6481e9657481,4,4,4.75,-14.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+808d4348b916,4,4,5.0,-10.25,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a08692680c77,4,4,5.0,-1.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a36b125ac6d5,4,4,5.0,-9.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c6bda72e4dbf,4,4,4.0,-14.75,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c8b3445d737d,4,4,5.0,-14.75,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d51e0a403fe2,4,4,4.0,-8.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+977f9f63dd36,4,4,3.75,-13.75,75.0,0.0,25.0,75.0,75.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+002100f778ce,4,4,5.0,-4.25,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+05ff92fedb5b,4,4,4.75,-17.75,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+09f952a5f58d,4,4,4.0,-12.25,100.0,25.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0afccdb8a34e,4,4,4.75,-12.75,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+26d8a1c7c75d,4,4,4.75,-11.25,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+31561f325664,4,4,5.0,-7.75,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3bdff180c7e1,4,4,4.5,-11.5,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+43f8c9950d11,4,4,5.0,-13.75,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+57e632711dec,4,4,4.5,-15.5,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+71039d19d430,4,4,4.25,-9.5,100.0,25.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+83e197e95a1b,4,4,4.5,-12.25,100.0,25.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8ae520247981,4,4,5.0,-15.0,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8bb48dc19fcc,4,4,4.5,-19.25,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+abcd2cb37d46,4,4,4.75,-15.75,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c66dccfb3f10,4,4,5.0,-19.0,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e48b04bf1aa1,4,4,4.75,-13.25,100.0,0.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f12ff17ad8bb,4,4,4.5,-20.0,100.0,25.0,0.0,25.0,70.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5b67882648fe,4,4,4.0,-9.0,75.0,0.0,25.0,50.0,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6ec1a01e8665,4,4,4.0,-4.0,75.0,0.0,25.0,50.0,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e96498ed8daa,4,4,4.0,-3.5,75.0,0.0,25.0,50.0,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fde0cc9ea29c,4,4,4.25,-15.0,75.0,0.0,0.0,50.0,65.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+062ce95fa2ad,4,4,4.5,-11.75,100.0,25.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+06df0c10d34e,4,4,5.0,-19.75,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1da366cade6d,4,4,4.75,-7.75,100.0,25.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+23c38debaffe,4,4,4.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+282f23a9769b,4,4,4.5,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+343e716476e3,4,4,5.0,-23.25,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+55a5b51f93f2,4,4,4.5,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5c243662ce92,4,4,4.0,-16.25,100.0,25.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+659e8466eb3f,4,4,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6d22a1fcebb6,4,4,4.5,-10.5,100.0,25.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7f7b8245c336,4,4,4.5,-8.25,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+81a1104df0f0,4,4,4.0,-17.75,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8a130737016f,4,4,4.75,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b8bc237ba378,4,4,5.0,-14.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bc47d5d1490d,4,4,4.0,-11.25,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bf3c6d2a28b2,4,4,3.75,-13.0,100.0,25.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c8660dcf9ba7,4,4,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cb8bcce248bb,4,4,4.75,-12.75,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cce6ab8d1682,4,4,5.0,-11.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d3f39f05462b,4,4,4.75,-12.25,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d50d79cb34e3,4,4,3.75,-10.75,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+f00e21b1e91a,4,4,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f52c24229044,4,4,4.25,-10.25,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f67efa3f0b67,4,4,4.75,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fa1a9dec3a99,4,4,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+01cf7e3d2149,4,4,3.75,-8.0,75.0,0.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+058fd0aa2bfd,4,4,3.75,-12.25,75.0,0.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1b4c3a6f5306,4,4,3.75,-11.5,75.0,25.0,0.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1d4587203296,4,4,4.0,-16.75,75.0,0.0,0.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3092c0b297aa,4,4,3.0,-23.5,75.0,25.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+609e1a9a6c25,4,4,4.0,-17.0,75.0,25.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+624f4ece8da4,4,4,4.0,-10.25,75.0,0.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9646c3513289,4,4,3.75,-11.75,75.0,0.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b32be1695eb7,4,4,3.5,-16.5,75.0,25.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ba90964cff9b,4,4,2.75,-7.25,75.0,50.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d13e50eaa47b,4,4,4.0,-2.5,75.0,0.0,0.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d9a84e1403de,4,4,3.75,-9.0,75.0,0.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e49c26c3edfa,4,4,4.0,-19.5,75.0,0.0,0.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e62b2d6ac105,4,4,4.0,-8.0,75.0,50.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ebd2d60905fb,4,4,2.75,-15.75,75.0,0.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ff69aa92bb6b,4,4,3.5,-9.5,75.0,50.0,25.0,25.0,55.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0ef83d7d83ed,4,4,3.5,-18.75,75.0,25.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+270297ead4c6,4,4,4.0,-11.25,75.0,25.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4c18691b6037,4,4,3.75,-15.0,75.0,0.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4c8b8048e33a,4,4,4.0,3.25,75.0,0.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+52d76513f0c4,4,4,3.75,-13.5,75.0,25.0,0.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b179e9e8cc7,4,4,3.25,-19.25,75.0,50.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6fd52c528dcb,4,4,4.0,-15.0,75.0,0.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8cbac7e12637,4,4,3.75,-12.5,75.0,0.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+94144541854e,4,4,3.75,-13.75,75.0,25.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e24fc9fcd865,4,4,3.5,-10.25,75.0,25.0,25.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+edf96ef93ed5,4,4,3.5,-7.25,75.0,0.0,0.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f27e33c6d29b,4,4,3.75,-18.0,75.0,0.0,0.0,0.0,45.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+56642bcb7990,4,4,3.0,-11.0,50.0,25.0,50.0,25.0,40.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+d5ba419e26d2,4,4,3.0,-2.25,50.0,25.0,25.0,25.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0b35c6345210,4,4,3.0,-6.0,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+5058e8c1e826,4,4,2.5,-14.75,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+fcb5ace8bcc9,4,4,2.0,-13.5,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+dc8798cbf453,4,4,2.25,-10.25,25.0,25.0,50.0,25.0,25.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+d4a5e99e0dd9,4,4,1.0,-15.0,0.0,75.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9baf5cb77970,3,3,4.67,-15.33,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+32b8764b4ef6,3,3,5.0,-16.0,100.0,0.0,0.0,66.67,86.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3ade81dab5a1,3,3,4.67,-15.0,100.0,0.0,0.0,66.67,86.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+688756f717c4,3,3,4.67,-13.33,100.0,0.0,0.0,66.67,86.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+70c27847eca8,3,3,4.67,-6.33,100.0,0.0,0.0,66.67,86.67,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+13074f016982,3,3,4.33,-14.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+13d058e4eeac,3,3,4.33,-8.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1838dd9b8977,3,3,4.67,-7.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+18e694e0e48e,3,3,4.67,-12.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1ca7077d890b,3,3,4.33,-12.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+232a6014e7b1,3,3,4.67,-17.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2745f798279e,3,3,3.67,-15.67,100.0,33.33,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2d518637f531,3,3,5.0,-22.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+30829ded4523,3,3,4.33,-18.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+325f3178fb58,3,3,5.0,-11.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3361277dc30b,3,3,5.0,-17.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+34d1ca11b242,3,3,4.67,-12.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3969863bb8af,3,3,3.33,-5.67,100.0,33.33,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3c03b12bab54,3,3,4.33,-13.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3d8fa2f5b647,3,3,5.0,-6.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5d3bb11474a0,3,3,4.33,-13.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5debea795b07,3,3,5.0,-19.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6b15924333bd,3,2,4.33,-9.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6d803cb79cc3,3,3,4.33,-16.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6e1862e15f33,3,3,5.0,-18.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6f229cc508fc,3,3,5.0,-10.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6f892e20a171,3,3,4.67,-9.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+77e4abfd739a,3,3,5.0,-12.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+78c99c6dff4e,3,3,4.67,-13.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7ecef8194bab,3,3,4.0,-8.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7fc87cc3e89b,3,3,5.0,-16.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+83deb69e889c,3,3,5.0,-13.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+9d5a9018aee5,3,3,5.0,-12.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a3f0b55de503,3,3,5.0,-17.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+aac29b1b9977,3,3,5.0,-12.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b127efdabeff,3,3,5.0,-15.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b2eecf5ea250,3,3,5.0,-15.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b94cc9f10ddc,3,3,5.0,-12.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d566c37fa119,3,3,5.0,-16.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+dd55f1bb7887,3,3,4.33,-7.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+df560393f3a5,3,3,4.0,-30.0,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e63e8bfa530f,3,3,4.67,-13.67,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e70053bf73d1,3,3,4.33,-10.33,100.0,0.0,0.0,33.33,73.33,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f84a00e60c73,3,3,4.0,-10.33,66.67,0.0,0.0,66.67,66.67,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+01c97ebb5cda,3,3,4.0,-8.67,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+02f623a8eb24,3,3,4.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0cbcee27c791,3,3,4.33,-16.0,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0d85bbda9889,3,3,4.67,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1464afc72f69,3,3,4.33,-15.67,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+17306570e772,3,3,3.33,-13.67,100.0,66.67,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+1dfe53470162,3,3,3.67,-11.0,100.0,66.67,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+276677b5d087,3,3,3.67,-8.0,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2a5b78b41cd0,3,3,4.33,-23.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2e1a7d075abe,3,3,5.0,-13.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2f4b0d3b9634,3,3,5.0,-4.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3ab971ce7183,3,3,4.67,-17.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+404e1ba01358,3,3,5.0,-42.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+45213867cefb,3,3,4.67,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5ef131ac7277,3,3,4.67,-9.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6061155addc1,3,3,4.67,-10.33,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+679769a98cfc,3,3,5.0,-11.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6b90f847357d,3,3,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+710e3548e02b,3,3,4.33,-26.33,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+75fbb52eda0c,3,3,4.67,-11.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7ecd59e5e204,3,3,4.67,-27.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+834f3294fba9,3,3,5.0,-4.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+866558b3bcce,3,3,4.33,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8d46553a36e6,3,3,4.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8ed8ea9a57c8,3,3,4.33,-15.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8fdca8e34955,3,3,4.67,-11.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8fff28c4263d,3,3,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+916748bc9931,3,3,4.67,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+95ec4458365c,3,3,4.33,-16.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+994f04b3718c,3,3,4.33,-8.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a369d693961c,3,3,3.0,-18.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+a49928bcdf77,3,3,4.33,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a938325a4b35,3,3,4.33,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b1a81260566c,3,3,5.0,-9.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b839e41795b7,3,3,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cac876b37d3a,3,3,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d1ef48b38bac,3,3,4.67,-5.33,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d4e12e788475,3,3,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d9bd94811c33,3,3,5.0,-3.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ea67327e2448,3,3,4.33,-11.0,100.0,33.33,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f08c008c8a8d,3,3,4.33,23.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f3c38ab65283,3,3,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f46490624488,3,3,5.0,-10.33,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f4a04f7be452,3,3,5.0,-16.67,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+014d9a685fd5,3,3,2.67,-7.67,66.67,33.33,33.33,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+04aba0327915,3,3,4.0,-2.67,66.67,33.33,33.33,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4917cee8d902,3,3,3.67,-6.33,66.67,0.0,0.0,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5670f4db5b62,3,3,3.67,-21.0,66.67,0.0,0.0,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+93dc87703c04,3,3,4.0,-14.67,66.67,0.0,0.0,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+96493fab2fbb,3,3,3.0,-6.33,66.67,33.33,33.33,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c013e57c075a,3,3,4.0,-5.33,66.67,0.0,0.0,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ea566164622c,3,3,3.33,-0.67,66.67,0.0,33.33,33.33,53.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0ffa40d54288,3,3,3.67,-7.67,66.67,33.33,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+14d7985702e7,3,3,3.33,-2.67,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+238fac594e17,3,3,2.67,-3.0,66.67,33.33,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+240b9776d844,3,3,4.0,-12.33,66.67,0.0,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+33ac3e28642a,3,3,3.33,-9.67,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+52f9db5cfb42,3,3,3.33,-17.67,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5abb8ea023c7,3,3,3.67,-6.67,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+610f72e407cd,3,3,3.0,-7.67,66.67,0.0,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7a241947449c,3,3,3.67,-4.33,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9b00ed88b7fd,3,3,3.67,-9.33,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a44fb5a44710,3,3,3.0,-1.33,66.67,33.33,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c273175f7c6c,3,3,3.0,-5.67,66.67,33.33,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d32e3909cfb7,3,3,3.33,-17.67,66.67,0.0,0.0,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d3674f271c91,3,3,3.67,-6.0,66.67,0.0,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ff1fb4c404b2,3,3,3.33,-2.67,66.67,0.0,33.33,0.0,40.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+218f991754f3,3,3,2.33,-11.0,33.33,0.0,0.0,33.33,33.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4a3ccda38b21,3,3,2.33,-13.67,33.33,0.0,66.67,33.33,33.33,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+b335c59ab742,3,3,2.33,-4.0,33.33,0.0,0.0,33.33,33.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d379f449f2a3,3,3,2.0,-3.33,33.33,0.0,66.67,33.33,33.33,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+ed4311e67deb,3,3,2.33,-14.0,33.33,33.33,66.67,33.33,33.33,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+ffeee66ac5d5,3,3,2.33,4.33,33.33,0.0,33.33,33.33,33.33,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+323ce52b5b81,3,3,2.67,7.33,33.33,0.0,33.33,0.0,20.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+966cb4760537,3,3,2.33,-2.67,33.33,33.33,66.67,0.0,20.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+cb6c9f5888a7,3,3,1.67,-13.67,33.33,0.0,66.67,0.0,20.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+082e0bf4cb86,3,3,2.0,-15.67,0.0,66.67,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+37ceb404da20,3,3,1.0,0.0,0.0,0.0,66.67,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+3df020b72d3d,3,3,1.0,-15.33,0.0,66.67,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+40536e7ca18e,3,3,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+52f0fe436a34,3,3,1.0,-14.0,0.0,33.33,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+82bd0703a4ae,3,3,1.0,-35.0,0.0,33.33,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+888faa8bfb0b,3,3,1.0,-15.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+8f78f0903005,3,3,1.0,-9.0,0.0,33.33,66.67,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+02f5837340d7,2,2,5.0,-20.5,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1d503743d252,2,2,5.0,-13.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+41ab63a91b8b,2,2,5.0,-17.5,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4aba391bc3b8,2,2,5.0,-20.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7681ef142fd2,2,2,5.0,-8.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+89ad3263c093,2,2,4.5,-12.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+be8e90981018,2,2,4.5,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+cb3dd9ce6626,2,2,4.5,-10.5,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ec8463980a4e,2,2,5.0,-8.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+02d35243ea2e,2,2,4.5,-10.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+048c27575353,2,2,5.0,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+054694fa03fe,2,2,4.5,-16.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+094ced053e25,2,2,5.0,-20.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0951a6e28294,2,2,5.0,-6.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+09bad8861112,2,2,5.0,-7.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0bb738e4d789,2,2,5.0,0.0,100.0,50.0,0.0,50.0,80.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+0bf0150d5b9d,2,2,4.0,-9.0,100.0,50.0,0.0,50.0,80.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+13dd308f81fe,2,2,5.0,-5.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1caf283236cd,2,2,5.0,-21.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2089a6d64099,2,2,5.0,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+23d7c96d4a11,2,2,5.0,-14.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+252e76235acb,2,2,5.0,-14.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2dcf93836ae3,2,2,4.5,-14.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+33c51922b6e3,2,2,4.5,-17.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+381c83fdca33,2,2,5.0,-25.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+392e0502231a,2,2,4.5,-8.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3c487ae8f8d7,2,2,5.0,-13.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3f3486b61f45,2,2,5.0,-8.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3f9c56764fab,2,2,4.5,-18.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+40d54b51e962,2,2,4.5,-14.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+41c2bad7229b,2,2,4.5,-17.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+42bde9fef835,2,2,4.5,-21.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+42ef3192a9ff,2,2,5.0,-12.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+439a47cc365d,2,2,5.0,-13.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4559697a8f7e,2,2,4.5,-7.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4a1f694197d0,2,2,5.0,-13.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4c03b9dd4c11,2,2,5.0,-16.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4da0e408c99d,2,2,4.5,-21.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4e480be820e3,2,2,5.0,-10.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4eb61f060e7d,2,2,4.0,-17.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5011f0d93373,2,2,4.0,-8.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+508808d438fe,2,2,4.5,-17.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5a425cc503b3,2,2,4.5,-11.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5bc24d989e71,2,2,4.0,-25.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+62c50c1af4df,2,2,5.0,-15.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+65febd49fd28,2,2,5.0,-9.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+66e0557ecc2b,2,2,4.0,-22.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+67883baaae61,2,2,5.0,-8.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+681fce914360,2,2,4.5,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+69a43819c758,2,2,4.0,-23.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6d988d6174a2,2,2,5.0,-13.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+71592660bbcb,2,2,5.0,-12.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+730937bf88cb,2,2,5.0,-7.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+751e27437749,2,2,5.0,-6.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7ade73f1b9b4,2,2,4.5,-8.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7b0df942f464,2,2,4.5,-11.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8603f0038fe0,2,2,5.0,-12.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8629c241b362,2,2,4.5,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8b2492b7ff44,2,2,5.0,-17.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8b2d4ab22f42,2,2,4.0,-1.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8b8cfc8305aa,2,2,4.0,-9.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8e8a7ce9f2f9,2,2,4.0,-18.0,100.0,50.0,0.0,50.0,80.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+9596c870880d,2,2,5.0,-13.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+980640c45d7a,2,2,4.5,-19.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+9add47bf45ce,2,2,5.0,-12.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a5a1bfcf728a,2,2,5.0,-12.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b410bdd36d5d,2,2,5.0,-23.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b4a476fbd28d,2,2,5.0,-7.5,100.0,50.0,0.0,50.0,80.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+b83cedfb587e,2,2,4.5,-9.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b8555308bfdb,2,2,5.0,-8.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+bb5bd94c8f59,2,2,5.0,-17.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+bf84056e679d,2,2,3.5,-10.0,100.0,50.0,0.0,50.0,80.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+c35672b10ad5,2,2,4.5,-7.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c68fb906c8f4,2,2,5.0,-16.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d23019c84ffa,2,2,4.5,-7.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d354c38a7182,2,2,4.0,-6.5,100.0,50.0,0.0,50.0,80.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+e0878efa0e0b,2,2,5.0,-11.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e0a366315b1b,2,2,4.5,-16.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e21a1e8be471,2,2,4.0,-2.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e3d3b3efac95,2,2,4.5,-15.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e5475dcab1e0,2,2,5.0,-17.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e5e33c0d8e7e,2,2,5.0,-23.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e627629ba868,2,2,5.0,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ea65d8b58316,2,2,4.5,-14.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ed4acab38528,2,2,5.0,-16.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ef990a83bbea,2,2,4.0,-15.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f61c63d13f7c,2,2,4.5,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f92d8c817434,2,2,4.0,-14.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+fbc14c0cf935,2,2,4.5,-21.5,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+fcdd820084f1,2,2,5.0,-11.0,100.0,0.0,0.0,50.0,80.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+070d165398b5,2,2,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0ebd97a10643,2,2,5.0,-20.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+14a08204d03b,2,2,4.0,-13.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+15aac934c58d,2,2,4.0,-1.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1b938a7ec6ac,2,2,5.0,-14.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2059c39f7627,2,2,3.5,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2156f2671501,2,2,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+244c2f1bff6a,2,2,4.0,-16.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+28f10b1c5e5a,2,2,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2953ce3a88f5,2,2,4.5,-1.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2a6fbeaa7ab9,2,2,4.5,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2addf05f476d,2,2,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2d2322d84211,2,2,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2d50d6282f8a,2,2,4.0,-11.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+31da954dc085,2,2,4.0,-13.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+33cbbec1e7e1,2,2,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3785b653b1b8,2,2,5.0,-20.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+385799a1cddb,2,2,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+38874e327ce9,2,2,3.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3a1a1fec38dd,2,2,4.0,-6.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+3b872fd4747f,2,2,4.0,-13.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+3c3017960b2d,2,2,5.0,-15.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3c4e0452bff7,2,2,4.5,-16.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3fadb4cba4c3,2,2,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+42fa4ee7240e,2,2,5.0,-14.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+45ba18c210d4,2,2,4.0,-20.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+45c20d94d917,2,2,4.0,-10.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+48efc9d94a98,2,2,5.0,-27.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5160d2307576,2,2,5.0,-13.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+51702dc2a3e1,2,2,4.5,-29.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+51e4e89242cb,2,2,4.0,-22.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+556a64098381,2,2,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+55dedd83e501,2,2,5.0,-12.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+57c764b4a836,2,2,4.5,0.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+5a413ade68e8,2,2,5.0,-2.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5a93f3ab0ef4,2,2,5.0,-26.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b07547f10dd,2,2,4.5,-4.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5c853bb56f70,2,2,4.5,-11.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5d0363b33554,2,2,4.5,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5d9dc90a686a,2,2,4.0,-9.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+5eeb9c756d97,2,2,4.0,-9.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+6426d21aca40,2,2,5.0,-22.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+66dc1b1632bd,2,2,3.5,-30.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+671585f5a2af,2,2,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6989574bd97d,2,2,4.5,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6a51fc556dab,2,2,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6a53b90c3ad9,2,2,3.0,-8.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+6aa3928696ea,2,2,4.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6b803197e03a,2,2,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+70b52a4cfc82,2,2,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+77a515caa363,2,2,5.0,-21.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+788e857f317e,2,2,5.0,-4.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7ad41305e96a,2,2,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7bac63f6603d,2,2,4.5,-1.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7c5b05cbdb55,2,2,4.5,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8090490573c6,2,2,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+81783131d2a9,2,2,4.0,-6.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+821fb029fc6e,2,2,4.0,-4.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+822bad9bc42b,2,2,4.5,27.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+883dd81e8275,2,2,5.0,-22.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+89a51f50b809,2,2,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8cc6a0e5738e,2,2,5.0,-20.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+916c9de0b5ad,2,2,4.5,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+960945e1a953,2,2,4.5,-4.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+96804ea39d96,2,2,4.5,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9803a40e82e4,2,2,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+99a54764c341,2,2,4.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a06c8ff043ab,2,2,5.0,-14.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a3dd39f583bc,2,2,4.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a425f92c199e,2,2,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a478c7961d6a,2,2,4.5,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a513150f33f9,2,2,4.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a6fe7de3d16f,2,2,5.0,-12.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+aaed13093747,2,2,4.0,-16.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+abc015ebac1d,2,2,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+acce39e83233,2,2,5.0,-11.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ae45df84722b,2,2,5.0,-14.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b18dc380845b,2,2,4.5,-7.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b39d7fe263ef,2,2,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b3b17aab11f2,2,2,5.0,4.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+b3f19518fcec,2,2,4.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b5bb2b985208,2,2,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b6e150497266,2,2,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ba5daa4041e1,2,2,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bb135baca94c,2,2,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bbf9ad41dca6,2,2,5.0,-26.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c4d51195486d,2,2,4.0,-20.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c64a2aec32cc,2,2,4.5,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c9a06ece156b,2,2,3.5,-28.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ca4b77513ac2,2,2,4.5,-2.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cac63f48c38c,2,2,5.0,-10.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cb5ff1b9715e,2,2,4.5,-8.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ccb83a794700,2,2,4.0,-14.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+d1b65fc7debc,2,2,5.0,-21.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d1c7fa84e48c,2,2,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d2e753bb80b7,2,2,4.5,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d4e4b5192cba,2,2,5.0,-19.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d52cbce98451,2,2,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d57e18d5f73c,2,2,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d624126b9206,2,2,4.5,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d66c305afaec,2,2,5.0,-20.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d71d863e5ef3,2,2,5.0,-14.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d8cf3b6a2151,2,2,4.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d9e7e7778b32,2,2,5.0,-15.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+da03c298e399,2,2,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+da2053087224,2,2,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+daeb5653dd96,2,2,4.5,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dbdd0ec73a48,2,2,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dfc475d54e1b,2,2,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dfc5fb7259bb,2,2,4.0,-15.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+e067ad2c1c0b,2,2,5.0,-9.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e256a62e0ac5,2,2,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e2aee0892199,2,2,4.0,-10.5,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+e38db885400c,2,2,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e6a69c4a27df,2,2,4.0,-16.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e7df4cd29ab5,2,2,5.0,-15.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e819bcfade7b,2,2,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e99e927c81e3,2,2,4.5,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ec933281fb01,2,2,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f0837c8d7143,2,2,4.5,-21.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f205b1a3ca9a,2,2,4.5,-10.5,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f789d2c4f2c2,2,2,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f9244d45189d,2,2,5.0,-38.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fa74b2f3287d,2,2,4.5,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fac1a9017ade,2,2,3.5,-16.0,100.0,50.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+1f1bb1f08598,2,2,3.0,-10.0,50.0,0.0,0.0,50.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+430315b7bb4b,2,2,3.0,-23.5,50.0,50.0,50.0,50.0,50.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+55f7a3319d80,2,2,3.0,-10.5,50.0,0.0,0.0,50.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+714b9a133284,2,2,3.0,-9.0,50.0,0.0,0.0,50.0,50.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b19f3ca2ea47,2,2,3.0,-7.5,50.0,0.0,50.0,50.0,50.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+1b8b75e227c9,2,2,3.0,-12.0,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+2646baaf662d,2,2,3.0,-8.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+2a1348e9addc,2,2,2.5,-17.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+36890be00bbf,2,2,3.0,-16.0,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+38e679b9e006,2,2,2.5,-12.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+3fd1e727ba94,2,2,2.0,-8.5,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+44f091b5abab,2,2,2.5,1.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4b0fdb526525,2,2,3.0,-15.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4b5f66b7adcf,2,2,3.0,-2.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+52092ddbd3a5,2,2,3.0,-9.5,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+6288c69c4ce6,2,2,3.0,-15.0,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+7a2d2949aea4,2,2,3.5,-16.0,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7fdb0720c8d7,2,2,2.0,-5.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+87e24fc70522,2,2,3.0,-3.5,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8bd0f31cf0a6,2,2,3.0,-12.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+91f0eec23d4a,2,2,2.5,17.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+91f5779a8731,2,2,2.0,-19.5,50.0,100.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9a84ba99f536,2,2,2.5,-25.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9da1ca0bef29,2,2,2.0,0.5,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b274baf5bbd1,2,2,3.5,-30.0,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b4f8921fcc4f,2,2,3.0,-17.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+b92e3c8f9738,2,2,3.5,-26.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+bc2ac6b95e1a,2,2,3.0,-12.0,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bf00385a5f7f,2,2,2.5,-1.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+c12b92bf1c35,2,2,3.0,-23.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+cee48807215b,2,2,3.5,-15.0,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+cf8ab1616079,2,2,3.0,-14.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+d650b663c3b5,2,2,3.0,-2.0,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+dbec9a0a7efe,2,2,3.5,-9.5,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+e603cf3fec55,2,2,3.0,-11.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+e8a85b5f3df4,2,2,3.0,-8.0,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+e9c6969d40e6,2,2,2.5,-17.5,50.0,50.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+f5f1f2c5f923,2,2,2.5,-4.5,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f5f46307a4d1,2,2,2.5,-4.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+f650a9708fa1,2,2,3.0,-12.0,50.0,0.0,0.0,0.0,30.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ffff564a4f90,2,2,3.0,-21.5,50.0,0.0,50.0,0.0,30.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+099095b050cf,2,2,1.0,-8.0,0.0,50.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+25e47381a6c5,2,2,1.0,-16.0,0.0,50.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+2e3be8a987a3,2,2,1.0,-6.5,0.0,0.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+406740ee6113,2,2,1.0,4.0,0.0,50.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+412a4720f3e9,2,2,1.5,-10.5,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4342d4b2ba6b,2,2,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4b1eaadf791b,2,2,1.0,-13.5,0.0,0.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4e8dacf3d38f,2,2,1.0,2.0,0.0,50.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4ef4c39cf3c2,2,2,1.0,-7.5,0.0,50.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+633ecdf879b9,2,2,1.5,12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9bade61a92be,2,2,1.0,-17.0,0.0,0.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9d5604a1f112,2,2,2.0,-22.0,0.0,50.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+bce6a5ecf98e,2,2,1.0,-2.0,0.0,50.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+c6381d2d0133,2,2,2.0,-7.0,0.0,0.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+c731d18cea9b,2,2,1.0,-16.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+f9d010e39375,2,2,1.0,3.0,0.0,0.0,50.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+06bb3a2fe5e7,1,1,4.0,-13.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0747d5bb69f0,1,1,5.0,-11.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+077c5fae4bea,1,1,5.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+07de60b03d15,1,1,4.0,-19.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+08084d990eb3,1,1,5.0,-5.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+08ad4ac1388e,1,1,5.0,-6.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0a85ebe4e328,1,1,5.0,-17.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+0ed6ce5d87fd,1,1,5.0,-12.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+11d4c477d098,1,1,5.0,-12.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+12c2ed9cded6,1,1,5.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+152ee17e4c8a,1,1,5.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1987cd4be10f,1,1,5.0,-9.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+19e0f40a907e,1,1,5.0,-8.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1a932caad4f9,1,1,4.0,-3.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1b8356dabde1,1,1,5.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1cbdc7cf130a,1,1,5.0,-21.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1d1bbb8ac158,1,1,4.0,-15.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1dc2de47ee26,1,1,4.0,-8.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+1dcfa3835714,1,1,5.0,-2.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+20d83f3ef0e6,1,1,5.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2c43fb513632,1,1,5.0,-18.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+2ff6b7bff164,1,1,5.0,-11.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+38af8acfd46a,1,1,5.0,-17.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3985a3c45be3,1,1,5.0,-27.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3ca08eeb8d55,1,1,5.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3d2531eccfbd,1,1,5.0,-23.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3d621842b2ed,1,1,4.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3d62f86afa7c,1,1,4.0,-23.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+3dbbce181edf,1,1,5.0,-20.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+402916f742e5,1,1,4.0,-16.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4ba52dfeba87,1,1,4.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4bf2f4ee5407,1,1,4.0,-12.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+4de6e4ba574a,1,1,5.0,-22.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+528bcf6680c3,1,1,5.0,-12.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+53d00c40e32a,1,1,5.0,0.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+55c26bcb609f,1,1,5.0,-4.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5bffbafbb22d,1,1,4.0,-17.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5cbbd5a299ca,1,1,5.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5f0057b677eb,1,1,5.0,-23.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+5f57db270276,1,1,5.0,-8.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+67bf6941ba2f,1,1,5.0,-11.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+6ee85be3693e,1,1,5.0,-17.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+70125af26c2d,1,1,5.0,-5.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+70849ca4f400,1,1,5.0,-5.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+70f84699be67,1,1,5.0,-16.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+72bc2cce903c,1,1,5.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7357b52d27cb,1,1,5.0,-23.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+747e73c01a45,1,1,4.0,-34.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7a425d299613,1,1,5.0,-17.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7d456afc6602,1,1,4.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7d7866a99a86,1,1,5.0,-6.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7f152321c60a,1,1,5.0,-20.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+7f40d06aa0b5,1,1,5.0,-16.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8185694b58b2,1,1,5.0,-22.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+835f0f7810c7,1,1,5.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+83c8aafbefb0,1,1,5.0,-11.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+88cf19ec1fc2,1,1,4.0,-11.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8a40ae794fa3,1,1,5.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8ab42aa58097,1,1,5.0,-21.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8d79c8a04e42,1,1,4.0,-21.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8f119a0aee85,1,1,5.0,-4.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+8f2b51a30523,1,1,5.0,-22.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+918717417d88,1,1,5.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+9d7a1d34a505,1,1,5.0,-26.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a13aaf2d2886,1,1,5.0,-8.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a17f621c590e,1,1,5.0,-12.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a806a4bb063e,1,1,5.0,-20.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+a81466620e46,1,1,5.0,-21.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+adcf50477d6a,1,1,5.0,-33.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ade45994b717,1,1,5.0,-25.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b0b346d3a89f,1,1,4.0,-1.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b1aaae6b66ad,1,1,4.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b2ac621f0d03,1,1,5.0,-1.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b5e3e3860912,1,1,4.0,0.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b67d6c666e8d,1,1,5.0,-4.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b8578d2d823b,1,1,5.0,-28.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+b90e891671cf,1,1,4.0,-3.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+bd15ee794d5e,1,1,4.0,-33.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c5f7e746b7e6,1,1,5.0,-20.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+c990d6cf976a,1,1,5.0,-15.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+cda598c48d7c,1,1,5.0,-28.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ce616e191328,1,1,5.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d06d019f72a0,1,1,4.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d1582f404330,1,1,4.0,-15.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d29ba1220fb8,1,1,5.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d7d517afce97,1,1,4.0,-23.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+d94ba08b99be,1,1,5.0,-7.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+df56d7b40d43,1,1,4.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+e9511df20ccd,1,1,5.0,-18.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+eb4df17aed01,1,1,5.0,-21.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+eb72802c83dc,1,1,5.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+ec21206b7894,1,1,4.0,0.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f25e23905208,1,1,5.0,-14.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f35b3c613c4f,1,1,5.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f593898ec748,1,1,5.0,-22.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f9bbdd976532,1,1,5.0,0.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+f9eedec3129e,1,1,4.0,-10.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+fa14641f57b6,1,1,4.0,-13.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+fad449527137,1,1,5.0,-15.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+fb503a924a0b,1,1,5.0,-18.0,100.0,0.0,0.0,100.0,100.0,Gold_Verified_Seller,Eligible for Express Badge & Lower Commission
+014c0679dd34,1,1,3.0,-11.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+01fd07721212,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0249d282d911,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+02ecc2a19303,1,1,5.0,-27.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+03a2a6dcbe45,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0417b067eeab,1,1,5.0,11.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+04fdea0c1118,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0570350b23ed,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0691148aee60,1,1,4.0,-25.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+07017df32dc5,1,1,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+07bf9669d84d,1,1,4.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+09883d9ab71c,1,1,4.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0a82f5fb06a4,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0aa2205ca24f,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0ac4201fda2c,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0ad80de75c81,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0b3f27369a4d,1,1,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0bebbb2cea10,1,1,4.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0c7f30ae9b14,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0cab2da43793,1,1,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0d33a55da925,1,1,5.0,-29.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+0d4c8269e7f0,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+10076e5788b8,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+10089e9f2fd0,1,1,4.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+11305281b50f,1,1,3.0,-12.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+113e3a788b93,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+11742f81550a,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+117cfc326c6d,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+128f9bfbe4c7,1,1,4.0,1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+131fcb0a0c9a,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1336efc61c31,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+134285d1f41d,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1354d51653f6,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+157c3e4b42f8,1,1,4.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1690cada046e,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+17908cf9b444,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+179d859f5129,1,1,5.0,3.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+180c3376aff0,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+186cdd1b2df3,1,1,5.0,-32.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1a8e2d9c38b8,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1acde099eb40,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1b45169b635e,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1d29dfba0201,1,1,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1e8c6a4c538f,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+1f2eebc0e970,1,1,5.0,5.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+2039c5e51785,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+20a8b0dc55da,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+20cb7c2fde3e,1,1,4.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+226b05fe0672,1,1,5.0,-2.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+22c32ec35d01,1,1,4.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+236585a4ddb5,1,1,5.0,5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+23a0ffca143a,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+23ff42c4bf1f,1,1,3.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+24a6daf925d9,1,1,4.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+257e61d3251f,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2709af958749,1,1,4.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+271c58a1d139,1,1,3.0,-29.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+28405831a298,1,1,3.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+297d5eccd19f,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2a7c6c0b0d5e,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2a7dc43cecab,1,1,4.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2b03ac196f5e,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2b3b9ce054da,1,1,4.0,-4.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2b5ed0c9139d,1,1,3.0,-22.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+2ba91c7ad80f,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2be17df1c499,1,1,4.0,1.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+2bf6a2c1e71b,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2c4c47cb51ac,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2d2c62bef4c8,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2d9e8987a2ea,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2e0dba2da448,1,1,4.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2e7ea2aafec5,1,1,4.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2ea0861cc19e,1,1,4.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2f09f7d37a97,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+2f73e04d12cd,1,1,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3078096983cf,1,1,3.0,-12.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+31be790e64fc,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+31eec405c9bb,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+33576ec5412f,1,1,4.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+33cbda871651,1,1,4.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+340636a908b1,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+35857757f553,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+35fb511489d9,1,1,3.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+365e4bce19bd,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+373ee4a3a775,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+37dd29b36c45,1,1,4.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+389e45560e33,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3935fe5fe0f8,1,1,4.0,1.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+398cb257329e,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3a3c180dd702,1,1,4.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3bb32fedaa74,1,1,4.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3bb548e3cb7f,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3bfba5a77604,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3d01d1c414c4,1,1,3.0,-10.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+3d49bfdd1b43,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3dfd3dc96f7f,1,1,5.0,-35.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3ea00e1dea2b,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3f9be9135883,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3faf68a3b0af,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+41b14765bd56,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+41da412d33e8,1,1,5.0,-25.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+42b6488f5b82,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+447d377bdb75,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4736e9d642ef,1,1,4.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+49383af7ab77,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+499ec63c58e5,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+49cdc90518a4,1,1,3.0,-19.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+49e7217cfe4e,1,1,3.0,-8.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+4be6b962d832,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4bfc7a4a1cf8,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4d0041cdbe51,1,1,3.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4d232b78ab7e,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4d9fea3499bd,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+513a54369b6a,1,1,4.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+52454f90d4c3,1,1,4.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+525e75a6fb14,1,1,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+52956b80ae65,1,1,5.0,-34.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+52a50b42accf,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+52ac6f920b72,1,1,4.0,-4.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+54583ab37948,1,1,5.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+54c04bdb5ec4,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+55bb6fe5bebe,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+56e361f411e3,1,1,4.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+570d4583587a,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+577719699805,1,1,5.0,-30.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+57a834594e1e,1,1,5.0,-37.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+57df9869a600,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5882820ef11c,1,1,4.0,-30.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+594f9aaa48e5,1,1,5.0,-46.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+59cd88080b93,1,1,4.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+59cea8e446d3,1,1,3.0,-27.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+5a05a16bb506,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5ab05b6d86d4,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b33b527da3c,1,1,4.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b51032eddd2,1,1,5.0,-33.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b581417df44,1,1,3.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5b664594895a,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5bf397d04035,1,1,4.0,-27.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5c030029b591,1,1,5.0,-41.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5c3460cd3e8a,1,1,5.0,-27.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5c6d4016c2a2,1,1,3.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5e9f5bd34e08,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5f0603007132,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5f5b43b2bffa,1,1,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+615005a3ef19,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+656591be5607,1,1,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+65b081a07063,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6a0cbc8af2e8,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6b333a05bf18,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6b536a23086f,1,1,4.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6bb0724edf0b,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6bbcb8924baf,1,1,5.0,-24.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6bd503a82302,1,1,5.0,1.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+6c12e40690c3,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6ddc28b61be2,1,1,3.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6e0908ef4d4e,1,1,4.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6e386f64c84e,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+729b2d09b2a0,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+72c5da29406b,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+73a63f72308a,1,1,3.0,-6.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+73b8eb4a9a72,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+768a86e36ad6,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+76ea5315acb3,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+777a0c55737f,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+77fccaae3196,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+784ba75dd9d2,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7994b065a7ff,1,1,5.0,-29.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+79ed755314cf,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7a9c12e235c3,1,1,3.0,-27.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+7aa538dd6e11,1,1,4.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7b1222c3624a,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7b7f91e98f8c,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7c4402417d51,1,1,5.0,-28.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7d294cf9a6a6,1,1,4.0,-27.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7d7d2b7a5132,1,1,3.0,-18.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+7daca0837f03,1,1,3.0,-6.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+7e26c750b4cb,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7f35f9daf223,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7ff588a03c2a,1,1,5.0,-2.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+817f85dbb65a,1,1,5.0,-46.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+818d28f936e7,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+83645b1645cd,1,1,3.0,-25.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+850857dfac77,1,1,5.0,-26.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+850913d59ce3,1,1,3.0,-12.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+85cc55e048b6,1,1,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8602a61d680a,1,1,4.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+870d0118f7a9,1,1,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+89d9a386b0b6,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+89f69225956f,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8b655f085592,1,1,4.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8bdd8e3fd58b,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8c5e007d7bd5,1,1,5.0,-27.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8ca1551acf98,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8e2b3afb4200,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8f0fbe2cd4d4,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8f580d36c1e9,1,1,4.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9200e6ce317b,1,1,3.0,-8.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+921323538c9f,1,1,4.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9261d76c62ca,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+941554c5757b,1,1,4.0,-27.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+951e8cef368f,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+95b293867b58,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+974cf2cb8f4b,1,1,3.0,-17.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+97512d3fc193,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+98115075dd26,1,1,5.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9bcdfa7b615b,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9d3940448334,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9d69ba0a7a62,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9dc79dd988ac,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9f50216bfd01,1,1,5.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9fe7c6641c79,1,1,5.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a0415d9b25ed,1,1,4.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a1bea7061f61,1,1,5.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a218df5c097b,1,1,3.0,-24.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+a2a41aedb705,1,1,3.0,-5.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+a2b5b6105ea5,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a2e874074c87,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a3082f442524,1,1,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a35ef466c6fd,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a56a8043ebf6,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a5cba26a62b8,1,1,5.0,-29.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a69aa24cec11,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a6bd7d1ccdac,1,1,5.0,-24.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a7a9b880c497,1,1,3.0,-5.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+a7d0f8dd44f5,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a888faf2d1ba,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+a90a5da8b09e,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+aae3bfea0555,1,1,3.0,-11.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+aae5e7b457a3,1,1,3.0,-21.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ab3e0c171fe8,1,1,5.0,5.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+abbf6046bbdf,1,1,4.0,-30.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ad87df7699e8,1,1,3.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+afe0067131b7,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b01c2b7b8599,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b0398568231b,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b05b432bf689,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b29d3380981c,1,1,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b494891378bd,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b55638ad525e,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b586cd24c010,1,1,4.0,-28.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b64d51f0435e,1,1,5.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b76f4d90e856,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b81e3a6c866a,1,1,5.0,-29.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b87a7ea0c30f,1,1,4.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b88e7c57cb2d,1,1,4.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b906dd0e57f2,1,1,4.0,-17.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b9c0ffa92f3f,1,1,5.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ba6b4a237f92,1,1,5.0,-4.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ba89796db68d,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bac44fa8e134,1,1,5.0,-46.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bacb1f0ed56a,1,1,3.0,-24.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+baeda7047354,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bafc5aa11e41,1,1,5.0,-23.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bb7a14e229b1,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bba74270a877,1,1,5.0,-24.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bbaff50f3b70,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bc503e244f18,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bd697db56ff8,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+bfd938b22bc9,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c0098efcf800,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c12d7463a579,1,1,4.0,-42.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c161d1327ebc,1,1,3.0,-13.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+c32fc744b916,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c35affa65afd,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c3acdfac4e3e,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c3f5668699a1,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c4fb51fb1c5b,1,1,3.0,-18.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+c7a0a13cbcf2,1,1,4.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c7dcd301ecfe,1,1,4.0,-30.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c7fdb77fdbff,1,1,5.0,1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c864036feaab,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c8c1bea22194,1,1,5.0,-29.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ca7c6bd577e5,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cc3d14116804,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cc5a78bbad32,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cc63f0dd2acb,1,1,5.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ccf8813e5a7d,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cd3d09fbe6e3,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cd6efc47efaa,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ce69a8021d18,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cea729054f15,1,1,4.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cf2384dd2f1d,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cfa5ab0e4d3f,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+cfe94489ddd3,1,1,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d17f467e4bf6,1,1,4.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d2f3e277560e,1,1,5.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d36b07fd3c50,1,1,5.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d3e7d37c0df9,1,1,5.0,-24.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d4910f1cdcfd,1,1,5.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d4f117125b59,1,1,4.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d5c530f4884a,1,1,4.0,1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d6b664fa0667,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d93919c944be,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d9442042130b,1,1,5.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d97df38225e5,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d9cd369bffa9,1,1,5.0,-32.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+d9e8c084b68f,1,1,5.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+da6a60cc8cc7,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+da7039f29f90,1,1,5.0,-2.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dace965ca581,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dbbcfe2c8d02,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dd533b429f38,1,1,5.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+dde698c6d0bd,1,1,5.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+df91910b6a03,1,1,5.0,-28.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e06f09ec0a4a,1,1,5.0,-55.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e24d3429d294,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e2a1ac9bf33e,1,1,4.0,-5.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e3dd723429d1,1,1,5.0,0.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e45edf75f568,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e4ebd3f87bf7,1,1,4.0,-15.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e601b04acf48,1,1,4.0,-11.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e64d65bc8dbe,1,1,4.0,1.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+e883aa812c37,1,1,5.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e8b4225284fb,1,1,5.0,-4.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e8dba4d70f7f,1,1,5.0,-1.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e94b64dc6979,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+e9e446d01bd1,1,1,3.0,-12.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+eb3071b9f0b0,1,1,4.0,-14.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ec8879960bd2,1,1,5.0,2.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+ed46f1eb4a63,1,1,5.0,-19.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ed8cb7b190ce,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+eed78ac17f7f,1,1,3.0,-13.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+ef9952469137,1,1,4.0,-20.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f0e103c63864,1,1,5.0,-24.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f18112da765e,1,1,4.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f181738b150d,1,1,5.0,-28.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f1b854361f4e,1,1,4.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f1b936735023,1,1,5.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f1ed6bd0a9b1,1,1,3.0,-6.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+f214d28e8d8e,1,1,4.0,-7.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f22a247b79dd,1,1,4.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f32600681595,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f3975e8a4115,1,1,5.0,-4.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f41ce2e25237,1,1,4.0,-8.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f435898e493b,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f4c4daa86e30,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f4ce8ca9fa71,1,1,5.0,-12.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f4db9b37944b,1,1,5.0,-24.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f5f2ab9bdb6b,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f682e0f848ab,1,1,4.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f7496d659ca9,1,1,5.0,-3.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f76a3b1349b6,1,1,3.0,2.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f8d5c7085db9,1,1,5.0,-18.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f918546be4be,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f97e2b0650c2,1,1,5.0,-9.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fa3a0b5aabb3,1,1,3.0,-10.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+fb89df7f89fd,1,1,5.0,-16.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fdaaf5bfda82,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fe1b067411b8,1,1,4.0,-6.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fe1bbc5feda5,1,1,4.0,-22.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fe49ee029e61,1,1,3.0,-6.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+ff4e2d38692c,1,1,3.0,-14.0,100.0,100.0,0.0,0.0,60.0,Courier_Bottlenecked_Seller,"Reassign 3PL Courier Hub (Good Product, Slow Shipping)"
+ff4ea69c2a72,1,1,5.0,-13.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ffad1e7127fb,1,1,5.0,-10.0,100.0,0.0,0.0,0.0,60.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+081acf3de680,1,1,1.0,-23.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+0bfd0b434243,1,1,2.0,-11.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+11eac105f3f9,1,1,1.0,-10.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+13511db12ac6,1,1,1.0,-36.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+1ce3ae5a3998,1,1,1.0,-21.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+1d2732ef8321,1,1,1.0,7.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+217f005bb37f,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+26785a546900,1,1,1.0,-36.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+272f092de69a,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+29fe9f200d3f,1,1,1.0,-22.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+2dd1fb6f0e42,1,1,1.0,-12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+33dd941c2785,1,1,2.0,-26.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3481aa57cd91,1,1,1.0,-34.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+3968920b9aa7,1,1,1.0,-12.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+3febca52652e,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+48fb026ed745,1,1,1.0,-21.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4bc3d93e4a5f,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4be2e7f96b4f,1,1,1.0,0.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4d6fb82c629c,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4dbd95a08b31,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4e42581f08e8,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+4e5725ba188d,1,1,1.0,12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+4e85b538b0da,1,1,2.0,10.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+503c1de08ae8,1,1,1.0,25.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+542917da1243,1,1,2.0,3.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+557f22c76691,1,1,2.0,-16.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+5a32c398a06c,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5bc55dbe2f12,1,1,1.0,-12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+5d043cd5512d,1,1,2.0,-9.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+5dc203c7b84a,1,1,1.0,-12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+602044f2c161,1,1,1.0,14.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+63b9ae557efe,1,1,1.0,-32.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6614814a00d3,1,1,1.0,-16.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+6750d71153f0,1,1,1.0,-24.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+6a8a889bde93,1,1,1.0,13.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+6d2f2e3b5394,1,1,1.0,-7.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+6f1a1263039c,1,1,1.0,72.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+725af026f869,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+750303a20e9c,1,1,1.0,0.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+76de363de16d,1,1,1.0,-14.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+7994081388d5,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+79ee721b6f76,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7bcd7c5f8631,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+7c4618c82226,1,1,2.0,-7.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+7d948535954a,1,1,2.0,-8.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+7f2617c58d5d,1,1,1.0,4.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+845e8036c3f7,1,1,2.0,-28.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+86bb7c4b535e,1,1,1.0,48.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+87b740daf17b,1,1,1.0,-7.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+87d3c3aeb3ea,1,1,1.0,6.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+87f3e3526886,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+880eda903e71,1,1,1.0,0.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+88ef59b51bda,1,1,1.0,-8.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+8a87611c0884,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+8f54d64f28a9,1,1,1.0,7.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9198786624ea,1,1,2.0,-17.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+9535a841eece,1,1,1.0,-14.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+989becdce12e,1,1,1.0,0.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9906e7aa42a3,1,1,2.0,-12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+9dda5bbacd45,1,1,2.0,16.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+a066df736116,1,1,2.0,-16.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+a0d7fbb07bb5,1,1,1.0,-15.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+a2fa0bdc798e,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+a4b6b9b992b4,1,1,1.0,4.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+abe021b01ba9,1,1,2.0,-12.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+ac6417315ae5,1,1,1.0,4.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+af3ef48d0e13,1,1,1.0,-12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+b33aaadd1a88,1,1,1.0,6.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+b566ab0ef880,1,1,1.0,15.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+b6dc74ed30f1,1,1,1.0,0.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+b8630e112143,1,1,1.0,-17.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+bd1d49a326ab,1,1,1.0,-12.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+bdae679a9b28,1,1,1.0,-11.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+beadbee30901,1,1,1.0,7.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+bee36b4f9a2b,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+c0563dd588b7,1,1,2.0,9.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+c42fd8e4d47d,1,1,1.0,9.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+c84592044b18,1,1,2.0,-8.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ce248b21cb2a,1,1,1.0,-11.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+d7b2377bae6a,1,1,2.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+d8dd176509ba,1,1,1.0,8.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+daf565f087a5,1,1,2.0,-22.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+de0c78824586,1,1,1.0,-21.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+e2c92f9c1c77,1,1,1.0,0.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+e89c4adbe7b1,1,1,1.0,9.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+eba88037e1dc,1,1,1.0,12.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+ed49da7cadef,1,1,1.0,-17.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+ed859002ad59,1,1,1.0,-47.0,0.0,100.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement
+f44bdc12aa39,1,1,1.0,-9.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+f7df46c1e0ec,1,1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fc6295add6f5,1,1,1.0,-9.0,0.0,0.0,0.0,0.0,0.0,At_Risk_Quality_Watch,Trigger Merchandising Quality Review
+fec627525347,1,1,1.0,-1.0,0.0,0.0,100.0,0.0,0.0,Packaging_Risk_Seller,Mandate Bubble-Wrap & Box Reinforcement

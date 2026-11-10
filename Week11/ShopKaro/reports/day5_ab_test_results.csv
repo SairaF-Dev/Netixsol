@@ -1,0 +1,6 @@
+metric,test_type,control_mean,treatment_mean,unit,control_successes,treatment_successes,absolute_lift,relative_lift_pct,ci_95_low,ci_95_high,rel_ci_95_low_pct,rel_ci_95_high_pct,test_statistic,p_value,role,p_value_holm,significant,mann_whitney_p_value
+Conversion Rate (CVR),Fisher's exact test (few events),0.0086,0.0517,%,7,42,0.0431,499.56,0.0262,0.06,303.73,695.39,4.9982,3.6114771720278943e-07,primary,3.6114771720278943e-07,True,
+Click-Through Rate (CTR),Two-proportion z-test,0.844,2.5018,%,685,2032,1.6578,196.42,1.5333,1.7823,181.67,211.17,26.0413,0.0,secondary,0.0,True,
+Discovery CTR (items not seen before),Two-proportion z-test,0.8292,0.948,%,673,770,0.1188,14.33,0.0275,0.2101,3.32,25.34,2.5508,0.010746386413544862,secondary,0.021492772827089723,True,
+Discovery CVR (items not seen before),Fisher's exact test (few events),0.0086,0.0062,%,7,5,-0.0025,-28.62,-0.0108,0.0059,-125.59,68.34,-0.5787,0.5808989773917337,secondary,0.5808989773917337,False,
+Revenue Per Visitor (RPV),Welch t-test (+ Mann-Whitney U),0.2,8.51,PKR,81163,81223,8.31,4230.65,2.38,14.25,1209.84,7251.47,2.745,0.00605277970016938,secondary,0.01815833910050814,True,5.780564531344267e-07

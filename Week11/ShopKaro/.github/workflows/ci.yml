@@ -1,0 +1,36 @@
+# Basic CI for ShopKaro.
+# The full pytest suite needs data/processed/shopkaro.duckdb (~380 MB, gitignored), so CI checks
+# that the code installs, compiles and imports, then builds the Docker image. Run the full
+# suite locally with:  python -m pytest -q
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Byte-compile all sources
+        run: python -m compileall -q src scripts tests
+      - name: Import API app (lazy init, no data required)
+        run: python -c "from shopkaro.api.main import app; print(sorted(r.path for r in app.routes))"
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: lint-and-import
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t shopkaro:ci .

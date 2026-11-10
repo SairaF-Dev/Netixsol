@@ -1,0 +1,67 @@
+{
+  "week_starting": "2018-08-27",
+  "this_week": {
+    "reviews": 121,
+    "spam_filtered": 6,
+    "positive_pct": 87.0,
+    "negative_pct": 5.2,
+    "delivery_complaint_pct": 8.7
+  },
+  "previous_week": {
+    "reviews": 166,
+    "spam_filtered": 9,
+    "positive_pct": 75.2,
+    "negative_pct": 14.0,
+    "delivery_complaint_pct": 12.1
+  },
+  "top_complaints_by_category_this_week": [
+    {
+      "category": "Beauty & Fragrances",
+      "genuine_reviews": 10,
+      "top_complaint": "delivery",
+      "complaint_share_pct": 20.0,
+      "negative_review_pct": 0.0
+    },
+    {
+      "category": "Men's Kurta & Ethnic",
+      "genuine_reviews": 8,
+      "top_complaint": "quality",
+      "complaint_share_pct": 12.5,
+      "negative_review_pct": 12.5
+    },
+    {
+      "category": "Smartphones & Accessories",
+      "genuine_reviews": 17,
+      "top_complaint": "delivery",
+      "complaint_share_pct": 11.8,
+      "negative_review_pct": 5.9
+    }
+  ],
+  "products_with_falling_sentiment": [
+    {
+      "product_id": "SK-00058",
+      "brand": "Sufi",
+      "positive_pct_prior": 100.0,
+      "positive_pct_recent": 25.0
+    },
+    {
+      "product_id": "SK-00406",
+      "brand": "Rivaj UK",
+      "positive_pct_prior": 90.9,
+      "positive_pct_recent": 25.0
+    },
+    {
+      "product_id": "SK-00484",
+      "brand": "Almirah",
+      "positive_pct_prior": 85.7,
+      "positive_pct_recent": 20.0
+    }
+  ],
+  "sellers_with_delivery_problems": 73,
+  "inventory_alerts": {
+    "CRITICAL_STOCKOUT_RISK": 143,
+    "FESTIVAL_SURGE_WATCH": 84,
+    "HEALTHY_STOCK": 65,
+    "OVERSTOCK_DEAD_CAPITAL": 8
+  }
+}

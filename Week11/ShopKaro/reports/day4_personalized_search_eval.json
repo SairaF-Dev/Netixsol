@@ -1,0 +1,179 @@
+{
+  "profiled_users": 3000,
+  "max_users": 3000,
+  "profile_reranker": {
+    "dev": {
+      "queries": 683,
+      "users": 165,
+      "relevant_item_in_candidate_pool_pct": 15.37,
+      "by_system": {
+        "hybrid": {
+          "ndcg_at_10": 0.0141,
+          "hit_at_10": 0.0381
+        },
+        "personalised": {
+          "ndcg_at_10": 0.0152,
+          "hit_at_10": 0.0454
+        }
+      },
+      "personalised_vs_hybrid": {
+        "baseline": "hybrid",
+        "system": "personalised",
+        "mean_ndcg_diff": 0.0011,
+        "ci_95": [
+          -0.0013,
+          0.0036
+        ],
+        "queries_better": 9,
+        "queries_worse": 11,
+        "queries_tied": 663,
+        "sign_test_p": 0.8238029479980469
+      }
+    },
+    "holdout": {
+      "queries": 857,
+      "users": 174,
+      "relevant_item_in_candidate_pool_pct": 18.67,
+      "by_system": {
+        "hybrid": {
+          "ndcg_at_10": 0.0101,
+          "hit_at_10": 0.049
+        },
+        "personalised": {
+          "ndcg_at_10": 0.0104,
+          "hit_at_10": 0.0525
+        }
+      },
+      "personalised_vs_hybrid": {
+        "baseline": "hybrid",
+        "system": "personalised",
+        "mean_ndcg_diff": 0.0002,
+        "ci_95": [
+          -0.0005,
+          0.001
+        ],
+        "queries_better": 18,
+        "queries_worse": 9,
+        "queries_tied": 830,
+        "sign_test_p": 0.12207812070846558
+      }
+    }
+  },
+  "cf_rerank_all": {
+    "dev": {
+      "queries": 683,
+      "users": 165,
+      "by_system": {
+        "hybrid": {
+          "ndcg_at_10": 0.0141,
+          "hit_at_10": 0.0381
+        },
+        "personalised": {
+          "ndcg_at_10": 0.0832,
+          "hit_at_10": 0.1376
+        }
+      },
+      "personalised_vs_hybrid": {
+        "baseline": "hybrid",
+        "system": "personalised",
+        "mean_ndcg_diff": 0.0691,
+        "ci_95": [
+          0.0514,
+          0.0879
+        ],
+        "queries_better": 78,
+        "queries_worse": 20,
+        "queries_tied": 585,
+        "sign_test_p": 2.8720914669754686e-09
+      }
+    },
+    "holdout": {
+      "queries": 857,
+      "users": 174,
+      "by_system": {
+        "hybrid": {
+          "ndcg_at_10": 0.0101,
+          "hit_at_10": 0.049
+        },
+        "personalised": {
+          "ndcg_at_10": 0.069,
+          "hit_at_10": 0.1505
+        }
+      },
+      "personalised_vs_hybrid": {
+        "baseline": "hybrid",
+        "system": "personalised",
+        "mean_ndcg_diff": 0.0588,
+        "ci_95": [
+          0.0454,
+          0.0734
+        ],
+        "queries_better": 110,
+        "queries_worse": 11,
+        "queries_tied": 736,
+        "sign_test_p": 1.0649328302642987e-21
+      }
+    }
+  },
+  "cf_rerank_discovery_only": {
+    "dev": {
+      "queries": 606,
+      "users": 126,
+      "by_system": {
+        "hybrid": {
+          "ndcg_at_10": 0.0152,
+          "hit_at_10": 0.038
+        },
+        "personalised": {
+          "ndcg_at_10": 0.036,
+          "hit_at_10": 0.0858
+        }
+      },
+      "personalised_vs_hybrid": {
+        "baseline": "hybrid",
+        "system": "personalised",
+        "mean_ndcg_diff": 0.0208,
+        "ci_95": [
+          0.0104,
+          0.0319
+        ],
+        "queries_better": 36,
+        "queries_worse": 21,
+        "queries_tied": 549,
+        "sign_test_p": 0.06273668035582848
+      }
+    },
+    "holdout": {
+      "queries": 764,
+      "users": 140,
+      "by_system": {
+        "hybrid": {
+          "ndcg_at_10": 0.009,
+          "hit_at_10": 0.0432
+        },
+        "personalised": {
+          "ndcg_at_10": 0.0245,
+          "hit_at_10": 0.0864
+        }
+      },
+      "personalised_vs_hybrid": {
+        "baseline": "hybrid",
+        "system": "personalised",
+        "mean_ndcg_diff": 0.0155,
+        "ci_95": [
+          0.0083,
+          0.0234
+        ],
+        "queries_better": 47,
+        "queries_worse": 13,
+        "queries_tied": 704,
+        "sign_test_p": 1.2146708022957309e-05
+      }
+    }
+  },
+  "cf_rerank_config": {
+    "candidate_pool": 200,
+    "lambda": 0.9,
+    "chosen_on": "dev half"
+  }
+}
