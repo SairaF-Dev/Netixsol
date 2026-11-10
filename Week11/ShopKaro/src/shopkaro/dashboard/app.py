@@ -89,6 +89,7 @@ from shopkaro.api.main import (
     serving_container,
 )
 from shopkaro.config.settings import settings
+from shopkaro.data.bootstrap import data_ready, ensure_data
 from shopkaro.reviews import lexicon_analyzer as review_lexicon
 from shopkaro.reviews.intelligence import ASPECT_NAMES
 
@@ -2764,6 +2765,22 @@ def run_streamlit_app() -> None:
     )
 
     _inject_real_ecommerce_css(st)
+
+    # Fresh cloud deployment: fetch the prebuilt database + models once (see shopkaro.data.bootstrap).
+    if not data_ready():
+        bar = st.progress(0.0, text="First start: downloading ShopKaro data (about a minute)...")
+
+        @st.cache_resource(show_spinner=False)
+        def _download_once() -> str:  # cache_resource: runs once per server, concurrent visitors wait for it
+            return ensure_data(progress=lambda f: bar.progress(min(f, 1.0), text=f"Downloading data... {f:.0%}"))
+
+        try:
+            _download_once()
+        except Exception as exc:  # show the reason instead of a raw traceback
+            bar.empty()
+            st.error(f"Could not load the ShopKaro data: {exc}")
+            st.stop()
+        bar.empty()
 
     # FIX: sidebar open/close now follows Python state instead of listening to clicks.
     _sync_sidebar_with_state(st, components)

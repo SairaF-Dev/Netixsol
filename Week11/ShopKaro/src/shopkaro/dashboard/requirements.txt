@@ -1,0 +1,19 @@
+# Streamlit Community Cloud ("lite" deployment of the dashboard). Streamlit Cloud reads the requirements file next to
+# the app's main file, so this one is used there; local development uses the full requirements.txt at the project root.
+# Lite = no PyTorch / sentence-transformers / implicit / prophet / bertopic: search uses the TF-IDF+SVD index
+# (set SEARCH_EMBEDDINGS=lsa and SEARCH_CROSS_ENCODER=off in the app secrets). Versions match the files in the data
+# bundle (pickles / DuckDB format), see scripts/build_deploy_bundle.py.
+streamlit==1.67.0
+duckdb==2.0.0
+numpy==1.26.4
+pandas==2.2.3
+pyarrow==18.1.0
+scipy==1.17.1
+scikit-learn==1.9.1
+joblib==1.6.0
+matplotlib==3.11.2
+fastapi==0.162.2
+pydantic==2.14.3
+httpx==0.28.1
+python-dotenv==1.2.4
+google-genai==3.0.0
