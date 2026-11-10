@@ -2769,13 +2769,10 @@ def run_streamlit_app() -> None:
     # Fresh cloud deployment: fetch the prebuilt database + models once (see shopkaro.data.bootstrap).
     if not data_ready():
         bar = st.progress(0.0, text="First start: downloading ShopKaro data (about a minute)...")
-
-        @st.cache_resource(show_spinner=False)
-        def _download_once() -> str:  # cache_resource: runs once per server, concurrent visitors wait for it
-            return ensure_data(progress=lambda f: bar.progress(min(f, 1.0), text=f"Downloading data... {f:.0%}"))
-
+        # Not wrapped in st.cache_resource: Streamlit forbids updating an outside element (the progress bar) from a
+        # cached function. ensure_data() uses its own lock, so concurrent visitors download only once.
         try:
-            _download_once()
+            ensure_data(progress=lambda f: bar.progress(min(f, 1.0), text=f"Downloading data... {f:.0%}"))
         except Exception as exc:  # show the reason instead of a raw traceback
             bar.empty()
             st.error(f"Could not load the ShopKaro data: {exc}")

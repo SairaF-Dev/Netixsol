@@ -11,6 +11,7 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
+import threading
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -22,10 +23,23 @@ def data_ready() -> bool:
     return settings.duckdb_path.exists()
 
 
+_LOCK = threading.Lock()
+
+
 def ensure_data(progress=None) -> str:
-    """Download and unpack the data bundle if the database is missing. Returns a short status string."""
+    """
+    Download and unpack the data bundle if the database is missing. Returns a short status string.
+    Thread-safe: concurrent callers (several visitors on a fresh server) wait and the download happens once.
+    """
     if data_ready():
         return "data present"
+    with _LOCK:
+        if data_ready():  # another visitor finished the download while we waited
+            return "data present"
+        return _download_and_unpack(progress)
+
+
+def _download_and_unpack(progress=None) -> str:
     url = os.getenv("DATA_BUNDLE_URL", "").strip()
     if not url:
         raise RuntimeError(
