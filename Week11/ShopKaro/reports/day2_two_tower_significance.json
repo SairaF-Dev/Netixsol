@@ -1,0 +1,35 @@
+{
+  "hybrid_two_tower": {
+    "mean_diff": 0.00238,
+    "ci95": [
+      0.00067,
+      0.00408
+    ],
+    "p_boot_le_0": 0.002,
+    "users_better": 199,
+    "users_worse": 143,
+    "n": 5000
+  },
+  "item_to_item_cf": {
+    "mean_diff": 0.00494,
+    "ci95": [
+      0.00298,
+      0.00692
+    ],
+    "p_boot_le_0": 0.0,
+    "users_better": 207,
+    "users_worse": 135,
+    "n": 5000
+  },
+  "implicit_als": {
+    "mean_diff": 0.00579,
+    "ci95": [
+      0.00358,
+      0.00808
+    ],
+    "p_boot_le_0": 0.0,
+    "users_better": 289,
+    "users_worse": 184,
+    "n": 5000
+  }
+}

@@ -1,0 +1,6 @@
+model,seed,main_ndcg_at_10,discovery_ndcg_at_10,new_user_ndcg_at_10,best_epoch,cold_setting
+item_to_item_cf,,0.13073,0.01488,0.00273,,
+hybrid_blend,,0.13329,0.01793,0.02269,,
+neural_two_tower,42.0,0.13567,0.02567,0.02202,7.0,"{'n_seed': 100, 'cat_bonus': 5.0, 'pop_weight': 4.0, 'ndcg_at_10': 0.02838, 'validation_users': 2000}"
+neural_two_tower,43.0,0.13578,0.02441,0.02299,6.0,"{'n_seed': 100, 'cat_bonus': 5.0, 'pop_weight': 4.0, 'ndcg_at_10': 0.03038, 'validation_users': 2000}"
+neural_two_tower,44.0,0.13489,0.02323,0.02328,3.0,"{'n_seed': 100, 'cat_bonus': 5.0, 'pop_weight': 4.0, 'ndcg_at_10': 0.03013, 'validation_users': 2000}"

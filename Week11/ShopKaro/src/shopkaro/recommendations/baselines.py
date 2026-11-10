@@ -192,7 +192,7 @@ class PopularOverallRecommender(BaseRecommender):
                 SUM(log_user_weight) AS pop_score
             FROM user_item_weights
             GROUP BY product_id
-            ORDER BY pop_score DESC;
+            ORDER BY pop_score DESC, product_id;
             """
         ).df()
 
@@ -269,7 +269,7 @@ class FavouriteCategoryPopularRecommender(BaseRecommender):
                 SUM(log_user_weight) AS cat_pop_score
             FROM user_item_weights
             GROUP BY category, product_id
-            ORDER BY category, cat_pop_score DESC;
+            ORDER BY category, cat_pop_score DESC, product_id;
             """
         ).df()
 
@@ -299,7 +299,7 @@ class FavouriteCategoryPopularRecommender(BaseRecommender):
                     SUM(implicit_weight) AS cat_weight,
                     ROW_NUMBER() OVER (
                         PARTITION BY user_id
-                        ORDER BY SUM(implicit_weight) DESC, COUNT(*) DESC
+                        ORDER BY SUM(implicit_weight) DESC, COUNT(*) DESC, category
                     ) AS rn
                 FROM train_interactions
                 GROUP BY user_id, category
@@ -471,7 +471,7 @@ class Trending7DayRecommender(BaseRecommender):
                 ) AS trend_score
             FROM item_windows
             WHERE weight_7d > 0
-            ORDER BY trend_score DESC;
+            ORDER BY trend_score DESC, product_id;
             """
         ).df()
 

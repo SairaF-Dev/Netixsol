@@ -114,7 +114,8 @@ def _load_sparse_interaction_data(
             SUM(implicit_weight) AS raw_weight,
             MAX(CASE WHEN event_type = 'transaction' THEN 1 ELSE 0 END) AS bought
         FROM {table}
-        GROUP BY user_id, product_id;
+        GROUP BY user_id, product_id
+        ORDER BY user_id, product_id;  -- fixed row order: GROUP BY output order varies between runs
         """
     ).df()
 
@@ -620,7 +621,7 @@ def load_val_ground_truth(
             FROM val_interactions
             WHERE user_id IN (SELECT DISTINCT user_id FROM train_interactions)
             GROUP BY user_id
-            ORDER BY total_w DESC
+            ORDER BY total_w DESC, user_id  -- tie-break: otherwise the validation users change between runs
             LIMIT {int(max_eval_users)}
         )
         SELECT v.user_id, v.product_id

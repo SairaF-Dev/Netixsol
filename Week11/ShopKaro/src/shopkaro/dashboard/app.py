@@ -4460,7 +4460,7 @@ def run_streamlit_app() -> None:
         elif ent_view == "🎯 Recommendation Engine Analytics":
             st.markdown(
                 "## 🎯 Recommendation Engine Intelligence & Offline Benchmarks\n"
-                "*7 models compared on 5,000 held-out users (Day 2 benchmark; numbers read from reports/day2_model_comparison.csv).*"
+                "*All 8 Day 2 models (incl. the PyTorch neural two-tower) compared on 5,000 held-out users (Day 2 benchmark; numbers read from reports/day2_model_comparison.csv).*"
             )
 
             rec_df = snapshot.get("rec_benchmarks", pd.DataFrame())

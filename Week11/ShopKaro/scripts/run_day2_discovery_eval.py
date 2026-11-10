@@ -23,7 +23,13 @@ from shopkaro.recommendations.baselines import (
     evaluate_recommender_at_k,
     load_test_ground_truth,
 )
-from shopkaro.recommendations.collaborative import ItemToItemCFRecommender, _load_sparse_interaction_data
+from shopkaro.recommendations.collaborative import (
+    ImplicitALSRecommender,
+    ItemToItemCFRecommender,
+    _load_sparse_interaction_data,
+    load_val_ground_truth,
+)
+from shopkaro.recommendations.two_tower import TwoTowerRecommender
 
 
 class RepeatOwnHistoryRecommender(BaseRecommender):
@@ -47,9 +53,16 @@ def main() -> None:
     catalogue, user_to_row, _uids, item_to_col, item_ids, R, bought = _load_sparse_interaction_data(con)
     ground_truth = load_test_ground_truth(con, require_warm_user=True, max_eval_users=5000)
     popular = PopularOverallRecommender().fit_from_duckdb(con)
+    val_gt = load_val_ground_truth(con, max_eval_users=2000)
     con.close()
     item_cf = ItemToItemCFRecommender().fit_from_sparse(catalogue, user_to_row, item_to_col, item_ids, R, bought)
     repeat = RepeatOwnHistoryRecommender(R, user_to_row, item_ids)
+    als = ImplicitALSRecommender(factors=96, regularization=0.10, alpha=30.0, iterations=10, revisit_boost=0.25)
+    als.fit_from_sparse(catalogue, user_to_row, item_to_col, item_ids, R, bought)
+    neural = TwoTowerRecommender(verbose=False).fit_from_sparse(
+        catalogue, user_to_row, item_to_col, item_ids, R, bought,
+        np.load(settings.models_dir / "item_text_embeddings.npy"), val_ground_truth=val_gt,
+    )
 
     def seen(uid: str) -> set[str]:
         return {item_ids[c] for c in R[user_to_row[uid]].indices}
@@ -63,8 +76,12 @@ def main() -> None:
         ("all_test_items", ground_truth, popular, False),
         ("all_test_items", ground_truth, repeat, False),
         ("all_test_items", ground_truth, item_cf, False),
+        ("all_test_items", ground_truth, als, False),
+        ("all_test_items", ground_truth, neural, False),
         ("new_items_only", new_items_gt, popular, True),
         ("new_items_only", new_items_gt, item_cf, True),
+        ("new_items_only", new_items_gt, als, True),
+        ("new_items_only", new_items_gt, neural, True),
     ]
     rows = []
     for protocol, gt, model, exclude_seen in runs:
@@ -89,6 +106,8 @@ def main() -> None:
     pop = df.query("protocol == 'new_items_only' and model_name.str.contains('Popular')")["ndcg_at_10"].iloc[0]
     cf = df.query("protocol == 'new_items_only' and model_name.str.contains('Item-to-Item')")["ndcg_at_10"].iloc[0]
     print(f"Discovery NDCG@10: item-CF {cf:.4f} vs popularity {pop:.4f} -> {cf / pop:.1f}x (target: >= 1.2x)")
+    tt = df.query("protocol == 'new_items_only' and model_name.str.contains('Two-Tower')")["ndcg_at_10"].iloc[0]
+    print(f"Discovery NDCG@10: neural two-tower {tt:.4f} ({tt / pop:.1f}x popularity, {tt / cf - 1:+.1%} vs item-CF)")
     print(f"Saved {out}")
 
 

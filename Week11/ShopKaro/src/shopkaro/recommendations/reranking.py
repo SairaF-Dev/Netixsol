@@ -181,7 +181,7 @@ class AssociationRulesEngine:
             LEFT JOIN train_interactions t ON c.product_id = t.product_id
             WHERE c.in_stock = TRUE
             GROUP BY c.category, c.product_id
-            ORDER BY c.category, pop_score DESC;
+            ORDER BY c.category, pop_score DESC, c.product_id;
             """
         ).df()
         for cat, grp in pop_cat_df.groupby("category"):
@@ -250,7 +250,7 @@ class AssociationRulesEngine:
             JOIN item_counts ia ON p.antecedent_id = ia.product_id
             JOIN item_counts ib ON p.consequent_id = ib.product_id
             WHERE (CAST(p.pair_baskets AS DOUBLE) / ia.item_baskets) >= {float(self.min_confidence)}
-            ORDER BY p.antecedent_id, lift DESC, confidence DESC;
+            ORDER BY p.antecedent_id, lift DESC, confidence DESC, p.consequent_id;
             """
         ).df()
 

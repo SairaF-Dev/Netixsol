@@ -1,5 +1,5 @@
 """
-Day 2 — Task 4: Comprehensive Offline Evaluation of All 7 Recommender Models.
+Day 2 — Task 4: Comprehensive Offline Evaluation of All 8 Recommender Models.
 
 Compares:
 1. Baseline 1: Most Popular Overall
@@ -8,7 +8,8 @@ Compares:
 4. Collaborative 1: Item-to-Item Collaborative Filtering (Cosine)
 5. Collaborative 2: Implicit Matrix Factorisation (ALS)
 6. Content-Based: 64-Dim Text Embeddings + Metadata Profile
-7. Hybrid Two-Tower: Item-CF + ALS + Content + User/Item Features + Cold-Start Router
+7. Hybrid Blend: hand-weighted Item-CF + ALS + Content + User/Item Features + Cold-Start Router
+8. Neural Two-Tower (PyTorch): user and item towers trained jointly with in-batch softmax (two_tower.py)
 
 Across:
 - Precision@10, Recall@10, NDCG@10, MAP@10, HitRate@10
@@ -41,10 +42,12 @@ from shopkaro.recommendations.collaborative import (
     ItemToItemCFRecommender,
     _load_sparse_interaction_data,
 )
+from shopkaro.recommendations.collaborative import load_val_ground_truth
 from shopkaro.recommendations.hybrid import (
     ContentBasedRecommender,
     HybridTwoTowerRecommender,
 )
+from shopkaro.recommendations.two_tower import TwoTowerRecommender, load_val_cold_users
 
 
 @dataclass
@@ -202,6 +205,8 @@ def evaluate_single_model_full(
         content_ref = model
     elif isinstance(model, HybridTwoTowerRecommender):
         content_ref = model.content_model
+    elif getattr(model, "scores_cold_items", False):  # neural two-tower: item tower embeds unseen items
+        content_ref = model
     else:
         content_ref = None
 
@@ -262,13 +267,14 @@ def plot_recommender_comparison_chart(
         "4. Item-to-Item CF",
         "5. Implicit ALS",
         "6. Content-Based",
-        "7. Hybrid Two-Tower",
-    ]
+        "7. Hybrid Blend",
+        "8. Neural Two-Tower",
+    ][: len(comparison_df)]
     y_pos = np.arange(len(comparison_df))
 
-    fig, axes = plt.subplots(2, 2, figsize=(16, 11))
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12.5))
     fig.suptitle(
-        "ShopKaro AI — Day 2 Recommendation Engine Offline Evaluation (7 Models @ K=10)",
+        f"ShopKaro AI — Day 2 Recommendation Engine Offline Evaluation ({len(comparison_df)} Models @ K=10)",
         fontsize=15,
         fontweight="bold",
         y=0.98,
@@ -296,7 +302,7 @@ def plot_recommender_comparison_chart(
     ax1.invert_yaxis()
     ax1.set_xlabel("Score (Higher is Better)")
     ax1.set_title("1. Ranking Accuracy on Chronological Warm Test Set", fontweight="bold")
-    ax1.legend(loc="lower right")
+    ax1.legend(loc="upper center", bbox_to_anchor=(0.5, -0.09), ncol=2, frameon=False)
     for b in bars_ndcg:
         ax1.text(
             b.get_width() + 0.002,
@@ -308,7 +314,7 @@ def plot_recommender_comparison_chart(
 
     # Panel 2: Catalogue Coverage (%)
     ax2 = axes[0, 1]
-    palette_cov = ["#9ecae1", "#6baed6", "#9ecae1", "#3182bd", "#2171b5", "#fd8d3c", "#08519c"]
+    palette_cov = ["#9ecae1", "#6baed6", "#9ecae1", "#3182bd", "#2171b5", "#fd8d3c", "#08519c", "#6a51a3"]
     bars_cov = ax2.barh(
         y_pos,
         comparison_df["catalogue_coverage_pct"],
@@ -351,7 +357,7 @@ def plot_recommender_comparison_chart(
     ax3.invert_yaxis()
     ax3.set_xlabel("Normalized Score (Higher = More Diverse / More Novel)")
     ax3.set_title("3. Beyond Accuracy: Intra-List Diversity & Novelty", fontweight="bold")
-    ax3.legend(loc="lower right")
+    ax3.legend(loc="upper center", bbox_to_anchor=(0.5, -0.09), ncol=2, frameon=False)
     for b, raw_nov in zip(bars_nov, comparison_df["novelty_bits_at_10"], strict=False):
         ax3.text(
             b.get_width() + 0.01,
@@ -382,7 +388,7 @@ def plot_recommender_comparison_chart(
     ax4.invert_yaxis()
     ax4.set_xlabel("Percentage / Scaled Score")
     ax4.set_title("4. Cold-Start Robustness (Unseen Users & 588 Unseen Items)", fontweight="bold")
-    ax4.legend(loc="lower right")
+    ax4.legend(loc="upper center", bbox_to_anchor=(0.5, -0.09), ncol=2, frameon=False)
     for b in bars_ci:
         if b.get_width() > 0:
             ax4.text(
@@ -407,7 +413,7 @@ def run_day2_task4_offline_evaluation(
 ) -> tuple[pd.DataFrame, dict[str, BaseRecommender], Path]:
     """
     Execute Day 2 — Task 4:
-    Fit all 7 models, evaluate them across all 10 metrics on the warm and cold-start test sets,
+    Fit all 8 models, evaluate them across all 10 metrics on the warm and cold-start test sets,
     save `reports/day2_model_comparison.csv`, and generate `reports/figures/08_recommender_model_comparison.png`.
     """
     target_db = db_path or settings.duckdb_path
@@ -486,12 +492,13 @@ def run_day2_task4_offline_evaluation(
         WITH top_cold_users AS (
             SELECT
                 user_id,
-                ANY_VALUE(category) AS onboarding_category,
+                -- deterministic simulated onboarding answer: the category of the user's first event
+                ARG_MIN(category, event_timestamp) AS onboarding_category,
                 COUNT(DISTINCT product_id) AS n_items
             FROM cold_start_test
             WHERE is_cold_user = TRUE
             GROUP BY user_id
-            ORDER BY n_items DESC
+            ORDER BY n_items DESC, user_id
             LIMIT {int(max_cold_users)}
         )
         SELECT
@@ -530,9 +537,25 @@ def run_day2_task4_offline_evaluation(
     cold_item_cols = np.array(
         [item_to_col[pid] for pid in all_cold_items if pid in item_to_col], dtype=int
     )
+    # Neural two-tower: epochs and serving knobs chosen on the validation window, never on test
+    val_gt = load_val_ground_truth(con, max_eval_users=2000)
+    val_cold_gt, val_cold_cat = load_val_cold_users(con, max_users=2000)
     con.close()
+    neural_tt = TwoTowerRecommender()
+    neural_tt.fit_from_sparse(
+        catalogue_df=catalogue_df,
+        user_to_row=user_to_row,
+        item_to_col=item_to_col,
+        col_to_item=col_to_item,
+        R_csr=R_csr,
+        user_purchased=user_purchased,
+        item_embeddings=item_embeddings,
+        val_ground_truth=val_gt,
+    )
+    neural_tt.tune_cold_start(val_cold_gt, val_cold_cat)  # new-user settings from validation only
+    neural_tt.set_cold_user_context(onboarding_map)  # same simulated onboarding answers the hybrid blend gets
 
-    # 4. Evaluate all 7 models
+    # 4. Evaluate all 8 models
     model_specs: list[tuple[str, BaseRecommender, str]] = [
         ("most_popular", b1_pop, "Baseline"),
         ("favourite_category_popular", b2_fav, "Baseline"),
@@ -540,7 +563,8 @@ def run_day2_task4_offline_evaluation(
         ("item_to_item_cf", cf_item, "Collaborative Filtering"),
         ("implicit_als", cf_als, "Collaborative Filtering"),
         ("content_based", content_rec, "Content-Based"),
-        ("hybrid_two_tower", hybrid_rec, "Hybrid Two-Tower"),
+        ("hybrid_two_tower", hybrid_rec, "Hybrid Blend"),
+        ("neural_two_tower", neural_tt, "Neural Two-Tower (PyTorch)"),
     ]
 
     rows: list[FullModelEvalRow] = []
