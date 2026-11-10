@@ -1,0 +1,22 @@
+hierarchy_level,model_name,horizon_days,segment_type,segment,n_points,wape_pct,mae,rmse,smape_pct,mape_pct,zero_actual_days_pct,total_wape_pct,total_bias_pct
+SKU_By_Velocity_60_extra_cutoffs,1. Naive (Last Observed Value),14,velocity,Fast_Mover,2240,46.271,18.639,25.586,47.837,52.385,0.0,35.816,-11.079
+SKU_By_Velocity_60_extra_cutoffs,1. Naive (Last Observed Value),14,velocity,Slow_Intermittent,2240,148.413,1.336,2.175,96.59,87.955,68.04,125.099,-9.028
+SKU_By_Velocity_60_extra_cutoffs,1. Naive (Last Observed Value),14,velocity,Steady_Mover,2240,50.883,8.106,11.146,54.305,62.369,0.04,38.755,-11.024
+SKU_By_Velocity_60_extra_cutoffs,2. Seasonal Naive (7-Day Cycle),14,velocity,Fast_Mover,2240,42.603,17.161,24.328,42.249,49.879,0.0,18.409,0.114
+SKU_By_Velocity_60_extra_cutoffs,2. Seasonal Naive (7-Day Cycle),14,velocity,Slow_Intermittent,2240,157.738,1.42,2.307,97.348,95.667,68.04,62.302,-3.671
+SKU_By_Velocity_60_extra_cutoffs,2. Seasonal Naive (7-Day Cycle),14,velocity,Steady_Mover,2240,45.788,7.295,9.96,47.882,56.603,0.04,17.183,-5.083
+SKU_By_Velocity_60_extra_cutoffs,3. Classical Holt-Winters ETS (s=7),14,velocity,Fast_Mover,2240,38.263,15.413,22.04,39.434,43.758,0.0,23.262,-7.357
+SKU_By_Velocity_60_extra_cutoffs,3. Classical Holt-Winters ETS (s=7),14,velocity,Slow_Intermittent,2240,143.712,1.293,1.9,148.416,72.678,68.04,71.836,-1.534
+SKU_By_Velocity_60_extra_cutoffs,3. Classical Holt-Winters ETS (s=7),14,velocity,Steady_Mover,2240,40.722,6.488,9.129,44.107,49.199,0.04,23.754,-11.672
+SKU_By_Velocity_60_extra_cutoffs,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Fast_Mover,2240,28.752,11.582,15.729,29.891,33.735,0.0,10.575,-5.75
+SKU_By_Velocity_60_extra_cutoffs,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Slow_Intermittent,2240,120.435,1.084,1.729,174.682,74.6,68.04,52.456,-42.379
+SKU_By_Velocity_60_extra_cutoffs,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Steady_Mover,2240,32.097,5.113,6.921,34.269,40.664,0.04,11.694,-6.444
+SKU_By_Velocity_60_extra_cutoffs,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Fast_Mover,2240,28.34,11.416,15.413,29.351,35.568,0.0,8.97,0.806
+SKU_By_Velocity_60_extra_cutoffs,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Slow_Intermittent,2240,137.49,1.237,1.67,164.641,59.311,68.04,41.94,4.171
+SKU_By_Velocity_60_extra_cutoffs,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Steady_Mover,2240,31.587,5.032,6.68,33.568,42.956,0.04,9.61,0.092
+SKU_By_Velocity_60_extra_cutoffs,6. Croston-SBA (Intermittent Demand),14,velocity,Fast_Mover,2240,38.621,15.557,21.495,37.3,47.741,0.0,21.146,6.699
+SKU_By_Velocity_60_extra_cutoffs,6. Croston-SBA (Intermittent Demand),14,velocity,Slow_Intermittent,2240,142.885,1.286,1.724,162.157,55.589,68.04,48.832,12.792
+SKU_By_Velocity_60_extra_cutoffs,6. Croston-SBA (Intermittent Demand),14,velocity,Steady_Mover,2240,41.156,6.557,9.038,40.799,55.535,0.04,20.172,2.994
+SKU_By_Velocity_60_extra_cutoffs,7. TSB (Intermittent Demand),14,velocity,Fast_Mover,2240,40.493,16.311,22.229,38.426,51.542,0.0,23.646,12.315
+SKU_By_Velocity_60_extra_cutoffs,7. TSB (Intermittent Demand),14,velocity,Slow_Intermittent,2240,145.13,1.306,1.753,162.72,56.61,68.04,54.058,16.013
+SKU_By_Velocity_60_extra_cutoffs,7. TSB (Intermittent Demand),14,velocity,Steady_Mover,2240,42.604,6.787,9.226,41.641,59.479,0.04,22.258,8.42

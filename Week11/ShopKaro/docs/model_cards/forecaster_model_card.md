@@ -5,8 +5,8 @@ formula and two business claims ("84.2% of pre-Eid stockouts prevented", "31.5% 
 produced; they are removed._
 
 ## Model details
-- **Point forecast:** global gradient-boosted trees (scikit-learn `HistGradientBoostingRegressor`, the same
-  histogram algorithm LightGBM uses; LightGBM itself is not installed) trained jointly on all series. Features:
+- **Point forecast:** global LightGBM (`lightgbm`, Python 3.11 venv; falls back to scikit-learn
+  `HistGradientBoostingRegressor` when the library is missing) trained jointly on all series. Features:
   rolling means of the de-seasonalised series (7/14/28/60 days), raw lag-7, 14-day mean and standard deviation,
   same-weekday mean over 4 weeks, calendar features, and the Pakistani festival calendar (Ramadan, both Eids,
   Azadi, back to school, 11.11, Black Friday, wedding season) with their moving Hijri dates.
@@ -32,8 +32,10 @@ Cut-offs 2025-03-15 (Eid ul Fitr), 2025-05-25 (Eid ul Adha), 2025-08-08 (Azadi /
 | Naive (Last Observed Value) | 42.9% | 333.7 | 52.4% | 40.3 |
 | Seasonal Naive (7-Day Cycle) | 42.3% | 329.2 | 52.7% | 40.5 |
 | Classical Holt-Winters ETS (s=7) | 41.8% | 325.6 | 49.8% | 38.3 |
-| Prophet (Fourier + Moving Islamic Holidays) | 6.8% | 53.2 | 27.4% | 21.1 |
-| Global LightGBM (Lags + Rolling + Festival Features) | 6.1% | 47.6 | 26.5% | 20.4 |
+| Prophet (Fourier + Moving Islamic Holidays) | 6.2% | 48.4 | 27.3% | 21.0 |
+| Global LightGBM (Lags + Rolling + Festival Features) | 6.0% | 47.0 | 26.5% | 20.3 |
+| Croston-SBA (intermittent demand, alpha 0.1) | 47.9% | 373.1 | 52.7% | 40.5 |
+| TSB (intermittent demand, alpha = beta = 0.1) | 46.4% | 361.3 | 51.5% | 39.6 |
 
 The seasonal naive baseline here repeats last week (7-day cycle). The brief's target, beating seasonal naive on
 WAPE, is met at every level and horizon.
@@ -61,8 +63,13 @@ treat this as evidence the mechanism works, not as an expected saving.
 ## Calibration and segments (added 2026-11-10)
 - P90 covered actual demand on 87.6% of SKU-days (target 90%); P10 was below actual on 91.2% (target 90%).
 - Festival days are forecast as well as regular days by Prophet / LightGBM (category WAPE ~6%), unlike the baselines.
-- **Slow / intermittent movers:** all models exceed 100% WAPE and LightGBM is worse than seasonal naive; use an
-  intermittent-demand method (Croston / TSB) for these. Details: `reports/day3_forecast_accuracy_breakdown.csv`.
+- **Slow / intermittent movers (checked 2026-11-10):** 67% of their days sell nothing, so per-day WAPE is above 100%
+  for every model, Croston and TSB included (forecasting zero scores exactly 100%, yet is useless for stocking).
+  Reordering uses the 14-day *total*, and on that LightGBM is the best model: total error 49.6%, bias +1.5% on the
+  4 festival folds, and 41.9% / +4.2% on 8 extra mostly non-festival cut-offs, vs Croston-SBA 58.4% / 48.8% and TSB
+  60.5% / 54.1% (both under-forecast festival weeks by ~42% because they ignore the calendar). Croston / TSB were
+  therefore **not** adopted; slow movers stay on LightGBM. `reports/day3_forecast_accuracy_breakdown.csv`
+  (`total_wape_pct`, `total_bias_pct`), `scripts/run_day3_slow_mover_check.py`.
 
 ## Limitations
 - Synthetic demand and synthetic stock levels; no real sales were available.

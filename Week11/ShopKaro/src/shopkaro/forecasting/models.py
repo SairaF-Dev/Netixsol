@@ -10,8 +10,9 @@ Implements 5 Progressive Forecasting Models:
 5. `GlobalLGBMForecaster`: Global Gradient Boosted Trees (`HistGradientBoostingRegressor` — native
    LightGBM histogram algorithm) trained jointly across all series with lag, rolling, calendar,
    category-seasonality, and Pakistani festival features.
+6. `CrostonSBAForecaster` / 7. `TSBForecaster`: intermittent-demand rates (checked for slow movers; not adopted).
 
-Evaluates all 5 models via 4-Fold Expanding-Window Rolling-Origin Backtesting across
+Evaluates all 7 models via 4-Fold Expanding-Window Rolling-Origin Backtesting across
 7-day, 14-day, and 30-day horizons using WAPE (primary), MAE, RMSE, and sMAPE.
 """
 
@@ -650,6 +651,62 @@ class GlobalLGBMForecaster:
         return predictions
 
 
+# ============================================================================
+# Models 6 & 7: intermittent-demand methods (Croston-SBA, TSB) for slow movers
+# ============================================================================
+# On a slow mover most days sell nothing, so a per-day forecast is mostly wrong whatever it is. What stock planning
+# needs is the average daily rate (the inventory engine multiplies it by the lead time). Croston-type methods estimate
+# that rate by smoothing the size of non-zero sales and how often they happen separately. Smoothing constants are the
+# textbook defaults (0.1), fixed in advance rather than tuned on the backtest.
+def croston_sba_rate(y: np.ndarray, alpha: float = 0.1) -> float:
+    """Croston's method with the Syntetos-Boylan bias correction: rate = (1 - alpha/2) * size / interval."""
+    y = np.asarray(y, dtype=np.float64)
+    nz = np.flatnonzero(y > 0)
+    if len(nz) == 0:
+        return 0.0
+    size, interval, last = float(y[nz[0]]), float(nz[0] + 1), int(nz[0])
+    for i in nz[1:]:
+        size += alpha * (float(y[i]) - size)
+        interval += alpha * (float(i - last) - interval)
+        last = int(i)
+    return (1.0 - alpha / 2.0) * size / interval
+
+
+def tsb_rate(y: np.ndarray, alpha: float = 0.1, beta: float = 0.1) -> float:
+    """
+    Teunter-Syntetos-Babai: smooth the demand size on sale days (alpha) and the probability of a sale every day (beta),
+    rate = probability * size. Unlike Croston, the rate decays during long runs of zeros (an item that stopped selling).
+    """
+    y = np.asarray(y, dtype=np.float64)
+    sold = y > 0
+    if not sold.any():
+        return 0.0
+    size, prob = float(y[sold].mean()), float(sold.mean())
+    for v, s in zip(y, sold):
+        if s:
+            size += alpha * (v - size)
+        prob += beta * (float(s) - prob)
+    return prob * size
+
+
+class CrostonSBAForecaster:
+    """Model 6: Croston (SBA) flat daily rate."""
+
+    name = "6. Croston-SBA (Intermittent Demand)"
+
+    def fit_predict_series(self, train_df: pd.DataFrame, future_dates: pd.DatetimeIndex) -> np.ndarray:
+        return np.full(len(future_dates), croston_sba_rate(train_df["units_sold"].to_numpy()), dtype=np.float64)
+
+
+class TSBForecaster:
+    """Model 7: TSB flat daily rate."""
+
+    name = "7. TSB (Intermittent Demand)"
+
+    def fit_predict_series(self, train_df: pd.DataFrame, future_dates: pd.DatetimeIndex) -> np.ndarray:
+        return np.full(len(future_dates), tsb_rate(train_df["units_sold"].to_numpy()), dtype=np.float64)
+
+
 def _evaluate_panel_across_folds(
     panel_df: pd.DataFrame,
     id_col: str,
@@ -658,7 +715,7 @@ def _evaluate_panel_across_folds(
     breakdown_sink: list[dict[str, Any]] | None = None,
 ) -> pd.DataFrame:
     """
-    Run 4-Fold Rolling-Origin Backtesting for all 5 models across 7d, 14d, and 30d horizons.
+    Run 4-Fold Rolling-Origin Backtesting for all 7 models across 7d, 14d, and 30d horizons.
     If `breakdown_sink` is given, also append accuracy at BREAKDOWN_HORIZON split by festival vs regular days and
     by velocity tier.
     """
@@ -671,6 +728,8 @@ def _evaluate_panel_across_folds(
     m3_ets = HoltWintersETSForecaster()
     m4_prophet = ProphetFourierHolidayForecaster(fourier_order=6, ridge_alpha=1.5)
     m5_lgbm = GlobalLGBMForecaster()
+    m6_croston = CrostonSBAForecaster()
+    m7_tsb = TSBForecaster()
 
     model_names = [
         m1_naive.name,
@@ -678,6 +737,8 @@ def _evaluate_panel_across_folds(
         m3_ets.name,
         m4_prophet.name,
         m5_lgbm.name,
+        m6_croston.name,
+        m7_tsb.name,
     ]
 
     # Store (y_true_list, y_pred_list) per (model_name, horizon)
@@ -687,7 +748,10 @@ def _evaluate_panel_across_folds(
 
     max_h = max(HORIZONS)
     # Per-point actuals / predictions at one horizon, for festival-vs-regular and velocity-tier breakdowns
-    detail: dict[str, dict[str, list[np.ndarray]]] = {m: {"y": [], "p": [], "fest": [], "tier": []} for m in model_names}
+    # (plus per-series totals over that horizon: stock planning needs the total, not each day)
+    detail: dict[str, dict[str, list[Any]]] = {
+        m: {"y": [], "p": [], "fest": [], "tier": [], "ytot": [], "ptot": [], "stier": []} for m in model_names
+    }
 
     for _, cutoff_str in BACKTEST_FOLD_CUTOFFS:
         cutoff_dt = pd.Timestamp(cutoff_str)
@@ -737,6 +801,8 @@ def _evaluate_panel_across_folds(
                 m3_ets.name: p_ets,
                 m4_prophet.name: p_prophet,
                 m5_lgbm.name: p_lgbm,
+                m6_croston.name: m6_croston.fit_predict_series(tr_s, future_dates),
+                m7_tsb.name: m7_tsb.fit_predict_series(tr_s, future_dates),
             }
 
             for h in HORIZONS:
@@ -755,6 +821,9 @@ def _evaluate_panel_across_folds(
                     detail[m_name]["p"].append(np.asarray(p_vec[:h], dtype=np.float64))
                     detail[m_name]["fest"].append(fest_flags)
                     detail[m_name]["tier"].append(np.array([tier] * h, dtype=object))
+                    detail[m_name]["ytot"].append(float(np.sum(y_actual_30[:h])))
+                    detail[m_name]["ptot"].append(float(np.sum(np.maximum(np.asarray(p_vec[:h], dtype=np.float64), 0.0))))
+                    detail[m_name]["stier"].append(tier)
 
     summary_rows: list[BacktestSummaryRow] = []
     for h in HORIZONS:
@@ -787,12 +856,22 @@ def _evaluate_panel_across_folds(
             fest, tier = np.concatenate(d["fest"]), np.concatenate(d["tier"])
             segments = [("period", "festival days", fest), ("period", "regular days", ~fest)]
             segments += [("velocity", str(t), tier == t) for t in sorted(set(tier.tolist())) if t]
+            ytot, ptot, stier = np.array(d["ytot"]), np.array(d["ptot"]), np.array(d["stier"], dtype=object)
             for seg_type, seg, mask in segments:
                 if mask.any():
                     m = compute_forecast_metrics(y[mask], p[mask])
+                    # Error of the h-day TOTAL per series and fold (what a reorder decision uses); velocity rows only
+                    tot = {"total_wape_pct": float("nan"), "total_bias_pct": float("nan")}
+                    smask = stier == seg
+                    if seg_type == "velocity" and smask.any():
+                        yt_sum = max(float(ytot[smask].sum()), 1.0)
+                        tot = {
+                            "total_wape_pct": round(float(np.abs(ptot[smask] - ytot[smask]).sum()) / yt_sum * 100, 3),
+                            "total_bias_pct": round(float((ptot[smask] - ytot[smask]).sum()) / yt_sum * 100, 3),
+                        }
                     breakdown_sink.append(
                         {"hierarchy_level": hierarchy_label, "model_name": m_name, "horizon_days": h,
-                         "segment_type": seg_type, "segment": seg, "n_points": int(mask.sum()), **m}
+                         "segment_type": seg_type, "segment": seg, "n_points": int(mask.sum()), **m, **tot}
                     )
 
     return pd.DataFrame([asdict(r) for r in summary_rows])
@@ -804,7 +883,7 @@ def plot_backtest_comparison_chart(
 ) -> Path:
     """
     Generate Figure 11 (`11_forecasting_backtest_comparison.png`):
-    4-panel comparison of all 5 forecasting models across 7d, 14d, and 30d horizons
+    4-panel comparison of all 7 forecasting models across 7d, 14d, and 30d horizons
     at both Category Level (11 Categories) and Product Level (Top-50 SKUs).
     """
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -812,7 +891,7 @@ def plot_backtest_comparison_chart(
 
     fig, axes = plt.subplots(2, 2, figsize=(16, 11))
     fig.suptitle(
-        "ShopKaro AI — Day 3 Tasks 2 & 3: 4-Fold Rolling-Origin Backtesting (5 Models x 3 Horizons)",
+        "ShopKaro AI — Day 3 Tasks 2 & 3: 4-Fold Rolling-Origin Backtesting (7 Models x 3 Horizons)",
         fontsize=14,
         fontweight="bold",
         y=0.98,
@@ -828,8 +907,10 @@ def plot_backtest_comparison_chart(
         "3. Holt-Winters ETS",
         "4. Prophet (Holidays)",
         "5. Global LightGBM",
+        "6. Croston-SBA",
+        "7. TSB",
     ]
-    y_pos = np.arange(5)
+    y_pos = np.arange(len(short_models))
     w = 0.25
 
     # Panel 1: Category-Level WAPE (%) across 7d, 14d, 30d
@@ -928,7 +1009,7 @@ def run_day3_task2_task3_forecasting_backtest(
     """
     Execute Day 3 — Tasks 2 & 3:
     1. Build 3-level time-series panels and festival calendar lookup.
-    2. Evaluate all 5 forecasting models across 4 Rolling-Origin Folds and 3 Horizons (7d, 14d, 30d)
+    2. Evaluate all 7 forecasting models across 4 Rolling-Origin Folds and 3 Horizons (7d, 14d, 30d)
        on both Category Level (11 Categories) and Product Level (Top-50 SKUs).
     3. Save `reports/day3_forecasting_backtest_comparison.csv` and `reports/figures/11_forecasting_backtest_comparison.png`.
     """
