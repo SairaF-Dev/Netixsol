@@ -104,11 +104,27 @@ highest-volume products in each velocity tier) was added because the top-50 SKUs
 | Classical Holt-Winters ETS | 50.2% | 52.3% | 121.1% |
 | Prophet | 27.0% | 30.4% | 115.8% |
 | Global LightGBM | 26.8% | 30.6% | 135.7% |
+| Croston-SBA (added 2026-11-10) | 53.8% | 55.4% | 120.6% |
+| TSB (added 2026-11-10) | 52.5% | 54.1% | 120.9% |
 
-**Honest finding: slow / intermittent movers.** 67% of their days have zero sales. Every model is above
-100% WAPE there (worse than forecasting zero), and LightGBM is worse than seasonal naive. The headline "beats
-seasonal naive" holds for fast and steady movers and at category level, not for intermittent items. The standard fix
-is an intermittent-demand method (Croston / TSB) or forecasting their demand with the P90 band only; not implemented.
+**Slow / intermittent movers (updated 2026-11-10).** 67% of their days have zero sales, so per-day WAPE is above
+100% for every model (forecasting zero scores exactly 100% but would never restock anything). Croston-SBA and TSB, the
+standard intermittent-demand methods, were added as models 6 and 7 (textbook smoothing 0.1, not tuned). Reordering
+uses the forecast 14-day *total*, so that is the fair yardstick (`total_wape_pct` = sum over SKUs and folds of
+|forecast total - actual total| / actual total):
+
+| Slow movers, 14-day total | 4 festival folds: error | bias | 8 extra cut-offs: error | bias |
+| :--- | :---: | :---: | :---: | :---: |
+| Seasonal Naive | 65.9% | -42.6% | 62.3% | -3.7% |
+| Prophet | 61.5% | -55.2% | 52.5% | -42.4% |
+| **Global LightGBM** | **49.6%** | **+1.5%** | **41.9%** | **+4.2%** |
+| Croston-SBA | 58.4% | -41.9% | 48.8% | +12.8% |
+| TSB | 60.5% | -42.6% | 54.1% | +16.0% |
+
+(Extra cut-offs: `scripts/run_day3_slow_mover_check.py` -> `reports/day3_slow_mover_extra_cutoffs.csv`.) LightGBM is
+the best and nearly unbiased in both checks; its high per-day WAPE comes from spreading small amounts over days that
+turn out to be zero, which is right for the total. Croston / TSB ignore the festival calendar and under-forecast
+festival weeks. **Decision: not adopted; slow movers stay on LightGBM.**
 
 **MAPE vs WAPE (14-day horizon).** MAPE divides by the actual value, so it is undefined on zero-sale days and explodes
 on days with 1-2 sales; it is computed here only over days with sales, next to the share of zero-sale days.

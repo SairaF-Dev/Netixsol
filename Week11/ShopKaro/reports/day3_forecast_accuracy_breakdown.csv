@@ -1,51 +1,71 @@
-hierarchy_level,model_name,horizon_days,segment_type,segment,n_points,wape_pct,mae,rmse,smape_pct,mape_pct,zero_actual_days_pct
-Category_Level,1. Naive (Last Observed Value),14,period,festival days,517,44.321,383.433,856.48,50.509,42.764,0.0
-Category_Level,1. Naive (Last Observed Value),14,period,regular days,99,22.617,73.788,133.163,28.189,27.197,0.0
-Category_Level,2. Seasonal Naive (7-Day Cycle),14,period,festival days,517,44.517,385.135,915.612,48.409,37.595,0.0
-Category_Level,2. Seasonal Naive (7-Day Cycle),14,period,regular days,99,11.378,37.121,51.742,20.903,19.135,0.0
-Category_Level,3. Classical Holt-Winters ETS (s=7),14,period,festival days,517,44.12,381.7,902.301,51.211,36.75,0.0
-Category_Level,3. Classical Holt-Winters ETS (s=7),14,period,regular days,99,10.061,32.823,50.074,17.364,15.217,0.0
-Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,festival days,517,6.218,53.792,95.986,13.792,16.05,0.0
-Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,regular days,99,6.276,20.476,29.848,11.583,11.836,0.0
-Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,festival days,517,6.027,52.146,95.469,13.148,14.628,0.0
-Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,regular days,99,6.236,20.344,28.66,11.851,11.956,0.0
-Top50_SKU_Level,1. Naive (Last Observed Value),14,period,festival days,2350,52.706,45.051,66.792,57.042,53.014,0.0
-Top50_SKU_Level,1. Naive (Last Observed Value),14,period,regular days,450,47.583,15.331,21.378,45.294,58.36,0.0
-Top50_SKU_Level,1. Naive (Last Observed Value),14,velocity,Fast_Mover,2800,52.361,40.275,61.787,55.154,53.873,0.0
-Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,period,festival days,2350,53.471,45.706,68.691,59.239,48.139,0.0
-Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,period,regular days,450,42.072,13.556,18.639,43.205,58.813,0.0
-Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,velocity,Fast_Mover,2800,52.704,40.539,63.372,56.662,49.855,0.0
-Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,period,festival days,2350,51.015,43.606,66.536,54.38,44.765,0.0
-Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,period,regular days,450,33.143,10.679,14.2,35.197,44.818,0.0
-Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,velocity,Fast_Mover,2800,49.811,38.314,61.221,51.297,44.773,0.0
-Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,festival days,2350,27.183,23.236,34.918,28.605,30.973,0.0
-Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,regular days,450,28.515,9.188,12.802,29.845,36.069,0.0
-Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Fast_Mover,2800,27.273,20.978,32.398,28.805,31.792,0.0
-Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,festival days,2350,26.359,22.531,33.728,27.791,32.009,0.0
-Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,regular days,450,27.765,8.946,12.265,29.332,37.651,0.0
-Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Fast_Mover,2800,26.454,20.347,31.288,28.039,32.916,0.0
-SKU_By_Velocity_60,1. Naive (Last Observed Value),14,period,festival days,2820,52.929,26.371,49.909,66.621,59.395,22.34
-SKU_By_Velocity_60,1. Naive (Last Observed Value),14,period,regular days,540,49.367,7.946,14.541,57.434,70.866,22.96
-SKU_By_Velocity_60,1. Naive (Last Observed Value),14,velocity,Fast_Mover,1120,51.216,48.685,74.021,54.539,52.715,0.0
-SKU_By_Velocity_60,1. Naive (Last Observed Value),14,velocity,Slow_Intermittent,1120,112.009,1.882,3.899,79.181,92.183,67.32
-SKU_By_Velocity_60,1. Naive (Last Observed Value),14,velocity,Steady_Mover,1120,53.913,19.663,29.654,61.712,59.621,0.0
-SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,period,festival days,2820,54.829,27.318,51.836,71.928,56.168,22.34
-SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,period,regular days,540,46.652,7.509,12.977,63.2,74.812,22.96
-SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,velocity,Fast_Mover,1120,52.679,50.076,76.728,56.92,51.74,0.0
-SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,velocity,Slow_Intermittent,1120,127.63,2.145,3.967,91.786,88.508,67.32
-SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,velocity,Steady_Mover,1120,55.338,20.183,30.721,62.869,56.952,0.0
-SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,period,festival days,2820,52.474,26.145,50.174,88.585,51.354,22.34
-SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,period,regular days,540,38.622,6.217,9.906,80.494,62.679,22.96
-SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,velocity,Fast_Mover,1120,50.196,47.716,74.055,52.014,46.833,0.0
-SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,velocity,Slow_Intermittent,1120,121.054,2.034,3.644,152.669,77.531,67.32
-SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,velocity,Steady_Mover,1120,52.303,19.076,29.805,57.17,51.528,0.0
-SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,period,festival days,2820,28.805,14.352,26.487,79.493,40.725,22.34
-SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,period,regular days,540,33.025,5.316,8.776,83.063,51.535,22.96
-SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Fast_Mover,1120,26.984,25.651,38.942,28.92,33.59,0.0
-SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Slow_Intermittent,1120,115.814,1.946,3.514,177.316,78.157,67.32
-SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Steady_Mover,1120,30.44,11.102,16.574,33.963,39.644,0.0
-SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,festival days,2820,29.006,14.452,26.058,74.436,39.335,22.34
-SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,regular days,540,33.06,5.321,8.642,79.265,52.357,22.96
-SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Fast_Mover,1120,26.848,25.521,38.319,28.681,35.229,0.0
-SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Slow_Intermittent,1120,135.667,2.28,3.29,163.892,59.315,67.32
-SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Steady_Mover,1120,30.579,11.153,16.325,33.063,41.749,0.0
+hierarchy_level,model_name,horizon_days,segment_type,segment,n_points,wape_pct,mae,rmse,smape_pct,mape_pct,zero_actual_days_pct,total_wape_pct,total_bias_pct
+Category_Level,1. Naive (Last Observed Value),14,period,festival days,517,44.321,383.433,856.48,50.509,42.764,0.0,,
+Category_Level,1. Naive (Last Observed Value),14,period,regular days,99,22.617,73.788,133.163,28.189,27.197,0.0,,
+Category_Level,2. Seasonal Naive (7-Day Cycle),14,period,festival days,517,44.517,385.135,915.612,48.409,37.595,0.0,,
+Category_Level,2. Seasonal Naive (7-Day Cycle),14,period,regular days,99,11.378,37.121,51.742,20.903,19.135,0.0,,
+Category_Level,3. Classical Holt-Winters ETS (s=7),14,period,festival days,517,44.12,381.7,902.301,51.211,36.75,0.0,,
+Category_Level,3. Classical Holt-Winters ETS (s=7),14,period,regular days,99,10.061,32.823,50.074,17.364,15.217,0.0,,
+Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,festival days,517,6.218,53.792,95.986,13.792,16.05,0.0,,
+Category_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,regular days,99,6.276,20.476,29.848,11.583,11.836,0.0,,
+Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,festival days,517,6.027,52.146,95.469,13.148,14.628,0.0,,
+Category_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,regular days,99,6.236,20.344,28.66,11.851,11.956,0.0,,
+Category_Level,6. Croston-SBA (Intermittent Demand),14,period,festival days,517,50.019,432.736,1020.044,53.153,50.217,0.0,,
+Category_Level,6. Croston-SBA (Intermittent Demand),14,period,regular days,99,18.976,61.909,89.624,23.669,23.135,0.0,,
+Category_Level,7. TSB (Intermittent Demand),14,period,festival days,517,48.281,417.693,991.338,50.919,50.147,0.0,,
+Category_Level,7. TSB (Intermittent Demand),14,period,regular days,99,20.557,67.065,95.857,24.47,25.144,0.0,,
+Top50_SKU_Level,1. Naive (Last Observed Value),14,period,festival days,2350,52.706,45.051,66.792,57.042,53.014,0.0,,
+Top50_SKU_Level,1. Naive (Last Observed Value),14,period,regular days,450,47.583,15.331,21.378,45.294,58.36,0.0,,
+Top50_SKU_Level,1. Naive (Last Observed Value),14,velocity,Fast_Mover,2800,52.361,40.275,61.787,55.154,53.873,0.0,42.076,-30.673
+Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,period,festival days,2350,53.471,45.706,68.691,59.239,48.139,0.0,,
+Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,period,regular days,450,42.072,13.556,18.639,43.205,58.813,0.0,,
+Top50_SKU_Level,2. Seasonal Naive (7-Day Cycle),14,velocity,Fast_Mover,2800,52.704,40.539,63.372,56.662,49.855,0.0,41.958,-39.768
+Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,period,festival days,2350,51.015,43.606,66.536,54.38,44.765,0.0,,
+Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,period,regular days,450,33.143,10.679,14.2,35.197,44.818,0.0,,
+Top50_SKU_Level,3. Classical Holt-Winters ETS (s=7),14,velocity,Fast_Mover,2800,49.811,38.314,61.221,51.297,44.773,0.0,41.774,-38.361
+Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,festival days,2350,27.183,23.236,34.918,28.605,30.973,0.0,,
+Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,period,regular days,450,28.515,9.188,12.802,29.845,36.069,0.0,,
+Top50_SKU_Level,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Fast_Mover,2800,27.273,20.978,32.398,28.805,31.792,0.0,11.07,-5.306
+Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,festival days,2350,26.359,22.531,33.728,27.791,32.009,0.0,,
+Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,regular days,450,27.765,8.946,12.265,29.332,37.651,0.0,,
+Top50_SKU_Level,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Fast_Mover,2800,26.454,20.347,31.288,28.039,32.916,0.0,8.889,-0.009
+Top50_SKU_Level,6. Croston-SBA (Intermittent Demand),14,period,festival days,2350,54.146,46.283,72.03,55.789,44.198,0.0,,
+Top50_SKU_Level,6. Croston-SBA (Intermittent Demand),14,period,regular days,450,32.09,10.34,13.947,33.432,45.737,0.0,,
+Top50_SKU_Level,6. Croston-SBA (Intermittent Demand),14,velocity,Fast_Mover,2800,52.661,40.506,66.225,52.196,44.446,0.0,45.366,-44.872
+Top50_SKU_Level,7. TSB (Intermittent Demand),14,period,festival days,2350,52.796,45.128,70.497,53.874,44.069,0.0,,
+Top50_SKU_Level,7. TSB (Intermittent Demand),14,period,regular days,450,32.968,10.622,14.089,34.159,49.012,0.0,,
+Top50_SKU_Level,7. TSB (Intermittent Demand),14,velocity,Fast_Mover,2800,51.461,39.583,64.83,50.706,44.863,0.0,42.991,-41.971
+SKU_By_Velocity_60,1. Naive (Last Observed Value),14,period,festival days,2820,52.929,26.371,49.909,66.621,59.395,22.34,,
+SKU_By_Velocity_60,1. Naive (Last Observed Value),14,period,regular days,540,49.367,7.946,14.541,57.434,70.866,22.96,,
+SKU_By_Velocity_60,1. Naive (Last Observed Value),14,velocity,Fast_Mover,1120,51.216,48.685,74.021,54.539,52.715,0.0,40.465,-31.095
+SKU_By_Velocity_60,1. Naive (Last Observed Value),14,velocity,Slow_Intermittent,1120,112.009,1.882,3.899,79.181,92.183,67.32,103.932,-73.22
+SKU_By_Velocity_60,1. Naive (Last Observed Value),14,velocity,Steady_Mover,1120,53.913,19.663,29.654,61.712,59.621,0.0,40.909,-32.689
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,period,festival days,2820,54.829,27.318,51.836,71.928,56.168,22.34,,
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,period,regular days,540,46.652,7.509,12.977,63.2,74.812,22.96,,
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,velocity,Fast_Mover,1120,52.679,50.076,76.728,56.92,51.74,0.0,42.394,-40.395
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,velocity,Slow_Intermittent,1120,127.63,2.145,3.967,91.786,88.508,67.32,65.887,-42.614
+SKU_By_Velocity_60,2. Seasonal Naive (7-Day Cycle),14,velocity,Steady_Mover,1120,55.338,20.183,30.721,62.869,56.952,0.0,43.568,-42.202
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,period,festival days,2820,52.474,26.145,50.174,88.585,51.354,22.34,,
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,period,regular days,540,38.622,6.217,9.906,80.494,62.679,22.96,,
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,velocity,Fast_Mover,1120,50.196,47.716,74.055,52.014,46.833,0.0,41.96,-38.698
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,velocity,Slow_Intermittent,1120,121.054,2.034,3.644,152.669,77.531,67.32,70.906,-47.257
+SKU_By_Velocity_60,3. Classical Holt-Winters ETS (s=7),14,velocity,Steady_Mover,1120,52.303,19.076,29.805,57.17,51.528,0.0,43.119,-41.01
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,period,festival days,2820,28.805,14.352,26.487,79.493,40.725,22.34,,
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,period,regular days,540,33.025,5.316,8.776,83.063,51.535,22.96,,
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Fast_Mover,1120,26.984,25.651,38.942,28.92,33.59,0.0,10.461,-2.967
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Slow_Intermittent,1120,115.814,1.946,3.514,177.316,78.157,67.32,61.474,-55.167
+SKU_By_Velocity_60,4. Prophet (Fourier + Moving Islamic Holidays),14,velocity,Steady_Mover,1120,30.44,11.102,16.574,33.963,39.644,0.0,12.117,-4.047
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,festival days,2820,29.006,14.452,26.058,74.436,39.335,22.34,,
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,period,regular days,540,33.06,5.321,8.642,79.265,52.357,22.96,,
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Fast_Mover,1120,26.848,25.521,38.319,28.681,35.229,0.0,9.502,2.255
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Slow_Intermittent,1120,135.667,2.28,3.29,163.892,59.315,67.32,49.615,1.479
+SKU_By_Velocity_60,5. Global LightGBM (Lags + Rolling + Festival Features),14,velocity,Steady_Mover,1120,30.579,11.153,16.325,33.063,41.749,0.0,11.91,2.117
+SKU_By_Velocity_60,6. Croston-SBA (Intermittent Demand),14,period,festival days,2820,56.177,27.99,54.819,96.292,49.864,22.34,,
+SKU_By_Velocity_60,6. Croston-SBA (Intermittent Demand),14,period,regular days,540,36.57,5.886,9.563,79.668,59.003,22.96,,
+SKU_By_Velocity_60,6. Croston-SBA (Intermittent Demand),14,velocity,Fast_Mover,1120,53.753,51.096,81.054,53.873,47.147,0.0,47.036,-46.591
+SKU_By_Velocity_60,6. Croston-SBA (Intermittent Demand),14,velocity,Slow_Intermittent,1120,120.625,2.027,3.526,170.081,66.649,67.32,58.368,-41.856
+SKU_By_Velocity_60,6. Croston-SBA (Intermittent Demand),14,velocity,Steady_Mover,1120,55.354,20.189,32.068,56.906,50.491,0.0,48.204,-47.582
+SKU_By_Velocity_60,7. TSB (Intermittent Demand),14,period,festival days,2820,54.821,27.314,53.626,95.218,49.924,22.34,,
+SKU_By_Velocity_60,7. TSB (Intermittent Demand),14,period,regular days,540,37.752,6.077,9.722,81.109,63.292,22.96,,
+SKU_By_Velocity_60,7. TSB (Intermittent Demand),14,velocity,Fast_Mover,1120,52.537,49.94,79.286,52.423,47.735,0.0,44.732,-43.78
+SKU_By_Velocity_60,7. TSB (Intermittent Demand),14,velocity,Slow_Intermittent,1120,120.888,2.031,3.546,171.104,68.196,67.32,60.54,-42.564
+SKU_By_Velocity_60,7. TSB (Intermittent Demand),14,velocity,Steady_Mover,1120,54.099,19.731,31.422,55.324,51.106,0.0,45.909,-44.824

@@ -11,14 +11,23 @@ from shopkaro.forecasting.models import run_day3_task2_task3_forecasting_backtes
 
 
 def test_day3_task2_task3_forecasting_backtest() -> None:
-    """Verify all 5 forecasting models across 4 folds and 3 horizons (7d, 14d, 30d)."""
+    """Verify all 7 forecasting models across 4 folds and 3 horizons (7d, 14d, 30d)."""
     backtest_df, fig_path = run_day3_task2_task3_forecasting_backtest()
 
-    # 3 panels (11 categories, top-50 SKUs, 60 SKUs stratified by velocity) x 3 horizons x 5 models = 45 rows
-    assert len(backtest_df) == 45
+    # 3 panels (11 categories, top-50 SKUs, 60 SKUs stratified by velocity) x 3 horizons x 7 models = 63 rows
+    assert len(backtest_df) == 63
     assert set(backtest_df["hierarchy_level"]) == {"Category_Level", "Top50_SKU_Level", "SKU_By_Velocity_60"}
     breakdown = pd.read_csv(settings.reports_dir / "day3_forecast_accuracy_breakdown.csv")
     assert {"festival days", "regular days", "Fast_Mover", "Steady_Mover", "Slow_Intermittent"} <= set(breakdown["segment"])
+
+    # Slow movers: judged on the error of the 14-day total (what reordering uses), not per-day WAPE.
+    slow = breakdown[
+        (breakdown["hierarchy_level"] == "SKU_By_Velocity_60") & (breakdown["segment"] == "Slow_Intermittent")
+    ].set_index("model_name")
+    assert {"6. Croston-SBA (Intermittent Demand)", "7. TSB (Intermittent Demand)"} <= set(slow.index)
+    lgbm_total = float(slow.loc["5. Global LightGBM (Lags + Rolling + Festival Features)", "total_wape_pct"])
+    assert lgbm_total < 100.0  # better than forecasting zero (which scores exactly 100%)
+    assert lgbm_total < float(slow.loc["2. Seasonal Naive (7-Day Cycle)", "total_wape_pct"])
     assert fig_path.exists()
     assert (settings.reports_dir / "day3_forecasting_backtest_comparison.csv").exists()
 
