@@ -4,7 +4,7 @@ Structure Extractor for Statutes (Act/Ordinance -> Chapters -> Sections -> Subse
 
 import re
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 
 from src.utils.schemas import StatuteDocument, ChapterItem, SectionItem
 from src.utils.logger import setup_logger
@@ -22,6 +22,10 @@ class StatuteStructureExtractor:
         year = 2000
         preamble = ""
         raw_chapters = []
+
+        if "CONSTITUTION OF THE ISLAMIC REPUBLIC OF PAKISTAN" in text.upper():
+            act_name = "Constitution of the Islamic Republic of Pakistan"
+            year = 1973
         
         current_chapter: Optional[Dict[str, Any]] = None
         current_section: Optional[Dict[str, Any]] = None

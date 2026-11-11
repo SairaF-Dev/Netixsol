@@ -24,7 +24,6 @@ tiktoken>=0.7.0
 
 # Indexing & Retrieval
 rank-bm25>=0.2.2
-chromadb>=0.4.24
 sentence-transformers>=3.0.0
 
 # Testing & Quality Assurance

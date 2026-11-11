@@ -11,15 +11,13 @@ Automates:
 import sys
 import argparse
 from pathlib import Path
-from typing import List, Dict, Any
 
 from src.utils.logger import setup_logger
 from src.utils.file_utils import ensure_directory
 from src.ingestion.corpus_collector import run_corpus_collection
-from src.ingestion.pdf_parser import LegalPDFParser
 from src.extraction.structure_extractor import UnifiedStructureExtractor
 from src.chunking.section_chunker import SectionLevelChunker
-from src.chunking.parent_child_chunker import ParentChildChunker
+from src.chunking.fixed_chunker import FixedSizeChunker
 from src.indexing.bm25_index import LegalBM25Index
 from src.indexing.vector_store import DenseVectorStore
 from src.indexing.hybrid_search import HybridLegalSearchEngine
@@ -38,15 +36,31 @@ def build_complete_indices() -> HybridLegalSearchEngine:
     
     extractor = UnifiedStructureExtractor()
     chunker = SectionLevelChunker()
+    fallback_chunker = FixedSizeChunker()
     
     all_chunks = []
     
     # 1. Index Statutes
-    statute_files = list(Path("data/statutes").glob("*.json"))
+    statute_files = (
+        list(Path("data/statutes").glob("*.json"))
+        + list(Path("data/statutes").glob("REAL_*.pdf"))
+    )
     logger.info(f"Indexing {len(statute_files)} statutes...")
     for sf in statute_files:
         stat_doc = extractor.extract(sf, "Statute")
-        all_chunks.extend(chunker.chunk_statute(stat_doc))
+        statute_chunks = chunker.chunk_statute(stat_doc)
+        if not statute_chunks and stat_doc.raw_text:
+            statute_chunks = fallback_chunker.chunk_text(
+                stat_doc.raw_text,
+                stat_doc.document_id,
+                "Statute",
+                metadata={
+                    "act": stat_doc.act_name,
+                    "year": stat_doc.year,
+                    "structure_extraction": "full_text_fallback",
+                },
+            )
+        all_chunks.extend(statute_chunks)
         
     # 2. Index Judgments
     judgment_files = list(Path("data/judgments").glob("*.json"))
@@ -56,7 +70,11 @@ def build_complete_indices() -> HybridLegalSearchEngine:
         all_chunks.extend(chunker.chunk_judgment(jud_doc))
         
     # 3. Index Contracts
-    contract_files = list(Path("data/contracts/cuad").glob("*.json")) + list(Path("data/contracts/synthetic").glob("*.json"))
+    contract_files = (
+        list(Path("data/contracts/cuad").glob("*.json"))
+        + list(Path("data/contracts/synthetic").glob("*.json"))
+        + list(Path("data/contracts/cuad").glob("REAL_CUAD_*.pdf"))
+    )
     logger.info(f"Indexing {len(contract_files)} contracts...")
     for cf in contract_files:
         cont_doc = extractor.extract(cf, "Contract")
@@ -72,7 +90,7 @@ def build_complete_indices() -> HybridLegalSearchEngine:
     # Build Dense Vector Store
     vstore = DenseVectorStore(collection_name="khan_legal_corpus")
     vstore.add_chunks(all_chunks)
-    vstore.save(INDEX_DIR / "vstore_legal.pkl")
+    vstore.save(INDEX_DIR / "vstore_legal.sqlite3")
     
     hybrid_engine = HybridLegalSearchEngine(bm25, vstore)
     logger.info("Hybrid indices built and persisted successfully.")
@@ -81,7 +99,7 @@ def build_complete_indices() -> HybridLegalSearchEngine:
 def query_pipeline(query_str: str, top_k: int = 5, court_filter: str = None) -> None:
     """Executes a hybrid legal query against the indexed corpus."""
     bm25_path = INDEX_DIR / "bm25_legal.pkl"
-    vstore_path = INDEX_DIR / "vstore_legal.pkl"
+    vstore_path = INDEX_DIR / "vstore_legal.sqlite3"
     
     if not bm25_path.exists() or not vstore_path.exists():
         logger.info("Indices not found on disk. Building indices now...")
@@ -126,8 +144,12 @@ def main():
     parser.add_argument("--top-k", type=int, default=3, help="Number of retrieved results")
     
     args = parser.parse_args()
-    
-    if len(sys.argv) == 1 or args.run_all:
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
+
+    if args.run_all:
         logger.info("=== Executing Complete Khan & Associates Day 1 Pipeline ===")
         run_corpus_collection()
         run_ocr_benchmark()

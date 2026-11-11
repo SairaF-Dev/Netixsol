@@ -54,6 +54,20 @@ def test_vector_store_and_search(sample_chunks):
     assert len(res) == 1
     assert res[0]["chunk_id"] == "CHK_002"
 
+def test_vector_store_persistence_and_metadata_filter(sample_chunks, tmp_path):
+    vstore = DenseVectorStore(collection_name="persistence_test")
+    vstore.add_chunks(sample_chunks)
+    index_path = tmp_path / "vectors.chroma"
+    vstore.save(index_path)
+
+    loaded = DenseVectorStore.load(index_path)
+    results = loaded.search(
+        "non-bailable bail",
+        top_k=3,
+        metadata_filter={"section": "Section 497"},
+    )
+    assert [result["chunk_id"] for result in results] == ["CHK_002"]
+
 def test_hybrid_search(sample_chunks):
     bm25 = LegalBM25Index()
     bm25.add_chunks(sample_chunks)
