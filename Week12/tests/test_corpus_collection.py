@@ -12,6 +12,8 @@ def test_inventory_file_exists():
 def test_inventory_minimum_counts():
     df = pd.read_csv("inventory.csv")
     assert len(df) >= 290, f"Expected at least 290 documents, got {len(df)}"
+    assert df["document_id"].is_unique, "Inventory document IDs must be unique"
+    assert df["file_path"].map(lambda item: Path(item).exists()).all(), "Every inventory path must exist"
     
     # Check column names
     required_cols = {"document_id", "filename", "title", "type", "language", "pages", "source", "file_path"}
@@ -27,6 +29,12 @@ def test_inventory_minimum_counts():
     assert judgments_count >= 200, f"Expected >= 200 judgments, got {judgments_count}"
     assert contracts_count >= 50, f"Expected >= 50 contracts, got {contracts_count}"
     assert scanned_count >= 30, f"Expected >= 30 scanned/Urdu documents, got {scanned_count}"
+
+    synthetic_judgments = df[
+        (df["type"] == "Judgment")
+        & df["source"].str.contains("synthetic", case=False, na=False)
+    ]
+    assert len(synthetic_judgments) >= 200
 
 def test_benchmark_files_exist():
     benchmark_dir = Path("data/scanned_urdu/benchmark_cer")

@@ -17,8 +17,9 @@ logger = setup_logger("pdf_parser")
 class LegalPDFParser:
     """Enterprise parser for legal documents with digital/scanned classification and table detection."""
     
-    def __init__(self, min_chars_per_page: int = 50):
+    def __init__(self, min_chars_per_page: int = 50, ocr_engine: Any = None):
         self.min_chars_per_page = min_chars_per_page
+        self.ocr_engine = ocr_engine
 
     def inspect_pdf(self, pdf_path: str | Path) -> Dict[str, Any]:
         """
@@ -103,6 +104,21 @@ class LegalPDFParser:
         for pno in range(len(doc)):
             page = doc[pno]
             page_text = page.get_text("text").strip()
+            image_count = len(page.get_images())
+            page_type = (
+                "digital"
+                if len(page_text) >= self.min_chars_per_page
+                else "scanned"
+                if image_count
+                else "empty"
+            )
+            text_source = "digital" if page_text else "none"
+            if page_type == "scanned":
+                text_source = "scan_unprocessed"
+                if self.ocr_engine is not None:
+                    ocr_result = self.ocr_engine.extract_text(path, page_num=pno)
+                    page_text = ocr_result["text"].strip()
+                    text_source = "ocr"
             
             # Extract tables using PyMuPDF table finder
             page_tables = []
@@ -137,6 +153,9 @@ class LegalPDFParser:
             extracted_pages.append({
                 "page_number": pno + 1,
                 "text": page_text,
+                "page_type": page_type,
+                "text_source": text_source,
+                "needs_ocr": page_type == "scanned" and text_source != "ocr",
                 "blocks": clean_blocks,
                 "tables": page_tables
             })

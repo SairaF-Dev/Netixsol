@@ -1,140 +1,126 @@
-"""
-OCR Evaluation and Comparison Engine for Khan & Associates Legal Assistant.
-Benchmarks 2 OCR tools across 10 Urdu legal pages using:
-- Character Error Rate (CER = (S + D + I) / N)
-- Word Error Rate (WER)
-- Processing Latency (ms)
-- Output confidence scores
-Generates detailed markdown and CSV benchmark reports.
-"""
+"""Compare Tesseract and EasyOCR on ten Urdu legal-document benchmark pages."""
 
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Dict, List
+
 import pandas as pd
 from tabulate import tabulate
 
-from src.utils.logger import setup_logger
-from src.utils.file_utils import ensure_directory, read_text, write_text, save_csv
 from src.ingestion.ocr_engine import (
-    LexicalMorphUrduOCR,
-    DeepContextualUrduOCR,
+    EasyOCRUrduOCR,
+    TesseractUrduOCR,
     compute_cer,
-    compute_wer
+    compute_wer,
 )
+from src.utils.file_utils import ensure_directory, read_text, write_text
+from src.utils.logger import setup_logger
 
 logger = setup_logger("ocr_evaluation")
-
 BENCHMARK_DIR = Path("data/scanned_urdu/benchmark_cer")
 EVAL_DIR = Path("evaluations")
 
+
 def run_ocr_benchmark() -> pd.DataFrame:
-    """Runs end-to-end OCR benchmark comparing Tool 1 vs Tool 2 across 10 Urdu legal pages."""
-    ensure_directory(EVAL_DIR)
-    logger.info("=== Starting Task 2: OCR Comparison Benchmark on 10 Urdu Pages ===")
-    
-    engine_v1 = LexicalMorphUrduOCR()
-    engine_v2 = DeepContextualUrduOCR()
-    
-    results = []
-    
-    # Process 10 benchmark documents
-    for idx in range(1, 11):
-        doc_id = f"URDU_GT_{idx:03d}"
-        gt_path = BENCHMARK_DIR / f"{doc_id}_ground_truth.txt"
-        pdf_path = BENCHMARK_DIR / f"{doc_id}.pdf"
-        
-        if not gt_path.exists() or not pdf_path.exists():
-            logger.error(f"Missing benchmark files for {doc_id}")
-            continue
-            
-        ground_truth = read_text(gt_path)
-        
-        # Run Tool 1
-        res_v1 = engine_v1.extract_text(pdf_path, page_num=0)
-        cer_v1 = compute_cer(ground_truth, res_v1["text"])
-        wer_v1 = compute_wer(ground_truth, res_v1["text"])
-        
-        # Run Tool 2
-        res_v2 = engine_v2.extract_text(pdf_path, page_num=0)
-        cer_v2 = compute_cer(ground_truth, res_v2["text"])
-        wer_v2 = compute_wer(ground_truth, res_v2["text"])
-        
-        results.append({
-            "doc_id": doc_id,
-            "page_title": ground_truth.split("\n")[0][:40],
-            "char_count": len(ground_truth),
-            "tool1_name": engine_v1.name,
-            "tool1_cer": round(cer_v1 * 100, 2),
-            "tool1_wer": round(wer_v1 * 100, 2),
-            "tool1_latency_ms": res_v1["latency_ms"],
-            "tool2_name": engine_v2.name,
-            "tool2_cer": round(cer_v2 * 100, 2),
-            "tool2_wer": round(wer_v2 * 100, 2),
-            "tool2_latency_ms": res_v2["latency_ms"]
-        })
-        
+    """Run both real OCR engines and write per-page measurements and their summary."""
+    benchmark = [
+        (
+            BENCHMARK_DIR / f"URDU_GT_{idx:03d}.pdf",
+            BENCHMARK_DIR / f"URDU_GT_{idx:03d}_ground_truth.txt",
+        )
+        for idx in range(1, 11)
+    ]
+    missing = [str(path) for pair in benchmark for path in pair if not path.is_file()]
+    if missing:
+        raise FileNotFoundError(
+            "The OCR benchmark requires all ten PDF/reference pairs; missing: "
+            + ", ".join(missing)
+        )
+
+    engines = [TesseractUrduOCR(), EasyOCRUrduOCR()]
+    results: List[Dict[str, object]] = []
+
+    for pdf_path, reference_path in benchmark:
+        reference = read_text(reference_path)
+        if not reference.strip():
+            raise ValueError(f"OCR ground truth is empty: {reference_path}")
+
+        row: Dict[str, object] = {
+            "doc_id": pdf_path.stem,
+            "page_title": reference.splitlines()[0][:80],
+            "char_count": len(reference),
+        }
+        for index, engine in enumerate(engines, start=1):
+            output = engine.extract_text(pdf_path, page_num=0)
+            row[f"tool{index}_name"] = output["engine"]
+            row[f"tool{index}_cer"] = round(compute_cer(reference, output["text"]) * 100, 2)
+            row[f"tool{index}_wer"] = round(compute_wer(reference, output["text"]) * 100, 2)
+            row[f"tool{index}_latency_ms"] = output["latency_ms"]
+        results.append(row)
+
     df = pd.DataFrame(results)
-    
-    # Save CSV
+    for index in (1, 2):
+        for metric in ("cer", "wer", "latency_ms"):
+            column = f"tool{index}_{metric}"
+            df[column] = pd.to_numeric(df[column])
+
+    ensure_directory(EVAL_DIR)
     csv_path = EVAL_DIR / "ocr_comparison_report.csv"
     df.to_csv(csv_path, index=False, encoding="utf-8")
-    
-    # Compute Averages
-    avg_cer_1 = df["tool1_cer"].mean()
-    avg_wer_1 = df["tool1_wer"].mean()
-    avg_lat_1 = df["tool1_latency_ms"].mean()
-    
-    avg_cer_2 = df["tool2_cer"].mean()
-    avg_wer_2 = df["tool2_wer"].mean()
-    avg_lat_2 = df["tool2_latency_ms"].mean()
-    
-    # Format Markdown Report
-    summary_table = [
-        ["Tool 1: LexicalMorph_OCR_v1 (Baseline)", f"{avg_cer_1:.2f}%", f"{avg_wer_1:.2f}%", f"{avg_lat_1:.1f} ms", "Moderate (Ligature joins/drops)"],
-        ["Tool 2: DeepContextual_OCR_v2 (Advanced)", f"{avg_cer_2:.2f}%", f"{avg_wer_2:.2f}%", f"{avg_lat_2:.1f} ms", "High (Preserves Nastaliq context)"]
-    ]
-    
-    summary_headers = ["OCR Engine", "Avg CER (%)", "Avg WER (%)", "Avg Latency", "Error Characteristics"]
-    summary_md = tabulate(summary_table, headers=summary_headers, tablefmt="github")
-    
-    per_page_headers = ["Doc ID", "Sample Document Title", "Chars", "Tool 1 CER", "Tool 1 WER", "Tool 2 CER", "Tool 2 WER"]
-    per_page_rows = [
-        [r["doc_id"], r["page_title"], r["char_count"], f"{r['tool1_cer']}%", f"{r['tool1_wer']}%", f"{r['tool2_cer']}%", f"{r['tool2_wer']}%"]
-        for _, r in df.iterrows()
-    ]
-    per_page_md = tabulate(per_page_rows, headers=per_page_headers, tablefmt="github")
-    
-    full_report = f"""# Khan & Associates - Urdu OCR Comparison Benchmark Report
 
-## 1. Executive Summary
-This evaluation benchmarks **2 OCR Tools** across **10 complex Urdu legal documents** (including Court Powers of Attorney, Bail Applications, Tenancy Agreements, Land Sale Deeds, and Constitutional Preambles).
+    summary = []
+    for index, engine in enumerate(engines, start=1):
+        summary.append(
+            [
+                engine.name,
+                f"{df[f'tool{index}_cer'].mean():.2f}%",
+                f"{df[f'tool{index}_wer'].mean():.2f}%",
+                f"{df[f'tool{index}_latency_ms'].mean():.1f} ms",
+            ]
+        )
+    summary_md = tabulate(
+        summary,
+        headers=["OCR Engine", "Average CER", "Average WER", "Average Latency"],
+        tablefmt="github",
+    )
+    detail_md = tabulate(
+        df[
+            [
+                "doc_id",
+                "char_count",
+                "tool1_cer",
+                "tool1_wer",
+                "tool2_cer",
+                "tool2_wer",
+            ]
+        ],
+        headers=["Document", "Reference chars", "Tesseract CER (%)", "Tesseract WER (%)",
+                 "EasyOCR CER (%)", "EasyOCR WER (%)"],
+        tablefmt="github",
+        showindex=False,
+    )
+    report = f"""# Urdu OCR Benchmark
 
-The benchmark rigorously calculates:
-* **Character Error Rate (CER)**: $\\text{{CER}} = \\frac{{S + D + I}}{{N}}$
-* **Word Error Rate (WER)**: $\\text{{WER}} = \\frac{{S_w + D_w + I_w}}{{N_w}}$
-* **Inference Latency (ms)**: Wall-clock processing time per page.
+## Method
 
-## 2. Comparative Performance Overview
+Tesseract and EasyOCR each receive a rendered image of the same PDF page.
+Neither engine reads the ground-truth file. CER and WER compare each engine's
+recognized text against the paired UTF-8 reference. Latency measures OCR inference
+and excludes PDF rendering.
+
+## Results
 
 {summary_md}
 
-## 3. Per-Document Detailed Breakdown (10 Urdu Pages)
+## Per-page results
 
-{per_page_md}
-
-## 4. Key Findings & Engineering Recommendation
-1. **Nastaliq Ligatures**: Tool 1 suffers from frequent character-split errors on joint cursive letters (e.g. `ریاست` read as `ریا ست`, `پاکستان` as `پا کستان`), leading to a **{avg_cer_1:.2f}% CER**.
-2. **Contextual Recognition**: Tool 2 leverages sequential context, cutting the CER down to **{avg_cer_2:.2f}%** (an {((avg_cer_1 - avg_cer_2)/avg_cer_1)*100:.1f}% error reduction).
-3. **Recommendation**: Khan & Associates should adopt **Tool 2 (Deep Contextual OCR)** for production legal indexing, with a fast fallback to Tool 1 when batch throughput is prioritized.
+{detail_md}
 """
-    
     md_path = EVAL_DIR / "ocr_comparison_report.md"
-    write_text(full_report, md_path)
-    
-    logger.info(f"OCR Benchmark completed. Reports generated at:\n- {csv_path}\n- {md_path}")
-    print("\n" + full_report)
-    
+    write_text(report, md_path)
+    logger.info("OCR benchmark complete. Reports written to %s and %s", csv_path, md_path)
+    print(report)
     return df
+
 
 if __name__ == "__main__":
     run_ocr_benchmark()

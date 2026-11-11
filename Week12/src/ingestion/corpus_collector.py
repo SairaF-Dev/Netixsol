@@ -13,6 +13,7 @@ import random
 from pathlib import Path
 from typing import List, Dict, Any
 import pandas as pd
+import fitz
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
@@ -721,7 +722,7 @@ URDU_BENCHMARK_GROUND_TRUTH = [
 ]
 
 def generate_pdf_from_text(text: str, output_path: Path, is_scanned_look: bool = False) -> None:
-    """Generates a real PDF file using ReportLab, optionally with simulated scan styling."""
+    """Generate a PDF; rasterize pages when creating a scanned-document fixture."""
     c = canvas.Canvas(str(output_path), pagesize=letter)
     width, height = letter
     
@@ -767,6 +768,19 @@ def generate_pdf_from_text(text: str, output_path: Path, is_scanned_look: bool =
             
     c.save()
 
+    if is_scanned_look:
+        rasterized_path = output_path.with_name(f"{output_path.stem}.rasterized.pdf")
+        with fitz.open(str(output_path)) as source, fitz.open() as rasterized:
+            for source_page in source:
+                pixmap = source_page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
+                page = rasterized.new_page(
+                    width=source_page.rect.width,
+                    height=source_page.rect.height,
+                )
+                page.insert_image(page.rect, pixmap=pixmap)
+            rasterized.save(str(rasterized_path), garbage=4, deflate=True)
+        rasterized_path.replace(output_path)
+
 def collect_statutes() -> List[Dict[str, Any]]:
     """Builds Pakistani statutes and saves clean JSON and text representations."""
     ensure_directory(STATUTES_DIR)
@@ -810,7 +824,7 @@ def collect_statutes() -> List[Dict[str, Any]]:
             "type": "Statute",
             "language": "English",
             "pages": pages,
-            "source": "Pakistan Code / Ministry of Law and Justice",
+            "source": "Khan & Associates generated instructional sample; not an authoritative statute",
             "file_path": str(pdf_path)
         })
         
@@ -918,7 +932,7 @@ Decided on: {random.randint(1, 28)} October {year}.
             "type": "Judgment",
             "language": "English",
             "pages": pages,
-            "source": f"{court} / Pakistan Law Site (PLD/SCMR)",
+            "source": "Khan & Associates synthetic judgment sample; not an actual court decision",
             "file_path": str(pdf_path)
         })
         
@@ -969,7 +983,7 @@ def collect_contracts() -> List[Dict[str, Any]]:
             "type": "Contract",
             "language": "English",
             "pages": max(1, len(full_text) // 1600),
-            "source": "CUAD (Contract Understanding Atticus Dataset) / SEC EDGAR",
+            "source": "Khan & Associates synthetic CUAD-inspired sample; not sourced from CUAD",
             "file_path": str(pdf_path)
         })
         
@@ -1050,7 +1064,7 @@ def collect_scanned_and_urdu_docs() -> List[Dict[str, Any]]:
             "type": "Scanned/Urdu",
             "language": "Urdu",
             "pages": 1,
-            "source": f"Pakistani Legal Practice - {gt_item['category']} (CER Ground Truth)",
+            "source": f"Khan & Associates synthetic Urdu OCR fixture - {gt_item['category']}",
             "file_path": str(doc_pdf_path)
         })
         
@@ -1084,7 +1098,7 @@ Stamp / مہر: District Registry Office
             "type": "Scanned/Urdu",
             "language": "Bilingual (English/Urdu)",
             "pages": 1,
-            "source": "High Court / Provincial Gazette Archive",
+            "source": "Khan & Associates synthetic bilingual fixture; not an official gazette",
             "file_path": str(doc_pdf_path)
         })
         
@@ -1100,9 +1114,24 @@ def run_corpus_collection() -> pd.DataFrame:
     scanned_records = collect_scanned_and_urdu_docs()
     
     all_records = statute_records + judgment_records + contract_records + scanned_records
-    
-    df = pd.DataFrame(all_records)
+
+    # Keep downloaded official statute and CUAD PDFs in the inventory when the
+    # locally generated instructional corpus is rebuilt.
     inventory_path = Path("inventory.csv")
+    generated_ids = {record["document_id"] for record in all_records}
+    if inventory_path.is_file():
+        existing = pd.read_csv(inventory_path)
+        if {"document_id", "file_path"}.issubset(existing.columns):
+            external_records = existing[
+                existing["document_id"].astype(str).str.startswith("REAL_")
+                & ~existing["document_id"].astype(str).isin(generated_ids)
+            ]
+            for record in external_records.to_dict(orient="records"):
+                if Path(str(record["file_path"])).is_file():
+                    all_records.append(record)
+
+    df = pd.DataFrame(all_records)
+    df = df.drop_duplicates(subset=["document_id"], keep="last")
     df.to_csv(inventory_path, index=False, encoding="utf-8")
     
     logger.info(f"Inventory written to {inventory_path.resolve()} with {len(df)} total documents:")

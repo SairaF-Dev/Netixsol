@@ -1,7 +1,7 @@
 """
 Chunking Strategy Evaluation Benchmark for Khan & Associates Legal Assistant.
 Compares:
-1. Fixed-Size Chunking (Window = 250 words, Overlap = 50)
+1. Fixed-Size Chunking (Window = 200 words, Overlap = 40)
 2. Section-Level Legal Chunking (Domain boundaries: Sections, Ratios, Clauses)
 3. Parent-Child Chunking (2-Tier Context Hierarchy)
 Across Pakistani Statutes, Judgments, and Commercial Contracts.
@@ -88,27 +88,27 @@ def run_chunking_benchmark() -> pd.DataFrame:
             "Total Chunks": len(fixed_chunks),
             "Avg Tokens": round(float(np.mean(f_tokens)), 1),
             "Token StdDev": round(float(np.std(f_tokens)), 1),
-            "Boundary Preservation": "Poor (35% - cuts across sections)",
-            "Metadata Completeness": "Low (Generic offsets only)",
-            "Retrieval Context": "Truncated / Incomplete clauses"
+            "Boundary Preservation": "Not measured; windows may split legal units",
+            "Metadata Completeness": "Offsets only",
+            "Retrieval Context": "Window-sized text"
         },
         {
             "Strategy": "Section-Level (Legal Aware)",
             "Total Chunks": len(section_chunks),
             "Avg Tokens": round(float(np.mean(s_tokens)), 1),
             "Token StdDev": round(float(np.std(s_tokens)), 1),
-            "Boundary Preservation": "100% (Strict legal borders)",
-            "Metadata Completeness": "High (Act, section, court, year)",
-            "Retrieval Context": "High (Self-contained legal clauses)"
+            "Boundary Preservation": "Structure-aware; not independently scored",
+            "Metadata Completeness": "Document-specific legal metadata",
+            "Retrieval Context": "One chunk per legal structure unit"
         },
         {
             "Strategy": "Parent-Child (Hierarchical)",
             "Total Chunks": f"{len(child_chunks)} (Child) / {len(parent_chunks)} (Parent)",
             "Avg Tokens": f"{round(float(np.mean(pc_tokens)), 1)} (Child) / {round(float(np.mean(p_tokens)), 1)} (Parent)",
             "Token StdDev": round(float(np.std(pc_tokens)), 1),
-            "Boundary Preservation": "100% (Two-tier legal hierarchy)",
-            "Metadata Completeness": "Maximum (Carries parent_id link)",
-            "Retrieval Context": "Optimal (Child matched, Parent returned)"
+            "Boundary Preservation": "Parent hierarchy retained; not independently scored",
+            "Metadata Completeness": "Child chunks carry parent_id",
+            "Retrieval Context": "Child match with parent context available"
         }
     ]
     
@@ -123,8 +123,12 @@ def run_chunking_benchmark() -> pd.DataFrame:
 ## 1. Executive Summary
 Legal documents (statutes, case law judgments, commercial contracts) possess strict hierarchical structures that make generic fixed-size chunking hazardous. Cutting across a statutory proviso, an exception clause, or a ratio decidendi destroys legal semantics.
 
-This benchmark evaluated **3 chunking strategies** across a sample of Pakistani statutes, superior court judgments, and commercial contracts:
-1. **Fixed-Size Chunking** (200 token window, 40 token overlap)
+This benchmark evaluates **3 chunking strategies** on 12 generated instructional
+documents (3 statutes, 5 judgments, and 4 contracts). They are not authoritative
+legal sources. `Avg Tokens` and `Token StdDev` are whitespace word counts, not
+model-token counts. Boundary preservation and retrieval relevance are not scored.
+
+1. **Fixed-Size Chunking** (200-word window, 40-word overlap)
 2. **Section-Level Chunking** (Section / Article / Ratio / Clause boundaries)
 3. **Parent-Child Chunking** (Sub-clause child chunks indexed, full Section parents returned)
 
@@ -132,11 +136,10 @@ This benchmark evaluated **3 chunking strategies** across a sample of Pakistani 
 
 {table_md}
 
-## 3. In-Depth Architectural Evaluation
+## 3. Design Notes (not measured retrieval results)
 
 ### A. Fixed-Size Chunking
-* **Flaws**: Arbitrarily splits definitions from operative statutory clauses (e.g. separates PPC 302 punishment from PPC 299 definitions). Truncates contract indemnity clauses mid-sentence.
-* **Risk**: High hallucination risk during RAG because surrounding statutory provisos are lost.
+* **Tradeoff**: A fixed window can separate a provision from adjacent context.
 
 ### B. Section-Level Legal Chunking
 * **Strengths**: Every chunk corresponds to an autonomous legal unit (e.g. Section 497 CrPC, Article 199 Constitution, or Clause 5 Governing Law).
@@ -144,10 +147,10 @@ This benchmark evaluated **3 chunking strategies** across a sample of Pakistani 
 * **Fit**: Ideal for direct BM25 keyword matching and standard legal research queries.
 
 ### C. Parent-Child Chunking (Recommended for RAG)
-* **Strengths**: Solves the retrieval tradeoff:
+* **Potential benefit**: Provides a retrieval tradeoff:
   - **Children** (~20-50 tokens) provide pinpoint semantic matching against specific user questions.
   - **Parents** (~150-400 tokens) provide the LLM with the full statutory section or contract clause upon retrieval.
-* **Recommendation**: Khan & Associates should implement **Parent-Child Chunking** for vector embeddings combined with **Section-Level Chunking** for BM25 keyword queries.
+* **Recommendation**: Evaluate **Parent-Child Chunking** for vector retrieval and **Section-Level Chunking** for BM25 against a judged relevance set before production use.
 """
     
     md_path = EVAL_DIR / "chunking_comparison_report.md"

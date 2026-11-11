@@ -48,7 +48,7 @@ def download_file(url: str, output_path: Path, max_retries: int = 3) -> bool:
     """Downloads a remote file with retries and streaming."""
     for attempt in range(max_retries):
         try:
-            r = requests.get(url, headers=HEADERS, timeout=25, verify=False, stream=True)
+            r = requests.get(url, headers=HEADERS, timeout=25, stream=True)
             if r.status_code == 200:
                 ensure_directory(output_path.parent)
                 with open(output_path, "wb") as f:
@@ -172,9 +172,6 @@ def download_real_pakistani_statutes() -> List[Dict[str, Any]]:
 def run_external_download() -> None:
     """Executes the external downloader and updates inventory.csv."""
     logger.info("=== Starting External Downloader: Real Legal Corpora ===")
-    
-    import urllib3
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     
     cuad_records = download_real_cuad_contracts(count=30)
     statute_records = download_real_pakistani_statutes()

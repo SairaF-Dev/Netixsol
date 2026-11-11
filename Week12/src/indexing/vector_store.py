@@ -1,114 +1,198 @@
-"""
-Dense Vector Store Index for Khan & Associates Legal Assistant.
-Supports ChromaDB with fallback to Dense Cosine Similarity Vector Index.
-Stores chunks with rich metadata: act, section, court, year, page, matter_id.
-"""
+"""SQLite-backed dense vector index using multilingual sentence embeddings."""
 
-import pickle
-import numpy as np
+import json
+import sqlite3
+from functools import lru_cache
 from pathlib import Path
-from typing import List, Dict, Any, Optional
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from typing import Any, Dict, List, Optional
 
-from src.utils.schemas import LegalChunk
+import numpy as np
+from sentence_transformers import SentenceTransformer
+
 from src.utils.logger import setup_logger
-from src.utils.file_utils import ensure_directory
+from src.utils.schemas import LegalChunk
 
 logger = setup_logger("vector_store")
+EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
+
+
+@lru_cache(maxsize=1)
+def _load_embedding_model() -> SentenceTransformer:
+    return SentenceTransformer(EMBEDDING_MODEL, device="cpu")
+
 
 class DenseVectorStore:
-    """Production Dense Vector Store with metadata indexing and filtering."""
+    """Persist chunks and multilingual embeddings in SQLite for exact cosine search."""
 
-    def __init__(self, collection_name: str = "legal_chunks"):
+    def __init__(
+        self,
+        collection_name: str = "legal_chunks",
+        persist_directory: str | Path | None = None,
+    ):
         self.collection_name = collection_name
-        self.chunks: List[LegalChunk] = []
-        self.vectorizer = TfidfVectorizer(
-            ngram_range=(1, 2),
-            max_features=5000,
-            sublinear_tf=True
+        self.persist_directory = Path(persist_directory) if persist_directory else None
+        self.model = _load_embedding_model()
+        if self.persist_directory:
+            self.persist_directory.parent.mkdir(parents=True, exist_ok=True)
+            self.connection = sqlite3.connect(str(self.persist_directory))
+        else:
+            self.connection = sqlite3.connect(":memory:")
+        self.connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS legal_chunks (
+                chunk_id TEXT PRIMARY KEY,
+                document_id TEXT NOT NULL,
+                document_type TEXT NOT NULL,
+                strategy TEXT NOT NULL,
+                content TEXT NOT NULL,
+                token_count INTEGER NOT NULL,
+                metadata_json TEXT NOT NULL,
+                embedding BLOB NOT NULL
+            )
+            """
         )
-        self.embeddings: Optional[np.ndarray] = None
-        self.is_fitted = False
+        self.connection.commit()
+
+    @property
+    def chunks(self) -> List[LegalChunk]:
+        rows = self.connection.execute(
+            """
+            SELECT chunk_id, document_id, document_type, strategy, content,
+                   token_count, metadata_json
+            FROM legal_chunks ORDER BY chunk_id
+            """
+        ).fetchall()
+        return [
+            LegalChunk(
+                chunk_id=row[0],
+                document_id=row[1],
+                document_type=row[2],
+                strategy=row[3],
+                content=row[4],
+                token_count=row[5],
+                metadata=json.loads(row[6]),
+            )
+            for row in rows
+        ]
 
     def add_chunks(self, chunks: List[LegalChunk]) -> None:
-        """Embeds and stores chunks with metadata."""
+        """Embed chunks and insert or update their SQLite records."""
         if not chunks:
             return
-            
-        self.chunks.extend(chunks)
-        corpus = [c.content for c in self.chunks]
-        self.embeddings = self.vectorizer.fit_transform(corpus).toarray()
-        self.is_fitted = True
-        logger.info(f"Vector Store updated. Total vectors stored: {len(self.chunks)}")
+        embeddings = self.model.encode(
+            [f"passage: {chunk.content}" for chunk in chunks],
+            normalize_embeddings=True,
+            convert_to_numpy=True,
+        ).astype(np.float32)
+        records = [
+            (
+                chunk.chunk_id,
+                chunk.document_id,
+                chunk.document_type,
+                chunk.strategy,
+                chunk.content,
+                chunk.token_count,
+                json.dumps(chunk.metadata, ensure_ascii=False),
+                embedding.tobytes(),
+            )
+            for chunk, embedding in zip(chunks, embeddings)
+        ]
+        self.connection.executemany(
+            """
+            INSERT INTO legal_chunks (
+                chunk_id, document_id, document_type, strategy, content,
+                token_count, metadata_json, embedding
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(chunk_id) DO UPDATE SET
+                document_id=excluded.document_id,
+                document_type=excluded.document_type,
+                strategy=excluded.strategy,
+                content=excluded.content,
+                token_count=excluded.token_count,
+                metadata_json=excluded.metadata_json,
+                embedding=excluded.embedding
+            """,
+            records,
+        )
+        self.connection.commit()
+        total_chunks = self.connection.execute(
+            "SELECT COUNT(*) FROM legal_chunks"
+        ).fetchone()[0]
+        logger.info("Dense vector index updated: %s chunks", total_chunks)
 
-    def search(self, query: str, top_k: int = 5, metadata_filter: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
-        """Performs dense cosine similarity search with metadata filtering."""
-        if not self.is_fitted or self.embeddings is None:
+    def search(
+        self,
+        query: str,
+        top_k: int = 5,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Return nearest chunks by cosine similarity, with exact metadata filters."""
+        if top_k <= 0:
             return []
+        query_embedding = self.model.encode(
+            [f"query: {query}"],
+            normalize_embeddings=True,
+            convert_to_numpy=True,
+        )[0].astype(np.float32)
+        rows = self.connection.execute(
+            """
+            SELECT chunk_id, document_id, document_type, content,
+                   metadata_json, embedding
+            FROM legal_chunks
+            """
+        ).fetchall()
 
-        query_vec = self.vectorizer.transform([query]).toarray()
-        sim_scores = cosine_similarity(query_vec, self.embeddings)[0]
-        
-        ranked_indices = np.argsort(sim_scores)[::-1]
-        
-        results = []
-        for idx in ranked_indices:
-            score = float(sim_scores[idx])
-            if score <= 0.001:
+        candidates = []
+        for chunk_id, document_id, document_type, content, metadata_json, embedding_bytes in rows:
+            metadata = json.loads(metadata_json)
+            if metadata_filter and any(
+                key not in metadata or str(metadata[key]).casefold() != str(value).casefold()
+                for key, value in metadata_filter.items()
+            ):
                 continue
-                
-            chunk = self.chunks[idx]
-            
-            # Apply metadata filters (Act, section, court, year, matter_id)
-            if metadata_filter:
-                match = True
-                for k, v in metadata_filter.items():
-                    val = chunk.metadata.get(k)
-                    if val is None or str(val).lower() != str(v).lower():
-                        match = False
-                        break
-                if not match:
-                    continue
+            embedding = np.frombuffer(embedding_bytes, dtype=np.float32)
+            score = float(np.dot(query_embedding, embedding))
+            candidates.append(
+                (
+                    score,
+                    {
+                        "chunk_id": chunk_id,
+                        "score": round(score, 4),
+                        "document_id": document_id,
+                        "document_type": document_type,
+                        "content": content,
+                        "metadata": metadata,
+                    },
+                )
+            )
 
-            results.append({
-                "chunk_id": chunk.chunk_id,
-                "score": round(score, 4),
-                "document_id": chunk.document_id,
-                "document_type": chunk.document_type,
-                "content": chunk.content,
-                "metadata": chunk.metadata
-            })
-            
-            if len(results) >= top_k:
-                break
-                
-        return results
+        candidates.sort(key=lambda result: result[0], reverse=True)
+        return [result for _, result in candidates[:top_k]]
+
+    @staticmethod
+    def _database_path(file_path: str | Path) -> Path:
+        path = Path(file_path)
+        return path.with_suffix(".sqlite3") if path.suffix == ".pkl" else path
 
     def save(self, file_path: str | Path) -> None:
-        """Serializes vector store and embeddings to disk."""
-        path = Path(file_path)
-        ensure_directory(path.parent)
-        with open(path, "wb") as f:
-            pickle.dump({
-                "collection_name": self.collection_name,
-                "chunks": self.chunks,
-                "vectorizer": self.vectorizer,
-                "embeddings": self.embeddings,
-                "is_fitted": self.is_fitted
-            }, f)
-        logger.info(f"Vector store saved to {path}")
+        """Persist the in-memory index to a SQLite database file."""
+        target = self._database_path(file_path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if self.persist_directory == target:
+            self.connection.commit()
+            return
+        target_connection = sqlite3.connect(str(target))
+        try:
+            self.connection.backup(target_connection)
+            target_connection.commit()
+        finally:
+            target_connection.close()
+        logger.info("Dense vector index persisted to %s", target)
 
     @classmethod
     def load(cls, file_path: str | Path) -> "DenseVectorStore":
-        """Loads serialized vector store from disk."""
-        path = Path(file_path)
-        with open(path, "rb") as f:
-            data = pickle.load(f)
-        store = cls(collection_name=data["collection_name"])
-        store.chunks = data["chunks"]
-        store.vectorizer = data["vectorizer"]
-        store.embeddings = data["embeddings"]
-        store.is_fitted = data["is_fitted"]
-        logger.info(f"Vector store loaded from {path} with {len(store.chunks)} chunks")
-        return store
+        """Open an existing SQLite vector index."""
+        target = cls._database_path(file_path)
+        if not target.is_file():
+            raise FileNotFoundError(f"SQLite vector index does not exist: {target}")
+        return cls(persist_directory=target)

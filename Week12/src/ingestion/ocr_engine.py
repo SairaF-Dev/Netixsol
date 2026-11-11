@@ -1,166 +1,126 @@
-"""
-OCR Engine implementation and multi-tool comparison module for Urdu & Scanned documents.
-Supports:
-- Tool 1: Lexical-Morphological Urdu OCR Engine (Fast Lexical OCR)
-- Tool 2: Deep Contextual Ligature Urdu OCR Engine (Deep Sequence OCR)
-- Fallback interface for PyTesseract / EasyOCR if system binaries are installed
-"""
+"""Image-based OCR adapters and text error-rate metrics."""
 
+import io
+import importlib
+import shutil
+import subprocess
 import time
-import re
 import unicodedata
 from pathlib import Path
-from typing import Dict, Any, Tuple, Optional
-import fitz  # PyMuPDF
+from typing import Any, Dict
+
+import fitz
 import jiwer
-from rapidfuzz.distance import Levenshtein
+import numpy as np
+from PIL import Image
 
-from src.utils.logger import setup_logger
 
-logger = setup_logger("ocr_engine")
+def _render_pdf_page(document_path: str | Path, page_num: int) -> bytes:
+    """Render a PDF page to PNG bytes so OCR engines process pixels, not embedded text."""
+    path = Path(document_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"OCR input PDF not found: {path}")
 
-class BaseOCREngine:
-    """Abstract interface for legal document OCR engines."""
-    
-    def __init__(self, name: str):
-        self.name = name
+    with fitz.open(str(path)) as document:
+        if page_num < 0 or page_num >= len(document):
+            raise IndexError(
+                f"Page index {page_num} is out of range for {path} "
+                f"({len(document)} pages)"
+            )
+        pixmap = document[page_num].get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
+        return pixmap.tobytes("png")
+
+
+class TesseractUrduOCR:
+    """Run the Tesseract executable with Urdu and English language data."""
+
+    name = "Tesseract (urd+eng)"
+
+    def __init__(self) -> None:
+        self.executable = shutil.which("tesseract")
+        if not self.executable:
+            raise RuntimeError(
+                "Tesseract is not installed or is not on PATH. Install Tesseract "
+                "with Urdu (urd) and English (eng) language data to run OCR evaluation."
+            )
+
+        result = subprocess.run(
+            [self.executable, "--list-langs"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"Unable to list Tesseract languages: {result.stderr.strip()}")
+        languages = set(result.stdout.splitlines()[1:])
+        if not {"urd", "eng"}.issubset(languages):
+            missing = sorted({"urd", "eng"} - languages)
+            raise RuntimeError(
+                f"Tesseract is missing language data: {', '.join(missing)}. "
+                "Install these traineddata files before running OCR evaluation."
+            )
 
     def extract_text(self, document_path: str | Path, page_num: int = 0) -> Dict[str, Any]:
-        raise NotImplementedError
-
-class LexicalMorphUrduOCR(BaseOCREngine):
-    """
-    Tool 1: Fast Morphological Urdu OCR Engine.
-    Simulates standard rule-based/segmentation-based Urdu OCR.
-    Typically exhibits character confusions on cursive Nastaliq ligatures,
-    dots (Nuqtas), and similar graphemes (e.g. ب vs ت, ر vs ز, د vs ڈ).
-    """
-    
-    def __init__(self):
-        super().__init__(name="LexicalMorph_OCR_v1")
-        # Common phonetic/shape confusion substitutions in standard Urdu OCR
-        self.confusion_rules = [
-            (r"وکالت نامہ", "وکالت نامہ"),
-            (r"ریاست", "ریا ست"),
-            (r"درخواست", "درخواست"),
-            (r"سائل", "سا ئل"),
-            (r"تعزیرات", "تعزیرات"),
-            (r"پاکستان", "پا کستان"),
-            (r"پیشی", "پشی"),
-            (r"ضمانت", "ضما نت"),
-            (r"مقدمہ", "مقد مہ"),
-            (r"عدالت", "عد الت")
-        ]
-
-    def extract_text(self, document_path: str | Path, page_num: int = 0) -> Dict[str, Any]:
-        t0 = time.perf_counter()
-        doc_path = Path(document_path)
-        
-        # Check for paired ground-truth file
-        gt_candidate = doc_path.parent / f"{doc_path.stem}_ground_truth.txt"
-        if gt_candidate.exists():
-            with open(gt_candidate, "r", encoding="utf-8") as f:
-                base_text = f.read().strip()
-        else:
-            doc = fitz.open(str(doc_path))
-            base_text = doc[page_num].get_text("text").strip()
-            doc.close()
-            
-        if not base_text:
-            base_text = "عدالت عالیہ میں پیشی کا حکم نامہ اور درخواست"
-            
-        # Introduce Tool 1 character-level segmentation and ligature artifacts (CER ~ 7-9%)
-        ocr_chars = list(base_text)
-        for i in range(len(ocr_chars)):
-            # Simulating missing nuqtas, ligature breaks, and spacing anomalies
-            if i % 14 == 0 and ocr_chars[i] == " ":
-                ocr_chars[i] = ""  # dropped word boundary
-            elif i % 23 == 0 and ocr_chars[i] in ["ت", "ٹ"]:
-                ocr_chars[i] = "ب"  # dot confusion
-            elif i % 31 == 0 and ocr_chars[i] in ["ز", "ژ"]:
-                ocr_chars[i] = "ر"  # dot drop
-            elif i % 43 == 0 and ocr_chars[i] == "ہ":
-                ocr_chars[i] = "ھ"  # haa substitution
-            elif i % 53 == 0 and ocr_chars[i] == "ی":
-                ocr_chars[i] = "ے"  # yaa substitution
-                
-        processed_text = "".join(ocr_chars)
-        latency = (time.perf_counter() - t0) * 1000.0
-        
+        image = _render_pdf_page(document_path, page_num)
+        started = time.perf_counter()
+        result = subprocess.run(
+            [self.executable, "stdin", "stdout", "-l", "urd+eng", "--psm", "6"],
+            input=image,
+            capture_output=True,
+            check=False,
+        )
+        latency_ms = (time.perf_counter() - started) * 1000
+        if result.returncode != 0:
+            error = result.stderr.decode("utf-8", errors="replace").strip()
+            raise RuntimeError(f"Tesseract OCR failed for {document_path}: {error}")
         return {
             "engine": self.name,
-            "text": processed_text,
-            "latency_ms": round(latency + 115.0, 2),
-            "confidence": 0.88
+            "text": result.stdout.decode("utf-8", errors="replace").strip(),
+            "latency_ms": round(latency_ms, 2),
         }
 
-class DeepContextualUrduOCR(BaseOCREngine):
-    """
-    Tool 2: Deep Contextual Ligature Urdu OCR Engine.
-    Simulates high-precision transformer/deep sequence OCR (e.g. CRNN + Language Model).
-    Maintains ligatures and semantic context with much lower Character Error Rate (CER < 3%).
-    """
-    
-    def __init__(self):
-        super().__init__(name="DeepContextual_OCR_v2")
+
+class EasyOCRUrduOCR:
+    """Run EasyOCR on a rendered PDF page; requires the optional ``easyocr`` package."""
+
+    name = "EasyOCR (ur+en)"
+
+    def __init__(self) -> None:
+        try:
+            easyocr = importlib.import_module("easyocr")
+        except ModuleNotFoundError as exc:
+            raise RuntimeError(
+                "EasyOCR is not installed. Install the optional 'easyocr' package "
+                "before running OCR evaluation."
+            ) from exc
+        self.reader = easyocr.Reader(["ur", "en"], gpu=False)
 
     def extract_text(self, document_path: str | Path, page_num: int = 0) -> Dict[str, Any]:
-        t0 = time.perf_counter()
-        doc_path = Path(document_path)
-        
-        # Check for paired ground-truth file
-        gt_candidate = doc_path.parent / f"{doc_path.stem}_ground_truth.txt"
-        if gt_candidate.exists():
-            with open(gt_candidate, "r", encoding="utf-8") as f:
-                base_text = f.read().strip()
-        else:
-            doc = fitz.open(str(doc_path))
-            base_text = doc[page_num].get_text("text").strip()
-            doc.close()
-            
-        if not base_text:
-            base_text = "عدالت عالیہ میں پیشی کا حکم نامہ اور درخواست"
-            
-        # Deep contextual model has very few errors (~ 1.5% CER)
-        ocr_chars = list(base_text)
-        for i in range(len(ocr_chars)):
-            if i % 73 == 0 and ocr_chars[i] == "ی":
-                ocr_chars[i] = "ئ"  # minor diacritic variation
-            elif i % 89 == 0 and ocr_chars[i] == "ک":
-                ocr_chars[i] = "گ"  # rare stroke misidentification
-                
-        processed_text = "".join(ocr_chars)
-        latency = (time.perf_counter() - t0) * 1000.0
-        
+        image_bytes = _render_pdf_page(document_path, page_num)
+        image = np.asarray(Image.open(io.BytesIO(image_bytes)).convert("RGB"))
+        started = time.perf_counter()
+        lines = self.reader.readtext(image, detail=0, paragraph=True)
+        latency_ms = (time.perf_counter() - started) * 1000
         return {
             "engine": self.name,
-            "text": processed_text,
-            "latency_ms": round(latency + 285.0, 2),  # Higher precision, slightly higher compute
-            "confidence": 0.98
+            "text": "\n".join(str(line) for line in lines).strip(),
+            "latency_ms": round(latency_ms, 2),
         }
+
 
 def compute_cer(reference: str, hypothesis: str) -> float:
-    """
-    Calculates Character Error Rate (CER) using JiWER:
-    CER = (Substitutions + Deletions + Insertions) / Total Reference Characters
-    """
+    """Calculate character error rate (insertions + deletions + substitutions / reference)."""
     ref_clean = unicodedata.normalize("NFC", reference.strip())
     hyp_clean = unicodedata.normalize("NFC", hypothesis.strip())
-    
     if not ref_clean:
         return 0.0 if not hyp_clean else 1.0
-        
     return float(jiwer.cer(ref_clean, hyp_clean))
 
+
 def compute_wer(reference: str, hypothesis: str) -> float:
-    """
-    Calculates Word Error Rate (WER) using JiWER:
-    WER = (Substitutions + Deletions + Insertions) / Total Reference Words
-    """
+    """Calculate word error rate (insertions + deletions + substitutions / reference)."""
     ref_clean = unicodedata.normalize("NFC", reference.strip())
     hyp_clean = unicodedata.normalize("NFC", hypothesis.strip())
-    
     if not ref_clean:
         return 0.0 if not hyp_clean else 1.0
-        
     return float(jiwer.wer(ref_clean, hyp_clean))

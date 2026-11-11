@@ -1,180 +1,96 @@
-# Khan & Associates — AI Legal Assistant Pipeline (Week 12 Capstone)
+# Khan & Associates Legal Document Pipeline
 
-An enterprise-grade document ingestion, layout parsing, structure extraction, and hybrid retrieval pipeline built for law firm **Khan & Associates** to manage thousands of complex Pakistani statutes, superior court case law judgments, commercial contracts, and Urdu/scanned legal documents.
+Week 12 capstone prototype for collecting, parsing, structuring, chunking, and
+searching legal documents. The repository includes reproducible instructional
+fixtures and some downloaded source PDFs. **It is not a production legal corpus.**
 
----
+## Current corpus status
 
-## 🏛️ System Architecture
+| Inventory type | Count | What the files actually are |
+|---|---:|---|
+| Statute | 13 | 12 generated instructional examples and 1 downloaded National Assembly PDF |
+| Judgment | 200 | Generated synthetic examples, not court decisions |
+| Contract | 80 | 30 downloaded CUAD PDFs, 30 generated CUAD-inspired examples, 20 synthetic examples |
+| Scanned/Urdu | 30 | Generated Urdu/bilingual fixtures; image-only PDFs after running `--collect`, not archival scans |
 
-```mermaid
-flowchart TD
-    A["Raw Document Ingestion"] --> B["PDF Parser & Layout Analyzer"]
-    B --> C{"Page Classification"}
-    C -->|"Digital Text"| D["Direct PyMuPDF Text/Table Extraction"]
-    C -->|"Scanned / Urdu Image"| E["Urdu OCR Engine (CER Benchmarked)"]
-    
-    D --> F["Unified Structure Extractor"]
-    E --> F
-    
-    F --> G1["Statutes (Act -> Section)"]
-    F --> G2["Judgments (Court, Citations, Holding)"]
-    F --> G3["Contracts (Parties, Clauses)"]
-    
-    G1 & G2 & G3 --> H["Legal-Aware Chunking Engine"]
-    H --> H1["Fixed-Size Chunks"]
-    H --> H2["Section-Level Chunks"]
-    H --> H3["Parent-Child Hierarchical Chunks"]
-    
-    H2 & H3 --> I["Dual Knowledge Indexing"]
-    I --> J1["BM25 Lexical Index"]
-    I --> J2["Dense Vector Store"]
-    
-    J1 & J2 --> K["Hybrid Legal Search Engine (RRF Fusion)"]
-```
+`inventory.csv` describes files, not necessarily distinct real-world legal matters.
+The inventory is rebuilt by `--collect`; downloaded records with `REAL_` IDs are
+preserved if their files exist. The downloader currently fetches CUAD contracts
+and one official statute; it does not collect 200 Pakistani judgments.
 
----
+## Implemented pipeline
 
-## 📦 Project Deliverables & Requirements Fulfillment
+- PyMuPDF detects pages with or without embedded text and extracts text, blocks,
+  and tables from digital PDFs. `LegalPDFParser` accepts an OCR engine to process
+  image-only pages; without one it marks the page `needs_ocr` instead of silently
+  treating an empty text layer as a successful extraction.
+- Pydantic structures, legal-aware section and parent-child chunkers, BM25
+  retrieval, and a SQLite-backed dense vector index using the multilingual
+  `intfloat/multilingual-e5-small` embedding model.
+- The Urdu OCR benchmark renders each page to an image and compares Tesseract
+  (`urd+eng`) with EasyOCR using CER, WER, and measured inference latency. OCR
+  evaluation now stops with a clear error if tools or language data are missing;
+  it does not manufacture OCR output from the reference text.
 
-| Requirement | Target Criteria | Implemented & Verified |
-| :--- | :--- | :--- |
-| **Task 1: Corpus Collection** | $\ge 10$ Statutes, 200 Judgments, 50 Contracts, 30 Scanned/Urdu docs; `inventory.csv` | **292 total documents** (12 Statutes, 200 Judgments, 50 Contracts, 30 Scanned/Urdu docs). Clean `inventory.csv` with full metadata. |
-| **Task 2: Parsing & OCR** | Detect digital vs scanned; extract text & tables; evaluate 2 OCR tools on 10 Urdu pages using CER | `LegalPDFParser` detects digital/scanned pages and tables. Benchmarked 2 Urdu OCR engines across 10 legal pages with Character Error Rate (**CER**) & Word Error Rate (**WER**). |
-| **Task 3: Structure Extraction** | Convert Statutes (Act $\rightarrow$ Section), Judgments (Court, Parties, Citations, Holding), Contracts (Clauses) to JSON | Pydantic data schemas: `StatuteDocument`, `JudgmentDocument`, `ContractDocument` with structured JSON output. |
-| **Task 4: Legal Chunking** | Compare fixed-size, section-level, and parent-child chunking | Benchmarked across token size distributions, boundary preservation rate, and metadata completeness in `evaluations/chunking_comparison_report.md`. |
-| **Task 5: Hybrid Indexing** | Index chunks with metadata (Act, section, court, year, page, matter ID) in Vector DB + BM25 | Dual-engine retrieval (`LegalBM25Index` + `DenseVectorStore`) fused via **Reciprocal Rank Fusion (RRF)** with metadata filtering. |
+The chunking report measures chunk counts and whitespace word-count distributions
+on 12 generated fixtures. It does not measure retrieval relevance or a numeric
+boundary-preservation rate.
 
----
+## Setup
 
-## 📊 Benchmark & Evaluation Results
+From PowerShell:
 
-### 1. Task 2: Urdu OCR Benchmark (10 Legal Documents)
-Evaluated across authentic Urdu court documents (Powers of Attorney, Bail Applications, Tenancy Agreements, Land Sale Deeds, Defamation Notices):
-
-| OCR Engine | Avg CER (%) | Avg WER (%) | Avg Latency | Error Characteristics |
-| :--- | :---: | :---: | :---: | :--- |
-| **Tool 1: LexicalMorph_OCR_v1 (Baseline)** | 1.67% | 15.50% | 115.3 ms | Splits cursive Nastaliq ligatures, drops diacritical marks |
-| **Tool 2: DeepContextual_OCR_v2 (Advanced)** | **0.13%** | **0.69%** | 285.3 ms | High sequence accuracy, retains Nastaliq contextual joining |
-
-*Detailed per-document breakdown available at [evaluations/ocr_comparison_report.md](file:///d:/Netixsol/Week12/evaluations/ocr_comparison_report.md).*
-
----
-
-### 2. Task 4: Legal Chunking Strategy Comparison
-Evaluated across Pakistani statutes, superior court rulings, and commercial contracts:
-
-| Strategy | Total Chunks | Avg Tokens | Boundary Preservation | Metadata Retention | Retrieval Tradeoff |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **Fixed-Size (Sliding Window)** | 24 | 157.6 | Poor (35%) | Low | Cuts across statutory provisos and operative contract terms. |
-| **Section-Level (Legal-Aware)** | 58 | 87.4 | **100%** | High | Self-contained, optimal for direct section/citation queries. |
-| **Parent-Child (Hierarchical)** | 183 Child / 58 Parent | 26.0 (C) / 87.4 (P) | **100%** | **Maximum** | **Optimal**: Child matches query intent; Parent returned to LLM for full legal context. |
-
-*Detailed analysis available at [evaluations/chunking_comparison_report.md](file:///d:/Netixsol/Week12/evaluations/chunking_comparison_report.md).*
-
----
-
-## 🚀 Installation & Quick Start
-
-### 1. Environment Setup
 ```powershell
-# Clone or navigate to repository
 cd D:\Netixsol\Week12
-
-# Create virtual environment (Python 3.11 recommended)
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-### 2. Run End-to-End Pipeline
-Executes corpus generation, OCR benchmarks, chunking benchmarks, index building, and sample retrieval in one command:
-```powershell
-.\.venv\Scripts\python.exe main.py --run-all
-```
+The first vector-index build may download the multilingual embedding model.
+OCR evaluation additionally requires:
 
-### 3. Individual Task Commands
-```powershell
-# External Downloader: Download real CUAD contracts from Hugging Face & official Pakistan legislation
-.\.venv\Scripts\python.exe main.py --download-external
+- Tesseract installed and available on `PATH`, with both `urd` and `eng` traineddata.
+- EasyOCR installed in the virtual environment: `.\.venv\Scripts\python.exe -m pip install easyocr`
 
-# Task 1: Generate corpus and inventory.csv
+## Commands
+
+```powershell
+# Rebuild generated fixtures and inventory; preserve downloaded REAL_* records
 .\.venv\Scripts\python.exe main.py --collect
 
-# Task 2: Run Urdu OCR benchmark on 10 legal pages
+# Download 30 CUAD PDFs and one official Pakistani statute
+.\.venv\Scripts\python.exe main.py --download-external
+
+# Run the real OCR comparison (requires the tools above)
 .\.venv\Scripts\python.exe main.py --ocr-eval
 
-# Task 4: Run chunking strategy comparison
+# Compare chunking structure and word-count distributions
 .\.venv\Scripts\python.exe main.py --chunk-eval
 
-# Task 5: Build and persist BM25 and Vector indices
+# Build BM25 and SQLite-backed dense vector indices, then query
 .\.venv\Scripts\python.exe main.py --index
+.\.venv\Scripts\python.exe main.py --search "qatl-i-amd section 302" --top-k 3
 
-# Query the Hybrid Search Engine
-.\.venv\Scripts\python.exe main.py --search "punishment qatl-i-amd section 302" --top-k 3
-.\.venv\Scripts\python.exe main.py --search "non-bailable bail section 497" --court "Supreme Court of Pakistan"
+# Run collection, OCR, chunking, indexing, and a sample search
+.\.venv\Scripts\python.exe main.py --run-all
+
+# Run tests
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
----
+`--run-all` requires the OCR prerequisites; without them it stops at OCR and
+does not claim the benchmark completed.
 
-## 🧪 Running Tests
-The project includes a comprehensive test suite covering all modules:
-```powershell
-.\.venv\Scripts\python.exe -m pytest tests/
-```
-All **15 unit and integration tests** verify:
-* Inventory counts, required fields, and benchmark files
-* PDF parsing, classification, and CER calculation
-* Pydantic structure extractors for Statutes, Judgments, and Contracts
-* Fixed, Section, and Parent-Child chunkers
-* BM25, Dense Vector Store, and Hybrid RRF retrieval
+## Limitations and next work
 
----
+1. Replace generated judgments and Urdu fixtures with documented, authorized
+   sources; verify their provenance and page counts before treating them as corpus data.
+2. Install both OCR engines and run the benchmark on real scanned Urdu pages.
+   The committed OCR report previously contained simulated results and is not
+   evidence; see the current report status.
+3. Validate extraction quality against manually reviewed legal documents and
+   evaluate retrieval with a labeled query/relevance set before production use.
+4. Confirm the downloaded documents' provenance, licensing, and integrity.
+5. Propagate source page numbers into extracted legal structures and index metadata.
 
-## 📁 Repository Structure
-```
-Week12/
-├── data/
-│   ├── statutes/                 # 12 Pakistani Acts (JSON, PDF, TXT)
-│   ├── judgments/                # 200 Superior Court Judgments (JSON, PDF, TXT)
-│   ├── contracts/                # 50 Contracts (30 CUAD + 20 Synthetic)
-│   ├── scanned_urdu/             # 30 Scanned & Urdu documents
-│   │   └── benchmark_cer/        # 10 Ground-truth Urdu benchmark pages
-│   └── indices/                  # Serialized BM25 & Vector store indices
-├── evaluations/
-│   ├── ocr_comparison_report.csv
-│   ├── ocr_comparison_report.md
-│   ├── chunking_comparison_report.csv
-│   └── chunking_comparison_report.md
-├── src/
-│   ├── ingestion/
-│   │   ├── corpus_collector.py   # Corpus builder & inventory generator
-│   │   ├── pdf_parser.py         # PyMuPDF digital/scanned detection & tables
-│   │   └── ocr_engine.py         # Urdu OCR engines & CER/WER calculation
-│   ├── extraction/
-│   │   ├── statute_extractor.py  # Act -> Chapter -> Section hierarchy
-│   │   ├── judgment_extractor.py # Court, Citations, Bench, Holding
-│   │   ├── contract_extractor.py # Parties, Governing Law, Clauses
-│   │   └── structure_extractor.py# Unified extraction dispatcher
-│   ├── chunking/
-│   │   ├── fixed_chunker.py      # Baseline fixed sliding window
-│   │   ├── section_chunker.py    # Legal domain boundary chunking
-│   │   └── parent_child_chunker.py # 2-tier parent-child hierarchy
-│   ├── indexing/
-│   │   ├── bm25_index.py         # BM25 Okapi lexical index
-│   │   ├── vector_store.py       # Dense vector store with metadata
-│   │   └── hybrid_search.py      # Reciprocal Rank Fusion (RRF) search
-│   └── utils/
-│       ├── logger.py             # Standardized logging
-│       ├── file_utils.py         # JSON/CSV/file I/O helpers
-│       └── schemas.py            # Pydantic schemas
-├── tests/
-│   ├── test_corpus_collection.py
-│   ├── test_pdf_parser.py
-│   ├── test_structure_extraction.py
-│   ├── test_chunking.py
-│   └── test_indexing_and_search.py
-├── inventory.csv                 # 292-item catalog
-├── main.py                       # CLI orchestrator
-├── requirements.txt              # Pinned dependencies
-├── project_instruction.txt       # Capstone instructions
-└── README.md                     # Comprehensive project documentation
-```
+This prototype is for engineering evaluation, not legal advice.
