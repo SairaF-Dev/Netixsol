@@ -1,0 +1,19 @@
+ACT: Arbitration Act, 1940 (Act X of 1940)
+YEAR: 1940
+PREAMBLE:
+An Act to consolidate and amend the law relating to arbitration in Pakistan...
+
+
+--- Chapter II: Arbitration without Intervention of a Court ---
+
+Section 2: Definitions
+In this Act, unless there is anything repugnant in the subject or context: 'arbitration agreement' means a written agreement to submit present or future differences to arbitration, whether an arbitrator is named therein or not; 'award' means an arbitration award; 'Court' means a Civil Court having jurisdiction to decide the questions forming the subject-matter of the reference.
+  * Key terms of alternative dispute resolution.
+
+Section 20: Application to file in Court arbitration agreement
+Where any persons have agreed that any difference between them shall be referred to arbitration, and an agreement has not been filed under section 14, they or any of them may apply to a Court having jurisdiction to which the agreement relates, that the agreement be filed in Court.
+  * Court judicial intervention to compel arbitration under binding agreements.
+
+Section 30: Grounds for setting aside award
+An award shall not be set aside except on one or more of the following grounds, namely: that an arbitrator or umpire has misconducted himself or the proceedings; that an award has been made after the issue of an order by the Court superseding the arbitration; that an award has been improperly procured or is otherwise invalid.
+  * Strict grounds for challenging domestic arbitral awards in Pakistani civil courts.

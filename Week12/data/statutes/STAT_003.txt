@@ -1,0 +1,29 @@
+ACT: Code of Criminal Procedure, 1898 (Act V of 1898)
+YEAR: 1898
+PREAMBLE:
+An Act to consolidate and amend the law relating to the Criminal Procedure in Pakistan...
+
+
+--- Part V - Chapter XIV: Information to Police and their Powers to Investigate ---
+
+Section 154: Information in cognizable cases
+Every information relating to the commission of a cognizable offence if given orally to an officer in charge of a police station, shall be reduced to writing by him or under his direction, and be read over to the informant; and every such information, whether given in writing or reduced to writing as aforesaid, shall be signed by the person giving it, and the substance thereof shall be entered in a book to be kept by such officer.
+  * Statutory mandate of First Information Report (FIR).
+
+Section 161: Examination of witnesses by police
+Any police officer making an investigation under this Chapter may examine orally any person supposed to be acquainted with the facts and circumstances of the case. Such person shall be bound to answer truly all questions relating to such case put to him by such officer, other than questions the answers to which would have a tendency to expose him to a criminal charge.
+  * Statements of witnesses recorded during police investigation.
+
+--- Part IX - Chapter XXXIX: Of Bail ---
+
+Section 496: In what cases bail to be taken
+When any person other than a person accused of a non-bailable offence is arrested or detained without warrant by an officer in charge of a police station, or appears or is brought before a Court, and is prepared at any time while in the custody of such officer or at any stage of the proceedings before such Court to give bail, such person shall be released on bail.
+  * Bail as an absolute matter of right in bailable offences.
+
+Section 497: When bail may be taken in case of non-bailable offence
+When any person accused of non-bailable offence is arrested or detained without warrant by an officer in charge of a police station, or appears or is brought before a Court, he may be released on bail, but he shall not be so released if there appear reasonable grounds for believing that he has been guilty of an offence punishable with death or imprisonment for life or imprisonment for ten years.
+  * Prohibitory clause and statutory exceptions for minors, sick, infirm, and females.
+
+Section 498: Power to direct admission to bail or reduction of bail
+The amount of every bond executed under this Chapter shall be fixed with due regard to the circumstances of the case, and shall not be excessive; and the High Court or Court of Session may, in any case, whether there be an appeal on conviction or not, direct that any person be admitted to bail, or that the bail required by a police officer or Magistrate be reduced.
+  * Pre-arrest anticipatory bail powers of Sessions Court and High Court.

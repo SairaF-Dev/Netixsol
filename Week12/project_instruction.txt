@@ -1,0 +1,13 @@
+:loudspeaker: Week 12 Capstone: AI Legal Assistant
+Day 1: Legal Document Ingestion & Understanding
+
+Scenario: Our client Khan & Associates (law firm) has thousands of statutes, judgments and contracts, many of them scanned or in Urdu. Today you build the pipeline that turns these messy documents into clean, structured data.
+
+Tasks
+:one: Corpus Collection: collect at least 10 Pakistani laws, 200 judgments, 50 contracts (CUAD + 20 synthetic) and 30 scanned/Urdu documents. Create an inventory listing type, language, pages and source.
+:two: Parsing & OCR: detect digital vs scanned PDFs, extract text and tables (Docling/PyMuPDF), and OCR scanned pages. Compare 2 OCR tools on 10 Urdu pages using CER.
+:three: Structure Extraction: convert statutes (Act → Section), judgments (court, parties, citations, holding) and contracts (clauses) into JSON.
+:four: Legal-Aware Chunking: compare fixed-size, section-level and parent-child chunking.
+:five: Indexing: store chunks with metadata (Act, section, court, year, page, matter ID) in a vector DB and a BM25 index.
+
+:package: Deliverable: ingestion pipeline code, OCR comparison and chunking comparison pushed to GitHub, with a short README.

@@ -1,0 +1,44 @@
+{
+  "doc_id": "STAT_008",
+  "act_name": "Companies Act, 2017 (Act XIX of 2017)",
+  "year": 2017,
+  "preamble": "An Act to consolidate and amend the laws relating to companies and to provide for the incorporation, regulation and matters connected therewith...",
+  "chapters": [
+    {
+      "chapter_number": "Part V",
+      "chapter_title": "Management and Administration - Directors",
+      "sections": [
+        {
+          "section_number": "Section 153",
+          "title": "Ineligibility of certain persons to become director",
+          "content": "A person shall not be eligible for appointment as a director of a company if he is a minor, of unsound mind, an undischarged insolvent, or has been convicted by a court of law for an offence involving moral turpitude.",
+          "subsections": [
+            "Disqualifications from holding corporate directorships."
+          ]
+        },
+        {
+          "section_number": "Section 204",
+          "title": "Duties of directors",
+          "content": "A director of a company shall act in accordance with the articles of the company, act in good faith in order to promote the objects of the company for the benefit of its members as a whole, and exercise his duties with due and reasonable care, skill and diligence.",
+          "subsections": [
+            "Codified fiduciary duties, conflict of interest, and stakeholder protections."
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_number": "Part X",
+      "chapter_title": "Winding Up of Companies",
+      "sections": [
+        {
+          "section_number": "Section 301",
+          "title": "Circumstances in which a company may be wound up by Court",
+          "content": "A company may be wound up by the Court if the company has by special resolution resolved that the company be wound up by the Court, or if default is made in delivering the statutory report to the registrar, or if the company does not commence its business within a year from its incorporation, or if the company is unable to pay its debts.",
+          "subsections": [
+            "Inability to pay debts statutory threshold and just and equitable winding up."
+          ]
+        }
+      ]
+    }
+  ]
+}
