@@ -1,0 +1,33 @@
+{
+  "document_id": "CUAD_021",
+  "contract_title": "Commercial Software License Agreement #21",
+  "contract_type": "License",
+  "parties": [
+    "Global Tech Ventures #21 Inc.",
+    "Enterprise Solutions Partner #21 LLC"
+  ],
+  "effective_date": "2023-10-15",
+  "governing_law": "Laws of the State of Delaware, United States",
+  "clauses": [
+    {
+      "clause_id": "CL_01",
+      "clause_title": "Clause 1 - Grant of License",
+      "text": "Licensor hereby grants to Licensee a non-exclusive, non-transferable, revocable license to install and execute the Licensed Software solely for internal enterprise business operations."
+    },
+    {
+      "clause_id": "CL_02",
+      "clause_title": "Clause 2 - Restrictions",
+      "text": "Licensee shall not: (a) reverse engineer, decompile, or disassemble the Software; (b) distribute, sell, sublicense or rent the Software to third parties; or (c) modify or create derivative works based upon the Software."
+    },
+    {
+      "clause_id": "CL_03",
+      "clause_title": "Clause 3 - Audit Rights",
+      "text": "Licensor shall have the right, upon reasonable written notice of at least ten (10) business days, to audit Licensee's deployment and usage of the Software to ensure compliance with the terms of this Agreement."
+    },
+    {
+      "clause_id": "CL_04",
+      "clause_title": "Clause 4 - Term and Revocation",
+      "text": "This License is effective until terminated. Licensor may terminate immediately upon written notice if Licensee commits a material breach of any license restriction."
+    }
+  ]
+}

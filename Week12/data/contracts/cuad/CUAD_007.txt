@@ -1,0 +1,19 @@
+CONTRACT: Mutual Non-Disclosure and Confidentiality Agreement #7
+TYPE: NDA
+PARTIES: Global Tech Ventures #7 Inc. and Enterprise Solutions Partner #7 LLC
+
+Clause 1 - Definition of Confidential Information
+For purposes of this Agreement, 'Confidential Information' shall include all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged.
+
+Clause 2 - Exclusions from Confidentiality
+Recipient's obligations under this Agreement do not extend to information that is: (a) publicly known at the time of disclosure or subsequently becomes publicly known through no fault of the Recipient; (b) discovered or created by the Recipient before disclosure by Disclosing Party; (c) learned by the Recipient through legitimate means other than from the Disclosing Party; or (d) is disclosed by Recipient with Disclosing Party's prior written approval.
+
+Clause 3 - Obligations of Receiving Party
+Recipient shall hold and maintain the Confidential Information in strictest confidence for the sole and exclusive benefit of the Disclosing Party. Recipient shall carefully restrict access to Confidential Information to employees, contractors, and third parties as is reasonably required and shall require those persons to sign nondisclosure restrictions at least as protective as those in this Agreement.
+
+Clause 4 - Term and Termination
+The non-disclosure provisions of this Agreement shall survive the termination of this Agreement and Recipient's duty to hold Confidential Information in confidence shall remain in effect for a period of five (5) years from the date of disclosure.
+
+Clause 5 - Governing Law and Jurisdiction
+This Agreement shall be construed and governed in accordance with the laws of the State of Delaware, without giving effect to any choice of law rule that would cause the application of the laws of any jurisdiction other than the laws of the State of Delaware.
+

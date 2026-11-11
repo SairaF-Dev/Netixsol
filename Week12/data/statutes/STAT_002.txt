@@ -1,0 +1,37 @@
+ACT: Pakistan Penal Code (Act XLV of 1860)
+YEAR: 1860
+PREAMBLE:
+Whereas it is expedient to provide a general Penal Code for Pakistan; It is enacted as follows...
+
+
+--- Chapter II: General Explanations ---
+
+Section 21: Public servant
+The words 'public servant' denote a person falling under any of the descriptions specified in this Code, including commissioned officers in Military, Naval or Air Forces of Pakistan, every Judge, and every officer of a Court of Justice.
+  * Definitions and enumerations of public judicial and administrative officers.
+
+--- Chapter XVI: Of Offences Affecting the Human Body ---
+
+Section 299: Definitions relating to bodily injury and Qatl
+In this Chapter, unless there is anything repugnant in the subject or context, 'adult' means a person who has attained the age of eighteen years; 'arsh' means the compensation specified in this Chapter to be paid to the victim or his heirs; 'diyat' means financial compensation.
+  * Key terms in Islamic criminal jurisprudence under PPC.
+
+Section 302: Punishment of Qatl-i-amd
+Whoever commits qatl-i-amd shall, subject to the provisions of this Chapter, be punished with death as qisas, or punished with death or imprisonment for life as ta'zir having regard to the facts and circumstances of the case.
+  * (a) Punishment with death as qisas.
+  * (b) Punishment with death or life imprisonment as ta'zir.
+  * (c) Imprisonment extending to twenty-five years when qisas is inapplicable.
+
+--- Chapter XVII: Of Offences Against Property ---
+
+Section 378: Theft
+Whoever, intending to take dishonestly any movable property out of the possession of any person without that person's consent, moves that property in order to such taking, is said to commit theft.
+  * Five statutory explanations detailing severing, removal of obstacles, and animal movement.
+
+Section 420: Cheating and dishonestly inducing delivery of property
+Whoever cheats and thereby dishonestly induces the person deceived to deliver any property to any person, or to make, alter or destroy the whole or any part of a valuable security, shall be punished with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine.
+  * Fraudulent inducement and dishonest delivery penalties.
+
+Section 489-F: Dishonestly issuing a cheque
+Whoever dishonestly issues a cheque towards repayment of a loan or fulfillment of an obligation which is dishonoured on presentation, shall be punishable with imprisonment which may extend to three years, or with fine, or with both, unless he can establish that he had made arrangements with his bank to ensure that the cheque would be honoured and that the bank was at fault in not honouring the cheque.
+  * Dishonored cheques statutory liability and burden of proof.

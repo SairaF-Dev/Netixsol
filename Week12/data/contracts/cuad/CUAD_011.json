@@ -1,0 +1,38 @@
+{
+  "document_id": "CUAD_011",
+  "contract_title": "Master Services and Consulting Agreement #11",
+  "contract_type": "MSA",
+  "parties": [
+    "Global Tech Ventures #11 Inc.",
+    "Enterprise Solutions Partner #11 LLC"
+  ],
+  "effective_date": "2023-12-15",
+  "governing_law": "Laws of the State of Delaware, United States",
+  "clauses": [
+    {
+      "clause_id": "CL_01",
+      "clause_title": "Clause 1 - Scope of Services",
+      "text": "Service Provider shall perform the professional software development and technical consulting services set forth in each Statement of Work (SOW) executed by the parties from time to time."
+    },
+    {
+      "clause_id": "CL_02",
+      "clause_title": "Clause 2 - Fees and Payment Terms",
+      "text": "Client shall pay Service Provider the fees described in each SOW. Unless otherwise specified, all invoices shall be due and payable within thirty (30) days from the invoice date. Late payments shall accrue interest at 1.5% per month."
+    },
+    {
+      "clause_id": "CL_03",
+      "clause_title": "Clause 3 - Intellectual Property Rights and Work Product",
+      "text": "Service Provider agrees that all deliverables, inventions, discoveries, and work product developed under this Agreement shall belong exclusively to Client as work made for hire. Service Provider assigns all worldwide right, title, and interest in such work product to Client."
+    },
+    {
+      "clause_id": "CL_04",
+      "clause_title": "Clause 4 - Warranties and Disclaimer",
+      "text": "Service Provider represents and warrants that the Services will be performed in a professional and workmanlike manner consistent with generally accepted industry standards."
+    },
+    {
+      "clause_id": "CL_05",
+      "clause_title": "Clause 5 - Limitation of Liability",
+      "text": "In no event shall either party be liable to the other for any indirect, incidental, special, punitive or consequential damages arising out of or in connection with this Agreement. The aggregate liability of either party shall not exceed the total fees paid during the twelve (12) months preceding the claim."
+    }
+  ]
+}

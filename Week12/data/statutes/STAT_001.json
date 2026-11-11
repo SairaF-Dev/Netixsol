@@ -1,0 +1,72 @@
+{
+  "doc_id": "STAT_001",
+  "act_name": "Constitution of the Islamic Republic of Pakistan, 1973",
+  "year": 1973,
+  "preamble": "Whereas sovereignty over the entire Universe belongs to Almighty Allah alone, and the authority to be exercised by the people of Pakistan within the limits prescribed by Him is a sacred trust...",
+  "chapters": [
+    {
+      "chapter_number": "Part I",
+      "chapter_title": "Introductory",
+      "sections": [
+        {
+          "section_number": "Article 1",
+          "title": "The Republic and its territories",
+          "content": "Pakistan shall be a Federal Republic to be known as the Islamic Republic of Pakistan, hereinafter referred to as Pakistan. The territories of Pakistan shall comprise the Provinces of Balochistan, Khyber Pakhtunkhwa, Punjab and Sindh, the Islamabad Capital Territory, and such States and territories as are or may be included in Pakistan.",
+          "subsections": [
+            "(1) Federal Republic definition.",
+            "(2) Composition of federating territories."
+          ]
+        },
+        {
+          "section_number": "Article 4",
+          "title": "Right of individuals to be dealt with in accordance with law",
+          "content": "To enjoy the protection of law and to be treated in accordance with law is the inalienable right of every citizen, wherever he may be, and of every other person for the time being within Pakistan. In particular no action detrimental to the life, liberty, body, reputation or property of any person shall be taken except in accordance with law.",
+          "subsections": [
+            "(1) Protection of law as inalienable right.",
+            "(2) Prohibition of unlawful detention and deprivation of property."
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_number": "Part II - Chapter 1",
+      "chapter_title": "Fundamental Rights",
+      "sections": [
+        {
+          "section_number": "Article 9",
+          "title": "Security of person",
+          "content": "No person shall be deprived of life or liberty save in accordance with law.",
+          "subsections": [
+            "Deprivation of life or personal liberty restricted to sanctioned legal procedures."
+          ]
+        },
+        {
+          "section_number": "Article 10A",
+          "title": "Right to fair trial",
+          "content": "For the determination of his civil rights and obligations or in any criminal charge against him a person shall be entitled to a fair trial and due process.",
+          "subsections": [
+            "Entitlement to due process in both civil and criminal determinations."
+          ]
+        },
+        {
+          "section_number": "Article 19A",
+          "title": "Right to information",
+          "content": "Every citizen shall have the right to have access to information in all matters of public importance subject to regulation and reasonable restrictions imposed by law.",
+          "subsections": [
+            "Constitutional guarantee of transparency in public affairs."
+          ]
+        },
+        {
+          "section_number": "Article 25",
+          "title": "Equality of citizens",
+          "content": "All citizens are equal before law and are entitled to equal protection of law. There shall be no discrimination on the basis of sex. Nothing in this Article shall prevent the State from making any special provision for the protection of women and children.",
+          "subsections": [
+            "(1) Equality before law.",
+            "(2) Prohibition of sex discrimination.",
+            "(3) Affirmative action for vulnerable groups."
+          ]
+        }
+      ]
+    }
+  ]
+}

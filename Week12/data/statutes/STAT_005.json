@@ -1,0 +1,52 @@
+{
+  "doc_id": "STAT_005",
+  "act_name": "Qanun-e-Shahadat Order, 1984 (President's Order No. 10 of 1984)",
+  "year": 1984,
+  "preamble": "Whereas it is expedient to consolidate and amend the law of evidence in accordance with the Injunctions of Islam as laid down in the Holy Quran and Sunnah...",
+  "chapters": [
+    {
+      "chapter_number": "Part I",
+      "chapter_title": "Relevancy of Facts",
+      "sections": [
+        {
+          "section_number": "Article 2",
+          "title": "Interpretation clause",
+          "content": "In this Order, unless there is anything repugnant in the subject or context: 'Court' includes all Judges and Magistrates, and, except arbitrators, all persons legally authorized to take evidence; 'Document' means any matter expressed or described upon any substance by means of letters, figures or marks; 'Evidence' means and includes oral evidence and documentary evidence.",
+          "subsections": [
+            "Definitions of court, fact in issue, relevant fact, document, and proof."
+          ]
+        },
+        {
+          "section_number": "Article 17",
+          "title": "Competence and number of witnesses",
+          "content": "The competence of a person to testify, and the number of witnesses required in any case, shall be determined in accordance with the Injunctions of Islam as laid down in the Holy Quran and Sunnah: Provided that the Court may accept the testimony of any witness unless the Court considers that he is prevented from understanding the questions put to him.",
+          "subsections": [
+            "Qualifications of witnesses (Tazkiya-tul-Shahood) and requisite numbers in financial and criminal cases."
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_number": "Part II",
+      "chapter_title": "On Proof and Burden of Proof",
+      "sections": [
+        {
+          "section_number": "Article 70",
+          "title": "Proof of contents of documents",
+          "content": "The contents of documents may be proved either by primary or by secondary evidence.",
+          "subsections": [
+            "Primary evidence as foundational proof of document contents."
+          ]
+        },
+        {
+          "section_number": "Article 117",
+          "title": "Burden of proof",
+          "content": "Whoever desires any Court to give judgment as to any legal right or liability dependent on the existence of facts which he asserts, must prove that those facts exist. When a person is bound to prove the existence of any fact, it is said that the burden of proof lies on that person.",
+          "subsections": [
+            "Fundamental maxim onus probandi actori incumbit."
+          ]
+        }
+      ]
+    }
+  ]
+}

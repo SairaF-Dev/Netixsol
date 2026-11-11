@@ -1,0 +1,52 @@
+{
+  "doc_id": "STAT_007",
+  "act_name": "Specific Relief Act, 1877 (Act I of 1877)",
+  "year": 1877,
+  "preamble": "An Act to define and amend the law relating to certain kinds of Specific Relief obtainable in civil Courts...",
+  "chapters": [
+    {
+      "chapter_number": "Part II - Chapter II",
+      "chapter_title": "Of the Specific Performance of Contracts",
+      "sections": [
+        {
+          "section_number": "Section 12",
+          "title": "Cases in which specific performance enforceable",
+          "content": "Except as otherwise provided in this Chapter, the specific performance of any contract may in the discretion of the Court be enforced when the act agreed to be done is in the performance, wholly or partly, of a trust, or when there exist no standard for ascertaining the actual damage caused by the non-performance of the act agreed to be done, or when the act agreed to be done is such that pecuniary compensation for its non-performance would not afford adequate relief.",
+          "subsections": [
+            "Discretionary parameters for decreeing specific performance of immovable property contracts."
+          ]
+        },
+        {
+          "section_number": "Section 42",
+          "title": "Discretion of Court as to declaration of status or right",
+          "content": "Any person entitled to any legal character, or to any right as to any property, may institute a suit against any person denying, or interested to deny, his title to such character or right, and the Court may in its discretion make therein a declaration that he is so entitled, and the plaintiff need not in such suit ask for any further relief: Provided that no Court shall make any such declaration where the plaintiff, being able to seek further relief than a mere declaration of title, omits to do so.",
+          "subsections": [
+            "Declaratory decree suit standards and statutory proviso on consequential relief."
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_number": "Part III - Chapter IX",
+      "chapter_title": "Of Injunctions Generally",
+      "sections": [
+        {
+          "section_number": "Section 52",
+          "title": "Preventive relief how granted",
+          "content": "Preventive relief is granted at the discretion of the Court by injunction, temporary or perpetual.",
+          "subsections": [
+            "General scope of injunctive relief."
+          ]
+        },
+        {
+          "section_number": "Section 54",
+          "title": "Perpetual injunctions when granted",
+          "content": "Subject to the other provisions contained in, or referred to by, this Chapter, a perpetual injunction may be granted to prevent the breach of an obligation existing in favor of the applicant, whether expressly or by implication.",
+          "subsections": [
+            "Grounds: invasion of property rights, trust breach, and prevention of multi-party litigation."
+          ]
+        }
+      ]
+    }
+  ]
+}

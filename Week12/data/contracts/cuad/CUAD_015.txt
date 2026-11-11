@@ -1,0 +1,16 @@
+CONTRACT: Commercial Software License Agreement #15
+TYPE: License
+PARTIES: Global Tech Ventures #15 Inc. and Enterprise Solutions Partner #15 LLC
+
+Clause 1 - Grant of License
+Licensor hereby grants to Licensee a non-exclusive, non-transferable, revocable license to install and execute the Licensed Software solely for internal enterprise business operations.
+
+Clause 2 - Restrictions
+Licensee shall not: (a) reverse engineer, decompile, or disassemble the Software; (b) distribute, sell, sublicense or rent the Software to third parties; or (c) modify or create derivative works based upon the Software.
+
+Clause 3 - Audit Rights
+Licensor shall have the right, upon reasonable written notice of at least ten (10) business days, to audit Licensee's deployment and usage of the Software to ensure compliance with the terms of this Agreement.
+
+Clause 4 - Term and Revocation
+This License is effective until terminated. Licensor may terminate immediately upon written notice if Licensee commits a material breach of any license restriction.
+

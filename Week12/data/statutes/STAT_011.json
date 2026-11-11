@@ -1,0 +1,30 @@
+{
+  "doc_id": "STAT_011",
+  "act_name": "Transfer of Property Act, 1882 (Act IV of 1882)",
+  "year": 1882,
+  "preamble": "An Act to define and amend certain parts of the law relating to the transfer of property by act of parties...",
+  "chapters": [
+    {
+      "chapter_number": "Chapter II",
+      "chapter_title": "Of Transfers of Property by Act of Parties",
+      "sections": [
+        {
+          "section_number": "Section 53A",
+          "title": "Part performance",
+          "content": "Where any person contracts to transfer for consideration any immovable property by writing signed by him or on his behalf, and the transferee has, in part performance of the contract, taken possession of the property, the transferor shall be debarred from enforcing against the transferee any right in respect of the property other than a right expressly provided by the terms of the contract.",
+          "subsections": [
+            "Equitable doctrine of part performance protecting lawful possessors."
+          ]
+        },
+        {
+          "section_number": "Section 54",
+          "title": "Sale defined",
+          "content": "Sale is a transfer of ownership in exchange for a price paid or promised or part-paid and part-promised. Such transfer, in the case of tangible immovable property of the value of one hundred rupees and upwards, can be made only by a registered instrument.",
+          "subsections": [
+            "Mandatory registration requirements for real estate conveyances."
+          ]
+        }
+      ]
+    }
+  ]
+}

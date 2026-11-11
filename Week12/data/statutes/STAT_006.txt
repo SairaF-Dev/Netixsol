@@ -1,0 +1,25 @@
+ACT: The Contract Act, 1872 (Act IX of 1872)
+YEAR: 1872
+PREAMBLE:
+An Act to define and amend certain parts of the law relating to contracts in Pakistan...
+
+
+--- Chapter I: Of the Communication, Acceptance and Revocation of Proposals ---
+
+Section 2: Interpretation-clause
+When one person signifies to another his willingness to do or to abstain from doing anything, with a view to obtaining the assent of that other to such act or abstinence, he is said to make a proposal. An agreement enforceable by law is a contract.
+  * Offer, acceptance, promise, consideration, void and voidable agreements.
+
+Section 10: What agreements are contracts
+All agreements are contracts if they are made by the free consent of parties competent to contract, for a lawful consideration and with a lawful object, and are not hereby expressly declared to be void.
+  * Core elements required for contractual enforceability.
+
+--- Chapter VI: Of the Consequences of Breach of Contract ---
+
+Section 73: Compensation for loss or damage caused by breach of contract
+When a contract has been broken, the party who suffers by such breach is entitled to receive, from the party who has broken the contract, compensation for any loss or damage caused to him thereby, which naturally arose in the usual course of things from such breach, or which the parties knew, when they made the contract, to be likely to result from the breach of it. Such compensation is not to be given for any remote and indirect loss or damage.
+  * Rule of Hadley v. Baxendale codified in Pakistani contract law.
+
+Section 74: Compensation for breach of contract where penalty stipulated for
+When a contract has been broken, if a sum is named in the contract as the amount to be paid in case of such breach, or if the contract contains any other stipulation by way of penalty, the party complaining of the breach is entitled, whether or not actual damage or loss is proved to have been caused thereby, to receive from the party who has broken the contract reasonable compensation not exceeding the amount so named or, as the case may be, the penalty stipulated for.
+  * Liquidated damages vs penalty enforcement standards.

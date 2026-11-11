@@ -1,0 +1,22 @@
+AGREEMENT: Pakistani Corporate Service Level Agreement (Agreement #4)
+TYPE: Service Level Agreement
+PARTIES: M/s Indus Infotech Solutions (Pvt) Ltd, Karachi and Pak Telecom Enterprises #4, Islamabad
+
+Recitals and Preamble
+WHEREAS the Client desires to procure specialized engineering and information technology services, and the Contractor represents that it possesses the requisite expertise, equipment, and personnel to deliver the same under Pakistani regulatory standards.
+
+Services and Scope of Work
+The Contractor shall faithfully execute the tasks stipulated in Schedule A in compliance with Pakistani technical standards, ISO certifications, and applicable guidelines.
+
+Payment Terms, Invoicing & Withholding Tax
+Invoices shall be submitted monthly and paid within thirty (30) days in Pakistani Rupees (PKR). Payments shall be subject to deduction of applicable withholding income tax and provincial sales tax on services in accordance with Income Tax Ordinance 2001 and Provincial Revenue Authorities.
+
+Confidentiality and Data Protection
+Both parties agree to protect all business proprietary secrets and customer data. Neither party shall disclose confidential materials without prior written consent, surviving termination for seven (7) years.
+
+Indemnification and Limitation of Liability
+The Contractor shall indemnify and hold harmless the Client against any third-party claims arising from negligence, willful misconduct, or infringement of intellectual property rights in Pakistan.
+
+Governing Law and Dispute Resolution
+This Agreement shall be governed by and construed in accordance with the Laws of the Islamic Republic of Pakistan. Any dispute arising out of or in connection with this contract shall be referred to arbitration in Karachi/Lahore in accordance with the Arbitration Act, 1940.
+

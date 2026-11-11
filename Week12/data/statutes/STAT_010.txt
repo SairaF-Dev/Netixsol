@@ -1,0 +1,15 @@
+ACT: Income Tax Ordinance, 2001 (Ordinance XLIX of 2001)
+YEAR: 2001
+PREAMBLE:
+An Ordinance to consolidate and amend the law relating to income tax in Pakistan...
+
+
+--- Chapter III: Tax on Taxable Income - Heads of Income ---
+
+Section 11: Heads of income
+For the purposes of the imposition of tax and the computation of total income, all income shall be classified under the following heads: (a) Salary; (b) Income from property; (c) Income from business; (d) Capital gains; and (e) Income from other sources.
+  * Statutory classification of income under Pakistani federal revenue law.
+
+Section 111: Unexplained income or assets
+Where any amount is credited in a person's books of account or the person has made an investment, or is found to be the owner of any money, bullion, jewelry or valuable article, and the person offers no explanation about the nature and source thereof, the amount may be included in the person's income chargeable to tax.
+  * Deemed income from unexplained credits or undisclosed foreign and domestic assets.

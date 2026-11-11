@@ -1,0 +1,21 @@
+ACT: Companies Act, 2017 (Act XIX of 2017)
+YEAR: 2017
+PREAMBLE:
+An Act to consolidate and amend the laws relating to companies and to provide for the incorporation, regulation and matters connected therewith...
+
+
+--- Part V: Management and Administration - Directors ---
+
+Section 153: Ineligibility of certain persons to become director
+A person shall not be eligible for appointment as a director of a company if he is a minor, of unsound mind, an undischarged insolvent, or has been convicted by a court of law for an offence involving moral turpitude.
+  * Disqualifications from holding corporate directorships.
+
+Section 204: Duties of directors
+A director of a company shall act in accordance with the articles of the company, act in good faith in order to promote the objects of the company for the benefit of its members as a whole, and exercise his duties with due and reasonable care, skill and diligence.
+  * Codified fiduciary duties, conflict of interest, and stakeholder protections.
+
+--- Part X: Winding Up of Companies ---
+
+Section 301: Circumstances in which a company may be wound up by Court
+A company may be wound up by the Court if the company has by special resolution resolved that the company be wound up by the Court, or if default is made in delivering the statutory report to the registrar, or if the company does not commence its business within a year from its incorporation, or if the company is unable to pay its debts.
+  * Inability to pay debts statutory threshold and just and equitable winding up.

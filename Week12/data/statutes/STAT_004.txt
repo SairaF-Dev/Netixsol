@@ -1,0 +1,29 @@
+ACT: Code of Civil Procedure, 1908 (Act V of 1908)
+YEAR: 1908
+PREAMBLE:
+An Act to consolidate and amend the laws relating to the procedure of the Courts of Civil Judicature...
+
+
+--- Part I: Suits in General - Jurisdiction and Res Judicata ---
+
+Section 9: Courts to try all civil suits unless barred
+The Courts shall (subject to the provisions herein contained) have jurisdiction to try all suits of a civil nature excepting suits of which their cognizance is either expressly or impliedly barred.
+  * General civil court jurisdiction over private civil rights.
+
+Section 10: Stay of suit (Res Sub Judice)
+No Court shall proceed with the trial of any suit in which the matter in issue is also directly and substantially in issue in a previously instituted suit between the same parties, or between parties under whom they or any of them claim litigating under the same title.
+  * Prohibition of concurrent parallel trials on identical disputes.
+
+Section 11: Res Judicata
+No Court shall try any suit or issue in which the matter directly and substantially in issue has been directly and substantially in issue in a former suit between the same parties, or between parties under whom they or any of them claim, litigating under the same title, in a Court competent to try such subsequent suit or the suit in which such issue has been subsequently raised, and has been heard and finally decided by such Court.
+  * Finality of judicial determinations and bar to re-litigation.
+
+--- Part VII: Appeals - Second Appeal and Revision ---
+
+Section 96: Appeal from original decree
+Save where otherwise expressly provided in the body of this Code or by any other law for the time being in force, an appeal shall lie from every decree passed by any Court exercising original jurisdiction to the Court authorized to hear appeals from the decisions of such Court.
+  * First appeal on questions of law and fact.
+
+Section 115: Revision
+The High Court may call for the record of any case which has been decided by any Court subordinate to such High Court and in which no appeal lies thereto, and if such subordinate Court appears to have exercised a jurisdiction not vested in it by law, or to have failed to exercise a jurisdiction so vested, or to have acted in the exercise of its jurisdiction illegally or with material irregularity, the High Court may make such order in the case as it thinks fit.
+  * Supervisory revisional jurisdiction over jurisdictional errors of lower courts.

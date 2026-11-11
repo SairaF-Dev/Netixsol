@@ -1,0 +1,60 @@
+{
+  "doc_id": "STAT_004",
+  "act_name": "Code of Civil Procedure, 1908 (Act V of 1908)",
+  "year": 1908,
+  "preamble": "An Act to consolidate and amend the laws relating to the procedure of the Courts of Civil Judicature...",
+  "chapters": [
+    {
+      "chapter_number": "Part I",
+      "chapter_title": "Suits in General - Jurisdiction and Res Judicata",
+      "sections": [
+        {
+          "section_number": "Section 9",
+          "title": "Courts to try all civil suits unless barred",
+          "content": "The Courts shall (subject to the provisions herein contained) have jurisdiction to try all suits of a civil nature excepting suits of which their cognizance is either expressly or impliedly barred.",
+          "subsections": [
+            "General civil court jurisdiction over private civil rights."
+          ]
+        },
+        {
+          "section_number": "Section 10",
+          "title": "Stay of suit (Res Sub Judice)",
+          "content": "No Court shall proceed with the trial of any suit in which the matter in issue is also directly and substantially in issue in a previously instituted suit between the same parties, or between parties under whom they or any of them claim litigating under the same title.",
+          "subsections": [
+            "Prohibition of concurrent parallel trials on identical disputes."
+          ]
+        },
+        {
+          "section_number": "Section 11",
+          "title": "Res Judicata",
+          "content": "No Court shall try any suit or issue in which the matter directly and substantially in issue has been directly and substantially in issue in a former suit between the same parties, or between parties under whom they or any of them claim, litigating under the same title, in a Court competent to try such subsequent suit or the suit in which such issue has been subsequently raised, and has been heard and finally decided by such Court.",
+          "subsections": [
+            "Finality of judicial determinations and bar to re-litigation."
+          ]
+        }
+      ]
+    },
+    {
+      "chapter_number": "Part VII",
+      "chapter_title": "Appeals - Second Appeal and Revision",
+      "sections": [
+        {
+          "section_number": "Section 96",
+          "title": "Appeal from original decree",
+          "content": "Save where otherwise expressly provided in the body of this Code or by any other law for the time being in force, an appeal shall lie from every decree passed by any Court exercising original jurisdiction to the Court authorized to hear appeals from the decisions of such Court.",
+          "subsections": [
+            "First appeal on questions of law and fact."
+          ]
+        },
+        {
+          "section_number": "Section 115",
+          "title": "Revision",
+          "content": "The High Court may call for the record of any case which has been decided by any Court subordinate to such High Court and in which no appeal lies thereto, and if such subordinate Court appears to have exercised a jurisdiction not vested in it by law, or to have failed to exercise a jurisdiction so vested, or to have acted in the exercise of its jurisdiction illegally or with material irregularity, the High Court may make such order in the case as it thinks fit.",
+          "subsections": [
+            "Supervisory revisional jurisdiction over jurisdictional errors of lower courts."
+          ]
+        }
+      ]
+    }
+  ]
+}

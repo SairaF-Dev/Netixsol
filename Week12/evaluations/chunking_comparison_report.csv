@@ -1,0 +1,4 @@
+Strategy,Total Chunks,Avg Tokens,Token StdDev,Boundary Preservation,Metadata Completeness,Retrieval Context
+Fixed-Size (Sliding Window),24,157.6,46.4,Poor (35% - cuts across sections),Low (Generic offsets only),Truncated / Incomplete clauses
+Section-Level (Legal Aware),58,87.4,83.2,100% (Strict legal borders),"High (Act, section, court, year)",High (Self-contained legal clauses)
+Parent-Child (Hierarchical),183 (Child) / 58 (Parent),26.0 (Child) / 87.4 (Parent),35.9,100% (Two-tier legal hierarchy),Maximum (Carries parent_id link),"Optimal (Child matched, Parent returned)"
