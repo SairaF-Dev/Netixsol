@@ -53,6 +53,48 @@ def test_p_values_are_readable() -> None:
     assert out["ctr_p_value"].tolist() == ["< 1e-15", "3.6e-07", "0.580"]
 
 
+def test_sales_overview_totals_reports_empty_data_and_sums_records() -> None:
+    import pandas as pd
+
+    assert app._sales_overview_totals(pd.DataFrame()) is None
+    sales = pd.DataFrame(
+        {
+            "total_gmv_pkr": [1200.0, 800.0],
+            "total_units_sold": [3, 2],
+            "total_sales_records": [2, 1],
+        }
+    )
+    assert app._sales_overview_totals(sales) == (2000.0, 5.0, 3)
+
+
+def test_demo_checkout_keeps_items_in_the_bag() -> None:
+    from streamlit.testing.v1 import AppTest
+
+    bag = {
+        "item_count": 1,
+        "total_pkr": 3450.0,
+        "items": [
+            {
+                "product_id": "SK-00001",
+                "title": "Sample Kurta",
+                "brand": "ShopKaro",
+                "quantity": 1,
+                "line_total_pkr": 3450.0,
+                "unit_price_pkr": 3450.0,
+            }
+        ],
+    }
+    at = AppTest.from_file(app.__file__, default_timeout=300)
+    at.session_state["sidebar_mode"] = "cart"
+    at.session_state["live_cart"] = bag
+    at.run()
+    assert not at.exception
+
+    at.button(key="cart_sidebar_checkout_btn").click().run()
+    assert not at.exception
+    assert at.session_state["live_cart"] == bag
+
+
 def test_product_details_panel_renders_with_and_without_reviews() -> None:
     """Regression: the panel formatted avg_rating as a float and crashed for unreviewed products."""
     from streamlit.testing.v1 import AppTest
