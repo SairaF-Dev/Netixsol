@@ -2772,7 +2772,7 @@ def _inject_homepage_css(st: Any) -> None:
             width: 100%;
             height: auto;
             aspect-ratio: 1600 / 893;
-            max-height: 560px; /* trims only the empty dark margins on wide screens */
+            max-height: 420px; /* centre crop keeps every banner's text (it sits in the middle ~55%); lower cuts headlines */
             object-fit: cover;
             object-position: center;
         }
