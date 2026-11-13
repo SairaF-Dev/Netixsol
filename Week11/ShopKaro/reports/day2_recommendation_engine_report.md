@@ -146,4 +146,5 @@ Current numbers (`reports/day2_model_comparison.csv`, 5,000 warm test users, K =
   tie-breaks, torch pinned to 8 threads). Seeds 42/43/44 (`reports/day2_two_tower_seeds.csv`): main NDCG@10
   0.1355 +- 0.0005, discovery 0.0244 +- 0.0012, new users 0.0228 +- 0.0007; every seed beats blend and item-CF on
   main and discovery.
-- Production still serves item-CF (real-time click updates, 8 ms p95); see the recommender model card.
+- Serving: item-CF by default; the two-tower is served with `RECOMMENDER=two_tower` (live clicks, onboarding,
+  p95 3.7 ms uncached end-to-end; `reports/recommender_serving_latency.json`). See the recommender model card.

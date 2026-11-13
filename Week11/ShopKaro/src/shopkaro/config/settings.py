@@ -61,6 +61,10 @@ class Settings:
         "SEARCH_CROSS_ENCODER_MODEL", "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
     )
 
+    # Homepage recommender: "item_cf" (default) or "two_tower" (neural two-tower; needs the batch artifact from
+    # scripts/precompute_recommendations.py --two-tower, otherwise the API falls back to item-CF and reports why).
+    recommender: str = os.getenv("RECOMMENDER", "item_cf")
+
     # Pipeline Parameters (Day 1 Specification)
     session_inactivity_minutes: int = 30
     bot_max_clicks_per_session: int = 1000

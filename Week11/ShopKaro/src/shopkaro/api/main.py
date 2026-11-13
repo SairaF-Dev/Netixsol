@@ -19,6 +19,7 @@ from __future__ import annotations
 from collections import OrderedDict
 from dataclasses import asdict
 import json
+import logging
 import os
 import threading
 import time
@@ -43,12 +44,16 @@ from shopkaro.recommendations.reranking import (
 )
 from shopkaro.recommendations.serving import (
     RealtimeItemCFRecommender,
+    RealtimeTwoTowerRecommender,
     SessionEventStore,
     explanation_text,
     load_or_train,
+    load_two_tower_artifact,
 )
 from shopkaro.search.hybrid_search import HybridSearchEngine
 
+
+logger = logging.getLogger(__name__)
 
 
 def _rating_or_none(value: Any) -> float | None:
@@ -249,9 +254,14 @@ class ShopKaroServingContainer:
 
         # Real-time item-CF recommender (Day 2 model, served with live session clicks)
         self.session_events = SessionEventStore()
-        self.realtime_recommender: RealtimeItemCFRecommender | None = None
+        self.realtime_recommender: RealtimeItemCFRecommender | None = None  # item-CF: search re-ranking, onboarding
+        # Homepage model chosen by settings.recommender (item-CF or the neural two-tower)
+        self.homepage_recommender: RealtimeItemCFRecommender | RealtimeTwoTowerRecommender | None = None
         self.business_reranker: BusinessReRanker | None = None
         self.recommender_info: dict[str, Any] = {}
+        # Part of the recommendation / search cache keys. Redis outlives the API process, so without it a restart
+        # with another RECOMMENDER (or a retrained artifact) served the previous model's cached lists for 5 minutes.
+        self.model_tag = "uninitialised"
 
     def ensure_initialized(self) -> None:
         if self._initialized:
@@ -377,16 +387,41 @@ class ShopKaroServingContainer:
             rec_con = duckdb.connect(str(settings.duckdb_path), read_only=True)
             try:
                 artifact, load_mode = load_or_train(rec_con)
+                self.realtime_recommender = RealtimeItemCFRecommender(artifact.model, self.session_events)
+                self.homepage_recommender = self.realtime_recommender
+                home_artifact, home_mode, fallback_reason = artifact, load_mode, None
+                requested = settings.recommender.strip().lower()
+                if requested == "two_tower":
+                    tt_artifact, tt_status = load_two_tower_artifact(rec_con)
+                    if tt_artifact is not None:
+                        self.homepage_recommender = RealtimeTwoTowerRecommender(tt_artifact.model, self.session_events)
+                        home_artifact, home_mode = tt_artifact, tt_status
+                    else:
+                        fallback_reason = tt_status
+                        logger.warning("RECOMMENDER=two_tower but %s; serving item-CF", tt_status)
+                elif requested != "item_cf":
+                    fallback_reason = f"unknown RECOMMENDER={settings.recommender!r}; use item_cf or two_tower"
+                    logger.warning(fallback_reason)
             finally:
                 rec_con.close()
-            self.realtime_recommender = RealtimeItemCFRecommender(artifact.model, self.session_events)
-            self.personalizer.cf_recommender = self.realtime_recommender  # collaborative search re-ranking
+            # Search personalisation stays on item-CF in both modes: its weights were chosen for item-CF scores
+            self.personalizer.cf_recommender = self.realtime_recommender
             self.business_reranker = BusinessReRanker(
-                base_recommender=self.realtime_recommender,
+                base_recommender=self.homepage_recommender,
                 catalogue_df=cat_df,
-                user_purchased=artifact.model.user_seen_items,
+                user_purchased=home_artifact.model.user_seen_items,
             )
-            self.recommender_info = {**artifact.info(), "load_mode": load_mode}
+            self.recommender_info = {
+                **home_artifact.info(),
+                "load_mode": home_mode,
+                "requested_recommender": requested,
+                "serving_recommender": "two_tower" if self.homepage_recommender is not self.realtime_recommender else "item_cf",
+                "fallback_reason": fallback_reason,
+            }
+            self.model_tag = (
+                f"{self.recommender_info['serving_recommender']}@{home_artifact.trained_at}"
+                f"+cf@{artifact.trained_at}"
+            )
             self._initialized = True
 
     def recommend_for_user(
@@ -404,8 +439,8 @@ class ShopKaroServingContainer:
         3. Per-item explanation stating the real reason (revisit / similar to X / popular).
         """
         self.ensure_initialized()
-        assert self.realtime_recommender is not None and self.business_reranker is not None
-        rt = self.realtime_recommender
+        assert self.homepage_recommender is not None and self.business_reranker is not None
+        rt = self.homepage_recommender
         uid = str(user_id)
 
         # "Eid", "Shaadi / Wedding", "11.11 Sale", "Ramadan Preparation" -> festival key; else no boost
@@ -452,10 +487,15 @@ class ShopKaroServingContainer:
                 }
             )
 
+        two_tower = isinstance(rt, RealtimeTwoTowerRecommender)
         if not is_cold_start:
-            strategy = "item_cf_realtime+business_reranker"
+            strategy = "two_tower_realtime+business_reranker" if two_tower else "item_cf_realtime+business_reranker"
         elif onboarding:
-            strategy = "cold_start_onboarding_popularity+business_reranker"
+            strategy = (
+                "cold_start_onboarding_two_tower+business_reranker"
+                if two_tower
+                else "cold_start_onboarding_popularity+business_reranker"
+            )
         else:
             strategy = "cold_start_popularity+business_reranker"
         seg = self.user_segment_map.get(uid)
@@ -629,7 +669,7 @@ def get_recommendations_endpoint(
     """
     serving_container.ensure_initialized()
     version = serving_container.session_events.version(str(user_id))
-    cache_key = f"rec:{user_id}:{top_k}:{(occasion or 'none').lower()}:v{version}"
+    cache_key = f"rec:{serving_container.model_tag}:{user_id}:{top_k}:{(occasion or 'none').lower()}:v{version}"
     cached = serving_container.cache.get(cache_key)
     if cached is not None:
         return {**cached, "cache_hit": True}
@@ -768,7 +808,7 @@ def search_products_endpoint(
     serving_container.ensure_initialized()
     # Include the user's live-event version: personalised results change as the session's clicks change.
     events_v = serving_container.session_events.version(str(user_id)) if user_id is not None else 0
-    cache_key = f"search:{q.strip().lower()}:{top_k}:{user_id or 'anon'}:{events_v}"
+    cache_key = f"search:{serving_container.model_tag}:{q.strip().lower()}:{top_k}:{user_id or 'anon'}:{events_v}"
     cached = serving_container.cache.get(cache_key)
     if cached is not None:
         return {**cached, "cache_hit": True}

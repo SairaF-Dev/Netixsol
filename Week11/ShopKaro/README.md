@@ -412,6 +412,14 @@ Every number on the dashboard is read from the data or the generated reports: pr
 
 ### 4. Deploy via Docker Compose (Redis + FastAPI + Streamlit)
 ```bash
-docker compose up --build
+docker compose up -d --build                         # API :8000, dashboard :8501, Redis :6379
+RECOMMENDER=two_tower docker compose up -d           # serve the neural two-tower instead of item-CF
+docker compose ps                                    # all three should show "(healthy)"
+docker compose down                                  # stop (data, models, reports stay on the host)
 ```
+Tested 2026-11-12 (Docker Desktop 29.9.3, Windows): the image is ~4 GB (CPU-only torch); `data/`, `models/` and
+`reports/` are mounted from the host, so run the pipeline / `scripts/precompute_recommendations.py` on the host
+first. The API is healthy ~1 min after start. The first search downloads the search models (~0.9 GB, ~70 s) into
+the `hf-cache` volume; after that a restart loads them in ~4 s. `.env` (LLM key) is read at runtime, never copied
+into the image.
 

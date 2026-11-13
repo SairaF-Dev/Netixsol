@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm 
     pip install --upgrade pip && \
     pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu && \
     pip install -r requirements.txt
-# Search embeddings model is downloaded on first start (~470 MB); mount ~/.cache/huggingface as a volume to keep it.
+# Search models (~0.9 GB) download on first use into /root/.cache/huggingface; docker-compose keeps them in the hf-cache volume.
 
 # Copy project configuration and source tree
 COPY pyproject.toml .

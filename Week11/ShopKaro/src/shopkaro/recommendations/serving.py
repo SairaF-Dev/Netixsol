@@ -37,11 +37,14 @@ from shopkaro.recommendations.collaborative import (
     ItemToItemCFRecommender,
     _load_sparse_interaction_data,
 )
+from shopkaro.recommendations.two_tower import TwoTowerRecommender
 
 logger = logging.getLogger(__name__)
 
 ARTIFACT_PATH = settings.models_dir / "item_cf_serving.joblib"
 ARTIFACT_FORMAT_VERSION = 2
+TWO_TOWER_ARTIFACT_PATH = settings.models_dir / "two_tower_serving.joblib"
+TWO_TOWER_TRAINING_LOG = settings.reports_dir / "day2_two_tower_training_log.json"
 # Same implicit weights as the Day 1 pipeline (interactions_clean.implicit_weight)
 EVENT_WEIGHTS: dict[str, float] = {"view": 1.0, "addtocart": 3.0, "transaction": 6.0}
 SESSION_TTL_SECONDS = 30 * 60  # Day 1 session rule: 30 minutes of inactivity ends a session
@@ -52,7 +55,7 @@ SESSION_TTL_SECONDS = 30 * 60  # Day 1 session rule: 30 minutes of inactivity en
 # ---------------------------------------------------------------------------
 @dataclass
 class ServingArtifact:
-    model: ItemToItemCFRecommender
+    model: ItemToItemCFRecommender | TwoTowerRecommender
     trained_at: str
     source_table: str
     n_users: int
@@ -142,6 +145,63 @@ def load_or_train(con: duckdb.DuckDBPyConnection, path: Path = ARTIFACT_PATH) ->
     except OSError as exc:  # read-only volume etc.: serve from memory anyway
         logger.warning("Could not save serving artifact: %s", exc)
     return artifact, "trained_at_startup"
+
+
+def train_two_tower_serving_model(
+    con: duckdb.DuckDBPyConnection,
+    table: str = "interactions_clean",
+    training_log_path: Path = TWO_TOWER_TRAINING_LOG,
+    max_epochs: int | None = None,
+) -> ServingArtifact:
+    """
+    Retrain the neural two-tower on all history (`table`) for serving. Nothing is tuned here: the number of epochs,
+    the serving knobs (pop_weight, revisit_boost) and the new-user settings are the ones chosen on VALIDATION users in
+    the Day 2 run (reports/day2_two_tower_training_log.json). Needs torch; takes ~10 min on CPU.
+    """
+    import json
+
+    log = json.loads(Path(training_log_path).read_text(encoding="utf-8"))
+    cold = log.get("cold_start_selected") or {}
+    t0 = time.perf_counter()
+    catalogue_df, user_to_row, _user_ids, item_to_col, item_ids, R_csr, user_purchased = (
+        _load_sparse_interaction_data(con, table=table)
+    )
+    emb = np.load(settings.models_dir / "item_text_embeddings.npy")
+    model = TwoTowerRecommender(max_epochs=max_epochs or int(log["best_epoch"]), verbose=False)
+    model.fit_from_sparse(catalogue_df, user_to_row, item_to_col, item_ids, R_csr, user_purchased, emb)
+    model.pop_weight = float(log["best_pop_weight"])
+    model.revisit_boost = float(log["best_revisit_boost"])
+    if cold:
+        model.cold_n_seed = int(cold["n_seed"])
+        model.cold_category_bonus = float(cold["cat_bonus"])
+        model.cold_pop_weight = float(cold["pop_weight"])
+    return ServingArtifact(
+        model=model,
+        trained_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        source_table=table,
+        n_users=len(user_to_row),
+        n_items=len(item_ids),
+        n_interactions=int(R_csr.nnz),
+        fit_seconds=round(time.perf_counter() - t0, 2),
+        data_fingerprint=data_fingerprint(con, table),
+    )
+
+
+def load_two_tower_artifact(
+    con: duckdb.DuckDBPyConnection, path: Path = TWO_TOWER_ARTIFACT_PATH
+) -> tuple[ServingArtifact | None, str]:
+    """
+    The two-tower is never trained at API start-up (too slow, needs torch). Returns (artifact, "loaded_batch_artifact")
+    or (None, reason) so the caller can fall back to item-CF and say why.
+    """
+    artifact = load_artifact(path)
+    if artifact is None:
+        return None, f"no two-tower artifact at {path.name} (run scripts/precompute_recommendations.py --two-tower)"
+    if not isinstance(artifact.model, TwoTowerRecommender):
+        return None, f"{path.name} does not contain a two-tower model"
+    if artifact.data_fingerprint != data_fingerprint(con, artifact.source_table):
+        return None, "two-tower artifact was trained on different data; retrain it"
+    return artifact, "loaded_batch_artifact"
 
 
 # ---------------------------------------------------------------------------
@@ -305,6 +365,142 @@ class RealtimeItemCFRecommender(BaseRecommender):
                 }
             else:
                 out[pid] = dict(default)
+        return out
+
+
+class RealtimeTwoTowerRecommender(BaseRecommender):
+    """
+    Neural two-tower served with live session clicks: the user vector is the user tower run on stored history +
+    session clicks (same weights and log transform as item-CF serving). Numpy only; torch is not needed.
+    Same interface as RealtimeItemCFRecommender, so the business re-ranker and the API can use either.
+    """
+
+    name = "Neural two-tower real-time (history + session clicks)"
+
+    def __init__(self, tt: TwoTowerRecommender, events: SessionEventStore) -> None:
+        super().__init__()
+        self.tt = tt
+        self.events = events
+        self.item_metadata = tt.item_metadata
+        self.in_stock_ids = tt.in_stock_ids
+        self.total_catalogue_size = tt.total_catalogue_size
+        self.item_categories = np.empty(len(tt.col_to_item), dtype=object)
+        for cat, cols in tt.cat_to_cols.items():
+            self.item_categories[cols] = cat
+
+    def _history(self, user_id: str) -> tuple[np.ndarray, np.ndarray]:
+        """(columns, log1p weights) of stored history + live clicks; exactly the stored row when there are no clicks."""
+        tt = self.tt
+        R = tt.R_log_csr
+        row = tt.user_to_row.get(user_id)
+        clicks = self.events.events(user_id)
+        raw: dict[int, float] = {}
+        if row is not None:
+            a, b = R.indptr[row], R.indptr[row + 1]
+            if not clicks:
+                return R.indices[a:b].astype(np.int64), R.data[a:b].astype(np.float32)
+            raw = {int(c): float(np.expm1(w)) for c, w in zip(R.indices[a:b], R.data[a:b])}
+        for pid, _et, weight, _ts in clicks:
+            col = tt.item_to_col.get(pid)
+            if col is not None:
+                raw[col] = raw.get(col, 0.0) + weight
+        cols = np.fromiter(raw.keys(), dtype=np.int64, count=len(raw))
+        return cols, np.log1p(np.fromiter(raw.values(), dtype=np.float32, count=len(raw)))
+
+    def is_known(self, user_id: str) -> bool:
+        return len(self._history(user_id)[0]) > 0
+
+    def user_vector(self, user_id: str) -> sp.csr_matrix | None:
+        """History as a 1 x n_items sparse vector (for the favourite category; scoring goes through the tower)."""
+        cols, w = self._history(user_id)
+        if len(cols) == 0:
+            return None
+        return sp.csr_matrix((w, (np.zeros_like(cols), cols)), shape=(1, len(self.tt.col_to_item)))
+
+    def favourite_category(self, u_vec: sp.csr_matrix | None) -> str | None:
+        if u_vec is None or u_vec.nnz == 0:
+            return None
+        return str(self.item_categories[int(u_vec.indices[int(np.argmax(u_vec.data))])])
+
+    def history_size(self, user_id: str) -> int:
+        row = self.tt.user_to_row.get(user_id)
+        return 0 if row is None else int(self.tt.R_log_csr[row].nnz)
+
+    def session_purchases(self, user_id: str) -> set[str]:
+        return {pid for pid, et, _w, _t in self.events.events(user_id) if et == "transaction"}
+
+    def _scores(self, user_id: str, exclude_seen: bool, only_in_stock: bool) -> np.ndarray:
+        tt = self.tt
+        cols, w = self._history(user_id)
+        if len(cols) == 0:
+            prefs = self.events.preferences(user_id)
+            if not prefs:
+                scores = tt._cold_scores(None, tt.cold_n_seed, tt.cold_category_bonus, tt.cold_pop_weight)
+            else:
+                # Onboarding: user tower on each chosen category's pseudo-history, restricted to those categories
+                per_cat = [tt._cold_scores(c, tt.cold_n_seed, tt.cold_category_bonus, tt.cold_pop_weight) for c in prefs]
+                scores = np.max(np.vstack(per_cat), axis=0).astype(np.float32)
+                allowed = np.zeros(len(scores), dtype=bool)
+                for c in prefs:
+                    allowed[tt.cat_to_cols.get(c, np.array([], dtype=int))] = True
+                if allowed.any():
+                    scores = np.where(allowed, scores, -1e9).astype(np.float32)
+        else:
+            u = tt._tower_from_bags(cols, w, np.zeros(len(cols), dtype=np.int64), 1)
+            scores = tt._base_scores(u, tt.pop_weight)[0].astype(np.float32)
+            if exclude_seen:
+                scores[cols] = -1e9
+            elif tt.revisit_boost:
+                scores[cols] += tt.revisit_boost * w
+        for pid in set(tt.user_seen_items.get(user_id, ())) | self.session_purchases(user_id):
+            c = tt.item_to_col.get(pid)
+            if c is not None:
+                scores[c] = -1e9
+        if only_in_stock:
+            scores[~tt.in_stock_mask] = -1e9
+        return scores
+
+    def recommend_ids(
+        self,
+        user_id: str,
+        k: int = 10,
+        exclude_seen: bool = False,
+        only_in_stock: bool = True,
+    ) -> list[tuple[str, float]]:
+        scores = self._scores(user_id, exclude_seen, only_in_stock)
+        k = min(k, len(scores))
+        top = np.argpartition(scores, -k)[-k:]
+        top = top[np.argsort(scores[top])[::-1]]
+        # Drop filtered items (-1e9): they would distort the re-ranker's min-max score scaling
+        return [(self.tt.col_to_item[int(i)], float(scores[i])) for i in top if scores[i] > -1e8]
+
+    def explain_many(self, user_id: str, product_ids: list[str]) -> dict[str, dict[str, Any]]:
+        """
+        - "revisit": already in the user's history (and not bought)
+        - "similar_to_history": names the history item whose learned item vector is closest to the candidate
+        - "popular_in_category": new user without history
+        """
+        default = {"reason_type": "popular_in_category", "because_of": None}
+        hist_cols, _w = self._history(user_id)
+        if len(hist_cols) == 0:
+            return {pid: dict(default) for pid in product_ids}
+        hist_set = set(hist_cols.tolist())
+        V = self.tt.item_vectors
+        out: dict[str, dict[str, Any]] = {}
+        for pid in product_ids:
+            col = self.tt.item_to_col.get(pid)
+            if col is None:
+                out[pid] = dict(default)
+            elif col in hist_set:
+                out[pid] = {"reason_type": "revisit", "because_of": pid}
+            else:
+                sims = V[hist_cols] @ V[col]
+                best = int(np.argmax(sims))
+                out[pid] = (
+                    {"reason_type": "similar_to_history", "because_of": self.tt.col_to_item[int(hist_cols[best])]}
+                    if float(sims[best]) > 0
+                    else dict(default)
+                )
         return out
 
 
