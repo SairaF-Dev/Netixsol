@@ -42,6 +42,9 @@ if str(ROOT / "src") not in sys.path:
 
 ASSETS_DIR = Path(__file__).resolve().parent / "assets"
 DEFAULT_DEMO_USER = "USR-928443"  # real customer with Eid / lawn history
+DEMO_CHECKOUT_NOTICE = (
+    "Demo only. No order or payment is submitted, and your bag remains unchanged."
+)
 
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -385,6 +388,18 @@ def analyze_live_review_text(review_text: str, rating: int = 4) -> dict[str, Any
         "is_fake_spam": spam["is_fake_spam"],
         "spam_reason": spam["spam_reason"],
     }
+
+
+def _sales_overview_totals(
+    sales_df: pd.DataFrame,
+) -> tuple[float, float, int] | None:
+    if sales_df.empty:
+        return None
+    return (
+        float(sales_df["total_gmv_pkr"].sum()),
+        float(sales_df["total_units_sold"].sum()),
+        int(sales_df["total_sales_records"].sum()),
+    )
 
 
 def _inject_real_ecommerce_css(st: Any) -> None:
@@ -2212,7 +2227,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         .ecom-price-struck {
             font-size: 0.8rem;
-            color: #9CA3AF;
+            color: #6B7280;
             text-decoration: line-through;
         }
 
@@ -2685,14 +2700,14 @@ def _render_real_ecom_card(
 
     b1, b2, b3 = st.columns([1.6, 1.4, 0.7], gap="small")
     with b1:
-        if st.button("🛒 Add to Bag", key=f"{card_prefix}_add_{sku}", use_container_width=True):
+        if st.button("🛒 Add to Bag", key=f"{card_prefix}_add_{sku}", width="stretch"):
             _add_item_to_live_cart(item, quantity=1)
             st.toast(f"Added {item.get('title', sku)} to your bag!", icon="🛍️")
             st.session_state["sidebar_mode"] = "cart"
             st.session_state["sidebar_state"] = "expanded"
             st.rerun()
     with b2:
-        if st.button("⭐ Details", key=f"{card_prefix}_rev_{sku}", use_container_width=True):
+        if st.button("⭐ Details", key=f"{card_prefix}_rev_{sku}", width="stretch"):
             st.session_state["inspected_sku"] = sku
             rv = st.session_state.get("recently_viewed", [])
             if sku not in rv:
@@ -2851,7 +2866,7 @@ def run_streamlit_app() -> None:
                 """,
                 unsafe_allow_html=True,
             )
-            if st.button("✨ Browse Collections / Ask AI", use_container_width=True, key="dlg_bag_explore_btn", type="primary"):
+            if st.button("✨ Browse Collections / Ask AI", width="stretch", key="dlg_bag_explore_btn", type="primary"):
                 st.rerun()
             return
 
@@ -2896,10 +2911,16 @@ def run_streamlit_app() -> None:
             unsafe_allow_html=True,
         )
 
-        st.markdown("**Payment Method:**")
+        st.info(DEMO_CHECKOUT_NOTICE)
+        st.markdown("**Demo payment method (not processed):**")
         pay_method = st.selectbox(
             "Payment Method:",
-            ["Cash on Delivery (COD)", "JazzCash Mobile Wallet", "EasyPaisa", "Debit / Credit Card (Visa/Mastercard)"],
+            [
+                "Cash on Delivery (COD) — demo only",
+                "JazzCash Mobile Wallet — demo only",
+                "EasyPaisa — demo only",
+                "Debit / Credit Card — demo only",
+            ],
             key="dlg_pay_method_sel",
             label_visibility="collapsed",
         )
@@ -2907,14 +2928,10 @@ def run_streamlit_app() -> None:
 
         btn_chk, btn_clr = st.columns([2, 1])
         with btn_chk:
-            if st.button(f"🎉 Confirm Order ({pay_method.split()[0]})", use_container_width=True, key="dlg_checkout_btn", type="primary"):
-                st.balloons()
-                st.session_state["live_cart"] = {"item_count": 0, "total_pkr": 0.0, "items": []}
-                _sync_live_cart_to_assistant_session()
-                st.toast(f"🎉 Order placed successfully with {pay_method}! Tracking ORD-1002 sent via SMS.", icon="✅")
-                st.rerun()
+            if st.button("Preview Demo Checkout", width="stretch", key="dlg_checkout_btn", type="primary"):
+                st.warning(DEMO_CHECKOUT_NOTICE)
         with btn_clr:
-            if st.button("Clear Bag", use_container_width=True, key="dlg_clear_cart_btn"):
+            if st.button("Clear Bag", width="stretch", key="dlg_clear_cart_btn"):
                 st.session_state["live_cart"] = {"item_count": 0, "total_pkr": 0.0, "items": []}
                 _sync_live_cart_to_assistant_session()
                 st.rerun()
@@ -2955,7 +2972,7 @@ def run_streamlit_app() -> None:
                     unsafe_allow_html=True,
                 )
             with wc_act1:
-                if st.button("🛒 Move to Bag", key=f"w_move_{w_sku}_{idx_w}", use_container_width=True):
+                if st.button("🛒 Move to Bag", key=f"w_move_{w_sku}_{idx_w}", width="stretch"):
                     _add_item_to_live_cart(w_item, quantity=1)
                     st.session_state["wishlist"] = [it for it in w_list if it.get("product_id") != w_sku]
                     st.toast(f"Moved {w_title} to your bag!", icon="🛍️")
@@ -2968,7 +2985,7 @@ def run_streamlit_app() -> None:
                     st.rerun()
             st.markdown("<hr style='margin: 0.35rem 0 0.5rem 0; border-color: #F3F4F6;'/>", unsafe_allow_html=True)
 
-        if st.button("Clear Wishlist", key="w_clear_all_btn", use_container_width=True):
+        if st.button("Clear Wishlist", key="w_clear_all_btn", width="stretch"):
             st.session_state["wishlist"] = []
             st.rerun()
 
@@ -2977,6 +2994,7 @@ def run_streamlit_app() -> None:
         acc_tab1, acc_tab2, acc_tab3 = st.tabs(["👤 Profile & Rewards", "📦 Order History (3)", "⚙️ Persona Simulation"])
 
         with acc_tab1:
+            st.caption("Sample customer profile for demonstration only; not a live account.")
             st.markdown(
                 """
                 <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:10px; padding:0.95rem; margin-bottom:1rem;">
@@ -2994,6 +3012,7 @@ def run_streamlit_app() -> None:
 
         with acc_tab2:
             st.markdown("##### 📦 Recent Consignments & Past Orders")
+            st.caption("Example order history for demonstration only; not linked to this profile.")
             orders_mock = [
                 ("ORD-1002", "Leopard Express", "1x Embroidered Festive Kurta", 3450, "⚡ Out for Delivery Today", "#065F46", "#ECFDF5"),
                 ("ORD-1001", "TCS Express", "2x Sapphire Luxury Lawn 3-Pc", 12800, "✅ Delivered (Karachi)", "#1E40AF", "#EFF6FF"),
@@ -3030,7 +3049,7 @@ def run_streamlit_app() -> None:
                 key="dlg_occasion_selector",
                 label_visibility="collapsed",
             )
-            if st.button("Apply Profile Settings", type="primary", use_container_width=True):
+            if st.button("Apply Profile Settings", type="primary", width="stretch"):
                 st.session_state["portal_selected_uid"] = new_uid
                 st.session_state["portal_selected_occasion"] = new_occasion
                 st.toast("Profile settings updated!", icon="👤")
@@ -3090,25 +3109,25 @@ def run_streamlit_app() -> None:
 
     @st.dialog("🚚 Track Your Order")
     def _open_order_tracking_dialog() -> None:
+        st.info("Sample tracking only. This shipment is not connected to a real order or carrier.")
         st.markdown(
             """
             <div style="text-align: center; margin-bottom: 1.25rem;">
                 <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🚚</div>
-                <h3 style="margin: 0; font-weight: 800; color: #111827;">Live Order Tracking</h3>
-                <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem;">Consignment ID: <b>ORD-1002</b> &bull; Leopard Express</p>
+                <h3 style="margin: 0; font-weight: 800; color: #111827;">Sample Order Tracking (Demo)</h3>
+                <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem;">Example consignment: <b>ORD-1002</b> &bull; Leopard Express</p>
             </div>
             <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;">
                 <span style="font-size: 1.3rem;">⚡</span>
                 <div>
-                    <div style="font-size: 0.88rem; font-weight: 800; color: #065F46;">Status: Out for Delivery Today</div>
-                    <div style="font-size: 0.75rem; color: #047857;">Courier Rider: Muhammad Rizwan (+92 321 4455667)</div>
+                    <div style="font-size: 0.88rem; font-weight: 800; color: #065F46;">Example status: Out for Delivery</div>
+                    <div style="font-size: 0.75rem; color: #047857;">Live carrier updates are not connected.</div>
                 </div>
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.85rem 1rem; font-size: 0.82rem; color: #374151; line-height: 1.6;">
-                <div><b>Destination:</b> Clifton Block 4, Karachi</div>
-                <div><b>Payment Mode:</b> Cash on Delivery (COD) — PKR 3,450</div>
-                <div><b>Package:</b> 1x Embroidered Pakistani Lawn 3-Piece</div>
-                <div style="margin-top: 0.4rem; color: #0F766E; font-weight: 700;">✓ Delivery OTP: 4921</div>
+                <div><b>Example destination:</b> Clifton Block 4, Karachi</div>
+                <div><b>Example payment:</b> Cash on Delivery (COD) — PKR 3,450</div>
+                <div><b>Example package:</b> 1x Embroidered Pakistani Lawn 3-Piece</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -3184,7 +3203,7 @@ def run_streamlit_app() -> None:
 
     with nav_ai:
         st.markdown('<div class="shopkaro-ai-box"></div>', unsafe_allow_html=True)
-        if st.button("✨ Ask AI", key="header_ask_ai_btn", use_container_width=True):
+        if st.button("✨ Ask AI", key="header_ask_ai_btn", width="stretch"):
             q_to_ask = (st.session_state.get("header_search_input_widget") or st.session_state.get("active_search_query", "")).strip()
             if q_to_ask:
                 st.session_state["chat_history"].append({"role": "user", "content": q_to_ask})
@@ -3331,7 +3350,7 @@ def run_streamlit_app() -> None:
                         """,
                         unsafe_allow_html=True,
                     )
-                    if st.button("✨ Browse Collections", key="cart_empty_browse_btn", use_container_width=True, type="primary"):
+                    if st.button("✨ Browse Collections", key="cart_empty_browse_btn", width="stretch", type="primary"):
                         st.session_state["sidebar_mode"] = "menu"
                         st.rerun()
                 else:
@@ -3426,16 +3445,11 @@ def run_streamlit_app() -> None:
 
                     chk_col1, chk_col2 = st.columns([2.2, 1.0], gap="small")
                     with chk_col1:
-                        if st.button("🎉 Confirm Order (COD)", key="cart_sidebar_checkout_btn", use_container_width=True, type="primary"):
-                            st.balloons()
-                            st.session_state["live_cart"] = {"item_count": 0, "total_pkr": 0.0, "items": []}
-                            _sync_live_cart_to_assistant_session()
-                            st.toast("🎉 Order placed successfully! Tracking ORD-1002 sent via SMS.", icon="✅")
-                            st.session_state["sidebar_state"] = "collapsed"
-                            st.session_state["sidebar_mode"] = "menu"
-                            st.rerun()
+                        st.info(DEMO_CHECKOUT_NOTICE)
+                        if st.button("Preview Demo Checkout", key="cart_sidebar_checkout_btn", width="stretch", type="primary"):
+                            st.warning(DEMO_CHECKOUT_NOTICE)
                     with chk_col2:
-                        if st.button("Clear Bag", key="cart_sidebar_clear_btn", use_container_width=True):
+                        if st.button("Clear Bag", key="cart_sidebar_clear_btn", width="stretch"):
                             st.session_state["live_cart"] = {"item_count": 0, "total_pkr": 0.0, "items": []}
                             _sync_live_cart_to_assistant_session()
                             st.toast("Bag cleared.", icon="🧹")
@@ -3490,7 +3504,7 @@ def run_streamlit_app() -> None:
                 for idx_ch, (label, query_text) in enumerate(chips):
                     target_col = ch_c1 if idx_ch % 2 == 0 else ch_c2
                     with target_col:
-                        if st.button(label, key=f"ai_chip_btn_{idx_ch}", use_container_width=True):
+                        if st.button(label, key=f"ai_chip_btn_{idx_ch}", width="stretch"):
                             clicked_chip_text = query_text
 
                 # Chat input in drawer
@@ -3545,7 +3559,7 @@ def run_streamlit_app() -> None:
                                         st.json(msg["tool_outputs"])
 
                 st.markdown("<div style='height:0.5rem;'></div>", unsafe_allow_html=True)
-                if st.button("🧹 Reset Conversation", key="ai_drawer_clear_btn", use_container_width=True):
+                if st.button("🧹 Reset Conversation", key="ai_drawer_clear_btn", width="stretch"):
                     st.session_state["chat_history"] = []
                     st.toast("Conversation cleared.", icon="🧹")
                     st.rerun()
@@ -3569,15 +3583,15 @@ def run_streamlit_app() -> None:
                 card_c1, card_c2, card_c3 = st.columns(3, gap="small")
                 with card_c1:
                     st.markdown('<div class="drawer-card-anchor drawer-card-login"></div>', unsafe_allow_html=True)
-                    if st.button("LOGIN", key="drawer_act_login", use_container_width=True):
+                    if st.button("LOGIN", key="drawer_act_login", width="stretch"):
                         _open_login_dialog()
                 with card_c2:
                     st.markdown('<div class="drawer-card-anchor drawer-card-contact"></div>', unsafe_allow_html=True)
-                    if st.button("CONTACT US", key="drawer_act_contact", use_container_width=True):
+                    if st.button("CONTACT US", key="drawer_act_contact", width="stretch"):
                         _open_contact_dialog()
                 with card_c3:
                     st.markdown('<div class="drawer-card-anchor drawer-card-stores"></div>', unsafe_allow_html=True)
-                    if st.button("STORES", key="drawer_act_stores", use_container_width=True):
+                    if st.button("STORES", key="drawer_act_stores", width="stretch"):
                         _open_stores_dialog()
 
                 st.markdown("<div style='height:0.5rem;'></div>", unsafe_allow_html=True)
@@ -3587,7 +3601,7 @@ def run_streamlit_app() -> None:
                 c_cnt = int(cart_now.get("item_count", 0))
                 c_tot = float(cart_now.get("total_pkr", 0.0))
                 if c_cnt > 0:
-                    if st.button(f"🛍️ View Bag ({c_cnt} items &bull; PKR {c_tot:,.0f}) →", key="drawer_open_bag_shortcut", use_container_width=True):
+                    if st.button(f"🛍️ View Bag ({c_cnt} items &bull; PKR {c_tot:,.0f}) →", key="drawer_open_bag_shortcut", width="stretch"):
                         st.session_state["sidebar_mode"] = "cart"
                         st.rerun()
                     st.markdown("<div style='height:0.35rem;'></div>", unsafe_allow_html=True)
@@ -3606,7 +3620,7 @@ def run_streamlit_app() -> None:
                     st.button(
                         "WOMAN",
                         key="tab_dept_woman",
-                        use_container_width=True,
+                        width="stretch",
                         on_click=_apply_filter_cb,
                         args=("Women's Lawn & Unstitched", "", "WOMAN"),
                     )
@@ -3616,7 +3630,7 @@ def run_streamlit_app() -> None:
                     st.button(
                         "KID",
                         key="tab_dept_kid",
-                        use_container_width=True,
+                        width="stretch",
                         on_click=_apply_filter_cb,
                         args=("Kids & School Supplies", "kids", "KID"),
                     )
@@ -3626,7 +3640,7 @@ def run_streamlit_app() -> None:
                     st.button(
                         "MAN",
                         key="tab_dept_man",
-                        use_container_width=True,
+                        width="stretch",
                         on_click=_apply_filter_cb,
                         args=("Men's Kurta & Ethnic", "men kurta ethnic", "MAN"),
                     )
@@ -3636,7 +3650,7 @@ def run_streamlit_app() -> None:
                     st.button(
                         "FRAGRANCE",
                         key="tab_dept_frag",
-                        use_container_width=True,
+                        width="stretch",
                         on_click=_apply_filter_cb,
                         args=("Beauty & Fragrances", "oud perfume beauty", "FRAGRANCE"),
                     )
@@ -3689,7 +3703,7 @@ def run_streamlit_app() -> None:
                     st.button(
                         btn_label,
                         key=f"drw_itm_{active_dept}_{idx}",
-                        use_container_width=True,
+                        width="stretch",
                         on_click=_apply_filter_cb,
                         args=(itm_cat, itm_q),
                     )
@@ -3699,7 +3713,7 @@ def run_streamlit_app() -> None:
                 # -------------------------------------------------------------
                 st.markdown("<div style='height: 0.5rem;'></div>", unsafe_allow_html=True)
                 st.markdown('<div class="drawer-track-wrap"></div>', unsafe_allow_html=True)
-                if st.button("TRACK YOUR ORDER  🚚", key="drw_btn_track_order", use_container_width=True):
+                if st.button("TRACK YOUR ORDER  🚚", key="drw_btn_track_order", width="stretch"):
                     _open_order_tracking_dialog()
 
                 # Budget Slider (Navigation Menu only)
@@ -3724,7 +3738,7 @@ def run_streamlit_app() -> None:
 
         else:
             # Enterprise Mode Sidebar
-            if st.button("🛍️ Return to Storefront", key="ent_side_back_btn", use_container_width=True, type="primary"):
+            if st.button("🛍️ Return to Storefront", key="ent_side_back_btn", width="stretch", type="primary"):
                 st.session_state["portal_role"] = "🛍️ Customer Storefront"
                 st.rerun()
 
@@ -3895,7 +3909,7 @@ def run_streamlit_app() -> None:
                         key=f"cat_label_{row_idx + c_idx}",
                         on_click=_apply_filter_cb,
                         args=(c_item["cat"], c_item["q"]),
-                        use_container_width=True,
+                        width="stretch",
                     )
 
         st.markdown("<div style='height: 1.2rem;'></div>", unsafe_allow_html=True)
@@ -3939,7 +3953,7 @@ def run_streamlit_app() -> None:
                 key=f"pchip_{idx_p}",
                 on_click=_apply_filter_cb,
                 args=("All Categories", chip_val),
-                use_container_width=True,
+                width="stretch",
             )
 
         # Execute Search and Display Filtered Grid
@@ -4134,7 +4148,7 @@ def run_streamlit_app() -> None:
 
                     det_b1, det_b2 = st.columns([1.5, 1])
                     with det_b1:
-                        if st.button("🛒 Add to Bag", key=f"det_add_{insp_sku}", use_container_width=True, type="primary"):
+                        if st.button("🛒 Add to Bag", key=f"det_add_{insp_sku}", width="stretch", type="primary"):
                             _add_item_to_live_cart(current_item, quantity=1)
                             st.toast(f"Added {rev_data['title']} ({sel_variant}) to your bag!", icon="🛍️")
                             st.session_state["sidebar_mode"] = "cart"
@@ -4144,7 +4158,7 @@ def run_streamlit_app() -> None:
                         w_list = st.session_state.get("wishlist", [])
                         is_w = any(str(w.get("product_id")) == insp_sku for w in w_list)
                         w_lbl = "❤️ In Wishlist" if is_w else "🤍 Save to Wish"
-                        if st.button(w_lbl, key=f"det_wish_{insp_sku}", use_container_width=True):
+                        if st.button(w_lbl, key=f"det_wish_{insp_sku}", width="stretch"):
                             if is_w:
                                 st.session_state["wishlist"] = [w for w in w_list if str(w.get("product_id")) != insp_sku]
                             else:
@@ -4188,7 +4202,7 @@ def run_streamlit_app() -> None:
                                 "rating is likely pulled down by the courier rather than the product."
                             )
 
-                if st.button("Close Product Specifications", key="close_insp", use_container_width=True):
+                if st.button("Close Product Specifications", key="close_insp", width="stretch"):
                     st.session_state["inspected_sku"] = None
                     st.rerun()
 
@@ -4273,7 +4287,7 @@ def run_streamlit_app() -> None:
         _wait_for_models(st)  # forecasts, health and metrics come from the serving container
         top_ret, top_bnr = st.columns([1.5, 4.5], vertical_alignment="center")
         with top_ret:
-            if st.button("🛍️ Return to Storefront", key="ent_top_back_btn", use_container_width=True, type="primary"):
+            if st.button("🛍️ Return to Storefront", key="ent_top_back_btn", width="stretch", type="primary"):
                 st.session_state["portal_role"] = "🛍️ Customer Storefront"
                 st.rerun()
         with top_bnr:
@@ -4299,25 +4313,34 @@ def run_streamlit_app() -> None:
             )
 
             sales_df = snapshot.get("sales_overview", pd.DataFrame())
-            tot_gmv = sales_df["total_gmv_pkr"].sum() if not sales_df.empty else 71800000000.0
-            tot_units = sales_df["total_units_sold"].sum() if not sales_df.empty else 3100000.0
-            tot_records = sales_df["total_sales_records"].sum() if not sales_df.empty else 219890
-            aov = tot_gmv / max(1.0, tot_units)
+            sales_totals = _sales_overview_totals(sales_df)
 
             # Year-on-year growth computed from the monthly series (2025 vs 2024), not typed in.
             m_all = snapshot.get("monthly_sales", pd.DataFrame())
-            yoy_note = "2024-2025, 300 tracked SKUs"
+            yoy_note = "Year-over-year comparison unavailable"
             if not m_all.empty:
                 by_year = m_all.assign(year=m_all["sale_month"].astype(str).str[:4]).groupby("year")["gmv_millions_pkr"].sum()
                 if {"2024", "2025"} <= set(by_year.index) and by_year["2024"] > 0:
                     yoy_note = f"{(by_year['2025'] / by_year['2024'] - 1) * 100:+.1f}% in 2025 vs 2024"
+            if sales_totals is None:
+                st.info("Sales metrics are unavailable because no daily sales records were found.")
+                metric_values = (
+                    ("Total GMV", "—", yoy_note),
+                    ("Units sold", "—", "No sales data"),
+                    ("Daily sales records", "—", "No sales data"),
+                    ("Average price per unit", "—", "No sales data"),
+                )
+            else:
+                tot_gmv, tot_units, tot_records = sales_totals
+                aov = tot_gmv / tot_units if tot_units > 0 else None
+                metric_values = (
+                    ("Total GMV", f"PKR {tot_gmv/1e9:.2f} bn", yoy_note),
+                    ("Units sold", f"{tot_units/1e6:.2f} M", "synthetic daily sales"),
+                    ("Daily sales records", f"{tot_records:,}", "SKU x day"),
+                    ("Average price per unit", f"PKR {aov:,.0f}" if aov is not None else "—", "GMV / units"),
+                )
             k1, k2, k3, k4 = st.columns(4)
-            for col, label, value, note in (
-                (k1, "Total GMV", f"PKR {tot_gmv/1e9:.2f} bn", yoy_note),
-                (k2, "Units sold", f"{tot_units/1e6:.2f} M", "synthetic daily sales"),
-                (k3, "Daily sales records", f"{tot_records:,}", "SKU x day"),
-                (k4, "Average price per unit", f"PKR {aov:,.0f}", "GMV / units"),
-            ):
+            for col, (label, value, note) in zip((k1, k2, k3, k4), metric_values):
                 col.metric(label, value)
                 col.caption(note)
 
@@ -4340,20 +4363,24 @@ def run_streamlit_app() -> None:
                     plt.tight_layout()
                     st.pyplot(fig)
                     plt.close(fig)
+                else:
+                    st.caption("Monthly sales data is unavailable.")
 
             with c_chart2:
                 st.markdown("### 🏆 Top Category GMV Contribution")
                 if not sales_df.empty:
                     st.dataframe(
                         sales_df[["category", "total_gmv_pkr", "total_units_sold", "avg_price_pkr"]],
-                        use_container_width=True,
+                        width="stretch",
                         height=280,
                         hide_index=True,
                     )
+                else:
+                    st.caption("Category sales data is unavailable.")
 
             st.divider()
             st.markdown("### 👥 Customer RFM Segment Distribution")
-            st.dataframe(snapshot["segments_summary"], use_container_width=True, hide_index=True)
+            st.dataframe(snapshot["segments_summary"], width="stretch", hide_index=True)
 
         # 2. Supply Chain & Demand Forecasting
         elif ent_view == "📦 Supply Chain & Demand Forecasting":
@@ -4454,7 +4481,7 @@ def run_streamlit_app() -> None:
 
             st.divider()
             st.markdown("### 📋 Filterable Warehouse Alert Queue")
-            st.dataframe(alerts_df, use_container_width=True, height=320, hide_index=True)
+            st.dataframe(alerts_df, width="stretch", height=320, hide_index=True)
 
         # 3. Recommendation Engine Analytics
         elif ent_view == "🎯 Recommendation Engine Analytics":
@@ -4482,7 +4509,7 @@ def run_streamlit_app() -> None:
             st.divider()
             st.markdown("### 📋 Comprehensive 7-Model Evaluation Matrix")
             if not rec_df.empty:
-                st.dataframe(rec_df, use_container_width=True, hide_index=True)
+                st.dataframe(rec_df, width="stretch", hide_index=True)
 
             st.divider()
             st.markdown("### 💡 What is served in production")
@@ -4543,13 +4570,13 @@ def run_streamlit_app() -> None:
                                 f"{'p < 1e-15' if p_val < 1e-15 else f'p = {p_val:.2g}'} ({verdict})"
                             )
                 st.dataframe(
-                    _readable_p_values(ab_df), use_container_width=True, hide_index=True
+                    _readable_p_values(ab_df), width="stretch", hide_index=True
                 )
 
             sub_df = snapshot.get("ab_segment_subgroups", pd.DataFrame())
             if not sub_df.empty:
                 st.markdown("##### 👥 Results by customer segment (exploratory, not used for the decision)")
-                st.dataframe(_readable_p_values(sub_df), use_container_width=True, hide_index=True)
+                st.dataframe(_readable_p_values(sub_df), width="stretch", hide_index=True)
 
             st.divider()
             st.markdown("### 🧪 Live Multilingual Review & 6-Aspect ABSA Sandbox")
@@ -4565,7 +4592,7 @@ def run_streamlit_app() -> None:
                 st.session_state["sandbox_rev_rating"] = sample_rev_presets[0][2]
 
             for idx_sr, (s_lbl, s_txt, s_rt) in enumerate(sample_rev_presets):
-                if sr_cols[idx_sr].button(s_lbl, key=f"s_btn_{idx_sr}", use_container_width=True):
+                if sr_cols[idx_sr].button(s_lbl, key=f"s_btn_{idx_sr}", width="stretch"):
                     st.session_state["sandbox_rev_text"] = s_txt
                     st.session_state["sandbox_rev_rating"] = s_rt
 
@@ -4598,7 +4625,7 @@ def run_streamlit_app() -> None:
                 "rating is below 4.15. Aspects come from the review analyzer's predictions."
             )
             if n_gems:
-                st.dataframe(gems_df, use_container_width=True, hide_index=True)
+                st.dataframe(gems_df, width="stretch", hide_index=True)
             else:
                 st.info("No product currently meets the rule.")
 
@@ -4628,7 +4655,7 @@ def run_streamlit_app() -> None:
             st.divider()
             st.markdown("### 📋 Search Architecture Benchmark Results")
             if not s_bench.empty:
-                st.dataframe(s_bench, use_container_width=True, hide_index=True)
+                st.dataframe(s_bench, width="stretch", hide_index=True)
 
             st.divider()
             st.markdown("### 🔎 Production Query Pipeline")
