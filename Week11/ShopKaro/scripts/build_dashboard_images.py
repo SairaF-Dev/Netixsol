@@ -13,24 +13,38 @@ from pathlib import Path
 
 from PIL import Image
 
-DASHBOARD = Path(__file__).resolve().parents[1] / "src" / "shopkaro" / "dashboard"
+ROOT = Path(__file__).resolve().parents[1]
+DASHBOARD = ROOT / "src" / "shopkaro" / "dashboard"
 SRC, DST = DASHBOARD / "assets", DASHBOARD / "static"
 MAX_WIDTH, QUALITY = 640, 78
+# Homepage promo carousel: full-width banners need larger copies (desktop + phone sizes for srcset).
+BANNER_SRC, BANNER_WIDTHS, BANNER_QUALITY = ROOT / "assets" / "web", (1600, 800), 80
+
+
+def _save_resized(src: Path, dst: Path, width: int, quality: int) -> int:
+    with Image.open(src) as im:
+        im = im.convert("RGB")
+        if im.width > width:
+            im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+        im.save(dst, "JPEG", quality=quality, optimize=True, progressive=True)
+    return dst.stat().st_size
 
 
 def main() -> None:
     DST.mkdir(exist_ok=True)
     before = after = 0
     for src in sorted(SRC.glob("*.jpg")):
-        dst = DST / src.name
-        with Image.open(src) as im:
-            im = im.convert("RGB")
-            if im.width > MAX_WIDTH:
-                im = im.resize((MAX_WIDTH, round(im.height * MAX_WIDTH / im.width)), Image.LANCZOS)
-            im.save(dst, "JPEG", quality=QUALITY, optimize=True, progressive=True)
+        after += _save_resized(src, DST / src.name, MAX_WIDTH, QUALITY)
         before += src.stat().st_size
-        after += dst.stat().st_size
-    print(f"{len(list(DST.glob('*.jpg')))} images: {before / 1e6:.1f} MB -> {after / 1e6:.1f} MB")
+    print(f"{len(list(SRC.glob('*.jpg')))} product images: {before / 1e6:.1f} MB -> {after / 1e6:.1f} MB")
+
+    banners = sorted(BANNER_SRC.glob("carousel*.jpg"))
+    b_before = b_after = 0
+    for src in banners:
+        b_before += src.stat().st_size
+        for width in BANNER_WIDTHS:
+            b_after += _save_resized(src, DST / f"promo_{src.stem}_{width}.jpg", width, BANNER_QUALITY)
+    print(f"{len(banners)} carousel banners x {len(BANNER_WIDTHS)} sizes: {b_before / 1e6:.1f} MB -> {b_after / 1e6:.1f} MB")
 
 
 if __name__ == "__main__":

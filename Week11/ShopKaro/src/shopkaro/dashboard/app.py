@@ -26,6 +26,7 @@ import base64
 import json
 import html
 import threading
+import time
 from functools import lru_cache
 from typing import Any
 
@@ -2647,6 +2648,531 @@ def _inject_real_ecommerce_css(st: Any) -> None:
     )
 
 
+def _inject_homepage_css(st: Any) -> None:
+    """Homepage-only polish: one font, one palette, an 8px spacing scale and three button variants.
+
+    Injected only while the Customer Storefront is shown, after the global CSS, so these rules win
+    without touching the header, sidebar or the enterprise console. Selectors target homepage
+    classes and widget keys (cat_label_, pchip_, flash_/sgrid_/rgrid_ cards, det_, close_insp).
+    """
+    st.markdown(
+        """
+        <style>
+        :root {
+            /* Palette */
+            --home-brand: #0B1E19;
+            --home-brand-tint: #EEF3F1;
+            --home-action: #F7CB15;
+            --home-action-hover: #E5B800;
+            --home-sale: #F55D3E;
+            --home-success: #15803D;
+            --home-ink: #111827;
+            --home-ink-2: #4B5563;
+            --home-ink-3: #9CA3AF;
+            --home-line: #E5E7EB;
+            --home-surface: #F9FAFB;
+            --home-white: #FFFFFF;
+            /* 8px spacing scale */
+            --home-s1: 8px;
+            --home-s2: 16px;
+            --home-s3: 24px;
+            --home-s4: 40px;
+            --home-s5: 64px;
+            /* Type & shape */
+            --home-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --home-radius: 8px;
+            --home-ease: 150ms ease;
+        }
+
+        /* ---------- Typography ---------- */
+        .st-key-shopkaro-storefront-hero, .st-key-shopkaro-storefront-hero *,
+        .laam-category-heading-row, .laam-category-heading-row *,
+        .flash-deals-header, .flash-deals-header *,
+        .home-section-head, .home-section-head *,
+        .ecom-prod-card, .ecom-prod-card *,
+        .ecom-filter-bar, .ecom-filter-bar *,
+        .shopkaro-footer, .shopkaro-footer *,
+        [data-testid="stMain"] [data-testid="stExpander"] *:not([data-testid="stIconMaterial"]),
+        .stApp div[data-testid="stElementContainer"][class*="st-key-catalog_"] *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-pchip_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_"] *,
+        .stApp .st-key-close_insp button *,
+        .stApp .st-key-shopkaro-hero-shop-now button * {
+            font-family: var(--home-font) !important;
+        }
+        .st-key-shopkaro-storefront-hero h1.shopkaro-hero-title {
+            font-family: var(--home-font) !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.03em !important;
+            line-height: 1.08 !important;
+            margin: 0 0 var(--home-s2) !important;
+        }
+        .shopkaro-hero-description {
+            color: #D5DDD9;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        .laam-category-heading,
+        .flash-deals-title,
+        .home-section-title {
+            color: var(--home-ink) !important;
+            font-family: var(--home-font) !important;
+            font-size: 1.6rem !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.02em !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+        }
+        .home-section-sub {
+            color: var(--home-ink-2);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: var(--home-s1) 0 0;
+        }
+        .laam-category-link, .laam-category-link:visited { color: var(--home-brand) !important; font-weight: 600 !important; }
+        .laam-category-link:hover { text-decoration-color: var(--home-action) !important; }
+
+        /* ---------- Section spacing ---------- */
+        .st-key-shopkaro-storefront-hero {
+            border: 0 !important;
+            border-radius: 16px !important;
+            margin: var(--home-s3) 0 var(--home-s5) !important;
+            padding: clamp(var(--home-s3), 4.5vw, var(--home-s5)) !important;
+        }
+        .shopkaro-hero-media { border: 0 !important; border-radius: 12px !important; }
+        .stApp .st-key-shopkaro-hero-shop-now { margin-top: var(--home-s3) !important; }
+        .laam-category-heading-row,
+        .flash-deals-header,
+        .home-section-head {
+            margin: var(--home-s5) 0 var(--home-s3) !important;
+        }
+        .laam-category-heading-row { margin-top: 0 !important; }
+        .home-section-head.home-section-head--tight { margin-bottom: var(--home-s2) !important; }
+        /* Column gaps stay Streamlit's (it sizes columns from them); add breathing room inside instead. */
+        .st-key-shopkaro-storefront-hero [data-testid="stColumn"]:first-child { padding-right: var(--home-s3); }
+        div[data-testid="stHorizontalBlock"]:has(.ecom-prod-card) { margin-bottom: var(--home-s3); }
+        div[data-testid="stHorizontalBlock"]:has(.ecom-prod-card) > [data-testid="stColumn"] { padding: 0 4px; }
+        .ecom-filter-bar { gap: var(--home-s1) !important; padding: var(--home-s3) 0 var(--home-s2) !important; }
+
+        /* ---------- Promo carousel ---------- */
+        .stApp .st-key-home-promo {
+            position: relative;
+            gap: 0 !important;
+            margin-top: var(--home-s4);
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0E1626; /* banner navy, shown while an image loads */
+        }
+        .home-promo-slide img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1600 / 893;
+            max-height: 560px; /* trims only the empty dark margins on wide screens */
+            object-fit: cover;
+            object-position: center;
+        }
+        /* Alternating names restart the fade on every slide change. */
+        .home-promo-slide.is-even img { animation: home-promo-in-a 450ms ease; }
+        .home-promo-slide.is-odd img { animation: home-promo-in-b 450ms ease; }
+        @keyframes home-promo-in-a { from { opacity: 0.3; } to { opacity: 1; } }
+        @keyframes home-promo-in-b { from { opacity: 0.3; } to { opacity: 1; } }
+        .home-promo-preload { display: none; }
+        /* Whole slide is the click target. */
+        .stApp .st-key-home_promo_open {
+            position: absolute !important;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            z-index: 1;
+        }
+        .stApp .st-key-home_promo_open button {
+            width: 100% !important;
+            height: 100% !important;
+            background: transparent !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            cursor: pointer;
+        }
+        .stApp .st-key-home_promo_open button * { color: transparent !important; }
+        .stApp .st-key-home_promo_open button:focus-visible {
+            outline: 3px solid var(--home-action) !important;
+            outline-offset: -3px !important;
+        }
+        /* Arrows */
+        .stApp .st-key-home_promo_prev,
+        .stApp .st-key-home_promo_next {
+            position: absolute !important;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto !important;
+            z-index: 2;
+        }
+        .stApp .st-key-home_promo_prev { left: var(--home-s2); }
+        .stApp .st-key-home_promo_next { right: var(--home-s2); }
+        .stApp .st-key-home_promo_prev button,
+        .stApp .st-key-home_promo_next button {
+            width: 44px !important;
+            height: 44px !important;
+            min-height: 44px !important;
+            padding: 0 !important;
+            border-radius: 999px !important;
+            background: rgba(255, 255, 255, 0.14) !important;
+            border: 1px solid rgba(255, 255, 255, 0.32) !important;
+            backdrop-filter: blur(4px);
+            transition: background-color var(--home-ease), border-color var(--home-ease) !important;
+        }
+        .stApp .st-key-home_promo_prev button *,
+        .stApp .st-key-home_promo_next button * {
+            color: var(--home-white) !important;
+            font-size: 1.5rem !important;
+            font-weight: 500 !important;
+            line-height: 1 !important;
+        }
+        .stApp .st-key-home_promo_prev button:hover,
+        .stApp .st-key-home_promo_next button:hover {
+            background: var(--home-action) !important;
+            border-color: var(--home-action) !important;
+        }
+        .stApp .st-key-home_promo_prev button:hover *,
+        .stApp .st-key-home_promo_next button:hover * { color: var(--home-brand) !important; }
+        .stApp .st-key-home_promo_prev button:focus-visible,
+        .stApp .st-key-home_promo_next button:focus-visible,
+        .stApp div[class*="st-key-home_promo_dot_"] button:focus-visible {
+            outline: 2px solid var(--home-action) !important;
+            outline-offset: 2px !important;
+        }
+        /* Dots: 24px touch target, small visible dot */
+        .stApp .st-key-home-promo-dots {
+            position: absolute !important;
+            left: 0;
+            right: 0;
+            bottom: var(--home-s2);
+            width: auto !important;
+            gap: 2px !important;
+            z-index: 2;
+        }
+        .stApp div[class*="st-key-home_promo_dot_"] { width: auto !important; }
+        .stApp div[class*="st-key-home_promo_dot_"] button {
+            position: relative;
+            width: 24px !important;
+            height: 24px !important;
+            min-height: 24px !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: 0 !important;
+        }
+        .stApp div[class*="st-key-home_promo_dot_"] button * { font-size: 0 !important; color: transparent !important; }
+        .stApp div[class*="st-key-home_promo_dot_"] button::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width var(--home-ease), background-color var(--home-ease);
+        }
+        .stApp div[class*="st-key-home_promo_dot_"] button:hover::after { background: var(--home-white); }
+        .stApp div[class*="st-key-home_promo_dot_"][class*="_on"] button { width: 32px !important; }
+        .stApp div[class*="st-key-home_promo_dot_"][class*="_on"] button::after { width: 24px; background: var(--home-action); }
+
+        /* ---------- Product cards ---------- */
+        .ecom-prod-card {
+            border: 1px solid var(--home-line) !important;
+            border-radius: 12px !important;
+            box-shadow: none !important;
+            margin-bottom: var(--home-s2) !important;
+        }
+        .ecom-prod-card:hover {
+            border-color: var(--home-brand) !important;
+            box-shadow: 0 12px 28px rgba(11, 30, 25, 0.08) !important;
+        }
+        .ecom-img-wrap { background: var(--home-surface) !important; }
+        .ecom-card-content { padding: var(--home-s2) !important; gap: 2px; }
+        .ecom-brand-tag { color: var(--home-ink-2) !important; font-weight: 600 !important; letter-spacing: 0.04em !important; margin-bottom: var(--home-s1) !important; }
+        .ecom-title { color: var(--home-ink) !important; font-size: 0.92rem !important; line-height: 1.4 !important; height: 2.8em !important; margin-bottom: var(--home-s1) !important; }
+        .ecom-rating-row { color: var(--home-ink-2) !important; margin-bottom: var(--home-s1) !important; }
+        .ecom-stars { color: var(--home-ink) !important; }
+        .ecom-price-curr { color: var(--home-ink) !important; font-size: 1.2rem !important; }
+        .ecom-price-struck { color: var(--home-ink-3) !important; }
+        .ecom-ribbon-sale { background: var(--home-sale) !important; color: var(--home-white) !important; border-radius: 6px !important; padding: 4px 8px !important; }
+        .ecom-ribbon-sale.is-top-rated { background: var(--home-brand) !important; }
+        .ecom-ribbon-sku { border: 1px solid var(--home-line) !important; color: var(--home-ink-2) !important; border-radius: 6px !important; }
+        .ecom-delivery-note { color: var(--home-success); font-size: 0.75rem; font-weight: 600; margin-top: var(--home-s1); }
+        .ecom-filter-pill { background: var(--home-surface) !important; border: 1px solid var(--home-line) !important; color: var(--home-ink-2) !important; padding: 6px 12px !important; }
+        .ecom-filter-pill.is-active { background: var(--home-brand-tint) !important; border-color: var(--home-brand) !important; color: var(--home-brand) !important; font-weight: 700 !important; }
+
+        /* ---------- Buttons: shared shape ---------- */
+        .stApp .st-key-shopkaro-hero-shop-now button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_add_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_wish_"] button,
+        .stApp .st-key-close_insp button {
+            border-radius: var(--home-radius) !important;
+            min-height: 44px !important;
+            height: auto !important;
+            padding: 10px 16px !important;
+            box-shadow: none !important;
+            text-transform: none !important;
+            letter-spacing: 0 !important;
+            transform: none !important;
+            transition: background-color var(--home-ease), border-color var(--home-ease), color var(--home-ease) !important;
+        }
+        .stApp .st-key-shopkaro-hero-shop-now button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_add_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_wish_"] button *,
+        .stApp .st-key-close_insp button * {
+            font-size: 0.9rem !important;
+            font-weight: 600 !important;
+        }
+        .stApp .st-key-shopkaro-hero-shop-now button:focus-visible,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"] button:focus-visible,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"] button:focus-visible,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"] button:focus-visible,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_"] button:focus-visible,
+        .stApp .st-key-close_insp button:focus-visible,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:focus-visible,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-pchip_"] button:focus-visible {
+            outline: 2px solid var(--home-action) !important;
+            outline-offset: 2px !important;
+            box-shadow: 0 0 0 4px var(--home-brand) !important;
+        }
+
+        /* Primary: gold fill, green text */
+        .stApp .st-key-shopkaro-hero-shop-now button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_add_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_add_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_add_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_add_"] button {
+            background: var(--home-action) !important;
+            border: 1px solid var(--home-action) !important;
+            color: var(--home-brand) !important;
+        }
+        .stApp .st-key-shopkaro-hero-shop-now button { padding: 12px 28px !important; min-height: 48px !important; }
+        .stApp .st-key-shopkaro-hero-shop-now button *,
+        .stApp div[data-testid="stElementContainer"][class*="_add_"][class*="st-key-flash_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="_add_"][class*="st-key-sgrid_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="_add_"][class*="st-key-rgrid_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_add_"] button * { color: var(--home-brand) !important; }
+        .stApp .st-key-shopkaro-hero-shop-now button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_add_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_add_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_add_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_add_"] button:hover {
+            background: var(--home-action-hover) !important;
+            border-color: var(--home-action-hover) !important;
+        }
+
+        /* Secondary: white with green outline */
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_rev_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_rev_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_rev_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_wish_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_wish_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_wish_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_wish_"] button,
+        .stApp .st-key-close_insp button {
+            background: var(--home-white) !important;
+            border: 1px solid var(--home-brand) !important;
+            color: var(--home-brand) !important;
+        }
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_rev_"] button *, .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_rev_"] button *, .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_rev_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_wish_"] button *, .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_wish_"] button *, .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_wish_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_wish_"] button *, .stApp .st-key-close_insp button * { color: var(--home-brand) !important; }
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_rev_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_rev_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_rev_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-flash_"][class*="_wish_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-sgrid_"][class*="_wish_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-rgrid_"][class*="_wish_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-det_wish_"] button:hover,
+        .stApp .st-key-close_insp button:hover {
+            background: var(--home-brand-tint) !important;
+        }
+        .stApp div[data-testid="stElementContainer"][class*="_wish_"][class*="st-key-flash_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="_wish_"][class*="st-key-sgrid_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="_wish_"][class*="st-key-rgrid_"] button { padding: 10px !important; }
+
+        /* Chips: category labels and preset searches */
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-pchip_"] button {
+            background: var(--home-surface) !important;
+            border: 1px solid var(--home-line) !important;
+            border-radius: 999px !important;
+            box-shadow: none !important;
+            min-height: 40px !important;
+            height: auto !important;
+            padding: 8px 14px !important;
+            transform: none !important;
+            transition: background-color var(--home-ease), border-color var(--home-ease) !important;
+        }
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button { margin: var(--home-s2) auto var(--home-s3) !important; padding: 8px 10px !important; }
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-pchip_"] button * {
+            color: var(--home-ink) !important;
+            font-size: 0.82rem !important;
+            font-weight: 600 !important;
+        }
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-pchip_"] button:hover {
+            background: var(--home-white) !important;
+            border-color: var(--home-action) !important;
+            transform: none !important;
+        }
+        .stApp div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover *,
+        .stApp div[data-testid="stElementContainer"][class*="st-key-pchip_"] button:hover * { color: var(--home-brand) !important; }
+        .laam-circle-avatar { border: 3px solid var(--home-white) !important; box-shadow: 0 0 0 1px var(--home-line) !important; }
+        .laam-circle-avatar:hover { border-color: var(--home-action) !important; box-shadow: 0 0 0 1px var(--home-action) !important; }
+
+        /* ---------- Product detail panel ---------- */
+        [data-testid="stMain"] [data-testid="stExpander"] details {
+            border: 1px solid var(--home-line) !important;
+            border-radius: 12px !important;
+        }
+        [data-testid="stMain"] [data-testid="stExpander"] [data-testid="stExpanderDetails"] { padding: var(--home-s3) !important; }
+        .home-detail-media { border: 1px solid var(--home-line); border-radius: 12px; overflow: hidden; background: var(--home-surface); }
+        .home-detail-media img { display: block; width: 100%; height: 260px; object-fit: cover; }
+        .home-detail-media div { padding: var(--home-s1); font-size: 0.75rem; color: var(--home-ink-2); text-align: center; }
+        .home-detail-price { color: var(--home-ink); font-size: 1.4rem; font-weight: 800; margin: var(--home-s1) 0; }
+        .home-detail-specs { color: var(--home-ink-2); font-size: 0.85rem; line-height: 1.6; margin: var(--home-s1) 0 var(--home-s2); }
+
+        /* ---------- Footer ---------- */
+        .shopkaro-footer {
+            border-radius: 16px !important;
+            margin-top: var(--home-s5) !important;
+            padding: var(--home-s5) var(--home-s4) var(--home-s3) !important;
+        }
+        .shopkaro-footer-grid { gap: var(--home-s4) !important; margin-bottom: var(--home-s4) !important; }
+        .shopkaro-footer-col h4 { color: var(--home-white) !important; font-weight: 700 !important; margin-bottom: var(--home-s2) !important; }
+        .shopkaro-footer-col p, .shopkaro-footer-col li { color: #B8C2BB !important; line-height: 1.7 !important; }
+        .shopkaro-footer-chips { display: flex; flex-wrap: wrap; gap: var(--home-s1); margin-top: var(--home-s2); }
+        .shopkaro-footer-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            color: #E8EEEA;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+        }
+        .shopkaro-footer-guarantee { color: var(--home-action) !important; font-weight: 700; margin-top: var(--home-s2) !important; }
+        .shopkaro-footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.12) !important; gap: var(--home-s1); padding-top: var(--home-s3) !important; }
+
+        /* ---------- Phones ---------- */
+        @media (max-width: 640px) {
+            .st-key-shopkaro-storefront-hero { margin: var(--home-s2) 0 var(--home-s4) !important; padding: var(--home-s3) var(--home-s2) !important; }
+            .laam-category-heading-row, .flash-deals-header, .home-section-head { margin: var(--home-s4) 0 var(--home-s2) !important; }
+            .laam-category-heading-row { margin-top: 0 !important; }
+            .laam-category-heading, .flash-deals-title, .home-section-title { font-size: 1.3rem !important; }
+            .stApp .st-key-shopkaro-hero-shop-now button { width: 100%; }
+            .stApp .st-key-home-promo { margin-top: var(--home-s3); border-radius: 12px; }
+            /* Arrows would cover the banner text at this width; the dots still navigate. */
+            .stApp .st-key-home_promo_prev,
+            .stApp .st-key-home_promo_next { display: none !important; }
+            .stApp .st-key-home-promo-dots { bottom: 4px; }
+            /* Card actions stay on one row: Add to Bag, Details, wishlist icon. */
+            div[data-testid="stHorizontalBlock"]:has(div[class*="_rev_"]):not(:has(.ecom-prod-card)) {
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                gap: var(--home-s1) !important;
+            }
+            div[data-testid="stHorizontalBlock"]:has(div[class*="_rev_"]):not(:has(.ecom-prod-card)) > [data-testid="stColumn"] {
+                flex: 1 1 0 !important;
+                width: auto !important;
+                min-width: 0 !important;
+            }
+            div[data-testid="stHorizontalBlock"]:has(div[class*="_rev_"]):not(:has(.ecom-prod-card)) > [data-testid="stColumn"]:last-child {
+                flex: 0 0 44px !important;
+            }
+            .shopkaro-footer { padding: var(--home-s4) var(--home-s2) var(--home-s3) !important; }
+            .shopkaro-footer-grid { gap: var(--home-s3) !important; }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+# Homepage promo carousel (banners from assets/web, resized into ./static by scripts/build_dashboard_images.py).
+# Each slide: (image stem, accessible label, (category, search query), sort the catalogue by biggest savings?)
+# The catalogue has no watches or wallets, so each slide opens the closest real products.
+PROMO_SLIDES: tuple[tuple[str, str, tuple[str, str], bool], ...] = (
+    ("carousel2", "Iqbal Day: celebrate the spirit of Pakistan with exclusive deals", ("All Categories", ""), True),
+    ("carousel3", "11.11 Sale: discounts on your favourite essentials", ("All Categories", ""), True),
+    ("carousel4", "Upgrade during our 11.11 sale: earbuds and tech", ("Smartphones & Accessories", "earbuds"), False),
+    ("carousel5", "Discover the spirit of Pakistan: gifts and fragrances", ("Beauty & Fragrances", "perfume gift set"), False),
+    ("carousel6", "Celebrate the elegance: unstitched and ready-to-wear", ("Women's Lawn & Unstitched", ""), False),
+)
+PROMO_INTERVAL_S = 6
+STOREFRONT_ROLE = "🛍️ Customer Storefront"
+
+
+def _promo_img_html(stem: str, alt: str, extra: str = "") -> str:
+    big, small = get_local_asset_data_uri(f"promo_{stem}_1600.jpg"), get_local_asset_data_uri(f"promo_{stem}_800.jpg")
+    srcset = f' srcset="{small} 800w, {big} 1600w" sizes="(max-width: 1440px) 100vw, 1400px"' if big.startswith("app/") else ""
+    return f'<img src="{big or small}"{srcset} alt="{html.escape(alt)}" width="1600" height="893" {extra}/>'
+
+
+def _render_promo_carousel(st: Any, apply_filter_cb: Any) -> None:
+    """Auto-advancing banner carousel. A fragment, so the timer and arrows rerun only this block."""
+    ss = st.session_state
+    ss.setdefault("promo_idx", 0)
+    ss.setdefault("promo_changed_at", time.time())
+
+    def _go(idx: int) -> None:
+        ss["promo_idx"] = idx % len(PROMO_SLIDES)
+        ss["promo_changed_at"] = time.time()
+
+    def _open(idx: int) -> None:
+        _, _, (cat, query), by_savings = PROMO_SLIDES[idx]
+        apply_filter_cb(cat, query)
+        if by_savings:
+            ss["catalog_sort_order"] = "🔥 Biggest Savings"
+
+    @st.fragment(run_every=PROMO_INTERVAL_S)
+    def _carousel() -> None:
+        if ss.get("portal_role", STOREFRONT_ROLE) != STOREFRONT_ROLE:
+            return  # left the storefront: the timer keeps nothing on screen
+        if time.time() - ss["promo_changed_at"] >= PROMO_INTERVAL_S - 0.5:
+            _go(ss["promo_idx"] + 1)
+        idx = ss["promo_idx"]
+        stem, label, _, _ = PROMO_SLIDES[idx]
+        # Hidden copies make the browser fetch every banner once, so slide changes are instant.
+        preload = "".join(_promo_img_html(s, "", 'loading="eager" aria-hidden="true"') for s, *_ in PROMO_SLIDES)
+        with st.container(key="home-promo"):
+            st.markdown(
+                f'<div class="home-promo-slide {"is-even" if idx % 2 == 0 else "is-odd"}">'
+                f'{_promo_img_html(stem, label)}</div><div class="home-promo-preload">{preload}</div>',
+                unsafe_allow_html=True,
+            )
+            if st.button(f"Shop: {label}", key="home_promo_open", on_click=_open, args=(idx,)):
+                st.rerun(scope="app")  # the catalogue below lives outside this fragment
+            st.button("‹", key="home_promo_prev", help="Previous banner", on_click=_go, args=(idx - 1,))
+            st.button("›", key="home_promo_next", help="Next banner", on_click=_go, args=(idx + 1,))
+            with st.container(key="home-promo-dots", horizontal=True, horizontal_alignment="center", gap="small"):
+                for j in range(len(PROMO_SLIDES)):
+                    st.button(
+                        f"Banner {j + 1}",
+                        key=f"home_promo_dot_{j}{'_on' if j == idx else ''}",
+                        on_click=_go,
+                        args=(j,),
+                    )
+
+    _carousel()
+
+
 def _sync_live_cart_to_assistant_session() -> None:
     """Sync frontend live_cart directly into the backend conversational session state."""
     try:
@@ -2823,7 +3349,7 @@ def _render_real_ecom_card(
         ribbon_html = f'<span class="ecom-ribbon-sale">SAVE {disc}%</span>'
     elif rating is not None and rating >= 4.5 and review_cnt >= 5:
         struck_html = ""
-        ribbon_html = '<span class="ecom-ribbon-sale" style="background:#0B1E19; color:#FFFFFF;">TOP RATED</span>'
+        ribbon_html = '<span class="ecom-ribbon-sale is-top-rated">TOP RATED</span>'
     else:
         struck_html = ""
         ribbon_html = ""
@@ -2857,8 +3383,8 @@ def _render_real_ecom_card(
         f'<span class="ecom-price-curr">PKR {price:,.0f}</span>'
         f'{struck_html}'
         f'</div>'
-        f'<div style="font-size:0.72rem; color:var(--shopkaro-brand); font-weight:600; margin-top:0.35rem; display:flex; align-items:center; gap:0.25rem;">'
-        f'🚚 <span>Express Delivery &bull; COD Available</span>'
+        f'<div class="ecom-delivery-note">'
+        f'🚚 Express Delivery &bull; COD Available'
         f'</div>'
         f'</div>'
         f'</div>'
@@ -3946,6 +4472,7 @@ def run_streamlit_app() -> None:
     # VIEW 1: CUSTOMER STOREFRONT (LOOKS 100% LIKE REAL E-COMMERCE)
     # =========================================================================
     if portal_choice == "🛍️ Customer Storefront":
+        _inject_homepage_css(st)
         # The hero uses catalogue imagery and the existing all-category filter behavior.
         hero_bg_uri = get_local_asset_data_uri("pakistani_royal_modest_bridal.jpg")
         with st.container(key="shopkaro-storefront-hero"):
@@ -4087,7 +4614,8 @@ def run_streamlit_app() -> None:
                         width="stretch",
                     )
 
-        st.markdown("<div style='height: 1.2rem;'></div>", unsafe_allow_html=True)
+        # Promo carousel: seasonal banners between the categories and the deals.
+        _render_promo_carousel(st, _apply_filter_cb)
 
         # 2. Deals: real discounted, in-stock catalogue items (one per category, reviewed products first).
         st.markdown(
@@ -4107,9 +4635,14 @@ def run_streamlit_app() -> None:
             with fd_cols[fd_idx]:
                 _render_real_ecom_card(st, fd_item, selected_uid, card_prefix=f"flash_{fd_idx}")
 
-        st.markdown("<div style='height: 1.4rem;'></div>", unsafe_allow_html=True)
-
         # 3. Catalog Filter & Preset Chips
+        st.markdown(
+            '<div class="home-section-head home-section-head--tight" id="all-categories">'
+            '<h2 class="home-section-title">Explore the catalogue</h2>'
+            '<p class="home-section-sub">Start from a popular search or sort and filter below.</p>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
         search_input = st.session_state.get("active_search_query", "")
 
         # Quick Popular Pakistani Fashion & Electronics Query Badges
@@ -4202,7 +4735,7 @@ def run_streamlit_app() -> None:
         # Sorting & Rating Filter Controls
         f_col1, f_col2, f_col3 = st.columns([2.5, 1.4, 1.3], vertical_alignment="center", gap="small")
         with f_col1:
-            cat_badge = f'<span class="ecom-filter-pill" style="background:#F1F4F2; color:#0B1E19; font-weight:800;">🏷️ {active_cat}</span>' if active_cat != "All Categories" else ""
+            cat_badge = f'<span class="ecom-filter-pill is-active">🏷️ {active_cat}</span>' if active_cat != "All Categories" else ""
             pills_html = [
                 f'<span class="ecom-filter-pill">Showing <b>{min(len(filtered_results), GRID_PAGE_SIZE)} of {len(filtered_results)}</b> products{"" if raw_query or active_cat != "All Categories" else " &bull; most reviewed"}</span>',
                 cat_badge,
@@ -4276,9 +4809,9 @@ def run_streamlit_app() -> None:
                     p_img = get_product_image_url(insp_sku, current_item.get("category", "Festive"))
                     st.markdown(
                         f"""
-                        <div style="border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; background:#F8FAFC;">
-                            <img src="{p_img}" style="width:100%; height:260px; object-fit:cover;" alt="{rev_data['title']}"/>
-                            <div style="padding:0.6rem; font-size:0.75rem; color:#64748B; text-align:center;">
+                        <div class="home-detail-media">
+                            <img src="{p_img}" alt="{rev_data['title']}"/>
+                            <div>
                                 🔍 High-Resolution Texture & Stitch Inspection
                             </div>
                         </div>
@@ -4289,7 +4822,7 @@ def run_streamlit_app() -> None:
                 with det_col2:
                     st.markdown(f"### {rev_data['title']}")
                     st.markdown(f"**Brand:** {current_item.get('brand', 'ShopKaro')} &bull; **SKU:** `{insp_sku}`")
-                    st.markdown(f"<div style='font-size:1.35rem; font-weight:800; color:#0F766E;'>PKR {float(current_item.get('price_pkr', 0.0)):,.0f}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='home-detail-price'>PKR {float(current_item.get('price_pkr', 0.0)):,.0f}</div>", unsafe_allow_html=True)
                     # Real catalogue attributes for this SKU (previously a fixed "Pure Lawn / Banarasi Silk" text
                     # was shown for every product, phones included).
                     cat_rec = serving_container.catalogue_by_sku.get(insp_sku, {})
@@ -4305,7 +4838,7 @@ def run_streamlit_app() -> None:
                         f"&bull; <b>{html.escape(k)}:</b> {html.escape(str(v))}" for k, v in spec_lines if v
                     )
                     st.markdown(
-                        f'<div style="font-size:0.8rem; color:#4B5563; line-height:1.5; margin:0.4rem 0;">{spec_html}</div>',
+                        f'<div class="home-detail-specs">{spec_html}</div>',
                         unsafe_allow_html=True,
                     )
 
@@ -4381,8 +4914,6 @@ def run_streamlit_app() -> None:
                     st.session_state["inspected_sku"] = None
                     st.rerun()
 
-        st.divider()
-
         # 5. Personalized Recommendations Strip (Amazon/Noon style); placeholder until the models are loaded.
         if serving_container._initialized:
             rec_out = get_recommendations_endpoint(user_id=selected_uid, top_k=6, occasion=selected_occasion)
@@ -4391,8 +4922,12 @@ def run_streamlit_app() -> None:
             rec_out = {"segment_name": "", "recommendations": []}
         if rec_out["recommendations"]:
             st.markdown(
-                f"### ✨ Recommended for You &bull; {selected_occasion} Picks\n"
-                f"*Curated for your profile ({rec_out['segment_name']}) with free express delivery*"
+                '<div class="home-section-head">'
+                f'<h2 class="home-section-title">✨ Recommended for You &bull; {html.escape(str(selected_occasion))} Picks</h2>'
+                f'<p class="home-section-sub">Curated for your profile ({html.escape(str(rec_out["segment_name"]))}) '
+                'with free express delivery</p>'
+                '</div>',
+                unsafe_allow_html=True,
             )
         rec_items = rec_out["recommendations"][:6]
         for row_start in range(0, len(rec_items), 3):
@@ -4413,7 +4948,7 @@ def run_streamlit_app() -> None:
                     <div class="shopkaro-footer-col">
                         <h4>🛍️ ShopKaro.PK</h4>
                         <p>Pakistan's premier AI-powered commerce marketplace connecting discerning shoppers with authentic designer fashion, modest festive wear, luxury fragrances, and genuine electronics.</p>
-                        <p style="margin-top:0.6rem; color:#14B8A6; font-weight:700;">✓ 100% Original Brand Guarantee</p>
+                        <p class="shopkaro-footer-guarantee">✓ 100% Original Brand Guarantee</p>
                     </div>
                     <div class="shopkaro-footer-col">
                         <h4>📞 Customer Care & Support</h4>
@@ -4428,21 +4963,21 @@ def run_streamlit_app() -> None:
                     <div class="shopkaro-footer-col">
                         <h4>💳 Secure Payment Options</h4>
                         <p>We accept all major verified Pakistani payment methods:</p>
-                        <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.5rem;">
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">💵 Cash on Delivery (COD)</span>
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">📱 JazzCash Wallet</span>
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">🟢 EasyPaisa</span>
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">💳 Visa / Mastercard</span>
+                        <div class="shopkaro-footer-chips">
+                            <span class="shopkaro-footer-chip">💵 Cash on Delivery (COD)</span>
+                            <span class="shopkaro-footer-chip">📱 JazzCash Wallet</span>
+                            <span class="shopkaro-footer-chip">🟢 EasyPaisa</span>
+                            <span class="shopkaro-footer-chip">💳 Visa / Mastercard</span>
                         </div>
                     </div>
                     <div class="shopkaro-footer-col">
                         <h4>🚚 Express Courier Partners</h4>
                         <p>Nationwide fast doorstep delivery in 24 to 48 hours across 250+ cities:</p>
-                        <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.5rem;">
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">🐆 Leopards Courier</span>
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">🔴 TCS Express</span>
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">⚡ Trax Logistics</span>
-                            <span style="background:#1E293B; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:4px; font-size:0.75rem; color:#F8FAFC;">📦 CallCourier</span>
+                        <div class="shopkaro-footer-chips">
+                            <span class="shopkaro-footer-chip">🐆 Leopards Courier</span>
+                            <span class="shopkaro-footer-chip">🔴 TCS Express</span>
+                            <span class="shopkaro-footer-chip">⚡ Trax Logistics</span>
+                            <span class="shopkaro-footer-chip">📦 CallCourier</span>
                         </div>
                     </div>
                 </div>
