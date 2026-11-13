@@ -409,6 +409,13 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
+        :root {
+            --shopkaro-brand: #0B1E19;
+            --shopkaro-action: #F7CB15;
+            --shopkaro-sale: #F55D3E;
+            --shopkaro-muted: #878E88;
+        }
+
         html, body, [class*="css"] {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             color: #111827;
@@ -433,7 +440,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             width: 100% !important;
             max-width: 100vw !important;
             height: 38px !important;
-            background: #0B1E19 !important; /* luxury deep emerald black */
+            background: var(--shopkaro-brand) !important;
             color: #FFFFFF !important;
             text-align: center !important;
             font-size: 0.82rem !important;
@@ -442,7 +449,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             padding: 0 1rem !important;
             border-radius: 0 !important;
             margin: 0 !important;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.35) !important;
+            border-bottom: 1px solid rgba(247, 203, 21, 0.35) !important;
             border-top: none !important;
             border-left: none !important;
             border-right: none !important;
@@ -459,7 +466,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             text-overflow: ellipsis !important;
         }
         .laam-top-ticker-icon {
-            color: #D8BD82;
+            color: var(--shopkaro-action);
             display: inline-flex;
             flex: 0 0 auto;
         }
@@ -516,13 +523,13 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
             font-size: 1.45rem !important;
             font-weight: 800 !important;
-            color: #111827 !important;
+            color: var(--shopkaro-brand) !important;
             letter-spacing: -0.03em !important;
             white-space: nowrap !important;
         }
         .shopkaro-logo-badge {
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             font-size: 0.95rem !important;
             font-weight: 800 !important;
             letter-spacing: -0.02em !important;
@@ -555,7 +562,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         div[data-testid="column"]:has(.shopkaro-ham-anchor) button:hover,
         div[data-testid="stColumn"]:has(.shopkaro-ham-anchor) button:hover {
             background: #F1F5F9 !important;
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
         }
         div[data-testid="column"]:has(.shopkaro-ham-anchor) button p,
         div[data-testid="stColumn"]:has(.shopkaro-ham-anchor) button p {
@@ -602,7 +609,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         div[data-testid="column"]:has(.shopkaro-search-box) div[data-baseweb="input"],
         div[data-testid="column"]:has(.shopkaro-search-box) div[data-baseweb="base-input"] {
             background-color: #F8FAFC !important;
-            border: 1.5px solid #E2E8F0 !important;
+            border: 1.5px solid var(--shopkaro-muted) !important;
             border-radius: 999px !important;
             padding: 0 1.25rem !important;
             height: 44px !important;
@@ -616,8 +623,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         div[data-testid="stColumn"]:has(.shopkaro-search-box) div[data-baseweb="input"]:focus-within,
         div[data-testid="column"]:has(.shopkaro-search-box) div[data-baseweb="input"]:focus-within {
             background-color: #FFFFFF !important;
-            border-color: #0F766E !important;
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12) !important;
+            border-color: var(--shopkaro-brand) !important;
+            box-shadow: 0 0 0 3px rgba(11, 30, 25, 0.12) !important;
         }
         div[data-testid="stColumn"]:has(.shopkaro-search-box) div[data-baseweb="input"]::after,
         div[data-testid="column"]:has(.shopkaro-search-box) div[data-baseweb="input"]::after {
@@ -627,7 +634,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             top: 50% !important;
             transform: translateY(-50%) !important;
             font-size: 1.05rem !important;
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             pointer-events: none !important;
             line-height: 1 !important;
         }
@@ -644,7 +651,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         div[data-testid="stColumn"]:has(.shopkaro-search-box) input::placeholder,
         div[data-testid="column"]:has(.shopkaro-search-box) input::placeholder {
-            color: #94A3B8 !important;
+            color: #5F665F !important;
             font-size: 0.90rem !important;
         }
 
@@ -741,7 +748,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         div[data-testid="stColumn"]:has(.shopkaro-bag-box) button,
         div[data-testid="column"]:has(.shopkaro-bag-box) button {
             background: #FFFFFF !important;
-            border: 1.5px solid #E2E8F0 !important;
+            border: 1.5px solid var(--shopkaro-muted) !important;
             border-radius: 50% !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
             width: 44px !important;
@@ -761,8 +768,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         div[data-testid="stColumn"]:has(.shopkaro-bag-box) button:hover,
         div[data-testid="column"]:has(.shopkaro-bag-box) button:hover {
             background: #F8FAFC !important;
-            border-color: #0F766E !important;
-            box-shadow: 0 3px 8px rgba(15, 118, 110, 0.15) !important;
+            border-color: var(--shopkaro-brand) !important;
+            box-shadow: 0 3px 8px rgba(11, 30, 25, 0.15) !important;
             transform: translateY(-1px) !important;
         }
         div[data-testid="stColumn"]:has(.shopkaro-wish-box) button p,
@@ -813,7 +820,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             background: #EF4444 !important;
         }
         .badge-emerald {
-            background: #0F766E !important;
+            background: var(--shopkaro-brand) !important;
         }
 
         /* ------------------------------------------------------------- */
@@ -993,14 +1000,14 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         div[data-testid="stElementContainer"][class*="st-key-pchip_"] button:hover {
             background: #F8FAFC !important;
-            border-color: #0F766E !important;
-            color: #0F766E !important;
+            border-color: var(--shopkaro-brand) !important;
+            color: var(--shopkaro-brand) !important;
             transform: translateY(-1px) !important;
         }
 
         .shopkaro-bag-pill, .laam-bag-pill {
             background: #FFFFFF !important;
-            border: 2px solid #0F766E !important;
+            border: 2px solid var(--shopkaro-brand) !important;
             border-radius: 999px !important;
             height: 38px !important;
             padding: 0 0.25rem 0 0.65rem !important;
@@ -1014,9 +1021,9 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             flex-shrink: 0 !important;
         }
         .shopkaro-bag-pill:hover, .laam-bag-pill:hover {
-            background: #F0FDF4 !important;
+            background: #F8FAFC !important;
             transform: translateY(-1px) !important;
-            box-shadow: 0 2px 6px rgba(15, 118, 110, 0.15) !important;
+            box-shadow: 0 2px 6px rgba(11, 30, 25, 0.15) !important;
         }
         .shopkaro-bag-text {
             font-size: 0.86rem !important;
@@ -1026,7 +1033,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             white-space: nowrap !important;
         }
         .shopkaro-free-shipping-badge {
-            background: #0F766E !important;
+            background: var(--shopkaro-brand) !important;
             color: #FFFFFF !important;
             font-size: 0.65rem !important;
             font-weight: 800 !important;
@@ -1067,17 +1074,17 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             transition: all 0.2s ease !important;
         }
         button[data-baseweb="tab"]:hover {
-            color: #0F766E !important;
-            background: #F0FDF4 !important;
+            color: var(--shopkaro-brand) !important;
+            background: #F1F4F2 !important;
         }
         button[data-baseweb="tab"][aria-selected="true"] {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             font-weight: 800 !important;
-            border-bottom: 3px solid #0F766E !important;
+            border-bottom: 3px solid var(--shopkaro-brand) !important;
             background: transparent !important;
         }
         div[data-baseweb="tab-highlight"] {
-            background-color: #0F766E !important;
+            background-color: var(--shopkaro-brand) !important;
             height: 3px !important;
         }
 
@@ -1181,7 +1188,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             align-items: center;
             min-height: 44px;
             padding: 0.25rem 0;
-            color: #0F766E;
+            color: var(--shopkaro-brand);
             font-size: 0.9rem;
             font-weight: 700;
             text-decoration: underline;
@@ -1202,8 +1209,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         .laam-circle-avatar:hover {
             transform: scale(1.06);
-            border-color: #0F766E;
-            box-shadow: 0 8px 20px rgba(15, 118, 110, 0.2);
+            border-color: var(--shopkaro-brand);
+            box-shadow: 0 8px 20px rgba(11, 30, 25, 0.2);
         }
         .laam-circle-avatar img {
             width: 100%;
@@ -1259,7 +1266,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover p,
         div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover span {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
         }
 
         
@@ -1289,7 +1296,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         div[data-testid="column"]:has(.shopkaro-ham-anchor) button:hover,
         div[data-testid="stColumn"]:has(.shopkaro-ham-anchor) button:hover {
             background: #F1F5F9 !important;
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
         }
         div[data-testid="column"]:has(.shopkaro-ham-anchor) button p,
         div[data-testid="stColumn"]:has(.shopkaro-ham-anchor) button p {
@@ -1642,7 +1649,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             box-sizing: border-box !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-categories-wrap) div[data-testid="stButton"] > button:hover {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             background: #FAFAFA !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-categories-wrap) div[data-testid="stButton"] > button p {
@@ -1660,7 +1667,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             gap: 0.65rem !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-categories-wrap) div[data-testid="stButton"] > button:hover p {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
         }
         /* Red promo badge styling */
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-categories-wrap) div[data-testid="stButton"] > button span[style*="color"] {
@@ -1681,7 +1688,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             line-height: 1 !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-categories-wrap) div[data-testid="element-container"]:has(.drawer-item-has-plus) + div[data-testid="element-container"] button:hover::after {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
         }
 
         /* 4. Bottom Utility Link: TRACK YOUR ORDER */
@@ -1704,7 +1711,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             box-sizing: border-box !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-track-wrap) div[data-testid="stButton"] > button:hover {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             background: transparent !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-track-wrap) div[data-testid="stButton"] > button p {
@@ -1717,7 +1724,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             line-height: 1 !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.drawer-track-wrap) div[data-testid="stButton"] > button:hover p {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
         }
 
         /* ------------------------------------------------------------- */
@@ -1818,7 +1825,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         .cart-item-meta {
             font-size: 0.72rem !important;
             font-weight: 600 !important;
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             margin-top: 2px !important;
         }
         .cart-item-price {
@@ -1847,8 +1854,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         div[data-testid="stColumn"]:has(button[key*="cart_dec_"]) button:hover,
         div[data-testid="stColumn"]:has(button[key*="cart_inc_"]) button:hover {
-            background: #0F766E !important;
-            border-color: #0F766E !important;
+            background: var(--shopkaro-brand) !important;
+            border-color: var(--shopkaro-brand) !important;
             color: #FFFFFF !important;
         }
         /* Cart Remove Button */
@@ -1885,10 +1892,10 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
 
         section[data-testid="stSidebar"]:has(.shopkaro-cart-drawer-active) button[key="cart_sidebar_checkout_btn"] {
-            background: #0F766E !important;
-            border: none !important;
+            background: var(--shopkaro-action) !important;
+            border: 1px solid var(--shopkaro-brand) !important;
             border-radius: 8px !important;
-            color: #FFFFFF !important;
+            color: var(--shopkaro-brand) !important;
             font-weight: 800 !important;
             font-size: 0.86rem !important;
             letter-spacing: 0.02em !important;
@@ -1898,11 +1905,11 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             white-space: nowrap !important;
         }
         section[data-testid="stSidebar"]:has(.shopkaro-cart-drawer-active) button[key="cart_sidebar_checkout_btn"]:hover {
-            background: #115E59 !important;
-            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25) !important;
+            background: #FFE052 !important;
+            box-shadow: 0 4px 12px rgba(11, 30, 25, 0.18) !important;
         }
         section[data-testid="stSidebar"]:has(.shopkaro-cart-drawer-active) button[key="cart_sidebar_checkout_btn"] p {
-            color: #FFFFFF !important;
+            color: var(--shopkaro-brand) !important;
             font-size: 0.86rem !important;
             font-weight: 800 !important;
             white-space: nowrap !important;
@@ -1911,7 +1918,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
 
         section[data-testid="stSidebar"]:has(.shopkaro-cart-drawer-active) button[key="cart_sidebar_clear_btn"] {
             background: #FFFFFF !important;
-            border: 1.2px solid #E5E7EB !important;
+            border: 1.2px solid var(--shopkaro-muted) !important;
             border-radius: 8px !important;
             color: #4B5563 !important;
             font-weight: 700 !important;
@@ -1950,11 +1957,11 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             transition: all 0.15s ease !important;
         }
         section[data-testid="stSidebar"] details summary:hover {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             background: #F9FAFB !important;
         }
         section[data-testid="stSidebar"] details[open] summary {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             font-weight: 800 !important;
         }
         section[data-testid="stSidebar"] details div[data-testid="stVerticalBlock"] > div.stButton > button {
@@ -1966,9 +1973,9 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             border-radius: 0 4px 4px 0 !important;
         }
         section[data-testid="stSidebar"] details div[data-testid="stVerticalBlock"] > div.stButton > button:hover {
-            color: #0F766E !important;
-            border-left-color: #0F766E !important;
-            background: #ECFDF5 !important;
+            color: var(--shopkaro-brand) !important;
+            border-left-color: var(--shopkaro-brand) !important;
+            background: rgba(135, 142, 136, 0.12) !important;
             padding-left: 1.35rem !important;
         }
 
@@ -1997,13 +2004,13 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             cursor: pointer !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stExpander"] summary:hover {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             background: #F9FAFB !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stExpander"] details[open] summary {
-            color: #0F766E !important;
+            color: var(--shopkaro-brand) !important;
             font-weight: 800 !important;
-            background: #ECFDF5 !important;
+            background: rgba(135, 142, 136, 0.12) !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stExpander"] div[data-testid="stVerticalBlock"] > div.stButton > button {
             text-align: left !important;
@@ -2018,9 +2025,9 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             width: calc(100% - 0.5rem) !important;
         }
         section[data-testid="stSidebar"] div[data-testid="stExpander"] div[data-testid="stVerticalBlock"] > div.stButton > button:hover {
-            color: #0F766E !important;
-            border-left-color: #0F766E !important;
-            background: #ECFDF5 !important;
+            color: var(--shopkaro-brand) !important;
+            border-left-color: var(--shopkaro-brand) !important;
+            background: rgba(135, 142, 136, 0.12) !important;
             padding-left: 1.35rem !important;
         }
 
@@ -2064,8 +2071,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             border-color: #D1D5DB !important;
         }
         section[data-testid="stSidebar"] div[role="radiogroup"] > label:has(input:checked) {
-            background: #0F766E !important;
-            border-color: #0F766E !important;
+            background: var(--shopkaro-brand) !important;
+            border-color: var(--shopkaro-brand) !important;
         }
         section[data-testid="stSidebar"] div[role="radiogroup"] > label:has(input:checked) * {
             color: #FFFFFF !important;
@@ -2148,14 +2155,14 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         .sidebar-cart-total {
             font-size: 1.35rem;
             font-weight: 800;
-            color: #5B0E2D;
+            color: var(--shopkaro-brand);
             margin: 0.3rem 0 0.4rem 0;
         }
 
         /* Product Cards (LAAM Multi-Brand Luxury Style) */
         .ecom-prod-card {
             background: #FFFFFF;
-            border: 1px solid #E5E7EB;
+            border: 1px solid rgba(135, 142, 136, 0.48);
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 0.8rem;
@@ -2168,8 +2175,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             height: 100%;
         }
         .ecom-prod-card:hover {
-            border-color: #5B0E2D;
-            box-shadow: 0 10px 25px rgba(91, 14, 45, 0.08);
+            border-color: var(--shopkaro-brand);
+            box-shadow: 0 10px 25px rgba(11, 30, 25, 0.08);
             transform: translateY(-3px);
         }
         .ecom-img-wrap {
@@ -2192,8 +2199,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             position: absolute;
             top: 10px;
             left: 10px;
-            background: #5B0E2D;
-            color: #FFFFFF;
+            background: var(--shopkaro-sale);
+            color: var(--shopkaro-brand);
             font-size: 0.65rem;
             font-weight: 800;
             padding: 0.2rem 0.55rem;
@@ -2211,7 +2218,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             font-weight: 600;
             padding: 0.15rem 0.45rem;
             border-radius: 4px;
-            border: 1px solid #E5E7EB;
+            border: 1px solid var(--shopkaro-muted);
         }
         .ecom-card-content {
             padding: 0.85rem 0.95rem 0.5rem 0.95rem;
@@ -2222,7 +2229,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         .ecom-brand-tag {
             font-size: 0.72rem;
             font-weight: 800;
-            color: #5B0E2D;
+            color: var(--shopkaro-brand);
             text-transform: uppercase;
             letter-spacing: 0.06em;
             margin-bottom: 0.25rem;
@@ -2281,7 +2288,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
         .ecom-filter-pill {
             background: #F9FAFB;
-            border: 1px solid #E5E7EB;
+            border: 1px solid rgba(135, 142, 136, 0.48);
             color: #374151;
             padding: 0.35rem 0.8rem;
             border-radius: 999px;
@@ -2369,9 +2376,43 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             font-weight: 600 !important;
             font-size: 0.82rem !important;
         }
+        button[data-testid="stBaseButton-primary"],
+        div[data-testid="stElementContainer"][class*="_add_"] button,
+        div[data-testid="stElementContainer"][class*="st-key-w_move_"] button {
+            background: var(--shopkaro-action) !important;
+            border: 1px solid var(--shopkaro-brand) !important;
+            color: var(--shopkaro-brand) !important;
+            font-weight: 700 !important;
+        }
+        button[data-testid="stBaseButton-primary"] p,
+        div[data-testid="stElementContainer"][class*="_add_"] button p,
+        div[data-testid="stElementContainer"][class*="st-key-w_move_"] button p {
+            color: var(--shopkaro-brand) !important;
+        }
+        button[data-testid="stBaseButton-primary"]:hover,
+        div[data-testid="stElementContainer"][class*="_add_"] button:hover,
+        div[data-testid="stElementContainer"][class*="st-key-w_move_"] button:hover {
+            background: #FFE052 !important;
+            border-color: var(--shopkaro-brand) !important;
+            color: var(--shopkaro-brand) !important;
+        }
+        button[data-testid="stBaseButton-primary"]:focus-visible,
+        div[data-testid="stElementContainer"][class*="_add_"] button:focus-visible,
+        div[data-testid="stElementContainer"][class*="st-key-w_move_"] button:focus-visible {
+            outline: 2px solid var(--shopkaro-brand) !important;
+            outline-offset: 3px !important;
+        }
+        button[data-testid="stBaseButton-primary"]:disabled,
+        div[data-testid="stElementContainer"][class*="_add_"] button:disabled,
+        div[data-testid="stElementContainer"][class*="st-key-w_move_"] button:disabled {
+            background: var(--shopkaro-muted) !important;
+            border-color: var(--shopkaro-muted) !important;
+            color: var(--shopkaro-brand) !important;
+            opacity: 0.72;
+        }
         /* Storefront hero */
         .st-key-shopkaro-storefront-hero {
-            background: #0B1E19 !important;
+            background: var(--shopkaro-brand) !important;
             border: 1px solid rgba(201, 168, 97, 0.5);
             border-radius: 10px;
             color: #F5F0E7;
@@ -2418,11 +2459,11 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             margin-top: 1.4rem;
         }
         .st-key-shopkaro-hero-shop-now button {
-            background: #C9A861 !important;
-            border: 1px solid #D8BD82 !important;
+            background: var(--shopkaro-action) !important;
+            border: 1px solid var(--shopkaro-brand) !important;
             border-radius: 3px !important;
             box-shadow: none !important;
-            color: #0B1E19 !important;
+            color: var(--shopkaro-brand) !important;
             font-size: 0.86rem !important;
             font-weight: 700 !important;
             letter-spacing: 0.04em !important;
@@ -2432,9 +2473,9 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             transition: background-color 160ms ease, transform 160ms ease;
         }
         .st-key-shopkaro-hero-shop-now button:hover {
-            background: #DEC27F !important;
-            border-color: #E6D09E !important;
-            color: #0B1E19 !important;
+            background: #FFE052 !important;
+            border-color: var(--shopkaro-brand) !important;
+            color: var(--shopkaro-brand) !important;
             transform: translateY(-1px);
         }
         .st-key-shopkaro-hero-shop-now button:focus-visible {
@@ -2547,9 +2588,9 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             gap: 0.5rem;
         }
         .flash-deals-timer {
-            background: #FEF2F2;
-            border: 1px solid #FECACA;
-            color: #DC2626;
+            background: var(--shopkaro-sale);
+            border: 1px solid var(--shopkaro-sale);
+            color: var(--shopkaro-brand);
             font-weight: 800;
             font-size: 0.78rem;
             padding: 0.25rem 0.65rem;
@@ -2561,7 +2602,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
 
         /* Footer */
         .shopkaro-footer {
-            background: #0F172A;
+            background: var(--shopkaro-brand);
             color: #E2E8F0;
             border-radius: 12px;
             padding: 2.2rem 2rem 1.2rem 2rem;
@@ -2591,14 +2632,14 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             margin: 0;
         }
         .shopkaro-footer-bottom {
-            border-top: 1px solid #1E293B;
+            border-top: 1px solid #2A3A33;
             padding-top: 1.2rem;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             font-size: 0.76rem;
-            color: #64748B;
+            color: #B8C2BB;
         }
         </style>
         """,
@@ -2782,7 +2823,7 @@ def _render_real_ecom_card(
         ribbon_html = f'<span class="ecom-ribbon-sale">SAVE {disc}%</span>'
     elif rating is not None and rating >= 4.5 and review_cnt >= 5:
         struck_html = ""
-        ribbon_html = '<span class="ecom-ribbon-sale" style="background:#0F766E;">TOP RATED</span>'
+        ribbon_html = '<span class="ecom-ribbon-sale" style="background:#0B1E19; color:#FFFFFF;">TOP RATED</span>'
     else:
         struck_html = ""
         ribbon_html = ""
@@ -2816,7 +2857,7 @@ def _render_real_ecom_card(
         f'<span class="ecom-price-curr">PKR {price:,.0f}</span>'
         f'{struck_html}'
         f'</div>'
-        f'<div style="font-size:0.72rem; color:#0F766E; font-weight:600; margin-top:0.35rem; display:flex; align-items:center; gap:0.25rem;">'
+        f'<div style="font-size:0.72rem; color:var(--shopkaro-brand); font-weight:600; margin-top:0.35rem; display:flex; align-items:center; gap:0.25rem;">'
         f'🚚 <span>Express Delivery &bull; COD Available</span>'
         f'</div>'
         f'</div>'
@@ -2973,9 +3014,9 @@ def run_streamlit_app() -> None:
 
         st.markdown(
             """
-            <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 0.65rem 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <div style="background: #F8FAFC; border: 1px solid rgba(135, 142, 136, 0.48); border-radius: 8px; padding: 0.65rem 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 1.1rem;">🚚</span>
-                <span style="font-size: 0.85rem; font-weight: 700; color: #065F46;">Free Express Delivery Across Pakistan Applied!</span>
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--shopkaro-brand);">Free Express Delivery Across Pakistan Applied!</span>
             </div>
             """,
             unsafe_allow_html=True,
@@ -3007,7 +3048,7 @@ def run_streamlit_app() -> None:
                     f"""
                     <div style="line-height: 1.35;">
                         <span style="font-size: 0.92rem; font-weight: 700; color: #111827;">{itm['product_id']}</span>
-                        <span style="font-size: 0.78rem; font-weight: 600; color: #0F766E; margin-left: 0.35rem;">{brand_str}</span><br/>
+                        <span style="font-size: 0.78rem; font-weight: 600; color: var(--shopkaro-brand); margin-left: 0.35rem;">{brand_str}</span><br/>
                         <span style="font-size: 0.82rem; color: #4B5563;">Qty: <b>{itm['quantity']}</b> &bull; PKR {itm['line_total_pkr']:,.0f}</span>
                     </div>
                     """,
@@ -3031,7 +3072,7 @@ def run_streamlit_app() -> None:
             f"""
             <div style="background: #F9FAFB; border-radius: 8px; padding: 0.75rem 1rem; margin: 0.8rem 0 0.5rem 0; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 0.95rem; font-weight: 700; color: #1F2937;">Total Payable:</span>
-                <span style="font-size: 1.25rem; font-weight: 800; color: #0F766E;">PKR {total_pkr:,.0f}</span>
+                <span style="font-size: 1.25rem; font-weight: 800; color: var(--shopkaro-brand);">PKR {total_pkr:,.0f}</span>
             </div>
             """,
             unsafe_allow_html=True,
@@ -3092,7 +3133,7 @@ def run_streamlit_app() -> None:
                     f"""
                     <div style="line-height: 1.35;">
                         <span style="font-size: 0.88rem; font-weight: 700; color: #111827;">{w_title}</span><br/>
-                        <span style="font-size: 0.78rem; color: #6B7280;">{w_brand} &bull; <b style="color:#0F766E;">PKR {w_price:,.0f}</b></span>
+                        <span style="font-size: 0.78rem; color: #6B7280;">{w_brand} &bull; <b style="color:var(--shopkaro-brand);">PKR {w_price:,.0f}</b></span>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -3130,7 +3171,7 @@ def run_streamlit_app() -> None:
                     </div>
                     <div style="font-size:0.82rem; color:#4B5563; margin-top:0.4rem;">📍 <b>Delivery Address:</b> House 42-B, Block 4, Clifton, Karachi</div>
                     <div style="font-size:0.82rem; color:#4B5563; margin-top:0.2rem;">📱 <b>Mobile:</b> +92 300 8274419 &bull; COD Verified Customer</div>
-                    <div style="font-size:0.85rem; color:#0F766E; font-weight:700; margin-top:0.5rem;">🪙 <b>450 ShopKaro Rewards Coins</b> Available (Worth PKR 450)</div>
+                    <div style="font-size:0.85rem; color:var(--shopkaro-brand); font-weight:700; margin-top:0.5rem;">🪙 <b>450 ShopKaro Rewards Coins</b> Available (Worth PKR 450)</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -3192,7 +3233,7 @@ def run_streamlit_app() -> None:
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem;">
                 <div style="font-weight: 700; color: #111827; font-size: 0.88rem;">💬 WhatsApp Concierge (Fastest)</div>
-                <div style="color: #0F766E; font-weight: 800; font-size: 1.05rem; margin-top: 0.15rem;">+92 300 7467527 (SHOPKARO)</div>
+                <div style="color: var(--shopkaro-brand); font-weight: 800; font-size: 1.05rem; margin-top: 0.15rem;">+92 300 7467527 (SHOPKARO)</div>
                 <div style="color: #6B7280; font-size: 0.76rem; margin-top: 0.15rem;">Instant order updates, stylist advice, and size help</div>
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem;">
@@ -3202,7 +3243,7 @@ def run_streamlit_app() -> None:
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem 1rem;">
                 <div style="font-weight: 700; color: #111827; font-size: 0.88rem;">✉️ Customer Care Email</div>
-                <div style="color: #0F766E; font-weight: 700; font-size: 0.95rem; margin-top: 0.15rem;">support@shopkaro.pk</div>
+                <div style="color: #0B1E19; font-weight: 700; font-size: 0.95rem; margin-top: 0.15rem;">support@shopkaro.pk</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -3217,15 +3258,15 @@ def run_streamlit_app() -> None:
                 <h3 style="margin: 0; font-weight: 800; color: #111827;">Our Flagship Stores</h3>
                 <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem;">Visit our studios for luxury try-on & click-and-collect</p>
             </div>
-            <div style="border-left: 3px solid #0F766E; background: #F8FAFC; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-radius: 0 8px 8px 0;">
+            <div style="border: 1px solid rgba(135, 142, 136, 0.48); background: #F8FAFC; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-radius: 8px;">
                 <div style="font-weight: 800; color: #111827; font-size: 0.92rem;">📍 Karachi — Dolmen Mall Clifton</div>
                 <div style="font-size: 0.8rem; color: #4B5563; margin-top: 0.2rem;">Ground Floor, Ocean Wing &bull; Daily 11:00 AM – 11:00 PM</div>
             </div>
-            <div style="border-left: 3px solid #0F766E; background: #F8FAFC; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-radius: 0 8px 8px 0;">
+            <div style="border: 1px solid rgba(135, 142, 136, 0.48); background: #F8FAFC; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-radius: 8px;">
                 <div style="font-weight: 800; color: #111827; font-size: 0.92rem;">📍 Lahore — MM Alam Road</div>
                 <div style="font-size: 0.8rem; color: #4B5563; margin-top: 0.2rem;">Gulberg III (Near Mini Market) &bull; Daily 11:00 AM – 11:00 PM</div>
             </div>
-            <div style="border-left: 3px solid #0F766E; background: #F8FAFC; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-radius: 0 8px 8px 0;">
+            <div style="border: 1px solid rgba(135, 142, 136, 0.48); background: #F8FAFC; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-radius: 8px;">
                 <div style="font-weight: 800; color: #111827; font-size: 0.92rem;">📍 Islamabad — Beverly Centre</div>
                 <div style="font-size: 0.8rem; color: #4B5563; margin-top: 0.2rem;">Blue Area &bull; Daily 11:00 AM – 10:30 PM</div>
             </div>
@@ -3243,11 +3284,11 @@ def run_streamlit_app() -> None:
                 <h3 style="margin: 0; font-weight: 800; color: #111827;">Sample Order Tracking (Demo)</h3>
                 <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem;">Example consignment: <b>ORD-1002</b> &bull; Leopard Express</p>
             </div>
-            <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;">
+            <div style="background: #F8FAFC; border: 1px solid rgba(135, 142, 136, 0.48); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;">
                 <span style="font-size: 1.3rem;">⚡</span>
                 <div>
-                    <div style="font-size: 0.88rem; font-weight: 800; color: #065F46;">Example status: Out for Delivery</div>
-                    <div style="font-size: 0.75rem; color: #047857;">Live carrier updates are not connected.</div>
+                    <div style="font-size: 0.88rem; font-weight: 800; color: var(--shopkaro-brand);">Example status: Out for Delivery</div>
+                    <div style="font-size: 0.75rem; color: #6B7280;">Live carrier updates are not connected.</div>
                 </div>
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.85rem 1rem; font-size: 0.82rem; color: #374151; line-height: 1.6;">
@@ -3309,7 +3350,7 @@ def run_streamlit_app() -> None:
                 """
                 <a href="?" target="_self" class="shopkaro-brand-logo">
                     <svg width="30" height="30" viewBox="0 0 40 40" fill="none" style="flex-shrink:0;">
-                        <rect width="40" height="40" rx="9" fill="#0F766E"/>
+                        <rect width="40" height="40" rx="9" fill="#0B1E19"/>
                         <rect x="9" y="14" width="22" height="18" rx="3" stroke="#FFFFFF" stroke-width="2.2" fill="none"/>
                         <path d="M14 14V11C14 9.34 15.34 8 17 8H23C24.66 8 26 8.34 26 11V14" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
                         <path d="M15 19C15 21.76 17.24 24 20 24C22.76 24 25 21.76 25 19" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
@@ -3449,7 +3490,7 @@ def run_streamlit_app() -> None:
                         <div style="display:flex; align-items:center; gap:0.45rem;">
                             <span style="font-size:1.25rem;">🛍️</span>
                             <span style="font-weight:800; font-size:0.95rem; letter-spacing:0.04em; color:#111827; text-transform:uppercase;">YOUR BAG</span>
-                            <span style="background:#0F766E; color:#FFFFFF; font-size:0.65rem; font-weight:800; padding:0.12rem 0.45rem; border-radius:999px;">{item_count}</span>
+                            <span style="background:var(--shopkaro-brand); color:#FFFFFF; font-size:0.65rem; font-weight:800; padding:0.12rem 0.45rem; border-radius:999px;">{item_count}</span>
                         </div>
                         """,
                         unsafe_allow_html=True,
@@ -3464,9 +3505,9 @@ def run_streamlit_app() -> None:
                 # Free Express Delivery Banner
                 st.markdown(
                     """
-                    <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 0.5rem 0.75rem; margin: 0.45rem 0 0.85rem 0; display: flex; align-items: center; gap: 0.45rem;">
+                    <div style="background: #F8FAFC; border: 1px solid rgba(135, 142, 136, 0.48); border-radius: 8px; padding: 0.5rem 0.75rem; margin: 0.45rem 0 0.85rem 0; display: flex; align-items: center; gap: 0.45rem;">
                         <span style="font-size: 1rem;">🚚</span>
-                        <span style="font-size: 0.75rem; font-weight: 700; color: #065F46;">Free Express Delivery Across Pakistan Active!</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--shopkaro-brand);">Free Express Delivery Across Pakistan Active!</span>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -3561,7 +3602,7 @@ def run_streamlit_app() -> None:
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.82rem; color:#4B5563; margin-bottom:0.35rem;">
                                 <span>Delivery Charges:</span>
-                                <span style="font-weight:700; color:#0F766E;">FREE (Express)</span>
+                                <span style="font-weight:700; color:var(--shopkaro-brand);">FREE (Express)</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; font-size:0.82rem; color:#4B5563; margin-bottom:0.5rem;">
                                 <span>Cash on Delivery (COD) Fee:</span>
@@ -3569,7 +3610,7 @@ def run_streamlit_app() -> None:
                             </div>
                             <div style="border-top:1.5px dashed #D1D5DB; margin:0.45rem 0; padding-top:0.5rem; display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.92rem; font-weight:800; color:#111827;">TOTAL DUE:</span>
-                                <span style="font-size:1.25rem; font-weight:800; color:#0F766E;">PKR {total_pkr:,.0f}</span>
+                                <span style="font-size:1.25rem; font-weight:800; color:var(--shopkaro-brand);">PKR {total_pkr:,.0f}</span>
                             </div>
                         </div>
                         """,
@@ -3602,7 +3643,7 @@ def run_streamlit_app() -> None:
                         <div style="display:flex; align-items:center; gap:0.45rem;">
                             <span style="font-size:1.25rem;">💬</span>
                             <span style="font-weight:800; font-size:0.95rem; letter-spacing:0.04em; color:#111827; text-transform:uppercase;">AI CONCIERGE</span>
-                            <span style="background:#0F766E; color:#FFFFFF; font-size:0.65rem; font-weight:800; padding:0.12rem 0.45rem; border-radius:999px;">URDULISH LIVE</span>
+                            <span style="background:var(--shopkaro-brand); color:#FFFFFF; font-size:0.65rem; font-weight:800; padding:0.12rem 0.45rem; border-radius:999px;">URDULISH LIVE</span>
                         </div>
                         """,
                         unsafe_allow_html=True,
@@ -3617,7 +3658,7 @@ def run_streamlit_app() -> None:
                 # Welcoming sub-banner
                 st.markdown(
                     """
-                    <div style="background:#F0FDFA; border:1px solid #99F6E4; border-radius:8px; padding:0.55rem 0.75rem; margin:0.45rem 0 0.75rem 0; font-size:0.78rem; color:#0F766E; line-height:1.4;">
+                    <div style="background:#F8FAFC; border:1px solid rgba(135, 142, 136, 0.48); border-radius:8px; padding:0.55rem 0.75rem; margin:0.45rem 0 0.75rem 0; font-size:0.78rem; color:var(--shopkaro-brand); line-height:1.4;">
                         ✨ <b>Assalam-o-Alaikum!</b> Poochiye Roman Urdu ya English mein — gifts under budget, outfit comparisons, tracking, ya styling advice!
                     </div>
                     """,
@@ -4161,7 +4202,7 @@ def run_streamlit_app() -> None:
         # Sorting & Rating Filter Controls
         f_col1, f_col2, f_col3 = st.columns([2.5, 1.4, 1.3], vertical_alignment="center", gap="small")
         with f_col1:
-            cat_badge = f'<span class="ecom-filter-pill" style="background:#FDF2F4; color:#5B0E2D; font-weight:800;">🏷️ {active_cat}</span>' if active_cat != "All Categories" else ""
+            cat_badge = f'<span class="ecom-filter-pill" style="background:#F1F4F2; color:#0B1E19; font-weight:800;">🏷️ {active_cat}</span>' if active_cat != "All Categories" else ""
             pills_html = [
                 f'<span class="ecom-filter-pill">Showing <b>{min(len(filtered_results), GRID_PAGE_SIZE)} of {len(filtered_results)}</b> products{"" if raw_query or active_cat != "All Categories" else " &bull; most reviewed"}</span>',
                 cat_badge,
