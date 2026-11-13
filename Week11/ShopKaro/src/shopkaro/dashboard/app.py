@@ -2744,6 +2744,58 @@ def _inject_homepage_css(st: Any) -> None:
             padding: clamp(var(--home-s3), 4.5vw, var(--home-s5)) !important;
         }
         .shopkaro-hero-media { border: 0 !important; border-radius: 12px !important; }
+
+        /* Hero photo rotator: 5 photos x 4.5 s = 22.5 s loop, 1 s crossfade with a slow zoom-out.
+           Each photo's keyframes: fade in over 0-4.4%, hold to 20%, fade out by 24.4%.
+           Delays (nth-child below) are staggered by 4.5 s; the first starts 1 s in, so the hero never
+           opens blank. Delays are set per child, not via an inline CSS variable: Streamlit's markdown
+           renderer may drop custom properties from style attributes. */
+        .home-hero-rotator { position: relative; isolation: isolate; }
+        .home-hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            animation: home-hero-swap 22.5s linear infinite backwards;
+        }
+        .home-hero-slide img {
+            transform-origin: 50% 20%;
+            animation: home-hero-zoom 22.5s linear infinite backwards;
+        }
+        .home-hero-slide:nth-child(1), .home-hero-slide:nth-child(1) img { animation-delay: -1s; }
+        .home-hero-slide:nth-child(2), .home-hero-slide:nth-child(2) img { animation-delay: 3.5s; }
+        .home-hero-slide:nth-child(3), .home-hero-slide:nth-child(3) img { animation-delay: 8s; }
+        .home-hero-slide:nth-child(4), .home-hero-slide:nth-child(4) img { animation-delay: 12.5s; }
+        .home-hero-slide:nth-child(5), .home-hero-slide:nth-child(5) img { animation-delay: 17s; }
+        @keyframes home-hero-swap {
+            0% { opacity: 0; }
+            4.4% { opacity: 1; }
+            20% { opacity: 1; }
+            24.4% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+        @keyframes home-hero-zoom {
+            0% { transform: scale(1.08); }
+            24.4% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        .home-hero-tag {
+            position: absolute;
+            left: var(--home-s2);
+            bottom: var(--home-s2);
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(11, 30, 25, 0.78);
+            backdrop-filter: blur(4px);
+            color: var(--home-white);
+            font-family: var(--home-font);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .home-hero-slide, .home-hero-slide img { animation: none !important; }
+            .home-hero-slide:first-child { opacity: 1; }
+        }
         .stApp .st-key-shopkaro-hero-shop-now { margin-top: var(--home-s3) !important; }
         .laam-category-heading-row,
         .flash-deals-header,
@@ -3116,6 +3168,16 @@ PROMO_SLIDES: tuple[tuple[str, str, tuple[str, str], bool], ...] = (
     ("carousel6", "Celebrate the elegance: unstitched and ready-to-wear", ("Women's Lawn & Unstitched", ""), False),
 )
 PROMO_INTERVAL_S = 6
+
+# Hero photos that crossfade on the homepage: (static file, tag shown on the photo, alt text).
+# The timing in _inject_homepage_css (.home-hero-slide) assumes 5 slides x 4.5 s; update both together.
+HERO_SLIDES: tuple[tuple[str, str, str], ...] = (
+    ("pakistani_royal_modest_bridal.jpg", "Bridal", "Red embroidered bridal formalwear"),
+    ("pakistani_modest_lawn.jpg", "Lawn", "Emerald green embroidered lawn suit with dupatta"),
+    ("pakistani_flared_pishwas.jpg", "Formal", "Ivory flared pishwas with gold embroidery"),
+    ("pakistani_mens_velvet_waistcoat.jpg", "Menswear", "Navy velvet waistcoat over a white kurta"),
+    ("pakistani_short_peplum_frock.jpg", "Pret", "Blush embroidered peplum with flared trousers"),
+)
 STOREFRONT_ROLE = "🛍️ Customer Storefront"
 
 
@@ -4474,7 +4536,13 @@ def run_streamlit_app() -> None:
     if portal_choice == "🛍️ Customer Storefront":
         _inject_homepage_css(st)
         # The hero uses catalogue imagery and the existing all-category filter behavior.
-        hero_bg_uri = get_local_asset_data_uri("pakistani_royal_modest_bridal.jpg")
+        # Its photos crossfade in pure CSS (see .home-hero-slide), so the swap never reruns Streamlit.
+        hero_slides_html = "".join(
+            f'<div class="home-hero-slide">'
+            f'<img src="{get_local_asset_data_uri(fname)}" alt="{html.escape(alt)}" loading="eager">'
+            f'<span class="home-hero-tag">{label}</span></div>'
+            for fname, label, alt in HERO_SLIDES
+        )
         with st.container(key="shopkaro-storefront-hero"):
             copy_column, media_column = st.columns([1.15, 0.85], vertical_alignment="center")
             with copy_column:
@@ -4492,7 +4560,7 @@ def run_streamlit_app() -> None:
                 )
             with media_column:
                 st.markdown(
-                    f'<div class="shopkaro-hero-media"><img src="{hero_bg_uri}" alt="Red embroidered formalwear" loading="eager"></div>',
+                    f'<div class="shopkaro-hero-media home-hero-rotator">{hero_slides_html}</div>',
                     unsafe_allow_html=True,
                 )
 
