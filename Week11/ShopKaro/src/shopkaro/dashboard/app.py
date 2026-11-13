@@ -458,6 +458,26 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             overflow: hidden !important;
             text-overflow: ellipsis !important;
         }
+        .laam-top-ticker-icon {
+            color: #D8BD82;
+            display: inline-flex;
+            flex: 0 0 auto;
+        }
+        .laam-top-ticker > span:last-child {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        @media (max-width: 420px) {
+            .laam-top-ticker {
+                height: auto !important;
+                min-height: 38px !important;
+                padding: 0.35rem 0.75rem !important;
+                font-size: 0.68rem !important;
+                line-height: 1.25 !important;
+                white-space: normal !important;
+                text-overflow: clip !important;
+            }
+        }
 
         /* ------------------------------------------------------------- */
         /* SHOPKARO RESPONSIVE LUXURY NAVIGATION BAR                     */
@@ -2349,84 +2369,111 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             font-weight: 600 !important;
             font-size: 0.82rem !important;
         }
-        /* Hero Banner - Luxury Dark Emerald Tint with Aspirational Imagery */
-        .shopkaro-hero-banner {
-            background-size: cover !important;
-            background-position: center 30% !important;
-            background-repeat: no-repeat !important;
-            border-radius: 16px;
-            padding: 2.2rem 2.5rem;
-            color: #FFFFFF;
+        /* Storefront hero */
+        .st-key-shopkaro-storefront-hero {
+            background: #0B1E19 !important;
+            border: 1px solid rgba(201, 168, 97, 0.5);
+            border-radius: 10px;
+            color: #F5F0E7;
             margin-bottom: 2rem;
-            border: 1.5px solid rgba(212, 175, 55, 0.35); /* champagne gold trim */
-            box-shadow: 0 16px 36px -8px rgba(6, 38, 30, 0.35);
-            position: relative;
+            overflow: hidden;
+            padding: clamp(1.25rem, 3.2vw, 2.75rem);
+        }
+        .st-key-shopkaro-storefront-hero [data-testid="stHorizontalBlock"] {
+            align-items: center;
+            gap: 1rem;
+        }
+        .st-key-shopkaro-storefront-hero h1.shopkaro-hero-title {
+            color: #F5F0E7 !important;
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: clamp(2.4rem, 4.7vw, 3.65rem) !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.035em !important;
+            line-height: 1.04 !important;
+            margin: 0 0 1rem !important;
+            max-width: 13ch !important;
+        }
+        .shopkaro-hero-description {
+            color: #D7D1C6;
+            font-size: 1rem;
+            line-height: 1.65;
+            margin: 0;
+            max-width: 42ch;
+        }
+        .shopkaro-hero-media {
+            background: #E8DECE;
+            border: 1px solid rgba(201, 168, 97, 0.4);
+            border-radius: 6px;
+            height: clamp(18rem, 30vw, 24rem);
             overflow: hidden;
         }
-        .shopkaro-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(212, 175, 55, 0.22);
-            color: #FDE047;
-            font-size: 0.76rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            padding: 0.35rem 0.85rem;
-            border-radius: 999px;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(212, 175, 55, 0.55);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        .shopkaro-hero-media img {
+            display: block;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            width: 100%;
         }
-        .shopkaro-hero-title {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2.35rem;
-            font-weight: 800;
-            line-height: 1.18;
-            color: #FFFFFF;
-            margin: 0 0 1rem 0;
-            letter-spacing: -0.015em;
-            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 1px 4px rgba(0, 0, 0, 0.95);
+        .st-key-shopkaro-hero-shop-now {
+            margin-top: 1.4rem;
         }
-        .shopkaro-hero-sub-tiers {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1.6rem;
-            max-width: 850px;
+        .st-key-shopkaro-hero-shop-now button {
+            background: #C9A861 !important;
+            border: 1px solid #D8BD82 !important;
+            border-radius: 3px !important;
+            box-shadow: none !important;
+            color: #0B1E19 !important;
+            font-size: 0.86rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.04em !important;
+            min-height: 48px !important;
+            padding: 0.7rem 1.55rem !important;
+            text-transform: uppercase;
+            transition: background-color 160ms ease, transform 160ms ease;
         }
-        .hero-tier-item {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            font-size: 0.95rem;
-            color: #FFFFFF;
-            line-height: 1.45;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.95);
+        .st-key-shopkaro-hero-shop-now button:hover {
+            background: #DEC27F !important;
+            border-color: #E6D09E !important;
+            color: #0B1E19 !important;
+            transform: translateY(-1px);
         }
-        .hero-tier-bullet {
-            color: #FDE047;
-            font-size: 0.90rem;
-            flex-shrink: 0;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        .st-key-shopkaro-hero-shop-now button:focus-visible {
+            outline: 2px solid #F5F0E7 !important;
+            outline-offset: 3px;
         }
-        .shopkaro-hero-pills {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 0.85rem !important;
-            width: 100% !important;
-            margin-top: 1.25rem !important;
-            box-sizing: border-box !important;
-        }
-        @media (max-width: 992px) {
-            .shopkaro-hero-pills {
-                grid-template-columns: repeat(2, 1fr) !important; /* perfectly symmetrical 2x2 grid */
+        @media (max-width: 640px) {
+            .st-key-shopkaro-storefront-hero {
+                padding: 1.1rem;
+            }
+            .st-key-shopkaro-storefront-hero [data-testid="stHorizontalBlock"] {
+                gap: 1rem;
+            }
+            .st-key-shopkaro-storefront-hero h1.shopkaro-hero-title {
+                font-size: clamp(2rem, 7vw, 2.5rem) !important;
+                line-height: 1.08 !important;
+                margin-bottom: 0.7rem !important;
+                max-width: 15ch !important;
+            }
+            .shopkaro-hero-description {
+                font-size: 0.95rem;
+                line-height: 1.55;
+            }
+            .shopkaro-hero-media {
+                height: 13rem;
+            }
+            .shopkaro-hero-media img {
+                object-position: center top;
+            }
+            .st-key-shopkaro-hero-shop-now {
+                margin-top: 1rem;
+            }
+            .st-key-shopkaro-hero-shop-now button {
+                min-height: 48px !important;
+                width: 100%;
             }
         }
-        /* Phones: Streamlit stacks every column full-width below 640px. Keep the category circles in a 3-up grid
-           and the header icons on one line instead of 14 / 5 separate rows; let hero pills stack. */
+        /* Phones: Keep category circles in a 3-up grid and header icons on one line. */
         @media (max-width: 640px) {
-            .shopkaro-hero-pills { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
             [data-testid="stHorizontalBlock"]:has(.laam-circle-avatar) {
                 flex-direction: row !important;
                 flex-wrap: wrap !important;
@@ -2449,74 +2496,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
                 min-width: 0 !important;
             }
         }
-        .hero-pill {
-            background: rgba(7, 29, 23, 0.78) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
-            border: 1.5px solid rgba(212, 175, 55, 0.5) !important; /* crisp champagne gold border */
-            color: #FFFFFF !important;
-            padding: 0.65rem 0.5rem !important;
-            border-radius: 999px !important;
-            font-size: 0.84rem !important;
-            font-weight: 700 !important;
-            letter-spacing: 0.02em !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            text-align: center !important;
-            gap: 0.45rem !important;
-            width: 100% !important;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
-            transition: all 0.2s ease !important;
-            white-space: nowrap !important;
-            box-sizing: border-box !important;
-        }
-        .hero-pill:hover {
-            background: rgba(10, 42, 34, 0.94) !important;
-            border-color: #FDE047 !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45) !important;
-        }
         @media (max-width: 640px) {
-            .shopkaro-hero-banner {
-                padding: 1.35rem 1rem;
-                margin-bottom: 1.25rem;
-            }
-            .shopkaro-hero-badge {
-                max-width: 100%;
-                font-size: 0.66rem;
-                letter-spacing: 0.05em;
-                padding: 0.3rem 0.6rem;
-                margin-bottom: 0.8rem;
-                white-space: normal;
-            }
-            .shopkaro-hero-title {
-                font-size: clamp(1.7rem, 7vw, 2.1rem);
-                line-height: 1.12;
-                margin-bottom: 0.75rem;
-            }
-            .shopkaro-hero-sub-tiers {
-                gap: 0.4rem;
-                margin-bottom: 0.9rem;
-            }
-            .hero-tier-item {
-                gap: 0.45rem;
-                font-size: 0.88rem;
-                line-height: 1.35;
-            }
-            .shopkaro-hero-pills {
-                gap: 0.55rem !important;
-                margin-top: 0.75rem !important;
-            }
-            .hero-pill {
-                min-height: 44px;
-                height: auto;
-                padding: 0.55rem 0.4rem !important;
-                font-size: 0.72rem !important;
-                line-height: 1.25;
-                white-space: normal !important;
-                overflow-wrap: anywhere;
-            }
             .laam-category-heading-row {
                 align-items: flex-start;
                 flex-direction: column;
@@ -3293,7 +3273,14 @@ def run_streamlit_app() -> None:
     st.markdown(
         """
         <div class="laam-top-ticker">
-            <span>🚚 Free Express Delivery Across Pakistan &bull; Cash on Delivery Available</span>
+            <span class="laam-top-ticker-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 6h11v11H3zM14 10h4l3 3v4h-7z" />
+                    <circle cx="7.5" cy="18" r="1.5" />
+                    <circle cx="17.5" cy="18" r="1.5" />
+                </svg>
+            </span>
+            <span>Free Express Delivery Across Pakistan &bull; Cash on Delivery Available</span>
         </div>
         """,
         unsafe_allow_html=True,
@@ -3918,27 +3905,28 @@ def run_streamlit_app() -> None:
     # VIEW 1: CUSTOMER STOREFRONT (LOOKS 100% LIKE REAL E-COMMERCE)
     # =========================================================================
     if portal_choice == "🛍️ Customer Storefront":
-        # Hero Promotional Campaign Banner (Aspirational Background Image with Reduced 25% Opacity Tint)
+        # The hero uses catalogue imagery and the existing all-category filter behavior.
         hero_bg_uri = get_local_asset_data_uri("pakistani_royal_modest_bridal.jpg")
-        max_disc, n_on_sale = catalogue_discount_stats()  # banner numbers come from the catalogue, not copywriting
-        hero_html = (
-            f'<div class="shopkaro-hero-banner" style="background-image: linear-gradient(135deg, rgba(6, 38, 30, 0.65) 0%, rgba(10, 58, 46, 0.58) 50%, rgba(4, 24, 18, 0.70) 100%), url(\'{hero_bg_uri}\');">'
-            '<div class="shopkaro-hero-badge">🌙 EID UL FITR 2026 GRAND BAZAAR</div>'
-            '<h1 class="shopkaro-hero-title">Pakistan\'s AI-Powered Luxury Marketplace</h1>'
-            '<div class="shopkaro-hero-sub-tiers">'
-            f'<div class="hero-tier-item"><span class="hero-tier-bullet">✦</span><span><b>Up to {max_disc:.0f}% OFF</b> on {n_on_sale:,} products: lawn, bridal & festive wear</span></div>'
-            '<div class="hero-tier-item"><span class="hero-tier-bullet">✦</span><span><b>Free Express Doorstep Delivery</b> Across 250+ Cities in Pakistan (24–48h Dispatch)</span></div>'
-            '<div class="hero-tier-item"><span class="hero-tier-bullet">✦</span><span><b>100% Genuine Designer Guarantee</b> with Verified Cash on Delivery (COD)</span></div>'
-            '</div>'
-            '<div class="shopkaro-hero-pills">'
-            '<div class="hero-pill">⚡ 24–48h Dispatch</div>'
-            '<div class="hero-pill">💵 Cash on Delivery</div>'
-            '<div class="hero-pill">🇵🇰 100% Authentic Brand Guarantee</div>'
-            '<div class="hero-pill">🔄 7-Day Hassle-Free Returns</div>'
-            '</div>'
-            '</div>'
-        )
-        st.markdown(hero_html, unsafe_allow_html=True)
+        with st.container(key="shopkaro-storefront-hero"):
+            copy_column, media_column = st.columns([1.15, 0.85], vertical_alignment="center")
+            with copy_column:
+                st.markdown(
+                    '<h1 class="shopkaro-hero-title">Pakistani Fashion, Curated</h1>'
+                    '<p class="shopkaro-hero-description">Explore lawn, bridal and formal styles, plus more across the catalogue.</p>',
+                    unsafe_allow_html=True,
+                )
+                st.button(
+                    "Shop Now",
+                    key="shopkaro-hero-shop-now",
+                    on_click=_apply_filter_cb,
+                    args=("All Categories", ""),
+                    type="primary",
+                )
+            with media_column:
+                st.markdown(
+                    f'<div class="shopkaro-hero-media"><img src="{hero_bg_uri}" alt="Red embroidered formalwear" loading="eager"></div>',
+                    unsafe_allow_html=True,
+                )
 
         # 1. LAAM Shop by Category (Circular Avatars Grid)
         st.markdown(
