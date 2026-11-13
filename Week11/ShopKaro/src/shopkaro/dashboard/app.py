@@ -875,7 +875,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             }
 
             /* Horizontal Scrollable Strip for Popular Search Badges */
-            div[data-testid="stHorizontalBlock"]:has(button[key*="pchip_"]) {
+            div[data-testid="stHorizontalBlock"]:has(div[class*="st-key-pchip_"]) {
                 display: flex !important;
                 flex-wrap: nowrap !important;
                 overflow-x: auto !important;
@@ -883,7 +883,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
                 gap: 0.45rem !important;
                 -webkit-overflow-scrolling: touch !important;
             }
-            div[data-testid="stHorizontalBlock"]:has(button[key*="pchip_"]) > div[data-testid="stColumn"] {
+            div[data-testid="stHorizontalBlock"]:has(div[class*="st-key-pchip_"]) > div[data-testid="stColumn"]:has(div[class*="st-key-pchip_"]) {
                 flex: 0 0 auto !important;
                 width: auto !important;
                 min-width: max-content !important;
@@ -957,8 +957,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
 
         /* Popular Search Chips (Under Search Bar) */
-        div[data-testid="column"]:has(button[key*="pchip_"]) button,
-        div[data-testid="stColumn"]:has(button[key*="pchip_"]) button {
+        div[data-testid="stElementContainer"][class*="st-key-pchip_"] button {
             background: #FFFFFF !important;
             border: 1px solid #E2E8F0 !important;
             border-radius: 999px !important;
@@ -972,8 +971,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             transition: all 0.15s ease !important;
             white-space: nowrap !important;
         }
-        div[data-testid="column"]:has(button[key*="pchip_"]) button:hover,
-        div[data-testid="stColumn"]:has(button[key*="pchip_"]) button:hover {
+        div[data-testid="stElementContainer"][class*="st-key-pchip_"] button:hover {
             background: #F8FAFC !important;
             border-color: #0F766E !important;
             color: #0F766E !important;
@@ -1142,6 +1140,34 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             margin: 1.6rem 0 1.1rem 0;
             font-family: 'Playfair Display', Georgia, 'Plus Jakarta Sans', serif;
         }
+        .laam-category-heading-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin: 1.6rem 0 1.1rem 0;
+        }
+        .laam-category-heading {
+            color: #111827;
+            font-size: 1.65rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin: 0;
+            font-family: 'Playfair Display', Georgia, 'Plus Jakarta Sans', serif;
+        }
+        .laam-category-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 0.25rem 0;
+            color: #0F766E;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            white-space: nowrap;
+        }
         .laam-circle-avatar {
             width: 96px;
             height: 96px;
@@ -1171,14 +1197,12 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         }
 
         /* Luxury Centered Category Button Labels directly beneath avatar */
-        div[data-testid="column"]:has(button[key*="cat_label_"]),
-        div[data-testid="stColumn"]:has(button[key*="cat_label_"]) {
+        div[data-testid="column"]:has(div[class*="st-key-cat_label_"]),
+        div[data-testid="stColumn"]:has(div[class*="st-key-cat_label_"]) {
             text-align: center !important;
             padding: 0 0.15rem !important;
         }
-        button[key*="cat_label_"],
-        div[data-testid="column"] button[key*="cat_label_"],
-        div[data-testid="stColumn"] button[key*="cat_label_"] {
+        div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button {
             background: transparent !important;
             border: 1px solid transparent !important;
             border-radius: 6px !important;
@@ -1195,17 +1219,13 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             cursor: pointer !important;
             transition: all 0.2s ease !important;
         }
-        button[key*="cat_label_"]:hover,
-        div[data-testid="column"] button[key*="cat_label_"]:hover,
-        div[data-testid="stColumn"] button[key*="cat_label_"]:hover {
+        div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover {
             background: #F0FDF4 !important;
             border-color: #E2E8F0 !important;
             transform: translateY(-2px) !important;
         }
-        button[key*="cat_label_"] p,
-        button[key*="cat_label_"] span,
-        div[data-testid="column"] button[key*="cat_label_"] p,
-        div[data-testid="stColumn"] button[key*="cat_label_"] p {
+        div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button p,
+        div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button span {
             font-size: 0.86rem !important;
             font-weight: 700 !important;
             color: #111827 !important;
@@ -1217,9 +1237,8 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             white-space: normal !important;
             transition: color 0.15s ease !important;
         }
-        button[key*="cat_label_"]:hover p,
-        button[key*="cat_label_"]:hover span,
-        div[data-testid="column"] button[key*="cat_label_"]:hover p {
+        div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover p,
+        div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button:hover span {
             color: #0F766E !important;
         }
 
@@ -2269,6 +2288,60 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             color: #94A3B8;
             margin-top: 0.25rem;
         }
+        .enterprise-mobile-table {
+            display: none;
+            width: 100%;
+            min-width: 0;
+            color: #1E293B;
+        }
+        .enterprise-mobile-table-head,
+        .enterprise-mobile-row-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+        .enterprise-mobile-table-head {
+            padding: 0 0 0.45rem;
+            border-bottom: 1px solid #CBD5E1;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .enterprise-mobile-row {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .enterprise-mobile-row:last-child {
+            border-bottom: 0;
+        }
+        .enterprise-mobile-row-top > :first-child {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            color: #1E293B;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .enterprise-mobile-row-top > :last-child {
+            flex: 0 0 auto;
+            color: #0F172A;
+            font-size: 0.82rem;
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+            text-align: right;
+            white-space: nowrap;
+        }
+        .enterprise-mobile-row-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem 0.75rem;
+            margin-top: 0.3rem;
+            color: #475569;
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
 
         /* Streamlit Button & Container Tweaks */
         .stButton > button {
@@ -2353,7 +2426,7 @@ def _inject_real_ecommerce_css(st: Any) -> None:
         /* Phones: Streamlit stacks every column full-width below 640px. Keep the category circles in a 3-up grid
            and the header icons on one line instead of 14 / 5 separate rows; let hero pills stack. */
         @media (max-width: 640px) {
-            .shopkaro-hero-pills { grid-template-columns: 1fr !important; }
+            .shopkaro-hero-pills { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
             [data-testid="stHorizontalBlock"]:has(.laam-circle-avatar) {
                 flex-direction: row !important;
                 flex-wrap: wrap !important;
@@ -2403,6 +2476,79 @@ def _inject_real_ecommerce_css(st: Any) -> None:
             border-color: #FDE047 !important;
             transform: translateY(-2px) !important;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45) !important;
+        }
+        @media (max-width: 640px) {
+            .shopkaro-hero-banner {
+                padding: 1.35rem 1rem;
+                margin-bottom: 1.25rem;
+            }
+            .shopkaro-hero-badge {
+                max-width: 100%;
+                font-size: 0.66rem;
+                letter-spacing: 0.05em;
+                padding: 0.3rem 0.6rem;
+                margin-bottom: 0.8rem;
+                white-space: normal;
+            }
+            .shopkaro-hero-title {
+                font-size: clamp(1.7rem, 7vw, 2.1rem);
+                line-height: 1.12;
+                margin-bottom: 0.75rem;
+            }
+            .shopkaro-hero-sub-tiers {
+                gap: 0.4rem;
+                margin-bottom: 0.9rem;
+            }
+            .hero-tier-item {
+                gap: 0.45rem;
+                font-size: 0.88rem;
+                line-height: 1.35;
+            }
+            .shopkaro-hero-pills {
+                gap: 0.55rem !important;
+                margin-top: 0.75rem !important;
+            }
+            .hero-pill {
+                min-height: 44px;
+                height: auto;
+                padding: 0.55rem 0.4rem !important;
+                font-size: 0.72rem !important;
+                line-height: 1.25;
+                white-space: normal !important;
+                overflow-wrap: anywhere;
+            }
+            .laam-category-heading-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.15rem;
+                margin: 1.35rem 0 0.8rem;
+            }
+            .laam-category-heading {
+                font-size: 1.4rem;
+            }
+            .laam-category-link {
+                font-size: 0.82rem;
+            }
+            .enterprise-mobile-table {
+                display: block;
+            }
+            .st-key-enterprise-category-desktop-table,
+            .st-key-enterprise-rfm-desktop-table {
+                display: none !important;
+            }
+            div[data-testid="stElementContainer"][class*="st-key-pchip_"] button {
+                height: auto !important;
+                min-height: 44px !important;
+            }
+            div[data-testid="stElementContainer"][class*="st-key-cat_label_"] button {
+                min-height: 44px !important;
+            }
+            div[data-testid="stElementContainer"][class*="_add_"] button,
+            div[data-testid="stElementContainer"][class*="_rev_"] button,
+            div[data-testid="stElementContainer"][class*="_wish_"] button {
+                height: auto !important;
+                min-height: 44px !important;
+            }
         }
 
         /* Flash Deals Header */
@@ -3796,9 +3942,9 @@ def run_streamlit_app() -> None:
 
         # 1. LAAM Shop by Category (Circular Avatars Grid)
         st.markdown(
-            """<div style="display: flex; align-items: center; justify-content: space-between; margin: 1.6rem 0 1.1rem 0;">
-<h2 style="font-size: 1.65rem; font-weight: 800; color: #111827; letter-spacing: -0.02em; margin: 0; font-family: 'Playfair Display', Georgia, 'Plus Jakarta Sans', serif;">Shop by category</h2>
-<a href="#all-categories" style="font-size: 0.90rem; font-weight: 700; color: #0F766E; text-decoration: underline; text-underline-offset: 4px; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;">Curated Designer Collections ›</a>
+            """<div class="laam-category-heading-row">
+<h2 class="laam-category-heading">Shop by category</h2>
+<a class="laam-category-link" href="#all-categories">Curated Designer Collections ›</a>
 </div>""",
             unsafe_allow_html=True,
         )
@@ -4369,18 +4515,80 @@ def run_streamlit_app() -> None:
             with c_chart2:
                 st.markdown("### 🏆 Top Category GMV Contribution")
                 if not sales_df.empty:
-                    st.dataframe(
-                        sales_df[["category", "total_gmv_pkr", "total_units_sold", "avg_price_pkr"]],
-                        width="stretch",
-                        height=280,
-                        hide_index=True,
+                    with st.container(key="enterprise-category-desktop-table"):
+                        st.dataframe(
+                            sales_df[["category", "total_gmv_pkr", "total_units_sold", "avg_price_pkr"]],
+                            width="stretch",
+                            height=280,
+                            hide_index=True,
+                        )
+                    category_rows = []
+                    for row in sales_df.to_dict("records"):
+                        category = html.escape(str(row["category"]))
+                        gmv = float(row["total_gmv_pkr"])
+                        units = float(row["total_units_sold"])
+                        avg_price = float(row["avg_price_pkr"])
+                        category_rows.append(
+                            f'<div class="enterprise-mobile-row" role="listitem">'
+                            f'<div class="enterprise-mobile-row-top">'
+                            f'<span>{category}</span>'
+                            f'<strong>PKR {gmv:,.0f}</strong>'
+                            f'</div>'
+                            f'<div class="enterprise-mobile-row-meta">'
+                            f'<span>{units:,.0f} units sold</span>'
+                            f'<span>Average price PKR {avg_price:,.0f}</span>'
+                            f'</div>'
+                            f'</div>'
+                        )
+                    st.markdown(
+                        '<div class="enterprise-mobile-table" role="list" '
+                        'aria-label="Top category GMV contribution">'
+                        '<div class="enterprise-mobile-table-head" aria-hidden="true">'
+                        '<span>Category</span><span>GMV</span>'
+                        '</div>'
+                        f'{"".join(category_rows)}</div>',
+                        unsafe_allow_html=True,
                     )
                 else:
                     st.caption("Category sales data is unavailable.")
 
             st.divider()
             st.markdown("### 👥 Customer RFM Segment Distribution")
-            st.dataframe(snapshot["segments_summary"], width="stretch", hide_index=True)
+            segments_df = snapshot["segments_summary"]
+            if not segments_df.empty:
+                with st.container(key="enterprise-rfm-desktop-table"):
+                    st.dataframe(segments_df, width="stretch", hide_index=True)
+                segment_rows = []
+                for row in segments_df.to_dict("records"):
+                    segment = html.escape(str(row["segment_name"]))
+                    customers = float(row["customer_count"])
+                    recency = float(row["avg_recency_days"])
+                    frequency = float(row["avg_frequency"])
+                    monetary = float(row["avg_monetary_pkr"])
+                    segment_rows.append(
+                        f'<div class="enterprise-mobile-row" role="listitem">'
+                        f'<div class="enterprise-mobile-row-top">'
+                        f'<span>{segment}</span>'
+                        f'<strong>{customers:,.0f} customers</strong>'
+                        f'</div>'
+                        f'<div class="enterprise-mobile-row-meta">'
+                        f'<span>Average recency {recency:,.1f} days</span>'
+                        f'<span>Average frequency {frequency:,.2f}</span>'
+                        f'<span>Average monetary intent PKR {monetary:,.0f}</span>'
+                        f'</div>'
+                        f'</div>'
+                    )
+                st.markdown(
+                    '<div class="enterprise-mobile-table" role="list" '
+                    'aria-label="Customer RFM segment distribution">'
+                    '<div class="enterprise-mobile-table-head" aria-hidden="true">'
+                    '<span>Segment</span><span>Customers</span>'
+                    '</div>'
+                    f'{"".join(segment_rows)}</div>',
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.info("Customer segment data is unavailable.")
 
         # 2. Supply Chain & Demand Forecasting
         elif ent_view == "📦 Supply Chain & Demand Forecasting":
