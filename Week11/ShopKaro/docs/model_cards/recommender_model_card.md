@@ -35,8 +35,18 @@ _Last updated: 2026-11-10. All numbers below are reproducible with the commands 
 - **New users:** onboarding category -> pseudo-history of that category's 100 most-interacted items -> user tower;
   +5 bonus for items in the category, plus 4 x log-popularity (settings chosen on 2,000 validation new users).
 - **Serving:** the trained weights are exported to numpy, so scoring needs no torch.
-- **Not yet the production model.** Production still serves item-CF (real-time click updates, 8 ms p95, small
-  artifact). Switching would need the user tower in the serving path and a latency check.
+- **Served behind a switch (2026-11-12): `RECOMMENDER=two_tower`** (default stays `item_cf`). The batch job
+  `scripts/precompute_recommendations.py --two-tower` retrains it on all history with the epochs / knobs / new-user
+  settings chosen on validation (~7 min CPU, 24 MB artifact). Live clicks (`POST /events`) go through the user tower,
+  onboarding categories through the pseudo-history path, and the same business re-ranker and explanations apply
+  ("similar to X" = the history item with the closest learned item vector). If the artifact is missing or was
+  trained on other data the API serves item-CF and reports `fallback_reason` in the response's `model` block.
+  Search personalisation stays on item-CF (its weights were tuned on item-CF scores).
+- **Latency** (`scripts/measure_recommender_latency.py` -> `reports/recommender_serving_latency.json`, p95, local
+  Windows CPU): model compute 2.3 ms vs item-CF 1.3 ms (200 warm users); heaviest user (2,920 items) 26 ms vs 11 ms;
+  new visitor 0.9 vs 0.8 ms; full uncached recommendation with re-ranker 3.7 ms vs 3.1 ms. Target < 100 ms: met.
+- **Why the default is still item-CF:** the two-tower wins offline (NDCG@10 +0.0024, p = 0.002; discovery +73%), but
+  the online A/B replay was run on item-CF. Switch the default after an online test, or accept the offline evidence.
 - **Reproducible:** retraining with the same seed now gives identical numbers (seed 42 = 0.1357 in the Day 2
   table, the discovery run and the seed run). Three fixes: SQL results put in a fixed order (DuckDB `GROUP BY` order
   changed between runs, and `LIMIT` without a tie-break changed the validation/test user sets), and torch pinned to
@@ -127,5 +137,8 @@ Through the API, uncached p95: 14-43 ms; cached ~10 ms. Target < 100 ms: met.
 python scripts/run_day2_task4.py              # main comparison table (trains the neural two-tower, needs torch)
 python scripts/run_day2_discovery_eval.py     # discovery protocol + repeat-history baseline
 python scripts/precompute_recommendations.py  # train serving artifact (models/item_cf_serving.joblib)
-python -m pytest tests/test_realtime_recommendations.py
+python scripts/precompute_recommendations.py --two-tower  # + models/two_tower_serving.joblib (needs torch)
+python scripts/measure_recommender_latency.py # both models, reports/recommender_serving_latency.json
+RECOMMENDER=two_tower uvicorn shopkaro.api.main:app   # serve the two-tower
+python -m pytest tests/test_realtime_recommendations.py tests/test_two_tower_serving.py
 ```

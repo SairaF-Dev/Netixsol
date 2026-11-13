@@ -1,0 +1,66 @@
+{
+  "item_cf": {
+    "model": "4. Item-to-Item Collaborative Filtering (Cosine)",
+    "model_compute_warm_users": {
+      "n": 200,
+      "p50_ms": 0.7,
+      "p95_ms": 1.3,
+      "max_ms": 2.03,
+      "mean_ms": 0.78
+    },
+    "model_compute_heaviest_user": {
+      "n": 20,
+      "p50_ms": 8.59,
+      "p95_ms": 11.21,
+      "max_ms": 18.24,
+      "mean_ms": 8.81,
+      "history_items": 2920
+    },
+    "model_compute_new_visitor": {
+      "n": 50,
+      "p50_ms": 0.48,
+      "p95_ms": 0.76,
+      "max_ms": 0.95,
+      "mean_ms": 0.5
+    },
+    "full_recommendation_uncached": {
+      "n": 200,
+      "p50_ms": 1.94,
+      "p95_ms": 3.14,
+      "max_ms": 3.91,
+      "mean_ms": 2.07
+    }
+  },
+  "two_tower": {
+    "model": "8. Neural Two-Tower (PyTorch)",
+    "model_compute_warm_users": {
+      "n": 200,
+      "p50_ms": 1.56,
+      "p95_ms": 2.27,
+      "max_ms": 3.17,
+      "mean_ms": 1.62
+    },
+    "model_compute_heaviest_user": {
+      "n": 20,
+      "p50_ms": 22.87,
+      "p95_ms": 25.99,
+      "max_ms": 26.28,
+      "mean_ms": 23.18,
+      "history_items": 2920
+    },
+    "model_compute_new_visitor": {
+      "n": 50,
+      "p50_ms": 0.54,
+      "p95_ms": 0.86,
+      "max_ms": 1.37,
+      "mean_ms": 0.56
+    },
+    "full_recommendation_uncached": {
+      "n": 200,
+      "p50_ms": 2.63,
+      "p95_ms": 3.65,
+      "max_ms": 4.99,
+      "mean_ms": 2.79
+    }
+  }
+}

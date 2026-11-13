@@ -20,7 +20,8 @@ import shutil
 import tempfile
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-_TEST_ROOT = Path(tempfile.mkdtemp(prefix="shopkaro_tests_"))
+# ~0.7 GB copy per run. SHOPKARO_TEST_TMP picks the drive/folder (default: the system temp directory).
+_TEST_ROOT = Path(tempfile.mkdtemp(prefix="shopkaro_tests_", dir=os.environ.get("SHOPKARO_TEST_TMP") or None))
 
 for env_var, rel in (
     ("PROCESSED_DIR", "data/processed"),
@@ -44,4 +45,15 @@ def pytest_configure(config) -> None:  # noqa: ANN001
 
 
 def pytest_unconfigure(config) -> None:  # noqa: ANN001, ARG001
-    shutil.rmtree(_TEST_ROOT, ignore_errors=True)
+    # On Windows the copied DuckDB file can still be open here (module-level containers), and a silent
+    # rmtree(ignore_errors=True) then leaked one 0.7 GB copy per run. Release objects, retry, and say so if it fails.
+    import gc
+    import time
+
+    for attempt in range(3):
+        gc.collect()
+        shutil.rmtree(_TEST_ROOT, ignore_errors=True)
+        if not _TEST_ROOT.exists():
+            return
+        time.sleep(1.0 + attempt)
+    print(f"WARNING: could not delete the test data copy {_TEST_ROOT} (file still in use); delete it manually.")

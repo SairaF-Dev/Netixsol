@@ -20,10 +20,14 @@ services:
       - APP_ENV=production
       - REDIS_URL=redis://redis:6379/0
       - DUCKDB_PATH=data/processed/shopkaro.duckdb
+      # item_cf (default) | two_tower (needs models/two_tower_serving.joblib; falls back to item_cf otherwise)
+      - RECOMMENDER=${RECOMMENDER:-item_cf}
     volumes:
       - ./data:/app/data
       - ./models:/app/models
       - ./reports:/app/reports
+      # search embedding + cross-encoder models (~0.9 GB), downloaded once and kept across container rebuilds
+      - hf-cache:/root/.cache/huggingface
     env_file:
       - path: .env
         required: false
@@ -51,10 +55,14 @@ services:
       - APP_ENV=production
       - REDIS_URL=redis://redis:6379/0
       - DUCKDB_PATH=data/processed/shopkaro.duckdb
+      # item_cf (default) | two_tower (needs models/two_tower_serving.joblib; falls back to item_cf otherwise)
+      - RECOMMENDER=${RECOMMENDER:-item_cf}
     volumes:
       - ./data:/app/data
       - ./models:/app/models
       - ./reports:/app/reports
+      # search embedding + cross-encoder models (~0.9 GB), downloaded once and kept across container rebuilds
+      - hf-cache:/root/.cache/huggingface
     ports:
       - "8501:8501"
     depends_on:
@@ -69,3 +77,5 @@ services:
     restart: unless-stopped
     command: ["python", "-m", "streamlit", "run", "src/shopkaro/dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 
+volumes:
+  hf-cache:

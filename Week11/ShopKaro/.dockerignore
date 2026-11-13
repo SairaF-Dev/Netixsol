@@ -1,0 +1,20 @@
+# The image only needs src/, scripts/, .streamlit/, pyproject.toml and requirements.txt.
+# data/, models/ and reports/ are mounted as volumes by docker-compose (never baked into the image).
+data/
+models/
+reports/
+dist/
+notebooks/
+understand/
+docs/
+assets/
+frontend/
+tests/
+.venv*/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.git/
+.env
+*.pdf
+*.zip

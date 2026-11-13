@@ -6,6 +6,7 @@
 | :--- | :--- | :--- | :--- |
 | **Recommender Semantic Index** | **Daily (02:00 PKT)** | Scheduled cron job over recent 24h clickstream interactions. | `models/search_semantic_index.pkl`, Redis cache invalidation. |
 | **Item-to-Item CF Recommender (production)** | **Daily (02:00 PKT)** | `python scripts/precompute_recommendations.py` retrains on all interactions (~10 s), then restart the API to load it. Live clicks between retrains are handled by `POST /events`. | `models/item_cf_serving.joblib` |
+| **Neural Two-Tower Recommender (`RECOMMENDER=two_tower`)** | **Daily (02:00 PKT)** | `python scripts/precompute_recommendations.py --two-tower` (~7 min CPU, needs torch; settings fixed from the Day 2 validation run). If the artifact is missing or stale the API falls back to item-CF and says so. | `models/two_tower_serving.joblib` |
 | **LightGBM Quantile Forecaster** | **Weekly (Sunday 04:00 PKT)** | Incorporates latest 7-day actual sales figures and inventory adjustments. | `models/forecaster_lightgbm.pkl`, `data/duckdb/shopkaro.duckdb` alerts. |
 | **Customer RFM Segmentation** | **Monthly (1st of Month)** | Re-clustering 1M+ active user vectors via K-Means ($k=5$). | `models/customer_segments.parquet` |
 
