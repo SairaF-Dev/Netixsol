@@ -2817,15 +2817,17 @@ def _inject_homepage_css(st: Any) -> None:
             margin-top: var(--home-s4);
             border-radius: 16px;
             overflow: hidden;
-            background: #0E1626; /* banner navy, shown while an image loads */
+            background: transparent;
+        }
+        .stApp .st-key-home-promo [data-testid="stMarkdownContainer"] {
+            margin-bottom: 0 !important;
         }
         .home-promo-slide img {
             display: block;
             width: 100%;
-            height: auto;
-            aspect-ratio: 1600 / 893;
-            max-height: 560px; /* trims only the empty dark margins on wide screens */
-            object-fit: cover;
+            height: clamp(180px, 35vw, 460px);
+            aspect-ratio: auto;
+            object-fit: contain;
             object-position: center;
         }
         /* Alternating names restart the fade on every slide change. */
@@ -2874,8 +2876,8 @@ def _inject_homepage_css(st: Any) -> None:
             min-height: 44px !important;
             padding: 0 !important;
             border-radius: 999px !important;
-            background: rgba(255, 255, 255, 0.14) !important;
-            border: 1px solid rgba(255, 255, 255, 0.32) !important;
+            background: rgba(17, 24, 39, 0.82) !important;
+            border: 1px solid rgba(17, 24, 39, 0.9) !important;
             backdrop-filter: blur(4px);
             transition: background-color var(--home-ease), border-color var(--home-ease) !important;
         }
