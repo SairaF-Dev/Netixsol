@@ -18,6 +18,13 @@ The inventory is rebuilt by `--collect`; downloaded records with `REAL_` IDs are
 preserved if their files exist. The downloader currently fetches CUAD contracts
 and one official statute; it does not collect 200 Pakistani judgments.
 
+`data/source_catalog.csv` lists 25 Supreme Court judgments, 50 Lahore High Court
+judgments, and 51 Urdu-law PDF links from official court and Ministry listings.
+It contains listing metadata and direct source URLs only; no PDFs were copied or
+downloaded. Reuse permissions are unverified, the Urdu laws page warns that its
+contents are under review, and scan status has not been assessed. This catalog
+does not replace the generated judgment or Urdu scan fixtures in the corpus.
+
 ## Implemented pipeline
 
 - PyMuPDF detects pages with or without embedded text and extracts text, blocks,

@@ -88,10 +88,12 @@ class EasyOCRUrduOCR:
     def __init__(self) -> None:
         try:
             easyocr = importlib.import_module("easyocr")
-        except ModuleNotFoundError as exc:
+        except (ModuleNotFoundError, ImportError, OSError) as exc:
+            detail = exc.__class__.__name__
             raise RuntimeError(
-                "EasyOCR is not installed. Install the optional 'easyocr' package "
-                "before running OCR evaluation."
+                "EasyOCR runtime is unavailable. Install the optional 'easyocr' package "
+                "and ensure its native dependencies are allowed by the system policy before running OCR evaluation. "
+                f"(original error: {detail}: {exc})"
             ) from exc
         self.reader = easyocr.Reader(["ur", "en"], gpu=False)
 

@@ -20,8 +20,25 @@ BENCHMARK_DIR = Path("data/scanned_urdu/benchmark_cer")
 EVAL_DIR = Path("evaluations")
 
 
+def load_available_engines() -> List[object]:
+    """Instantiate only OCR engines that are available in the current environment."""
+    available: List[object] = []
+    for engine_factory in (TesseractUrduOCR, EasyOCRUrduOCR):
+        try:
+            available.append(engine_factory())
+            logger.info("Loaded OCR engine: %s", engine_factory.__name__)
+        except Exception as exc:  # pragma: no cover - environment-dependent runtime issues
+            logger.warning("Skipping OCR engine %s: %s", engine_factory.__name__, exc)
+    if not available:
+        raise RuntimeError(
+            "No OCR engines are available. Install Tesseract with Urdu/English language "
+            "data and/or the optional 'easyocr' package before running the benchmark."
+        )
+    return available
+
+
 def run_ocr_benchmark() -> pd.DataFrame:
-    """Run both real OCR engines and write per-page measurements and their summary."""
+    """Run available OCR engines and write per-page measurements and their summary."""
     benchmark = [
         (
             BENCHMARK_DIR / f"URDU_GT_{idx:03d}.pdf",
@@ -36,7 +53,7 @@ def run_ocr_benchmark() -> pd.DataFrame:
             + ", ".join(missing)
         )
 
-    engines = [TesseractUrduOCR(), EasyOCRUrduOCR()]
+    engines = load_available_engines()
     results: List[Dict[str, object]] = []
 
     for pdf_path, reference_path in benchmark:
@@ -58,10 +75,11 @@ def run_ocr_benchmark() -> pd.DataFrame:
         results.append(row)
 
     df = pd.DataFrame(results)
-    for index in (1, 2):
+    for index in range(1, len(engines) + 1):
         for metric in ("cer", "wer", "latency_ms"):
             column = f"tool{index}_{metric}"
-            df[column] = pd.to_numeric(df[column])
+            if column in df.columns:
+                df[column] = pd.to_numeric(df[column])
 
     ensure_directory(EVAL_DIR)
     csv_path = EVAL_DIR / "ocr_comparison_report.csv"
@@ -82,27 +100,24 @@ def run_ocr_benchmark() -> pd.DataFrame:
         headers=["OCR Engine", "Average CER", "Average WER", "Average Latency"],
         tablefmt="github",
     )
+
+    detail_columns = ["doc_id", "char_count"]
+    detail_headers = ["Document", "Reference chars"]
+    for index, engine in enumerate(engines, start=1):
+        detail_columns.extend([f"tool{index}_cer", f"tool{index}_wer"])
+        detail_headers.extend([f"{engine.name} CER (%)", f"{engine.name} WER (%)"])
     detail_md = tabulate(
-        df[
-            [
-                "doc_id",
-                "char_count",
-                "tool1_cer",
-                "tool1_wer",
-                "tool2_cer",
-                "tool2_wer",
-            ]
-        ],
-        headers=["Document", "Reference chars", "Tesseract CER (%)", "Tesseract WER (%)",
-                 "EasyOCR CER (%)", "EasyOCR WER (%)"],
+        df[detail_columns],
+        headers=detail_headers,
         tablefmt="github",
         showindex=False,
     )
+    engine_names = ", ".join(engine.name for engine in engines)
     report = f"""# Urdu OCR Benchmark
 
 ## Method
 
-Tesseract and EasyOCR each receive a rendered image of the same PDF page.
+{engine_names} each receive a rendered image of the same PDF page.
 Neither engine reads the ground-truth file. CER and WER compare each engine's
 recognized text against the paired UTF-8 reference. Latency measures OCR inference
 and excludes PDF rendering.
