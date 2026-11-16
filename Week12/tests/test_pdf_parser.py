@@ -5,6 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from evaluations import ocr_evaluation
 from src.ingestion.pdf_parser import LegalPDFParser
 from src.ingestion import ocr_engine
 from src.ingestion.ocr_engine import compute_cer, compute_wer
@@ -84,3 +85,27 @@ def test_ocr_page_is_rendered_and_sent_to_tesseract(monkeypatch):
     assert result["text"] == "recognized text"
     assert len(calls) == 2
     assert calls[1][1]["input"].startswith(b"\x89PNG\r\n\x1a\n")
+
+
+def test_load_available_engines_skips_missing_engine(monkeypatch):
+    class AvailableOCR:
+        def __init__(self):
+            self.name = "available"
+
+    class MissingOCR:
+        def __init__(self):
+            raise RuntimeError("not installed")
+
+    class BlockedOCRError(OSError):
+        pass
+
+    class BlockedOCR:
+        def __init__(self):
+            raise BlockedOCRError("application control blocked file")
+
+    monkeypatch.setattr(ocr_evaluation, "TesseractUrduOCR", AvailableOCR)
+    monkeypatch.setattr(ocr_evaluation, "EasyOCRUrduOCR", BlockedOCR)
+
+    available = ocr_evaluation.load_available_engines()
+    assert len(available) == 1
+    assert available[0].name == "available"

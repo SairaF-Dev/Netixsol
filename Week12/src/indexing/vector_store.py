@@ -1,13 +1,22 @@
 """SQLite-backed dense vector index using multilingual sentence embeddings."""
 
+import hashlib
 import json
+import re
 import sqlite3
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
+
+try:
+    from sentence_transformers import SentenceTransformer
+except Exception as exc:  # pragma: no cover - environment-dependent import path
+    SentenceTransformer = None  # type: ignore[assignment]
+    _SENTENCE_TRANSFORMERS_IMPORT_ERROR = exc
+else:
+    _SENTENCE_TRANSFORMERS_IMPORT_ERROR = None
 
 from src.utils.logger import setup_logger
 from src.utils.schemas import LegalChunk
@@ -16,9 +25,43 @@ logger = setup_logger("vector_store")
 EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
 
 
+def _tokenize_text(text: str) -> List[str]:
+    return re.findall(r"[a-z0-9\u0600-\u06FF\-_]+", text.casefold())
+
+
+def _fallback_embedding(text: str, dim: int = 24) -> np.ndarray:
+    """Create deterministic bag-of-words embeddings when an external embedding model is unavailable."""
+    vector = np.zeros(dim, dtype=np.float32)
+    tokens = _tokenize_text(text)
+    if not tokens:
+        return vector
+
+    for token in tokens:
+        digest = hashlib.sha256(token.encode("utf-8")).digest()
+        index = int.from_bytes(digest[:8], byteorder="big") % dim
+        direction = 1.0 if (digest[7] & 1) else -1.0
+        vector[index] += direction * (1.0 + 0.1 * len(token))
+
+    norm = float(np.linalg.norm(vector))
+    if norm > 0.0:
+        vector /= norm
+    return vector
+
+
 @lru_cache(maxsize=1)
-def _load_embedding_model() -> SentenceTransformer:
-    return SentenceTransformer(EMBEDDING_MODEL, device="cpu")
+def _load_embedding_model() -> Optional[Any]:
+    if SentenceTransformer is None:
+        logger.warning(
+            "sentence-transformers is not available; using a deterministic fallback embedding implementation. "
+            "Original import error: %s",
+            _SENTENCE_TRANSFORMERS_IMPORT_ERROR,
+        )
+        return None
+    try:
+        return SentenceTransformer(EMBEDDING_MODEL, device="cpu")
+    except Exception as exc:  # pragma: no cover - depends on optional runtime dependencies
+        logger.warning("Failed to initialize %s: %s. Falling back to local deterministic embeddings.", EMBEDDING_MODEL, exc)
+        return None
 
 
 class DenseVectorStore:
@@ -75,15 +118,24 @@ class DenseVectorStore:
             for row in rows
         ]
 
+    def _encode_texts(self, texts: List[str]) -> np.ndarray:
+        if not texts:
+            return np.empty((0, 24), dtype=np.float32)
+        if self.model is not None:
+            embeddings = self.model.encode(
+                texts,
+                normalize_embeddings=True,
+                convert_to_numpy=True,
+                show_progress_bar=False,
+            )
+            return np.asarray(embeddings, dtype=np.float32)
+        return np.vstack([_fallback_embedding(text) for text in texts]).astype(np.float32)
+
     def add_chunks(self, chunks: List[LegalChunk]) -> None:
         """Embed chunks and insert or update their SQLite records."""
         if not chunks:
             return
-        embeddings = self.model.encode(
-            [f"passage: {chunk.content}" for chunk in chunks],
-            normalize_embeddings=True,
-            convert_to_numpy=True,
-        ).astype(np.float32)
+        embeddings = self._encode_texts([f"passage: {chunk.content}" for chunk in chunks])
         records = [
             (
                 chunk.chunk_id,
@@ -129,11 +181,7 @@ class DenseVectorStore:
         """Return nearest chunks by cosine similarity, with exact metadata filters."""
         if top_k <= 0:
             return []
-        query_embedding = self.model.encode(
-            [f"query: {query}"],
-            normalize_embeddings=True,
-            convert_to_numpy=True,
-        )[0].astype(np.float32)
+        query_embedding = self._encode_texts([f"query: {query}"])[0].astype(np.float32)
         rows = self.connection.execute(
             """
             SELECT chunk_id, document_id, document_type, content,

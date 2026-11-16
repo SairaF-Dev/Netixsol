@@ -1,2 +1,11 @@
-status,details
-not_run,"Former metrics were simulated; real OCR prerequisites are unavailable in this environment."
+doc_id,page_title,char_count,tool1_name,tool1_cer,tool1_wer,tool1_latency_ms,tool2_name,tool2_cer,tool2_wer,tool2_latency_ms
+URDU_GT_001,وکالت نامہ برائے عدالت عالیہ لاہور,445,Tesseract (urd+eng),86.97,114.46,1106.07,EasyOCR (ur+en),84.94,130.12,48869.07
+URDU_GT_002,درخواست برائے ضمانت بعد از گرفتاری زیر دفعہ 497 ضابطہ فوجداری,484,Tesseract (urd+eng),87.81,117.58,1340.9,EasyOCR (ur+en),83.88,130.77,68969.11
+URDU_GT_003,استغاثہ زیر دفعہ 489-ایف تعزیرات پاکستان بابت بوگس چیک,466,Tesseract (urd+eng),93.13,117.65,1577.25,EasyOCR (ur+en),84.76,132.94,61331.29
+URDU_GT_004,معاہدہ کرایہ داری برائے رہائشی مکان,437,Tesseract (urd+eng),87.41,112.05,1545.95,EasyOCR (ur+en),87.41,137.35,55479.94
+URDU_GT_005,بیان حلفی اشٹام پیپر,423,Tesseract (urd+eng),91.02,117.05,1255.3,EasyOCR (ur+en),84.87,122.73,42738.74
+URDU_GT_006,قانونی نوٹس زیر دفعہ 8 ڈیفامیشن آرڈیننس 2002,430,Tesseract (urd+eng),92.56,114.46,1193.95,EasyOCR (ur+en),86.74,134.94,42194.26
+URDU_GT_007,بعدالت جناب جج صاحب فیملی کورٹ، ملتان,452,Tesseract (urd+eng),90.04,117.39,1276.29,EasyOCR (ur+en),86.73,127.17,53426.94
+URDU_GT_008,بعدالت جناب سول جج صاحب درجہ اول، گوجرانوالہ,439,Tesseract (urd+eng),88.84,115.85,1351.16,EasyOCR (ur+en),86.56,128.05,46823.46
+URDU_GT_009,دیباچہ آئین اسلامی جمہوریہ پاکستان 1973,456,Tesseract (urd+eng),87.72,113.64,1692.16,EasyOCR (ur+en),85.31,127.27,65702.09
+URDU_GT_010,بیع نامہ قطعی برائے اراضی زرعی,403,Tesseract (urd+eng),91.32,112.82,3035.81,EasyOCR (ur+en),88.59,139.74,49077.55
