@@ -92,7 +92,7 @@ where $f_{t,c}$ is the frequency of term $t$ in cluster $c$ and $A$ is the avera
 `SellerInsightsEngine` drops reviews predicted as spam and computes, per product, the share of reviews praising
 quality (`quality_pos_pct`) and complaining about delivery (`delivery_neg_pct`), both from the analyzer's
 predictions. A product with >= 65% quality praise, >= 35% delivery complaints and rating < 4.15 is flagged
-"unfairly penalised by courier". Currently 1 product qualifies. An earlier figure of 54 was computed from the
+"unfairly penalised by courier". Currently 0 products qualify (1 before the 2026-11-16 catalogue rebuild). An earlier figure of 54 was computed from the
 generator's labels, which marked delivery negative even in reviews that never mention it.
 
 ### 4.4 How good is it, honestly? (added 2026-11-09)

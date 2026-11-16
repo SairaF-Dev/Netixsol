@@ -40,7 +40,7 @@ fail. It was replaced by a replay of real behaviour; see `reports/day5_ab_test_s
   visitor really interacted with / bought it in the test window.
 - **Primary metric (pre-registered):** homepage conversion 0.0086% -> 0.0517% (7 vs 42 buyers), Fisher's exact p = 3.6e-7.
 - **Secondary (Holm-corrected):** CTR 0.84% -> 2.50%; discovery CTR +14% [+3%, +25%]; discovery conversion not
-  significant (p = 0.58); revenue per visitor PKR 0.20 -> 8.51.
+  significant (p = 0.58); revenue per visitor PKR 0.35 -> 8.38.
 - **Checks:** guardrails pass; A/A test not significant; peeking simulation 5.2% vs 26.8% false positives.
 - **Finding:** 37 of 42 treatment buyers bought a product they had already browsed, so the gain is mainly re-surfacing.
 - **Decision:** SHIP (by the pre-registered rule), with a live test to confirm the size of the effect.

@@ -5261,8 +5261,8 @@ def run_streamlit_app() -> None:
                         f"{-vs_ma['lost_units']:.0f}% fewer units than a 28-day moving average and "
                         f"{-vs_sn['lost_units']:.0f}% fewer than same-days-last-year, while holding "
                         f"{-vs_ma['avg_stock_value_pkr']:.0f}% / {-vs_sn['avg_stock_value_pkr']:.0f}% less stock. "
-                        "Demand is synthetic (built from the same festival calendar the forecaster uses), so real "
-                        "gains would be smaller."
+                        "The forecaster learns festival effects from past sales (it only gets festival dates), but "
+                        "demand is synthetic and follows regular yearly rules, so real gains would be smaller."
                     )
                 except (KeyError, ValueError):
                     pass

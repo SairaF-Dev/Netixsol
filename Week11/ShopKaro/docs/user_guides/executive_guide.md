@@ -18,7 +18,7 @@ homepage (item-CF + business rules) vs popular items. Full write-up: `reports/da
 **What this means for management:** 37 of the 42 extra buyers bought a product they had already looked at; the
 homepage brings shoppers back to items they were considering. A simple "recently viewed" row would capture much
 of that. The machine-learning model has **not yet** been shown to sell products shoppers had not already found.
-Estimated value: about **PKR 8.3M per month** in homepage-attributed revenue (95% range PKR 2.4M to 14.3M, based on
+Estimated value: about **PKR 8.0M per month** in homepage-attributed revenue (95% range PKR 1.1M to 15.0M, based on
 49 buyers, so treat it as an order of magnitude). Next step: a live test to confirm, measured weekly.
 
 ## 2. Review Intelligence & Courier De-Biasing for Seller Relations

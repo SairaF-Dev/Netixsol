@@ -2,57 +2,57 @@
   "dev_50": {
     "hybrid_vs_keyword": {
       "baseline": "1. Lexical Only (Okapi BM25)",
-      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature re-ranker)",
-      "mean_ndcg_diff": 0.1961,
+      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature + cross-encoder re-ranker)",
+      "mean_ndcg_diff": 0.1738,
       "ci_95": [
-        0.1044,
-        0.2934
+        0.0921,
+        0.2641
       ],
       "queries_better": 16,
-      "queries_worse": 2,
-      "queries_tied": 32,
-      "sign_test_p": 0.001312255859375
+      "queries_worse": 1,
+      "queries_tied": 33,
+      "sign_test_p": 0.000274658203125
     },
     "hybrid_vs_semantic": {
       "baseline": "2. Semantic Vector Only (Dense Cosine)",
-      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature re-ranker)",
-      "mean_ndcg_diff": 0.1532,
+      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature + cross-encoder re-ranker)",
+      "mean_ndcg_diff": 0.1261,
       "ci_95": [
-        0.082,
-        0.2333
+        0.0631,
+        0.1943
       ],
-      "queries_better": 18,
-      "queries_worse": 1,
-      "queries_tied": 31,
-      "sign_test_p": 7.62939453125e-05
+      "queries_better": 17,
+      "queries_worse": 3,
+      "queries_tied": 30,
+      "sign_test_p": 0.0025768280029296875
     }
   },
   "holdout_20": {
     "hybrid_vs_keyword": {
       "baseline": "1. Lexical Only (Okapi BM25)",
-      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature re-ranker)",
-      "mean_ndcg_diff": 0.2353,
+      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature + cross-encoder re-ranker)",
+      "mean_ndcg_diff": 0.3949,
       "ci_95": [
-        0.1026,
-        0.3869
+        0.2072,
+        0.59
       ],
-      "queries_better": 8,
+      "queries_better": 10,
       "queries_worse": 0,
-      "queries_tied": 12,
-      "sign_test_p": 0.0078125
+      "queries_tied": 10,
+      "sign_test_p": 0.001953125
     },
     "hybrid_vs_semantic": {
       "baseline": "2. Semantic Vector Only (Dense Cosine)",
-      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature re-ranker)",
-      "mean_ndcg_diff": 0.1225,
+      "system": "3. Hybrid Search (BM25 + Semantic + RRF + feature + cross-encoder re-ranker)",
+      "mean_ndcg_diff": 0.2369,
       "ci_95": [
-        0.0272,
-        0.2365
+        0.076,
+        0.4205
       ],
-      "queries_better": 5,
-      "queries_worse": 2,
-      "queries_tied": 13,
-      "sign_test_p": 0.453125
+      "queries_better": 7,
+      "queries_worse": 1,
+      "queries_tied": 12,
+      "sign_test_p": 0.0703125
     }
   }
 }

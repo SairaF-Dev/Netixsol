@@ -28,8 +28,8 @@ import numpy as np
 import pandas as pd
 
 from shopkaro.config.settings import settings
+from shopkaro.forecasting.festivals import FestivalCalendar
 from shopkaro.forecasting.inventory import ProbabilisticQuantileForecaster
-from shopkaro.forecasting.models import _build_date_category_festival_lookup
 
 REVIEW_DAYS = 7
 REFIT_EVERY_DAYS = 14
@@ -158,7 +158,7 @@ def fit_rolling_forecasts(
     sales: pd.DataFrame,
     dates: pd.DatetimeIndex,
     sku_ids: list[str],
-    fest_lookup: dict,
+    calendar: FestivalCalendar,
     origin_idxs: list[int],
 ) -> dict[int, dict[str, np.ndarray]]:
     """Refit the probabilistic forecaster at each origin using only sales up to and including that day."""
@@ -168,7 +168,7 @@ def fit_rolling_forecasts(
         train = sales[sales["sale_date"] <= origin]
         series = {pid: (g, str(g["category"].iloc[0])) for pid, g in train.groupby("product_id")}
         fut = pd.date_range(origin + pd.Timedelta(days=1), periods=FORECAST_HORIZON, freq="D")
-        res = ProbabilisticQuantileForecaster(random_state=42).fit_and_predict_quantiles(series, fut, fest_lookup)
+        res = ProbabilisticQuantileForecaster(random_state=42).fit_and_predict_quantiles(series, fut, calendar)
         out[o] = {
             "p50": np.vstack([res[p]["p50"] for p in sku_ids]),
             "sigma": np.vstack([res[p]["sigma_daily"] for p in sku_ids]),
@@ -243,11 +243,9 @@ def run_inventory_backtest(db_path: Path | None = None) -> tuple[pd.DataFrame, d
     end = int(dates.get_loc(pd.Timestamp(EVAL_END)))
     initial = np.ceil(demand[:, start - 28 : start].mean(axis=1) * 30.0)
 
-    fest_lookup = _build_date_category_festival_lookup(
-        festival_cal_df=fest, all_categories=sorted(sales["category"].astype(str).unique())
-    )
+    calendar = FestivalCalendar(fest)  # festival dates and names only
     origin_idxs = list(range(start - 1, end, REFIT_EVERY_DAYS))
-    forecasts = fit_rolling_forecasts(sales, dates, sku_ids, fest_lookup, origin_idxs)
+    forecasts = fit_rolling_forecasts(sales, dates, sku_ids, calendar, origin_idxs)
 
     targets = {
         "moving_average": moving_average_policy(demand, lead_times),

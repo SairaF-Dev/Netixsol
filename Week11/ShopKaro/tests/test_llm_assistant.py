@@ -97,6 +97,55 @@ def test_grounded_search_turn_uses_tool_results() -> None:
     assert [p["product_id"] for p in session.last_shown_products] == [p["product_id"] for p in search["results"]]
 
 
+def test_budget_argument_reaches_the_search_engine() -> None:
+    # The LLM sends the budget as an argument, not in the query text. Phones exist from ~24k; filtering only the
+    # top-25 "mobile" hits afterwards used to return nothing for a 25k budget.
+    serving_container.ensure_initialized()
+    tools = serving_container.tool_registry
+    assert tools is not None
+    out = tools.search_products(query="mobile", max_price_pkr=25000, k=5)
+    assert not out["constraints_relaxed"]
+    assert out["results"] and all(p["price_pkr"] <= 25000 for p in out["results"])
+    assert all(p["category"] == "Smartphones & Accessories" for p in out["results"])
+
+
+def test_price_of_another_product_is_caught() -> None:
+    # Transcript bug: the reply gave SK-00233 (a 165,600 phone) the price 24,250 of the cheapest phone.
+    serving_container.ensure_initialized()
+    tools = serving_container.tool_registry
+    assert tools is not None
+    first = tools.search_products(query="mobile", k=5)["results"][0]
+    cheap = tools.search_products(query="mobile", max_price_pkr=25000, k=5)["results"][0]
+    assert first["price_pkr"] != cheap["price_pkr"]
+    wrong = f"Sab se sasta mobile **{first['product_id']}** hai, jiski price PKR {cheap['price_pkr']:,.0f} hai."
+    right = f"Sab se sasta mobile **{cheap['product_id']}** hai, jiski price PKR {cheap['price_pkr']:,.0f} hai."
+
+    agent, model = make_agent(
+        [
+            [ToolCall("search_products", {"query": "mobile"})],
+            [ToolCall("search_products", {"query": "mobile", "max_price_pkr": 25000})],
+            wrong,
+            right,
+        ]
+    )
+    turn = agent.chat("llm-pair", "mobile dikhao, 25 k budget hai", user_id="15442")
+    assert turn.engine == "llm"
+    assert turn.tool_outputs["_llm"]["corrected"] is True
+    assert "gave a product another product's price" in model.histories[-1][-1]["text"]
+    assert turn.assistant_reply_urdulish == right
+    assert turn.hallucination_audit.passed_zero_hallucination_check
+
+    # Budgets typed by the customer may still sit next to a product.
+    ok = HallucinationAuditor.verify_response(
+        f"Aap ke PKR 25,000 budget mein **{cheap['product_id']}** PKR {cheap['price_pkr']:,.0f} ka hai.",
+        {cheap["product_id"]: cheap["price_pkr"]},
+        {25000.0},
+        paired_prices={cheap["product_id"]: {round(cheap["price_pkr"])}},
+        free_amounts={25000.0},
+    )
+    assert ok.passed_zero_hallucination_check
+
+
 def test_invented_product_triggers_one_correction() -> None:
     agent, model = make_agent(
         [
@@ -149,6 +198,69 @@ def test_llm_provider_error_falls_back_to_rule_engine() -> None:
     assert "503" in (turn.fallback_reason or "")
     assert turn.assistant_reply_urdulish
     assert turn.hallucination_audit.passed_zero_hallucination_check
+
+
+def test_fallback_after_llm_turns_keeps_the_conversation() -> None:
+    """LLM searched phones under 50,000; when the LLM then fails, the rule engine must stay on phones."""
+    agent, _ = make_agent([
+        [ToolCall("search_products", {"query": "mobile", "max_price_pkr": 50000})],
+        list_products_reply,
+        RuntimeError("LLM produced no reply"),
+    ])
+    agent.chat("llm-ctx", "mobile 50000 mein", user_id="15442")
+    turn = agent.chat("llm-ctx", "max budget kitna hona chahey", user_id="15442")
+
+    assert turn.engine == "rules_fallback"
+    assert turn.detected_intent == "budget_advice"
+    summary = turn.tool_outputs["search_products"]["price_summary"]
+    assert "Smartphone" in summary["products_of_this_type"]
+    assert f"PKR {summary['lowest_price_pkr']:,.0f}" in turn.assistant_reply_urdulish
+    assert turn.hallucination_audit.passed_zero_hallucination_check
+
+
+def test_budget_typed_in_an_earlier_turn_may_be_repeated() -> None:
+    """'50,000' typed in turn 1 is the customer's own number, not a hallucination in turn 2."""
+    agent, _ = make_agent([
+        [ToolCall("search_products", {"query": "mobile", "max_price_pkr": 50000})],
+        list_products_reply,
+        "Ji, aap ka budget PKR 50,000 hai. Kya main pink color dhoondun?",
+    ])
+    agent.chat("llm-amt", "mobile 50000 mein", user_id="15442")
+    turn = agent.chat("llm-amt", "theek hai", user_id="15442")
+    assert turn.engine == "llm"
+    assert turn.hallucination_audit.passed_zero_hallucination_check
+
+
+def test_rules_budget_advice_colour_and_price_questions() -> None:
+    from shopkaro.assistant.shopping_agent import UrduLishShoppingAssistant
+
+    serving_container.ensure_initialized()
+    agent = UrduLishShoppingAssistant(tools=serving_container.tool_registry)
+
+    ask = agent.chat("adv-1", "max budget kitna hona chahey", user_id="15442")
+    assert ask.detected_intent == "budget_advice" and ask.invoked_tools == []  # asks what product first
+
+    agent.chat("adv-1", "mobile dikhao", user_id="15442")
+    agent.chat("adv-1", "50000 mein", user_id="15442")
+    pink = agent.chat("adv-1", "pink color ka hona chahey", user_id="15442")
+    check = pink.tool_outputs["search_products"]["colour_check"]
+    assert check["available"] is False and "White" in check["available_colours"]
+    assert "nahi hai" in pink.assistant_reply_urdulish
+
+    advice = agent.chat("adv-1", "max budget kitna hona chahey", user_id="15442")
+    assert advice.detected_intent == "budget_advice"
+    assert "Smartphone" in advice.tool_outputs["search_products"]["price_summary"]["products_of_this_type"]
+    assert advice.hallucination_audit.passed_zero_hallucination_check
+
+    laptop = agent.chat("adv-1", "laptop ki price range kya hai", user_id="15442")
+    assert "Rice" not in laptop.assistant_reply_urdulish  # "price" must not fuzzy-match "rice"
+
+    agent.chat("adv-1", "mobile dikhao", user_id="15442")
+    first = agent.sessions["adv-1"].last_shown_products[0]
+    price = agent.chat("adv-1", "pehla kitne ka hai", user_id="15442")
+    assert price.detected_intent == "product_price"
+    assert first["product_id"] in price.assistant_reply_urdulish
+    assert price.hallucination_audit.passed_zero_hallucination_check
 
 
 def test_multi_turn_history_and_context_reach_the_model() -> None:
@@ -216,6 +328,40 @@ def test_out_of_domain_guardrail_refusal() -> None:
     turn3 = rules_agent.chat("ood-3", "python print shirt dikhao", user_id="15442")
     assert turn3.detected_intent != "out_of_domain_refusal"
     assert "search_products" in turn3.invoked_tools
+
+
+def test_follow_up_budget_keeps_the_search_subject() -> None:
+    """'mobile chahey' then 'budget 50000 hai' must stay on phones (it used to jump to lawn suits)."""
+    from shopkaro.assistant.shopping_agent import UrduLishShoppingAssistant
+
+    serving_container.ensure_initialized()
+    assert serving_container.tool_registry is not None
+    agent = UrduLishShoppingAssistant(tools=serving_container.tool_registry)
+    parser = serving_container.tool_registry.search_engine.parser
+    assert parser.parse("budget 50000 hai").max_price_pkr == 50_000
+    assert parser.parse("50000 ka budget").max_price_pkr == 50_000
+    assert parser.parse("budget 50000 hai").sort_preference == "relevance"  # a ceiling, not "cheapest"
+
+    first = agent.chat("ctx-1", "mobile chahey", user_id="15442")
+    phones = {p["category"] for p in first.tool_outputs["search_products"]["results"]}
+    assert phones == {"Smartphones & Accessories"}
+
+    follow = agent.chat("ctx-1", "budget 50000 hai", user_id="15442")
+    res = follow.tool_outputs["search_products"]["results"]
+    assert {p["category"] for p in res} == {"Smartphones & Accessories"}
+    assert all(float(p["price_pkr"]) <= 50_000 for p in res)
+    assert follow.hallucination_audit.passed_zero_hallucination_check
+
+    # The budget is remembered for the next refinement ...
+    colour = agent.chat("ctx-1", "white color mein", user_id="15442")
+    res = colour.tool_outputs["search_products"]["results"]
+    assert all(float(p["price_pkr"]) <= 50_000 for p in res)
+    assert {p["category"] for p in res} == {"Smartphones & Accessories"}
+
+    # ... and a new product starts a new search without the old budget
+    new = agent.chat("ctx-1", "laptop dikhao", user_id="15442")
+    assert new.tool_outputs["search_products"]["effective_max_price_pkr"] is None
+    assert {p["category"] for p in new.tool_outputs["search_products"]["results"]} == {"Laptops & Computing"}
 
 
 @pytest.mark.live

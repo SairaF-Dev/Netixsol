@@ -14,8 +14,9 @@ def test_day3_task2_task3_forecasting_backtest() -> None:
     """Verify all 7 forecasting models across 4 folds and 3 horizons (7d, 14d, 30d)."""
     backtest_df, fig_path = run_day3_task2_task3_forecasting_backtest()
 
-    # 3 panels (11 categories, top-50 SKUs, 60 SKUs stratified by velocity) x 3 horizons x 7 models = 63 rows
-    assert len(backtest_df) == 63
+    # 3 panels (11 categories, top-50 SKUs, 60 SKUs stratified by velocity) x 3 horizons x (7 models + oracle) = 72
+    assert len(backtest_df) == 72
+    assert backtest_df["model_name"].str.startswith("8. Oracle").sum() == 9  # labelled comparison row only
     assert set(backtest_df["hierarchy_level"]) == {"Category_Level", "Top50_SKU_Level", "SKU_By_Velocity_60"}
     breakdown = pd.read_csv(settings.reports_dir / "day3_forecast_accuracy_breakdown.csv")
     assert {"festival days", "regular days", "Fast_Mover", "Steady_Mover", "Slow_Intermittent"} <= set(breakdown["segment"])

@@ -278,6 +278,16 @@ class UrduLishQueryParser:
             if m_tak:
                 max_price = float(m_tak.group(1))
 
+        # 4c. Match "budget 50000 hai" / "budget is 50000" / "50000 ka budget" / "within 50000"
+        if max_price is None:
+            m_budget = re.search(
+                r"(?:budget|within)\s*(?:hai|is|of|:|=)?\s*(?:pkr|rs\.?|rupay)?\s*(\d{3,7})\b"
+                r"|(\d{3,7})\s*(?:pkr|rs|rupay)?\s*(?:ka|ki|ke)\s*budget",
+                q,
+            )
+            if m_budget:
+                max_price = float(m_budget.group(1) or m_budget.group(2))
+
         # 5. Match minimum price "above X" / "over X" / "se zyada"
         m_above = re.search(
             r"(?:above|over|more than|min|>=)\s*(?:pkr|rs\.?)?\s*(\d+(?:\.\d+)?)",
@@ -304,7 +314,9 @@ class UrduLishQueryParser:
         expanded_q = " ".join(expanded_parts)
 
         # Detect product types first; the category follows from them. Keyword rules are only a fallback.
-        type_tokens = re.findall(r"[\w\u0600-\u06FF]+", expanded_q)
+        # Words about price are never product names; without this, fuzzy spelling matched "price" to "rice".
+        price_words = {"price", "prices", "range", "rate", "rates", "cost", "budget", "qeemat", "keemat", "kimat"}
+        type_tokens = [t for t in re.findall(r"[\w\u0600-\u06FF]+", expanded_q) if t not in price_words]
         type_hints = self.detect_product_types(type_tokens)
         cat_hint: str | None = None
         hint_cats = {self.type_category[t] for t in type_hints}
@@ -337,11 +349,12 @@ class UrduLishQueryParser:
                 brand_hint = b
                 break
 
-        sort_pref = (
-            "price_asc"
-            if any(w in q_lower for w in ["sasta", "sastay", "cheap", "lowest price", "budget"])
-            else "relevance"
+        # "sasta / cheap" asks for the lowest price. "budget" alone does too ("budget phone"), but "budget 50000 hai"
+        # states a ceiling: the shopper wants the best match under it, not the cheapest item.
+        wants_cheapest = any(w in q_lower for w in ["sasta", "sastay", "cheap", "lowest price"]) or (
+            "budget" in q_lower and max_p is None
         )
+        sort_pref = "price_asc" if wants_cheapest else "relevance"
 
         return ParsedSearchQuery(
             raw_query=raw_q,

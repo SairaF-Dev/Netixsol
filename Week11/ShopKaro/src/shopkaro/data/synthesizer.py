@@ -620,6 +620,99 @@ def generate_festival_calendar(output_dir: Path | None = None) -> pd.DataFrame:
     return df
 
 
+# Per product type: realistic PKR price range, brands that actually make it, and (where the category's wording does
+# not fit, e.g. "Fast Charging" on a phone cover) its own title / description templates. Before this, price and
+# brand were drawn from the whole CATEGORY, which produced PKR 1,100 5G phones, PKR 199,000 mice and "Anker 5G
+# Smartphone". Prices are drawn log-uniformly (more cheap than expensive items, as in real catalogues).
+_ACC_TITLES = ["{brand} {sub_cat} ({color}) — Official Warranty", "{brand} Original {sub_cat} in {color}"]
+_ACC_DESC = ["Genuine {brand} {sub_cat} in {color} with official warranty. Popular choice during {occasion}. Keywords: {urdu_kw}."]
+_PERIPHERAL_TITLES = ["{brand} {sub_cat} in {color}", "{brand} {sub_cat} ({color}) — Official Warranty"]
+_PERIPHERAL_DESC = ["Reliable {brand} {sub_cat} in {color}, built for long coding and gaming sessions. Keywords: {urdu_kw}."]
+_KIDS_TITLES = ["{brand} {sub_cat} in {color} — Back to School Special", "{brand} Kids {sub_cat} ({color})"]
+_KIDS_DESC = ["Durable {brand} {sub_cat} in {color} for Pakistani school children. Keywords: {urdu_kw}."]
+LAWN_BRANDS = CATEGORY_TEMPLATES["Women's Lawn & Unstitched"]["brands"]
+KURTA_BRANDS = CATEGORY_TEMPLATES["Men's Kurta & Ethnic"]["brands"]
+BRIDAL_BRANDS = CATEGORY_TEMPLATES["Bridal & Formal Wear"]["brands"]
+LAPTOP_BRANDS = ["HP", "Lenovo", "Dell", "Asus", "Acer"]
+
+SUBCATEGORY_PROFILES: dict[str, dict[str, Any]] = {
+    # Women's Lawn & Unstitched
+    "3-Piece Lawn Suit": {"price_range": (3200, 12500), "brands": LAWN_BRANDS},
+    "2-Piece Printed Lawn": {"price_range": (1800, 5500), "brands": LAWN_BRANDS},
+    "Embroidered Eid Lawn": {"price_range": (4500, 16000), "brands": LAWN_BRANDS},
+    "Chiffon Dupatta Suit": {"price_range": (4500, 16000), "brands": LAWN_BRANDS},
+    "Embroidered Shawl": {"price_range": (2200, 9500), "brands": LAWN_BRANDS,
+                          "title_templates": ["{brand} {sub_cat} in {color} — Eid Festive Collection",
+                                              "{brand} Luxury {sub_cat} ({color})"]},
+    # Men's Kurta & Ethnic
+    "Cotton Embroidered Kurta": {"price_range": (2200, 7500), "brands": KURTA_BRANDS},
+    "Wash & Wear Shalwar Kameez": {"price_range": (2500, 8500), "brands": KURTA_BRANDS},
+    "Festive Waistcoat": {"price_range": (3500, 12000), "brands": KURTA_BRANDS},
+    "Boski Silk Kurta": {"price_range": (4500, 15000), "brands": KURTA_BRANDS},
+    # Bridal & Formal Wear
+    "Bridal Embroidered Lehenga": {"price_range": (14000, 95000), "brands": BRIDAL_BRANDS},
+    "Shaadi Maxi Dress": {"price_range": (18000, 85000), "brands": BRIDAL_BRANDS},
+    "Zari Gharara Suit": {"price_range": (12000, 60000), "brands": BRIDAL_BRANDS},
+    "Velvet Formal Shawl": {"price_range": (6500, 28000), "brands": BRIDAL_BRANDS},
+    # Footwear & Khussa
+    "Traditional Punjabi Khussa": {"price_range": (1500, 5500), "brands": ["Borjan", "Stylo", "Insignia"]},
+    "Running Sneakers": {"price_range": (3500, 14000), "brands": ["Servis", "Ndure", "Bata", "ECS"]},
+    "School Uniform Shoes": {"price_range": (1500, 4500), "brands": ["Bata", "Servis"]},
+    "Festive Block Heels": {"price_range": (2500, 8500), "brands": ["Stylo", "Borjan", "Insignia", "ECS"]},
+    "Peshawari Chappal": {"price_range": (2500, 7500), "brands": ["Borjan", "Chapter 13", "Bata"]},
+    # Smartphones & Accessories
+    "5G Smartphone": {"price_range": (24000, 185000),
+                      "brands": ["Samsung", "Infinix", "Xiaomi Redmi", "Tecno", "Vivo", "Realme"]},
+    "Fast Charger 45W": {"price_range": (1200, 6500), "brands": ["Anker", "Baseus", "Samsung", "Audionic"],
+                         "title_templates": _ACC_TITLES, "desc_templates": _ACC_DESC},
+    "Silicone Back Cover": {"price_range": (450, 2500), "brands": ["Baseus", "Anker", "Audionic"],
+                            "title_templates": _ACC_TITLES, "desc_templates": _ACC_DESC},
+    "Wireless Earbuds": {"price_range": (2200, 28000), "brands": ["Audionic", "Anker", "Baseus", "Samsung", "Realme"],
+                         "title_templates": _ACC_TITLES, "desc_templates": _ACC_DESC},
+    "Power Bank 20000mAh": {"price_range": (3500, 12000), "brands": ["Anker", "Baseus", "Audionic", "Xiaomi Redmi"],
+                            "title_templates": _ACC_TITLES, "desc_templates": _ACC_DESC},
+    # Laptops & Computing
+    "Core i5 Coding Laptop 16GB RAM": {"price_range": (115000, 260000), "brands": LAPTOP_BRANDS},
+    "Ryzen 7 Programming Laptop": {"price_range": (140000, 320000), "brands": LAPTOP_BRANDS},
+    "Student Notebook SSD": {"price_range": (65000, 140000), "brands": LAPTOP_BRANDS},
+    "Mechanical Gaming Keyboard": {"price_range": (4500, 28000), "brands": ["Logitech", "HP", "Asus", "Dell"],
+                                   "title_templates": _PERIPHERAL_TITLES, "desc_templates": _PERIPHERAL_DESC},
+    "Wireless Mouse": {"price_range": (1200, 9500), "brands": ["Logitech", "HP", "Dell", "Asus"],
+                       "title_templates": _PERIPHERAL_TITLES, "desc_templates": _PERIPHERAL_DESC},
+    # Kids & School Supplies
+    "Waterproof Ergonomic School Bag": {"price_range": (1500, 5500),
+                                        "brands": ["Polo Kids", "Outfitter Junior", "Bata School", "Minnie Kids"]},
+    "Kids Cartoon Backpack": {"price_range": (1200, 4200), "brands": ["Minnie Kids", "Polo Kids", "Outfitter Junior"]},
+    "Lunch Box & Water Bottle Set": {"price_range": (650, 2800), "brands": ["Minnie Kids", "Polo Kids"],
+                                     "title_templates": _KIDS_TITLES, "desc_templates": _KIDS_DESC},
+    "Complete Geometry & Stationery Kit": {"price_range": (650, 2500), "brands": ["Dollar", "Pelikan", "Oxford"],
+                                           "title_templates": _KIDS_TITLES, "desc_templates": _KIDS_DESC},
+    # Beauty & Fragrances
+    "Oud & Attar Perfume Gift Set": {"price_range": (1500, 7500), "brands": ["J. Fragrances", "Bonanza Perfumes", "Hemani"]},
+    "Luxury Eau De Parfum": {"price_range": (2500, 14000), "brands": ["J. Fragrances", "Bonanza Perfumes", "Hemani"]},
+    "Herbal Skincare Facial Kit": {"price_range": (1500, 5500), "brands": ["Saeed Ghani", "Conatural", "Hemani", "WB by Hemani"]},
+    "Halal Matte Lipstick Set": {"price_range": (900, 3800), "brands": ["Maybelline", "Rivaj UK", "Conatural"]},
+    "Rose Water Toner": {"price_range": (350, 1800), "brands": ["Saeed Ghani", "Hemani", "WB by Hemani", "Conatural"]},
+    # Home & Kitchen Appliances
+    "Food Processor & Juicer Blender": {"price_range": (9000, 38000), "brands": ["Anex", "Westpoint", "Philips", "Kenwood"]},
+    "Air Fryer 5L": {"price_range": (12000, 45000), "brands": ["Philips", "Anex", "Westpoint", "Haier", "Kenwood"]},
+    "Microwave Oven": {"price_range": (18000, 65000), "brands": ["Dawlance", "Haier", "Pel", "Westpoint"]},
+    "Electric Kettle": {"price_range": (3200, 9500), "brands": ["Anex", "Westpoint", "Philips", "Kenwood", "Boss"]},
+    "Steam Iron": {"price_range": (3500, 12000), "brands": ["Philips", "Anex", "Westpoint", "Kenwood"]},
+    # Groceries & Staples
+    "Super Kernel Basmati Rice 5kg": {"price_range": (1800, 3600), "brands": ["Guard Basmati"]},
+    "Biryani & Qorma Masala Value Pack": {"price_range": (350, 1500), "brands": ["Shan Foods", "National Foods"]},
+    "Danedar Family Mixture Tea 900g": {"price_range": (1400, 2600), "brands": ["Tapal Danedar"]},
+    "Ramadan Iftar Rooh Afza & Dates Pack": {"price_range": (900, 3500), "brands": ["Rooh Afza", "Mitchell's"]},
+    "Pure Cooking Oil 5L": {"price_range": (2600, 4200), "brands": ["Dalda", "Sufi"]},
+    # Winter Wear & Jackets
+    "Puffer Winter Jacket": {"price_range": (5500, 18000), "brands": ["Outfitters", "Breakout", "Cougar", "Engine", "Charcoal"]},
+    "Woolen Kashmiri Shawl": {"price_range": (3500, 16000), "brands": ["Lama", "Diners", "Charcoal"]},
+    "Fleece Hoodie": {"price_range": (2500, 7500), "brands": ["Outfitters", "Breakout", "Cougar", "Engine"]},
+    "Men's Leather Jacket": {"price_range": (14000, 45000), "brands": ["Diners", "Charcoal", "Lama"]},
+}
+
+
 CATEGORY_WEIGHTS = np.array([0.22, 0.12, 0.06, 0.11, 0.14, 0.05, 0.07, 0.09, 0.06, 0.05, 0.03])
 
 
@@ -642,6 +735,7 @@ def generate_product_catalogue(
     out = output_dir or settings.synthetic_dir
     out.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(seed)
+    type_rng = np.random.default_rng(seed + 1000)  # brand / price / wording per product type
 
     categories = list(CATEGORY_TEMPLATES.keys())
     # Weight categories realistically for a Pakistani marketplace (Fashion & Mobile heavy)
@@ -741,6 +835,21 @@ def generate_product_catalogue(
 
         title_fmt = str(rng.choice(tmpl["title_templates"]))
         desc_fmt = str(rng.choice(tmpl["desc_templates"]))
+
+        # Product-type realism (see SUBCATEGORY_PROFILES). The category-level draws above are still made so the
+        # main random sequence, and with it every other field (type, colour, stock, ...), is unchanged; brand,
+        # price and wording are then redrawn per product type from a separate generator.
+        prof = SUBCATEGORY_PROFILES.get(sub_cat)
+        if prof is not None:
+            brand = str(type_rng.choice(prof["brands"]))
+            lo, hi = prof["price_range"]
+            raw_price = float(np.exp(type_rng.uniform(np.log(lo), np.log(hi))))
+            step = 10.0 if raw_price < 1000 else 50.0
+            price_pkr = round(raw_price / step) * step
+            if "title_templates" in prof:
+                title_fmt = str(type_rng.choice(prof["title_templates"]))
+            if "desc_templates" in prof:
+                desc_fmt = str(type_rng.choice(prof["desc_templates"]))
 
         title = collapse_repeated_words(
             title_fmt.format(brand=brand, sub_cat=sub_cat, color=color, occasion=occasion)

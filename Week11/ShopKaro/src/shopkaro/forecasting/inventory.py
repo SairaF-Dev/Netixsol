@@ -4,9 +4,9 @@ Day 3 — Task 4 & Task 5: Probabilistic Quantile Forecasting (P10/P50/P90) & In
 Implements:
 1. `ProbabilisticQuantileForecaster`:
    - P10 (downside), P50 (median expected) and P90 (surge upper bound) daily demand over 30 days:
-     P50 from the global gradient-boosted forecaster, P10 / P90 = P50 -+ 1.28 sigma (over-dispersed Poisson,
-     per-series residual scaling). Non-crossing by construction (0 <= P10 <= P50 <= P90); ~79% measured coverage
-     of the nominal 80% band.
+     P50 from the global LightGBM forecaster, P10 / P90 from split conformal prediction (the model's own errors on
+     the last 28 known days, grouped by forecast size and horizon). Non-crossing by construction
+     (0 <= P10 <= P50 <= P90). Coverage is measured on the holdout, not assumed.
 2. `InventoryIntelligenceEngine`:
    - Computes Safety Stock (SS), Reorder Point (ROP), Days of Inventory Remaining (DOI_P50 & DOI_P90),
      Recommended Order Quantity (ROQ), and Working Capital Tied Up (PKR) across all 300 tracked SKUs.
@@ -30,10 +30,8 @@ import pandas as pd
 
 from shopkaro.config.settings import settings
 from shopkaro.data.synthesizer import INVENTORY_SNAPSHOT_DATE
-from shopkaro.forecasting.models import (
-    GlobalLGBMForecaster,
-    _build_date_category_festival_lookup,
-)
+from shopkaro.forecasting.festivals import FestivalCalendar
+from shopkaro.forecasting.models import GlobalLGBMForecaster
 
 
 @dataclass
@@ -79,77 +77,119 @@ class ProbabilisticQuantileForecaster:
     """
     Task 4: Probabilistic Demand Forecaster producing P10, P50, and P90 trajectories.
 
-    P50 comes from the global gradient-boosted point forecaster. P10 / P90 are P50 -+ 1.28 sigma, with sigma from an
-    over-dispersed Poisson model (variance = mu + 0.1 mu^2) scaled per series by its recent residuals and widened
-    slightly with the horizon. Measured coverage of the 80% band: ~79% (Day 3 report).
+    P50 comes from the global LightGBM point forecaster. P10 / P90 come from split conformal prediction:
+    1. Calibration: refit the same forecaster on data up to `CALIBRATION_DAYS` before the last known day, forecast
+       those days (which are known), and record the errors (actual - forecast). The same is done for the same
+       28 days one year earlier, so the errors of the coming season (e.g. Eid) are represented too.
+    2. The errors are grouped by forecast size (quintiles of the calibration forecast) and horizon (1-7, 8-14,
+       15+ days), because big forecasts and far-ahead days miss by more. The 10th and 90th percentile of each group's
+       errors are added to P50.
+    No noise distribution is assumed: the band width comes from how wrong the model actually was on recent data.
+    (The earlier version assumed variance = mu + 0.1 mu^2, which is the data generator's own noise formula.)
     """
+
+    CALIBRATION_DAYS = 28
+    N_SIZE_BINS = 5
+    HORIZON_BINS = (7, 14)  # edges -> groups 1-7, 8-14, 15+
+    Z_80 = 1.2816  # converts the P10-P90 width into a daily sigma for safety-stock maths
 
     def __init__(self, random_state: int = 42) -> None:
         self.random_state = random_state
         self.point_forecaster = GlobalLGBMForecaster(random_state=random_state)
 
+    def _horizon_group(self, h: np.ndarray) -> np.ndarray:
+        return np.digitize(h, np.asarray(self.HORIZON_BINS) + 0.5)
+
+    def _calibrate(
+        self,
+        series_dict: dict[str, tuple[pd.DataFrame, str]],
+        calendar: FestivalCalendar,
+    ) -> tuple[np.ndarray, dict[tuple[int, int], tuple[float, float]], tuple[float, float]]:
+        """
+        Errors of forecasts whose outcome is already known -> per-group (q10, q90) of actual - forecast.
+        Two calibration windows, each a real forecast made with data up to its start only:
+        - the last CALIBRATION_DAYS days (recent behaviour of the model), and
+        - the same CALIBRATION_DAYS days one year earlier (same season: if a festival is coming, last year's window
+          usually contained it too, so festival-sized errors are represented).
+        """
+        c = self.CALIBRATION_DAYS
+        last_day = max(pd.Timestamp(pd.to_datetime(df["sale_date"]).max()) for df, _ in series_dict.values())
+        p_parts, e_parts, h_parts = [], [], []
+        for cut in (last_day - pd.Timedelta(days=c), last_day - pd.Timedelta(days=364)):
+            cal_dates = pd.date_range(cut + pd.Timedelta(days=1), periods=c, freq="D")
+            cal_train: dict[str, tuple[pd.DataFrame, str]] = {}
+            cal_actual: dict[str, np.ndarray] = {}
+            for key, (df, cat) in series_dict.items():
+                sd = pd.to_datetime(df["sale_date"])
+                train = df[sd <= cut]
+                actual = df[(sd > cut) & (sd <= cal_dates[-1])]
+                if len(train) < 60 or len(actual) < c:
+                    continue
+                cal_train[key] = (train, cat)
+                cal_actual[key] = actual.sort_values("sale_date")["units_sold"].to_numpy(dtype=np.float64)
+            if not cal_train:
+                continue
+            calibrator = GlobalLGBMForecaster(random_state=self.random_state)
+            preds = calibrator.fit_and_predict_panel(cal_train, cal_dates, calendar)
+            p_parts.append(np.concatenate([preds[k] for k in cal_train]))
+            e_parts.append(np.concatenate([cal_actual[k] - preds[k] for k in cal_train]))
+            h_parts.append(np.tile(np.arange(1, c + 1), len(cal_train)))
+        if not p_parts:
+            return np.array([np.inf]), {}, (0.0, 0.0)
+        p, err, h = np.concatenate(p_parts), np.concatenate(e_parts), np.concatenate(h_parts)
+
+        size_edges = np.quantile(p, np.linspace(0, 1, self.N_SIZE_BINS + 1)[1:-1])
+        size_g = np.digitize(p, size_edges)
+        hor_g = self._horizon_group(h)
+
+        def q(e: np.ndarray) -> tuple[float, float]:
+            # Finite-sample conformal levels: ceil((n + 1) * 0.9) / n and its mirror
+            n = len(e)
+            hi = min(np.ceil((n + 1) * 0.9) / n, 1.0)
+            lo = max(1.0 - hi, 0.0)
+            return float(np.quantile(e, lo, method="lower")), float(np.quantile(e, hi, method="higher"))
+
+        table = {}
+        for sg in range(self.N_SIZE_BINS):
+            for hg in range(len(self.HORIZON_BINS) + 1):
+                m = (size_g == sg) & (hor_g == hg)
+                if m.sum() >= 30:
+                    table[(sg, hg)] = q(err[m])
+                elif (size_g == sg).sum() >= 30:
+                    table[(sg, hg)] = q(err[size_g == sg])
+        return size_edges, table, q(err)
+
     def fit_and_predict_quantiles(
         self,
         series_dict: dict[str, tuple[pd.DataFrame, str]],
         future_dates: pd.DatetimeIndex,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
+        calendar: FestivalCalendar,
     ) -> dict[str, dict[str, np.ndarray]]:
         """
-        Fit P10, P50, and P90 models on `series_dict` and return a dictionary mapping
-        `series_id -> {"p10": array, "p50": array, "p90": array, "hist_std": float}`.
+        Fit on `series_dict` and return
+        `series_id -> {"p10", "p50", "p90", "sigma_daily": arrays over future_dates, "hist_std": float}`.
         """
-        # 1. Fit Global P50 point model and obtain structural + tree predictions
         p50_map = self.point_forecaster.fit_and_predict_panel(
             series_dict=series_dict,
             future_dates=future_dates,
-            fest_lookup=fest_lookup,
+            calendar=calendar,
         )
-
-        # 2. Per-series dispersion from the last 180 days of residuals against the structural baseline.
-        # (Quantile-loss trees for P10/P90 used to be fitted here too, but their output was never used; removed.)
-        series_dispersion: dict[str, float] = {}
-
-        for s_idx, (s_key, (train_df, cat)) in enumerate(series_dict.items()):
-            Xs, _ = self.point_forecaster._build_series_training_panel(
-                series_df=train_df,
-                series_id=s_idx,
-                category=cat,
-                fest_lookup=fest_lookup,
-            )
-            if len(Xs) > 0:
-                tail_n = min(180, len(Xs))
-                # Empirical normalised dispersion of residuals around the structural baseline
-                y_vals = train_df["units_sold"].to_numpy(dtype=np.float64)[-tail_n:]
-                structural_vals = Xs[-tail_n:, -1]
-                emp_res = y_vals - structural_vals
-                scale_denom = np.sqrt(np.maximum(structural_vals, 1.0)) + 0.10 * structural_vals
-                norm_res = emp_res / scale_denom
-                q80_spread = float(
-                    np.percentile(np.abs(norm_res), 78) / 1.2816
-                )
-                series_dispersion[s_key] = max(0.65, min(q80_spread * 0.78, 1.5))
-
-        # 3. Generate calibrated P10, P50, P90 trajectories per series
-        h = len(future_dates)
-        horizon_step_inflation = 1.0 + 0.004 * np.arange(h, dtype=np.float64)
-        z_80 = 1.2816  # 10th / 90th normal quantile
+        size_edges, table, overall = self._calibrate(series_dict, calendar)
 
         results: dict[str, dict[str, np.ndarray]] = {}
         for s_key, (train_df, _) in series_dict.items():
             p50 = np.maximum(0.0, p50_map[s_key])
-            disp = series_dispersion.get(s_key, 0.90)
+            last_day = pd.Timestamp(pd.to_datetime(train_df["sale_date"]).max())
+            h = np.asarray((pd.DatetimeIndex(future_dates) - last_day).days, dtype=np.int64)
+            size_g = np.digitize(p50, size_edges)
+            hor_g = self._horizon_group(h)
+            q10 = np.array([table.get((s, g), overall)[0] for s, g in zip(size_g, hor_g)])
+            q90 = np.array([table.get((s, g), overall)[1] for s, g in zip(size_g, hor_g)])
 
-            # Overdispersed Poisson + Gamma noise standard deviation at level p50:
-            # Var(Y) = mu + 0.10 * mu^2  =>  sigma(t) = disp * sqrt(p50 + 0.10 * p50^2)
-            sigma_t = (
-                disp
-                * np.sqrt(np.maximum(p50, 0.25) + 0.10 * (p50 ** 2))
-                * horizon_step_inflation
-            )
-
-            # Enforce strict non-crossing: 0 <= P10 <= P50 <= P90
-            p10 = np.maximum(0.0, np.minimum(p50, np.floor(p50 - z_80 * sigma_t)))
-            p90 = np.maximum(p50, np.ceil(p50 + z_80 * sigma_t))
+            # Non-crossing by construction: 0 <= P10 <= P50 <= P90
+            p10 = np.clip(p50 + q10, 0.0, p50)
+            p90 = np.maximum(p50 + q90, p50)
+            sigma_t = (p90 - p10) / (2.0 * self.Z_80)
 
             y_hist = train_df["units_sold"].to_numpy(dtype=np.float64)
             hist_std = float(np.std(y_hist[-28:])) if len(y_hist) >= 7 else 1.0
@@ -637,11 +677,7 @@ def run_day3_task4_task5_probabilistic_and_inventory(
 
     festival_cal_df = con.execute("SELECT * FROM festival_calendar").df()
 
-    all_categories = sorted(daily_sales_df["category"].astype(str).unique().tolist())
-    fest_lookup = _build_date_category_festival_lookup(
-        festival_cal_df=festival_cal_df,
-        all_categories=all_categories,
-    )
+    calendar = FestivalCalendar(festival_cal_df)  # festival dates and names only
 
     origin_dt = pd.Timestamp(eval_origin_date)
     future_end = origin_dt + pd.Timedelta(days=horizon_days)
@@ -674,7 +710,7 @@ def run_day3_task4_task5_probabilistic_and_inventory(
     quantile_forecasts = prob_forecaster.fit_and_predict_quantiles(
         series_dict=series_dict,
         future_dates=future_dates,
-        fest_lookup=fest_lookup,
+        calendar=calendar,
     )
 
     # Evaluate calibration & quantile metrics on the 30-day holdout
