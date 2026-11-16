@@ -43,17 +43,17 @@ _Last updated: 2026-11-10. All numbers below are reproducible with the commands 
   trained on other data the API serves item-CF and reports `fallback_reason` in the response's `model` block.
   Search personalisation stays on item-CF (its weights were tuned on item-CF scores).
 - **Latency** (`scripts/measure_recommender_latency.py` -> `reports/recommender_serving_latency.json`, p95, local
-  Windows CPU): model compute 2.3 ms vs item-CF 1.3 ms (200 warm users); heaviest user (2,920 items) 26 ms vs 11 ms;
-  new visitor 0.9 vs 0.8 ms; full uncached recommendation with re-ranker 3.7 ms vs 3.1 ms. Target < 100 ms: met.
-- **Why the default is still item-CF:** the two-tower wins offline (NDCG@10 +0.0024, p = 0.002; discovery +73%), but
+  Windows CPU): model compute 3.2 ms vs item-CF 1.7 ms (200 warm users); heaviest user (2,920 items) 36 ms vs 17 ms;
+  new visitor 1.2 vs 0.9 ms; full uncached recommendation with re-ranker 4.8 ms vs 4.0 ms. Target < 100 ms: met.
+- **Why the default is still item-CF:** the two-tower wins offline (NDCG@10 +0.0024, p = 0.001; discovery +75%), but
   the online A/B replay was run on item-CF. Switch the default after an online test, or accept the offline evidence.
-- **Reproducible:** retraining with the same seed now gives identical numbers (seed 42 = 0.1357 in the Day 2
+- **Reproducible:** retraining with the same seed now gives identical numbers (seed 42 = 0.1362 in the Day 2
   table, the discovery run and the seed run). Three fixes: SQL results put in a fixed order (DuckDB `GROUP BY` order
   changed between runs, and `LIMIT` without a tie-break changed the validation/test user sets), and torch pinned to
   8 threads while training (thread count changes float sums). Across seeds 42/43/44
-  (`scripts/run_two_tower_seeds.py` -> `reports/day2_two_tower_seeds.csv`): main NDCG@10 **0.1355 +- 0.0005**
-  (0.1349-0.1358), discovery 0.0244 +- 0.0012, new users 0.0228 +- 0.0007. Every seed beats the hybrid blend
-  (0.1333) and item-CF (0.1307) on main and discovery; on new users it ties the blend (0.0227).
+  (`scripts/run_two_tower_seeds.py` -> `reports/day2_two_tower_seeds.csv`): main NDCG@10 **0.1360 +- 0.0004**
+  (0.1356-0.1362), discovery 0.0257 +- 0.0004, new users 0.0226 +- 0.0007. Every seed beats the hybrid blend
+  (0.1339) and item-CF (0.1307) on main and discovery; on new users it ties the blend (0.0231).
 
 ## Training data and splits
 - Interactions: RetailRocket events mapped to a synthetic Pakistani catalogue of 25,000 products. Each product's
@@ -82,13 +82,13 @@ A hit = any test-period interaction (views included) with a recommended item.
 | Trending (7 days) | 0.0008 | 0.0015 | 0.5% | 0.04% | 0% |
 | **Item-to-item CF (production)** | **0.1307** | **0.1419** | **18.1%** | 33.6% | 0% |
 | ALS (`implicit`) | 0.1299 | 0.1464 | 18.9% | 28.0% | 0% |
-| Content-based (text embeddings) | 0.1207 | 0.1235 | 15.7% | 68.0% | 7.3% |
-| Hybrid blend (CF + ALS + content + features) | 0.1333 | 0.1475 | 18.9% | 34.3% | 7.3% |
-| **Neural two-tower (PyTorch)** | **0.1357** | **0.1522** | **19.3%** | **52.3%** | **8.8%** |
+| Content-based (text embeddings) | 0.1210 | 0.1239 | 15.7% | 65.0% | 5.2% |
+| Hybrid blend (CF + ALS + content + features) | 0.1339 | 0.1488 | 19.1% | 34.5% | 5.2% |
+| **Neural two-tower (PyTorch)** | **0.1362** | **0.1527** | **19.5%** | **50.2%** | **7.6%** |
 
 Paired bootstrap over the 5,000 users (`reports/day2_two_tower_significance.json`, same seed-42 model):
-two-tower minus hybrid blend = +0.0024 NDCG (95% CI +0.0007 to +0.0041, p = 0.002); minus item-CF = +0.0049
-(CI +0.0030 to +0.0069); minus ALS = +0.0058 (CI +0.0036 to +0.0081). Small but statistically real.
+two-tower minus hybrid blend = +0.0024 NDCG (95% CI +0.0007 to +0.0040, p = 0.001); minus item-CF = +0.0055
+(CI +0.0036 to +0.0074); minus ALS = +0.0063 (CI +0.0040 to +0.0086). Small but statistically real.
 
 ### Important caveat: most of that gain is re-showing items the user already browsed
 `scripts/run_day2_discovery_eval.py` -> `reports/day2_discovery_evaluation.csv` (5,000 warm test users):
@@ -101,7 +101,7 @@ two-tower minus hybrid blend = +0.0024 NDCG (95% CI +0.0007 to +0.0041, p = 0.00
 | **Discovery** (only items never seen in training; seen items not recommended) | Most popular | 0.0024 |
 | **Discovery** | **Item-to-item CF** | **0.0149 (6.2x popularity)** |
 | Discovery | ALS | 0.0229 (9.6x) |
-| **Discovery** | **Neural two-tower** | **0.0257 (10.7x popularity, +73% vs item-CF)**, coverage 43% vs 12% |
+| **Discovery** | **Neural two-tower** | **0.0260 (10.8x popularity, +75% vs item-CF)**, coverage 40% vs 12% |
 
 **Reading this honestly:** on the main protocol a no-model "show your history" list scores as well as item-CF, so
 the headline ~40x gain over popularity is mostly a revisit effect. On genuine discovery of new products item-CF
@@ -113,9 +113,9 @@ therefore shows both kinds of items and labels each with its real reason (`reaso
   the first click (`POST /events`) the user is scored by item-CF on that click immediately.
 - **New items:** item-CF cannot recommend an item with no interactions. `GET /similar/{product_id}` uses content
   (title + description) embeddings and works for new items. In the Day 2 table only content-based, hybrid blend and
-  neural two-tower reached cold items (cold-item hit rate 7.3%, 7.3% and 8.8%).
-- New users with an onboarding category: two-tower cold-user NDCG@10 0.0220 (seed 42; 0.0228 +- 0.0007 over 3 seeds)
-  vs hybrid blend 0.0227 vs popularity 0.0027 (on par). The simulated onboarding answer is the category of the user's first test
+  neural two-tower reached cold items (cold-item hit rate 5.2%, 5.2% and 7.6%).
+- New users with an onboarding category: two-tower cold-user NDCG@10 0.0227 (seed 42; 0.0226 +- 0.0007 over 3 seeds)
+  vs hybrid blend 0.0231 vs popularity 0.0027 (on par). The simulated onboarding answer is the category of the user's first test
   event, so these numbers are optimistic for all models.
 
 ### Latency (local, Windows, in-process test client)

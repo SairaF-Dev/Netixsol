@@ -26,7 +26,7 @@
 ## ⏱️ Minute 3:30 – 5:00 | UrduLish Hybrid Search & Query Parsing
 - **Speaker:** *"Next, let's test how ShopKaro handles natural language queries from Pakistani shoppers. A customer types in Roman Urdu: 'eid ke liye lawn suit under 5000'. Traditional keyword search would fail or return zero hits."*
 - **Action:** Type or click preset chip `👗 Sapphire Modest Lawn <= 5k`.
-- **Speaker:** *"Watch the instant parsing in the filter bar: the engine automatically extracts Price Ceiling: PKR 5,000, Category: Women's Lawn, and Occasion: Eid. It runs Okapi BM25 plus 96-D Subword Vector search with Reciprocal Rank Fusion, returning authentic 3-piece emerald lawn suits from Sapphire and Khaadi."*
+- **Speaker:** *"Watch the instant parsing in the filter bar: the engine automatically extracts Price Ceiling: PKR 5,000, Category: Women's Lawn, and Occasion: Eid. It runs Okapi BM25 plus multilingual neural vector search with Reciprocal Rank Fusion, returning authentic 3-piece emerald lawn suits from Sapphire and Khaadi."*
 - **Action:** Point out the clean search pills and the authentic Pakistani lawn photography.
 
 ---
@@ -50,7 +50,7 @@
 ## ⏱️ Minute 8:00 – 9:15 | Supply Chain Control Tower & Eid Stockout Prevention
 - **Speaker:** *"Now for the operations team. In View 3, we open the Supply Chain & Inventory Control Tower."*
 - **Action:** In sidebar, select `📦 Supply Chain & Inventory Console`.
-- **Speaker:** *"Here is our 30-day probabilistic demand fan chart. Rather than a single guess, we forecast P10 (minimum), P50 (expected), and P90 (high-surge scenario). Pick SK-00051 (Sapphire lawn): 309 units on hand is only 2.7 days of expected pre-Eid demand, below its reorder point of 467, so the system flags CRITICAL_STOCKOUT_RISK and recommends a purchase order of 2,472 units. And in a replay of 2025, ordering this way lost 96% fewer units over Ramadan and Eid than re-ordering on last month's sales, on synthetic demand."*
+- **Speaker:** *"Here is our 30-day probabilistic demand fan chart. Rather than a single guess, we forecast P10 (minimum), P50 (expected), and P90 (high-surge scenario). Pick SK-00051 (Sapphire lawn): 309 units on hand is only 2.8 days of expected pre-Eid demand, below its reorder point of 440, so the system flags CRITICAL_STOCKOUT_RISK and recommends a purchase order of 2,475 units. The model only knows festival dates; how much Eid lifts lawn sales it learned from last year's sales. Our first version accidentally used the data generator's own formula, which gave an unrealistic 6% error; we found it, fixed it, and added a test so it cannot come back. The honest model has 15% error against 42% for the simple baseline. In a replay of 2025, ordering this way lost 83% fewer units than re-ordering on last month's sales, on synthetic demand."*
 - **Action:** Point out the shaded P10–P90 green surge band and the automated ERP replenishment card.
 
 ---

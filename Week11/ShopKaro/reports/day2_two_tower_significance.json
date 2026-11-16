@@ -1,35 +1,35 @@
 {
   "hybrid_two_tower": {
-    "mean_diff": 0.00238,
+    "mean_diff": 0.00236,
     "ci95": [
-      0.00067,
-      0.00408
+      0.00066,
+      0.004
     ],
-    "p_boot_le_0": 0.002,
-    "users_better": 199,
-    "users_worse": 143,
+    "p_boot_le_0": 0.001,
+    "users_better": 192,
+    "users_worse": 164,
     "n": 5000
   },
   "item_to_item_cf": {
-    "mean_diff": 0.00494,
+    "mean_diff": 0.00548,
     "ci95": [
-      0.00298,
-      0.00692
+      0.00355,
+      0.00738
     ],
     "p_boot_le_0": 0.0,
     "users_better": 207,
-    "users_worse": 135,
+    "users_worse": 130,
     "n": 5000
   },
   "implicit_als": {
-    "mean_diff": 0.00579,
+    "mean_diff": 0.00634,
     "ci95": [
-      0.00358,
-      0.00808
+      0.00404,
+      0.0086
     ],
     "p_boot_le_0": 0.0,
     "users_better": 289,
-    "users_worse": 184,
+    "users_worse": 185,
     "n": 5000
   }
 }

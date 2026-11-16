@@ -1,67 +1,61 @@
 {
   "week_starting": "2018-08-27",
   "this_week": {
-    "reviews": 121,
+    "reviews": 125,
     "spam_filtered": 6,
-    "positive_pct": 87.0,
-    "negative_pct": 5.2,
-    "delivery_complaint_pct": 8.7
+    "positive_pct": 86.6,
+    "negative_pct": 7.6,
+    "delivery_complaint_pct": 6.7
   },
   "previous_week": {
-    "reviews": 166,
-    "spam_filtered": 9,
-    "positive_pct": 75.2,
-    "negative_pct": 14.0,
-    "delivery_complaint_pct": 12.1
+    "reviews": 158,
+    "spam_filtered": 8,
+    "positive_pct": 75.3,
+    "negative_pct": 15.3,
+    "delivery_complaint_pct": 10.0
   },
   "top_complaints_by_category_this_week": [
     {
-      "category": "Beauty & Fragrances",
-      "genuine_reviews": 10,
-      "top_complaint": "delivery",
+      "category": "Winter Wear & Jackets",
+      "genuine_reviews": 5,
+      "top_complaint": "quality",
       "complaint_share_pct": 20.0,
+      "negative_review_pct": 20.0
+    },
+    {
+      "category": "Beauty & Fragrances",
+      "genuine_reviews": 13,
+      "top_complaint": "delivery",
+      "complaint_share_pct": 15.4,
       "negative_review_pct": 0.0
     },
     {
       "category": "Men's Kurta & Ethnic",
-      "genuine_reviews": 8,
+      "genuine_reviews": 7,
       "top_complaint": "quality",
-      "complaint_share_pct": 12.5,
-      "negative_review_pct": 12.5
-    },
-    {
-      "category": "Smartphones & Accessories",
-      "genuine_reviews": 17,
-      "top_complaint": "delivery",
-      "complaint_share_pct": 11.8,
-      "negative_review_pct": 5.9
+      "complaint_share_pct": 14.3,
+      "negative_review_pct": 14.3
     }
   ],
   "products_with_falling_sentiment": [
     {
-      "product_id": "SK-00058",
-      "brand": "Sufi",
+      "product_id": "SK-00254",
+      "brand": "Sapphire",
       "positive_pct_prior": 100.0,
-      "positive_pct_recent": 25.0
+      "positive_pct_recent": 16.7
     },
     {
-      "product_id": "SK-00406",
-      "brand": "Rivaj UK",
-      "positive_pct_prior": 90.9,
-      "positive_pct_recent": 25.0
-    },
-    {
-      "product_id": "SK-00484",
-      "brand": "Almirah",
-      "positive_pct_prior": 85.7,
+      "product_id": "SK-00279",
+      "brand": "Dollar",
+      "positive_pct_prior": 87.5,
       "positive_pct_recent": 20.0
     }
   ],
-  "sellers_with_delivery_problems": 73,
+  "sellers_with_delivery_problems": 70,
   "inventory_alerts": {
-    "CRITICAL_STOCKOUT_RISK": 143,
-    "FESTIVAL_SURGE_WATCH": 84,
-    "HEALTHY_STOCK": 65,
-    "OVERSTOCK_DEAD_CAPITAL": 8
+    "CRITICAL_STOCKOUT_RISK": 129,
+    "FESTIVAL_SURGE_WATCH": 94,
+    "HEALTHY_STOCK": 70,
+    "OVERSTOCK_DEAD_CAPITAL": 7
   }
 }

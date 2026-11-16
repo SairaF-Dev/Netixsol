@@ -329,9 +329,9 @@ flowchart LR
 
 ### Day 2: Personalization & Hybrid Recommendation Engines (20% Weight) — COMPLETED
 - Implemented 3 popularity and trending baselines for anonymous cold-start visitors.
-- Collaborative filtering on implicit feedback: Shrinkage Item-to-Item CF (`NDCG@10 = 0.12715`) and Implicit ALS (`NDCG@10 = 0.12413`).
-- Content-based TF-IDF filtering and Two-Tower Hybrid model (`NDCG@10 = 0.12456`, `+171.5%` cold-user lift).
-- Comprehensive 7-model offline evaluation across Accuracy, Coverage, Diversity (`ILD@10`), Novelty, and Cold-Start.
+- Collaborative filtering on implicit feedback: Shrinkage Item-to-Item CF (`NDCG@10 = 0.1307`) and Implicit ALS (`NDCG@10 = 0.1299`).
+- Content-based (text embeddings, `0.1210`), hybrid blend (`0.1339`) and a neural two-tower in PyTorch (`0.1362`; +0.0024 over the blend, 95% CI +0.0007..+0.0040). On products the user had never seen, two-tower `0.0260` vs item-CF `0.0149`.
+- Comprehensive 8-model offline evaluation across Accuracy, Coverage, Diversity (`ILD@10`), Novelty, and Cold-Start.
 - Business Re-Ranker: In-stock filtering, already-purchased exclusion, `max_per_brand = 2` diversity cap, Pre-Eid/margin boosts, and Roman Urdu explanations.
 - **Artifacts:** `reports/day2_recommendation_engine_report.md`, `understand/understand_day2.md`, Figure 08.
 - **Verification:** `pytest tests/test_day2_task1.py` through `tests/test_day2_task5.py` (Passed).
@@ -339,19 +339,20 @@ flowchart LR
 ### Day 3: Demand Forecasting & Inventory Intelligence (20% Weight) — COMPLETED
 - 3-level temporal aggregation (daily SKU, category, total platform across 731 days), STL decomposition, and ADF stationarity testing across 12 series.
 - Modeled Pakistani Hijri Lunar calendar festival demand shifts (-11 days/year) across Ramadan, Eid-ul-Fitr, Eid-ul-Adha, and 11.11.
-- 5-model forecasting suite evaluated with 4-fold rolling-origin backtesting across 7d, 14d, and 30d horizons: Global LightGBM achieved `6.87%` Category WAPE and `27.19%` Top SKU WAPE vs `42.19%` / `50.38%` for ETS.
-- Probabilistic Quantile Forecasting (`P10 / P50 / P90`) with 79.03% empirical coverage and 0 quantile crossings.
-- Supply Chain Intelligence: Safety stock, Reorder Point (ROP), Days of Inventory (DOI), and 4-tier alert monitoring across 300 SKUs.
-- **Artifacts:** `reports/day3_demand_forecasting_and_inventory_report.md`, `understand/understand_day3.md`, Figures 09–12.
-- **Verification:** `pytest tests/test_day3_task1.py` through `tests/test_day3_task4_task5.py` (Passed).
+- 7 models (naive, seasonal naive, Holt-Winters ETS, Prophet with festival regressors, global LightGBM, Croston-SBA, TSB) with 4-fold rolling-origin backtesting at 7 / 14 / 30 days. At 14 days, LightGBM: `15.4%` category WAPE and `29.2%` top-50 product WAPE vs `42.3%` / `52.7%` for seasonal naive; slow movers judged on the 14-day total, where LightGBM is best.
+- **Leakage fix (2026-11-16):** the earlier forecaster was given the data generator's own formula and true festival multipliers (its 6.9% WAPE was not real). Models now see only past sales and festival dates and learn festival effects from history; the old model is kept as a labelled "oracle" row, and `tests/test_forecast_leakage.py` prevents a repeat (on sales made with different rules the honest model scores 15.4% WAPE, the oracle 63.5%).
+- P10 / P50 / P90 by conformal prediction: 75.2% of actual demand inside P10-P90 (target 80%), P90 covers 85.9% (target 90%), 0 crossings.
+- Safety stock, reorder point, days of inventory, 4-tier alerts for 300 products, pre-festival plan for the top 100, and a 2025 replay: forecast-driven ordering lost 83% fewer units than a 28-day moving average (synthetic demand).
+- **Artifacts:** `reports/day3_demand_forecasting_and_inventory_report.md`, `docs/model_cards/forecaster_model_card.md`, Figures 09–12.
+- **Verification:** `pytest tests/test_day3_task1.py tests/test_day3_task2_task3.py tests/test_day3_task4_task5.py tests/test_forecast_leakage.py`.
 
 ### Day 4: Hybrid Search, Aspect Review Intelligence & UrduLish Assistant (25% Weight) — COMPLETED
 - `UrduLishQueryParser`: Code-switched Roman Urdu grammar, English nouns, and South Asian numeric unit extraction (`hazaar` = 1,000, `lac` = 100,000).
-- Hybrid Search: Okapi BM25 + multilingual neural embeddings (`intfloat/multilingual-e5-small`, sentence-transformers) + Reciprocal Rank Fusion (`RRF`, k=60) + feature re-ranker. On 50 development / 20 held-out labelled queries: NDCG@10 0.964 / 0.832 vs keyword-only 0.771 / 0.602, budget respected 100%, p95 latency 67 ms. Library migration results: `reports/library_migration_py311.md`.
-- Personalized Search: collaborative re-ranking of the top 200 hybrid results by each shopper's item-CF score. Held-out users: NDCG@10 0.012 -> 0.064 (mostly products they had already browsed; on never-seen products 0.013 -> 0.027). The earlier brand/price re-ranker had no measurable effect (`reports/day4_personalized_search_eval.json`).
+- Hybrid Search: Okapi BM25 + multilingual neural embeddings (`intfloat/multilingual-e5-small`, sentence-transformers) + Reciprocal Rank Fusion (`RRF`, k=60) + feature re-ranker. On 50 development / 20 held-out labelled queries: NDCG@10 0.962 / 0.893 vs keyword-only 0.788 / 0.498, budget respected 100%, p95 latency 67 ms. Library migration results: `reports/library_migration_py311.md`.
+- Personalized Search: collaborative re-ranking of the top 200 hybrid results by each shopper's item-CF score. Held-out users: NDCG@10 0.012 -> 0.064 (mostly products they had already browsed; on never-seen products 0.012 -> 0.027). The earlier brand/price re-ranker had no measurable effect (`reports/day4_personalized_search_eval.json`).
 - Tool-Calling UrduLish Shopping Assistant: 6 grounded tools with multi-turn ordinal coreference memory (*"pehla aur doosra compare karo"*, *"pehla wala cart mein daal do"*) and zero-hallucination auditor (0 fabricated SKUs or prices).
 - Multilingual Review Intelligence: rule-based sentiment, 6-aspect ABSA (`quality`, `price`, `delivery`, `size_fit`, `packaging`, `seller`) and spam detection for English, Roman Urdu and Urdu, evaluated on hand-written reviews: held-out sentiment accuracy 77%, aspect cells 89%, spam F1 0.89 (the earlier 100% came from memorising 11 synthetic templates); unsupervised c-TF-IDF topics.
-- 3PL Logistics De-Conflation: separates product quality from courier delays; on predicted aspects 1 product(s) meet the "unfairly penalised by courier" rule (an earlier figure of 54 came from generator labels).
+- 3PL Logistics De-Conflation: separates product quality from courier delays; on predicted aspects 0 products meet the "unfairly penalised by courier" rule (an earlier figure of 54 came from generator labels).
 - **Artifacts:** `reports/day4_search_assistant_and_reviews_report.md`, `understand/understand_day4.md`, Figure 13.
 - **Verification:** `pytest tests/test_day4_task1.py` through `tests/test_day4_task4_task5.py` (Passed).
 

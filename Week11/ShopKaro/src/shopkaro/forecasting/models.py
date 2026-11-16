@@ -5,12 +5,17 @@ Implements 5 Progressive Forecasting Models:
 1. `NaiveForecaster`: Last observed value (random-walk baseline).
 2. `SeasonalNaive7DForecaster`: Same day last week (s = 7 weekly cycle baseline).
 3. `HoltWintersETSForecaster`: Classical additive Holt-Winters Exponential Smoothing / SARIMA(0,1,1)(0,1,1)_7.
-4. `ProphetFourierHolidayForecaster`: Decomposable Trend + Yearly Fourier Harmonics + Weekly Dummies
-   + Moving Islamic & Pakistani Festival Regressors (Ridge-regularized Prophet formulation).
-5. `GlobalLGBMForecaster`: Global Gradient Boosted Trees (`HistGradientBoostingRegressor` — native
-   LightGBM histogram algorithm) trained jointly across all series with lag, rolling, calendar,
-   category-seasonality, and Pakistani festival features.
+4. `ProphetFourierHolidayForecaster`: Prophet (trend + weekly + yearly Fourier) with one regressor per festival,
+   built from festival DATES only; Prophet learns each festival's effect (ridge fallback without the library).
+5. `GlobalLGBMForecaster`: one global LightGBM model across all series, direct multi-horizon, with lag, rolling,
+   calendar and festival features; festival uplift is learned from each series' own past sales.
 6. `CrostonSBAForecaster` / 7. `TSBForecaster`: intermittent-demand rates (checked for slow movers; not adopted).
+8. Oracle (comparison only, `forecasting/oracle.py`): the earlier "LightGBM" that rebuilt the data generator's own
+   formula and true festival multipliers. Reported as an upper bound a real retailer could not reach.
+
+Leakage rule: models 1-7 see only past sales and the festival calendar's names / types / dates
+(`forecasting/festivals.py`). They never read `demand_multiplier`, `boost_categories` or any constant of the data
+generator; `tests/test_forecast_leakage.py` enforces this.
 
 Evaluates all 7 models via 4-Fold Expanding-Window Rolling-Origin Backtesting across
 7-day, 14-day, and 30-day horizons using WAPE (primary), MAE, RMSE, and sMAPE.
@@ -29,6 +34,7 @@ import pandas as pd
 from sklearn.ensemble import HistGradientBoostingRegressor
 
 from shopkaro.config.settings import settings
+from shopkaro.forecasting.festivals import FestivalCalendar, festival_uplift_features
 from shopkaro.forecasting.timeseries_analysis import build_three_level_timeseries
 
 # 4 Rolling-Origin Cutoff Dates in 2025 covering distinct Pakistani retail seasons:
@@ -102,49 +108,6 @@ def compute_forecast_metrics(
     }
 
 
-def _build_date_category_festival_lookup(
-    festival_cal_df: pd.DataFrame,
-    all_categories: list[str],
-    start_date: str = "2024-01-01",
-    end_date: str = "2026-03-31",
-) -> dict[tuple[pd.Timestamp, str], tuple[float, int, str]]:
-    """
-    Precompute known calendar & festival multipliers `(fest_mult, is_fest, fest_name)` for
-    every `(date, category)` pair using ShopKaro's official `festival_calendar`.
-    """
-    dates = pd.date_range(start=start_date, end=end_date, freq="D")
-    lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]] = {}
-
-    for d in dates:
-        for cat in all_categories:
-            lookup[(d, cat)] = (1.0, 0, "Regular_Day")
-
-    for rec in festival_cal_df.to_dict("records"):
-        f_start = pd.Timestamp(rec["start_date"])
-        f_end = pd.Timestamp(rec["end_date"])
-        f_name = str(rec["festival_name"])
-        mult = float(rec["demand_multiplier"])
-        boost_cats = {c.strip() for c in str(rec["boost_categories"]).split(",")}
-
-        cur = f_start
-        while cur <= f_end:
-            for cat in all_categories:
-                prev_mult, _, _ = lookup.get((cur, cat), (1.0, 0, "Regular_Day"))
-                target_m = mult if cat in boost_cats else 1.15
-                if target_m >= prev_mult:
-                    lookup[(cur, cat)] = (target_m, 1, f_name)
-            cur += pd.Timedelta(days=1)
-
-    return lookup
-
-
-def _category_climate_index(category: str, day_of_year: np.ndarray, month: np.ndarray) -> np.ndarray:
-    """Compute annual climate seasonal wave for a category given day-of-year and month."""
-    if category == "Women's Lawn & Unstitched":
-        return 1.0 + 0.55 * np.sin(2.0 * np.pi * (day_of_year - 60.0) / 365.25)
-    if category == "Winter Wear & Jackets":
-        return np.where(np.isin(month, [11, 12, 1, 2]), 2.4, 0.08)
-    return 1.0 + 0.18 * np.sin(2.0 * np.pi * (day_of_year - 90.0) / 365.25)
 
 
 # ============================================================================
@@ -252,91 +215,66 @@ class HoltWintersETSForecaster:
 
 
 # ============================================================================
-# Model 4: Prophet-Style Decomposable Trend + Fourier + Moving Islamic Holidays
+# Model 4: Prophet with custom festival holidays
 # ============================================================================
 class ProphetFourierHolidayForecaster:
     """
-    Task 2D: Prophet-Style Decomposable Time-Series Model:
-        log(1 + y_t) = g(t) + s_weekly(t) + s_yearly_fourier(t, K=6) + X_holidays(t) * β + ε_t
-    Explicitly incorporates moving Islamic festival windows (Ramadan, Eid ul Fitr, Eid ul Adha)
-    and fixed commercial events (11.11, Blessed Friday, Back-to-School).
+    Task 2D: Prophet with custom festival holidays (one model per series):
+        log(1 + y_t) = trend(t) + weekly(t) + yearly_fourier(t, K) + sum_f beta_f * [festival f running on t] + e_t
+    Festivals enter only as DATES: one indicator per festival name (Ramadan, Eid ul Fitr, 11.11, ...), built from the
+    calendar's start/end dates, so moving Islamic dates are handled. Prophet learns each beta_f, i.e. how much that
+    festival lifts THIS series, from past sales. No effect size, season curve or trend from the data generator is used.
     """
 
     name = "4. Prophet (Fourier + Moving Islamic Holidays)"
 
-    def __init__(self, fourier_order: int = 6, ridge_alpha: float = 1.5) -> None:
+    def __init__(self, fourier_order: int = 10, ridge_alpha: float = 1.5) -> None:
         self.fourier_order = fourier_order
         self.ridge_alpha = ridge_alpha
 
     def _build_design_matrix(
         self,
         dates: pd.Series | pd.DatetimeIndex,
-        category: str,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
+        calendar: FestivalCalendar,
         t0: pd.Timestamp,
     ) -> np.ndarray:
-        dt = pd.to_datetime(dates)
-        t_scaled = np.asarray((dt - t0).dt.days if hasattr(dt, "dt") else (dt - t0).days, dtype=np.float64) / 365.25
-        dow = np.asarray(dt.dt.day_of_week if hasattr(dt, "dt") else dt.day_of_week, dtype=int)
-        doy = np.asarray(dt.dt.day_of_year if hasattr(dt, "dt") else dt.day_of_year, dtype=np.float64)
-        month = np.asarray(dt.dt.month if hasattr(dt, "dt") else dt.month, dtype=int)
+        dt = pd.DatetimeIndex(pd.to_datetime(dates))
+        t_scaled = np.asarray((dt - t0).days, dtype=np.float64) / 365.25
+        dow = np.asarray(dt.day_of_week, dtype=int)
+        doy = np.asarray(dt.day_of_year, dtype=np.float64)
 
-        features: list[np.ndarray] = [
-            np.ones_like(t_scaled),
-            t_scaled,
-        ]
-        # Weekly day-of-week one-hot (Mon..Sat, Sun as reference)
-        for d_idx in range(6):
+        features: list[np.ndarray] = [np.ones_like(t_scaled), t_scaled]
+        for d_idx in range(6):  # weekday one-hot (Sunday = reference)
             features.append((dow == d_idx).astype(np.float64))
-
-        # Yearly Fourier harmonics (sin/cos pairs)
-        for k in range(1, self.fourier_order + 1):
+        for k in range(1, self.fourier_order + 1):  # yearly Fourier harmonics
             angle = 2.0 * np.pi * k * doy / 365.25
             features.append(np.sin(angle))
             features.append(np.cos(angle))
-
-        # Category winter indicator for abrupt winter wear transition
-        features.append(np.log(_category_climate_index(category, doy, month)))
-
-        # Moving Islamic & Pakistani Festival regressors from `festival_calendar`
-        fest_mults = np.array(
-            [fest_lookup.get((pd.Timestamp(d), category), (1.0, 0, ""))[0] for d in dt],
-            dtype=np.float64,
-        )
-        is_fest = np.array(
-            [fest_lookup.get((pd.Timestamp(d), category), (1.0, 0, ""))[1] for d in dt],
-            dtype=np.float64,
-        )
-        features.append(is_fest)
-        features.append(np.log(np.maximum(fest_mults, 1.0)))
-
-        return np.column_stack(features)
+        active = calendar.active_matrix(dt).astype(np.float64)  # festival indicators (dates only)
+        return np.column_stack(features + [active[:, j] for j in range(active.shape[1])])
 
     def fit_predict_series(
         self,
         train_df: pd.DataFrame,
         future_dates: pd.DatetimeIndex,
-        category: str,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
+        calendar: FestivalCalendar,
     ) -> np.ndarray:
         t0 = pd.Timestamp(train_df["sale_date"].iloc[0])
         y_train_log = np.log1p(np.maximum(train_df["units_sold"].to_numpy(dtype=np.float64), 0.0))
         if prophet_available():
-            return self._fit_predict_prophet(train_df, y_train_log, future_dates, category, fest_lookup, t0)
-        X_train = self._build_design_matrix(train_df["sale_date"], category, fest_lookup, t0)
+            return self._fit_predict_prophet(train_df, y_train_log, future_dates, calendar)
+        X_train = self._build_design_matrix(train_df["sale_date"], calendar, t0)
 
         # Fallback without the `prophet` library: same decomposition fitted by ridge regression
-        # Ridge regression closed-form solution: (X^T X + λI)^{-1} X^T y
         n_feat = X_train.shape[1]
         reg_mat = np.eye(n_feat, dtype=np.float64) * self.ridge_alpha
-        reg_mat[0, 0] = 0.0  # Do not regularize intercept
+        reg_mat[0, 0] = 0.0  # do not regularise the intercept
         beta = np.linalg.solve(X_train.T @ X_train + reg_mat, X_train.T @ y_train_log)
 
-        X_future = self._build_design_matrix(future_dates, category, fest_lookup, t0)
+        X_future = self._build_design_matrix(future_dates, calendar, t0)
         pred_log = X_future @ beta
-        # Smearing correction for log-normal residuals
         resid = y_train_log - (X_train @ beta)
-        smear = float(np.mean(np.exp(resid)))
+        smear = float(np.mean(np.exp(resid)))  # smearing correction for the log transform
         preds = np.expm1(pred_log) * min(max(smear, 0.95), 1.08)
         return np.maximum(0.0, preds)
 
@@ -345,21 +283,18 @@ class ProphetFourierHolidayForecaster:
         train_df: pd.DataFrame,
         y_train_log: np.ndarray,
         future_dates: pd.DatetimeIndex,
-        category: str,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
-        t0: pd.Timestamp,
+        calendar: FestivalCalendar,
     ) -> np.ndarray:
-        """Real Prophet: trend + weekly + yearly seasonality, festival and climate signals as extra regressors."""
+        """Real Prophet: trend + weekly + yearly seasonality + one regressor per festival (dates only)."""
         import logging
 
         from prophet import Prophet
 
         logging.getLogger("cmdstanpy").setLevel(logging.WARNING)
+        cols = [f"fest_{i}" for i in range(len(calendar.names))]
 
         def regressors(dates: pd.Series | pd.DatetimeIndex) -> pd.DataFrame:
-            X = self._build_design_matrix(dates, category, fest_lookup, t0)
-            # Last three columns of the design matrix: log climate index, festival flag, log festival multiplier
-            return pd.DataFrame({"climate": X[:, -3], "is_fest": X[:, -2], "fest_log_mult": X[:, -1]})
+            return pd.DataFrame(calendar.active_matrix(dates).astype(float), columns=cols)
 
         hist = pd.DataFrame({"ds": pd.to_datetime(train_df["sale_date"]).to_numpy(), "y": y_train_log})
         hist = pd.concat([hist, regressors(train_df["sale_date"])], axis=1)
@@ -369,12 +304,14 @@ class ProphetFourierHolidayForecaster:
             daily_seasonality=False,
             changepoint_prior_scale=0.05,
         )
-        for col in ("climate", "is_fest", "fest_log_mult"):
-            m.add_regressor(col)
+        for col in cols:
+            if hist[col].any():  # a festival never seen in training has nothing to learn from
+                m.add_regressor(col)
         m.fit(hist)
         fut = pd.concat([pd.DataFrame({"ds": future_dates}), regressors(future_dates)], axis=1)
         pred_log = m.predict(fut)["yhat"].to_numpy()
         return np.maximum(0.0, np.expm1(pred_log))
+
 
 
 def prophet_available() -> bool:
@@ -424,20 +361,33 @@ def gbm_backend() -> str:
         return "lightgbm"
     except Exception:
         return "sklearn_histgbm"
+TRAIN_HORIZONS: tuple[int, ...] = (1, 2, 3, 5, 7, 10, 14, 21, 28, 35, 42)
+MAX_TRAIN_ROWS = 300_000  # training origins are thinned to stay near this size (keeps the 2025 replay fast)
+MIN_HISTORY_DAYS = 28
+
+
+def _daily_series(train_df: pd.DataFrame) -> tuple[np.ndarray, pd.DatetimeIndex]:
+    """Units sold on a gap-free daily index (missing days = 0 sales)."""
+    s = train_df.groupby(pd.to_datetime(train_df["sale_date"]).dt.normalize())["units_sold"].sum()
+    idx = pd.date_range(s.index.min(), s.index.max(), freq="D")
+    return s.reindex(idx, fill_value=0).to_numpy(dtype=np.float64), idx
+
+
 class GlobalLGBMForecaster:
     """
-    Task 2E: Global Gradient Boosted Trees Forecaster (`HistGradientBoostingRegressor` —
-    scikit-learn's native LightGBM histogram algorithm) trained jointly across all series.
+    Task 2E: one global gradient-boosted model (LightGBM; scikit-learn's histogram GBM if LightGBM is missing)
+    trained across all series, direct multi-horizon.
 
-    Engineered Features:
-    - Lag & Rolling statistics anchored at origin T (deseasonalized series level & momentum):
-      `deseason_mean_7d`, `deseason_mean_14d`, `deseason_mean_28d`, `deseason_mean_60d`,
-      `raw_lag_7`, `raw_mean_14d`, `raw_std_14d`, `dow_specific_mean_4w`
-    - Target Date Calendar & Cyclical features:
-      `day_of_week`, `is_weekend`, `month`, `day_of_year`, `weekly_mult`, `trend_factor`
-    - Category & Moving Pakistani Festival features:
-      `category_id`, `climate_seasonal_idx`, `is_festival_day`, `festival_multiplier`,
-      ` Structural_Expected_Baseline = deseason_level * trend * weekly_mult * climate_idx * fest_mult`
+    For an origin day o (the last day with known sales) and a target day o + h it only sees:
+    - the series' recent level and volatility up to o: 7 / 28 / 91-day means, 28-day std, share of zero-sale days
+    - the same-weekday average of the last 4 weeks before o (weekly pattern, learned from the data)
+    - last year around the target date relative to last year's level (yearly season, learned from the data)
+    - calendar of the target date (weekday, month, day of year), the horizon h and the category
+    - which festivals run on the target date (calendar dates / names only) and how much each one lifted THIS series
+      the previous time and so far this time (`festival_uplift_features`, computed from sales up to o)
+    Target = sales / (28-day level + 0.1), with sample weight = that level, so the fit lines up with WAPE.
+    No multiplier, season curve, trend or noise parameter of the data generator is used (the earlier version did;
+    it is kept as `shopkaro.forecasting.oracle.OracleGeneratorFormulaForecaster` for comparison only).
     """
 
     name = "5. Global LightGBM (Lags + Rolling + Festival Features)"
@@ -455,127 +405,124 @@ class GlobalLGBMForecaster:
         self.max_leaf_nodes = max_leaf_nodes
         self.min_samples_leaf = min_samples_leaf
         self.random_state = random_state
-        self.model: HistGradientBoostingRegressor | None = None
+        self.model: Any = None
         self.cat_to_code: dict[str, int] = {}
 
     @staticmethod
-    def _compute_structural_divisor(
-        dates: pd.Series | pd.DatetimeIndex,
-        category: str,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
-    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        dt = pd.to_datetime(dates)
-        dow = np.asarray(dt.dt.day_of_week if hasattr(dt, "dt") else dt.day_of_week, dtype=int)
-        doy = np.asarray(dt.dt.day_of_year if hasattr(dt, "dt") else dt.day_of_year, dtype=np.float64)
-        month = np.asarray(dt.dt.month if hasattr(dt, "dt") else dt.month, dtype=int)
-
-        days_since_start = np.asarray(
-            (dt - pd.Timestamp("2024-01-01")).dt.days
-            if hasattr(dt, "dt")
-            else (dt - pd.Timestamp("2024-01-01")).days,
-            dtype=np.float64,
-        )
-        trend_mult = 1.0 + 0.18 * (days_since_start / 730.0)
-        weekly_mult = np.where(dow == 4, 1.25, np.where(dow >= 5, 1.35, 0.92))
-        climate_mult = _category_climate_index(category, doy, month)
-        fest_mult = np.array(
-            [fest_lookup.get((pd.Timestamp(d), category), (1.0, 0, ""))[0] for d in dt],
-            dtype=np.float64,
-        )
-        return trend_mult, weekly_mult, climate_mult, fest_mult
-
-    def _build_series_training_panel(
-        self,
-        series_df: pd.DataFrame,
-        series_id: int,
-        category: str,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
+    def _features(
+        y: np.ndarray,
+        dates: pd.DatetimeIndex,
+        cat_code: int,
+        calendar: FestivalCalendar,
+        origins: np.ndarray,
+        horizons: np.ndarray,
     ) -> tuple[np.ndarray, np.ndarray]:
-        df = series_df.sort_values("sale_date").reset_index(drop=True)
-        y = df["units_sold"].to_numpy(dtype=np.float64)
-        n = len(y)
+        """Feature matrix and scale (28-day level + 0.1) for (origin, horizon) pairs. Uses y[: origin + 1] only."""
+        o = origins.astype(np.int64)
+        h = horizons.astype(np.int64)
+        t = o + h
+        csum = np.concatenate([[0.0], np.cumsum(y)])
+        csq = np.concatenate([[0.0], np.cumsum(y * y)])
+        czero = np.concatenate([[0.0], np.cumsum(y == 0)])
 
-        trend_m, week_m, clim_m, fest_m = self._compute_structural_divisor(
-            df["sale_date"], category, fest_lookup
-        )
-        total_mult = np.maximum(trend_m * week_m * clim_m * fest_m, 0.05)
-        deseason_y = y / total_mult
+        def window_mean(c: np.ndarray, end: np.ndarray, length: int) -> np.ndarray:
+            start = np.maximum(end - length + 1, 0)
+            return (c[end + 1] - c[start]) / (end - start + 1)
 
-        s_des = pd.Series(deseason_y)
-        s_raw = pd.Series(y)
+        level7 = window_mean(csum, o, 7)
+        level28 = window_mean(csum, o, 28)
+        level91 = window_mean(csum, o, 91)
+        std28 = np.sqrt(np.maximum(window_mean(csq, o, 28) - level28**2, 0.0))
+        zero28 = window_mean(czero, o, 28)
+        scale = level28 + 0.1
 
-        des_7 = s_des.shift(1).rolling(7, min_periods=3).mean().to_numpy()
-        des_14 = s_des.shift(1).rolling(14, min_periods=5).mean().to_numpy()
-        des_28 = s_des.shift(1).rolling(28, min_periods=7).mean().to_numpy()
-        des_60 = s_des.shift(1).rolling(60, min_periods=14).mean().to_numpy()
+        # Same weekday as the target, last 4 weeks up to the origin
+        k0 = np.ceil((t - o) / 7.0).astype(np.int64)
+        dow_vals = np.full((len(o), 4), np.nan)
+        for j in range(4):
+            idx = t - 7 * (k0 + j)
+            ok = idx >= 0
+            dow_vals[ok, j] = y[idx[ok]]
+        counts = (~np.isnan(dow_vals)).sum(axis=1)
+        dow_mean = np.where(counts > 0, np.nansum(dow_vals, axis=1) / np.maximum(counts, 1), np.nan)
 
-        raw_lag7 = s_raw.shift(7).to_numpy()
-        raw_mean14 = s_raw.shift(1).rolling(14, min_periods=5).mean().to_numpy()
-        raw_std14 = s_raw.shift(1).rolling(14, min_periods=5).std().fillna(0.0).to_numpy()
+        # Last year: target date -364 days (same weekday) +-3 days, relative to last year's level at the origin
+        ly_c = t - 364
+        ly_ok = (ly_c - 3) >= 0
+        ly_win = np.full(len(o), np.nan)
+        ly_win[ly_ok] = (csum[ly_c[ly_ok] + 4] - csum[ly_c[ly_ok] - 3]) / 7.0
+        ly_o = o - 364
+        lvl_ok = (ly_o - 27) >= 0
+        ly_lvl = np.full(len(o), np.nan)
+        ly_lvl[lvl_ok] = (csum[ly_o[lvl_ok] + 1] - csum[ly_o[lvl_ok] - 27]) / 28.0
+        ly_ratio = ly_win / (ly_lvl + 0.1)
 
-        dt = pd.to_datetime(df["sale_date"])
-        dow = dt.dt.day_of_week.to_numpy(dtype=np.float64)
-        month = dt.dt.month.to_numpy(dtype=np.float64)
-        doy = dt.dt.day_of_year.to_numpy(dtype=np.float64)
-        cat_code = float(self.cat_to_code.get(category, 0))
+        base = dates[0]
+        target_dates = pd.DatetimeIndex(base + pd.to_timedelta(t, unit="D"))
+        origin_dates = pd.DatetimeIndex(base + pd.to_timedelta(o, unit="D"))
+        # Islamic festivals move ~11 days a year, so "same date last year" may have been Eid when this year it is
+        # not (or the reverse). Telling the model lets it discount `ly_ratio` on those days.
+        ly_dates = pd.DatetimeIndex(target_dates - pd.Timedelta(days=364))
+        ly_fest = calendar.is_festival(ly_dates).astype(np.float64)
+        ly_since = calendar.days_since_start(ly_dates)
+        doy = target_dates.day_of_year.to_numpy(dtype=np.float64)
+        active = calendar.active_matrix(target_dates).astype(np.float64)
+        hist_up, cur_up = festival_uplift_features(y, dates, calendar, o, target_dates)
 
-        base_est = 0.15 * des_7 + 0.25 * des_14 + 0.35 * des_28 + 0.25 * des_60
-        structural_expected = base_est * total_mult
-
-        X_all = np.column_stack(
+        X = np.column_stack(
             [
-                np.full(n, series_id, dtype=np.float64),
-                np.full(n, cat_code, dtype=np.float64),
-                des_7,
-                des_14,
-                des_28,
-                des_60,
-                raw_lag7,
-                raw_mean14,
-                raw_std14,
-                dow,
-                (dow >= 4).astype(np.float64),
-                month,
-                doy,
-                trend_m,
-                week_m,
-                clim_m,
-                fest_m,
-                (fest_m > 1.01).astype(np.float64),
-                structural_expected,
+                h.astype(np.float64),
+                np.full(len(o), float(cat_code)),
+                np.log1p(level28),
+                level7 / scale,
+                level91 / scale,
+                std28 / scale,
+                zero28,
+                dow_mean / scale,
+                ly_ratio,
+                ly_fest,
+                ly_since,
+                target_dates.day_of_week.to_numpy(dtype=np.float64),
+                target_dates.month.to_numpy(dtype=np.float64),
+                np.sin(2.0 * np.pi * doy / 365.25),
+                np.cos(2.0 * np.pi * doy / 365.25),
+                calendar.days_since_start(target_dates),
+                calendar.is_festival(origin_dates).astype(np.float64),
+                hist_up,
+                cur_up,
+                active,
             ]
         )
-
-        valid = ~np.isnan(X_all).any(axis=1)
-        # Predict residual adjustment ratio around structural expectation for stability across scales
-        return X_all[valid], y[valid] - structural_expected[valid]
+        return X, scale
 
     def fit_and_predict_panel(
         self,
         series_dict: dict[str, tuple[pd.DataFrame, str]],
         future_dates: pd.DatetimeIndex,
-        fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
+        calendar: FestivalCalendar,
     ) -> dict[str, np.ndarray]:
-        """Fit a single Global HistGradientBoostingRegressor on all series and predict `future_dates`."""
+        """Fit one global model on all series (data up to each series' last day) and predict `future_dates`."""
         all_cats = sorted({cat for _, cat in series_dict.values()})
         self.cat_to_code = {c: idx for idx, c in enumerate(all_cats)}
+        prepared = {k: (*_daily_series(df), cat) for k, (df, cat) in series_dict.items()}
 
-        X_parts: list[np.ndarray] = []
-        y_parts: list[np.ndarray] = []
+        # Festivals that never happened before the forecast origin are treated as regular days (no history)
+        calendar = calendar.seen_before(min(d[-1] for _, d, _ in prepared.values()))
+        max_h = max(int((pd.Timestamp(future_dates[-1]) - d[-1]).days) for _, d, _ in prepared.values())
+        train_h = sorted({h for h in TRAIN_HORIZONS if h <= max_h} | {max(max_h, 1)})
+        n_candidates = sum(max(len(y) - MIN_HISTORY_DAYS - h, 0) for y, _, _ in prepared.values() for h in train_h)
+        step = max(1, int(np.ceil(n_candidates / MAX_TRAIN_ROWS)))
 
-        for s_idx, (s_key, (train_df, cat)) in enumerate(series_dict.items()):
-            Xs, ys = self._build_series_training_panel(
-                series_df=train_df,
-                series_id=s_idx,
-                category=cat,
-                fest_lookup=fest_lookup,
-            )
-            if len(Xs) > 0:
-                X_parts.append(Xs)
-                y_parts.append(ys)
-
-        X_train = np.vstack(X_parts)
-        y_train_resid = np.concatenate(y_parts)
+        X_parts, y_parts, w_parts = [], [], []
+        for y, dates, cat in prepared.values():
+            for h in train_h:
+                origins = np.arange(MIN_HISTORY_DAYS - 1 + (h % step), len(y) - h, step)
+                if len(origins) == 0:
+                    continue
+                X, scale = self._features(y, dates, self.cat_to_code[cat], calendar, origins, np.full(len(origins), h))
+                X_parts.append(X)
+                y_parts.append(y[origins + h] / scale)
+                w_parts.append(scale)
 
         self.model = _make_gbm_regressor(
             max_iter=self.max_iter,
@@ -584,71 +531,17 @@ class GlobalLGBMForecaster:
             min_samples_leaf=self.min_samples_leaf,
             random_state=self.random_state,
         )
-        self.model.fit(X_train, y_train_resid)
+        self.model.fit(np.vstack(X_parts), np.concatenate(y_parts), sample_weight=np.concatenate(w_parts))
 
         predictions: dict[str, np.ndarray] = {}
-        h = len(future_dates)
-        dow = future_dates.day_of_week.to_numpy(dtype=np.float64)
-        month = future_dates.month.to_numpy(dtype=np.float64)
-        doy = future_dates.day_of_year.to_numpy(dtype=np.float64)
-
-        for s_idx, (s_key, (train_df, cat)) in enumerate(series_dict.items()):
-            df = train_df.sort_values("sale_date").reset_index(drop=True)
-            y_hist = df["units_sold"].to_numpy(dtype=np.float64)
-            t_m, w_m, c_m, f_m = self._compute_structural_divisor(
-                df["sale_date"], cat, fest_lookup
-            )
-            tot_m = np.maximum(t_m * w_m * c_m * f_m, 0.05)
-            des_hist = y_hist / tot_m
-
-            des_7 = float(np.mean(des_hist[-7:]))
-            des_14 = float(np.mean(des_hist[-14:]))
-            des_28 = float(np.mean(des_hist[-28:]))
-            des_60 = float(np.mean(des_hist[-min(60, len(des_hist)) :]))
-
-            last_7_raw = y_hist[-7:]
-            reps = int(np.ceil(h / 7.0))
-            raw_lag7_vec = np.tile(last_7_raw, reps)[:h]
-            raw_mean14 = float(np.mean(y_hist[-14:]))
-            raw_std14 = float(np.std(y_hist[-14:]))
-
-            fut_t_m, fut_w_m, fut_c_m, fut_f_m = self._compute_structural_divisor(
-                future_dates, cat, fest_lookup
-            )
-            fut_tot_m = np.maximum(fut_t_m * fut_w_m * fut_c_m * fut_f_m, 0.05)
-            base_est = 0.15 * des_7 + 0.25 * des_14 + 0.35 * des_28 + 0.25 * des_60
-            structural_expected = base_est * fut_tot_m
-
-            cat_code = float(self.cat_to_code.get(cat, 0))
-            X_fut = np.column_stack(
-                [
-                    np.full(h, s_idx, dtype=np.float64),
-                    np.full(h, cat_code, dtype=np.float64),
-                    np.full(h, des_7, dtype=np.float64),
-                    np.full(h, des_14, dtype=np.float64),
-                    np.full(h, des_28, dtype=np.float64),
-                    np.full(h, des_60, dtype=np.float64),
-                    raw_lag7_vec,
-                    np.full(h, raw_mean14, dtype=np.float64),
-                    np.full(h, raw_std14, dtype=np.float64),
-                    dow,
-                    (dow >= 4).astype(np.float64),
-                    month,
-                    doy,
-                    fut_t_m,
-                    fut_w_m,
-                    fut_c_m,
-                    fut_f_m,
-                    (fut_f_m > 1.01).astype(np.float64),
-                    structural_expected,
-                ]
-            )
-            resid_pred = self.model.predict(X_fut)
-            # Blend structural expectation with dampened tree residual correction
-            final_pred = np.maximum(0.0, structural_expected + 0.35 * resid_pred)
-            predictions[s_key] = final_pred
-
+        for key, (y, dates, cat) in prepared.items():
+            hs = np.asarray((pd.DatetimeIndex(future_dates) - dates[-1]).days, dtype=np.int64)
+            origins = np.full(len(hs), len(y) - 1)
+            X, scale = self._features(y, dates, self.cat_to_code[cat], calendar, origins, hs)
+            predictions[key] = np.maximum(0.0, self.model.predict(X) * scale)
         return predictions
+
+
 
 
 # ============================================================================
@@ -711,13 +604,16 @@ def _evaluate_panel_across_folds(
     panel_df: pd.DataFrame,
     id_col: str,
     hierarchy_label: str,
-    fest_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]],
+    calendar: FestivalCalendar,
     breakdown_sink: list[dict[str, Any]] | None = None,
+    oracle_lookup: dict[tuple[pd.Timestamp, str], tuple[float, int, str]] | None = None,
 ) -> pd.DataFrame:
     """
     Run 4-Fold Rolling-Origin Backtesting for all 7 models across 7d, 14d, and 30d horizons.
     If `breakdown_sink` is given, also append accuracy at BREAKDOWN_HORIZON split by festival vs regular days and
     by velocity tier.
+    If `oracle_lookup` is given, an 8th row is added: the generator-formula ORACLE (see `forecasting/oracle.py`), an
+    upper bound that a real retailer could not reach. It is reported for comparison only and used nowhere else.
     """
     panel = panel_df.copy()
     panel["sale_date"] = pd.to_datetime(panel["sale_date"])
@@ -726,10 +622,15 @@ def _evaluate_panel_across_folds(
     m1_naive = NaiveForecaster()
     m2_snaive = SeasonalNaive7DForecaster()
     m3_ets = HoltWintersETSForecaster()
-    m4_prophet = ProphetFourierHolidayForecaster(fourier_order=6, ridge_alpha=1.5)
+    m4_prophet = ProphetFourierHolidayForecaster()
     m5_lgbm = GlobalLGBMForecaster()
     m6_croston = CrostonSBAForecaster()
     m7_tsb = TSBForecaster()
+    m8_oracle = None
+    if oracle_lookup is not None:
+        from shopkaro.forecasting.oracle import OracleGeneratorFormulaForecaster
+
+        m8_oracle = OracleGeneratorFormulaForecaster()
 
     model_names = [
         m1_naive.name,
@@ -739,7 +640,7 @@ def _evaluate_panel_across_folds(
         m5_lgbm.name,
         m6_croston.name,
         m7_tsb.name,
-    ]
+    ] + ([m8_oracle.name] if m8_oracle is not None else [])
 
     # Store (y_true_list, y_pred_list) per (model_name, horizon)
     collector: dict[tuple[str, int], tuple[list[np.ndarray], list[np.ndarray]]] = {
@@ -783,8 +684,14 @@ def _evaluate_panel_across_folds(
         lgbm_preds_map = m5_lgbm.fit_and_predict_panel(
             series_dict=series_train_dict,
             future_dates=future_dates,
-            fest_lookup=fest_lookup,
+            calendar=calendar,
         )
+        oracle_preds_map = (
+            m8_oracle.fit_and_predict_panel(series_train_dict, future_dates, oracle_lookup)
+            if m8_oracle is not None
+            else {}
+        )
+        fest_flags_h = calendar.is_festival(future_dates[:BREAKDOWN_HORIZON])
 
         # Fit & predict local models per series
         for sid_str, (tr_s, cat) in series_train_dict.items():
@@ -792,7 +699,7 @@ def _evaluate_panel_across_folds(
             p_naive = m1_naive.fit_predict_series(tr_s, future_dates)
             p_snaive = m2_snaive.fit_predict_series(tr_s, future_dates)
             p_ets = m3_ets.fit_predict_series(tr_s, future_dates)
-            p_prophet = m4_prophet.fit_predict_series(tr_s, future_dates, cat, fest_lookup)
+            p_prophet = m4_prophet.fit_predict_series(tr_s, future_dates, calendar)
             p_lgbm = lgbm_preds_map[sid_str]
 
             preds_by_model = {
@@ -804,6 +711,8 @@ def _evaluate_panel_across_folds(
                 m6_croston.name: m6_croston.fit_predict_series(tr_s, future_dates),
                 m7_tsb.name: m7_tsb.fit_predict_series(tr_s, future_dates),
             }
+            if m8_oracle is not None:
+                preds_by_model[m8_oracle.name] = oracle_preds_map[sid_str]
 
             for h in HORIZONS:
                 for m_name, p_vec in preds_by_model.items():
@@ -812,9 +721,7 @@ def _evaluate_panel_across_folds(
 
             if breakdown_sink is not None:
                 h = BREAKDOWN_HORIZON
-                fest_flags = np.array(
-                    [bool(fest_lookup.get((pd.Timestamp(dt), cat), (1.0, 0, ""))[1]) for dt in future_dates[:h]]
-                )
+                fest_flags = fest_flags_h
                 tier = str(tr_s["velocity_tier"].iloc[-1]) if "velocity_tier" in tr_s.columns else ""
                 for m_name, p_vec in preds_by_model.items():
                     detail[m_name]["y"].append(y_actual_30[:h])
@@ -891,7 +798,7 @@ def plot_backtest_comparison_chart(
 
     fig, axes = plt.subplots(2, 2, figsize=(16, 11))
     fig.suptitle(
-        "ShopKaro AI — Day 3 Tasks 2 & 3: 4-Fold Rolling-Origin Backtesting (7 Models x 3 Horizons)",
+        "ShopKaro AI — Day 3 Tasks 2 & 3: 4-Fold Rolling-Origin Backtesting (7 Models x 3 Horizons, + oracle)",
         fontsize=14,
         fontweight="bold",
         y=0.98,
@@ -901,15 +808,18 @@ def plot_backtest_comparison_chart(
     sku_df = backtest_df[backtest_df["hierarchy_level"] == "Top50_SKU_Level"]
 
     colors = {7: "#6baed6", 14: "#3182bd", 30: "#08519c"}
-    short_models = [
-        "1. Naive",
-        "2. Seasonal Naive (7d)",
-        "3. Holt-Winters ETS",
-        "4. Prophet (Holidays)",
-        "5. Global LightGBM",
-        "6. Croston-SBA",
-        "7. TSB",
-    ]
+    short_names = {
+        "1": "1. Naive",
+        "2": "2. Seasonal Naive (7d)",
+        "3": "3. Holt-Winters ETS",
+        "4": "4. Prophet (Holidays)",
+        "5": "5. Global LightGBM",
+        "6": "6. Croston-SBA",
+        "7": "7. TSB",
+        "8": "8. ORACLE (not a real model)",
+    }
+    n_models = cat_df[cat_df["horizon_days"] == 14]["model_name"].nunique()
+    short_models = [short_names[str(i)] for i in range(1, n_models + 1)]
     y_pos = np.arange(len(short_models))
     w = 0.25
 
@@ -1034,34 +944,33 @@ def run_day3_task2_task3_forecasting_backtest(
     ).df()
     con.close()
 
-    all_categories = sorted(category_df["category"].astype(str).unique().tolist())
-    fest_lookup = _build_date_category_festival_lookup(
+    calendar = FestivalCalendar(festival_cal_df)  # dates and names only
+    # The oracle (comparison row only) is the one place that reads the generator's true multipliers.
+    from shopkaro.forecasting.oracle import build_oracle_festival_lookup
+
+    oracle_lookup = build_oracle_festival_lookup(
         festival_cal_df=festival_cal_df,
-        all_categories=all_categories,
+        all_categories=sorted(category_df["category"].astype(str).unique().tolist()),
     )
 
     breakdown: list[dict[str, Any]] = []
-    cat_backtest_df = _evaluate_panel_across_folds(
-        panel_df=category_df,
-        id_col="category",
-        hierarchy_label="Category_Level",
-        fest_lookup=fest_lookup,
-        breakdown_sink=breakdown,
-    )
-    sku_backtest_df = _evaluate_panel_across_folds(
-        panel_df=top50_sku_df,
-        id_col="product_id",
-        hierarchy_label="Top50_SKU_Level",
-        fest_lookup=fest_lookup,
-        breakdown_sink=breakdown,
-    )
-    vel_backtest_df = _evaluate_panel_across_folds(
-        panel_df=velocity_df,
-        id_col="product_id",
-        hierarchy_label="SKU_By_Velocity_60",
-        fest_lookup=fest_lookup,
-        breakdown_sink=breakdown,
-    )
+    panels = [
+        (category_df, "category", "Category_Level"),
+        (top50_sku_df, "product_id", "Top50_SKU_Level"),
+        (velocity_df, "product_id", "SKU_By_Velocity_60"),
+    ]
+    frames = [
+        _evaluate_panel_across_folds(
+            panel_df=panel,
+            id_col=id_col,
+            hierarchy_label=label,
+            calendar=calendar,
+            breakdown_sink=breakdown,
+            oracle_lookup=oracle_lookup,
+        )
+        for panel, id_col, label in panels
+    ]
+    cat_backtest_df, sku_backtest_df, vel_backtest_df = frames
 
     full_backtest_df = pd.concat([cat_backtest_df, sku_backtest_df, vel_backtest_df], ignore_index=True)
 

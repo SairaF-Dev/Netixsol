@@ -575,7 +575,18 @@ class BusinessReRanker:
                 stats["brand_cap_skipped"] += 1
                 overflow.append(item_tuple)
 
-        # Graceful fallback if candidate pool had fewer than K brand-diverse items
+        # Too few brands in the pool (each product type has only a handful of brands): widen the pool first
+        if len(selected) < k and candidate_pool_size < 640:
+            return self.rerank_for_user(
+                user_id=user_id,
+                k=k,
+                candidate_pool_size=candidate_pool_size * 4,
+                active_festival=active_festival,
+                remove_purchased=remove_purchased,
+                only_in_stock=only_in_stock,
+            )
+
+        # Graceful fallback if even the widest pool had fewer than K brand-diverse items
         if len(selected) < k:
             for item_tuple in overflow:
                 selected.append(item_tuple)

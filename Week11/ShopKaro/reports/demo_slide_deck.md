@@ -11,7 +11,7 @@
 - **Headline:** Transforming ShopKaro into Pakistan's #1 AI-Powered Marketplace
 - **Key Takeaways:**
   - Full-stack AI Commerce Engine: real-time item-to-item recommender, quantile demand forecaster, hybrid UrduLish search, LLM shopping assistant, and 6-aspect review analysis.
-  - A/B test (replay of 162,386 real visitors): homepage buyers 7 -> 42 (p = 3.6e-7), est. ~PKR 8.3M/month; most of the gain is re-surfacing products shoppers already browsed.
+  - A/B test (replay of 162,386 real visitors): homepage buyers 7 -> 42 (p = 3.6e-7), est. ~PKR 8.0M/month; most of the gain is re-surfacing products shoppers already browsed.
   - Sub-100ms real-time serving gateway with two-tier Redis caching.
 
 ---
@@ -40,14 +40,14 @@
   - Brand diversity cap ($\le 2$ items/brand).
   - Festival & seasonal boosts (Ramadan lawn suits & Eid gifts).
   - Frequently Bought Together (FP-Growth association rules).
-- **Benchmark Results:** NDCG@10 of **0.1923** (+35.4% lift over popularity baseline, beating the +20% requirement).
+- **Benchmark Results (5,000 test users):** neural two-tower NDCG@10 **0.1362** vs popularity 0.0035. On products the shopper had never seen: two-tower 0.0260 and item-CF 0.0149 vs popularity 0.0024 (6-11x, well above the +20% requirement).
 
 ---
 
 ### Slide 5: Intelligent Roman Urdu Hybrid Search & Query Parsing
-- **Hybrid Scoring:** Okapi BM25 Keyword Search + 96-D Subword Semantic Vector + Reciprocal Rank Fusion ($k=60$).
+- **Hybrid Scoring:** Okapi BM25 keyword search + multilingual-e5 neural embeddings + Reciprocal Rank Fusion ($k=60$) + feature and cross-encoder re-ranking.
 - **Rule & Regex Parser:** Automatic budget ceiling extraction (*"20 hazaar"*, *"1.5 lac"*), occasion detection (*"shaadi"*, *"eid"*), and category mapping.
-- **Evaluation:** Evaluated across 50 labeled retail queries; Hybrid achieved **0.864 NDCG@10** vs 0.612 for keyword search alone.
+- **Evaluation:** 50 development + 20 held-out labelled queries; hybrid NDCG@10 **0.962 / 0.893** vs keyword-only 0.788 / 0.498, budget respected 100%.
 
 ---
 
@@ -61,15 +61,17 @@
 ### Slide 7: 6-Aspect ABSA & Courier Delay De-Biasing
 - **Clause-Aware NLP:** Contrastive splitters disambiguate product quality praise from courier delivery complaints (*"Kapra acha hai lekin delivery late thi"*).
 - **6 Aspects:** Quality, Price, Delivery, Size/Fit, Packaging, Seller.
-- **Quality vs courier:** product quality and delivery are scored separately, so courier delays are not blamed on the product (1 product(s) currently meet the "unfairly penalised" rule).
+- **Quality vs courier:** product quality and delivery are scored separately, so courier delays are not blamed on the product (0 products currently meet the "unfairly penalised" rule).
 - **Measured on new hand-written reviews:** sentiment 77% accuracy (baseline 40%), spam F1 0.89, no genuine review flagged as spam.
 
 ---
 
 ### Slide 8: Supply Chain Control Tower & Quantile Demand Forecasting
-- **Probabilistic Trajectories:** gradient-boosted P50 forecast with a P10–P90 band (79% measured coverage of the nominal 80%).
+- **Learns festivals from history:** global LightGBM sees only past sales and festival dates; 15.4% category WAPE vs 42.3% for seasonal naive (14 days, 4 folds).
+- **We caught our own leak:** the first version used the data generator's formula (6% WAPE, not real). Fixed, kept as a labelled "oracle", and guarded by a test.
+- **Probabilistic Trajectories:** P10–P90 band from conformal prediction (75% measured coverage of the nominal 80%; P90 covers 86%).
 - **Automated Inventory Decisions:** Dynamic Reorder Points ($ROP$), Safety Stock ($SS$), and 14-day stockout risk alerts.
-- **2025 replay (synthetic demand):** forecast-driven weekly re-ordering lost **96% fewer units during Ramadan + Eid ul Fitr** than a 28-day moving average (94% fewer than same-days-last-year) while holding **22% less stock**. Demand was generated from the same festival calendar the model uses, so real gains would be smaller.
+- **2025 replay (synthetic demand):** forecast-driven weekly re-ordering lost **83% fewer units** than a 28-day moving average (89% fewer during Ramadan + Eid ul Fitr) while holding 15% less stock. Synthetic demand repeats yearly patterns, so real gains would be smaller.
 
 ---
 

@@ -15,6 +15,7 @@ import pandas as pd
 
 import shopkaro.forecasting.models as fm
 from shopkaro.config.settings import settings
+from shopkaro.forecasting.festivals import FestivalCalendar
 
 EXTRA_CUTOFFS = ["2025-01-20", "2025-02-10", "2025-04-20", "2025-06-25", "2025-07-15", "2025-09-15", "2025-10-10",
                  "2025-12-01"]
@@ -35,15 +36,13 @@ def main() -> None:
     ).df()
     fest_cal = con.execute("SELECT * FROM festival_calendar").df()
     con.close()
-    fest_lookup = fm._build_date_category_festival_lookup(
-        festival_cal_df=fest_cal, all_categories=sorted(panel["category"].astype(str).unique().tolist())
-    )
+    calendar = FestivalCalendar(fest_cal)  # festival dates and names only
 
     saved = fm.BACKTEST_FOLD_CUTOFFS
     fm.BACKTEST_FOLD_CUTOFFS = [(c, c) for c in EXTRA_CUTOFFS]  # the fold loop reads this module constant
     try:
         sink: list[dict] = []
-        fm._evaluate_panel_across_folds(panel, "product_id", "SKU_By_Velocity_60_extra_cutoffs", fest_lookup, sink)
+        fm._evaluate_panel_across_folds(panel, "product_id", "SKU_By_Velocity_60_extra_cutoffs", calendar, sink)
     finally:
         fm.BACKTEST_FOLD_CUTOFFS = saved
 

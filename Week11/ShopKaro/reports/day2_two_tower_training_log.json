@@ -1,81 +1,74 @@
 {
-  "epochs_trained": 9,
-  "best_epoch": 7,
-  "best_val_ndcg_at_10": 0.26272,
+  "epochs_trained": 8,
+  "best_epoch": 6,
+  "best_val_ndcg_at_10": 0.26357,
   "best_pop_weight": 0.5,
-  "best_revisit_boost": 40.0,
+  "best_revisit_boost": 20.0,
   "train_examples_per_epoch": 398938,
-  "seconds": 656.4,
+  "seconds": 272.9,
   "per_epoch": [
     {
       "epoch": 1,
-      "train_loss": 5.5655,
-      "val_ndcg_at_10": 0.25241,
+      "train_loss": 5.5706,
+      "val_ndcg_at_10": 0.25084,
       "pop_weight": 0.5,
       "revisit_boost": 20.0
     },
     {
       "epoch": 2,
-      "train_loss": 4.5347,
-      "val_ndcg_at_10": 0.25775,
+      "train_loss": 4.5327,
+      "val_ndcg_at_10": 0.25836,
       "pop_weight": 0.0,
       "revisit_boost": 20.0
     },
     {
       "epoch": 3,
-      "train_loss": 4.0312,
-      "val_ndcg_at_10": 0.25968,
-      "pop_weight": 0.0,
-      "revisit_boost": 20.0
-    },
-    {
-      "epoch": 4,
-      "train_loss": 3.7724,
-      "val_ndcg_at_10": 0.26114,
+      "train_loss": 4.0221,
+      "val_ndcg_at_10": 0.26093,
       "pop_weight": 0.5,
       "revisit_boost": 20.0
     },
     {
+      "epoch": 4,
+      "train_loss": 3.7659,
+      "val_ndcg_at_10": 0.26209,
+      "pop_weight": 0.0,
+      "revisit_boost": 20.0
+    },
+    {
       "epoch": 5,
-      "train_loss": 3.601,
-      "val_ndcg_at_10": 0.26141,
+      "train_loss": 3.595,
+      "val_ndcg_at_10": 0.26102,
       "pop_weight": 0.5,
       "revisit_boost": 20.0
     },
     {
       "epoch": 6,
-      "train_loss": 3.4778,
-      "val_ndcg_at_10": 0.26212,
+      "train_loss": 3.4728,
+      "val_ndcg_at_10": 0.26357,
       "pop_weight": 0.5,
       "revisit_boost": 20.0
     },
     {
       "epoch": 7,
-      "train_loss": 3.3796,
-      "val_ndcg_at_10": 0.26272,
+      "train_loss": 3.3735,
+      "val_ndcg_at_10": 0.26285,
       "pop_weight": 0.5,
-      "revisit_boost": 40.0
+      "revisit_boost": 20.0
     },
     {
       "epoch": 8,
-      "train_loss": 3.2994,
-      "val_ndcg_at_10": 0.26156,
-      "pop_weight": 0.5,
-      "revisit_boost": 20.0
-    },
-    {
-      "epoch": 9,
-      "train_loss": 3.2312,
-      "val_ndcg_at_10": 0.26221,
-      "pop_weight": 0.5,
-      "revisit_boost": 20.0
+      "train_loss": 3.2935,
+      "val_ndcg_at_10": 0.26249,
+      "pop_weight": 0.0,
+      "revisit_boost": 40.0
     }
   ],
   "cold_start_selected": {
     "n_seed": 100,
-    "cat_bonus": 5.0,
+    "cat_bonus": 1000.0,
     "pop_weight": 4.0,
-    "ndcg_at_10": 0.02838,
+    "ndcg_at_10": 0.02927,
     "validation_users": 2000
   }
 }

@@ -72,6 +72,8 @@ class HallucinationAuditResult:
     mentioned_prices_pkr: list[float]
     hallucinated_prices_pkr: list[float]
     passed_zero_hallucination_check: bool
+    # (product_id, amount) pairs where a real price was attached to the wrong product
+    mismatched_sku_prices: list[tuple[str, float]] = field(default_factory=list)
 
 
 @dataclass
@@ -507,8 +509,14 @@ class ShopKaroToolRegistry:
         category: str | None = None,
         k: int = 5,
     ) -> dict[str, Any]:
+        # A budget passed as an argument (the LLM sends query="mobile", max_price_pkr=25000) must reach the
+        # search engine, which filters by budget while retrieving. Filtering only afterwards kept just the
+        # top-25 phones of any price, so a 25k budget found nothing although 24k phones exist.
+        search_query = query
+        if max_price_pkr is not None and self.personalizer.search_engine.parser.parse(query).max_price_pkr is None:
+            search_query = f"{query} under {int(max_price_pkr)}"
         results, parsed = self.personalizer.search_personalized(
-            query=query,
+            query=search_query,
             user_id=user_id,
             k=25,
         )
@@ -541,6 +549,62 @@ class ShopKaroToolRegistry:
             "effective_category": effective_cat,
             "constraints_relaxed": constraints_relaxed,
             "results": filtered[:k],
+            "price_summary": self.price_summary(parsed),
+            "colour_check": self._colour_check(parsed, effective_max),
+        }
+
+    def _same_kind(self, parsed: Any) -> list[dict[str, Any]]:
+        """In-stock catalogue products of the requested type, kept inside the requested category if there is one."""
+        types = set(parsed.type_hints or [])
+        cat = parsed.category_hint
+        if not types and not cat:
+            return []
+        rows = [r for r in self.catalog_map.values() if r.get("in_stock")]
+        if cat:  # also drops stray type matches from other categories ("range" ~ "rice")
+            rows = [r for r in rows if r.get("category") == cat]
+        if types:
+            typed = [r for r in rows if r.get("sub_category") in types]
+            rows = typed or rows
+        return rows
+
+    def _colour_check(self, parsed: Any, max_price: float | None) -> dict[str, Any] | None:
+        """If a colour was asked for: does the catalogue have it (within budget)? If not, which colours exist."""
+        colour = parsed.color_hint
+        if not colour:
+            return None
+        rows = [r for r in self._same_kind(parsed) if max_price is None or float(r["price_pkr"]) <= max_price]
+        if not rows:
+            return None
+        has = [r for r in rows if colour.lower() in str(r.get("color", "")).lower()]
+        return {
+            "requested_colour": colour,
+            "available": bool(has),
+            "available_colours": sorted({str(r.get("color")) for r in rows if r.get("color")}),
+        }
+
+    def price_summary(self, parsed: Any) -> dict[str, Any] | None:
+        """
+        Real price spread of the in-stock products of the requested type (or category), for questions like
+        "budget kitna hona chahiye?". Every figure is the price of an actual product (lowest, the ones at the
+        25th / 50th / 75th position, highest), so an assistant can quote them without inventing numbers.
+        """
+        rows = self._same_kind(parsed)
+        if len(rows) < 3:
+            return None
+        prices = sorted(float(r["price_pkr"]) for r in rows)
+
+        def at(q: float) -> float:
+            return prices[int(round(q * (len(prices) - 1)))]
+
+        kinds = sorted({str(r.get("sub_category")) for r in rows})
+        return {
+            "products_of_this_type": " / ".join(kinds) if len(kinds) <= 3 else parsed.category_hint,
+            "matching_in_stock_products": len(prices),
+            "lowest_price_pkr": at(0.0),
+            "typical_low_price_pkr": at(0.25),
+            "median_price_pkr": at(0.5),
+            "typical_high_price_pkr": at(0.75),
+            "highest_price_pkr": at(1.0),
         }
 
     # Tool 2: get_recommendations
@@ -805,6 +869,16 @@ class ShopKaroToolRegistry:
         }
 
 
+# "budget kitna hona chahiye?", "kitna budget rakhun?", "price range kya hai?" -> real price spread, not a search
+BUDGET_QUESTION = re.compile(
+    r"\b(?:budget|qeemat|keemat|kimat|price)\s*(?:range|kitn[aie]|kya)\b"
+    r"|\bkitn[aie]\s*(?:ka\s*|ki\s*)?(?:budget|paise|qeemat|keemat|price)\b"
+    r"|\bprice range\b|\bwhat budget\b|\bhow much (?:should|do i need)\b"
+)
+PRICE_WORDS = re.compile(r"\b(?:kitn[aie]|kitne|price|qeemat|keemat|kimat|rate|how much)\b")
+ORDINAL_WORDS = re.compile(r"\b(?:pehla|pehle|pehli|doosra|dusra|doosre|teesra|tisra|first|second|third)\b")
+
+
 class HallucinationAuditor:
     """
     Verifies that every product ID (`SK-XXXXX`) and PKR price mentioned in the assistant's
@@ -816,6 +890,8 @@ class HallucinationAuditor:
         response_text: str,
         allowed_products: dict[str, float],
         extra_valid_prices: set[float] | None = None,
+        paired_prices: dict[str, set[float]] | None = None,
+        free_amounts: set[float] | None = None,
     ) -> HallucinationAuditResult:
         mentioned_pids = re.findall(r"\bSK-\d{5}\b", response_text)
         valid_pids = [pid for pid in mentioned_pids if pid in allowed_products]
@@ -841,6 +917,10 @@ class HallucinationAuditor:
             p for p in mentioned_prices if round(p, 0) not in valid_price_set
         ]
 
+        mismatched: list[tuple[str, float]] = []
+        if paired_prices is not None:
+            mismatched = HallucinationAuditor._mismatched_pairs(response_text, paired_prices, free_amounts or set())
+
         return HallucinationAuditResult(
             mentioned_product_ids=mentioned_pids,
             valid_product_ids=valid_pids,
@@ -848,9 +928,40 @@ class HallucinationAuditor:
             mentioned_prices_pkr=mentioned_prices,
             hallucinated_prices_pkr=hallucinated_prices,
             passed_zero_hallucination_check=(
-                len(hallucinated_pids) == 0 and len(hallucinated_prices) == 0
+                len(hallucinated_pids) == 0 and len(hallucinated_prices) == 0 and not mismatched
             ),
+            mismatched_sku_prices=mismatched,
         )
+
+    @staticmethod
+    def _mismatched_pairs(
+        text: str, paired_prices: dict[str, set[float]], free_amounts: set[float]
+    ) -> list[tuple[str, float]]:
+        """
+        In a line or sentence that names exactly one product, every PKR amount must be one of that product's own
+        prices (price / original price / line total) or an amount that belongs to no product (the customer's
+        budget, a cart total). Catches a real price attached to the wrong product ("SK-00233 ... PKR 24,250"
+        when 24,250 is another phone's price).
+        """
+        free = {round(float(v), 0) for v in free_amounts}
+        segments = re.split(r"\n+|(?<=[.!?])(?<!Rs\.)\s+", text)
+        out: list[tuple[str, float]] = []
+        for seg in segments:
+            pids = set(re.findall(r"\bSK-\d{5}\b", seg))
+            if len(pids) != 1:
+                continue
+            pid = next(iter(pids))
+            if pid not in paired_prices:
+                continue
+            own = {round(float(v), 0) for v in paired_prices[pid]}
+            amounts = re.findall(r"(?:PKR|Rs\.?)\s*(\d[\d,]*(?:\.\d+)?)", seg, flags=re.I) + re.findall(
+                r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*(?:PKR\b|rupay\b|rupaye\b|rupees?\b|/-)", seg, flags=re.I
+            )
+            for a in amounts:
+                v = round(float(a.replace(",", "").rstrip(".") or 0), 0)
+                if v and v not in own and v not in free:
+                    out.append((pid, v))
+        return out
 
 
 # ============================================================================
@@ -938,6 +1049,45 @@ class UrduLishShoppingAssistant:
             r"^\s*\d+\s*[\+\-\*\/]\s*\d+\s*=?\s*$",
         ]
         return any(re.search(pat, text, flags=re.I) for pat in off_topic_patterns)
+
+    @staticmethod
+    def _strip_prices(text: str) -> str:
+        """Remove amounts like '50000', '50 hazaar', '1.5 lac' so an old budget never competes with a new one."""
+        return re.sub(
+            r"\b\d[\d,.]*\s*(?:lacs?|lakh|hazaar|hazar|k|pkr|rs\.?|rupay|rupees)?(?=\s|$)", " ", text, flags=re.I
+        )
+
+    def _search_query_with_context(
+        self, user_message: str, session: ConversationSessionState
+    ) -> tuple[str, float | None, bool]:
+        """
+        Multi-turn search memory. Returns (query, max_price_pkr, is_refinement).
+
+        A message that names what to buy (a category, product type or brand: "mobile chahiye", "laptop dikhao")
+        starts a NEW search and clears the old budget. A message that only refines ("budget 50000 hai",
+        "white color mein", "sasta wala") is combined with the last search subject, and the budget is carried
+        forward until a new search starts.
+        """
+        assert self.tools.search_engine.parser is not None
+        parsed = self.tools.search_engine.parser.parse(user_message)
+        names_product = bool(parsed.category_hint or parsed.type_hints or parsed.brand_hint)
+        subject = session.active_filters.get("search_subject")
+
+        if names_product or not subject:
+            session.active_filters["search_subject"] = user_message
+            session.active_filters.pop("max_price_pkr", None)
+            if parsed.max_price_pkr:
+                session.active_filters["max_price_pkr"] = parsed.max_price_pkr
+            return user_message, parsed.max_price_pkr, False
+
+        max_p = parsed.max_price_pkr or session.active_filters.get("max_price_pkr")
+        if max_p:
+            session.active_filters["max_price_pkr"] = max_p
+        parts = [self._strip_prices(subject), self._strip_prices(user_message)]
+        if max_p:
+            parts.append(f"under {int(max_p)}")
+        query = re.sub(r"\s+", " ", " ".join(parts)).strip()
+        return query, max_p, True
 
     def chat(
         self,
@@ -1088,6 +1238,55 @@ class UrduLishShoppingAssistant:
                     lines.append(f"- Customer Quote: *\"{rev_out['sample_quotes'][0]}\"*")
                 reply = "\n".join(lines)
 
+        # 4a. Detect Intent: Price of a product already shown ("pehla kitne ka hai?", "SK-00233 ki price")
+        elif PRICE_WORDS.search(msg_l) and (
+            re.search(r"\bSK-\d{5}\b", user_message.upper())
+            or (session.last_shown_products and ORDINAL_WORDS.search(msg_l))
+        ):
+            intent = "product_price"
+            lines = []
+            for pid in self._resolve_product_references(user_message, session):
+                item = self.tools.catalog_map.get(pid)
+                if item is None:
+                    lines.append(f"Maazrat, **{pid}** naam ka koi product ShopKaro par nahi mila.")
+                    continue
+                allowed_products[pid] = float(item["price_pkr"])
+                shown_ids.append(pid)
+                stock = "in stock hai" if item.get("in_stock") else "abhi stock mein nahi hai"
+                lines.append(f"**{pid}** — {item['title']} ki qeemat **PKR {float(item['price_pkr']):,.0f}** hai, aur yeh {stock}.")
+            reply = "\n".join(lines) or "Kaunsa product? 'pehla', 'doosra' ya SK number bata dein."
+
+        # 4b. Detect Intent: Budget advice ("budget kitna hona chahiye?", "price range kya hai?")
+        elif BUDGET_QUESTION.search(msg_l):
+            intent = "budget_advice"
+            parsed_q = self.tools.search_engine.parser.parse(user_message)
+            names_product = bool(parsed_q.category_hint or parsed_q.type_hints or parsed_q.brand_hint)
+            subject = user_message if names_product else session.active_filters.get("search_subject")
+            if not subject:
+                reply = (
+                    "Zaroor! Kis cheez ke liye budget pooch rahe hain? (jaise mobile, laptop, lawn suit) "
+                    "Main ShopKaro par us ki asal qeematein dekh kar bata deta hoon."
+                )
+            else:
+                invoked_tools.append("search_products")
+                search_out = self.tools.search_products(query=self._strip_prices(subject), user_id=user_id, k=3)
+                tool_outputs["search_products"] = search_out
+                summ = search_out.get("price_summary")
+                if not summ:
+                    reply = "Maazrat, is cheez ki qeemat ka andaza lagane ke liye kaafi products nahi mile."
+                else:
+                    for key, val in summ.items():
+                        if key.endswith("_pkr"):
+                            extra_prices.add(float(val))
+                    reply = (
+                        f"ShopKaro par **{summ['products_of_this_type']}** ke {summ['matching_in_stock_products']} "
+                        f"in-stock products ki qeemat **PKR {summ['lowest_price_pkr']:,.0f}** se "
+                        f"**PKR {summ['highest_price_pkr']:,.0f}** tak hai. Zyada tar PKR "
+                        f"{summ['typical_low_price_pkr']:,.0f} se PKR {summ['typical_high_price_pkr']:,.0f} ke beech "
+                        f"milte hain (beech wali qeemat PKR {summ['median_price_pkr']:,.0f}).\n"
+                        "Aap apna budget bata dein, main usi mein behtareen options dikha deta hoon."
+                    )
+
         # 5. Detect Intent: Gift / Personalized Recommendations ("gift", "suggest", "recommend", "ammi ke liye")
         elif any(w in msg_l for w in ["gift", "recommend", "suggest", "ammi", "tahfa", "mashwara"]):
             intent = "personalized_recommendation"
@@ -1131,10 +1330,12 @@ class UrduLishShoppingAssistant:
         # 6. Default Intent: Product Search ("search_products")
         else:
             intent = "product_search"
+            query, max_p, is_refinement = self._search_query_with_context(user_message, session)
             invoked_tools.append("search_products")
             search_out = self.tools.search_products(
-                query=user_message,
+                query=query,
                 user_id=user_id,
+                max_price_pkr=max_p,
                 k=3,
             )
             tool_outputs["search_products"] = search_out
@@ -1144,8 +1345,26 @@ class UrduLishShoppingAssistant:
             for r in results:
                 allowed_products[r["product_id"]] = float(r["price_pkr"])
             shown_ids = [r["product_id"] for r in results]
+            if max_p:
+                extra_prices.add(float(max_p))
 
-            lines = [f"Aap ki search ke mutabiq top {len(results)} in-stock products yeh hain:"]
+            budget_txt = f" PKR {max_p:,.0f} ke budget mein" if max_p else ""
+            colour = search_out.get("colour_check")
+            if colour and not colour["available"]:
+                lines = [
+                    f"Maazrat, {colour['requested_colour'].lower()} color mein{budget_txt} yeh product abhi "
+                    f"ShopKaro par nahi hai. Available colors: {', '.join(colour['available_colours'])}.",
+                    f"In mein se top {len(results)} options yeh hain:",
+                ]
+            elif search_out.get("constraints_relaxed"):
+                lines = [
+                    f"Maazrat, aap ki search{budget_txt} koi exact match nahi mila. "
+                    f"Sab se qareeb {len(results)} options yeh hain (yeh aap ki shart poori nahi karte):"
+                ]
+            elif is_refinement:
+                lines = [f"Aap ki pichli search ko{budget_txt} refine kar ke top {len(results)} products yeh hain:"]
+            else:
+                lines = [f"Aap ki search ke mutabiq{budget_txt} top {len(results)} in-stock products yeh hain:"]
             for idx, r in enumerate(results, start=1):
                 sale_tag = f" ({int(r['discount_pct'])}% OFF)" if r["on_sale"] else ""
                 lines.append(

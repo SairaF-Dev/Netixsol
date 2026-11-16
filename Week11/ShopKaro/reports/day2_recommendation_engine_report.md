@@ -124,19 +124,19 @@ Current numbers (`reports/day2_model_comparison.csv`, 5,000 warm test users, K =
 | 3 | Trending (7 days) | 0.0008 | 0.0015 | 0.5% | 0.04% | 11.8 | 0.0013 | 0% |
 | 4 | Item-to-Item CF | 0.1307 | 0.1419 | 18.1% | 33.6% | 11.2 | 0.0027 | 0% |
 | 5 | Implicit ALS | 0.1299 | 0.1464 | 18.9% | 28.0% | 11.8 | 0.0027 | 0% |
-| 6 | Content-Based | 0.1207 | 0.1235 | 15.7% | 68.0% | 13.7 | 0.0027 | 7.3% |
-| 7 | Hybrid Blend | 0.1333 | 0.1475 | 18.9% | 34.3% | 11.4 | **0.0227** | 7.3% |
-| 8 | **Neural Two-Tower (PyTorch)** | **0.1357** | **0.1522** | **19.3%** | 52.3% | 12.8 | 0.0220 | **8.8%** |
+| 6 | Content-Based | 0.1210 | 0.1239 | 15.7% | 65.0% | 13.6 | 0.0027 | 5.2% |
+| 7 | Hybrid Blend | 0.1339 | 0.1488 | 19.1% | 34.5% | 11.5 | **0.0231** | 5.2% |
+| 8 | **Neural Two-Tower (PyTorch)** | **0.1362** | **0.1527** | **19.5%** | 50.2% | 12.7 | 0.0227 | **7.6%** |
 
 - **Significance** (paired bootstrap, 2,000 resamples, `reports/day2_two_tower_significance.json`): two-tower vs
-  hybrid blend +0.0024 NDCG (95% CI +0.0007..+0.0041, p = 0.002); vs item-CF +0.0049 (CI +0.0030..+0.0069).
+  hybrid blend +0.0024 NDCG (95% CI +0.0007..+0.0040, p = 0.001); vs item-CF +0.0055 (CI +0.0036..+0.0074).
 - **Discovery protocol** (only items never seen in training; `reports/day2_discovery_evaluation.csv`): two-tower
-  0.0257 NDCG@10 vs item-CF 0.0149 (+73%), ALS 0.0229, popularity 0.0024; catalogue coverage 43% vs 12% for item-CF.
+  0.0260 NDCG@10 vs item-CF 0.0149 (+75%), ALS 0.0229, popularity 0.0024; catalogue coverage 40% vs 12% for item-CF.
   This is where the learned model helps most.
 - **New users (fixed 2026-11-10):** the two-tower now uses the onboarding category: the category's most-interacted
   items form a pseudo-history for the user tower, items outside the category are filtered, and a popularity weight is
-  added. Settings were chosen on 2,000 *validation* new users (n_seed 100, category bonus 5, pop_weight 4). Cold-user NDCG@10 went from
-  0.0024 (popularity fallback) to **0.0220** (seed 42; 0.0228 +- 0.0007 over seeds 42-44), on par with the hybrid blend's 0.0227. A probe showed the tower adds ~9% (validation) over plain
+  added. Settings were chosen on 2,000 *validation* new users (n_seed 100, pop_weight 4; category bonus 1000 for seed 42, 5 for seeds 43/44). Cold-user NDCG@10 went from
+  0.0024 (popularity fallback) to **0.0227** (seed 42; 0.0226 +- 0.0007 over seeds 42-44), on par with the hybrid blend's 0.0231. A probe showed the tower adds ~9% (validation) over plain
   "popular in that category".
 - **Cold-user test set made deterministic:** the query took the top 2,000 new users without a tie-break and a random
   `ANY_VALUE` category, so cold-user numbers moved between runs. Now ties break by user_id and the simulated onboarding
@@ -144,7 +144,7 @@ Current numbers (`reports/day2_model_comparison.csv`, 5,000 warm test users, K =
   behaviour, so cold-user numbers are optimistic.
 - **Reproducibility (fixed 2026-11-10):** same seed -> identical numbers in every script (fixed SQL ordering +
   tie-breaks, torch pinned to 8 threads). Seeds 42/43/44 (`reports/day2_two_tower_seeds.csv`): main NDCG@10
-  0.1355 +- 0.0005, discovery 0.0244 +- 0.0012, new users 0.0228 +- 0.0007; every seed beats blend and item-CF on
+  0.1360 +- 0.0004, discovery 0.0257 +- 0.0004, new users 0.0226 +- 0.0007; every seed beats blend and item-CF on
   main and discovery.
 - Serving: item-CF by default; the two-tower is served with `RECOMMENDER=two_tower` (live clicks, onboarding,
-  p95 3.7 ms uncached end-to-end; `reports/recommender_serving_latency.json`). See the recommender model card.
+  p95 4.8 ms uncached end-to-end; `reports/recommender_serving_latency.json`). See the recommender model card.

@@ -65,7 +65,8 @@ GROUNDING RULES (strict):
    exactly as the tool returned it.
 3. If a tool returns no suitable result, say so honestly and offer another search. If a search result
    has "constraints_relaxed": true, tell the customer nothing matched the budget/category exactly and
-   that these are the closest options.
+   that these are the closest options. If "colour_check" says "available": false, say that colour is not
+   available and list "available_colours".
 4. Budgets: "3000 tak" / "under 3000" = max PKR 3,000; "1.5 lac" = 150,000; "20 hazaar" = 20,000.
 5. For "pehla"/"doosra"/"teesra" (first/second/third), use the numbered products in the session
    context. If it is unclear which product the customer means, ask.
@@ -75,6 +76,11 @@ GROUNDING RULES (strict):
 
 WHICH TOOL:
 - search_products: the customer describes what they want (product type, colour, budget, occasion).
+  For a follow-up that only adds a detail ("50000 mein", "pink chahiye"), search again with the earlier
+  product AND the new detail (e.g. query "pink mobile", max_price_pkr 50000).
+- Budget questions ("budget kitna hona chahiye?", "price range kya hai?"): call search_products for that
+  product WITHOUT max_price_pkr and answer from its "price_summary" (lowest, typical low-high range, median,
+  highest). Never make up a price range.
 - get_recommendations: gift ideas, "kya lun?", occasion suggestions, personalised picks.
 - compare_products: compare 2-4 specific products.
 - add_to_cart / get_order_status / get_review_summary: as named.
@@ -82,8 +88,9 @@ WHICH TOOL:
 
 CORRECTION_PROMPT = """\
 [System check] Your last reply mentioned product IDs {bad_ids} or PKR amounts {bad_prices} that do not
-appear in any tool result. Rewrite the reply using ONLY products and prices returned by the tools,
-or call a tool to look them up. Do not mention this check."""
+appear in any tool result, or gave a product another product's price {bad_pairs}. Rewrite the reply using
+ONLY products and prices returned by the tools, each product with its own price, or call a tool to look
+them up. Do not mention this check."""
 
 PRODUCT_KEYS = (
     "rank", "product_id", "title", "brand", "category", "sub_category", "color", "occasion",
@@ -357,6 +364,8 @@ class _Grounding:
 
     products: dict[str, float] = field(default_factory=dict)
     prices: set[float] = field(default_factory=set)
+    # every PKR value stored on a product's own record (price, original price, line total)
+    product_prices: dict[str, set[float]] = field(default_factory=dict)
 
     def absorb(self, obj: Any) -> None:
         if isinstance(obj, dict):
@@ -364,6 +373,10 @@ class _Grounding:
             price = _num(obj.get("price_pkr", obj.get("unit_price_pkr")))
             if isinstance(pid, str) and price is not None:
                 self.products[pid] = price
+                own = self.product_prices.setdefault(pid, set())
+                own.update(
+                    round(float(v), 0) for key, v in obj.items() if key.endswith("_pkr") and _num(v) is not None
+                )
             for key, value in obj.items():
                 if key.endswith("_pkr") and _num(value) is not None:
                     self.prices.add(round(float(value), 0))
@@ -371,6 +384,15 @@ class _Grounding:
         elif isinstance(obj, list):
             for value in obj:
                 self.absorb(value)
+
+    def audit(self, text: str, typed_amounts: list[float]) -> Any:
+        """Ids and prices must come from tools, and a price next to a product must be that product's price."""
+        any_product_price = set().union(*self.product_prices.values()) if self.product_prices else set()
+        # Amounts that belong to no product (budgets, cart totals) may sit next to any product.
+        free = (self.prices - any_product_price) | {round(float(v), 0) for v in typed_amounts}
+        return HallucinationAuditor.verify_response(
+            text, self.products, self.prices, paired_prices=self.product_prices, free_amounts=free
+        )
 
 
 def _products_in(result: dict[str, Any]) -> list[dict[str, Any]]:
@@ -476,13 +498,23 @@ class LLMShoppingAssistant:
         k = lambda default: max(1, min(int(_num(a.get("k")) or default), 8))  # noqa: E731
         try:
             if call.name == "search_products":
+                query = str(a.get("query", ""))
+                max_p = _num(a.get("max_price_pkr"))
                 out = self.tools.search_products(
-                    query=str(a.get("query", "")),
+                    query=query,
                     user_id=user_id,
-                    max_price_pkr=_num(a.get("max_price_pkr")),
+                    max_price_pkr=max_p,
                     category=a.get("category") or None,
                     k=k(5),
                 )
+                # Keep the rule-based fallback in step: if the LLM fails on a later turn, the fallback continues
+                # the same search ("mobile", budget 50,000) instead of starting from nothing.
+                if query.strip():
+                    session.active_filters["search_subject"] = query
+                    if max_p:
+                        session.active_filters["max_price_pkr"] = max_p
+                    else:
+                        session.active_filters.pop("max_price_pkr", None)
             elif call.name == "get_recommendations":
                 out = self.tools.get_recommendations(
                     occasion=a.get("occasion") or None,
@@ -520,7 +552,10 @@ class LLMShoppingAssistant:
         grounding = _Grounding()
         grounding.absorb(session.last_shown_products)
         grounding.absorb(session.cart)
-        grounding.prices.update(amounts_in_user_text(user_message))
+        # Amounts the customer typed in this or earlier turns ("budget 50000") may be repeated back
+        typed = session.active_filters.setdefault("customer_amounts_pkr", [])
+        typed.extend(sorted(amounts_in_user_text(user_message) - set(typed)))
+        grounding.prices.update(typed)
 
         past_turns = self._llm_history.setdefault(session.session_id, [])
         turn_items: list[Any] = [
@@ -551,7 +586,7 @@ class LLMShoppingAssistant:
                 turn_items.append(self.model.tool_results(results))
                 continue
 
-            audit = HallucinationAuditor.verify_response(step.text, grounding.products, grounding.prices)
+            audit = grounding.audit(step.text, typed)
             if step.text and audit.passed_zero_hallucination_check:
                 reply = step.text
                 break
@@ -564,6 +599,7 @@ class LLMShoppingAssistant:
                     CORRECTION_PROMPT.format(
                         bad_ids=audit.hallucinated_product_ids or "none",
                         bad_prices=audit.hallucinated_prices_pkr or "none",
+                        bad_pairs=[f"{pid}: PKR {v:,.0f}" for pid, v in audit.mismatched_sku_prices] or "none",
                     )
                 )
             )
@@ -582,7 +618,7 @@ class LLMShoppingAssistant:
             past_turns.append(turn_items)
             del past_turns[:-HISTORY_TURNS]
 
-        audit = HallucinationAuditor.verify_response(reply, grounding.products, grounding.prices)
+        audit = grounding.audit(reply, typed)
         tool_outputs: dict[str, Any] = {}
         for name, _args, result in tool_log:
             key = name if name not in tool_outputs else f"{name}#{sum(1 for k in tool_outputs if k.startswith(name))+1}"

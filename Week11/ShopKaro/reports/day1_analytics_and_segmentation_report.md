@@ -1,6 +1,6 @@
 # ShopKaro — Day 1 Report: Data Foundation, Customer Analytics & Segmentation
 
-**Execution Time:** 48.0 seconds  
+**Execution Time:** 43.9 seconds  
 **DuckDB Database:** `data/processed/shopkaro.duckdb`  
 **ER Data Model:** [`docs/architecture/data_model_er.md`](../docs/architecture/data_model_er.md)
 
@@ -41,28 +41,28 @@
 #### Top Categories by Revenue (PKR Millions)
 | category | total_events | purchases | revenue_million_pkr |
 | --- | --- | --- | --- |
-| Smartphones & Accessories | 326974 | 3783.0 | 267.96 |
-| Laptops & Computing | 65626 | 762.0 | 84.79 |
-| Home & Kitchen Appliances | 114520 | 1392.0 | 44.6 |
-| Bridal & Formal Wear | 123170 | 1572.0 | 43.88 |
-| Women's Lawn & Unstitched | 534745 | 7059.0 | 39.79 |
-| Men's Kurta & Ethnic | 220135 | 2510.0 | 17.67 |
-| Footwear & Khussa | 140786 | 2802.0 | 13.6 |
-| Beauty & Fragrances | 176568 | 2319.0 | 8.23 |
+| Smartphones & Accessories | 326974 | 3783.0 | 88.9 |
+| Laptops & Computing | 65626 | 762.0 | 74.37 |
+| Bridal & Formal Wear | 123170 | 1572.0 | 49.88 |
+| Women's Lawn & Unstitched | 534745 | 7059.0 | 45.95 |
+| Home & Kitchen Appliances | 114520 | 1392.0 | 27.25 |
+| Men's Kurta & Ethnic | 220135 | 2510.0 | 15.87 |
+| Footwear & Khussa | 140786 | 2802.0 | 12.91 |
+| Beauty & Fragrances | 176568 | 2319.0 | 7.35 |
 
 #### Top 10 Brands by Revenue (PKR Millions)
 | brand | category | total_events | purchases | revenue_million_pkr |
 | --- | --- | --- | --- | --- |
-| Samsung | Smartphones & Accessories | 38449 | 520.0 | 39.91 |
-| Vivo | Smartphones & Accessories | 38663 | 469.0 | 33.51 |
-| Realme | Smartphones & Accessories | 36323 | 441.0 | 32.03 |
-| Anker | Smartphones & Accessories | 35077 | 413.0 | 29.28 |
-| Infinix | Smartphones & Accessories | 38799 | 405.0 | 29.26 |
-| Baseus | Smartphones & Accessories | 35203 | 455.0 | 28.7 |
-| Tecno | Smartphones & Accessories | 35840 | 374.0 | 26.26 |
-| Xiaomi Redmi | Smartphones & Accessories | 33771 | 372.0 | 24.95 |
-| Audionic | Smartphones & Accessories | 34849 | 334.0 | 24.07 |
-| Dell | Laptops & Computing | 10137 | 134.0 | 15.49 |
+| Samsung | Smartphones & Accessories | 45866 | 686.0 | 25.31 |
+| HP | Laptops & Computing | 15751 | 176.0 | 17.23 |
+| Lenovo | Laptops & Computing | 7899 | 91.0 | 14.61 |
+| Asus | Laptops & Computing | 11662 | 158.0 | 14.26 |
+| Dell | Laptops & Computing | 15153 | 168.0 | 14.03 |
+| Acer | Laptops & Computing | 7644 | 86.0 | 13.59 |
+| Realme | Smartphones & Accessories | 22880 | 250.0 | 11.73 |
+| Infinix | Smartphones & Accessories | 11087 | 134.0 | 11.08 |
+| Xiaomi Redmi | Smartphones & Accessories | 24943 | 235.0 | 11.0 |
+| Vivo | Smartphones & Accessories | 9617 | 126.0 | 10.63 |
 
 ![Top Categories and Brands](figures/02_top_categories_brands.png)
 
@@ -75,7 +75,7 @@
 ![Long-Tail Pareto Curve](figures/03_long_tail_pareto.png)
 
 ### 2.4 Temporal & Pakistani Festival Sales Patterns
-**One-Line Insight:** *Daily revenue surges by 2.75x during '11.11 Mega Sale' compared to regular days, with peak shopping activity occurring between 18:00 and 22:00 and on weekends.*
+**One-Line Insight:** *Daily revenue surges by 2.61x during 'Chaand Raat & Eid ul Fitr' compared to regular days, with peak shopping activity occurring between 18:00 and 22:00 and on weekends.*
 
 ![Temporal and Festival Sales](figures/04_temporal_and_festival_sales.png)
 
@@ -94,15 +94,15 @@
 
 - **Segmented Users:** `60,000`
 - **Number of Behavioral Clusters (K-Means):** `5`
-- **Cluster Silhouette Score:** `0.2862`
+- **Cluster Silhouette Score:** `0.2582`
 
 | segment_name | user_count | user_share_pct | avg_recency_days | avg_sessions | avg_monetary_pkr | avg_rfm_score | recommended_marketing_action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bargain Hunters & Cart Hesitators | 6183 | 10.3 | 40.73 | 12.59 | 61823.61 | 12.61 | Trigger automated 2-hour abandoned-cart 10% flash discount codes and highlight 'Under 3,000 PKR' deals. |
-| Loyal Electronics & VIP Buyers | 13245 | 22.08 | 80.58 | 2.14 | 46625.86 | 10.12 | Grant early VIP access to 11.11 Mega Sales, zero-markup installment plans, and bundled accessory cross-sells. |
-| Eid & Festive Lawn Shoppers | 15481 | 25.8 | 102.34 | 1.86 | 4923.3 | 7.15 | Send WhatsApp & push lookbooks 15 days before Ramadan and Eid with 'Complete the Eid Look' dupatta/khussa bundles. |
-| At-Risk & Dormant Browsers | 7732 | 12.89 | 65.91 | 1.79 | 4589.98 | 8.17 | Launch a 'We Miss You' win-back campaign with Rs. 500 voucher on their historical favourite category. |
-| Active Multi-Category Families | 17359 | 28.93 | 47.76 | 1.76 | 4176.0 | 8.88 | Enroll in ShopKaro Family Loyalty Points with free delivery thresholds on monthly rashan and back-to-school kits. |
+| Bargain Hunters & Cart Hesitators | 6632 | 11.05 | 41.67 | 12.07 | 42496.01 | 12.73 | Trigger automated 2-hour abandoned-cart 10% flash discount codes and highlight 'Under 3,000 PKR' deals. |
+| Loyal Electronics & VIP Buyers | 11970 | 19.95 | 82.05 | 2.11 | 18146.61 | 9.16 | Grant early VIP access to 11.11 Mega Sales, zero-markup installment plans, and bundled accessory cross-sells. |
+| Eid & Festive Lawn Shoppers | 15604 | 26.01 | 102.29 | 1.85 | 5390.86 | 7.44 | Send WhatsApp & push lookbooks 15 days before Ramadan and Eid with 'Complete the Eid Look' dupatta/khussa bundles. |
+| At-Risk & Dormant Browsers | 8350 | 13.92 | 66.42 | 1.76 | 5237.35 | 8.42 | Launch a 'We Miss You' win-back campaign with Rs. 500 voucher on their historical favourite category. |
+| Active Multi-Category Families | 17444 | 29.07 | 47.74 | 1.73 | 4260.03 | 9.14 | Enroll in ShopKaro Family Loyalty Points with free delivery thresholds on monthly rashan and back-to-school kits. |
 
 ![Customer RFM Segments](figures/06_customer_rfm_segments.png)
 
@@ -112,9 +112,9 @@
 
 - **Repeat Purchase Rate (among buyers):** `29.96%`
 - **Repeat Multi-Session Rate (all visitors):** `12.48%`
-- **Average Order Value (AOV):** `PKR 20,374.03`
+- **Average Order Value (AOV):** `PKR 12,568.93`
 - **Average Purchase Frequency (buyers):** `2.19 orders`
-- **Estimated Customer Lifetime Value (CLV):** `PKR 132,670.95`
+- **Estimated Customer Lifetime Value (CLV):** `PKR 81,845.95`
 - **Churn Definition:** No activity/purchase within `90` days (`Churn Rate: 33.56%`)
 
 ### Monthly Cohort Retention Matrix (%)

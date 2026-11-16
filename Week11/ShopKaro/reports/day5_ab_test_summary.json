@@ -16,7 +16,7 @@
     "aov_note": "AOV not tested: fewer than 20 converters in an arm (7 vs 42).",
     "model": "4. Item-to-Item Collaborative Filtering (Cosine)",
     "trained_on": "train_interactions + val_interactions",
-    "fit_seconds": 15.4,
+    "fit_seconds": 4.1,
     "pretest_users": 698150,
     "aa_test": false,
     "test_window_start": "2025-06-19"
@@ -29,10 +29,10 @@
     "control_converters_bought_new_item": 7,
     "treatment_converters_bought_new_item": 5,
     "monthly_visitors_assumed": 1000000,
-    "est_monthly_homepage_revenue_gain_pkr": 8310000,
+    "est_monthly_homepage_revenue_gain_pkr": 8030000,
     "est_monthly_homepage_revenue_gain_ci_pkr": [
-      2380000,
-      14250000
+      1050000,
+      15010000
     ]
   },
   "guardrails": {
@@ -43,7 +43,7 @@
     "oos_guardrail_passed": true,
     "treatment_max_items_one_brand": 2,
     "brand_guardrail_passed": true,
-    "recommendation_latency_p95_ms": 6.96,
+    "recommendation_latency_p95_ms": 1.53,
     "latency_guardrail_passed": true,
     "all_passed": true
   },
@@ -113,9 +113,9 @@
         "rel_ci_95_low_pct": -88.57,
         "rel_ci_95_high_pct": 156.58,
         "test_statistic": 0.544,
-        "p_value": 0.606313667501477,
+        "p_value": 0.6063136675014769,
         "role": "primary",
-        "p_value_holm": 0.606313667501477,
+        "p_value_holm": 0.6063136675014769,
         "significant": false
       },
       {
@@ -181,19 +181,19 @@
       {
         "metric": "Revenue Per Visitor (RPV)",
         "test_type": "Welch t-test (+ Mann-Whitney U)",
-        "control_mean": 0.17,
+        "control_mean": 0.32,
         "treatment_mean": 0.21,
         "unit": "PKR",
         "control_successes": 81398,
         "treatment_successes": 80988,
-        "absolute_lift": 0.04,
-        "relative_lift_pct": 25.27,
-        "ci_95_low": -0.16,
-        "ci_95_high": 0.24,
-        "rel_ci_95_low_pct": -93.36,
-        "rel_ci_95_high_pct": 143.9,
-        "test_statistic": 0.4175,
-        "p_value": 0.676323581637998,
+        "absolute_lift": -0.11,
+        "relative_lift_pct": -34.39,
+        "ci_95_low": -0.53,
+        "ci_95_high": 0.31,
+        "rel_ci_95_low_pct": -164.05,
+        "rel_ci_95_high_pct": 95.26,
+        "test_statistic": -0.5199,
+        "p_value": 0.6031002998724643,
         "mann_whitney_p_value": 0.5864666015351305,
         "role": "secondary",
         "p_value_holm": 1.0,
