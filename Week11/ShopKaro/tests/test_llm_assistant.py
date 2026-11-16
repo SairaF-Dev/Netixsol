@@ -193,6 +193,31 @@ def test_auditor_catches_suffix_prices_and_budget_parsing() -> None:
     assert 3_000 in amounts_in_user_text("3000 tak")
 
 
+def test_out_of_domain_guardrail_refusal() -> None:
+    from shopkaro.assistant.shopping_agent import UrduLishShoppingAssistant
+
+    serving_container.ensure_initialized()
+    assert serving_container.tool_registry is not None
+    rules_agent = UrduLishShoppingAssistant(tools=serving_container.tool_registry)
+
+    # 1. Direct off-topic query should be rejected politely with 0 tool calls
+    turn1 = rules_agent.chat("ood-1", "mujhey python ki defination bto", user_id="15442")
+    assert turn1.detected_intent == "out_of_domain_refusal"
+    assert turn1.invoked_tools == []
+    assert "sirf" in turn1.assistant_reply_urdulish or "shopping" in turn1.assistant_reply_urdulish.lower()
+    assert turn1.hallucination_audit.passed_zero_hallucination_check
+
+    # 2. Math off-topic query
+    turn2 = rules_agent.chat("ood-2", "solve 25 + 75 =", user_id="15442")
+    assert turn2.detected_intent == "out_of_domain_refusal"
+    assert turn2.invoked_tools == []
+
+    # 3. Legitimate shopping query containing the word 'python' should NOT be refused
+    turn3 = rules_agent.chat("ood-3", "python print shirt dikhao", user_id="15442")
+    assert turn3.detected_intent != "out_of_domain_refusal"
+    assert "search_products" in turn3.invoked_tools
+
+
 @pytest.mark.live
 @pytest.mark.skipif(os.getenv("RUN_LIVE_LLM") != "1", reason="set RUN_LIVE_LLM=1 to call the real LLM")
 def test_live_gemini_conversation() -> None:

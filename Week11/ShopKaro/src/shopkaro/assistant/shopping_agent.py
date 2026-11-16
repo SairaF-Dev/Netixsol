@@ -911,6 +911,34 @@ class UrduLishShoppingAssistant:
 
         return resolved
 
+    @staticmethod
+    def _is_out_of_domain(message: str) -> bool:
+        """
+        Check if user query is out-of-domain (e.g. coding, math, general world knowledge)
+        unless it clearly mentions shopping intent or products.
+        """
+        text = message.lower().strip()
+        shopping_indicators = [
+            "suit", "dress", "shirt", "kurta", "shoes", "joota", "khussa", "bag",
+            "lawn", "chiffon", "silk", "kapra", "cloth", "phone", "mobile", "charger",
+            "powerbank", "earbuds", "watch", "ring", "jewelry", "shawl", "dupatta",
+            "dikhao", "dikhaye", "dikha do", "kharid", "buy", "order", "price",
+            "qeemat", "rate", "cost", "cart", "discount", "offer", "sale", "compare",
+            "under", "budget", "rs", "pkr", "rupay", "gift", "tahfa",
+        ]
+        if any(ind in text for ind in shopping_indicators):
+            return False
+
+        off_topic_patterns = [
+            r"\b(python|javascript|java|c\+\+|html|css|php|sql|ruby)\b",
+            r"\b(coding|programming|developer|algorithm|code|function|debug)\b",
+            r"\b(definition|defination|define|kya hota hai|kya hoti hai|matlab kya hai)\b",
+            r"\b(prime minister|president|capital of|weather|mausam|temperature)\b",
+            r"\b(essay|homework|assignment|solve|calculate)\b",
+            r"^\s*\d+\s*[\+\-\*\/]\s*\d+\s*=?\s*$",
+        ]
+        return any(re.search(pat, text, flags=re.I) for pat in off_topic_patterns)
+
     def chat(
         self,
         session_id: str,
@@ -929,8 +957,17 @@ class UrduLishShoppingAssistant:
         extra_prices: set[float] = set()
         shown_ids: list[str] = []
 
+        # 0. Detect Intent: Out-of-Domain Guardrail (Coding, Math, Trivia)
+        if self._is_out_of_domain(user_message):
+            intent = "out_of_domain_refusal"
+            reply = (
+                "Maaf kijiyega, main ShopKaro ka shopping assistant hoon aur sirf products, "
+                "recommendations, ya orders se mutaliq madad kar sakta hoon. "
+                "Kya main aapke liye ShopKaro par koi product ya category search karoon?"
+            )
+
         # 1. Detect Intent: Order Status ("order status", "mera order kahan hai", "ORD-...")
-        if any(w in msg_l for w in ["order status", "mera order", "tracking", "ord-", "delivery status"]):
+        elif any(w in msg_l for w in ["order status", "mera order", "tracking", "ord-", "delivery status"]):
             intent = "order_status_inquiry"
             m_ord = re.search(r"\b(ORD-\d+)\b", user_message, flags=re.I)
             ord_out: dict[str, Any] | None = None
