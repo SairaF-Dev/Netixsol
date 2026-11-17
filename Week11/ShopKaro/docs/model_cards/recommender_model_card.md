@@ -86,7 +86,8 @@ A hit = any test-period interaction (views included) with a recommended item.
 | Hybrid blend (CF + ALS + content + features) | 0.1339 | 0.1488 | 19.1% | 34.5% | 5.2% |
 | **Neural two-tower (PyTorch)** | **0.1362** | **0.1527** | **19.5%** | **50.2%** | **7.6%** |
 
-Paired bootstrap over the 5,000 users (`reports/day2_two_tower_significance.json`, same seed-42 model):
+Paired bootstrap over the 5,000 users (`reports/day2_two_tower_significance.json`, written by
+`scripts/run_day2_task4.py` from the same seed-42 model and users as the table):
 two-tower minus hybrid blend = +0.0024 NDCG (95% CI +0.0007 to +0.0040, p = 0.001); minus item-CF = +0.0055
 (CI +0.0036 to +0.0074); minus ALS = +0.0063 (CI +0.0040 to +0.0086). Small but statistically real.
 

@@ -43,6 +43,8 @@ if str(ROOT / "src") not in sys.path:
 
 ASSETS_DIR = Path(__file__).resolve().parent / "assets"
 DEFAULT_DEMO_USER = "USR-928443"  # real customer with Eid / lawn history
+# Sample orders shown in the account dialog and order tracking; defined in the assistant's order tool.
+DEMO_ORDER_IDS = ("ORD-1001", "ORD-1002")
 DEMO_CHECKOUT_NOTICE = (
     "Demo only. No order or payment is submitted, and your bag remains unchanged."
 )
@@ -3162,9 +3164,9 @@ def _inject_homepage_css(st: Any) -> None:
 # Homepage promo carousel (banners from assets/web, resized into ./static by scripts/build_dashboard_images.py).
 # Each slide: (image stem, accessible label, (category, search query), sort the catalogue by biggest savings?)
 # The catalogue has no watches or wallets, so each slide opens the closest real products.
+# carousel3 ("11.11 SALE: FLAT 50% OFF" printed on the image) is not used: the largest real discount is 25%.
 PROMO_SLIDES: tuple[tuple[str, str, tuple[str, str], bool], ...] = (
     ("carousel2", "Iqbal Day: celebrate the spirit of Pakistan with exclusive deals", ("All Categories", ""), True),
-    ("carousel3", "11.11 Sale: discounts on your favourite essentials", ("All Categories", ""), True),
     ("carousel4", "Upgrade during our 11.11 sale: earbuds and tech", ("Smartphones & Accessories", "earbuds"), False),
     ("carousel5", "Discover the spirit of Pakistan: gifts and fragrances", ("Beauty & Fragrances", "perfume gift set"), False),
     ("carousel6", "Celebrate the elegance: unstitched and ready-to-wear", ("Women's Lawn & Unstitched", ""), False),
@@ -3339,6 +3341,38 @@ def catalogue_discount_stats() -> tuple[float, int]:
         return float(row[0]), int(row[1])
     finally:
         con.close()
+
+
+@lru_cache(maxsize=1)
+def catalogue_budget_max() -> int:
+    """Top of the budget slider: the most expensive in-stock product, rounded up to PKR 10,000.
+
+    A fixed cap (it was PKR 60,000) silently hid every product above it, e.g. most laptops and 5G phones.
+    """
+    con = duckdb.connect(str(settings.duckdb_path), read_only=True)
+    try:
+        top = con.execute("SELECT COALESCE(MAX(price_pkr), 0) FROM product_catalogue WHERE in_stock").fetchone()[0]
+    finally:
+        con.close()
+    return max(10_000, int(-(-float(top) // 10_000) * 10_000))
+
+
+def _live_search_pipeline() -> tuple[str, str]:
+    """(semantic retriever, cross-encoder) as this server actually runs them; the lite deploy uses no neural models."""
+    from shopkaro.search.hybrid_search import NeuralSemanticIndex, neural_embeddings_available
+
+    engine = serving_container.search_engine
+    index = engine.semantic_index if engine is not None else None
+    if isinstance(index, NeuralSemanticIndex):
+        semantic = f"a multilingual neural vector index (`{index.model_name}`)"
+    else:
+        semantic = "a TF-IDF + SVD vector index (lite mode, not a neural model)"
+    mode = settings.search_cross_encoder.lower()
+    if mode == "off" or (mode == "auto" and not neural_embeddings_available()):
+        cross = "off on this server (lite mode)."
+    else:
+        cross = f"re-scores the top 50 results (`{settings.search_cross_encoder_model}`)."
+    return semantic, cross
 
 
 def _readable_p_values(df: pd.DataFrame) -> pd.DataFrame:
@@ -3746,9 +3780,18 @@ def run_streamlit_app() -> None:
             st.session_state["wishlist"] = []
             st.rerun()
 
+    def _demo_orders() -> list[dict[str, Any]]:
+        """The sample orders, read from the assistant's order tool so every screen tells the same story."""
+        _wait_for_models(st)
+        registry = serving_container.tool_registry
+        db = registry.order_tracking_db if registry is not None else {}
+        return [db[o] for o in DEMO_ORDER_IDS if o in db]
+
     @st.dialog("👤 Account & Profile Manager")
     def _open_login_dialog() -> None:
-        acc_tab1, acc_tab2, acc_tab3 = st.tabs(["👤 Profile & Rewards", "📦 Order History (3)", "⚙️ Persona Simulation"])
+        acc_tab1, acc_tab2, acc_tab3 = st.tabs(
+            ["👤 Profile & Rewards", f"📦 Order History ({len(DEMO_ORDER_IDS)})", "⚙️ Persona Simulation"]
+        )
 
         with acc_tab1:
             st.caption("Sample customer profile for demonstration only; not a live account.")
@@ -3760,7 +3803,7 @@ def run_streamlit_app() -> None:
                         <span style="background:#DCFCE7; color:#15803D; font-weight:800; font-size:0.75rem; padding:0.2rem 0.6rem; border-radius:999px;">VIP GOLD MEMBER</span>
                     </div>
                     <div style="font-size:0.82rem; color:#4B5563; margin-top:0.4rem;">📍 <b>Delivery Address:</b> House 42-B, Block 4, Clifton, Karachi</div>
-                    <div style="font-size:0.82rem; color:#4B5563; margin-top:0.2rem;">📱 <b>Mobile:</b> +92 300 8274419 &bull; COD Verified Customer</div>
+                    <div style="font-size:0.82rem; color:#4B5563; margin-top:0.2rem;">📱 <b>Mobile:</b> +92 3XX XXXXXXX (sample) &bull; COD Verified Customer</div>
                     <div style="font-size:0.85rem; color:var(--shopkaro-brand); font-weight:700; margin-top:0.5rem;">🪙 <b>450 ShopKaro Rewards Coins</b> Available (Worth PKR 450)</div>
                 </div>
                 """,
@@ -3769,21 +3812,20 @@ def run_streamlit_app() -> None:
 
         with acc_tab2:
             st.markdown("##### 📦 Recent Consignments & Past Orders")
-            st.caption("Example order history for demonstration only; not linked to this profile.")
-            orders_mock = [
-                ("ORD-1002", "Leopard Express", "1x Embroidered Festive Kurta", 3450, "⚡ Out for Delivery Today", "#065F46", "#ECFDF5"),
-                ("ORD-1001", "TCS Express", "2x Sapphire Luxury Lawn 3-Pc", 12800, "✅ Delivered (Karachi)", "#1E40AF", "#EFF6FF"),
-                ("ORD-0988", "Trax Logistics", "1x Chapter 13 Velvet Khussa", 6500, "✅ Delivered (Lahore)", "#1E40AF", "#EFF6FF"),
-            ]
-            for ord_id, cr, itm_desc, amt, st_lbl, col, bg in orders_mock:
+            st.caption(
+                "Example orders for demonstration only, not linked to this profile. They are the same records the "
+                "AI assistant's order tool returns (try *\"Mera order ORD-1001 kahan pohancha?\"*)."
+            )
+            for order in _demo_orders():
+                items_desc = ", ".join(f"{int(i['qty'])}x {i['title']}" for i in order["items"])
                 st.markdown(
                     f"""
                     <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:0.75rem 0.9rem; margin-bottom:0.6rem;">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-weight:800; font-size:0.88rem; color:#111827;">{ord_id} &bull; <span style="font-weight:600; color:#64748B;">{cr}</span></span>
-                            <span style="background:{bg}; color:{col}; font-weight:700; font-size:0.74rem; padding:0.2rem 0.55rem; border-radius:6px;">{st_lbl}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem;">
+                            <span style="font-weight:800; font-size:0.88rem; color:#111827;">{order['order_id']} &bull; <span style="font-weight:600; color:#64748B;">{html.escape(order['courier_partner'])}</span></span>
+                            <span style="background:#ECFDF5; color:#065F46; font-weight:700; font-size:0.74rem; padding:0.2rem 0.55rem; border-radius:6px;">{html.escape(order['order_status'])}</span>
                         </div>
-                        <div style="font-size:0.8rem; color:#4B5563; margin-top:0.3rem;">{itm_desc} &bull; <b>PKR {amt:,.0f}</b> (Cash on Delivery)</div>
+                        <div style="font-size:0.8rem; color:#4B5563; margin-top:0.3rem;">{html.escape(items_desc)} &bull; <b>PKR {float(order['total_pkr']):,.0f}</b> ({html.escape(order['payment_method'])})</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -3814,6 +3856,7 @@ def run_streamlit_app() -> None:
 
     @st.dialog("📞 Contact ShopKaro Support")
     def _open_contact_dialog() -> None:
+        st.caption("ShopKaro is a fictional demo store; these contact details are placeholders, not real lines.")
         st.markdown(
             """
             <div style="text-align: center; margin-bottom: 1.25rem;">
@@ -3823,7 +3866,7 @@ def run_streamlit_app() -> None:
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem;">
                 <div style="font-weight: 700; color: #111827; font-size: 0.88rem;">💬 WhatsApp Concierge (Fastest)</div>
-                <div style="color: var(--shopkaro-brand); font-weight: 800; font-size: 1.05rem; margin-top: 0.15rem;">+92 300 7467527 (SHOPKARO)</div>
+                <div style="color: var(--shopkaro-brand); font-weight: 800; font-size: 1.05rem; margin-top: 0.15rem;">+92 3XX SHOPKARO (demo)</div>
                 <div style="color: #6B7280; font-size: 0.76rem; margin-top: 0.15rem;">Instant order updates, stylist advice, and size help</div>
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem;">
@@ -3841,6 +3884,7 @@ def run_streamlit_app() -> None:
 
     @st.dialog("🏪 Retail Store Outlets")
     def _open_stores_dialog() -> None:
+        st.caption("Sample store list for the demo; ShopKaro is fictional and has no physical outlets.")
         st.markdown(
             """
             <div style="text-align: center; margin-bottom: 1.25rem;">
@@ -3866,25 +3910,34 @@ def run_streamlit_app() -> None:
 
     @st.dialog("🚚 Track Your Order")
     def _open_order_tracking_dialog() -> None:
-        st.info("Sample tracking only. This shipment is not connected to a real order or carrier.")
+        st.info("Sample tracking only. These shipments are not connected to a real order or carrier.")
+        orders = {o["order_id"]: o for o in _demo_orders()}
+        if not orders:
+            st.warning("Sample orders are unavailable.")
+            return
+        order = orders[st.radio("Order:", list(orders), horizontal=True, key="track_order_pick")]
+        items_html = "".join(
+            f"<div>{int(i['qty'])}x {html.escape(i['title'])} — PKR {float(i['price_pkr']):,.0f}</div>"
+            for i in order["items"]
+        )
         st.markdown(
-            """
+            f"""
             <div style="text-align: center; margin-bottom: 1.25rem;">
                 <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🚚</div>
                 <h3 style="margin: 0; font-weight: 800; color: #111827;">Sample Order Tracking (Demo)</h3>
-                <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem;">Example consignment: <b>ORD-1002</b> &bull; Leopard Express</p>
+                <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.25rem;"><b>{order['order_id']}</b> &bull; {html.escape(order['courier_partner'])} &bull; {html.escape(order['tracking_number'])}</p>
             </div>
             <div style="background: #F8FAFC; border: 1px solid rgba(135, 142, 136, 0.48); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;">
                 <span style="font-size: 1.3rem;">⚡</span>
                 <div>
-                    <div style="font-size: 0.88rem; font-weight: 800; color: var(--shopkaro-brand);">Example status: Out for Delivery</div>
-                    <div style="font-size: 0.75rem; color: #6B7280;">Live carrier updates are not connected.</div>
+                    <div style="font-size: 0.88rem; font-weight: 800; color: var(--shopkaro-brand);">{html.escape(order['order_status'])}</div>
+                    <div style="font-size: 0.75rem; color: #6B7280;">Estimated delivery: {html.escape(order['estimated_delivery'])}</div>
                 </div>
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.85rem 1rem; font-size: 0.82rem; color: #374151; line-height: 1.6;">
-                <div><b>Example destination:</b> Clifton Block 4, Karachi</div>
-                <div><b>Example payment:</b> Cash on Delivery (COD) — PKR 3,450</div>
-                <div><b>Example package:</b> 1x Embroidered Pakistani Lawn 3-Piece</div>
+                <div><b>City:</b> {html.escape(order['customer_city'])}</div>
+                <div><b>Payment:</b> {html.escape(order['payment_method'])} — PKR {float(order['total_pkr']):,.0f}</div>
+                {items_html}
             </div>
             """,
             unsafe_allow_html=True,
@@ -4028,16 +4081,17 @@ def run_streamlit_app() -> None:
         st.session_state["portal_role"] = "🛍️ Customer Storefront"
     if "customer_filter_cat" not in st.session_state:
         st.session_state["customer_filter_cat"] = "All Categories"
+    budget_max = catalogue_budget_max()
     if "customer_filter_budget" not in st.session_state:
-        st.session_state["customer_filter_budget"] = 60000
+        st.session_state["customer_filter_budget"] = budget_max
 
     # Real customers from the interaction data (recommendations use their actual history).
-    # Third value = curated search persona used for personalised search re-ranking.
+    # Label, then what their history is mostly about (their RFM segment is shown with the recommendations).
     persona_map = {
-        DEFAULT_DEMO_USER: ("🌙 Eid & Festive Lawn Shopper", "Eid & Festive Lawn Shoppers", "PERSONA_LUXURY_VIP"),
-        "USR-368401": ("📱 Smartphone & Electronics Buyer", "Loyal Electronics & VIP Buyers", "PERSONA_LUXURY_VIP"),
-        "USR-1398811": ("🎒 School-Supplies Parent", "Bargain Hunters & Cart Hesitators", "PERSONA_BUDGET_HUNTER"),
-        "new-visitor": ("🆕 New Visitor (cold start)", "Cold-Start New Visitor", None),
+        DEFAULT_DEMO_USER: ("🌙 Eid & Festive Lawn Shopper", "mostly browses women's lawn"),
+        "USR-368401": ("📱 Smartphone & Electronics Buyer", "mostly browses phones & accessories"),
+        "USR-1398811": ("🎒 School-Supplies Parent", "mostly browses kids & school supplies"),
+        "new-visitor": ("🆕 New Visitor (cold start)", "no history"),
     }
 
     # -------------------------------------------------------------------------
@@ -4317,7 +4371,11 @@ def run_streamlit_app() -> None:
                             st.markdown(msg["content"])
                             if msg["role"] == "assistant" and msg.get("tools"):
                                 tools_str = ", ".join(f"`{t}`" for t in msg["tools"])
-                                st.caption(f"Executed Tools: {tools_str} &bull; **100% Grounded Catalogue Verification**")
+                                if msg.get("verified", False):
+                                    check = "every product and price checked against the catalogue"
+                                else:
+                                    check = "⚠️ grounding check failed: verify products and prices before ordering"
+                                st.caption(f"Executed Tools: {tools_str} &bull; {check}")
                                 if msg.get("tool_outputs"):
                                     with st.expander("Inspect Grounded Tool JSON"):
                                         st.json(msg["tool_outputs"])
@@ -4424,39 +4482,41 @@ def run_streamlit_app() -> None:
                 # -------------------------------------------------------------
                 # Luxury Fashion Category Line Items (Image 2 style)
                 # -------------------------------------------------------------
+                # One line per real catalogue sub-category (each query returns only that sub-category; checked
+                # against the search engine). No lines for things the catalogue does not sell.
                 if active_dept == "WOMAN":
                     dept_items = [
-                        ("WINTER ' 26", "", "Women's Lawn & Unstitched", "winter warm shawl collection", False),
-                        ("GRAND WINTER", "FLAT PRICES", "Women's Lawn & Unstitched", "sale discount lawn", True),
-                        ("NEW ARRIVALS", "", "Women's Lawn & Unstitched", "new arrival 2026", True),
-                        ("UNSTITCHED", "", "Women's Lawn & Unstitched", "Sapphire Khaadi lawn 3-piece", True),
-                        ("READY TO WEAR", "", "Women's Lawn & Unstitched", "pret kurti luxury", True),
-                        ("WEST", "", "Women's Lawn & Unstitched", "silk kaftan luxury", False),
-                        ("NOOR", "", "Women's Lawn & Unstitched", "festive silk embroidered", False),
-                        ("BOTTOMS", "", "Women's Lawn & Unstitched", "trouser shalwar", True),
-                        ("ACCESSORIES", "", "Footwear & Khussa", "traditional velvet khussa", True),
+                        ("3-PIECE LAWN SUITS", "", "Women's Lawn & Unstitched", "3-piece lawn suit", True),
+                        ("2-PIECE PRINTED LAWN", "", "Women's Lawn & Unstitched", "2-piece printed lawn", True),
+                        ("EMBROIDERED EID LAWN", "", "Women's Lawn & Unstitched", "embroidered eid lawn", True),
+                        ("CHIFFON DUPATTA SUITS", "", "Women's Lawn & Unstitched", "chiffon dupatta suit", True),
+                        ("EMBROIDERED SHAWLS", "", "Women's Lawn & Unstitched", "embroidered shawl", True),
+                        ("BLOCK HEELS", "", "Footwear & Khussa", "festive block heels", False),
+                        ("KHUSSA", "", "Footwear & Khussa", "traditional punjabi khussa", False),
                     ]
                 elif active_dept == "MAN":
                     dept_items = [
-                        ("FESTIVE '26", "", "Men's Kurta & Ethnic", "men festive 2026", False),
-                        ("KURTA & SHALWAR", "", "Men's Kurta & Ethnic", "Junaid Jamshed kurta shalwar", True),
-                        ("WAISTCOATS", "", "Men's Kurta & Ethnic", "waistcoat embroidered", True),
-                        ("FOOTWEAR", "", "Footwear & Khussa", "men khussa leather", True),
-                        ("SHAWLS", "", "Men's Kurta & Ethnic", "pashmina shawl men", False),
+                        ("SHALWAR KAMEEZ", "", "Men's Kurta & Ethnic", "wash and wear shalwar kameez", True),
+                        ("EMBROIDERED KURTAS", "", "Men's Kurta & Ethnic", "cotton embroidered kurta", True),
+                        ("BOSKI SILK KURTAS", "", "Men's Kurta & Ethnic", "boski silk kurta", True),
+                        ("WAISTCOATS", "", "Men's Kurta & Ethnic", "festive waistcoat", True),
+                        ("PESHAWARI CHAPPAL", "", "Footwear & Khussa", "peshawari chappal", False),
                     ]
                 elif active_dept == "KID":
                     dept_items = [
-                        ("BOYS EASTERN", "", "Kids & School Supplies", "boys kurta shalwar", True),
-                        ("GIRLS FESTIVE", "", "Kids & School Supplies", "girls frock lehenga", True),
-                        ("CASUAL", "", "Kids & School Supplies", "kids casual cotton", False),
-                        ("ESSENTIALS", "", "Kids & School Supplies", "backpack school", True),
+                        ("SCHOOL BAGS", "", "Kids & School Supplies", "waterproof school bag", True),
+                        ("CARTOON BACKPACKS", "", "Kids & School Supplies", "kids cartoon backpack", True),
+                        ("LUNCH BOXES & BOTTLES", "", "Kids & School Supplies", "lunch box water bottle set", True),
+                        ("STATIONERY KITS", "", "Kids & School Supplies", "geometry stationery kit", True),
+                        ("SCHOOL SHOES", "", "Footwear & Khussa", "school uniform shoes", False),
                     ]
                 else:  # FRAGRANCE
                     dept_items = [
-                        ("ARABIAN DEHN AL OUD", "", "Beauty & Fragrances", "Junaid Jamshed Arabian Oud perfume", True),
-                        ("FRENCH PERFUMES", "", "Beauty & Fragrances", "french perfume luxury", True),
-                        ("TRADITIONAL ATTAR", "", "Beauty & Fragrances", "attar pure oil", False),
-                        ("HERBAL SKINCARE", "", "Beauty & Fragrances", "herbal skincare luxury", True),
+                        ("OUD & ATTAR GIFT SETS", "", "Beauty & Fragrances", "oud attar perfume gift set", True),
+                        ("EAU DE PARFUM", "", "Beauty & Fragrances", "luxury eau de parfum", True),
+                        ("SKINCARE KITS", "", "Beauty & Fragrances", "herbal skincare facial kit", True),
+                        ("LIPSTICK SETS", "", "Beauty & Fragrances", "matte lipstick set", False),
+                        ("ROSE WATER TONER", "", "Beauty & Fragrances", "rose water toner", False),
                     ]
 
                 st.markdown('<div class="drawer-categories-wrap"></div>', unsafe_allow_html=True)
@@ -4485,8 +4545,8 @@ def run_streamlit_app() -> None:
                 filter_budget = st.slider(
                     "Filter by Budget (PKR):",
                     min_value=2000,
-                    max_value=60000,
-                    value=int(st.session_state.get("customer_filter_budget", 60000)),
+                    max_value=budget_max,
+                    value=min(int(st.session_state.get("customer_filter_budget", budget_max)), budget_max),
                     step=1000,
                     key="sidebar_budget_slider",
                     label_visibility="collapsed",
@@ -4716,13 +4776,14 @@ def run_streamlit_app() -> None:
         search_input = st.session_state.get("active_search_query", "")
 
         # Quick Popular Pakistani Fashion & Electronics Query Badges
+        # Each label says exactly what its query asks for (the budget is in the query, so search enforces it).
         preset_chips = [
-            ("👰 Maria B Modest Nikah Lehenga <= 20k", "shaadi ke liye red lehenga 20 hazaar tak"),
-            ("👗 Sapphire Modest Lawn <= 5k", "Sapphire lawn suit emerald green eid"),
-            ("👔 J. Men's Kurta Shalwar <= 6k", "Khaadi man classic kurta beige"),
-            ("🌸 J. Arabian Oud & Shawl <= 3k", "Junaid Jamshed oud perfume set"),
-            ("🥿 Chapter 13 Velvet Khussa <= 5k", "traditional punjabi khussa golden"),
-            ("💻 Coding Laptop <= 1.5 Lac", "laptop for coding under 1.5 lac"),
+            ("👰 Red Bridal Lehenga ≤ 20k", "shaadi ke liye red lehenga 20 hazaar tak"),
+            ("👗 Eid Lawn Suit ≤ 5k", "eid ke liye lawn suit under 5000"),
+            ("👔 Men's Kurta ≤ 6k", "men kurta under 6000"),
+            ("🌸 Oud Gift Set ≤ 3k", "oud perfume gift set 3000 tak"),
+            ("🥿 Punjabi Khussa ≤ 5k", "punjabi khussa under 5000"),
+            ("💻 Coding Laptop ≤ 1.5 Lac", "laptop for coding under 1.5 lac"),
         ]
         q_cols = st.columns(len(preset_chips))
         for idx_p, (chip_title, chip_val) in enumerate(preset_chips):
@@ -4746,7 +4807,7 @@ def run_streamlit_app() -> None:
         else:
             effective_query = ""
 
-        persona_info = persona_map[selected_uid]
+        budget = float(st.session_state.get("customer_filter_budget", budget_max))
         if effective_query:
             _wait_for_models(st)
             # Search as the real shopper (collaborative re-ranking from their history); new visitors get plain search.
@@ -4763,7 +4824,7 @@ def run_streamlit_app() -> None:
         for item in s_out["results"]:
             if active_cat != "All Categories" and item.get("category") != active_cat:
                 continue
-            if item.get("price_pkr", 0) > st.session_state.get("customer_filter_budget", 60000):
+            if item.get("price_pkr", 0) > budget:
                 continue
             filtered_results.append(item)
 
@@ -4788,7 +4849,7 @@ def run_streamlit_app() -> None:
                     ORDER BY r.avg_rating DESC NULLS LAST, review_count DESC
                     LIMIT 9
                     """,
-                    [active_cat, float(st.session_state.get("customer_filter_budget", 60000))],
+                    [active_cat, budget],
                 ).df().to_dict("records")
                 con.close()
                 if db_items:
@@ -4796,11 +4857,7 @@ def run_streamlit_app() -> None:
             except Exception:
                 pass
 
-        # If still empty (e.g. strict budget filter on All Categories), show top results within budget
-        if not filtered_results and s_out["results"]:
-            filtered_results = [it for it in s_out["results"] if it.get("price_pkr", 0) <= st.session_state.get("customer_filter_budget", 60000)]
-            if not filtered_results:
-                filtered_results = s_out["results"][:6]
+        # Nothing in this category within budget: say so (never show over-budget items under a "Budget ≤" label).
 
         # Sorting & Rating Filter Controls
         f_col1, f_col2, f_col3 = st.columns([2.5, 1.4, 1.3], vertical_alignment="center", gap="small")
@@ -4809,7 +4866,7 @@ def run_streamlit_app() -> None:
             pills_html = [
                 f'<span class="ecom-filter-pill">Showing <b>{min(len(filtered_results), GRID_PAGE_SIZE)} of {len(filtered_results)}</b> products{"" if raw_query or active_cat != "All Categories" else " &bull; most reviewed"}</span>',
                 cat_badge,
-                f'<span class="ecom-filter-pill">Budget: &le; PKR {st.session_state.get("customer_filter_budget", 60000):,.0f}</span>',
+                f'<span class="ecom-filter-pill">Budget: &le; PKR {budget:,.0f}</span>',
             ]
             st.markdown(f'<div class="ecom-filter-bar">{"".join(pills_html)}</div>', unsafe_allow_html=True)
         with f_col2:
@@ -4843,7 +4900,12 @@ def run_streamlit_app() -> None:
         elif sort_order == "🔥 Biggest Savings":
             filtered_results.sort(key=lambda x: float(x.get("discount_pct", 0.0)), reverse=True)
 
-        if filtered_results:
+        if not filtered_results:
+            st.info(
+                f"No products match these filters within PKR {budget:,.0f}. "
+                "Try a higher budget in the menu, another category or a different search."
+            )
+        else:
             for row_start in range(0, min(len(filtered_results), GRID_PAGE_SIZE), 3):
                 grid_cols = st.columns(3)
                 for col_idx in range(3):
@@ -5023,7 +5085,7 @@ def run_streamlit_app() -> None:
                     <div class="shopkaro-footer-col">
                         <h4>📞 Customer Care & Support</h4>
                         <ul>
-                            <li><b>UAN Helpline:</b> +92 (21) 111-746-752</li>
+                            <li><b>UAN Helpline:</b> 111-SHOP-PK (demo placeholder)</li>
                             <li><b>WhatsApp AI Concierge:</b> 24/7 Available</li>
                             <li><b>Email:</b> support@shopkaro.pk</li>
                             <li><b>Operating Hours:</b> Mon–Sun (9 AM – 11 PM PKT)</li>
@@ -5349,7 +5411,7 @@ def run_streamlit_app() -> None:
                     col.caption(note)
 
             st.divider()
-            st.markdown("### 📋 Comprehensive 7-Model Evaluation Matrix")
+            st.markdown(f"### 📋 Comprehensive {len(rec_df) if not rec_df.empty else 8}-Model Evaluation Matrix")
             if not rec_df.empty:
                 st.dataframe(rec_df, width="stretch", hide_index=True)
 
@@ -5475,8 +5537,10 @@ def run_streamlit_app() -> None:
         elif ent_view == "🔍 Hybrid Search Analytics":
             st.markdown(
                 "## 🔍 Hybrid Multilingual Search Benchmarks & Query Intelligence\n"
-                "*Keyword (BM25) vs semantic (TF-IDF + SVD) vs hybrid search on 50 dev + 20 held-out labelled queries.*"
+                "*Keyword (BM25) vs semantic (multilingual-e5) vs hybrid search (+ cross-encoder) on 50 dev + 20 "
+                "held-out labelled queries; benchmark run with the full neural pipeline.*"
             )
+            semantic_desc, cross_desc = _live_search_pipeline()
 
             s_bench = snapshot.get("search_benchmarks", pd.DataFrame())
             if not s_bench.empty and "query_set" in s_bench.columns:
@@ -5502,13 +5566,16 @@ def run_streamlit_app() -> None:
             st.divider()
             st.markdown("### 🔎 Production Query Pipeline")
             st.markdown(
-                """
+                f"""
+                *What this server is running now:*
+
                 1. **Query understanding:** Roman Urdu / Urdu to English translation, budget parsing (*"20 hazaar tak"*,
                    *"3000 se kam"*, *"1.5 lac"*), product type, colour, occasion and brand detection.
-                2. **Two retrievers:** Okapi BM25 keyword search and a TF-IDF + SVD semantic index (not a neural model).
+                2. **Two retrievers:** Okapi BM25 keyword search and {semantic_desc}.
                 3. **Reciprocal Rank Fusion (RRF, k=60):** merges the two ranked lists.
                 4. **Feature re-ranker:** boosts matching product type / colour / occasion / brand; out-of-stock and
                    over-budget items are removed.
+                5. **Cross-encoder:** {cross_desc}
                 """
             )
 

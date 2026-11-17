@@ -22,6 +22,7 @@ Across:
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import json
 from pathlib import Path
 
 import duckdb
@@ -137,8 +138,12 @@ def evaluate_single_model_full(
     novelty_map: dict[str, float],
     k: int = 10,
     exclude_seen: bool = False,
+    per_user_ndcg_out: dict[str, float] | None = None,
 ) -> FullModelEvalRow:
-    """Evaluate a single recommender across accuracy, beyond-accuracy, and cold-start metrics."""
+    """Evaluate a single recommender across accuracy, beyond-accuracy, and cold-start metrics.
+
+    If `per_user_ndcg_out` is given, each warm user's NDCG@k is stored in it (used for paired significance tests).
+    """
     precisions: list[float] = []
     recalls: list[float] = []
     ndcgs: list[float] = []
@@ -173,6 +178,8 @@ def evaluate_single_model_full(
         ideal_len = min(len(relevant_items), k)
         idcg = float(np.sum(discounts[:ideal_len]))
         ndcgs.append(dcg / idcg if idcg > 0 else 0.0)
+        if per_user_ndcg_out is not None:
+            per_user_ndcg_out[uid] = ndcgs[-1]
 
         if n_hits > 0:
             cum_hits = np.cumsum(hit_vec)
@@ -244,6 +251,33 @@ def evaluate_single_model_full(
         cold_user_ndcg_at_10=round(float(np.mean(cold_user_ndcgs)), 5),
         cold_item_hit_rate_at_10=round(float(np.mean(cold_item_hits)), 5),
     )
+
+
+def paired_bootstrap_ndcg(
+    ndcg_a: dict[str, float],
+    ndcg_b: dict[str, float],
+    n_resamples: int = 2000,
+    seed: int = 0,
+) -> dict[str, object]:
+    """Paired bootstrap of mean NDCG(A) - NDCG(B) over the users both models were scored on.
+
+    Users are resampled with replacement; the same resample is applied to both models, so per-user difficulty
+    cancels out. `p_boot_le_0` is the share of resamples where A is not better than B (one-sided).
+    """
+    users = [u for u in ndcg_a if u in ndcg_b]
+    if not users:
+        raise ValueError("no users in common between the two models")
+    diff = np.array([ndcg_a[u] - ndcg_b[u] for u in users], dtype=float)
+    rng = np.random.default_rng(seed)
+    boots = diff[rng.integers(0, len(diff), size=(n_resamples, len(diff)))].mean(axis=1)
+    return {
+        "mean_diff": round(float(diff.mean()), 5),
+        "ci95": [round(float(np.percentile(boots, 2.5)), 5), round(float(np.percentile(boots, 97.5)), 5)],
+        "p_boot_le_0": round(float((boots <= 0).mean()), 4),
+        "users_better": int((diff > 0).sum()),
+        "users_worse": int((diff < 0).sum()),
+        "n": int(len(diff)),
+    }
 
 
 def plot_recommender_comparison_chart(
@@ -414,7 +448,9 @@ def run_day2_task4_offline_evaluation(
     """
     Execute Day 2 — Task 4:
     Fit all 8 models, evaluate them across all 10 metrics on the warm and cold-start test sets,
-    save `reports/day2_model_comparison.csv`, and generate `reports/figures/08_recommender_model_comparison.png`.
+    save `reports/day2_model_comparison.csv`, generate `reports/figures/08_recommender_model_comparison.png`, and
+    save a paired-bootstrap test of the two-tower vs the blend, item-CF and ALS
+    (`reports/day2_two_tower_significance.json`).
     """
     target_db = db_path or settings.duckdb_path
     con = duckdb.connect(str(target_db), read_only=True)
@@ -569,8 +605,10 @@ def run_day2_task4_offline_evaluation(
 
     rows: list[FullModelEvalRow] = []
     models_dict: dict[str, BaseRecommender] = {}
+    per_user_ndcg: dict[str, dict[str, float]] = {}
     for key, mdl, family in model_specs:
         models_dict[key] = mdl
+        per_user_ndcg[key] = {}
         row = evaluate_single_model_full(
             model=mdl,
             model_family=family,
@@ -583,6 +621,7 @@ def run_day2_task4_offline_evaluation(
             novelty_map=novelty_map,
             k=k,
             exclude_seen=False,
+            per_user_ndcg_out=per_user_ndcg[key],
         )
         rows.append(row)
 
@@ -592,6 +631,15 @@ def run_day2_task4_offline_evaluation(
     csv_out = settings.reports_dir / "day2_model_comparison.csv"
     csv_out.parent.mkdir(parents=True, exist_ok=True)
     comparison_df.to_csv(csv_out, index=False)
+
+    # Is the two-tower's lead real? Paired bootstrap on the same warm test users, vs the three strongest rivals.
+    significance = {
+        rival: paired_bootstrap_ndcg(per_user_ndcg["neural_two_tower"], per_user_ndcg[rival])
+        for rival in ("hybrid_two_tower", "item_to_item_cf", "implicit_als")
+    }
+    (settings.reports_dir / "day2_two_tower_significance.json").write_text(
+        json.dumps(significance, indent=2), encoding="utf-8"
+    )
 
     fig_out = settings.figures_dir / "08_recommender_model_comparison.png"
     plot_recommender_comparison_chart(comparison_df, output_path=fig_out)

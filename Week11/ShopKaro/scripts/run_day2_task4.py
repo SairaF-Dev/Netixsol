@@ -55,6 +55,10 @@ def main() -> None:
         f"val NDCG@10 {log['best_val_ndcg_at_10']}, pop_weight {log['best_pop_weight']}, "
         f"revisit_boost {log['best_revisit_boost']}, {log['seconds']}s -> {log_path}"
     )
+    sig_path = settings.reports_dir / "day2_two_tower_significance.json"
+    print("\n--- Paired bootstrap: two-tower NDCG@10 minus rival (2,000 resamples) ---")
+    for rival, s in json.loads(sig_path.read_text(encoding="utf-8")).items():
+        print(f"  vs {rival}: {s['mean_diff']:+.5f}  CI95 {s['ci95']}  p={s['p_boot_le_0']}")
     print(f"Saved comparison chart to: {fig_path}")
 
 

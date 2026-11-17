@@ -41,6 +41,46 @@ def test_banner_discount_matches_catalogue() -> None:
     assert n_on_sale > 0
 
 
+def test_budget_slider_reaches_every_in_stock_product() -> None:
+    """A fixed PKR 60,000 cap used to hide most laptops and 5G phones from the storefront grid."""
+    con = duckdb.connect(str(settings.duckdb_path), read_only=True)
+    top = con.execute("SELECT MAX(price_pkr) FROM product_catalogue WHERE in_stock").fetchone()[0]
+    con.close()
+    assert top <= app.catalogue_budget_max() < top + 10_000
+
+
+def test_order_screens_use_the_assistants_order_records() -> None:
+    """Account history, order tracking and the assistant must describe the same sample orders."""
+    app.serving_container.ensure_initialized()
+    registry = app.serving_container.tool_registry
+    for oid in app.DEMO_ORDER_IDS:
+        out = registry.get_order_status(oid)
+        assert out["found"], oid
+        order = out["order"]
+        assert order["total_pkr"] == sum(i["price_pkr"] * i["qty"] for i in order["items"])
+
+
+def test_no_promo_banner_promises_a_discount_the_catalogue_lacks() -> None:
+    # carousel3's artwork says "FLAT 50% OFF"; the largest real discount is lower.
+    max_disc, _ = app.catalogue_discount_stats()
+    if max_disc < 50:
+        assert "carousel3" not in {stem for stem, *_ in app.PROMO_SLIDES}
+
+
+def test_search_view_describes_the_running_pipeline() -> None:
+    app.serving_container.ensure_initialized()
+    semantic, cross = app._live_search_pipeline()
+    neural = isinstance(app.serving_container.search_engine.semantic_index, app_neural_index())
+    assert ("neural" in semantic and "not a neural" not in semantic) == neural
+    assert cross
+
+
+def app_neural_index() -> type:
+    from shopkaro.search.hybrid_search import NeuralSemanticIndex
+
+    return NeuralSemanticIndex
+
+
 def test_no_title_repeats_a_word() -> None:
     pat = re.compile(r"\b(\w+)\s+\1\b", re.IGNORECASE)
     assert not [t for t, *_ in _catalogue().values() if pat.search(t)]

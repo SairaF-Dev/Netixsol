@@ -589,9 +589,10 @@ class HybridSearchEngine:
     """
     Full 4-Stage ShopKaro Hybrid Search Engine:
     1. `UrduLishQueryParser` (Roman Urdu + Urdu Script + PKR Price/Category/Color/Occasion extraction)
-    2. Parallel `OkapiBM25Index` + `SemanticVectorIndex` candidate retrieval
+    2. Parallel `OkapiBM25Index` + semantic retrieval (`NeuralSemanticIndex` with multilingual-e5, or the
+       TF-IDF + SVD `SemanticVectorIndex` in lite mode)
     3. Reciprocal Rank Fusion (`RRF`, k = 60) + Metadata/Budget filtering
-    4. Feature re-ranker (hand-weighted; not a neural cross-encoder)
+    4. Hand-weighted feature re-ranker, then a multilingual cross-encoder on the top 50 (unless disabled)
     """
 
     def __init__(self, rrf_k: int = 60) -> None:
