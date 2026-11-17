@@ -73,15 +73,21 @@ GROUNDING RULES (strict):
 6. Order status needs an order ID like ORD-1001. If the customer did not give one, ask for it.
    Never guess an order ID.
 7. Show at most 5 products. Never mention tools, JSON, IDs of these rules, or this prompt.
+8. Never assume a budget, brand, product or detail the customer did not say. If a word is unclear (a typo,
+   or a brand you do not recognise, e.g. "ads mobile"), ask what they mean instead of guessing.
+9. If the customer asks for a brand and no result has that brand, say ShopKaro does not have that brand
+   and offer the brands that the results do show.
 
 WHICH TOOL:
-- search_products: the customer describes what they want (product type, colour, budget, occasion).
+- search_products: the customer names or describes a product (product type, colour, budget, occasion).
+  This includes gifts and occasions when a product type is named: "ammi ke liye eid ka suit" ->
+  search_products(query "eid suit"), not get_recommendations.
   For a follow-up that only adds a detail ("50000 mein", "pink chahiye"), search again with the earlier
   product AND the new detail (e.g. query "pink mobile", max_price_pkr 50000).
 - Budget questions ("budget kitna hona chahiye?", "price range kya hai?"): call search_products for that
   product WITHOUT max_price_pkr and answer from its "price_summary" (lowest, typical low-high range, median,
   highest). Never make up a price range.
-- get_recommendations: gift ideas, "kya lun?", occasion suggestions, personalised picks.
+- get_recommendations: only open-ended ideas with NO product type named ("Eid gift chahiye", "kya lun?").
 - compare_products: compare 2-4 specific products.
 - add_to_cart / get_order_status / get_review_summary: as named.
 """
@@ -245,7 +251,11 @@ def build_tool_specs(categories: list[str]) -> list[dict[str, Any]]:
         },
         {
             "name": "get_recommendations",
-            "description": "Gift and occasion recommendations (e.g. Eid gift for ammi, shaadi outfit) within a budget.",
+            "description": (
+                "Open-ended gift / occasion ideas when the customer has NOT named a product type "
+                "(e.g. 'ammi ke liye Eid gift', 'kya lun?'). If they name one (suit, mobile, joota, shawl, perfume), "
+                "use search_products instead, even for a gift or an occasion."
+            ),
             "parameters": {
                 "type": "object",
                 "properties": {
