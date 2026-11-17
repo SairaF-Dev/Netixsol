@@ -305,6 +305,49 @@ def test_auditor_catches_suffix_prices_and_budget_parsing() -> None:
     assert 3_000 in amounts_in_user_text("3000 tak")
 
 
+def test_invented_budget_in_any_form_is_caught() -> None:
+    """Transcript bug: for "ads mobile dikhao" the LLM guessed a budget, 'shayad aap "50 hazaar" (50,000) ...'."""
+    allowed = {"SK-08908": 48600.0}
+    guessed = (
+        'Shayad aap "50 hazaar" (50,000) tak ka mobile kehna chah rahe hain? '
+        "**SK-08908** Tecno 5G Smartphone (PKR 48,600) budget mein hai."
+    )
+    audit = HallucinationAuditor.verify_response(guessed, allowed)
+    assert not audit.passed_zero_hallucination_check
+    assert 50000.0 in audit.hallucinated_prices_pkr
+    # The same sentence is fine when the customer did type that budget.
+    assert HallucinationAuditor.verify_response(guessed, allowed, {50000.0}).passed_zero_hallucination_check
+
+    # Other ways of writing money are checked too; counts and specs are not mistaken for prices.
+    for text, value in (("1.5 lac tak", 150000.0), ("25k budget", 25000.0), ("(3,000)", 3000.0)):
+        assert HallucinationAuditor.verify_response(text, {}).hallucinated_prices_pkr == [value]
+    for text in ("1,715 units stock mein hain", "8GB/256GB, 20000mAh, 45W", "2,000 reviews"):
+        assert HallucinationAuditor.verify_response(text, {}).passed_zero_hallucination_check
+
+
+def test_named_product_is_searched_not_swapped_for_gift_ideas() -> None:
+    """Transcript bug: "ammi k liye eid ka suit" returned the shawl / perfume / skincare gift picks."""
+    from shopkaro.assistant.shopping_agent import UrduLishShoppingAssistant
+
+    serving_container.ensure_initialized()
+    tools = serving_container.tool_registry
+    assert tools is not None
+    rules = UrduLishShoppingAssistant(tools=tools)
+
+    suit = rules.chat("suit-1", "ammi k liye eid ka suit lena hai", user_id="15442")
+    assert suit.invoked_tools == ["search_products"]
+    assert all("Suit" in p["title"] for p in suit.tool_outputs["search_products"]["results"][:3])
+
+    gift = rules.chat("suit-2", "Ammi ke liye Eid gift chahiye, 3000 tak", user_id="15442")
+    assert gift.invoked_tools == ["get_recommendations"]  # open gift ideas still use the curated picks
+
+    # Even if the LLM picks get_recommendations with a category, the curated gifts must respect it.
+    recs = tools.get_recommendations(
+        occasion="Eid", recipient_hint="ammi", category="Women's Lawn & Unstitched", k=5
+    )["recommendations"]
+    assert recs and all(r["category"] == "Women's Lawn & Unstitched" for r in recs)
+
+
 def test_out_of_domain_guardrail_refusal() -> None:
     from shopkaro.assistant.shopping_agent import UrduLishShoppingAssistant
 

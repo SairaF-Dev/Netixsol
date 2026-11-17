@@ -4379,6 +4379,9 @@ def run_streamlit_app() -> None:
                                 if msg.get("tool_outputs"):
                                     with st.expander("Inspect Grounded Tool JSON"):
                                         st.json(msg["tool_outputs"])
+                            elif msg["role"] == "assistant" and not msg.get("verified", True):
+                                # No tool this turn, but the reply was still audited (e.g. it named a price).
+                                st.caption("⚠️ grounding check failed: verify products and prices before ordering")
 
                 st.markdown("<div style='height:0.5rem;'></div>", unsafe_allow_html=True)
                 if st.button("🧹 Reset Conversation", key="ai_drawer_clear_btn", width="stretch"):

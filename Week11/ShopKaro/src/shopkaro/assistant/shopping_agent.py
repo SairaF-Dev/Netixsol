@@ -639,6 +639,8 @@ class ShopKaroToolRegistry:
                         continue
                     if max_budget_pkr is not None and float(meta["price_pkr"]) > max_budget_pkr:
                         continue
+                    if category and str(meta["category"]) != category:
+                        continue  # asked for suits: no perfume / skincare gift picks
                     recs.append(
                         {
                             "rank": len(recs) + 1,
@@ -877,6 +879,42 @@ BUDGET_QUESTION = re.compile(
 )
 PRICE_WORDS = re.compile(r"\b(?:kitn[aie]|kitne|price|qeemat|keemat|kimat|rate|how much)\b")
 ORDINAL_WORDS = re.compile(r"\b(?:pehla|pehle|pehli|doosra|dusra|doosre|teesra|tisra|first|second|third)\b")
+# A product type named in the message ("eid ka suit", "ammi ke liye shawl") means search, not open gift ideas.
+NAMED_PRODUCT = re.compile(
+    r"\b(?:suits?|jor(?:a|ay|e)|lawn|kurt[ai]s?|kameez|shalwar|lehenga|dupatta|shawls?|chadar|maxi|frock|"
+    r"jootay?|joote|juta|shoes?|khussa|chappal|heels|sneakers?|mobiles?|phones?|smartphones?|laptops?|"
+    r"earbuds|charger|cover|perfumes?|attar|oud|lipstick|skincare|bags?|backpack|jacket|sweater|"
+    r"microwave|blender|iron)\b"
+)
+
+
+_NUM = r"\d[\d,]*(?:\.\d+)?"
+_PKR_AMOUNT = re.compile(
+    rf"(?:PKR|Rs\.?)\s*(?P<pre>{_NUM})"  # "PKR 2,450", "Rs. 138,000"
+    rf"|(?<![\w.,])(?P<suf>{_NUM})\s*(?:PKR\b|rupay\b|rupaye\b|rupees?\b|/-)"  # "2,450 rupay", "4500 PKR", "2,450/-"
+    rf"|(?<![\w.,])(?P<unit>{_NUM})\s*(?P<scale>lacs|lakh|lac|hazaar|hazar|k)\b"  # "50 hazaar", "1.5 lac", "25k"
+    # bare "(50,000)": comma-grouped, so money, unless it counts something ("1,715 units", "2,000 reviews")
+    r"|(?<![\w.,])(?P<grouped>\d{1,3}(?:,\d{3})+)(?![\w,])"
+    r"(?!\s*(?:units?|pcs|pieces|items?|reviews?|ratings?|customers?|log|users?|visitors?|orders?)\b)",
+    flags=re.I,
+)
+_SCALE = {"lac": 100_000, "lacs": 100_000, "lakh": 100_000, "hazaar": 1_000, "hazar": 1_000, "k": 1_000}
+
+
+def pkr_amounts_in(text: str) -> list[float]:
+    """Every money amount in a reply, in any form the assistant might write it (a made-up budget such as
+    "50 hazaar (50,000)" used to slip through because only "PKR ..." / "... rupay" forms were checked)."""
+    out: list[float] = []
+    for m in _PKR_AMOUNT.finditer(text):
+        raw = m.group("pre") or m.group("suf") or m.group("unit") or m.group("grouped")
+        raw = raw.replace(",", "").rstrip(".")
+        if not raw:
+            continue
+        value = float(raw)
+        if m.group("scale"):
+            value *= _SCALE[m.group("scale").lower()]
+        out.append(value)
+    return out
 
 
 class HallucinationAuditor:
@@ -897,17 +935,7 @@ class HallucinationAuditor:
         valid_pids = [pid for pid in mentioned_pids if pid in allowed_products]
         hallucinated_pids = [pid for pid in mentioned_pids if pid not in allowed_products]
 
-        # Extract PKR amounts: prefix form ("PKR 2,450", "Rs. 138,000") and
-        # suffix form ("2,450 rupay", "4500 PKR", "2,450/-")
-        prefix = re.findall(r"(?:PKR|Rs\.?)\s*(\d[\d,]*(?:\.\d+)?)", response_text, flags=re.I)
-        suffix = re.findall(
-            r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*(?:PKR\b|rupay\b|rupaye\b|rupees?\b|/-)",
-            response_text,
-            flags=re.I,
-        )
-        mentioned_prices = [
-            float(p.replace(",", "").rstrip(".")) for p in prefix + suffix if p.replace(",", "").rstrip(".")
-        ]
+        mentioned_prices = pkr_amounts_in(response_text)
 
         valid_price_set = {round(float(v), 0) for v in allowed_products.values()}
         if extra_valid_prices:
@@ -954,11 +982,8 @@ class HallucinationAuditor:
             if pid not in paired_prices:
                 continue
             own = {round(float(v), 0) for v in paired_prices[pid]}
-            amounts = re.findall(r"(?:PKR|Rs\.?)\s*(\d[\d,]*(?:\.\d+)?)", seg, flags=re.I) + re.findall(
-                r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*(?:PKR\b|rupay\b|rupaye\b|rupees?\b|/-)", seg, flags=re.I
-            )
-            for a in amounts:
-                v = round(float(a.replace(",", "").rstrip(".") or 0), 0)
+            for a in pkr_amounts_in(seg):
+                v = round(a, 0)
                 if v and v not in own and v not in free:
                     out.append((pid, v))
         return out
@@ -1287,8 +1312,11 @@ class UrduLishShoppingAssistant:
                         "Aap apna budget bata dein, main usi mein behtareen options dikha deta hoon."
                     )
 
-        # 5. Detect Intent: Gift / Personalized Recommendations ("gift", "suggest", "recommend", "ammi ke liye")
-        elif any(w in msg_l for w in ["gift", "recommend", "suggest", "ammi", "tahfa", "mashwara"]):
+        # 5. Detect Intent: Gift / Personalized Recommendations ("gift", "suggest", "recommend", "ammi ke liye"),
+        # but only when no product is named: "ammi ke liye eid ka suit" is a search for suits, not gift ideas.
+        elif any(w in msg_l for w in ["gift", "recommend", "suggest", "ammi", "tahfa", "mashwara"]) and not (
+            NAMED_PRODUCT.search(msg_l) or self.tools.search_engine.parser.parse(user_message).category_hint
+        ):
             intent = "personalized_recommendation"
             assert self.tools.search_engine.parser is not None
             parsed = self.tools.search_engine.parser.parse(user_message)
