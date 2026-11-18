@@ -34,9 +34,10 @@ def _render_pdf_page(document_path: str | Path, page_num: int) -> bytes:
 class TesseractUrduOCR:
     """Run the Tesseract executable with Urdu and English language data."""
 
-    name = "Tesseract (urd+eng)"
-
-    def __init__(self) -> None:
+    def __init__(self, languages: str = "urd+eng") -> None:
+        """languages: Tesseract language string, e.g. "urd+eng" or "eng" for English scans."""
+        self.languages = languages
+        self.name = f"Tesseract ({languages})"
         self.executable = shutil.which("tesseract")
         if not self.executable:
             raise RuntimeError(
@@ -53,8 +54,9 @@ class TesseractUrduOCR:
         if result.returncode != 0:
             raise RuntimeError(f"Unable to list Tesseract languages: {result.stderr.strip()}")
         languages = set(result.stdout.splitlines()[1:])
-        if not {"urd", "eng"}.issubset(languages):
-            missing = sorted({"urd", "eng"} - languages)
+        required = set(self.languages.split("+"))
+        if not required.issubset(languages):
+            missing = sorted(required - languages)
             raise RuntimeError(
                 f"Tesseract is missing language data: {', '.join(missing)}. "
                 "Install these traineddata files before running OCR evaluation."
@@ -64,7 +66,7 @@ class TesseractUrduOCR:
         image = _render_pdf_page(document_path, page_num)
         started = time.perf_counter()
         result = subprocess.run(
-            [self.executable, "stdin", "stdout", "-l", "urd+eng", "--psm", "6"],
+            [self.executable, "stdin", "stdout", "-l", self.languages, "--psm", "6"],
             input=image,
             capture_output=True,
             check=False,

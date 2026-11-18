@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 from rank_bm25 import BM25Okapi
 
+from src.extraction.urdu_text import normalize_for_search
 from src.utils.schemas import LegalChunk
 from src.utils.logger import setup_logger
 from src.utils.file_utils import ensure_directory
@@ -16,8 +17,11 @@ from src.utils.file_utils import ensure_directory
 logger = setup_logger("bm25_index")
 
 def tokenize_legal_text(text: str) -> List[str]:
-    """Tokenizes text preserving section numbers, acronyms, and legal identifiers."""
-    clean_text = text.lower()
+    """Tokenizes text preserving section numbers, acronyms, and legal identifiers.
+
+    Urdu is normalised first (Arabic letter forms -> Urdu, all digits -> ASCII,
+    Urdu punctuation removed) so "دفعہ 302" matches OCR text "دفعه ٣٠٢"."""
+    clean_text = normalize_for_search(text).lower()
     # Normalize common abbreviations and keep alphanumeric tokens with hyphens
     tokens = re.findall(r"[a-z0-9\u0600-\u06FF\-_]+", clean_text)
     return tokens

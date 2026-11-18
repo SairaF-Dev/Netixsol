@@ -9,5 +9,5 @@ Tasks
 :three: Structure Extraction: convert statutes (Act → Section), judgments (court, parties, citations, holding) and contracts (clauses) into JSON.
 :four: Legal-Aware Chunking: compare fixed-size, section-level and parent-child chunking.
 :five: Indexing: store chunks with metadata (Act, section, court, year, page, matter ID) in a vector DB and a BM25 index.
-
+     
 :package: Deliverable: ingestion pipeline code, OCR comparison and chunking comparison pushed to GitHub, with a short README.

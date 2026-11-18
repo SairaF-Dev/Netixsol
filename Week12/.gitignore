@@ -6,3 +6,11 @@ data/indices/
 *.pkl
 .pytest_cache/
 test_urdu.pdf
+
+# Large source PDFs (not committed; see README "Data sources")
+data/pakistani_urdu_code/
+data/scp_judgments_pdfs/
+data/ocr_text/*.log
+
+# Colab upload/download bundles
+colab/*.zip

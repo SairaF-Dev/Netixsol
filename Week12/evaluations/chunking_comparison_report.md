@@ -1,37 +1,46 @@
-# Khan & Associates - Legal Chunking Strategy Comparison Report
+# Legal Chunking Strategy Comparison
 
-## 1. Executive Summary
-Legal documents (statutes, case law judgments, commercial contracts) possess strict hierarchical structures that make generic fixed-size chunking hazardous. Cutting across a statutory proviso, an exception clause, or a ratio decidendi destroys legal semantics.
+## Corpus and method
 
-This benchmark evaluates **3 chunking strategies** on 12 generated instructional
-documents (3 statutes, 5 judgments, and 4 contracts). They are not authoritative
-legal sources. `Avg Tokens` and `Token StdDev` are whitespace word counts, not
-model-token counts. Boundary preservation and retrieval relevance are not scored.
+Real corpus from `inventory.csv`: 66 contracts, 225 judgments, 12 statutes (the 20 synthetic contracts are
+included; Urdu laws are not, as they are not OCR'd yet). All strategies chunk the same text:
+the legal units extracted in Task 3 (statute sections/articles/rules, judgment
+paragraphs, contract clauses). Word counts are whitespace words, not model tokens.
 
-1. **Fixed-Size Chunking** (200-word window, 40-word overlap)
-2. **Section-Level Chunking** (Section / Article / Ratio / Clause boundaries)
-3. **Parent-Child Chunking** (Sub-clause child chunks indexed, full Section parents returned)
+* **Cross a legal boundary**: share of chunks containing words from more than one
+  legal unit (e.g. the end of Section 301 and the start of Section 302). Section-level
+  and parent-child chunks never cross by construction.
+* **> 400 words**: chunks likely to be truncated by multilingual-e5-small (512 tokens).
+* **Have legal label / page**: chunks whose metadata names the section, paragraph or
+  clause, and the PDF page where it starts (needed for citing sources).
 
-## 2. Benchmark Comparison Matrix
+Retrieval quality is **not** measured; that needs a labelled query/relevance set.
 
-| Strategy                    | Total Chunks              | Avg Tokens                   |   Token StdDev | Boundary Preservation                               | Metadata Completeness            | Retrieval Context                         |
-|-----------------------------|---------------------------|------------------------------|----------------|-----------------------------------------------------|----------------------------------|-------------------------------------------|
-| Fixed-Size (Sliding Window) | 24                        | 157.6                        |           46.4 | Not measured; windows may split legal units         | Offsets only                     | Window-sized text                         |
-| Section-Level (Legal Aware) | 58                        | 87.4                         |           83.2 | Structure-aware; not independently scored           | Document-specific legal metadata | One chunk per legal structure unit        |
-| Parent-Child (Hierarchical) | 183 (Child) / 58 (Parent) | 26.0 (Child) / 87.4 (Parent) |           35.9 | Parent hierarchy retained; not independently scored | Child chunks carry parent_id     | Child match with parent context available |
+## Results
 
-## 3. Design Notes (not measured retrieval results)
+| Strategy                                       |   Chunks |   Mean words |   Median words |   Max words | > 400 words   | Cross a legal boundary   | Have legal label   | Have page   |
+|------------------------------------------------|----------|--------------|----------------|-------------|---------------|--------------------------|--------------------|-------------|
+| Fixed-size (200 words, 40 overlap)             |    10137 |        197.6 |            200 |         200 | 0.0%          | 50.9%                    | 0.0%               | 0.0%        |
+| Section-level (legal units, split > 350 words) |     9083 |        207.1 |            210 |         420 | 0.2%          | 0.0%                     | 100.0%             | 98.6%       |
+| Parent-child: children (~80 words)             |    18839 |        112   |            114 |         314 | 0.0%          | 0.0%                     | 100.0%             | 99.3%       |
+| Parent-child: parents (whole units)            |     6800 |        269.4 |            156 |       24721 | 13.9%         | 0.0%                     | 100.0%             | 98.1%       |
 
-### A. Fixed-Size Chunking
-* **Tradeoff**: A fixed window can separate a provision from adjacent context.
+## Chunks per document type
 
-### B. Section-Level Legal Chunking
-* **Strengths**: Every chunk corresponds to an autonomous legal unit (e.g. Section 497 CrPC, Article 199 Constitution, or Clause 5 Governing Law).
-* **Metadata Richness**: Automatically attaches `act`, `section`, `court`, `year`, `matter_id`.
-* **Fit**: Ideal for direct BM25 keyword matching and standard legal research queries.
+| Type     |   Documents |   Fixed chunks |   Section chunks |   Child chunks |
+|----------|-------------|----------------|------------------|----------------|
+| Contract |          66 |           2157 |             1524 |           3503 |
+| Judgment |         225 |           4658 |             4187 |           9508 |
+| Statute  |          12 |           3322 |             3372 |           5828 |
 
-### C. Parent-Child Chunking (Recommended for RAG)
-* **Potential benefit**: Provides a retrieval tradeoff:
-  - **Children** (~20-50 tokens) provide pinpoint semantic matching against specific user questions.
-  - **Parents** (~150-400 tokens) provide the LLM with the full statutory section or contract clause upon retrieval.
-* **Recommendation**: Evaluate **Parent-Child Chunking** for vector retrieval and **Section-Level Chunking** for BM25 against a judged relevance set before production use.
+## Reading the results
+
+* Fixed-size windows ignore structure: the "Cross a legal boundary" column shows
+  how often a retrieved chunk mixes two provisions, and these chunks carry no
+  section label or page.
+* Section-level chunks map one-to-one to citable units (`Section 302`, `para 12`,
+  `Clause 9`) with page numbers; long units are split into labelled parts so no
+  chunk exceeds the embedding limit. This strategy is used for the BM25 and vector index.
+* Parent-child gives small children for precise matching while the parent keeps the
+  whole unit for context; parents can be very long (whole Income Tax definitions
+  sections), so they suit an LLM context window rather than the embedding model.

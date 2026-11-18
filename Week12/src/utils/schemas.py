@@ -20,6 +20,7 @@ class SectionItem(BaseModel):
     title: str
     content: str
     subsections: List[str] = Field(default_factory=list)
+    page_start: Optional[int] = None
 
 class ChapterItem(BaseModel):
     """Statute chapter model."""
@@ -34,22 +35,32 @@ class StatuteDocument(BaseModel):
     act_number: Optional[str] = None
     year: int
     jurisdiction: str = "Federal / Pakistan"
+    language: str = "English"  # "Urdu" for the OCR'd Pakistan Code Urdu laws (one unit per page)
     preamble: str
     chapters: List[ChapterItem] = Field(default_factory=list)
     raw_text: Optional[str] = None
+    source_file: Optional[str] = None
+    pages_needing_ocr: List[int] = Field(default_factory=list)
 
 class JudgmentParties(BaseModel):
     """Parties in a judicial decision."""
     appellant_or_petitioner: str
     respondent: str
 
+class JudgmentParagraph(BaseModel):
+    """One numbered paragraph of a judgment, with the page it starts on."""
+    number: Optional[str] = None
+    text: str
+    page: Optional[int] = None
+
 class JudgmentDocument(BaseModel):
     """Structured representation of a Case Law Judgment."""
     document_id: str = Field(validation_alias=AliasChoices("document_id", "doc_id"))
     case_number: str
     court: str
-    year: int
-    date_of_judgment: str
+    year: Optional[int] = None
+    date_of_judgment: str = ""
+    date_of_hearing: Optional[str] = None
     bench: List[str] = Field(default_factory=list)
     parties: JudgmentParties
     citations: List[str] = Field(default_factory=list)
@@ -58,7 +69,12 @@ class JudgmentDocument(BaseModel):
     statutes_cited: List[str] = Field(default_factory=list)
     issues: List[str] = Field(default_factory=list)
     holding: str
-    full_text: str
+    outcome: Optional[str] = None
+    full_text: str = ""
+    paragraphs: List[JudgmentParagraph] = Field(default_factory=list)
+    holding_page: Optional[int] = None
+    source_file: Optional[str] = None
+    pages_needing_ocr: List[int] = Field(default_factory=list)
 
 class ContractClause(BaseModel):
     """Individual clause within a legal contract."""
@@ -74,10 +90,11 @@ class ContractDocument(BaseModel):
     contract_type: str  # NDA, MSA, SLA, Employment, Lease, License
     parties: List[str] = Field(default_factory=list)
     effective_date: Optional[str] = None
-    governing_law: str = "Laws of the Islamic Republic of Pakistan"
+    governing_law: Optional[str] = None
     dispute_resolution: Optional[str] = None
     clauses: List[ContractClause] = Field(default_factory=list)
     raw_text: Optional[str] = None
+    source_file: Optional[str] = None
 
 class LegalChunk(BaseModel):
     """Legal chunk model supporting fixed, section, and parent-child chunking."""

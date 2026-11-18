@@ -12,7 +12,7 @@ from src.ingestion.ocr_engine import compute_cer, compute_wer
 
 def test_pdf_parser_classification():
     parser = LegalPDFParser()
-    sample_statute = Path("data/statutes/STAT_001.pdf")
+    sample_statute = Path("data/statutes/REAL_STAT_001.pdf")
     if sample_statute.exists():
         info = parser.inspect_pdf(sample_statute)
         assert info["classification"] in ["digital", "hybrid"]
@@ -21,7 +21,7 @@ def test_pdf_parser_classification():
 
 def test_pdf_parser_table_extraction():
     parser = LegalPDFParser()
-    sample_statute = Path("data/statutes/STAT_001.pdf")
+    sample_statute = Path("data/statutes/REAL_STAT_001.pdf")
     if sample_statute.exists():
         extracted = parser.extract_text_and_tables(sample_statute)
         assert "full_text" in extracted
@@ -109,3 +109,35 @@ def test_load_available_engines_skips_missing_engine(monkeypatch):
     available = ocr_evaluation.load_available_engines()
     assert len(available) == 1
     assert available[0].name == "available"
+
+
+def test_garbled_char_ratio_flags_private_use_area_text():
+    from src.ingestion.pdf_parser import garbled_char_ratio
+
+    assert garbled_char_ratio("") == 0.0
+    assert garbled_char_ratio("عدالت عالیہ لاہور Section 302") == 0.0
+    assert garbled_char_ratio(" ") == 1.0
+
+
+def test_garbled_text_layer_page_is_routed_to_ocr():
+    """A page that extracts as Private Use Area codes must not be treated as digital."""
+    parser = LegalPDFParser()
+    garbled = "" * 20
+    assert parser.classify_page(garbled, image_count=0) == "garbled_text_layer"
+    assert parser.classify_page("Readable statute text " * 5, image_count=0) == "digital"
+
+    real_urdu = Path("data/pakistani_urdu_code/administratorcurdua7f4f2b3b5b93d09a4aa20kl.pdf")
+    if not real_urdu.exists():
+        pytest.skip("Pakistan Code Urdu PDFs are not available")
+    info = parser.inspect_pdf(real_urdu)
+    assert info["classification"] == "scanned"
+    assert info["garbled_text_pages"] == info["page_count"]
+
+    class FixtureOCR:
+        def extract_text(self, document_path, page_num=0):
+            return {"text": "OCR text"}
+
+    pages = LegalPDFParser().extract_text_and_tables(real_urdu)["pages"]
+    assert all(p["needs_ocr"] and p["text"] == "" for p in pages)
+    ocr_pages = LegalPDFParser(ocr_engine=FixtureOCR()).extract_text_and_tables(real_urdu)["pages"]
+    assert all(p["text_source"] == "ocr" and p["text"] == "OCR text" for p in ocr_pages)
