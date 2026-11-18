@@ -1,0 +1,39 @@
+{
+  "document_id": "REAL_CUAD_026",
+  "contract_title": "Second Amendment",
+  "contract_type": "Co-Branding Agreement",
+  "parties": [
+    "PC QUOTE",
+    "A.B. Watley"
+  ],
+  "effective_date": "October 11, 1996",
+  "governing_law": null,
+  "dispute_resolution": null,
+  "clauses": [
+    {
+      "clause_id": "Clause 1",
+      "clause_title": "The preamble hereto is incorporated herein and, by this",
+      "text": "reference, is made a substantive part hereof. 2. The text of Section 2. A. and B. of the Agreement is hereby deleted in its entirety and the following language is inserted in its stead: [***]",
+      "page_number": 1
+    },
+    {
+      "clause_id": "Clause 3",
+      "clause_title": "To the extent, if any, that provision of this Agreement",
+      "text": "conflicts with or differs from any provision of the Agreement, such provision of this Second Amendment shall prevail and govern for all purposes and in all respects.",
+      "page_number": 1
+    },
+    {
+      "clause_id": "Clause 4",
+      "clause_title": "Except as modified hereby, the Agreement and its terms and",
+      "text": "provisions are hereby ratified and confirmed for all purposes and in all respects.",
+      "page_number": 1
+    },
+    {
+      "clause_id": "Clause 5",
+      "clause_title": "This Second Amendment may be executed in several counterparts,",
+      "text": "each of which shall be deemed an original but all of which collectively shall constitute the same instrument. Source: PCQUOTE COM INC, S-1/A, 7/21/1999 IN WITNESS WHEREOF, the undersigned parties have hereunto affixed their signatures and seals as of the day and year first above written. PC QUOTE, INC. By: /s/ Scott Clyde ------------------------ Name: Scott Clyde ---------------------- Title: VP -------------------- A. B. WATLEY, INC. By: /s/ Robert Malin ------------------------ Name: Robert Malin ---------------------- Title: President -------------------- Source: PCQUOTE COM INC, S-1/A, 7/21/1999",
+      "page_number": 1
+    }
+  ],
+  "source_file": "data\\contracts\\cuad\\REAL_CUAD_026_PcquoteComInc_19990721_S-1A_EX-10.11_6377149_EX-10.11_Co-Branding Agreement3.pdf"
+}

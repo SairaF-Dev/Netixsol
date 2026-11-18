@@ -16,6 +16,7 @@ from src.utils.file_utils import ensure_directory, read_text, write_text
 from src.utils.logger import setup_logger
 
 logger = setup_logger("ocr_evaluation")
+# Ten real Pakistan Code Urdu pages with hand-checked ground truth (see manifest.csv there).
 BENCHMARK_DIR = Path("data/scanned_urdu/benchmark_cer")
 EVAL_DIR = Path("evaluations")
 
@@ -37,12 +38,13 @@ def load_available_engines() -> List[object]:
     return available
 
 
-def run_ocr_benchmark() -> pd.DataFrame:
+def run_ocr_benchmark(benchmark_dir: Path = BENCHMARK_DIR, report_name: str = "ocr_comparison_report") -> pd.DataFrame:
     """Run available OCR engines and write per-page measurements and their summary."""
+    benchmark_dir = Path(benchmark_dir)
     benchmark = [
         (
-            BENCHMARK_DIR / f"URDU_GT_{idx:03d}.pdf",
-            BENCHMARK_DIR / f"URDU_GT_{idx:03d}_ground_truth.txt",
+            benchmark_dir / f"URDU_GT_{idx:03d}.pdf",
+            benchmark_dir / f"URDU_GT_{idx:03d}_ground_truth.txt",
         )
         for idx in range(1, 11)
     ]
@@ -51,6 +53,13 @@ def run_ocr_benchmark() -> pd.DataFrame:
         raise FileNotFoundError(
             "The OCR benchmark requires all ten PDF/reference pairs; missing: "
             + ", ".join(missing)
+        )
+
+    empty = [str(ref) for _, ref in benchmark if not read_text(ref).strip()]
+    if empty:
+        raise ValueError(
+            "OCR ground truth is empty (type each page's Urdu text by hand, UTF-8; "
+            "see manifest.csv in the benchmark folder): " + ", ".join(empty)
         )
 
     engines = load_available_engines()
@@ -82,7 +91,7 @@ def run_ocr_benchmark() -> pd.DataFrame:
                 df[column] = pd.to_numeric(df[column])
 
     ensure_directory(EVAL_DIR)
-    csv_path = EVAL_DIR / "ocr_comparison_report.csv"
+    csv_path = EVAL_DIR / f"{report_name}.csv"
     df.to_csv(csv_path, index=False, encoding="utf-8")
 
     summary = []
@@ -117,6 +126,14 @@ def run_ocr_benchmark() -> pd.DataFrame:
 
 ## Method
 
+Ten pages from official Pakistan Code Urdu laws (Nastaleeq typesetting, watermark,
+one table page, two pages from an image-only Constitution scan) are exported as
+image-only PDFs; sources are listed in `data/scanned_urdu/benchmark_cer/manifest.csv`.
+The ground truth was drafted by Claude from the page images (Claude is not one of the
+compared engines) and corrected line by line by hand; page numbers and the watermark
+are excluded. The source PDFs' own text layers are unusable (font-private glyph codes),
+so they could not serve as ground truth.
+
 {engine_names} each receive a rendered image of the same PDF page.
 Neither engine reads the ground-truth file. CER and WER compare each engine's
 recognized text against the paired UTF-8 reference. Latency measures OCR inference
@@ -130,7 +147,7 @@ and excludes PDF rendering.
 
 {detail_md}
 """
-    md_path = EVAL_DIR / "ocr_comparison_report.md"
+    md_path = EVAL_DIR / f"{report_name}.md"
     write_text(report, md_path)
     logger.info("OCR benchmark complete. Reports written to %s and %s", csv_path, md_path)
     print(report)

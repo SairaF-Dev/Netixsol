@@ -30,11 +30,17 @@ def test_inventory_minimum_counts():
     assert contracts_count >= 50, f"Expected >= 50 contracts, got {contracts_count}"
     assert scanned_count >= 30, f"Expected >= 30 scanned/Urdu documents, got {scanned_count}"
 
-    synthetic_judgments = df[
-        (df["type"] == "Judgment")
-        & df["source"].str.contains("synthetic", case=False, na=False)
-    ]
-    assert len(synthetic_judgments) >= 200
+    # Only the 20 synthetic contracts the brief asks for may be generated.
+    generated = df[df["source"].str.contains("synthetic|generated", case=False, na=False)]
+    assert set(generated["type"]) <= {"Contract"}
+    assert len(generated) == 20
+
+    judgments = df[df["type"] == "Judgment"]
+    courts = {"Supreme Court" if i.startswith("SC_") else "Lahore High Court" for i in judgments["document_id"]}
+    assert courts == {"Supreme Court", "Lahore High Court"}
+
+    real_cuad = df[(df["type"] == "Contract") & df["source"].str.contains("cuad", case=False, na=False)]
+    assert len(real_cuad) >= 50
 
 def test_benchmark_files_exist():
     benchmark_dir = Path("data/scanned_urdu/benchmark_cer")

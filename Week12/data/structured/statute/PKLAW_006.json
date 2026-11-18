@@ -1,0 +1,96 @@
+{
+  "document_id": "PKLAW_006",
+  "act_name": "National Security Council Act, 2004",
+  "act_number": null,
+  "year": 2004,
+  "jurisdiction": "Federal / Pakistan",
+  "language": "English",
+  "preamble": "WHEREAS it is expedient to establish a National Security Council to serve as a forum for consultation on matters of national security including the sovereignty, integrity, defence, security of the State and crisis management; It is hereby enacted as follows:―",
+  "chapters": [
+    {
+      "chapter_number": "General",
+      "chapter_title": "General Provisions",
+      "sections": [
+        {
+          "section_number": "Section 1",
+          "title": "Short title, extent and commencement.― (1) This Act may be called the National",
+          "content": "Security Council Act, 2004.",
+          "subsections": [
+            "(2) It extends to the whole of Pakistan.",
+            "(3) It shall come into force at once."
+          ],
+          "page_start": 2
+        },
+        {
+          "section_number": "Section 2",
+          "title": "Definitions",
+          "content": "In this Act, unless there is anything repugnant in the subject or context,― (a) “Chairman” means the Chairman of the Council; (b) “Council” means the National Security Council established under section 3; (c) “Government” means the Federal Government or a Provincial Government, as the case may be; (d) “President” means the President of the Islamic Republic of Pakistan; and (e) “Rules” means the rules made under this Act.",
+          "subsections": [],
+          "page_start": 2
+        },
+        {
+          "section_number": "Section 3",
+          "title": "Establishment of National Security Council",
+          "content": "There shall be established a National Security Council to serve as a forum for consultation on matters of national security including the sovereignty, integrity, defence, security of the State and crisis management.",
+          "subsections": [],
+          "page_start": 2
+        },
+        {
+          "section_number": "Section 4",
+          "title": "Composition",
+          "content": "The President shall be the Chairman of the Council and its other members shall be the Prime Minister, the Chairman of the Senate, the Speaker of the National Assembly, the Leader of the Opposition in the National Assembly, the Chief Ministers of the Provinces, the Chairman Joint Chiefs of Staff Committee and the Chiefs of Staff of the Pakistan Army, Pakistan Navy and Pakistan Air Force.",
+          "subsections": [],
+          "page_start": 2
+        },
+        {
+          "section_number": "Section 5",
+          "title": "Functions of the Council.―(1) The Council shall serve as a forum for consultation to the",
+          "content": "President and the Government on matters of national security including the sovereignty, integrity, defence, security of the State and crisis management.",
+          "subsections": [
+            "(2) The Council shall formulate and make recommendations to the President and the Government in accordance with the consultations in terms of sub-section (1).",
+            "(3) Any proposal on an issue deemed to be of national importance which requires implementation, shall be referred by the Council to the National Assembly or the Senate for appropriate action."
+          ],
+          "page_start": 2
+        },
+        {
+          "section_number": "Section 6",
+          "title": "Meetings",
+          "content": "",
+          "subsections": [
+            "(1) The meetings of the Council may be convened by the President either in his discretion or on the advice of the Prime Minister.",
+            "(2) A meeting of the Council may be called notwithstanding a vacancy in the office of one or more members of the Council.",
+            "(3) A meeting of the Council, once called, may not be postponed due to the absence of any one or more of its members.",
+            "(4) The Council may invite any person to attend any of its meetings, by special invitation."
+          ],
+          "page_start": 3
+        },
+        {
+          "section_number": "Section 7",
+          "title": "National Security Council Secretariat",
+          "content": "",
+          "subsections": [
+            "(1) There shall be a Secretary of the Council who shall be appointed by the Chairman on such terms and conditions as may be determined by the Chairman.",
+            "(2) The Secretary shall be the head of the Secretariat and shall have such other powers and functions as may be conferred on him by the Rules: Provided that till such time that the rules are made the Secretary may, with the approval of the Chairman,― (a) exercise such powers and perform such functions as may be necessary for carrying out the purposes of this Act and the functioning of the Council; and (b) appoint officers and staff to be employed in connection with the functions of the Council and determine their terms and conditions of employment."
+          ],
+          "page_start": 3
+        },
+        {
+          "section_number": "Section 8",
+          "title": "Power to make rules",
+          "content": "The Council may, by notification in the official Gazette, make rules for carrying out the purposes of this Act: Provided that till such time that the rules are made the Council may, with the approval of the Chairman, follow such procedure as it may deem fit.",
+          "subsections": [],
+          "page_start": 3
+        },
+        {
+          "section_number": "Section 9",
+          "title": "Repeal",
+          "content": "The National Security Council Order, 2001 (Chief Executive’s Order No. 5 of 2001) is hereby repealed. _____________ RGN Dated:18-08-2026",
+          "subsections": [],
+          "page_start": 3
+        }
+      ]
+    }
+  ],
+  "source_file": "data\\raw\\pakistani_laws\\National_Security_Council_Act_2004.pdf",
+  "pages_needing_ocr": []
+}

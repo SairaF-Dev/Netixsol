@@ -1,165 +1,190 @@
 """
-Chunking Strategy Evaluation Benchmark for Khan & Associates Legal Assistant.
-Compares:
-1. Fixed-Size Chunking (Window = 200 words, Overlap = 40)
-2. Section-Level Legal Chunking (Domain boundaries: Sections, Ratios, Clauses)
-3. Parent-Child Chunking (2-Tier Context Hierarchy)
-Across Pakistani Statutes, Judgments, and Commercial Contracts.
+Task 4: compare fixed-size, section-level and parent-child chunking on the real corpus.
+
+All three strategies see the same text: the legal units extracted in Task 3
+(statute sections, judgment paragraphs + holding, contract clauses) read from
+data/structured/. Measured per strategy:
+
+* chunk count and word-length distribution (whitespace words, not model tokens);
+* share of chunks over 400 words (multilingual-e5-small reads at most 512 tokens);
+* boundary crossings: share of chunks containing text from more than one legal unit;
+* share of chunks that carry a legal label (section / paragraph / clause) and a page.
+
+Retrieval relevance is not measured (there is no labelled query set).
 """
 
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Dict, List, Tuple
+
 import numpy as np
 import pandas as pd
 from tabulate import tabulate
 
-from src.utils.logger import setup_logger
-from src.utils.file_utils import ensure_directory, write_text, load_json
-from src.extraction.structure_extractor import UnifiedStructureExtractor
 from src.chunking.fixed_chunker import FixedSizeChunker
-from src.chunking.section_chunker import SectionLevelChunker
 from src.chunking.parent_child_chunker import ParentChildChunker
+from src.chunking.section_chunker import SectionLevelChunker
+from src.extraction.corpus_extraction import STRUCTURED_DIR, extract_corpus
+from src.utils.file_utils import ensure_directory, load_json, write_text
+from src.utils.logger import setup_logger
+from src.utils.schemas import ContractDocument, JudgmentDocument, LegalChunk, StatuteDocument
 
 logger = setup_logger("chunking_evaluation")
 EVAL_DIR = Path("evaluations")
+LONG_CHUNK_WORDS = 400
+
+
+def load_structured_documents(structured_dir: Path = STRUCTURED_DIR) -> List:
+    """Load Task 3 output; run the extraction first if it is missing."""
+    if not any(structured_dir.glob("*/*.json")):
+        logger.info("No structured JSON found; running Task 3 extraction first.")
+        extract_corpus()
+    models = {"statute": StatuteDocument, "judgment": JudgmentDocument, "contract": ContractDocument}
+    documents = [models[path.parent.name].model_validate(load_json(path))
+                 for path in sorted(structured_dir.glob("*/*.json")) if path.parent.name in models]
+    # OCR'd Urdu laws are split by page, not by legal unit, so they cannot be scored
+    # for boundary crossings and are left out of this comparison.
+    return [d for d in documents if getattr(d, "language", "English") != "Urdu"]
+
+
+def legal_units(doc) -> List[Tuple[str, str, int]]:
+    """(label, text, page) for each legal unit; the shared input of all strategies."""
+    if isinstance(doc, StatuteDocument):
+        return [(sec.section_number, " ".join([sec.title, sec.content] + sec.subsections), sec.page_start)
+                for ch in doc.chapters for sec in ch.sections]
+    if isinstance(doc, JudgmentDocument):
+        units = [(f"para {p.number or 'opening'}", p.text, p.page) for p in doc.paragraphs]
+        return units or [("holding", doc.holding, doc.holding_page)]
+    return [(c.clause_id, f"{c.clause_title} {c.text}", c.page_number) for c in doc.clauses]
+
+
+def fixed_chunks_with_boundaries(doc, chunker: FixedSizeChunker) -> Tuple[List[LegalChunk], int]:
+    """Fixed windows over the concatenated units; returns chunks and how many cross a unit boundary."""
+    units = legal_units(doc)
+    starts, words = [], []
+    for _, text, _ in units:
+        starts.append(len(words))
+        words.extend(text.split())
+    chunks = chunker.chunk_text(" ".join(words), doc.document_id, type(doc).__name__.replace("Document", ""))
+    crossings = 0
+    for chunk in chunks:
+        first, last = chunk.metadata["start_word"], chunk.metadata["end_word"] - 1
+        unit_first = int(np.searchsorted(starts, first, side="right")) - 1
+        unit_last = int(np.searchsorted(starts, last, side="right")) - 1
+        crossings += unit_last > unit_first
+    return chunks, crossings
+
+
+def _row(name: str, chunks: List[LegalChunk], crossings: int) -> Dict[str, object]:
+    sizes = np.array([c.token_count for c in chunks]) if chunks else np.array([0])
+    labelled = sum(1 for c in chunks if c.metadata.get("section"))
+    paged = sum(1 for c in chunks if c.metadata.get("page"))
+    pct = lambda n: f"{100 * n / max(1, len(chunks)):.1f}%"
+    return {
+        "Strategy": name,
+        "Chunks": len(chunks),
+        "Mean words": round(float(sizes.mean()), 1),
+        "Median words": int(np.median(sizes)),
+        "Max words": int(sizes.max()),
+        f"> {LONG_CHUNK_WORDS} words": pct(int((sizes > LONG_CHUNK_WORDS).sum())),
+        "Cross a legal boundary": pct(crossings),
+        "Have legal label": pct(labelled),
+        "Have page": pct(paged),
+    }
+
 
 def run_chunking_benchmark() -> pd.DataFrame:
     ensure_directory(EVAL_DIR)
-    logger.info("=== Starting Task 4: Legal Chunking Strategy Comparison ===")
-    
-    extractor = UnifiedStructureExtractor()
+    logger.info("=== Starting Task 4: Legal Chunking Strategy Comparison (real corpus) ===")
+    documents = [d for d in load_structured_documents() if legal_units(d)]
+
     fixed_chunker = FixedSizeChunker(chunk_size=200, chunk_overlap=40)
     section_chunker = SectionLevelChunker()
     parent_child_chunker = ParentChildChunker()
-    
-    # Select sample documents from each category
-    statute_files = list(Path("data/statutes").glob("*.json"))[:3]
-    judgment_files = list(Path("data/judgments").glob("*.json"))[:5]
-    contract_files = (list(Path("data/contracts/cuad").glob("*.json")) + list(Path("data/contracts/synthetic").glob("*.json")))[:4]
-    
-    sample_docs = []
-    for sf in statute_files:
-        sample_docs.append((extractor.extract(sf, "Statute"), "Statute"))
-    for jf in judgment_files:
-        sample_docs.append((extractor.extract(jf, "Judgment"), "Judgment"))
-    for cf in contract_files:
-        sample_docs.append((extractor.extract(cf, "Contract"), "Contract"))
-        
-    fixed_chunks = []
-    section_chunks = []
-    parent_chunks = []
-    child_chunks = []
-    
-    for doc, dtype in sample_docs:
-        # 1. Fixed Chunking
-        raw_text = getattr(doc, "full_text", None) or getattr(doc, "raw_text", None)
-        if not raw_text and hasattr(doc, "chapters"):
-            raw_text = f"{doc.act_name}\n{doc.preamble}\n" + "\n".join([f"{s.section_number} {s.content}" for ch in doc.chapters for s in ch.sections])
-        elif not raw_text and hasattr(doc, "clauses"):
-            raw_text = f"{doc.contract_title}\n" + "\n".join([f"{c.clause_title} {c.text}" for c in doc.clauses])
-            
-        f_res = fixed_chunker.chunk_text(raw_text, doc.document_id, dtype)
-        fixed_chunks.extend(f_res)
-        
-        # 2. Section Chunking
-        if dtype == "Statute":
-            s_res = section_chunker.chunk_statute(doc)
-            p_res, c_res = parent_child_chunker.chunk_statute(doc)
-        elif dtype == "Judgment":
-            s_res = section_chunker.chunk_judgment(doc)
-            p_res, c_res = parent_child_chunker.chunk_judgment(doc)
+
+    fixed, section, parents, children = [], [], [], []
+    fixed_crossings = 0
+    per_type: Dict[str, Dict[str, int]] = {}
+    for doc in documents:
+        kind = type(doc).__name__.replace("Document", "")
+        f_chunks, crossings = fixed_chunks_with_boundaries(doc, fixed_chunker)
+        fixed.extend(f_chunks)
+        fixed_crossings += crossings
+        if kind == "Statute":
+            s_chunks = section_chunker.chunk_statute(doc)
+            p, c = parent_child_chunker.chunk_statute(doc)
+        elif kind == "Judgment":
+            s_chunks = section_chunker.chunk_judgment(doc)
+            p, c = parent_child_chunker.chunk_judgment(doc)
         else:
-            s_res = section_chunker.chunk_contract(doc)
-            p_res, c_res = parent_child_chunker.chunk_contract(doc)
-            
-        section_chunks.extend(s_res)
-        parent_chunks.extend(p_res)
-        child_chunks.extend(c_res)
-        
-    # Metrics computation
-    f_tokens = [c.token_count for c in fixed_chunks]
-    s_tokens = [c.token_count for c in section_chunks]
-    pc_tokens = [c.token_count for c in child_chunks]
-    p_tokens = [c.token_count for c in parent_chunks]
-    
-    metrics = [
-        {
-            "Strategy": "Fixed-Size (Sliding Window)",
-            "Total Chunks": len(fixed_chunks),
-            "Avg Tokens": round(float(np.mean(f_tokens)), 1),
-            "Token StdDev": round(float(np.std(f_tokens)), 1),
-            "Boundary Preservation": "Not measured; windows may split legal units",
-            "Metadata Completeness": "Offsets only",
-            "Retrieval Context": "Window-sized text"
-        },
-        {
-            "Strategy": "Section-Level (Legal Aware)",
-            "Total Chunks": len(section_chunks),
-            "Avg Tokens": round(float(np.mean(s_tokens)), 1),
-            "Token StdDev": round(float(np.std(s_tokens)), 1),
-            "Boundary Preservation": "Structure-aware; not independently scored",
-            "Metadata Completeness": "Document-specific legal metadata",
-            "Retrieval Context": "One chunk per legal structure unit"
-        },
-        {
-            "Strategy": "Parent-Child (Hierarchical)",
-            "Total Chunks": f"{len(child_chunks)} (Child) / {len(parent_chunks)} (Parent)",
-            "Avg Tokens": f"{round(float(np.mean(pc_tokens)), 1)} (Child) / {round(float(np.mean(p_tokens)), 1)} (Parent)",
-            "Token StdDev": round(float(np.std(pc_tokens)), 1),
-            "Boundary Preservation": "Parent hierarchy retained; not independently scored",
-            "Metadata Completeness": "Child chunks carry parent_id",
-            "Retrieval Context": "Child match with parent context available"
-        }
+            s_chunks = section_chunker.chunk_contract(doc)
+            p, c = parent_child_chunker.chunk_contract(doc)
+        section.extend(s_chunks)
+        parents.extend(p)
+        children.extend(c)
+        stats = per_type.setdefault(kind, {"documents": 0, "fixed": 0, "section": 0, "children": 0})
+        stats["documents"] += 1
+        stats["fixed"] += len(f_chunks)
+        stats["section"] += len(s_chunks)
+        stats["children"] += len(c)
+
+    rows = [
+        _row("Fixed-size (200 words, 40 overlap)", fixed, fixed_crossings),
+        _row("Section-level (legal units, split > 350 words)", section, 0),
+        _row("Parent-child: children (~80 words)", children, 0),
+        _row("Parent-child: parents (whole units)", parents, 0),
     ]
-    
-    df = pd.DataFrame(metrics)
+    df = pd.DataFrame(rows)
     csv_path = EVAL_DIR / "chunking_comparison_report.csv"
     df.to_csv(csv_path, index=False, encoding="utf-8")
-    
-    table_md = tabulate(df, headers="keys", tablefmt="github", showindex=False)
-    
-    report = f"""# Khan & Associates - Legal Chunking Strategy Comparison Report
 
-## 1. Executive Summary
-Legal documents (statutes, case law judgments, commercial contracts) possess strict hierarchical structures that make generic fixed-size chunking hazardous. Cutting across a statutory proviso, an exception clause, or a ratio decidendi destroys legal semantics.
+    type_table = tabulate(
+        [[k, v["documents"], v["fixed"], v["section"], v["children"]] for k, v in per_type.items()],
+        headers=["Type", "Documents", "Fixed chunks", "Section chunks", "Child chunks"], tablefmt="github")
+    corpus = ", ".join(f"{v['documents']} {k.lower()}s" for k, v in per_type.items())
+    report = f"""# Legal Chunking Strategy Comparison
 
-This benchmark evaluates **3 chunking strategies** on 12 generated instructional
-documents (3 statutes, 5 judgments, and 4 contracts). They are not authoritative
-legal sources. `Avg Tokens` and `Token StdDev` are whitespace word counts, not
-model-token counts. Boundary preservation and retrieval relevance are not scored.
+## Corpus and method
 
-1. **Fixed-Size Chunking** (200-word window, 40-word overlap)
-2. **Section-Level Chunking** (Section / Article / Ratio / Clause boundaries)
-3. **Parent-Child Chunking** (Sub-clause child chunks indexed, full Section parents returned)
+Real corpus from `inventory.csv`: {corpus} (the 20 synthetic contracts are
+included; Urdu laws are not, as they are not OCR'd yet). All strategies chunk the same text:
+the legal units extracted in Task 3 (statute sections/articles/rules, judgment
+paragraphs, contract clauses). Word counts are whitespace words, not model tokens.
 
-## 2. Benchmark Comparison Matrix
+* **Cross a legal boundary**: share of chunks containing words from more than one
+  legal unit (e.g. the end of Section 301 and the start of Section 302). Section-level
+  and parent-child chunks never cross by construction.
+* **> {LONG_CHUNK_WORDS} words**: chunks likely to be truncated by multilingual-e5-small (512 tokens).
+* **Have legal label / page**: chunks whose metadata names the section, paragraph or
+  clause, and the PDF page where it starts (needed for citing sources).
 
-{table_md}
+Retrieval quality is **not** measured; that needs a labelled query/relevance set.
 
-## 3. Design Notes (not measured retrieval results)
+## Results
 
-### A. Fixed-Size Chunking
-* **Tradeoff**: A fixed window can separate a provision from adjacent context.
+{tabulate(df, headers="keys", tablefmt="github", showindex=False)}
 
-### B. Section-Level Legal Chunking
-* **Strengths**: Every chunk corresponds to an autonomous legal unit (e.g. Section 497 CrPC, Article 199 Constitution, or Clause 5 Governing Law).
-* **Metadata Richness**: Automatically attaches `act`, `section`, `court`, `year`, `matter_id`.
-* **Fit**: Ideal for direct BM25 keyword matching and standard legal research queries.
+## Chunks per document type
 
-### C. Parent-Child Chunking (Recommended for RAG)
-* **Potential benefit**: Provides a retrieval tradeoff:
-  - **Children** (~20-50 tokens) provide pinpoint semantic matching against specific user questions.
-  - **Parents** (~150-400 tokens) provide the LLM with the full statutory section or contract clause upon retrieval.
-* **Recommendation**: Evaluate **Parent-Child Chunking** for vector retrieval and **Section-Level Chunking** for BM25 against a judged relevance set before production use.
+{type_table}
+
+## Reading the results
+
+* Fixed-size windows ignore structure: the "Cross a legal boundary" column shows
+  how often a retrieved chunk mixes two provisions, and these chunks carry no
+  section label or page.
+* Section-level chunks map one-to-one to citable units (`Section 302`, `para 12`,
+  `Clause 9`) with page numbers; long units are split into labelled parts so no
+  chunk exceeds the embedding limit. This strategy is used for the BM25 and vector index.
+* Parent-child gives small children for precise matching while the parent keeps the
+  whole unit for context; parents can be very long (whole Income Tax definitions
+  sections), so they suit an LLM context window rather than the embedding model.
 """
-    
     md_path = EVAL_DIR / "chunking_comparison_report.md"
     write_text(report, md_path)
-    
-    logger.info(f"Chunking benchmark complete. Reports written to:\n- {csv_path}\n- {md_path}")
+    logger.info("Chunking benchmark complete: %s, %s", csv_path, md_path)
     print("\n" + report)
-    
     return df
+
 
 if __name__ == "__main__":
     run_chunking_benchmark()
