@@ -128,7 +128,14 @@ class StatuteStructureExtractor:
                 ):
                     continue
                 runs.append([event])
-            elif (num == previous["num"] and suffix > previous["suffix"]) or previous["num"] < num <= previous["num"] + 25:
+            elif (num == previous["num"] and suffix > previous["suffix"]) or previous["num"] < num <= previous["num"] + 25 or (
+                # Larger jump over repealed sections (Contract Act: 75 -> CHAPTER VII [repealed] -> 124),
+                # accepted only across a chapter/part heading and when n+1 does not follow.
+                num > previous["num"]
+                and any(e["kind"] == "division" and e["label"] in ("Chapter", "Part")
+                        and previous["index"] < e["index"] < event["index"] for e in events)
+                and not any(_is_successor(previous, later) for later in sections[position + 1: position + 40])
+            ):
                 if not _is_successor(previous, event) and any(
                     _is_successor(previous, later) for later in sections[position + 1: position + 40]
                 ):
@@ -153,8 +160,12 @@ class StatuteStructureExtractor:
         first_section = min((e["index"] for e in events if id(e) in kept), default=len(lines))
         # Divisions listed in a table of contents (before the first body section)
         # are ignored, except the CHAPTER/PART heading right before that section.
+        # Only a Chapter/Part I right before the first section opens the Act; one further
+        # back belongs to the contents list (sections before it are "Preliminary").
+        first_page = lines[first_section].page if first_section < len(lines) else 0
         lead = [e for e in events if e["kind"] == "division" and e["index"] < first_section
-                and e["label"] in ("Chapter", "Part")]
+                and e["label"] in ("Chapter", "Part") and e["number"] in ("I", "1")
+                and first_section - e["index"] <= 30 and first_page - lines[e["index"]].page <= 1]
         accepted = [
             e for e in events
             if id(e) in kept

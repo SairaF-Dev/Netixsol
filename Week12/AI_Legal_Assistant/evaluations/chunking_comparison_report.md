@@ -2,7 +2,7 @@
 
 ## Corpus and method
 
-Real corpus from `inventory.csv`: 66 contracts, 225 judgments, 12 statutes (the 20 synthetic contracts are
+Real corpus from `inventory.csv`: 66 contracts, 225 judgments, 13 statutes (the 20 synthetic contracts are
 included; Urdu laws are not, as they are not OCR'd yet). All strategies chunk the same text:
 the legal units extracted in Task 3 (statute sections/articles/rules, judgment
 paragraphs, contract clauses). Word counts are whitespace words, not model tokens.
@@ -20,10 +20,10 @@ Retrieval quality is **not** measured; that needs a labelled query/relevance set
 
 | Strategy                                       |   Chunks |   Mean words |   Median words |   Max words | > 400 words   | Cross a legal boundary   | Have legal label   | Have page   |
 |------------------------------------------------|----------|--------------|----------------|-------------|---------------|--------------------------|--------------------|-------------|
-| Fixed-size (200 words, 40 overlap)             |    10137 |        197.6 |            200 |         200 | 0.0%          | 50.9%                    | 0.0%               | 0.0%        |
-| Section-level (legal units, split > 350 words) |     9083 |        207.1 |            210 |         420 | 0.2%          | 0.0%                     | 100.0%             | 98.6%       |
-| Parent-child: children (~80 words)             |    18839 |        112   |            114 |         314 | 0.0%          | 0.0%                     | 100.0%             | 99.3%       |
-| Parent-child: parents (whole units)            |     6800 |        269.4 |            156 |       24721 | 13.9%         | 0.0%                     | 100.0%             | 98.1%       |
+| Fixed-size (200 words, 40 overlap)             |    10297 |        197.7 |            200 |         200 | 0.0%          | 51.4%                    | 0.0%               | 0.0%        |
+| Section-level (legal units, split > 350 words) |     9291 |        205.5 |            208 |         420 | 0.2%          | 0.0%                     | 100.0%             | 98.6%       |
+| Parent-child: children (~80 words)             |    19189 |        111.6 |            113 |         314 | 0.0%          | 0.0%                     | 100.0%             | 99.3%       |
+| Parent-child: parents (whole units)            |     6996 |        265.9 |            154 |       24721 | 13.6%         | 0.0%                     | 100.0%             | 98.1%       |
 
 ## Chunks per document type
 
@@ -31,7 +31,7 @@ Retrieval quality is **not** measured; that needs a labelled query/relevance set
 |----------|-------------|----------------|------------------|----------------|
 | Contract |          66 |           2157 |             1524 |           3503 |
 | Judgment |         225 |           4658 |             4187 |           9508 |
-| Statute  |          12 |           3322 |             3372 |           5828 |
+| Statute  |          13 |           3482 |             3580 |           6178 |
 
 ## Reading the results
 

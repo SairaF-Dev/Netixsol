@@ -172,6 +172,15 @@ class DenseVectorStore:
         ).fetchone()[0]
         logger.info("Dense vector index updated: %s chunks", total_chunks)
 
+    def remove_documents(self, document_ids: List[str]) -> int:
+        """Delete every chunk of the given documents; returns how many were removed."""
+        removed = 0
+        for document_id in document_ids:
+            removed += self.connection.execute(
+                "DELETE FROM legal_chunks WHERE document_id = ?", (document_id,)).rowcount
+        self.connection.commit()
+        return removed
+
     def search(
         self,
         query: str,

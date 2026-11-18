@@ -59,6 +59,7 @@ REAL_STATUTE_TITLES = {
     "THE_MUSLIM_FAMILY_LAWS_ORDINANCE_1961.pdf": "Muslim Family Laws Ordinance, 1961",
     "administrator92ada0936848e501425591b4ad0cd417.pdf": "Pakistan Penal Code, 1860",
     "the_anti_terrorism_act_1997.pdf": "Anti-Terrorism Act, 1997",
+    "administrator8332a6df32386960ac7d81a5cf7aade2.pdf": "Contract Act, 1872",
 }
 
 def generate_pdf_from_text(text: str, output_path: Path, is_scanned_look: bool = False) -> None:
