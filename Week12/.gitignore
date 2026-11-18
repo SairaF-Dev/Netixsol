@@ -14,3 +14,6 @@ data/ocr_text/*.log
 
 # Colab upload/download bundles
 colab/*.zip
+
+# Assignment brief (kept locally, not part of the project)
+project_instruction.txt
