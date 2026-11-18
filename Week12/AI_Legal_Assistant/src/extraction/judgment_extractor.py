@@ -128,7 +128,8 @@ class JudgmentStructureExtractor:
         date_of_decision = _find_date_after(lines, _DECISION, limit=len(lines))
         date = date_of_decision or date_of_hearing or ""
         year_source = date or case_number
-        year_match = re.search(r"(19|20)\d{2}", year_source)
+        # Whole 4-digit token only, so "No.12069 of 2010" gives 2010, not 2069.
+        year_match = re.search(r"(?<!\d)(?:19|20)\d{2}(?!\d)", year_source)
 
         paragraphs = self._paragraphs(lines[body_index:] if body_index is not None else lines)
         holding, holding_page, outcome = self._holding(paragraphs)

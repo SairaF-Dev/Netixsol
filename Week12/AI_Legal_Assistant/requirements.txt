@@ -29,3 +29,7 @@ sentence-transformers>=3.0.0
 # Testing & Quality Assurance
 pytest>=8.0.0
 tabulate>=0.9.0
+
+# LLM (Day 2: answers, query rewriting, HyDE, judge) - key in .env as LLM_API_KEY
+google-genai>=3.5.0
+python-dotenv>=1.0.0

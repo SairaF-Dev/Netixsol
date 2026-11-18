@@ -85,6 +85,39 @@ def build_complete_indices() -> HybridLegalSearchEngine:
     logger.info("Hybrid indices built and persisted successfully.")
     return hybrid_engine
 
+def update_index(document_ids: list) -> None:
+    """Re-extract, re-chunk and re-index only the given inventory documents (no full rebuild)."""
+    import pandas as pd
+    from src.extraction.structure_extractor import UnifiedStructureExtractor
+    from src.extraction.corpus_extraction import STRUCTURED_DIR, _english_ocr_engine
+    from src.ingestion.pdf_parser import LegalPDFParser
+    from src.utils.file_utils import save_json
+
+    inventory = pd.read_csv("inventory.csv")
+    rows = inventory[inventory["document_id"].isin(document_ids)].to_dict(orient="records")
+    missing = set(document_ids) - {row["document_id"] for row in rows}
+    if missing:
+        raise SystemExit(f"Not in inventory.csv: {sorted(missing)}")
+
+    extractor = UnifiedStructureExtractor(parser=LegalPDFParser(ocr_engine=_english_ocr_engine()))
+    documents = [extractor.extract_record(row) for row in rows]
+    for doc in documents:
+        folder = ensure_directory(STRUCTURED_DIR / type(doc).__name__.replace("Document", "").lower())
+        save_json(doc.model_dump(exclude={"raw_text", "full_text"}), folder / f"{doc.document_id}.json")
+    chunks = chunk_documents(documents)
+
+    bm25 = LegalBM25Index.load(INDEX_DIR / "bm25_legal.pkl")
+    vstore = DenseVectorStore.load(INDEX_DIR / "vstore_legal.sqlite3")
+    removed = bm25.remove_documents(document_ids)
+    vstore.remove_documents(document_ids)
+    bm25.add_chunks(chunks)
+    vstore.add_chunks(chunks)
+    bm25.save(INDEX_DIR / "bm25_legal.pkl")
+    vstore.save(INDEX_DIR / "vstore_legal.sqlite3")
+    logger.info("Updated %s: removed %d old chunks, added %d; index now has %d chunks",
+                ", ".join(document_ids), removed, len(chunks), len(bm25.chunks))
+
+
 def query_pipeline(query_str: str, top_k: int = 5, court_filter: str = None) -> None:
     """Executes a hybrid legal query against the indexed corpus."""
     bm25_path = INDEX_DIR / "bm25_legal.pkl"
@@ -133,6 +166,8 @@ def main():
     parser.add_argument("--max-pages", type=int, default=None, help="With --ocr-urdu: stop after this many pages")
     parser.add_argument("--chunk-eval", action="store_true", help="Task 4: Run chunking strategy comparison benchmark")
     parser.add_argument("--index", action="store_true", help="Task 5: Build and persist BM25 and Vector indices")
+    parser.add_argument("--update-index", nargs="+", metavar="DOC_ID", default=None,
+                        help="Re-extract and re-index only these inventory documents (e.g. a newly added law)")
     parser.add_argument("--search", type=str, default=None, help="Query the hybrid search engine")
     parser.add_argument("--court", type=str, default=None, help="Optional court filter for queries")
     parser.add_argument("--top-k", type=int, default=3, help="Number of retrieved results")
@@ -173,6 +208,8 @@ def main():
         run_chunking_benchmark()
     if args.index:
         build_complete_indices()
+    if args.update_index:
+        update_index(args.update_index)
     if args.search:
         query_pipeline(args.search, top_k=args.top_k, court_filter=args.court)
 

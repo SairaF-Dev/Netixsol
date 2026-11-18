@@ -8,7 +8,7 @@ synthetic contracts the brief asks for. **It is not a production legal corpus.**
 
 | Inventory type | Count | What the files actually are |
 |---|---:|---|
-| Statute | 12 | 11 official Pakistan Code law PDFs (`data/raw/pakistani_laws`, incl. Pakistan Penal Code, CPC, Income Tax Ordinance) and the National Assembly Constitution PDF (`REAL_STAT_001`) |
+| Statute | 13 | 12 official Pakistan Code law PDFs (`data/raw/pakistani_laws`, incl. Pakistan Penal Code, Contract Act, CPC, Income Tax Ordinance) and the National Assembly Constitution PDF (`REAL_STAT_001`) |
 | Judgment | 225 | 175 Supreme Court of Pakistan and 50 Lahore High Court judgment PDFs (`data/scp_judgments_pdfs`); 22 are scanned or partly scanned and need OCR |
 | Contract | 73 | 53 real CUAD contracts (30 downloaded `REAL_CUAD` + one from each of the 23 other CUAD categories, copied from CUAD v1 `full_contract_pdf` into `data/contracts/cuad` and listed in `cuad_real_manifest.csv`, so all 25 categories are covered) and 20 synthetic Pakistani contracts |
 | Scanned/Urdu | 50 | 40 Pakistan Code Urdu laws (1,602 pages; 1 image-only scan, 39 with an unusable InPage-style text layer; all pages OCR'd with EasyOCR, text in `data/ocr_text/`) and 10 single-page OCR benchmark exports taken from 8 of those laws |
@@ -115,7 +115,7 @@ This measures presence, not correctness; no hand-labelled check has been done.
 
 | Type | Result |
 |---|---|
-| Statutes (12) | 2,666 sections/articles/rules, all with a start page. E.g. PPC Sections 1–511, CPC Sections 1–159 plus 659 Order rules, Income Tax Ordinance Sections 1–242, Constitution Articles 1–280 |
+| Statutes (13) | 2,861 sections/articles/rules, all with a start page. E.g. PPC Sections 1–511, Contract Act Sections 1–238 (76–123 repealed), CPC Sections 1–159 plus 659 Order rules, Income Tax Ordinance Sections 1–242, Constitution Articles 1–280 |
 | Judgments (225) | case number 95%, bench 94%, parties 88–89%, year 98%, hearing date 75%, citations 77%, statutes cited 83%, numbered paragraphs 94%, outcome 97% |
 | CUAD contracts (53) | title 100%, 3+ clauses 87%, effective date 72%, governing law 70%, both parties 60% |
 
@@ -127,9 +127,9 @@ laws are split by page, so boundary crossings cannot be measured for them)
 
 | Strategy | Chunks | Median words | Cross a legal boundary | Have section label | Have page |
 |---|---:|---:|---:|---:|---:|
-| Fixed-size (200 words, 40 overlap) | 10,137 | 200 | 50.9% | 0% | 0% |
-| Section-level (split > 350 words) | 9,083 | 210 | 0% | 100% | 98.6% |
-| Parent-child children (~80 words) | 18,840 | 114 | 0% | 100% | 99.3% |
+| Fixed-size (200 words, 40 overlap) | 10,297 | 200 | 51.4% | 0% | 0% |
+| Section-level (split > 350 words) | 9,291 | 208 | 0% | 100% | 98.6% |
+| Parent-child children (~80 words) | 19,189 | 113 | 0% | 100% | 99.3% |
 
 Half of the fixed-size chunks mix text from two provisions and none can be cited by
 section or page, so the index uses section-level chunks. Parent units can be very
@@ -138,16 +138,18 @@ context rather than the embedding model.
 
 ## Index (Task 5)
 
-`--index` extracts the 310 English statutes, judgments and contracts plus the 40
-OCR'd Urdu laws (350 documents), builds 11,000 section-level chunks (Urdu: one per
+`--index` extracts the 311 English statutes, judgments and contracts plus the 40
+OCR'd Urdu laws (351 documents), builds 11,208 section-level chunks (Urdu: one per
 page), and stores them in a BM25 index and a SQLite vector store (embedding took
 about 3 h 45 min on the laptop CPU; Urdu text produces many more model tokens per
-word). Each chunk carries act / section / court / case number / year / page /
+word). `--update-index DOC_ID ...` re-extracts and re-indexes only the given
+documents (e.g. a newly added law) in minutes. Each chunk carries act / section / court / case number / year / page /
 matter_id metadata where applicable, and `language: Urdu` for Urdu pages. Spot checks
 (not a relevance evaluation):
 
 | Query | Top result |
 |---|---|
+| `Agar consideration unlawful ho to kya contract void hai?` | Contract Act, 1872, Section 24, page 21, then Section 23, page 19 |
 | `punishment of qatl-e-amd` | Pakistan Penal Code, Section 302, page 103 |
 | `bail in cross cases` | Supreme Court Crl.P. 183-P/2022 (bail in cross-cases) |
 | `harassment at the workplace` with `--court "Lahore High Court"` | 2026 LHC 8275, W.P. 64369/2021, para 7, page 4 |
@@ -201,6 +203,9 @@ OCR evaluation additionally requires:
 
 # Extract, chunk and build BM25 + dense vector indices, then query (optionally by court)
 .\.venv\Scripts\python.exe main.py --index
+
+# Re-index only some documents after adding or fixing them (no full rebuild)
+.\.venv\Scripts\python.exe main.py --update-index PKLAW_012
 .\.venv\Scripts\python.exe main.py --search "punishment of qatl-e-amd" --top-k 3
 .\.venv\Scripts\python.exe main.py --search "harassment at the workplace" --court "Lahore High Court"
 

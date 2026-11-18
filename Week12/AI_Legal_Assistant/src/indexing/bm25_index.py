@@ -42,6 +42,16 @@ class LegalBM25Index:
         self.bm25 = BM25Okapi(self.tokenized_corpus)
         logger.info(f"BM25 Index updated. Total chunks indexed: {len(self.chunks)}")
 
+    def remove_documents(self, document_ids: List[str]) -> int:
+        """Delete every chunk of the given documents; returns how many were removed."""
+        drop = set(document_ids)
+        keep = [i for i, chunk in enumerate(self.chunks) if chunk.document_id not in drop]
+        removed = len(self.chunks) - len(keep)
+        self.chunks = [self.chunks[i] for i in keep]
+        self.tokenized_corpus = [self.tokenized_corpus[i] for i in keep]
+        self.bm25 = BM25Okapi(self.tokenized_corpus) if self.tokenized_corpus else None
+        return removed
+
     def search(self, query: str, top_k: int = 5, metadata_filter: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
         """Searches index using BM25 with optional metadata filtering."""
         if not self.bm25 or not self.chunks:

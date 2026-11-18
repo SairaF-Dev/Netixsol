@@ -149,3 +149,19 @@ def test_real_supreme_court_judgment_via_inventory_record():
     assert doc.bench and all("Justice" in name for name in doc.bench)
     assert doc.parties.appellant_or_petitioner != "Unknown"
     assert len(doc.paragraphs) >= 3 and doc.outcome is not None
+
+
+CONTRACT_ACT = Path("data/raw/pakistani_laws/administrator8332a6df32386960ac7d81a5cf7aade2.pdf")
+
+
+@pytest.mark.skipif(not CONTRACT_ACT.exists(), reason="Contract Act PDF not available")
+def test_real_contract_act_section_23_and_repealed_gap():
+    doc = StatuteStructureExtractor().extract_from_file(CONTRACT_ACT, act_name="Contract Act, 1872")
+    sections = {s.section_number: (c.chapter_number, s) for c in doc.chapters for s in c.sections}
+    chapter, s23 = sections["Section 23"]
+    assert s23.title.startswith("What considerations and objects are lawful")
+    assert s23.page_start == 19 and chapter == "Chapter II"
+    # Sections 76-123 are repealed: 75 is followed by 124, and numbering continues to 238.
+    assert "Section 124" in sections and "Section 238" in sections and "Section 100" not in sections
+    # Sections 1-2 are preliminary, not the last chapter listed in the contents.
+    assert sections["Section 1"][0] == "General"

@@ -79,3 +79,14 @@ def test_hybrid_search(sample_chunks):
     assert len(res) == 1
     assert res[0]["chunk_id"] == "CHK_001"
     assert "rrf_score" in res[0]
+
+
+def test_remove_documents_from_both_indices(sample_chunks):
+    bm25, vstore = LegalBM25Index(), DenseVectorStore()
+    bm25.add_chunks(sample_chunks)
+    vstore.add_chunks(sample_chunks)
+    assert bm25.remove_documents(["STAT_002"]) == 1
+    assert vstore.remove_documents(["STAT_002"]) == 1
+    assert {c.document_id for c in bm25.chunks} == {"STAT_003", "CONT_001"}
+    assert all(r["document_id"] != "STAT_002" for r in vstore.search("qatl-i-amd punishment", top_k=3))
+    assert all(r["document_id"] != "STAT_002" for r in bm25.search("qatl-i-amd punishment", top_k=3))
