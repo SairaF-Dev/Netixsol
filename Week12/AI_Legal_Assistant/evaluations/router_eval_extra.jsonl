@@ -1,0 +1,30 @@
+{"question": "Which judgments refer to Section 324 PPC, and what did the courts hold about the sentence?", "expected": "hybrid", "why": "graph finds the judgments, their text gives the holding"}
+{"question": "Which Supreme Court judgments cite 2010 SCMR 1630 and what principle about concurrent findings did they apply?", "expected": "hybrid", "why": "precedent link + principle from text"}
+{"question": "Justice Jawad Hassan ne Article 199 ke muqadmat mein kya faisla kiya?", "expected": "hybrid", "why": "judge -> cases -> what was decided"}
+{"question": "Which cases citing 2009 SCMR 230 acquitted the accused, and why?", "expected": "hybrid", "why": "precedent link + reasons"}
+{"question": "Which judgments decided by Justice Syed Ahsan Raza Kazmi applied Order VII Rule 10 CPC, and what did he hold about returning the plaint?", "expected": "hybrid", "why": "judge + provision link + holding"}
+{"question": "Which precedents did the Lahore High Court rely on when it interpreted Article 129 of the Qanun-e-Shahadat Order, and what do they say?", "expected": "hybrid", "why": "provision -> cases -> precedents + content"}
+{"question": "Which judgments on the Sales Tax Act refer to Section 34, and how did they read the limitation for recovery?", "expected": "hybrid", "why": "provision -> cases + content"}
+{"question": "Which judges heard bail cancellation cases under Section 497(5) CrPC, and what test did they apply?", "expected": "hybrid", "why": "provision -> cases -> judges + test"}
+{"question": "Which cases refer to Article 212 of the Constitution and what did they say about the jurisdiction of Service Tribunals?", "expected": "hybrid", "why": "provision -> cases + content"}
+{"question": "Which judgments cite PLD 2019 SC 504 and what was held there about limitation for Section 12(2) applications?", "expected": "hybrid", "why": "precedent -> cases + holding"}
+{"question": "Which judges sat on the cases that refer to Section 9 of the Code of Civil Procedure?", "expected": "graph", "why": "provision -> cases -> judges"}
+{"question": "How many judgments in the corpus cite PLD 2023 SC 588?", "expected": "graph", "why": "count over links"}
+{"question": "Which Lahore High Court cases refer to Section 22A of the CrPC?", "expected": "graph", "why": "provision -> cases, court filter"}
+{"question": "Which precedents are cited by both C.A. 435-L/2012 and C.R.P. 410/2023?", "expected": "graph", "why": "shared precedents"}
+{"question": "Which judge has sat most often with Justice Musarrat Hilali?", "expected": "graph", "why": "co-judge count"}
+{"question": "Kaun se judges ne Section 302 PPC ke muqadmat sune?", "expected": "graph", "why": "provision -> cases -> judges (Roman Urdu)"}
+{"question": "Which Constitution Articles came up in the cases heard by Justice Qazi Faez Isa?", "expected": "graph", "why": "judge -> cases -> provisions"}
+{"question": "Which courts decided the judgments that cite PLD 2003 SC 315?", "expected": "graph", "why": "precedent -> cases -> courts"}
+{"question": "Which judgments cite both 2017 SCMR 1218 and 2019 SCMR 906?", "expected": "graph", "why": "co-citation"}
+{"question": "Which section of the Code of Criminal Procedure appears in the most Lahore High Court judgments?", "expected": "graph", "why": "count over links"}
+{"question": "Which section of the Pakistan Penal Code deals with qatl-e-amd?", "expected": "vector", "why": "content lookup in a statute, not a link question"}
+{"question": "What does Article 189 of the Constitution say about decisions of the Supreme Court?", "expected": "vector", "why": "text of one provision"}
+{"question": "Which article of the Constitution protects the right to a fair trial?", "expected": "vector", "why": "content lookup"}
+{"question": "What is the limitation period for an application under Section 12(2) CPC?", "expected": "vector", "why": "content"}
+{"question": "Kya pre-arrest bail mein accused ko court mein hazir hona zaroori hai?", "expected": "vector", "why": "content question in Roman Urdu"}
+{"question": "Under which provision can a court return a plaint for presentation to the proper court?", "expected": "vector", "why": "content lookup"}
+{"question": "What did the Supreme Court hold in 2010 SCMR 1630 about concurrent findings of fact?", "expected": "vector", "why": "holding of one judgment, found by its text"}
+{"question": "Is a contract with an unlawful consideration void?", "expected": "vector", "why": "content"}
+{"question": "What are the ingredients of Section 354 PPC?", "expected": "vector", "why": "content"}
+{"question": "Which Order of the CPC governs temporary injunctions?", "expected": "vector", "why": "content lookup"}

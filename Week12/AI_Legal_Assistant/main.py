@@ -169,6 +169,11 @@ def main():
     parser.add_argument("--update-index", nargs="+", metavar="DOC_ID", default=None,
                         help="Re-extract and re-index only these inventory documents (e.g. a newly added law)")
     parser.add_argument("--search", type=str, default=None, help="Query the hybrid search engine")
+    parser.add_argument("--ask", type=str, default=None,
+                        help="Day 2: answer a legal question with verified citations (uses Gemini; key in .env)")
+    parser.add_argument("--config", type=str, default="rerank",
+                        help="With --ask: retrieval configuration (naive, section, hybrid, rerank, rewrite, hyde, metadata, parent_child)")
+    parser.add_argument("--json", action="store_true", help="With --ask: print the result as JSON")
     parser.add_argument("--court", type=str, default=None, help="Optional court filter for queries")
     parser.add_argument("--top-k", type=int, default=3, help="Number of retrieved results")
     
@@ -210,6 +215,12 @@ def main():
         build_complete_indices()
     if args.update_index:
         update_index(args.update_index)
+    if args.ask:
+        import json as _json
+        from src.rag.pipeline import answer_with_citations, format_answer
+        sys.stdout.reconfigure(encoding="utf-8")  # Urdu questions / sources on the Windows console
+        result = answer_with_citations(args.ask, config=args.config)
+        print(_json.dumps(result, ensure_ascii=False, indent=2) if args.json else format_answer(result))
     if args.search:
         query_pipeline(args.search, top_k=args.top_k, court_filter=args.court)
 

@@ -56,6 +56,55 @@
     "recall@5_statute": 0.74,
     "recall@5_case_law": 0.8333333333333334,
     "mrr@5": 0.7250000000000001,
-    "doc_recall@5": 0.85
+    "doc_recall@5": 0.85,
+    "citation_accuracy": 0.7,
+    "faithfulness": 0.9803921568627452,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.15,
+    "llm_calls": 58
+  },
+  "rewrite": {
+    "config": "rewrite",
+    "description": "4. + Query rewriting (Gemini, English legal query)",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.9375,
+    "recall@5_statute": 0.94,
+    "recall@5_case_law": 0.9333333333333333,
+    "mrr@5": 0.8472916666666667,
+    "doc_recall@5": 0.95
+  },
+  "hyde": {
+    "config": "hyde",
+    "description": "5. + HyDE (Gemini hypothetical answer passage)",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.9375,
+    "recall@5_statute": 0.96,
+    "recall@5_case_law": 0.9,
+    "mrr@5": 0.8535416666666666,
+    "doc_recall@5": 0.9625
+  },
+  "metadata": {
+    "config": "metadata",
+    "description": "6. + Metadata filters (Act/section/court from the question)",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.925,
+    "recall@5_statute": 0.96,
+    "recall@5_case_law": 0.8666666666666667,
+    "mrr@5": 0.8410416666666667,
+    "doc_recall@5": 0.9625
+  },
+  "parent_child": {
+    "config": "parent_child",
+    "description": "7. + Parent-child retrieval (80-word children, parent unit returned)",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.9125,
+    "recall@5_statute": 0.94,
+    "recall@5_case_law": 0.8666666666666667,
+    "mrr@5": 0.8191666666666666,
+    "doc_recall@5": 0.9625
   }
 }

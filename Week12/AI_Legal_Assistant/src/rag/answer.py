@@ -29,6 +29,8 @@ never invent a section, case or quote.
 - Each citation: the passage number it comes from, the Act (or case), the exact section
   (e.g. "Section 23", "Article 199") or paragraph (e.g. "para 7"), and a quote copied
   word for word from that passage that supports the answer.
+- A passage labelled only with an Act and a page (the Urdu laws) has no section numbers: cite it
+  by its page, e.g. "page 19", and never guess a section (دفعہ) number.
 - Answer in the language of the question (English, Roman Urdu or Urdu); citations and quotes
   stay in the language of the source."""
 

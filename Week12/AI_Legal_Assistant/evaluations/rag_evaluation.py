@@ -195,10 +195,12 @@ def write_report() -> None:
     data = json.loads((RUN_DIR / "summary.json").read_text(encoding="utf-8"))
     pct = lambda v: "–" if v is None else f"{100 * v:.0f}%"
     num = lambda v: "–" if v is None else f"{v:.2f}"
-    rows = [[s["description"], pct(s.get("recall@5")), pct(s.get("recall@5_statute")), pct(s.get("recall@5_case_law")),
-             num(s.get("mrr@5")), pct(s.get("doc_recall@5")), pct(s.get("citation_accuracy")),
-             pct(s.get("faithfulness")), pct(s.get("correct_refusals")), pct(s.get("false_refusals"))]
-            for s in sorted(data.values(), key=lambda s: s["description"])]
+    order = [name for name in RETRIEVERS if name in data] + [name for name in data if name not in RETRIEVERS]
+    rows = [[DESCRIPTIONS.get(name, s["description"]), pct(s.get("recall@5")), pct(s.get("recall@5_statute")),
+             pct(s.get("recall@5_case_law")), num(s.get("mrr@5")), pct(s.get("doc_recall@5")),
+             pct(s.get("citation_accuracy")), pct(s.get("faithfulness")), pct(s.get("correct_refusals")),
+             pct(s.get("false_refusals"))]
+            for name, s in ((name, data[name]) for name in order)]
     table = tabulate(rows, tablefmt="github", headers=[
         "Configuration", "Recall@5", "Recall@5 statute", "Recall@5 case-law", "MRR@5", "Doc recall@5",
         "Citation accuracy", "Faithfulness", "Correct refusals", "False refusals"])
@@ -207,7 +209,9 @@ def write_report() -> None:
 
 Evaluation set: `{EVAL_SET}` ({first['questions']} questions: 50 statute, 30 case-law, 20 with no
 answer in the corpus). {'Only reviewed questions are used: every question was checked against its source text by Claude (an AI model), not by a person; 16 drafts were dropped and 6 corrected during that review (see `evaluations/rag_eval_set_review.csv` and `evaluations/rag_eval_set_dropped.jsonl`).' if first.get('reviewed_only') else 'Questions not yet reviewed.'}
-Note: the Constitution PDF in the corpus is the 2012 edition (amended up to 28 Feb 2012), so later amendments are missing.
+The Constitution in the corpus is the Ministry of Law 2025 edition (amended up to the 27th Amendment).
+"–" = not measured yet: steps 4-7 were first run for retrieval only (`--no-llm`), because free-tier
+Gemini allows 500 requests a day; their answer metrics are added after the next full run.
 Recall@5 / MRR@5 count a hit when a top-5 chunk comes from the gold document (or the same legal
 matter) and contains the gold section / paragraph or the gold quote. Citation accuracy, faithfulness
 and refusals are measured on Gemini answers; faithfulness is judged by an LLM (gemini-3.5-flash-lite),

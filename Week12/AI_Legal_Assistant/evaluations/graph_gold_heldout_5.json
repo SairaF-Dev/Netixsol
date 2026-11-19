@@ -1,0 +1,34 @@
+{
+ "_about": "Held-out check for Day 3, Task 2: 5 more judgments (3 Supreme Court, 2 Lahore High Court; random, seed 99, not among the 20 development judgments). Annotated by Claude (an AI model, not a person) in the same way as graph_gold_20.json, AFTER the extractor fixes were made and without changing the extractor afterwards, so these scores show how the fixes carry over to unseen text. A treatise reference ('Pomeroy's Equity Jurisprudence, section 112') is not a law and is left out; a citation cut short in the text ('MAQSOOD ALAM ... and others', no report) is left out.",
+ "judgments": {
+  "SC_c.p._5464_2025_r": {
+   "citations": ["PLD 2022 SC 248", "2015 SCMR 945", "2009 SCMR 462", "PLD 2007 SC 271", "2010 SCMR 119", "PLD 1965 SC 434",
+                 "1975 SCMR 221", "1976 SCMR 388", "1993 SCMR 216", "PLD 1994 SC 52", "1996 SCMR 230"],
+   "provisions": [],
+   "judges": ["Yahya Afridi", "Shahid Bilal Hassan"]
+  },
+  "SC_c.p._4906_2025": {
+   "citations": ["2010 MLD 1267"],
+   "provisions": [["cpc", "Order 39 Rule 1"], ["cpc", "Order 39 Rule 2"], ["cpc", "Order 43 Rule 1"], ["cpc", "Section 104"],
+                  ["cpc", "Section 115"], ["cpc", "Section 12"], ["cpc", "Order XL Rule 1"]],
+   "judges": ["Muhammad Ali Mazhar", "Irfan Saadat Khan"]
+  },
+  "SC_c.p._121_2024": {
+   "citations": ["PLD 1961 SC 531"],
+   "provisions": [["sc-practice-procedure-act", "Section 2"]],
+   "judges": ["Munib Akhtar", "Muhammad Ali Mazhar", "Syed Hasan Azhar Rizvi"]
+  },
+  "LHC_2026LHC8689": {
+   "citations": ["2013 SCMR 146", "2025 YLR 229"],
+   "provisions": [["cpc", "Order I Rule 10"], ["cpc", "Section 115"], ["specific-relief-act", "Section 23"]],
+   "judges": ["Muhammad Sajid Mehmood Sethi"]
+  },
+  "LHC_2026LHC8375": {
+   "citations": ["2004 PCr.LJ 1353", "2026 SCMR 798", "2026 SCMR 783", "2026 SCMR 257", "2026 SCMR 60"],
+   "provisions": [["ppc", "Section 302"], ["ppc", "Section 324"], ["ppc", "Section 186"], ["ppc", "Section 353"], ["ppc", "Section 337F"],
+                  ["crpc", "Section 544A"], ["crpc", "Section 382B"], ["crpc", "Section 173"], ["crpc", "Section 342"],
+                  ["crpc", "Section 340"], ["crpc", "Section 265A"], ["crpc", "Section 493"]],
+   "judges": ["Muhammad Amjad Rafiq"]
+  }
+ }
+}
