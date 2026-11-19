@@ -8,7 +8,7 @@ synthetic contracts the brief asks for. **It is not a production legal corpus.**
 
 | Inventory type | Count | What the files actually are |
 |---|---:|---|
-| Statute | 13 | 12 official Pakistan Code law PDFs (`data/raw/pakistani_laws`, incl. Pakistan Penal Code, Contract Act, CPC, Income Tax Ordinance) and the National Assembly Constitution PDF (`REAL_STAT_001`) |
+| Statute | 13 | 12 official Pakistan Code law PDFs (`data/raw/pakistani_laws`, incl. Pakistan Penal Code, Contract Act, CPC, Income Tax Ordinance) and the Constitution as amended up to the 27th Amendment (Ministry of Law and Justice, 14th edition, 2025; `REAL_STAT_001`) |
 | Judgment | 225 | 175 Supreme Court of Pakistan and 50 Lahore High Court judgment PDFs (`data/scp_judgments_pdfs`); 22 are scanned or partly scanned and need OCR |
 | Contract | 73 | 53 real CUAD contracts (30 downloaded `REAL_CUAD` + one from each of the 23 other CUAD categories, copied from CUAD v1 `full_contract_pdf` into `data/contracts/cuad` and listed in `cuad_real_manifest.csv`, so all 25 categories are covered) and 20 synthetic Pakistani contracts |
 | Scanned/Urdu | 50 | 40 Pakistan Code Urdu laws (1,602 pages; 1 image-only scan, 39 with an unusable InPage-style text layer; all pages OCR'd with EasyOCR, text in `data/ocr_text/`) and 10 single-page OCR benchmark exports taken from 8 of those laws |
@@ -87,6 +87,16 @@ largely failed on Nastaleeq and on the table page (98% CER). WER is high for bot
 because OCR often merges or splits Urdu words, so CER is the more informative metric.
 Ten pages is a small sample. Full per-page results: `evaluations/ocr_comparison_report.md`.
 
+## Constitution edition
+
+`REAL_STAT_001` was originally the National Assembly PDF "as modified up to the 28th February,
+2012", which lacks the 21st–27th Amendments (e.g. the 25th Amendment of 2018 omitted Article 247,
+the 26th and 27th Amendments of 2024–2025 added the Federal Constitutional Court). It has been
+replaced by the Ministry of Law and Justice edition "as amended up to the Twenty-Seventh Amendment"
+(2025). That edition prints article titles as margin notes, so the extractor takes each title from
+the contents list and rewrites the body heading ("6.  2[(1) Any person ..." → "6. High treason.— ...");
+footnote marks glued to article numbers ("1" + "1." read as "11.") are repaired.
+
 ## Urdu laws (OCR)
 
 All 1,602 pages of the 40 Urdu laws were OCR'd with EasyOCR (`ur`+`en`, the
@@ -115,7 +125,7 @@ This measures presence, not correctness; no hand-labelled check has been done.
 
 | Type | Result |
 |---|---|
-| Statutes (13) | 2,861 sections/articles/rules, all with a start page. E.g. PPC Sections 1–511, Contract Act Sections 1–238 (76–123 repealed), CPC Sections 1–159 plus 659 Order rules, Income Tax Ordinance Sections 1–242, Constitution Articles 1–280 |
+| Statutes (13) | 2,871 sections/articles/rules, all with a start page. E.g. PPC Sections 1–511, Contract Act Sections 1–238 (76–123 repealed), CPC Sections 1–159 plus 659 Order rules, Income Tax Ordinance Sections 1–242, Constitution Articles 1–280 incl. 175A–175L (Federal Constitutional Court); 324 articles found, 170, 272 and 273 missed |
 | Judgments (225) | case number 95%, bench 94%, parties 88–89%, year 98%, hearing date 75%, citations 77%, statutes cited 83%, numbered paragraphs 94%, outcome 97% |
 | CUAD contracts (53) | title 100%, 3+ clauses 87%, effective date 72%, governing law 70%, both parties 60% |
 
@@ -127,9 +137,9 @@ laws are split by page, so boundary crossings cannot be measured for them)
 
 | Strategy | Chunks | Median words | Cross a legal boundary | Have section label | Have page |
 |---|---:|---:|---:|---:|---:|
-| Fixed-size (200 words, 40 overlap) | 10,297 | 200 | 51.4% | 0% | 0% |
-| Section-level (split > 350 words) | 9,291 | 208 | 0% | 100% | 98.6% |
-| Parent-child children (~80 words) | 19,189 | 113 | 0% | 100% | 99.3% |
+| Fixed-size (200 words, 40 overlap) | 10,342 | 200 | 51.4% | 0% | 0% |
+| Section-level (split > 350 words) | 9,315 | 208 | 0% | 100% | 98.6% |
+| Parent-child children (~80 words) | 19,261 | 114 | 0% | 100% | 99.3% |
 
 Half of the fixed-size chunks mix text from two provisions and none can be cited by
 section or page, so the index uses section-level chunks. Parent units can be very
@@ -139,7 +149,7 @@ context rather than the embedding model.
 ## Index (Task 5)
 
 `--index` extracts the 311 English statutes, judgments and contracts plus the 40
-OCR'd Urdu laws (351 documents), builds 11,208 section-level chunks (Urdu: one per
+OCR'd Urdu laws (351 documents), builds 11,232 section-level chunks (Urdu: one per
 page), and stores them in a BM25 index and a SQLite vector store (embedding took
 about 3 h 45 min on the laptop CPU; Urdu text produces many more model tokens per
 word). `--update-index DOC_ID ...` re-extracts and re-indexes only the given

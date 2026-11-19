@@ -106,8 +106,10 @@ class JudgmentStructureExtractor:
         head = lines[:150]
         head_text = "\n".join(line.text for line in head)
 
-        court = next((name for pattern, name in _COURTS if pattern.search(head_text[:3000])), None)
-        court = court or court_hint or "Unknown court"
+        # The court the file was downloaded from (hint) wins: the header often also names
+        # the lower court ("against the judgment of the Peshawar High Court").
+        court = court_hint or next((name for pattern, name in _COURTS if pattern.search(head_text[:3000])), None)
+        court = court or "Unknown court"
 
         # The case number from the court's file name (passed as a hint by the
         # pipeline) is reliable; header text often also lists lower-court numbers.

@@ -1,0 +1,10 @@
+{
+  "STAT_045": "Ambiguous: does not say which law ('is qanoon'); many Acts have a 'power to remove difficulties' section. Suggest naming the Anti-Money Laundering Act, or drop.",
+  "STAT_050": "Ambiguous: many Acts have an Appellate Authority; suggest naming the National Command Authority Act.",
+  "CASE_005": "Too general: several Supreme Court tax appeals involve Commissioner Inland Revenue and a cement company. Add a distinguishing fact or drop.",
+  "CASE_014": "Too general: many judgments deal with rejection of a plaint in civil revision. Add a distinguishing fact or drop.",
+  "CASE_017": "Too general: several family-court matters; add the distinguishing fact (High Court decreed the suit itself) or drop.",
+  "NOANS_004": "Check: Supreme Court judgment SC_c.p._5516_2024 discusses the Islamabad rent law ('the 2009 Act'); the naive answer cited it with a quote that is NOT in the passage. Probably drop.",
+  "NOANS_003": "ANSWERABLE: Supreme Court judgment SC_c.p._5395_2025 explains the consumer's prior notice to the manufacturer. Drop (or turn into a case-law question).",
+  "NOANS_005": "ANSWERABLE: Supreme Court judgment SC_c.p._4168_2021 discusses exempt vs zero-rated supply. Drop (or turn into a case-law question)."
+}

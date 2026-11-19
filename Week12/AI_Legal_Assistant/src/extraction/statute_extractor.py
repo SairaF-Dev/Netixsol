@@ -43,6 +43,94 @@ _FOOTNOTE = re.compile(
 )
 
 
+_TOC_ENTRY = re.compile(r"^\s{4,}(\d{1,3}[A-Z]{0,2})\.\s+(\S.*)$")
+_TOC_CONTINUATION = re.compile(r"^\s{12,}([a-z(].*)$")
+_MARGINAL_BODY_HEADING = re.compile(r"^((?:\d+\[)*)(\d{1,3})([A-Z]{0,2})\.(?:\s+(\S.*))?$")  # text may start on the next line
+
+
+def _with_marginal_titles(pages: List[str]) -> List[str]:
+    """Ministry of Law editions of the Constitution print article titles as margin notes:
+    the body line is just "6.          2[(1) Any person who ...", and the margin text is
+    extracted in fragments elsewhere on the page. Take each title from the contents list
+    ("6.    High treason.") and rewrite the body line as "6. High treason.— 2[(1) Any person ...",
+    the form the heading rules below expect. Returns the pages unchanged for other layouts."""
+    titles: Dict[str, str] = {}
+    for text in pages[:40]:
+        lines = text.splitlines()
+        for i, line in enumerate(lines):
+            entry = _TOC_ENTRY.match(line)
+            if not entry or entry.group(1) in titles:
+                continue
+            title = entry.group(2).strip()
+            j = i + 1
+            while not title.endswith(".") and j < len(lines) and _TOC_CONTINUATION.match(lines[j]):
+                title = (title[:-1] if title.endswith("-") else title + " ") + lines[j].strip()
+                j += 1
+            titles[entry.group(1)] = title.rstrip(".").strip()
+    if len(titles) < 100:
+        return pages
+
+    # The body starts after the last page of the contents list (pages with many contents entries).
+    toc_pages = [i for i, text in enumerate(pages[:40])
+                 if sum(1 for line in text.splitlines() if _TOC_ENTRY.match(line)) >= 5]
+    body_start = max(toc_pages) + 1 if toc_pages else 0
+    # Candidate body headings in reading order; keep the longest strictly increasing run of
+    # article numbers (2 < 2A < 3 ...), so stray numbers and schedule items (which restart
+    # at 1) are left alone.
+    split_pages = [text.splitlines() for text in pages]
+    candidates = []
+    for index in range(body_start, len(split_pages)):
+        for row, line in enumerate(split_pages[index]):
+            match = _MARGINAL_BODY_HEADING.match(line)
+            if match and f"{match.group(2)}{match.group(3)}" in titles:
+                candidates.append(((int(match.group(2)), match.group(3)), index, row, match))
+    keep = _longest_increasing([c[0] for c in candidates])
+    chosen = {position: f"{candidates[position][3].group(2)}{candidates[position][3].group(3)}" for position in keep}
+    # A footnote mark printed before an article number is read as part of it ("1" + "1." -> "11.").
+    # For an article missing between two kept ones, accept a candidate in that stretch whose number
+    # is the missing one with one extra leading digit.
+    order = list(titles)
+    bounds = [-1] + sorted(keep) + [len(candidates)]
+    for left, right in zip(bounds, bounds[1:]):
+        low = order.index(chosen[left]) if left >= 0 else -1
+        high = order.index(chosen[right]) if right < len(candidates) else len(order)
+        missing = order[low + 1:high]
+        for position in range(left + 1, right):
+            match = candidates[position][3]
+            glued = f"{match.group(2)[1:]}{match.group(3)}"
+            if len(match.group(2)) >= 2 and glued in missing:
+                chosen[position] = glued
+                missing = missing[missing.index(glued) + 1:]
+    for position, key in chosen.items():
+        _, index, row, match = candidates[position]
+        # Footnote marks before the number ("2[3[90.") are dropped from the heading line.
+        split_pages[index][row] = f"{key}. {titles[key]}.— {match.group(4) or ''}".rstrip()
+    changed = len(chosen)
+    rewritten = ["\n".join(lines) for lines in split_pages]
+    logger.info("Margin-note layout: %d article titles from the contents, %d body headings rewritten", len(titles), changed)
+    return rewritten if changed >= 100 else pages
+
+
+def _longest_increasing(values: List[tuple]) -> List[int]:
+    """Indices of a longest strictly increasing subsequence (patience sorting, O(n log n))."""
+    import bisect
+    tails, tail_index, parent = [], [], [-1] * len(values)
+    for i, value in enumerate(values):
+        pos = bisect.bisect_left(tails, value)
+        if pos == len(tails):
+            tails.append(value)
+            tail_index.append(i)
+        else:
+            tails[pos] = value
+            tail_index[pos] = i
+        parent[i] = tail_index[pos - 1] if pos else -1
+    result, i = [], tail_index[-1] if tail_index else -1
+    while i != -1:
+        result.append(i)
+        i = parent[i]
+    return result[::-1]
+
+
 def _is_successor(prev: Optional[Dict[str, Any]], event: Dict[str, Any]) -> bool:
     """True if event is the natural next heading after prev (n -> n+1, 2 -> 2A, 2A -> 2B)."""
     if prev is None:
@@ -80,6 +168,9 @@ class StatuteStructureExtractor:
         pages_needing_ocr: Optional[List[int]] = None,
         source_file: Optional[str] = None,
     ) -> StatuteDocument:
+        is_constitution = "constitution" in (act_name or "").lower()
+        if is_constitution:
+            pages = _with_marginal_titles(pages)
         lines = page_lines(pages)
         act_name = act_name or self._detect_act_name(lines) or "Unknown Act"
         is_constitution = "constitution" in act_name.lower()
