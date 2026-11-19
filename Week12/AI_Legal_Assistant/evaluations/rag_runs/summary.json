@@ -1,0 +1,61 @@
+{
+  "naive": {
+    "config": "naive",
+    "description": "Naive: fixed 200-word chunks, vector search only, top 5",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.5375,
+    "recall@5_statute": 0.56,
+    "recall@5_case_law": 0.5,
+    "mrr@5": 0.3733333333333333,
+    "doc_recall@5": 0.7,
+    "citation_accuracy": 0.425,
+    "faithfulness": 0.9946808510638298,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.4125,
+    "llm_calls": 20
+  },
+  "section": {
+    "config": "section",
+    "description": "1. Section-level chunks, vector search only",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.6375,
+    "recall@5_statute": 0.68,
+    "recall@5_case_law": 0.5666666666666667,
+    "mrr@5": 0.5237499999999999,
+    "doc_recall@5": 0.7625,
+    "citation_accuracy": 0.5625,
+    "faithfulness": 0.9830508474576272,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.2625,
+    "llm_calls": 156
+  },
+  "hybrid": {
+    "config": "hybrid",
+    "description": "2. + Hybrid search (BM25 + vector, RRF)",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.7,
+    "recall@5_statute": 0.74,
+    "recall@5_case_law": 0.6333333333333333,
+    "mrr@5": 0.5629166666666667,
+    "doc_recall@5": 0.825,
+    "citation_accuracy": 0.6375,
+    "faithfulness": 0.9797979797979797,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.175,
+    "llm_calls": 166
+  },
+  "rerank": {
+    "config": "rerank",
+    "description": "3. + Reranking (multilingual cross-encoder, top 30)",
+    "questions": 100,
+    "reviewed_only": true,
+    "recall@5": 0.775,
+    "recall@5_statute": 0.74,
+    "recall@5_case_law": 0.8333333333333334,
+    "mrr@5": 0.7250000000000001,
+    "doc_recall@5": 0.85
+  }
+}

@@ -12,9 +12,9 @@ found are left empty rather than filled with defaults.
 | Type            | Field                             | Found in         |
 |-----------------|-----------------------------------|------------------|
 | Statute         | documents with sections           | 13/13 (100%)     |
-| Statute         | sections / articles / rules found | 2861             |
-| Statute         | sections with start page          | 2861/2861 (100%) |
-| Statute         | preamble                          | 12/13 (92%)      |
+| Statute         | sections / articles / rules found | 2871             |
+| Statute         | sections with start page          | 2871/2871 (100%) |
+| Statute         | preamble                          | 13/13 (100%)     |
 | Urdu law (OCR)  | laws with OCR text                | 40/40 (100%)     |
 | Urdu law (OCR)  | pages with text (one unit each)   | 1596             |
 | Urdu law (OCR)  | pages still without OCR text      | 0                |

@@ -138,6 +138,11 @@ def test_real_constitution_articles_in_order():
     assert articles[:4] == ["Article 1", "Article 2", "Article 2A", "Article 3"]
     assert "Article 199" in articles and articles[-1] == "Article 280"
     assert doc.year == 1973
+    # 27th Amendment edition: margin-note titles taken from the contents, new articles present.
+    sections = {s.section_number: s for c in doc.chapters for s in c.sections}
+    assert sections["Article 6"].title == "High treason"
+    assert "Federal Constitutional Court" in " ".join(sections["Article 6"].subsections + [sections["Article 6"].content])
+    assert "Article 175B" in sections
 
 
 @pytest.mark.skipif(not SC_JUDGMENT.exists(), reason="Supreme Court judgment PDFs not available")

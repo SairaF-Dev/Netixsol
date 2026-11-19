@@ -21,7 +21,9 @@ def test_pdf_parser_classification():
 
 def test_pdf_parser_table_extraction():
     parser = LegalPDFParser()
-    sample_statute = Path("data/statutes/REAL_STAT_001.pdf")
+    # A short Pakistan Code PDF: table detection on the 252-page Constitution (Ministry of Law
+    # edition, many vector drawings) takes minutes per page.
+    sample_statute = Path("data/raw/pakistani_laws/Defense_Forces_of_Pakistan_Act_2026.pdf")
     if sample_statute.exists():
         extracted = parser.extract_text_and_tables(sample_statute)
         assert "full_text" in extracted

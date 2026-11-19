@@ -39,8 +39,10 @@ HEADERS = {
 REAL_STATUTES = [
     {
         "doc_id": "REAL_STAT_001",
-        "title": "Constitution of the Islamic Republic of Pakistan, 1973",
-        "url": "https://na.gov.pk/uploads/documents/1333523681_951.pdf"
+        "title": "Constitution of the Islamic Republic of Pakistan, 1973 (as amended up to the 27th Amendment, 2025)",
+        # Ministry of Law and Justice, 14th edition (2025). The earlier na.gov.pk PDF was the
+        # 2012 edition (amended up to 28 Feb 2012) and lacked the 21st-27th Amendments.
+        "url": "https://www.pakp.gov.pk/wp-content/uploads/2024/07/CoP27thA.pdf"
     }
 ]
 

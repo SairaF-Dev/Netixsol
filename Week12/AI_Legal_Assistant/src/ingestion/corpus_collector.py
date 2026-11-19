@@ -46,7 +46,7 @@ REAL_JUDGMENTS_DIR = DATA_DIR / "scp_judgments_pdfs"
 CUAD_REAL_MANIFEST = CUAD_DIR / "cuad_real_manifest.csv"
 
 # Official law PDFs and their titles. The Constitution copy in that folder is not
-# listed because REAL_STAT_001 (National Assembly PDF) already covers it.
+# listed because REAL_STAT_001 (Constitution, 27th Amendment edition) already covers it.
 REAL_STATUTE_TITLES = {
     "ANTI_MONEY_LAUNDERING_ACT_2010.pdf": "Anti-Money Laundering Act, 2010",
     "Defense_Forces_of_Pakistan_Act_2026.pdf": "Defense Forces of Pakistan Act, 2026",

@@ -17,3 +17,6 @@ colab/*.zip
 
 # Assignment brief (kept locally, not part of the project)
 project_instruction.txt
+
+# Cached LLM responses (re-creatable)
+data/llm_cache/
