@@ -1,0 +1,824 @@
+{
+ "_about": "Day 3, Task 2: hand-made answer key for 20 judgments (12 Supreme Court, 8 Lahore High Court; random sample, seed 20, of judgments with 1,200-5,000 words). Annotated by Claude (an AI model, not a person) from every sentence a deliberately loose search flagged (reporter-like year patterns, 'v.'/'case of', section/article/order/rule + number) and from the bench line of each PDF's first page, WITHOUT looking at the extractor's output. citations: law-report citations of precedents (incomplete ones, where the page number is cut off in the text, are left out). provisions: [act, provision] for every numbered provision of a named law that the judgment refers to, including 'the Code' / 'the Act' when the law is clear from context; sub-clauses are dropped (Section 302(b) -> Section 302). judges: the bench. Act ids are canonical short names; evaluations/graph_extraction_eval.py maps the extractor's Act nodes onto them. After the first scoring run, the 3 links the extractor found that were not in the key were checked against the full text: 2 were real and missed by the key (its candidate sentences were cut at 420 characters) and were added (SC_c.a._842_2024 Article 199; LHC_2026LHC8323 CPC Section 96); 1 stays wrong (Article 98 in SC_c.p._1106_2024 is from the 1962 Constitution, quoted inside a precedent). A second check after the extractor was improved found 2 more real links the key had missed (SC_c.a._842_2024: 'its section 4' of the Supreme Court (Practice and Procedure) Act; LHC_2026LHC8604: CPC section 47 inside the quoted text of section 145), now added. Four Indian AIR citations whose court abbreviation is garbled in the PDF text (A.B., Born., Dehly) are written as printed, since the true reporter abbreviation cannot be read from the document.",
+ "judgments": {
+  "SC_j.p._92_2022": {
+   "citations": [],
+   "provisions": [
+    [
+     "ppc",
+     "Section 302"
+    ],
+    [
+     "ppc",
+     "Section 337D"
+    ],
+    [
+     "crpc",
+     "Section 382B"
+    ],
+    [
+     "crpc",
+     "Section 342"
+    ]
+   ],
+   "judges": [
+    "Jamal Khan Mandokhail",
+    "Malik Shahzad Ahmed Khan"
+   ]
+  },
+  "SC_crl.p._207_k_2025": {
+   "citations": [
+    "2020 SCMR 1115",
+    "2021 SCMR 87",
+    "2021 SCMR 1909"
+   ],
+   "provisions": [
+    [
+     "ppc",
+     "Section 336"
+    ],
+    [
+     "ppc",
+     "Section 337L"
+    ],
+    [
+     "ppc",
+     "Section 506"
+    ],
+    [
+     "ppc",
+     "Section 34"
+    ],
+    [
+     "crpc",
+     "Section 173"
+    ],
+    [
+     "crpc",
+     "Section 498"
+    ],
+    [
+     "crpc",
+     "Section 497"
+    ]
+   ],
+   "judges": [
+    "Muhammad Ali Mazhar",
+    "Irfan Saadat Khan"
+   ]
+  },
+  "SC_crl.p._1033_2024": {
+   "citations": [],
+   "provisions": [
+    [
+     "ppc",
+     "Section 302"
+    ],
+    [
+     "ppc",
+     "Section 109"
+    ],
+    [
+     "ppc",
+     "Section 449"
+    ],
+    [
+     "ppc",
+     "Section 34"
+    ],
+    [
+     "crpc",
+     "Section 360"
+    ],
+    [
+     "crpc",
+     "Section 435"
+    ],
+    [
+     "constitution",
+     "Article 10A"
+    ]
+   ],
+   "judges": [
+    "Jamal Khan Mandokhail",
+    "Salahuddin Panhwar"
+   ]
+  },
+  "SC_crl.p._46_2024": {
+   "citations": [
+    "2023 SCMR 1068",
+    "2024 SCMR 1071"
+   ],
+   "provisions": [
+    [
+     "ppc",
+     "Section 302"
+    ],
+    [
+     "ppc",
+     "Section 148"
+    ],
+    [
+     "ppc",
+     "Section 149"
+    ],
+    [
+     "crpc",
+     "Section 497"
+    ]
+   ],
+   "judges": [
+    "Jamal Khan Mandokhail",
+    "Syed Hasan Azhar Rizvi",
+    "Musarrat Hilali"
+   ]
+  },
+  "SC_crl.p._460_2025": {
+   "citations": [
+    "AIR 1934 PC 227",
+    "PLD 1985 SC 11",
+    "PLD 2011 SC 554",
+    "PLD 1962 SC 249",
+    "PLD 1964 SC 795",
+    "1988 SCMR 1691",
+    "PLD 2001 SC 384",
+    "1987 SCMR 886",
+    "PLD 2019 SC 669",
+    "2025 SCP 405"
+   ],
+   "provisions": [
+    [
+     "constitution",
+     "Article 185"
+    ],
+    [
+     "crpc",
+     "Section 540"
+    ],
+    [
+     "crpc",
+     "Section 423"
+    ],
+    [
+     "crpc",
+     "Section 428"
+    ],
+    [
+     "qso",
+     "Article 59"
+    ],
+    [
+     "qso",
+     "Article 84"
+    ]
+   ],
+   "judges": [
+    "Muhammad Hashim Khan Kakar",
+    "Ishtiaq Ibrahim"
+   ]
+  },
+  "SC_j.p._41_2023": {
+   "citations": [
+    "2006 (10) SCC 681",
+    "AIR 1972 SC 2077",
+    "(1992) 3 SCC 106",
+    "AIR 1992 SC 2045"
+   ],
+   "provisions": [
+    [
+     "ppc",
+     "Section 302"
+    ],
+    [
+     "crpc",
+     "Section 544A"
+    ],
+    [
+     "bharatiya-nyaya-sanhita",
+     "Section 80"
+    ],
+    [
+     "bharatiya-sakshya-adhiniyam",
+     "Section 118"
+    ],
+    [
+     "indian-evidence-act",
+     "Section 106"
+    ],
+    [
+     "qso",
+     "Article 122"
+    ],
+    [
+     "qso",
+     "Article 129"
+    ],
+    [
+     "qso",
+     "Article 2"
+    ],
+    [
+     "qso",
+     "Article 17"
+    ]
+   ],
+   "judges": [
+    "Muhammad Hashim Khan Kakkar",
+    "Ishtiaq Ibrahim"
+   ]
+  },
+  "SC_c.a._842_2024": {
+   "citations": [
+    "PLD 1996 SC 324",
+    "PLD 2013 SC 501"
+   ],
+   "provisions": [
+    [
+     "sc-practice-procedure-act",
+     "Section 2"
+    ],
+    [
+     "constitution",
+     "Article 213"
+    ],
+    [
+     "constitution",
+     "Article 218"
+    ],
+    [
+     "constitution",
+     "Article 219"
+    ],
+    [
+     "constitution",
+     "Article 222"
+    ],
+    [
+     "constitution",
+     "Article 225"
+    ],
+    [
+     "constitution",
+     "Article 199"
+    ],
+    [
+     "elections-act",
+     "Section 140"
+    ],
+    [
+     "elections-act",
+     "Section 151"
+    ],
+    [
+     "sc-practice-procedure-act",
+     "Section 4"
+    ]
+   ],
+   "judges": [
+    "Qazi Faez Isa",
+    "Amin-ud-Din Khan",
+    "Jamal Khan Mandokhail",
+    "Naeem Akhtar Afghan",
+    "Aqeel Ahmed Abbasi"
+   ]
+  },
+  "SC_c.p._1106_2024": {
+   "citations": [
+    "PLD 1964 SC 260",
+    "PLD 1970 SC 39",
+    "1972 SCMR 47",
+    "PLD 1970 SC 29",
+    "PLD 1971 SC 498",
+    "1993 SCMR 619"
+   ],
+   "provisions": [
+    [
+     "constitution",
+     "Article 199"
+    ]
+   ],
+   "judges": [
+    "Yahya Afridi",
+    "Muhammad Shafi Siddiqui",
+    "Miangul Hassan Aurangzeb"
+   ]
+  },
+  "SC_crl.i.c.a._1_2025": {
+   "citations": [
+    "PLD 2020 SC 1",
+    "AIR 1997 SC 272",
+    "AIR 1988 SC 2211",
+    "PLD 1998 SC 103",
+    "AIR 1998 SC 1344",
+    "PLD 1973 Lahore 778",
+    "PLD 1966 SC 1",
+    "PLD 2011 SC 197",
+    "PLD 2009 SC 879",
+    "PLD 2025 SC 394"
+   ],
+   "provisions": [
+    [
+     "customs-act",
+     "Section 221A"
+    ],
+    [
+     "constitution",
+     "Article 191A"
+    ],
+    [
+     "constitution",
+     "Article 204"
+    ],
+    [
+     "constitution",
+     "Article 199"
+    ],
+    [
+     "constitution",
+     "Article 2A"
+    ],
+    [
+     "constitution",
+     "Article 209"
+    ],
+    [
+     "constitution",
+     "Article 202A"
+    ],
+    [
+     "constitution",
+     "Article 5"
+    ]
+   ],
+   "judges": [
+    "Jamal Khan Mandokhail",
+    "Muhammad Ali Mazhar",
+    "Athar Minallah",
+    "Syed Hasan Azhar Rizvi",
+    "Shahid Waheed",
+    "Musarrat Hilali"
+   ]
+  },
+  "SC_c.u.o._1_2025": {
+   "citations": [
+    "PLD 1958 SC 41"
+   ],
+   "provisions": [
+    [
+     "constitution",
+     "Article 199"
+    ],
+    [
+     "constitution",
+     "Article 175F"
+    ],
+    [
+     "constitution",
+     "Article 185"
+    ]
+   ],
+   "judges": [
+    "Yahya Afridi",
+    "Muhammad Ali Mazhar",
+    "Muhammad Shafi Siddiqui"
+   ]
+  },
+  "SC_j.p._183_2019": {
+   "citations": [],
+   "provisions": [
+    [
+     "ppc",
+     "Section 302"
+    ],
+    [
+     "constitution",
+     "Article 25"
+    ],
+    [
+     "constitution",
+     "Article 26"
+    ],
+    [
+     "constitution",
+     "Article 33"
+    ],
+    [
+     "constitution",
+     "Article 14"
+    ],
+    [
+     "udhr",
+     "Article 1"
+    ],
+    [
+     "udhr",
+     "Article 7"
+    ],
+    [
+     "iccpr",
+     "Article 2"
+    ],
+    [
+     "iccpr",
+     "Article 26"
+    ],
+    [
+     "icescr",
+     "Article 3"
+    ]
+   ],
+   "judges": [
+    "Muhammad Hashim Khan Kakar",
+    "Salahuddin Panhwar",
+    "Ishtiaq Ibrahim"
+   ]
+  },
+  "SC_c.a._357_l_2013": {
+   "citations": [
+    "PLD 1991 SC 1109",
+    "2008 SCMR 942",
+    "2014 SCMR 637",
+    "2015 SCMR 1401",
+    "2026 SCMR 287",
+    "PLD 2016 SC 421",
+    "PLD 2023 SC 588"
+   ],
+   "provisions": [
+    [
+     "cpc",
+     "Order XVII Rule 3"
+    ],
+    [
+     "cpc",
+     "Order XVII Rule 1"
+    ]
+   ],
+   "judges": [
+    "Naeem Akhter Afghan",
+    "Shahid Bilal Hassan"
+   ]
+  },
+  "LHC_2026LHC8604": {
+   "citations": [
+    "PLD 2009 Lahore 350",
+    "2006 SCMR 619",
+    "2005 CLD 95",
+    "PLD 1991 SC 1",
+    "AIR 1975 Pat 239",
+    "AIR 1959 MP 26",
+    "AIR 1976 Raj 112",
+    "AIR 1962 Pat 405",
+    "AIR 1971 Mad 321",
+    "AIR 1981 A.B. 153",
+    "AIR 1975 A.B. 201",
+    "AIR 1918 PC 226",
+    "PLD 1968 SC 83",
+    "AIR 1941 Born. 108",
+    "PLD 1974 SC 322",
+    "AIR 1940 PC 219",
+    "AIR 1982 Dehly 487",
+    "1986 SCMR 1987",
+    "2020 CLC 970",
+    "2021 CLC 805",
+    "PLD 2017 Peshawar 203",
+    "2023 SCMR 413",
+    "2020 SCMR 2155",
+    "2019 SCMR 919"
+   ],
+   "provisions": [
+    [
+     "constitution",
+     "Article 199"
+    ],
+    [
+     "constitution",
+     "Article 185"
+    ],
+    [
+     "cpc",
+     "Section 145"
+    ],
+    [
+     "contract-act",
+     "Section 126"
+    ],
+    [
+     "contract-act",
+     "Section 128"
+    ],
+    [
+     "contract-act",
+     "Section 139"
+    ],
+    [
+     "contract-act",
+     "Section 141"
+    ],
+    [
+     "cpc",
+     "Section 47"
+    ]
+   ],
+   "judges": [
+    "Mirza Viqas Rauf"
+   ]
+  },
+  "LHC_2026LHC8410": {
+   "citations": [
+    "PLD 2020 SC 366",
+    "PLD 1966 SC 685",
+    "PLD 1971 SC 550",
+    "1992 SCMR 846",
+    "PLD 1997 Karachi 62",
+    "2026 SCMR 31",
+    "2026 SCMR 1132"
+   ],
+   "provisions": [
+    [
+     "constitution",
+     "Article 199"
+    ],
+    [
+     "companies-ordinance",
+     "Section 172"
+    ],
+    [
+     "companies-ordinance",
+     "Section 173"
+    ],
+    [
+     "companies-act",
+     "Section 150"
+    ],
+    [
+     "companies-act",
+     "Section 151"
+    ],
+    [
+     "cpc",
+     "Order XXIX Rule 1"
+    ],
+    [
+     "cpc",
+     "Order VI Rule 14"
+    ]
+   ],
+   "judges": [
+    "Hassan Nawaz Makhdoom"
+   ]
+  },
+  "LHC_2026LHC8275": {
+   "citations": [
+    "PLD 2016 SC 545",
+    "PLD 2017 SC 99",
+    "2026 SCMR 373",
+    "2019 SCMR 906",
+    "2018 SCMR 2027",
+    "PLD 2018 SC 189",
+    "2017 SCMR 1218",
+    "PLD 2016 SC 492",
+    "PLD 1973 SC 24",
+    "2001 SCMR 338",
+    "2022 PLC (C.S.) 1225"
+   ],
+   "provisions": [
+    [
+     "constitution",
+     "Article 199"
+    ],
+    [
+     "harassment-act",
+     "Section 2"
+    ],
+    [
+     "harassment-act",
+     "Section 4"
+    ]
+   ],
+   "judges": [
+    "Muhammad Ajmal Zahid"
+   ]
+  },
+  "LHC_2026LHC8678": {
+   "citations": [
+    "1996 SCMR 1528",
+    "PLD 2013 Lahore 51",
+    "2008 SCMR 236",
+    "PLD 1991 SC 197",
+    "PLD 2019 SC 504"
+   ],
+   "provisions": [
+    [
+     "cpc",
+     "Section 12"
+    ],
+    [
+     "cpc",
+     "Section 141"
+    ],
+    [
+     "cpc",
+     "Order VII Rule 11"
+    ],
+    [
+     "cpc",
+     "Order VII Rule 1"
+    ],
+    [
+     "limitation-act",
+     "Article 181"
+    ],
+    [
+     "limitation-act",
+     "Section 18"
+    ]
+   ],
+   "judges": [
+    "Ahmad Nadeem Arshad"
+   ]
+  },
+  "LHC_2026LHC8447": {
+   "citations": [
+    "PLD 1985 SC 62",
+    "1997 SCMR 304",
+    "1997 SCMR 299",
+    "2010 SCMR 660",
+    "PLD 2013 SC 401",
+    "2000 SCMR 122",
+    "PLD 2019 SC 675",
+    "AIR 1967 SC 63",
+    "1982 SCMR 951",
+    "2022 SCMR 1946"
+   ],
+   "provisions": [
+    [
+     "crpc",
+     "Section 561A"
+    ],
+    [
+     "crpc",
+     "Section 161"
+    ],
+    [
+     "crpc",
+     "Section 173"
+    ],
+    [
+     "crpc",
+     "Section 190"
+    ],
+    [
+     "crpc",
+     "Section 249A"
+    ],
+    [
+     "ppc",
+     "Section 354"
+    ],
+    [
+     "ppc",
+     "Section 506"
+    ],
+    [
+     "ppc",
+     "Section 147"
+    ],
+    [
+     "ppc",
+     "Section 149"
+    ],
+    [
+     "ppc",
+     "Section 503"
+    ],
+    [
+     "ppc",
+     "Section 141"
+    ],
+    [
+     "police-rules",
+     "Rule 24.7"
+    ]
+   ],
+   "judges": [
+    "Muhammad Jawad Zafar"
+   ]
+  },
+  "LHC_2026LHC8304": {
+   "citations": [
+    "PLD 2019 SC 504",
+    "PLD 1977 SC 75",
+    "PLD 1976 SC 508",
+    "2006 SCMR 1931",
+    "2005 SCMR 431",
+    "PLD 2003 SC 315",
+    "2022 SCMR 55",
+    "PLD 2024 SC 600",
+    "PLD 2022 SC 353"
+   ],
+   "provisions": [
+    [
+     "cpc",
+     "Section 115"
+    ],
+    [
+     "cpc",
+     "Order VI Rule 4"
+    ],
+    [
+     "qso",
+     "Article 117"
+    ]
+   ],
+   "judges": [
+    "Syed Ahsan Raza Kazmi"
+   ]
+  },
+  "LHC_2026LHC8313": {
+   "citations": [
+    "2010 SCMR 1370",
+    "2014 SCMR 1181",
+    "PLD 1975 SC 624",
+    "PLD 2021 SC 715"
+   ],
+   "provisions": [
+    [
+     "cpc",
+     "Section 115"
+    ],
+    [
+     "cpc",
+     "Order XLI Rule 27"
+    ],
+    [
+     "transfer-of-property-act",
+     "Section 122"
+    ],
+    [
+     "transfer-of-property-act",
+     "Section 123"
+    ],
+    [
+     "contract-act",
+     "Section 11"
+    ],
+    [
+     "contract-act",
+     "Section 12"
+    ],
+    [
+     "contract-act",
+     "Section 16"
+    ]
+   ],
+   "judges": [
+    "Syed Ahsan Raza Kazmi"
+   ]
+  },
+  "LHC_2026LHC8323": {
+   "citations": [
+    "2023 SCMR 1002",
+    "PLD 2025 SC 572",
+    "2005 CLC 988",
+    "2016 CLC 1425",
+    "1991 SCMR 1944",
+    "2010 SCMR 1119",
+    "2016 SCMR 807",
+    "2026 SCMR 1355"
+   ],
+   "provisions": [
+    [
+     "cpc",
+     "Section 115"
+    ],
+    [
+     "cpc",
+     "Section 9"
+    ],
+    [
+     "cpc",
+     "Section 96"
+    ],
+    [
+     "cpc",
+     "Order VII Rule 10"
+    ],
+    [
+     "mflo",
+     "Section 7"
+    ],
+    [
+     "family-courts-act",
+     "Section 5"
+    ],
+    [
+     "family-courts-act",
+     "Section 2"
+    ]
+   ],
+   "judges": [
+    "Syed Ahsan Raza Kazmi"
+   ]
+  }
+ }
+}

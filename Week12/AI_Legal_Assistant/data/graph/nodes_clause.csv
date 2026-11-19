@@ -1,0 +1,737 @@
+key,clause_id,title
+CONT_SYNTH_001::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_001::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_001::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_001::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_001::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_001::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_002::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_002::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_002::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_002::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_002::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_002::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_003::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_003::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_003::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_003::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_003::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_003::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_004::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_004::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_004::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_004::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_004::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_004::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_005::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_005::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_005::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_005::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_005::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_005::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_006::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_006::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_006::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_006::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_006::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_006::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_007::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_007::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_007::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_007::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_007::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_007::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_008::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_008::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_008::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_008::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_008::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_008::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_009::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_009::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_009::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_009::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_009::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_009::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_010::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_010::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_010::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_010::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_010::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_010::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_011::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_011::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_011::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_011::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_011::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_011::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_012::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_012::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_012::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_012::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_012::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_012::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_013::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_013::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_013::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_013::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_013::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_013::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_014::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_014::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_014::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_014::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_014::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_014::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_015::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_015::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_015::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_015::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_015::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_015::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_016::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_016::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_016::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_016::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_016::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_016::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_017::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_017::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_017::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_017::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_017::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_017::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_018::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_018::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_018::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_018::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_018::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_018::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_019::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_019::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_019::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_019::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_019::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_019::CL_06,CL_06,Governing Law and Dispute Resolution
+CONT_SYNTH_020::CL_01,CL_01,Recitals and Preamble
+CONT_SYNTH_020::CL_02,CL_02,Services and Scope of Work
+CONT_SYNTH_020::CL_03,CL_03,"Payment Terms, Invoicing & Withholding Tax"
+CONT_SYNTH_020::CL_04,CL_04,Confidentiality and Data Protection
+CONT_SYNTH_020::CL_05,CL_05,Indemnification and Limitation of Liability
+CONT_SYNTH_020::CL_06,CL_06,Governing Law and Dispute Resolution
+CUAD_REAL_001::Clause 1,Clause 1,The Offering
+CUAD_REAL_001::Clause 2,Clause 2,Retention and Compensation of Agent
+CUAD_REAL_001::Clause 3,Clause 3,Sale and Delivery of Shares
+CUAD_REAL_001::Clause 4,Clause 4,Representations and Warranties of the Company and the Bank
+CUAD_REAL_001::Clause 5,Clause 5,Representations and Warranties of the Agent
+CUAD_REAL_001::Clause 6,Clause 6,Covenants of the Company and the Bank
+CUAD_REAL_001::Clause 7,Clause 7,Payment of Expenses
+CUAD_REAL_001::Clause 9,Clause 9,Indemnification
+CUAD_REAL_001::Clause 10,Clause 10,Contribution
+CUAD_REAL_001::Clause 12,Clause 12,Termination
+CUAD_REAL_001::Clause 13,Clause 13,Notices
+CUAD_REAL_001::Clause 14,Clause 14,Parties
+CUAD_REAL_001::Clause 15,Clause 15,Closing
+CUAD_REAL_001::Clause 16,Clause 16,Partial Invalidity
+CUAD_REAL_001::Clause 17,Clause 17,Construction
+CUAD_REAL_001::Clause 18,Clause 18,Counterparts
+CUAD_REAL_001::Clause 19,Clause 19,Entire Agreement
+CUAD_REAL_001::Clause 20,Clause 20,Waiver of Trial by Jury
+CUAD_REAL_002::Clause 1,Clause 1,Board Nomination
+CUAD_REAL_002::Clause 2,Clause 2,Standstill
+CUAD_REAL_002::Clause 3,Clause 3,Representations of the Company
+CUAD_REAL_002::Clause 4,Clause 4,Representations of the ValueAct Group
+CUAD_REAL_002::Clause 5,Clause 5,Termination
+CUAD_REAL_002::Clause 6,Clause 6,Public Announcement and SEC Filing
+CUAD_REAL_002::Clause 7,Clause 7,Confidentiality Agreement
+CUAD_REAL_002::Clause 8,Clause 8,Compensation
+CUAD_REAL_002::Clause 9,Clause 9,Miscellaneous
+CUAD_REAL_002::Clause 10,Clause 10,Expenses
+CUAD_REAL_002::Clause 12,Clause 12,Notices
+CUAD_REAL_002::Clause 13,Clause 13,Severability
+CUAD_REAL_002::Clause 14,Clause 14,Counterparts
+CUAD_REAL_002::Clause 16,Clause 16,Interpretation and Construction
+CUAD_REAL_003::Clause 1,Clause 1,Services
+CUAD_REAL_003::Clause 2,Clause 2,Compensation and Expenses
+CUAD_REAL_003::Clause 3,Clause 3,Term of Agreement
+CUAD_REAL_003::Clause 4,Clause 4,Confidential Information
+CUAD_REAL_003::Clause 5,Clause 5,Independent Contractor
+CUAD_REAL_003::Clause 6,Clause 6,Intellectual Property
+CUAD_REAL_003::Clause 7,Clause 7,Nonsolicitation
+CUAD_REAL_003::Clause 8,Clause 8,Representations
+CUAD_REAL_003::Clause 9,Clause 9,Material Non-Public Information
+CUAD_REAL_003::Clause 10,Clause 10,Miscellaneous
+CUAD_REAL_004::Article 1,Article 1,Definitions
+CUAD_REAL_004::Article 2,Article 2,Licenses
+CUAD_REAL_004::Article 3,Article 3,Development
+CUAD_REAL_004::Article 4,Article 4,Regulatory
+CUAD_REAL_004::Article 5,Article 5,Commercialization
+CUAD_REAL_004::Article 6,Article 6,Supply
+CUAD_REAL_004::Article 7,Article 7,Payments
+CUAD_REAL_004::Article 8,Article 8,Payment; Records; Audits
+CUAD_REAL_004::Article 9,Article 9,Intellectual Property Matters
+CUAD_REAL_004::Article 10,Article 10,"Representations, Warranties and Covenants; Compliance"
+CUAD_REAL_004::Article 11,Article 11,Indemnification
+CUAD_REAL_004::Article 12,Article 12,Confidentiality
+CUAD_REAL_004::Article 13,Article 13,Term and Termination
+CUAD_REAL_004::Article 14,Article 14,Effects of Expiration Or Termination
+CUAD_REAL_004::Article 15,Article 15,Miscellaneous
+CUAD_REAL_005::Clause 1,Clause 1,Definitions and interpretation
+CUAD_REAL_005::Clause 2,Clause 2,Appointment
+CUAD_REAL_005::Clause 3,Clause 3,Distributor's undertakings
+CUAD_REAL_005::Clause 4,Clause 4,Supply of products
+CUAD_REAL_005::Clause 5,Clause 5,Prices and payment
+CUAD_REAL_005::Clause 7,Clause 7,Advertising and promotion
+CUAD_REAL_005::Clause 8,Clause 8,Anti-bribery compliance
+CUAD_REAL_005::Clause 9,Clause 9,Trade marks and intellectual property
+CUAD_REAL_005::Clause 10,Clause 10,Product liability and insurance
+CUAD_REAL_005::Clause 11,Clause 11,Duration and termination
+CUAD_REAL_005::Clause 12,Clause 12,Effectsof termination
+CUAD_REAL_005::Clause 13,Clause 13,Confidentiality
+CUAD_REAL_005::Clause 14,Clause 14,Entire agreement
+CUAD_REAL_005::Clause 15,Clause 15,Variation
+CUAD_REAL_005::Clause 16,Clause 16,Assignment and other dealings prohibited
+CUAD_REAL_005::Clause 17,Clause 17,Freedom to contract
+CUAD_REAL_005::Clause 18,Clause 18,Waiver
+CUAD_REAL_005::Clause 19,Clause 19,Severance
+CUAD_REAL_005::Clause 20,Clause 20,Notices
+CUAD_REAL_005::Clause 21,Clause 21,Third party rights
+CUAD_REAL_005::Clause 22,Clause 22,No partnership or agency
+CUAD_REAL_005::Clause 23,Clause 23,Counterparts
+CUAD_REAL_005::Clause 24,Clause 24,Governing law and jurisdiction
+CUAD_REAL_006::Clause 1,Clause 1,DEFINITIONS
+CUAD_REAL_006::Clause 2,Clause 2,ENDORSEMENT AND GRANT OF RIGHTS
+CUAD_REAL_006::Clause 3,Clause 3,EXCLUSIVITY
+CUAD_REAL_006::Clause 4,Clause 4,COMPENSATION
+CUAD_REAL_006::Clause 5,Clause 5,PAYMENTS
+CUAD_REAL_006::Clause 8,Clause 8,PROTECTION OF THE AURIEMMA IDENTIFICATION
+CUAD_REAL_006::Clause 9,Clause 9,CONFIDENTIALITY
+CUAD_REAL_006::Clause 10,Clause 10,TERMINATION AND DEFAULT
+CUAD_REAL_006::Clause 11,Clause 11,TERMINATION BY BERKSHIRE
+CUAD_REAL_006::Clause 12,Clause 12,OTHER REMEDIES AND RIGHTS
+CUAD_REAL_006::Clause 13,Clause 13,MISCELLANEOUS PROVISIONS
+CUAD_REAL_006::Clause 14,Clause 14,NOTICES
+CUAD_REAL_006::Clause 15,Clause 15,FORCE MAJEUR
+CUAD_REAL_006::Clause 16,Clause 16,ENTIRE AGREEMENT
+CUAD_REAL_006::Clause 17,Clause 17,GOVERNING LAW
+CUAD_REAL_006::Clause 18,Clause 18,RELATIONSHIP BETWEEN THE PARTIES
+CUAD_REAL_006::Clause 19,Clause 19,REPRESENTATIONS AND WARRANTIES
+CUAD_REAL_006::Clause 20,Clause 20,INDEMNITY AND INSURANCE
+CUAD_REAL_006::Clause 21,Clause 21,WAIVER
+CUAD_REAL_006::Clause 22,Clause 22,ASSIGNMENT
+CUAD_REAL_006::Clause 23,Clause 23,SIGNIFICANCE OF HEADINGS
+CUAD_REAL_006::Clause 24,Clause 24,INVALIDITY
+CUAD_REAL_006::Clause 25,Clause 25,COUNTERPARTS
+CUAD_REAL_006::Clause 26,Clause 26,CONSTRUCTION
+CUAD_REAL_006::Clause 27,Clause 27,ARBITRATION
+CUAD_REAL_007::Clause 1,Clause 1,RIGHTS GRANTED
+CUAD_REAL_007::Clause 3,Clause 3,FEES
+CUAD_REAL_007::Clause 4,Clause 4,OPENING DEADLINE
+CUAD_REAL_007::Clause 5,Clause 5,TRAINING
+CUAD_REAL_007::Clause 6,Clause 6,OPERATIONS
+CUAD_REAL_007::Clause 7,Clause 7,PROPRIETARY MARKS
+CUAD_REAL_007::Clause 8,Clause 8,BUSINESS RECORDS AND REPORTING
+CUAD_REAL_007::Clause 9,Clause 9,MARKETING FUND AND ADVERTISING
+CUAD_REAL_007::Clause 10,Clause 10,TECHNOLOGY
+CUAD_REAL_007::Clause 11,Clause 11,OPERATING MANUAL
+CUAD_REAL_007::Clause 12,Clause 12,CONFIDENTIAL INFORMATION
+CUAD_REAL_007::Clause 13,Clause 13,TRANSFERS BY US
+CUAD_REAL_007::Clause 14,Clause 14,TRANSFERS BY YOU
+CUAD_REAL_007::Clause 15,Clause 15,TERMINATION
+CUAD_REAL_007::Clause 16,Clause 16,OBLIGATIONS ON TERMINATION OR EXPIRATION
+CUAD_REAL_007::Clause 17,Clause 17,RESTRICTIONS ON COMPETITION
+CUAD_REAL_007::Clause 18,Clause 18,RELATIONSHIP OF THE PARTIES
+CUAD_REAL_007::Clause 19,Clause 19,INDEMNIFICATION
+CUAD_REAL_007::Clause 20,Clause 20,CONSENTS AND WAIVERS
+CUAD_REAL_007::Clause 21,Clause 21,NOTICES
+CUAD_REAL_007::Clause 22,Clause 22,ENTIRE AGREEMENT AND AMENDMENTS
+CUAD_REAL_007::Clause 23,Clause 23,"CONSTRUCTION OF THE AGREEMENT, SEVERABILITY, AND SURVIVAL"
+CUAD_REAL_007::Clause 24,Clause 24,GOVERNING LAW
+CUAD_REAL_007::Clause 25,Clause 25,DISPUTES
+CUAD_REAL_007::Clause 26,Clause 26,ACKNOWLEDGMENTS
+CUAD_REAL_008::Clause 1,Clause 1,Website Design and Development
+CUAD_REAL_008::Clause 2,Clause 2,Payment Terms
+CUAD_REAL_008::Clause 4,Clause 4,Customer Service
+CUAD_REAL_009::Clause 1,Clause 1,DEFINITIONS AND INTERPRETATION
+CUAD_REAL_009::Clause 2,Clause 2,ASSIGNMENT OF ARIZONA ASSIGNED IP
+CUAD_REAL_009::Clause 3,Clause 3,GRANT OF COPYRIGHT LICENSE
+CUAD_REAL_009::Clause 4,Clause 4,GRANT OF KNOW-HOW LICENSE
+CUAD_REAL_009::Clause 5,Clause 5,GRANT OF PATENT LICENSE
+CUAD_REAL_009::Clause 6,Clause 6,GRANT OF TRADEMARK LICENSE
+CUAD_REAL_009::Clause 7,Clause 7,INTELLECTUAL PROPERTY RIGHTS
+CUAD_REAL_009::Clause 8,Clause 8,OWNERSHIP
+CUAD_REAL_009::Clause 9,Clause 9,"PROSECUTION, MAINTENANCE AND ENFORCEMENT"
+CUAD_REAL_009::Clause 10,Clause 10,INDEMNIFICATION
+CUAD_REAL_009::Clause 11,Clause 11,DISCLAIMERS
+CUAD_REAL_009::Clause 12,Clause 12,TERM
+CUAD_REAL_009::Clause 13,Clause 13,MISCELLANEOUS
+CUAD_REAL_010::Clause 1,Clause 1,Name of the Joint Venture
+CUAD_REAL_010::Clause 2,Clause 2,Scope of the Joint Venture Business
+CUAD_REAL_010::Clause 3,Clause 3,Capital Contributions
+CUAD_REAL_010::Clause 4,Clause 4,Offices of the Joint Venture
+CUAD_REAL_010::Clause 5,Clause 5,Powers and Authority of the Joint Venturers
+CUAD_REAL_010::Clause 6,Clause 6,Division of Income and Losses
+CUAD_REAL_010::Clause 7,Clause 7,Accounting Provisions
+CUAD_REAL_010::Clause 8,Clause 8,Term of Joint Venture
+CUAD_REAL_010::Clause 9,Clause 9,Distributions
+CUAD_REAL_010::Clause 10,Clause 10,Internal Revenue Code Election
+CUAD_REAL_010::Clause 11,Clause 11,Procedure on Termination and Liquidation
+CUAD_REAL_010::Clause 12,Clause 12,Sale or Purchase of Interest of Joint Venturer Prohibited
+CUAD_REAL_010::Clause 13,Clause 13,Notice
+CUAD_REAL_010::Clause 14,Clause 14,Construction
+CUAD_REAL_010::Clause 15,Clause 15,Benefit
+CUAD_REAL_010::Clause 16,Clause 16,Counterparts
+CUAD_REAL_011::Clause 1,Clause 1,Joint Content License Relationship
+CUAD_REAL_011::Clause 2,Clause 2,Territory
+CUAD_REAL_011::Clause 3,Clause 3,Term
+CUAD_REAL_011::Clause 4,Clause 4,Annual Minimum Guarantee
+CUAD_REAL_011::Clause 5,Clause 5,Royalty
+CUAD_REAL_011::Clause 6,Clause 6,TERMINATION
+CUAD_REAL_011::Clause 7,Clause 7,RIGHTS AND OBLIGATIONS UPON TERMINATION OR EXPIRATION
+CUAD_REAL_011::Clause 8,Clause 8,CONFIDENTIALITY
+CUAD_REAL_011::Clause 9,Clause 9,INDEPENDENT CONTRACTORS
+CUAD_REAL_011::Clause 10,Clause 10,MISCELLANEOUS
+CUAD_REAL_013::Clause 1,Clause 1,BASIC TERMS
+CUAD_REAL_013::Clause 2,Clause 2,PRODUCTION OF PRODUCT
+CUAD_REAL_013::Clause 3,Clause 3,"DELIVERY, PRICING, BILLING AND PAYMENT"
+CUAD_REAL_013::Clause 4,Clause 4,"STORAGE, SHIPPING AND INVENTORY"
+CUAD_REAL_013::Clause 5,Clause 5,TRADEMARKS
+CUAD_REAL_013::Clause 6,Clause 6,QUALITY CONTROL
+CUAD_REAL_013::Clause 7,Clause 7,INDEMNITY
+CUAD_REAL_013::Clause 8,Clause 8,RISK OF LOSS AND INSURANCE
+CUAD_REAL_013::Clause 9,Clause 9,CONFIDENTIALITY
+CUAD_REAL_013::Clause 10,Clause 10,FORCE MAJEURE
+CUAD_REAL_013::Clause 11,Clause 11,TERMINATION
+CUAD_REAL_013::Clause 12,Clause 12,GOVERNING LAW
+CUAD_REAL_013::Clause 13,Clause 13,NOTICES
+CUAD_REAL_013::Clause 14,Clause 14,CONFLICTING TERMS
+CUAD_REAL_013::Clause 15,Clause 15,NO WAIVER
+CUAD_REAL_013::Clause 16,Clause 16,ENTIRE AGREEMENT AND HEADINGS
+CUAD_REAL_013::Clause 17,Clause 17,BINDING EFFECT
+CUAD_REAL_013::Clause 18,Clause 18,NON-EXCLUSIVITY AND NON-COMPETITION
+CUAD_REAL_013::Clause 19,Clause 19,ATTORNEY FEES
+CUAD_REAL_013::Clause 20,Clause 20,INDEPENDENT CONTRACTOR
+CUAD_REAL_013::Clause 21,Clause 21,PRODUCT RECALLS
+CUAD_REAL_014::Clause 1,Clause 1,Definitions
+CUAD_REAL_014::Clause 2,Clause 2,Spoken-Word Audio Sub-Section and Mirror Company Site
+CUAD_REAL_014::Clause 3,Clause 3,Promotional Activities
+CUAD_REAL_014::Clause 4,Clause 4,Implementation
+CUAD_REAL_014::Clause 5,Clause 5,Compensation
+CUAD_REAL_014::Clause 6,Clause 6,Proprietary Rights
+CUAD_REAL_014::Clause 8,Clause 8,"Disclaimers, Limitations and Reservations"
+CUAD_REAL_014::Clause 9,Clause 9,Exclusivity
+CUAD_REAL_014::Clause 10,Clause 10,Term and Termination
+CUAD_REAL_014::Clause 11,Clause 11,Miscellaneous
+CUAD_REAL_015::Clause 2,Clause 2,Notices
+CUAD_REAL_015::Clause 3,Clause 3,Successors and Assigns
+CUAD_REAL_015::Clause 4,Clause 4,Governing Law
+CUAD_REAL_015::Clause 6,Clause 6,Entire Agreement
+CUAD_REAL_015::Clause 7,Clause 7,"Amendment Waivers, etc"
+CUAD_REAL_015::Clause 8,Clause 8,Severability
+CUAD_REAL_015::Clause 11,Clause 11,Interpretation
+CUAD_REAL_016::Clause 1,Clause 1,RECORDINGS
+CUAD_REAL_016::Clause 2,Clause 2,PURPOSE OF AGREEMENT
+CUAD_REAL_016::Clause 3,Clause 3,DESCRIPTION OF THE SERVICES RENDERED BY EIT
+CUAD_REAL_016::Clause 4,Clause 4,PROJECTS
+CUAD_REAL_016::Clause 5,Clause 5,WORK PLACE AND NATURE OF SERVICES
+CUAD_REAL_016::Clause 6,Clause 6,SUPERVISION OF THE SERVICE LEVEL
+CUAD_REAL_016::Clause 7,Clause 7,PAYMENTS AND PRICING
+CUAD_REAL_016::Clause 8,Clause 8,INTELLECTUAL PROPERTY
+CUAD_REAL_016::Clause 9,Clause 9,WARRANTY
+CUAD_REAL_016::Clause 10,Clause 10,LIABILITY
+CUAD_REAL_016::Clause 11,Clause 11,CONFIDENTIALITY
+CUAD_REAL_016::Clause 12,Clause 12,SUPERVISION COMMISSION
+CUAD_REAL_016::Clause 13,Clause 13,DURATION
+CUAD_REAL_016::Clause 14,Clause 14,EARLY TERMINATION
+CUAD_REAL_016::Clause 15,Clause 15,CONTRACTUAL TRANSITION
+CUAD_REAL_016::Clause 16,Clause 16,LITIGATION RULINGS
+CUAD_REAL_016::Clause 17,Clause 17,GOVERNING LAW
+CUAD_REAL_017::Article 1,Article 1,DEFINITIONS
+CUAD_REAL_017::Article 2,Article 2,RIGHTS AND OBLIGATIONS
+CUAD_REAL_017::Article 3,Article 3,JOINT STEERING COMMITTEE
+CUAD_REAL_017::Article 4,Article 4,VALEANT ACTIVITIES FOR THE PRODUCT
+CUAD_REAL_017::Article 5,Article 5,"REGULATORY, SAFETY AND SURVEILLANCE, COMMERCIAL MATTERS"
+CUAD_REAL_017::Article 6,Article 6,FINANCIAL PROVISIONS
+CUAD_REAL_017::Article 7,Article 7,AUDIT RIGHTS
+CUAD_REAL_017::Article 8,Article 8,INTELLECTUAL PROPERTY
+CUAD_REAL_017::Article 9,Article 9,CONFIDENTIALITY
+CUAD_REAL_017::Article 10,Article 10,REPRESENTATIONS AND WARRANTIES; ADDITIONAL COVENANTS
+CUAD_REAL_017::Article 11,Article 11,INDEMNIFICATION; LIMITATIONS ON LIABILITY
+CUAD_REAL_017::Article 13,Article 13,MISCELLANEOUS
+CUAD_REAL_018::Clause 1,Clause 1,Definitions
+CUAD_REAL_018::Clause 2,Clause 2,General Scope
+CUAD_REAL_018::Clause 3,Clause 3,Reseller Activity
+CUAD_REAL_018::Clause 4,Clause 4,Company Obligations
+CUAD_REAL_018::Clause 5,Clause 5,Exclusivity on Registered Referrals and Opportunities
+CUAD_REAL_018::Clause 6,Clause 6,Compensation
+CUAD_REAL_018::Clause 7,Clause 7,"Trademarks, Trade Names and Other Designations"
+CUAD_REAL_018::Clause 8,Clause 8,Warranty Disclaimer
+CUAD_REAL_018::Clause 9,Clause 9,Relationship of Parties
+CUAD_REAL_018::Clause 10,Clause 10,Termination
+CUAD_REAL_018::Clause 11,Clause 11,Proprietary Rights
+CUAD_REAL_018::Clause 12,Clause 12,Liability Limitation
+CUAD_REAL_018::Clause 13,Clause 13,Indemnification
+CUAD_REAL_018::Clause 14,Clause 14,Miscellaneous
+CUAD_REAL_019::Article 1,Article 1,SUPPLY OF PRODUCTS & SERVICES
+CUAD_REAL_019::Article 2,Article 2,PROVISION OF SERVICES
+CUAD_REAL_019::Article 3,Article 3,SPONSORSHIP RIGHTS AND BENEFITS
+CUAD_REAL_019::Article 4,Article 4,TERM AND TERMINATION
+CUAD_REAL_019::Article 5,Article 5,REPRESENTATIONS AND WARRANTIES; INDEMNIFICATION
+CUAD_REAL_019::Article 6,Article 6,MISCELLANEOUS
+CUAD_REAL_020::Clause 1,Clause 1,Scope of this Agreement
+CUAD_REAL_020::Clause 2,Clause 2,Certain Definitions
+CUAD_REAL_020::Clause 3,Clause 3,Term of this Agreement
+CUAD_REAL_020::Clause 4,Clause 4,Allied Obligations and Newegg Sponsorship Obligations
+CUAD_REAL_020::Clause 7,Clause 7,Exclusivity of Sponsorship Rights for Newegg
+CUAD_REAL_020::Clause 8,Clause 8,Refund or Reduction of Sponsorship Fee
+CUAD_REAL_020::Clause 9,Clause 9,Certain Material Covenants of Allied
+CUAD_REAL_020::Clause 10,Clause 10,Certain Material Covenants of Newegg
+CUAD_REAL_020::Clause 11,Clause 11,Representations and Warranties
+CUAD_REAL_020::Clause 12,Clause 12,Indemnity and Liability
+CUAD_REAL_020::Clause 13,Clause 13,Confidentiality
+CUAD_REAL_020::Clause 14,Clause 14,Expiry or Termination
+CUAD_REAL_020::Clause 15,Clause 15,Miscellaneous
+CUAD_REAL_021::Article 1,Article 1,Strategic Alliance
+CUAD_REAL_021::Article 2,Article 2,Term of Agreement
+CUAD_REAL_021::Article 3,Article 3,Miscellaneous
+CUAD_REAL_022::Clause 1,Clause 1,TERMS OF AGREEMENT
+CUAD_REAL_022::Clause 2,Clause 2,PROVISION OF DOCUMENTATION
+CUAD_REAL_022::Clause 3,Clause 3,COVENANTS BY THE MANUFACTURER
+CUAD_REAL_022::Clause 4,Clause 4,Dr Ed Smith
+CUAD_REAL_022::Clause 5,Clause 5,Mr Vic Cherikoff
+CUAD_REAL_022::Clause 6,Clause 6,Dr Pavel Yutsis
+CUAD_REAL_022::Clause 7,Clause 7,Dr Michael Tirant
+CUAD_REAL_022::Clause 8,Clause 8,Mr Frank Ellis
+CUAD_REAL_022::Clause 9,Clause 9,Mr Peter Davids
+CUAD_REAL_022::Clause 10,Clause 10,Dr Rutledge Taylor
+CUAD_REAL_022::Clause 11,Clause 11,INTELLECTUAL PROPERTY
+CUAD_REAL_022::Clause 12,Clause 12,TRANSFER OF INTELLECTUAL PROPERTY
+CUAD_REAL_022::Clause 13,Clause 13,APPOINTMENT AND GRANT OF LICENSE
+CUAD_REAL_022::Clause 14,Clause 14,MISCELLANEOUS PROVISIONS
+CUAD_REAL_023::Article I,Article I,Definitions
+CUAD_REAL_023::Article II,Article II,"Dedication, Commencement Date Facilities, Post-Commencement Date Facilities and Transporter Services"
+CUAD_REAL_023::Article III,Article III,Receipt and Delivery Pressures
+CUAD_REAL_023::Article IV,Article IV,"Nominations, Confirmations and Imbalances"
+CUAD_REAL_023::Article V,Article V,Curtailment
+CUAD_REAL_023::Article VI,Article VI,Measurement & Testing
+CUAD_REAL_023::Article VII,Article VII,Gas Quality
+CUAD_REAL_023::Article VIII,Article VIII,"Fees, Billing & Payment"
+CUAD_REAL_023::Article IX,Article IX,Notices
+CUAD_REAL_023::Article X,Article X,Force Majeure
+CUAD_REAL_023::Article XI,Article XI,Warranties
+CUAD_REAL_023::Article XII,Article XII,Taxes and Surcharges
+CUAD_REAL_023::Article XIII,Article XIII,Limitation of Liability & Indemnifications
+CUAD_REAL_023::Article XIV,Article XIV,Creditworthiness
+CUAD_REAL_023::Article XV,Article XV,Miscellaneous
+REAL_CUAD_001::Clause 2,Clause 2,Affiliate Responsibilities
+REAL_CUAD_001::Clause 3,Clause 3,Referral Fee
+REAL_CUAD_001::Clause 4,Clause 4,Approved Account
+REAL_CUAD_001::Clause 6,Clause 6,Links
+REAL_CUAD_001::Clause 7,Clause 7,Order Processing
+REAL_CUAD_001::Clause 8,Clause 8,Tracking of Sales
+REAL_CUAD_001::Clause 9,Clause 9,Terms and Conditions of Credit Cards
+REAL_CUAD_001::Clause 10,Clause 10,Chase Customers
+REAL_CUAD_001::Clause 11,Clause 11,Product Descriptions
+REAL_CUAD_001::Clause 12,Clause 12,Copyrighted Material
+REAL_CUAD_001::Clause 13,Clause 13,Commercial Use
+REAL_CUAD_001::Clause 14,Clause 14,Trademarks
+REAL_CUAD_001::Clause 15,Clause 15,Licenses and Use of the Chase Logos and Trademarks
+REAL_CUAD_001::Clause 16,Clause 16,Service Interruption
+REAL_CUAD_001::Clause 17,Clause 17,Indemnification
+REAL_CUAD_001::Clause 18,Clause 18,Confidentiality
+REAL_CUAD_001::Clause 19,Clause 19,Modification
+REAL_CUAD_001::Clause 20,Clause 20,Warranty Disclaimer
+REAL_CUAD_001::Clause 21,Clause 21,Limitation of Damages
+REAL_CUAD_001::Clause 22,Clause 22,Independent Investigation
+REAL_CUAD_001::Clause 23,Clause 23,Governing Law
+REAL_CUAD_003::Article I,Article I,DEFINITIONS
+REAL_CUAD_003::Article II,Article II,EQUIPMENT
+REAL_CUAD_003::Article III,Article III,DELIVERY OF THE SERVICE
+REAL_CUAD_003::Article IV,Article IV,MAINTENANCE AND SUPPORT; MAKE GOODS
+REAL_CUAD_003::Article V,Article V,INTELLECTUAL PROPERTY
+REAL_CUAD_003::Article VI,Article VI,MANDATORY PARTICIPATION AND EXCLUSIVITY
+REAL_CUAD_003::Article VII,Article VII,FEES
+REAL_CUAD_003::Article VIII,Article VIII,TERM AND TERMINATION
+REAL_CUAD_003::Article IX,Article IX,REPRESENTATIONS AND WARRANTIES
+REAL_CUAD_003::Article X,Article X,INDEMNIFICATION
+REAL_CUAD_003::Article XI,Article XI,ADDITIONAL RIGHTS AND OBLIGATIONS
+REAL_CUAD_003::Article XII,Article XII,OWNERSHIP
+REAL_CUAD_003::Article XIII,Article XIII,CONFIDENTIALITY
+REAL_CUAD_003::Article XIV,Article XIV,MISCELLANEOUS
+REAL_CUAD_004::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_004::Clause 2,Clause 2,OFFICE SPACE
+REAL_CUAD_004::Clause 3,Clause 3,AUTOMATIC METER READING
+REAL_CUAD_004::Clause 4,Clause 4,RELATIONSHIP OF THE PARTIES
+REAL_CUAD_004::Clause 5,Clause 5,TERM
+REAL_CUAD_004::Clause 6,Clause 6,NOTICES
+REAL_CUAD_004::Clause 7,Clause 7,ADDITIONAL PROVISIONS
+REAL_CUAD_006::Clause 1,Clause 1,Compensation
+REAL_CUAD_006::Clause 2,Clause 2,Disputes
+REAL_CUAD_006::Clause 3,Clause 3,Operational Specifications
+REAL_CUAD_006::Clause 4,Clause 4,Non-solicitation of Clients
+REAL_CUAD_006::Clause 5,Clause 5,Compliance
+REAL_CUAD_006::Clause 6,Clause 6,Audit
+REAL_CUAD_006::Clause 7,Clause 7,Term and Termination
+REAL_CUAD_006::Clause 8,Clause 8,Representations and Warranties
+REAL_CUAD_006::Clause 9,Clause 9,Indemnification
+REAL_CUAD_006::Clause 10,Clause 10,Proprietary Information
+REAL_CUAD_006::Clause 11,Clause 11,Liability
+REAL_CUAD_006::Clause 12,Clause 12,Miscellaneous
+REAL_CUAD_008::Clause 1,Clause 1,Definitions
+REAL_CUAD_008::Clause 2,Clause 2,Services
+REAL_CUAD_008::Clause 3,Clause 3,Responsibilities of the Parties
+REAL_CUAD_008::Clause 4,Clause 4,Mutual Representation and Warranty
+REAL_CUAD_008::Clause 5,Clause 5,Term and Termination
+REAL_CUAD_008::Clause 6,Clause 6,Indemnification
+REAL_CUAD_008::Clause 7,Clause 7,Miscellaneous
+REAL_CUAD_009::Article I,Article I,[OBLIGATIONS OF AFFILIATES]
+REAL_CUAD_009::Article II,Article II,[RIGHTS OF NETWORK 1]
+REAL_CUAD_009::Article III,Article III,[COMPENSATION]
+REAL_CUAD_009::Article IV,Article IV,[RESTRICTIONS ON AFFILIATE]
+REAL_CUAD_009::Article V,Article V,[TERM AND TERMINATION]
+REAL_CUAD_009::Article VI,Article VI,[INDEPENDENT CONTRACTOR]
+REAL_CUAD_009::Article VII,Article VII,[INDEMNIFICATION]
+REAL_CUAD_009::Article VIII,Article VIII,[MISCELLANEOUS]
+REAL_CUAD_010::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_010::Clause 2,Clause 2,DEVELOPMENT AND IMPLEMENTATION
+REAL_CUAD_010::Clause 3,Clause 3,PROMOTION
+REAL_CUAD_010::Clause 5,Clause 5,PAYMENT
+REAL_CUAD_010::Clause 6,Clause 6,RIGHTS AND STANDARDS
+REAL_CUAD_010::Clause 7,Clause 7,DISCLAIMER OF WARRANTIES
+REAL_CUAD_010::Clause 8,Clause 8,TERM AND TERMINATION
+REAL_CUAD_010::Clause 9,Clause 9,INDEMNITY
+REAL_CUAD_010::Clause 10,Clause 10,LIMITATION ON LIABILITY
+REAL_CUAD_010::Clause 11,Clause 11,CONFIDENTIAL INFORMATION
+REAL_CUAD_010::Clause 12,Clause 12,GENERAL PROVISIONS
+REAL_CUAD_011::Article I,Article I,[Term]
+REAL_CUAD_011::Article II,Article II,[Co-Branding of Calling Card and Joint Marketing]
+REAL_CUAD_011::Article III,Article III,[Services Provided by PrimeCall]
+REAL_CUAD_011::Article IV,Article IV,[Services Provided by DeltaThree]
+REAL_CUAD_011::Article V,Article V,[Payments]
+REAL_CUAD_011::Article VI,Article VI,[Termination]
+REAL_CUAD_011::Article VII,Article VII,[Limited Warranty]
+REAL_CUAD_011::Article VIII,Article VIII,[Confidentiality]
+REAL_CUAD_011::Article IX,Article IX,[Miscellaneous]
+REAL_CUAD_012::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_012::Clause 2,Clause 2,TERM
+REAL_CUAD_012::Clause 5,Clause 5,PAYMENTS AND REPORTS
+REAL_CUAD_012::Clause 6,Clause 6,LICENSE TO USE MARKS
+REAL_CUAD_012::Clause 7,Clause 7,RIGHT TO REDESIGN AND RE-INDEX
+REAL_CUAD_012::Clause 8,Clause 8,CREDIT
+REAL_CUAD_012::Clause 9,Clause 9,OWNERSHIP
+REAL_CUAD_012::Clause 10,Clause 10,"REPRESENTATIONS, WARRANTIES AND COVENANTS"
+REAL_CUAD_012::Clause 11,Clause 11,INDEMNIFICATION
+REAL_CUAD_012::Clause 12,Clause 12,CONFIDENTIALITY
+REAL_CUAD_012::Clause 13,Clause 13,TERMINATION AND SURVIVAL
+REAL_CUAD_012::Clause 14,Clause 14,LIMITATION OF LIABILITY
+REAL_CUAD_012::Clause 15,Clause 15,MISCELLANEOUS
+REAL_CUAD_013::Clause 1,Clause 1,THE DIET CENTER
+REAL_CUAD_013::Clause 2,Clause 2,EDIETS OBLIGATIONS
+REAL_CUAD_013::Clause 3,Clause 3,ADVERTISING
+REAL_CUAD_013::Clause 4,Clause 4,PUBLICITY
+REAL_CUAD_013::Clause 5,Clause 5,EXCLUSIVITY
+REAL_CUAD_013::Clause 6,Clause 6,PAYMENTS
+REAL_CUAD_013::Clause 7,Clause 7,REPORTING
+REAL_CUAD_013::Clause 8,Clause 8,OWNERSHIP
+REAL_CUAD_013::Clause 9,Clause 9,TRADEMARK OWNERSHIP AND LICENSE
+REAL_CUAD_013::Clause 10,Clause 10,TERM AND TERMINATION
+REAL_CUAD_013::Clause 11,Clause 11,CONFIDENTIALITY
+REAL_CUAD_013::Clause 12,Clause 12,WARRANTY
+REAL_CUAD_013::Clause 13,Clause 13,INDEMNIFICATION
+REAL_CUAD_013::Clause 14,Clause 14,LIMITATION OF LIABILITY
+REAL_CUAD_013::Clause 15,Clause 15,GENERAL
+REAL_CUAD_014::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_014::Clause 2,Clause 2,"CONTENT, CO-BRANDING AND LICENSES"
+REAL_CUAD_014::Clause 3,Clause 3,COMPENSATION AND REPORTING
+REAL_CUAD_014::Clause 4,Clause 4,TERM AND TERMINATION
+REAL_CUAD_014::Clause 7,Clause 7,OWNERSHIP
+REAL_CUAD_014::Clause 8,Clause 8,GENERAL PROVISIONS
+REAL_CUAD_015::Clause 1,Clause 1,SERVICES & DEVELOPMENT
+REAL_CUAD_015::Clause 2,Clause 2,MLX'S OBLIGATIONS AND RESPONSIBILITIES
+REAL_CUAD_015::Clause 3,Clause 3,HCI's OBLIGATIONS AND RESPONSIBILITIES
+REAL_CUAD_015::Clause 4,Clause 4,ADVERTISING
+REAL_CUAD_015::Clause 5,Clause 5,E-COMMERCE
+REAL_CUAD_015::Clause 6,Clause 6,FINANCIALS
+REAL_CUAD_015::Clause 7,Clause 7,CUSTOMER INFORMATION
+REAL_CUAD_015::Clause 8,Clause 8,PAGE VIEWS
+REAL_CUAD_015::Clause 9,Clause 9,EXCLUSIVITY
+REAL_CUAD_015::Clause 10,Clause 10,BRANDING & COMMUNICATIONS
+REAL_CUAD_015::Clause 11,Clause 11,TERM & TERMINATION
+REAL_CUAD_015::Clause 12,Clause 12,REPRESENTATIONS & WARRANTIES
+REAL_CUAD_015::Clause 13,Clause 13,NO ADDITIONAL WARRANTIES
+REAL_CUAD_015::Clause 14,Clause 14,INDEMNIFICATION
+REAL_CUAD_015::Clause 15,Clause 15,LIMITATION OF LIABILITY
+REAL_CUAD_015::Clause 16,Clause 16,CONFIDENTIALITY
+REAL_CUAD_015::Clause 17,Clause 17,NO PUBLIC NOTICE
+REAL_CUAD_015::Clause 18,Clause 18,COSTS
+REAL_CUAD_015::Clause 19,Clause 19,INDEPENDENT CONTRACTORS
+REAL_CUAD_015::Clause 21,Clause 21,GOVERNING LAW
+REAL_CUAD_015::Clause 22,Clause 22,ENTIRE AGREEMENT
+REAL_CUAD_015::Clause 23,Clause 23,LEGAL FEES
+REAL_CUAD_015::Clause 24,Clause 24,SUCCESSORS AND ASSIGNS
+REAL_CUAD_015::Clause 25,Clause 25,FORCE MAJEURE
+REAL_CUAD_015::Clause 26,Clause 26,NOTICES
+REAL_CUAD_015::Clause 27,Clause 27,COUNTERPARTS
+REAL_CUAD_015::Clause 28,Clause 28,HEADINGS
+REAL_CUAD_016::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_016::Clause 2,Clause 2,CO-BRANDED SITE
+REAL_CUAD_016::Clause 3,Clause 3,ONGOING SUPPORT
+REAL_CUAD_016::Clause 4,Clause 4,THE COMMERCIAL TERMS
+REAL_CUAD_016::Clause 5,Clause 5,TERMINATION AND RENEWAL
+REAL_CUAD_016::Clause 6,Clause 6,DISPUTE RESOLUTION
+REAL_CUAD_016::Clause 7,Clause 7,CONFIDENTIALITY
+REAL_CUAD_016::Clause 8,Clause 8,REPRESENTATIONS AND WARRANTIES
+REAL_CUAD_016::Clause 9,Clause 9,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
+REAL_CUAD_016::Clause 10,Clause 10,MISCELLANEOUS
+REAL_CUAD_017::Clause 1,Clause 1,Product Concept and Creation
+REAL_CUAD_017::Clause 2,Clause 2,Marketing and Distribution
+REAL_CUAD_017::Clause 3,Clause 3,Product sales to TL
+REAL_CUAD_017::Clause 4,Clause 4,Royalties payable by Integrity
+REAL_CUAD_017::Clause 5,Clause 5,Royalties payable by TL
+REAL_CUAD_017::Clause 6,Clause 6,Accountings
+REAL_CUAD_017::Clause 7,Clause 7,Sound Recording Copyright and Trademark License
+REAL_CUAD_017::Clause 8,Clause 8,Term
+REAL_CUAD_017::Clause 10,Clause 10,Indemnification
+REAL_CUAD_017::Clause 11,Clause 11,Notices
+REAL_CUAD_017::Clause 12,Clause 12,Assignment
+REAL_CUAD_017::Clause 13,Clause 13,Miscellaneous
+REAL_CUAD_018::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_018::Clause 2,Clause 2,CO-BRANDED APPLICATION
+REAL_CUAD_018::Clause 4,Clause 4,ADVERTISING ON THE CO-BRANDED APPLICATION
+REAL_CUAD_018::Clause 5,Clause 5,PROMOTION OF THE CO-BRANDED APPLICATION
+REAL_CUAD_018::Clause 6,Clause 6,USER DATA OWNERSHIP
+REAL_CUAD_018::Clause 7,Clause 7,PAYMENTS AND DELIVERY OF USER DATA
+REAL_CUAD_018::Clause 8,Clause 8,USER DATA DELIVERY PERFORMANCE MEETINGS
+REAL_CUAD_018::Clause 10,Clause 10,USAGE REPORTS
+REAL_CUAD_018::Clause 11,Clause 11,TRADEMARK OWNERSHIP AND LICENSE
+REAL_CUAD_018::Clause 12,Clause 12,CONTENT OWNERSHIP AND LICENSE
+REAL_CUAD_018::Clause 13,Clause 13,"MAINTENANCE, CUSTOMER SUPPORT AND PERFORMANCE OBLIGATIONS"
+REAL_CUAD_018::Clause 14,Clause 14,PUBLICITY
+REAL_CUAD_018::Clause 15,Clause 15,TERM
+REAL_CUAD_018::Clause 16,Clause 16,TERMINATION
+REAL_CUAD_018::Clause 17,Clause 17,POST-TERMINATION COMMUNICATIONS
+REAL_CUAD_018::Clause 18,Clause 18,CONFIDENTIALITY
+REAL_CUAD_018::Clause 19,Clause 19,WARRANTIES AND INDEMNITIES
+REAL_CUAD_018::Clause 20,Clause 20,LIMITATION OF LIABILITY
+REAL_CUAD_018::Clause 21,Clause 21,DISPUTE RESOLUTION
+REAL_CUAD_018::Clause 22,Clause 22,GENERAL
+REAL_CUAD_019::Clause 2,Clause 2,VERTICALNET BRANDED LINK
+REAL_CUAD_019::Clause 3,Clause 3,BANNER/NEWSLETTER PURCHASE COMMITMENT
+REAL_CUAD_019::Clause 4,Clause 4,EMPLOYER SPOTLIGHTS
+REAL_CUAD_019::Clause 5,Clause 5,RESUME BANK
+REAL_CUAD_019::Clause 6,Clause 6,THE COMMERCIAL TERMS
+REAL_CUAD_019::Clause 7,Clause 7,TERMINATION AND RENEWAL
+REAL_CUAD_019::Clause 8,Clause 8,DISPUTE RESOLUTION
+REAL_CUAD_019::Clause 9,Clause 9,CONFIDENTIALITY
+REAL_CUAD_019::Clause 10,Clause 10,REPRESENTATIONS AND WARRANTIES
+REAL_CUAD_019::Clause 11,Clause 11,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
+REAL_CUAD_019::Clause 12,Clause 12,MISCELLANEOUS
+REAL_CUAD_021::Clause 1,Clause 1,Term
+REAL_CUAD_021::Clause 2,Clause 2,Engagement
+REAL_CUAD_021::Clause 3,Clause 3,Endorsement of Products
+REAL_CUAD_021::Clause 4,Clause 4,"Appearances, Advertising and Promotional Activities"
+REAL_CUAD_021::Clause 5,Clause 5,Scheduling
+REAL_CUAD_021::Clause 6,Clause 6,Right of Publicity
+REAL_CUAD_021::Clause 7,Clause 7,Compensation
+REAL_CUAD_021::Clause 8,Clause 8,Stock
+REAL_CUAD_021::Clause 9,Clause 9,Termination
+REAL_CUAD_021::Clause 10,Clause 10,Expenses
+REAL_CUAD_021::Clause 11,Clause 11,Audit Rights
+REAL_CUAD_021::Clause 12,Clause 12,Sales and Marketing Plan And AS Product Line and Trademarks
+REAL_CUAD_021::Clause 13,Clause 13,Quality Control
+REAL_CUAD_021::Clause 14,Clause 14,Independent Contractor
+REAL_CUAD_021::Clause 15,Clause 15,Indemnification
+REAL_CUAD_021::Clause 18,Clause 18,Assignment
+REAL_CUAD_021::Clause 19,Clause 19,Modification of Agreement
+REAL_CUAD_021::Clause 20,Clause 20,Notice
+REAL_CUAD_021::Clause 21,Clause 21,Governing Law
+REAL_CUAD_021::Clause 23,Clause 23,Binding Effect
+REAL_CUAD_021::Clause 24,Clause 24,"Representations, Warranties and Covenants"
+REAL_CUAD_021::Clause 25,Clause 25,Payments
+REAL_CUAD_021::Clause 26,Clause 26,Confidentiality
+REAL_CUAD_021::Clause 27,Clause 27,Insurance
+REAL_CUAD_021::Clause 28,Clause 28,Entire Agreement
+REAL_CUAD_021::Clause 29,Clause 29,Infringement
+REAL_CUAD_022::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_022::Clause 2,Clause 2,MEDICAL PRODUCTS
+REAL_CUAD_022::Clause 3,Clause 3,LABORATORY PRODUCTS
+REAL_CUAD_022::Clause 4,Clause 4,CO-BRANDED CAREER CENTER
+REAL_CUAD_022::Clause 5,Clause 5,CO-BRANDED TRAINING AND EDUCATION SITE
+REAL_CUAD_022::Clause 6,Clause 6,VERTICALNET CONTENT
+REAL_CUAD_022::Clause 7,Clause 7,ADVERTISING
+REAL_CUAD_022::Clause 8,Clause 8,CO-MARKETING ACTIVITIES
+REAL_CUAD_022::Clause 9,Clause 9,INTELLECTUAL PROPERTY
+REAL_CUAD_022::Clause 10,Clause 10,COMMERCIAL TERMS
+REAL_CUAD_022::Clause 11,Clause 11,TERM AND TERMINATION
+REAL_CUAD_022::Clause 12,Clause 12,DISPUTE RESOLUTION
+REAL_CUAD_022::Clause 13,Clause 13,CONFIDENTIALITY
+REAL_CUAD_022::Clause 14,Clause 14,REPRESENTATIONS AND WARRANTIES
+REAL_CUAD_022::Clause 15,Clause 15,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
+REAL_CUAD_022::Clause 16,Clause 16,MISCELLANEOUS
+REAL_CUAD_023::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_023::Clause 2,Clause 2,CO-BRANDED CAREER CENTER AND CO-BRANDED EQUIPMENT LISTINGS
+REAL_CUAD_023::Clause 3,Clause 3,VERTICALNET CONTENT
+REAL_CUAD_023::Clause 4,Clause 4,ADVERTISING
+REAL_CUAD_023::Clause 5,Clause 5,CO-MARKETING ACTIVITIES
+REAL_CUAD_023::Clause 6,Clause 6,INTELLECTUAL PROPERTY
+REAL_CUAD_023::Clause 7,Clause 7,COMMERCIAL TERMS
+REAL_CUAD_023::Clause 8,Clause 8,TERM AND TERMINATION
+REAL_CUAD_023::Clause 9,Clause 9,DISPUTE RESOLUTION
+REAL_CUAD_023::Clause 10,Clause 10,CONFIDENTIALITY
+REAL_CUAD_023::Clause 11,Clause 11,REPRESENTATIONS AND WARRANTIES
+REAL_CUAD_023::Clause 12,Clause 12,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
+REAL_CUAD_023::Clause 13,Clause 13,MISCELLANEOUS
+REAL_CUAD_024::Clause 1,Clause 1,The Co-Branded Service
+REAL_CUAD_024::Clause 2,Clause 2,Term
+REAL_CUAD_024::Clause 3,Clause 3,Payment For Service
+REAL_CUAD_024::Clause 4,Clause 4,Technical Support
+REAL_CUAD_024::Clause 5,Clause 5,Exchange Authorization
+REAL_CUAD_024::Clause 6,Clause 6,"Limitations of Liability, Remedies On Default"
+REAL_CUAD_024::Clause 7,Clause 7,Exclusion of Warranties
+REAL_CUAD_024::Clause 8,Clause 8,Confidentiality of Proprietary Information
+REAL_CUAD_024::Clause 9,Clause 9,Indemnification
+REAL_CUAD_024::Clause 10,Clause 10,Assignment
+REAL_CUAD_024::Clause 11,Clause 11,Applicable Law and Venue
+REAL_CUAD_024::Clause 12,Clause 12,Severability and Survival
+REAL_CUAD_024::Clause 13,Clause 13,Miscellaneous Provisions
+REAL_CUAD_024::Clause 14,Clause 14,Entire Agreement
+REAL_CUAD_026::Clause 1,Clause 1,"The preamble hereto is incorporated herein and, by this"
+REAL_CUAD_026::Clause 3,Clause 3,"To the extent, if any, that provision of this Agreement"
+REAL_CUAD_026::Clause 4,Clause 4,"Except as modified hereby, the Agreement and its terms and"
+REAL_CUAD_026::Clause 5,Clause 5,"This Second Amendment may be executed in several counterparts,"
+REAL_CUAD_027::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_027::Clause 2,Clause 2,"CO-BRANDING, MARKETING AND PROMOTION"
+REAL_CUAD_027::Clause 3,Clause 3,Licenses AND OWNERSHIP
+REAL_CUAD_027::Clause 4,Clause 4,PAYMENT
+REAL_CUAD_027::Clause 5,Clause 5,REPRESENTATIONS AND WARRANTIES
+REAL_CUAD_027::Clause 6,Clause 6,CONFIDENTIALITY
+REAL_CUAD_027::Clause 7,Clause 7,INDEMNITY AND LIMITATION OF LIABILITY
+REAL_CUAD_027::Clause 8,Clause 8,TERM AND TERMINATION
+REAL_CUAD_027::Clause 9,Clause 9,MISCELLANEOUS
+REAL_CUAD_029::Clause 1,Clause 1,Definitions
+REAL_CUAD_029::Clause 2,Clause 2,"Development, Delivery and Acceptance"
+REAL_CUAD_029::Clause 3,Clause 3,Provision of Service
+REAL_CUAD_029::Clause 6,Clause 6,Additional Development
+REAL_CUAD_029::Clause 7,Clause 7,Ownership
+REAL_CUAD_029::Clause 9,Clause 9,Co-Marketing Obligations
+REAL_CUAD_029::Clause 10,Clause 10,Confidential Information
+REAL_CUAD_029::Clause 11,Clause 11,"Representations, Warranties and Covenants"
+REAL_CUAD_029::Clause 12,Clause 12,Indemnity for Patent or Copyright Infringement
+REAL_CUAD_029::Clause 13,Clause 13,Indemnification
+REAL_CUAD_029::Clause 14,Clause 14,Limitation of Liability
+REAL_CUAD_029::Clause 15,Clause 15,Term and Termination
+REAL_CUAD_029::Clause 16,Clause 16,Publicity
+REAL_CUAD_029::Clause 17,Clause 17,Warrant
+REAL_CUAD_029::Clause 18,Clause 18,Miscellaneous
+REAL_CUAD_030::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_030::Clause 2,Clause 2,DEVELOPMENT AND IMPLEMENTATION
+REAL_CUAD_030::Clause 3,Clause 3,ADVERTISING
+REAL_CUAD_030::Clause 4,Clause 4,LICENSES AND STANDARDS
+REAL_CUAD_030::Clause 5,Clause 5,USER DATA
+REAL_CUAD_030::Clause 6,Clause 6,PAYMENT TERMS
+REAL_CUAD_030::Clause 7,Clause 7,REPORTS
+REAL_CUAD_030::Clause 8,Clause 8,TERM AND TERMINATION
+REAL_CUAD_030::Clause 9,Clause 9,NO WARRANTIES
+REAL_CUAD_030::Clause 10,Clause 10,INDEMNITY
+REAL_CUAD_030::Clause 11,Clause 11,LIABILITY LIMITS
+REAL_CUAD_030::Clause 12,Clause 12,GENERAL
