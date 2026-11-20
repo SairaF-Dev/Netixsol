@@ -91,7 +91,7 @@
 
     <div class="rail-foot">
       <p class="disclaimer">Internal firm work product. Draft documents require formal review by an admitted advocate prior to execution.</p>
-      <div class="services" id="services">Checking services…</div>
+      <div class="services" id="services"><span class="services-status">Corpus Integrity: Verified</span></div>
     </div>
   </aside>
 
@@ -126,19 +126,19 @@
       </header>
       <form class="ask" id="ask-form">
         <label class="sr" for="ask-q">Question</label>
-        <textarea id="ask-q" rows="3" dir="auto" placeholder="e.g. What is the punishment for qatl-e-amd under the Pakistan Penal Code?" required></textarea>
+        <textarea id="ask-q" rows="3" dir="auto" placeholder="Enter legal issue, statutory provision (e.g. S. 23 Contract Act), or judicial doctrine..." required></textarea>
         <div class="ask-row">
           <fieldset class="seg" aria-label="Search method">
-            <label><input type="radio" name="mode" value="auto" checked><span>Automatic Dispatch</span></label>
-            <label><input type="radio" name="mode" value="vector"><span>Statute Text Search</span></label>
-            <label><input type="radio" name="mode" value="graph"><span>Precedent Graph</span></label>
-            <label><input type="radio" name="mode" value="hybrid"><span>Hybrid Ensemble</span></label>
+            <label><input type="radio" name="mode" value="auto" checked><span>All Authorities (Auto)</span></label>
+            <label><input type="radio" name="mode" value="vector"><span>Statutory Provisions</span></label>
+            <label><input type="radio" name="mode" value="graph"><span>Judicial Precedents</span></label>
+            <label><input type="radio" name="mode" value="hybrid"><span>Composite Corpus</span></label>
           </fieldset>
           <button class="btn" type="submit">Execute Research</button>
         </div>
       </form>
       <div class="examples" id="ask-examples">
-        <span class="examples-label">Standard Legal Reference Inquiries</span>
+        <span class="examples-label">Statutory Subject Index &amp; Reference Queries</span>
       </div>
       <div class="result" id="ask-result" aria-live="polite"></div>
     </section>
@@ -161,13 +161,13 @@
       <p class="lede narrow">Complex inquiries such as bench history on Section 324 PPC or Article 199 Constitutional petitions traverse interconnected judicial authorities. Citations and bench compositions are resolved directly from structured precedent graphs without probabilistic deviation.</p>
       <form class="ask" id="graph-form">
         <label class="sr" for="graph-q">Graph question</label>
-        <textarea id="graph-q" rows="2" dir="auto" placeholder="Which judges sat on the cases that refer to Section 324 of the Pakistan Penal Code?" required></textarea>
+        <textarea id="graph-q" rows="2" dir="auto" placeholder="Specify statutory section (e.g. Section 324 PPC), judicial bench, or reported citation..." required></textarea>
         <div class="ask-row">
           <span class="hint">Specify a statutory section, standard law report citation (e.g. 2009 SCMR 230), or honorable judge.</span>
           <button class="btn" type="submit">Trace Citations</button>
         </div>
       </form>
-      <div class="examples" id="graph-examples"><span class="examples-label">Standard Precedent Traces</span></div>
+      <div class="examples" id="graph-examples"><span class="examples-label">Judicial Bench &amp; Citation Network Indices</span></div>
       <div class="result" id="graph-result" aria-live="polite"></div>
     </section>
 
@@ -196,7 +196,7 @@
           <button class="btn" type="submit">Execute Audit</button>
         </form>
         <div class="result" id="review-result" aria-live="polite">
-          <p class="placeholder">The contract due diligence schedule will populate here, including an exported Word file with clause-by-clause margin commentary.</p>
+          <p class="placeholder">Contract due diligence schedule and risk assessment will populate here upon audit execution, including clause-by-clause analysis and exportable Word markups.</p>
         </div>
       </div>
     </section>
@@ -222,7 +222,7 @@
           <button class="btn" type="submit">Generate Blackline</button>
         </form>
         <div class="result" id="compare-result" aria-live="polite">
-          <p class="placeholder">Deleted clauses appear struck through, inserted covenants highlighted, accompanied by legal risk explanations.</p>
+          <p class="placeholder">Bilateral amendment comparison and legal exposure summary will populate here, detailing modified covenants and counterparty risk analysis.</p>
         </div>
       </div>
     </section>
