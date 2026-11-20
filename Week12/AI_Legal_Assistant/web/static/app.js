@@ -155,17 +155,17 @@ function showView() {
 window.addEventListener("hashchange", () => { showView(); window.scrollTo(0, 0); });
 
 /* ---------------------------------------------------------------- research and case law */
-const MODE_LABEL = { vector: "Text search", graph: "Case-law graph", hybrid: "Graph and text" };
+const MODE_LABEL = { vector: "Statutory Provisions", graph: "Judicial Precedents", hybrid: "Composite Corpus" };
 const RESEARCH_EXAMPLES = [
-  "Agar consideration unlawful ho to kya contract void hai?",
-  "What is the punishment for qatl-e-amd under the Pakistan Penal Code?",
-  "اگر معاہدے میں خلاف ورزی کی صورت میں جرمانے کی رقم طے ہو تو کیا عدالت اس سے زیادہ رقم دلا سکتی ہے؟",
-  "What did the Supreme Court say about the duty of police when a court dismisses a pre-arrest bail application?",
-  "What are the registration requirements for a private limited company under the Companies Act, 2017?",
+  "Contract Act, 1872: Voidability of Unlawful Consideration (Section 23)",
+  "Pakistan Penal Code, 1860: Standard of Proof & Sentencing for Qatl-e-Amd (Section 302)",
+  "معاہدہ ایکٹ 1872: دفعہ 74 کے تحت خلاف ورزی پر ہرجانے اور تعزیری معاوضے کا تعین",
+  "Supreme Court Precedent: Police Procedure upon Pre-Arrest Bail Dismissal",
+  "Companies Act, 2017: Statutory Incorporation & Regulatory Compliance",
 ];
 const GRAPH_EXAMPLES = [
   "Which judges sat on the cases in the corpus that refer to Section 324 of the Pakistan Penal Code?",
-  "Kin judges ne un muqadmat ki samaat ki jin mein Qanun-e-Shahadat ke Article 129 ka hawala diya gaya?",
+  "Which judges presided over proceedings referencing Article 129 of the Qanun-e-Shahadat Order, 1984?",
   "Which judges heard cases involving Section 7 of the Anti-Terrorism Act, 1997?",
   "Which Supreme Court judgments in the corpus refer to Article 212 of the Constitution?",
   "Which sections of the Pakistan Penal Code came up in cases heard by Justice Malik Shahzad Ahmad Khan?",
@@ -618,8 +618,15 @@ async function load() {
   $("#nav-audit").hidden = u.role !== "admin";
 
   $("#services").replaceChildren(
-    h("span", { class: META.gemini ? "on" : "off", text: META.gemini ? "Inference Engine: Active" : "Inference Engine: Offline" }), h("br"),
-    h("span", { class: META.graph ? "on" : "off", text: META.graph ? "Precedent Graph: Connected" : "Precedent Graph: Offline" }));
+    h("div", { class: "service-item" },
+      h("span", { class: "service-dot " + (META.gemini ? "on" : "off") }),
+      h("span", { class: "service-label", text: META.gemini ? "Verification Engine: Active" : "Verification Engine: Offline" })
+    ),
+    h("div", { class: "service-item" },
+      h("span", { class: "service-dot " + (META.graph ? "on" : "off") }),
+      h("span", { class: "service-label", text: META.graph ? "Precedent Graph: Synced" : "Precedent Graph: Offline" })
+    )
+  );
   for (const dd of document.querySelectorAll("#graph-ledger dd")) dd.textContent = (META.graph_counts[dd.dataset.k] || 0).toLocaleString("en");
 
   // contracts grouped by the user's client matters; other matters' contracts are not sent at all
