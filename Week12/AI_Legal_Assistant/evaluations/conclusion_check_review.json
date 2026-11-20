@@ -1,0 +1,20 @@
+{
+ "reviewer": "read by Claude (an AI model) against the expected answer and the retrieved passages, not by a lawyer",
+ "labels": {
+  "NOANS_010": {"flag": "right", "note": "a question the corpus cannot answer (Partnership Act, 1932 is not in it); the answer used the Code of Civil Procedure instead of saying no source was found"},
+  "CASE_028": {"flag": "right", "note": "the answer reports the appellant's piecemeal exams as the court's view but leaves out that the court said this fact was not important for the decision"},
+  "STAT_039": {"flag": "right", "note": "the conclusion (reporting is mandatory) matches the expected answer, but the cited passage is about cooperating with the police, not the duty to disclose; the shown source does not back the claim"},
+  "STAT_010": {"flag": "right", "note": "minor: equal shares is correct, but the answer leaves out the rule in the next passage (Section 147) for co-sureties bound in different sums"},
+  "STAT_025": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_013": {"flag": "ok", "note": "conclusion matches; leaves out that the damages decision was upheld"},
+  "CASE_015": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_017": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_019": {"flag": "ok", "note": "faithful to the judgment retrieved (C.P. 5091/2025), but the question meant another, similar case (C.P. 4146/2025): a retrieval ambiguity the check cannot see"},
+  "CASE_020": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_031": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_032": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_034": {"flag": "ok", "note": "conclusion matches the expected answer"},
+  "CASE_037": {"flag": "ok", "note": "conclusion matches the expected answer"}
+ },
+ "_about": "Flags: every answer the check marked partly / not_supported. Passed sample: the 10 passed answers whose Day 2 citation did not point to the gold paragraph (the answers most likely to hide an error)."
+}

@@ -42,10 +42,31 @@ def _section_title(document_id: str, label: str) -> Optional[str]:
     return None
 
 
-def answer_with_citations(question: str, config: str = DEFAULT_CONFIG, top_k: int = 5) -> Dict:
-    results = _retriever(config).retrieve(question, top_k=top_k)
+def _checked_answer(question: str, results: List[Dict]):
+    """Draft -> citation verification -> conclusion check; one redraft if the conclusion does not follow
+    from the sources; withheld if it still does not."""
+    from src.rag.answer import CitedAnswer
+    from src.rag.conclusion_check import check_conclusion
+
     draft = answer_question(_llm(), question, results)
     verified, report = verify_answer(draft, results)
+    check = check_conclusion(_llm(), question, verified, results)
+    info = {"verdict": check.verdict, "issue": check.issue, "redrafted": False, "withheld": False, "first_issue": ""}
+    if check.verdict == "not_supported":
+        info.update(redrafted=True, first_issue=check.issue)
+        second = answer_question(_llm(), question, results, review_note=check.issue)
+        verified, report = verify_answer(second, results)
+        check = check_conclusion(_llm(), question, verified, results)
+        info.update(verdict=check.verdict, issue=check.issue)
+        if check.verdict == "not_supported":
+            info["withheld"] = True
+            verified = CitedAnswer(short_answer=NO_SOURCE)
+    return draft, verified, report, info
+
+
+def answer_with_citations(question: str, config: str = DEFAULT_CONFIG, top_k: int = 5) -> Dict:
+    results = _retriever(config).retrieve(question, top_k=top_k)
+    draft, verified, report, conclusion = _checked_answer(question, results)
 
     citations: List[Dict] = []
     for citation in verified.citations:
@@ -72,6 +93,7 @@ def answer_with_citations(question: str, config: str = DEFAULT_CONFIG, top_k: in
         "removed_citations": [{"citation": f"{r['act_or_case']} | {r['section_or_paragraph']}", "reason": r["reason"]}
                               for r in report if not r["verified"]],
         "draft_refused": is_refusal(draft),
+        "conclusion_check": conclusion,
         "retrieved": [{"rank": i, "source": source_label(r), "document_id": r["document_id"]}
                       for i, r in enumerate(results, start=1)],
     }
@@ -79,8 +101,15 @@ def answer_with_citations(question: str, config: str = DEFAULT_CONFIG, top_k: in
 
 def format_answer(result: Dict) -> str:
     lines = ["=" * 80, f"QUESTION: {result['question']}", "=" * 80, ""]
-    if result["short_answer"] == NO_SOURCE:
+    check = result.get("conclusion_check") or {}
+    if check.get("withheld"):
+        lines += [NO_SOURCE + ".", "",
+                  "(An answer was drafted twice, but a review found its conclusion does not follow from the sources:)",
+                  f"  {check['issue']}"]
+    elif result["short_answer"] == NO_SOURCE:
         lines.append(NO_SOURCE + ".")
+        if check.get("redrafted"):
+            lines += ["", f"(A first answer was rejected by the conclusion check: {check['first_issue']})"]
         if result["removed_citations"]:
             lines += ["", "(The model drafted an answer, but none of its citations passed verification:)"]
             lines += [f"  - {r['citation']}: {r['reason']}" for r in result["removed_citations"]]
@@ -96,6 +125,10 @@ def format_answer(result: Dict) -> str:
         if result["removed_citations"]:
             lines += ["", f"  ({len(result['removed_citations'])} citation(s) removed by verification:)"]
             lines += [f"   - {r['citation']}: {r['reason']}" for r in result["removed_citations"]]
+        if check.get("redrafted"):
+            lines += ["", f"  (First draft rejected by the conclusion check: {check['first_issue']})"]
+        if check.get("verdict") == "partly":
+            lines += ["", f"  CAUTION (conclusion check): {check['issue']}"]
     lines += ["", "SOURCES RETRIEVED (" + result["config"] + ")"]
     lines += [f"  {r['rank']}. {r['source']}" for r in result["retrieved"]]
     lines.append("")

@@ -74,10 +74,16 @@ def format_sources(results: List[Dict], max_chars: int = 2500) -> str:
     return "\n\n".join(f"[{i}] {source_label(r)}\n{r['content'][:max_chars]}" for i, r in enumerate(results, start=1))
 
 
-def answer_question(llm: GeminiClient, question: str, results: List[Dict]) -> CitedAnswer:
+def answer_question(llm: GeminiClient, question: str, results: List[Dict], review_note: str = "") -> CitedAnswer:
+    """review_note: a reviewer's objection to an earlier draft (src/rag/conclusion_check.py); the
+    answer is drafted again with it. Without a note the prompt is unchanged (cached answers still apply)."""
     if not results:
         return CitedAnswer(short_answer=NO_SOURCE)
     prompt = f"Question: {question}\n\nSource passages:\n{format_sources(results)}"
+    if review_note:
+        prompt += (f"\n\nA reviewing lawyer rejected an earlier draft of this answer: {review_note}\n"
+                   "Answer again from the passages, taking this into account. If the passages do not settle "
+                   f"the question, answer \"{NO_SOURCE}\".")
     return llm.generate_json(prompt, CitedAnswer, system=SYSTEM, temperature=0.0)
 
 

@@ -72,7 +72,12 @@
     "recall@5_statute": 0.94,
     "recall@5_case_law": 0.9333333333333333,
     "mrr@5": 0.8472916666666667,
-    "doc_recall@5": 0.95
+    "doc_recall@5": 0.95,
+    "citation_accuracy": 0.8375,
+    "faithfulness": 0.9935897435897434,
+    "correct_refusals": 0.95,
+    "false_refusals": 0.025,
+    "llm_calls": 178
   },
   "hyde": {
     "config": "hyde",
@@ -83,7 +88,12 @@
     "recall@5_statute": 0.96,
     "recall@5_case_law": 0.9,
     "mrr@5": 0.8535416666666666,
-    "doc_recall@5": 0.9625
+    "doc_recall@5": 0.9625,
+    "citation_accuracy": 0.8375,
+    "faithfulness": 0.9957264957264956,
+    "correct_refusals": 0.95,
+    "false_refusals": 0.025,
+    "llm_calls": 70
   },
   "metadata": {
     "config": "metadata",

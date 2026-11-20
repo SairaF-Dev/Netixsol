@@ -108,6 +108,42 @@ def test_contract_metadata_and_clauses():
     assert "1.1" in doc.clauses[0].text
 
 
+FILLER = "The parties agree to the terms of this clause, which continue for several more words here."
+
+
+def _clause_ids(text):
+    return [c.clause_id for c in ContractStructureExtractor().extract_from_text(text, doc_id="C").clauses]
+
+
+def test_contract_table_of_contents_is_not_taken_as_the_clauses():
+    toc = "TABLE OF CONTENTS\n1. Rights Granted\n2. Fees\n3. Term\n"
+    body = f"1. Rights Granted. {FILLER}\n2. Fees. {FILLER}\n3. Term. {FILLER}\n"
+    doc = ContractStructureExtractor().extract_from_text("FRANCHISE AGREEMENT\n" + toc + body, doc_id="C")
+    assert [c.clause_id for c in doc.clauses] == ["Clause 1", "Clause 2", "Clause 3"]
+    assert all(FILLER in c.text for c in doc.clauses)   # the body, not the empty contents lines
+
+
+def test_contract_heading_styles():
+    # decimal headings only ('1.1 Scope'), no space after the number, a Greek question mark for ';'
+    assert _clause_ids(f"1.1 Scope\n{FILLER}\n1.2 More\n{FILLER}\n2.1 Definitions\n{FILLER}\n3.1 General Terms\n{FILLER}") == \
+        ["Clause 1", "Clause 2", "Clause 3"]
+    assert _clause_ids(f"1. DEFINITIONS:\n{FILLER}\n2.TERM:\n{FILLER}\n3.GRANT OF RIGHTS; STATIONS:\n{FILLER}") == \
+        ["Clause 1", "Clause 2", "Clause 3"]
+    # numbered paragraphs without titles, and Roman-numbered parts
+    assert _clause_ids(f"1. mPhase may apply only the exact logo. {FILLER}\n2. mPhase agrees to the guidelines. {FILLER}\n"
+                       f"3. Lucent may inspect the goods. {FILLER}") == ["Clause 1", "Clause 2", "Clause 3"]
+    assert _clause_ids(f"I. Object of the Program\n{FILLER}\nII. Affiliate Program\n{FILLER}\nIII. General terms\n{FILLER}") == \
+        ["Part I", "Part II", "Part III"]
+
+
+def test_very_long_contract_clause_is_split_into_sub_clauses():
+    long_text = " ".join([FILLER] * 200)   # ~3,000 words
+    text = (f"1. Scope. {FILLER}\n2. General Terms.\n2.1 Affiliate. {long_text}\n2.2 Access.\n2.3 Notices. {long_text}\n"
+            f"2.4 Waiver. {FILLER}\n3. Signatures. {FILLER}")
+    ids = _clause_ids(text)
+    assert ids == ["Clause 1", "Clause 2.1", "Clause 2.3", "Clause 2.4", "Clause 3"]   # 2.2 is only a heading: joins 2.3
+
+
 def test_supreme_court_case_number_from_file_name():
     assert _supreme_court_case_number("SC_c.p._2413_l_2025") == "C.P. 2413-L/2025"
     assert _supreme_court_case_number("SC_c.a._333_2024_23092024_hj3") == "C.A. 333/2024"

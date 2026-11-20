@@ -11,7 +11,7 @@ LLM step and have not been verified. Precision / recall have not been measured y
 |---|---:|
 | Act | 138 |
 | Case | 1649 |
-| Clause | 736 |
+| Clause | 1186 |
 | Contract | 73 |
 | Court | 2 |
 | Judge | 52 |
@@ -22,15 +22,15 @@ LLM step and have not been verified. Precision / recall have not been measured y
 
 | Type | Count | Needs check |
 |---|---:|---:|
-| CITES | 1123 | 0 |
+| CITES | 1248 | 0 |
 | DECIDED_BY | 221 | 0 |
-| DISTINGUISHES | 4 | 4 |
-| FOLLOWS | 232 | 0 |
+| DISTINGUISHES | 4 | 0 |
+| FOLLOWS | 108 | 0 |
 | HAS_PARTY | 356 | 0 |
-| INTERPRETS | 146 | 146 |
-| OVERRULES | 3 | 3 |
-| PART_OF | 3950 | 0 |
-| REFERS_TO | 2102 | 0 |
+| INTERPRETS | 67 | 1 |
+| OVERRULES | 2 | 0 |
+| PART_OF | 4400 | 0 |
+| REFERS_TO | 2149 | 0 |
 | RELATED_MATTER | 401 | 0 |
 | SAT_ON | 490 | 0 |
 
@@ -57,14 +57,14 @@ Statute references not linked to a corpus section: {'act not in corpus': 1458, '
 
 | Act | Provision | References |
 |---|---|---:|
-| Code of Civil Procedure, 1908 | Section 12 | 59 |
-| Pakistan Penal Code, 1860 | Section 302 | 41 |
+| Code of Civil Procedure, 1908 | Section 12 | 58 |
 | Constitution of the Islamic Republic of Pakistan, 1973 (as amended up to the 27th Amendment, 2025) | Article 199 | 40 |
+| Pakistan Penal Code, 1860 | Section 302 | 40 |
 | Constitution of the Islamic Republic of Pakistan, 1973 (as amended up to the 27th Amendment, 2025) | Article 10A | 28 |
 | Constitution of the Islamic Republic of Pakistan, 1973 (as amended up to the 27th Amendment, 2025) | Article 25 | 27 |
 | Code of Civil Procedure, 1908 | Order VII Rule 11 | 26 |
-| Code of Civil Procedure, 1908 | Section 115 | 21 |
 | Code of Criminal Procedure | Section 382B | 21 |
+| Code of Civil Procedure, 1908 | Section 115 | 20 |
 | Constitution of the Islamic Republic of Pakistan, 1973 (as amended up to the 27th Amendment, 2025) | Article 175 | 20 |
 | Constitution of the Islamic Republic of Pakistan, 1973 (as amended up to the 27th Amendment, 2025) | Article 185 | 20 |
 
@@ -72,6 +72,5 @@ Statute references not linked to a corpus section: {'act not in corpus': 1458, '
 
 | Citing case | Cited case | Sentence |
 |---|---|---|
-| C.A. 357-L/2013 | 2026 SCMR 287 | Recently, in Gul Tiaz Khan Marwat v. Registrar, Peshawar High Court (2026 SCMR 287), this Court reiterated that review lies where the decision is per incuriam o |
-| C.R.P. 410/2023 | 2026 SCMR 287 | Very recently, this Court, in Gul Tiaz Khan Marwat v. Registrar Peshawar High Court (2026 SCMR 287), has held: “a reviewable ground would essentially be one whe |
 | CRL.P. 1121/2021 | PLD 2016 SC 769 | We agree with the learned counsel for the petitioner that the High Court could not have placed reliance on the judgments in the cases of Habib Ullah (supra) and |
+| Civil Revision No.504 of 2015 | PLD 1997 KAR 62 | Both judgments were expressly approved, whereas the contrary interpretation adopted in Abdul Rahim and others v. United Bank Ltd. (PLD 1997 Karachi 62) was disa |

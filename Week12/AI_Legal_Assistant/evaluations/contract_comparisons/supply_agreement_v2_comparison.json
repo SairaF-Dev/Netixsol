@@ -1,0 +1,518 @@
+{
+ "old": "IT Services and Supply Agreement (version 1, sent by the Client)",
+ "new": "IT Services and Supply Agreement (version 2, Contractor's markup)",
+ "client": "Pak Telecom Enterprises (Pvt) Ltd (the Client)",
+ "unchanged": 1,
+ "changes": [
+  {
+   "n": 1,
+   "kind": "changed",
+   "old_clause": "2 Services and Scope of Work",
+   "new_clause": "2 Services and Scope of Work",
+   "old_text": "The Contractor shall faithfully execute the tasks stipulated in Schedule A in compliance with Pakistani technical standards, ISO certifications and applicable guidelines, and shall assign only qualified personnel approved by the Client.",
+   "new_text": "The Contractor shall perform the tasks set out in Schedule A in compliance with Pakistani technical standards, ISO certifications and applicable guidelines, and shall assign only qualified personnel approved by the Client.",
+   "diff": [
+    [
+     "equal",
+     "The Contractor shall"
+    ],
+    [
+     "delete",
+     "faithfully execute"
+    ],
+    [
+     "insert",
+     "perform"
+    ],
+    [
+     "equal",
+     "the tasks"
+    ],
+    [
+     "delete",
+     "stipulated"
+    ],
+    [
+     "insert",
+     "set out"
+    ],
+    [
+     "equal",
+     "in Schedule A in compliance with Pakistani technical standards, ISO certifications and applicable guidelines, and shall assign only qualified personnel approved by the Client."
+    ]
+   ],
+   "impact": {
+    "n": 1,
+    "summary": "Stylistic change to the performance obligation language.",
+    "legal_impact": "This is a non-substantive change that does not alter the legal obligations of the parties.",
+    "favours": "neither",
+    "risk": "none",
+    "playbook_item": "none"
+   }
+  },
+  {
+   "n": 2,
+   "kind": "changed",
+   "old_clause": "3 Term and Renewal",
+   "new_clause": "3 Term and Renewal",
+   "old_text": "This Agreement shall commence on 1 February 2024 and continue for one (1) year. It may be renewed for a further year by written agreement of both Parties.",
+   "new_text": "This Agreement shall commence on 1 February 2024 and continue for one (1) year, and shall thereafter renew automatically for successive terms of three (3) years unless either Party gives written notice of non-renewal at least fifteen (15) days before the end of the then-current term.",
+   "diff": [
+    [
+     "equal",
+     "This Agreement shall commence on 1 February 2024 and continue for one (1)"
+    ],
+    [
+     "delete",
+     "year. It may be renewed"
+    ],
+    [
+     "insert",
+     "year, and shall thereafter renew automatically"
+    ],
+    [
+     "equal",
+     "for"
+    ],
+    [
+     "delete",
+     "a further year by"
+    ],
+    [
+     "insert",
+     "successive terms of three (3) years unless either Party gives"
+    ],
+    [
+     "equal",
+     "written"
+    ],
+    [
+     "delete",
+     "agreement"
+    ],
+    [
+     "insert",
+     "notice"
+    ],
+    [
+     "equal",
+     "of"
+    ],
+    [
+     "delete",
+     "both Parties."
+    ],
+    [
+     "insert",
+     "non-renewal at least fifteen (15) days before the end of the then-current term."
+    ]
+   ],
+   "impact": {
+    "n": 2,
+    "summary": "Introduction of automatic three-year renewals with a short 15-day notice period.",
+    "legal_impact": "The short notice period increases the risk of being locked into a long-term contract unintentionally. This deviates from the playbook preference for a 30-90 day notice period.",
+    "favours": "Contractor",
+    "risk": "medium",
+    "playbook_item": "renewal"
+   }
+  },
+  {
+   "n": 3,
+   "kind": "changed",
+   "old_clause": "4 Payment Terms and Withholding Tax",
+   "new_clause": "4 Payment Terms and Withholding Tax",
+   "old_text": "Invoices shall be submitted monthly and paid within thirty (30) days in Pakistani Rupees (PKR). Payments shall be subject to deduction of applicable withholding income tax under the Income Tax Ordinance, 2001 and provincial sales tax on services, and the Client shall provide tax deduction certificates.",
+   "new_text": "Invoices shall be submitted monthly and paid within sixty (60) days in Pakistani Rupees (PKR). Overdue amounts shall carry interest at two percent (2%) per month. Payments shall be subject to deduction of applicable withholding income tax under the Income Tax Ordinance, 2001 and provincial sales tax on services, and the Client shall provide tax deduction certificates.",
+   "diff": [
+    [
+     "equal",
+     "Invoices shall be submitted monthly and paid within"
+    ],
+    [
+     "delete",
+     "thirty (30)"
+    ],
+    [
+     "insert",
+     "sixty (60)"
+    ],
+    [
+     "equal",
+     "days in Pakistani Rupees (PKR)."
+    ],
+    [
+     "insert",
+     "Overdue amounts shall carry interest at two percent (2%) per month."
+    ],
+    [
+     "equal",
+     "Payments shall be subject to deduction of applicable withholding income tax under the Income Tax Ordinance, 2001 and provincial sales tax on services, and the Client shall provide tax deduction certificates."
+    ]
+   ],
+   "impact": {
+    "n": 3,
+    "summary": "Extended payment terms and introduction of high interest on late payments.",
+    "legal_impact": "The 60-day payment term is less favourable than the 30-45 day standard. The 2% monthly interest (24% annually) may be viewed as a penalty under Section 74 of the Contract Act, 1872, if it is deemed excessive.",
+    "favours": "Contractor",
+    "risk": "medium",
+    "playbook_item": "payment"
+   }
+  },
+  {
+   "n": 4,
+   "kind": "changed",
+   "old_clause": "5 Confidentiality",
+   "new_clause": "5 Confidentiality",
+   "old_text": "Both Parties shall protect all business proprietary secrets and customer data of the other Party. Neither Party shall disclose confidential materials to any third party without prior written consent. This obligation survives termination for seven (7) years.",
+   "new_text": "Both Parties shall protect all business proprietary secrets and customer data of the other Party. Neither Party shall disclose confidential materials to any third party without prior written consent, provided that the Contractor may disclose such materials to its subcontractors and affiliates. This obligation survives termination for two (2) years.",
+   "diff": [
+    [
+     "equal",
+     "Both Parties shall protect all business proprietary secrets and customer data of the other Party. Neither Party shall disclose confidential materials to any third party without prior written"
+    ],
+    [
+     "delete",
+     "consent."
+    ],
+    [
+     "insert",
+     "consent, provided that the Contractor may disclose such materials to its subcontractors and affiliates."
+    ],
+    [
+     "equal",
+     "This obligation survives termination for"
+    ],
+    [
+     "delete",
+     "seven (7)"
+    ],
+    [
+     "insert",
+     "two (2)"
+    ],
+    [
+     "equal",
+     "years."
+    ]
+   ],
+   "impact": {
+    "n": 4,
+    "summary": "Permits disclosure to subcontractors/affiliates and reduces the survival period to two years.",
+    "legal_impact": "Allowing disclosure to subcontractors is a standard commercial practice, but the reduction in the survival period from seven to two years provides less long-term protection for sensitive data.",
+    "favours": "Contractor",
+    "risk": "low",
+    "playbook_item": "confidentiality"
+   }
+  },
+  {
+   "n": 5,
+   "kind": "changed",
+   "old_clause": "6 Indemnity",
+   "new_clause": "6 Indemnity",
+   "old_text": "The Contractor shall indemnify and hold harmless the Client against any third-party claims arising from the Contractor's negligence, wilful misconduct or infringement of intellectual property rights in Pakistan.",
+   "new_text": "Each Party shall indemnify and hold harmless the other Party against any third-party claims arising from its negligence, wilful misconduct or infringement of intellectual property rights. The Client shall further indemnify the Contractor against all claims arising from the Client's use of the deliverables.",
+   "diff": [
+    [
+     "delete",
+     "The Contractor"
+    ],
+    [
+     "insert",
+     "Each Party"
+    ],
+    [
+     "equal",
+     "shall indemnify and hold harmless the"
+    ],
+    [
+     "delete",
+     "Client"
+    ],
+    [
+     "insert",
+     "other Party"
+    ],
+    [
+     "equal",
+     "against any third-party claims arising from"
+    ],
+    [
+     "delete",
+     "the Contractor's"
+    ],
+    [
+     "insert",
+     "its"
+    ],
+    [
+     "equal",
+     "negligence, wilful misconduct or infringement of intellectual property"
+    ],
+    [
+     "delete",
+     "rights in Pakistan."
+    ],
+    [
+     "insert",
+     "rights. The Client shall further indemnify the Contractor against all claims arising from the Client's use of the deliverables."
+    ]
+   ],
+   "impact": {
+    "n": 5,
+    "summary": "Makes indemnity mutual and adds a broad indemnity from the Client for use of deliverables.",
+    "legal_impact": "The new indemnity for the Client's use of deliverables is overly broad and potentially exposes the Client to liability for the Contractor's own failures. This deviates from the playbook requirement for mutual, limited third-party claim indemnities.",
+    "favours": "Contractor",
+    "risk": "high",
+    "playbook_item": "indemnity"
+   }
+  },
+  {
+   "n": 6,
+   "kind": "changed",
+   "old_clause": "7 Limitation of Liability",
+   "new_clause": "7 Limitation of Liability",
+   "old_text": "Except for fraud, wilful misconduct and breach of Clause 5, each Party's aggregate liability under this Agreement shall not exceed the fees paid in the twelve (12) months preceding the claim. Neither Party shall be liable for indirect or consequential loss.",
+   "new_text": "The Contractor's aggregate liability under this Agreement shall not exceed the fees paid in the one (1) month preceding the claim. The Contractor shall not be liable for indirect or consequential loss.",
+   "diff": [
+    [
+     "delete",
+     "Except for fraud, wilful misconduct and breach of Clause 5, each Party's"
+    ],
+    [
+     "insert",
+     "The Contractor's"
+    ],
+    [
+     "equal",
+     "aggregate liability under this Agreement shall not exceed the fees paid in the"
+    ],
+    [
+     "delete",
+     "twelve (12) months"
+    ],
+    [
+     "insert",
+     "one (1) month"
+    ],
+    [
+     "equal",
+     "preceding the claim."
+    ],
+    [
+     "delete",
+     "Neither Party"
+    ],
+    [
+     "insert",
+     "The Contractor"
+    ],
+    [
+     "equal",
+     "shall"
+    ],
+    [
+     "insert",
+     "not"
+    ],
+    [
+     "equal",
+     "be liable for indirect or consequential loss."
+    ]
+   ],
+   "impact": {
+    "n": 6,
+    "summary": "Drastically reduces the Contractor's liability cap and removes the Client's reciprocal protection.",
+    "legal_impact": "Reducing the cap to one month's fees is highly restrictive and leaves the Client with insufficient recourse. Removing the Client's liability cap while keeping the Contractor's cap low is a significant imbalance.",
+    "favours": "Contractor",
+    "risk": "high",
+    "playbook_item": "liability_cap"
+   }
+  },
+  {
+   "n": 7,
+   "kind": "changed",
+   "old_clause": "8 Termination",
+   "new_clause": "8 Termination",
+   "old_text": "Either Party may terminate this Agreement if the other Party commits a material breach and fails to remedy it within thirty (30) days of written notice. The Client may terminate this Agreement for convenience on sixty (60) days' written notice.",
+   "new_text": "Either Party may terminate this Agreement if the other Party commits a material breach and fails to remedy it within ninety (90) days of written notice. The Contractor may terminate this Agreement for convenience on thirty (30) days' written notice.",
+   "diff": [
+    [
+     "equal",
+     "Either Party may terminate this Agreement if the other Party commits a material breach and fails to remedy it within"
+    ],
+    [
+     "delete",
+     "thirty (30)"
+    ],
+    [
+     "insert",
+     "ninety (90)"
+    ],
+    [
+     "equal",
+     "days of written notice. The"
+    ],
+    [
+     "delete",
+     "Client"
+    ],
+    [
+     "insert",
+     "Contractor"
+    ],
+    [
+     "equal",
+     "may terminate this Agreement for convenience on"
+    ],
+    [
+     "delete",
+     "sixty (60)"
+    ],
+    [
+     "insert",
+     "thirty (30)"
+    ],
+    [
+     "equal",
+     "days' written notice."
+    ]
+   ],
+   "impact": {
+    "n": 7,
+    "summary": "Extends the cure period for breach and grants the Contractor a right to terminate for convenience.",
+    "legal_impact": "The 90-day cure period is excessively long, and granting the Contractor a right to terminate for convenience while potentially limiting the Client's rights creates a significant operational risk.",
+    "favours": "Contractor",
+    "risk": "high",
+    "playbook_item": "termination"
+   }
+  },
+  {
+   "n": 8,
+   "kind": "changed",
+   "old_clause": "9 Non-Solicitation",
+   "new_clause": "9 Non-Competition",
+   "old_text": "During the term and for twelve (12) months thereafter, neither Party shall solicit for employment any employee of the other Party who was directly involved in the performance of this Agreement.",
+   "new_text": "During the term and for three (3) years thereafter, the Client shall not engage any other provider of information technology services in Pakistan without the Contractor's prior written consent.",
+   "diff": [
+    [
+     "equal",
+     "During the term and for"
+    ],
+    [
+     "delete",
+     "twelve (12) months"
+    ],
+    [
+     "insert",
+     "three (3) years"
+    ],
+    [
+     "equal",
+     "thereafter,"
+    ],
+    [
+     "delete",
+     "neither Party"
+    ],
+    [
+     "insert",
+     "the Client"
+    ],
+    [
+     "equal",
+     "shall"
+    ],
+    [
+     "delete",
+     "solicit for employment"
+    ],
+    [
+     "insert",
+     "not engage"
+    ],
+    [
+     "equal",
+     "any"
+    ],
+    [
+     "delete",
+     "employee"
+    ],
+    [
+     "insert",
+     "other provider"
+    ],
+    [
+     "equal",
+     "of"
+    ],
+    [
+     "insert",
+     "information technology services in Pakistan without"
+    ],
+    [
+     "equal",
+     "the"
+    ],
+    [
+     "delete",
+     "other Party who was directly involved in the performance of this Agreement."
+    ],
+    [
+     "insert",
+     "Contractor's prior written consent."
+    ]
+   ],
+   "impact": {
+    "n": 8,
+    "summary": "Replaces a non-solicitation clause with a broad non-compete restriction.",
+    "legal_impact": "Under Section 27 of the Contract Act, 1872, this restraint on trade is likely void and unenforceable as it prevents the Client from engaging other providers without justification.",
+    "favours": "Contractor",
+    "risk": "high",
+    "playbook_item": "restraint"
+   }
+  },
+  {
+   "n": 9,
+   "kind": "changed",
+   "old_clause": "10 Governing Law and Dispute Resolution",
+   "new_clause": "10 Governing Law and Jurisdiction",
+   "old_text": "This Agreement shall be governed by the laws of the Islamic Republic of Pakistan. Any dispute arising out of or in connection with this Agreement shall be referred to arbitration in Lahore in accordance with the Arbitration Act, 1940.",
+   "new_text": "This Agreement shall be governed by the laws of the Islamic Republic of Pakistan. The courts of Dubai, United Arab Emirates shall have exclusive jurisdiction over any dispute arising out of or in connection with this Agreement.",
+   "diff": [
+    [
+     "equal",
+     "This Agreement shall be governed by the laws of the Islamic Republic of Pakistan."
+    ],
+    [
+     "delete",
+     "Any"
+    ],
+    [
+     "insert",
+     "The courts of Dubai, United Arab Emirates shall have exclusive jurisdiction over any"
+    ],
+    [
+     "equal",
+     "dispute arising out of or in connection with this"
+    ],
+    [
+     "delete",
+     "Agreement shall be referred to arbitration in Lahore in accordance with the Arbitration Act, 1940."
+    ],
+    [
+     "insert",
+     "Agreement."
+    ]
+   ],
+   "impact": {
+    "n": 9,
+    "summary": "Changes the dispute resolution forum from local arbitration to foreign courts.",
+    "legal_impact": "Moving jurisdiction to Dubai courts significantly increases the cost and complexity of enforcing the contract. This violates the playbook requirement for local dispute resolution in Pakistan.",
+    "favours": "Contractor",
+    "risk": "high",
+    "playbook_item": "dispute_resolution"
+   }
+  }
+ ]
+}

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khan &amp; Associates · Legal Assistant</title>
+<meta name="description" content="Research, case law, contract review, comparison and drafting over the firm's Pakistani legal corpus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="rail">
+    <div class="mark">
+      <span class="firm">Khan &amp; Associates</span>
+      <span class="product">Legal Assistant</span>
+    </div>
+    <nav class="nav" aria-label="Tools">
+      <a href="#research" data-view="research"><span class="num">01</span>Research</a>
+      <a href="#caselaw" data-view="caselaw"><span class="num">02</span>Case law</a>
+      <a href="#review" data-view="review"><span class="num">03</span>Contract review</a>
+      <a href="#compare" data-view="compare"><span class="num">04</span>Compare versions</a>
+      <a href="#drafting" data-view="drafting"><span class="num">05</span>Drafting</a>
+      <a href="#evaluation" data-view="evaluation"><span class="num">06</span>Evaluation</a>
+    </nav>
+    <div class="rail-foot">
+      <p>Research assistance from the firm's own corpus, not legal advice. Every document it writes is a draft for a lawyer to approve.</p>
+      <p class="services" id="services">Checking services…</p>
+    </div>
+  </aside>
+
+  <main>
+    <!-- 01 Research -->
+    <section class="view" id="view-research" hidden>
+      <header class="view-head">
+        <p class="eyebrow">01 · Research</p>
+        <h1>Ask the corpus a legal question.</h1>
+        <p class="lede">Pakistani statutes in English and Urdu, and 225 Supreme Court and Lahore High Court judgments. Ask in English, Urdu or Roman Urdu. Each citation is checked against the source text, and a second review checks that the conclusion actually follows from the sources. An answer that fails either check is withheld.</p>
+      </header>
+      <form class="ask" id="ask-form">
+        <label class="sr" for="ask-q">Question</label>
+        <textarea id="ask-q" rows="3" dir="auto" placeholder="e.g. What is the punishment for qatl-e-amd under the Pakistan Penal Code?" required></textarea>
+        <div class="ask-row">
+          <fieldset class="seg" aria-label="Search method">
+            <label><input type="radio" name="mode" value="auto" checked><span>Router decides</span></label>
+            <label><input type="radio" name="mode" value="vector"><span>Text search</span></label>
+            <label><input type="radio" name="mode" value="graph"><span>Graph</span></label>
+            <label><input type="radio" name="mode" value="hybrid"><span>Both</span></label>
+          </fieldset>
+          <button class="btn" type="submit">Ask</button>
+        </div>
+      </form>
+      <div class="examples" id="ask-examples">
+        <span class="examples-label">Try one of these</span>
+      </div>
+      <div class="result" id="ask-result" aria-live="polite"></div>
+    </section>
+
+    <!-- 02 Case law -->
+    <section class="view" id="view-caselaw" hidden>
+      <header class="view-head split">
+        <div>
+          <p class="eyebrow">02 · Case law</p>
+          <h1>Follow the links between judgments, laws and judges.</h1>
+        </div>
+        <dl class="ledger" id="graph-ledger">
+          <div><dt>Judgments</dt><dd data-k="cases">–</dd></div>
+          <div><dt>Sections &amp; articles</dt><dd data-k="sections">–</dd></div>
+          <div><dt>Judges</dt><dd data-k="judges">–</dd></div>
+          <div><dt>Judgment → judgment</dt><dd data-k="case_links">–</dd></div>
+          <div><dt>Judgment → law</dt><dd data-k="law_links">–</dd></div>
+        </dl>
+      </header>
+      <p class="lede narrow">Questions like “which judges heard cases on Section 324 PPC” cannot be answered from one paragraph. The graph answers them by following citations, references to provisions and benches, read from the 225 judgments in the corpus and the earlier judgments they cite. Lists come straight from the graph, without a language model.</p>
+      <form class="ask" id="graph-form">
+        <label class="sr" for="graph-q">Graph question</label>
+        <textarea id="graph-q" rows="2" dir="auto" placeholder="Which judges sat on the cases that refer to Section 324 of the Pakistan Penal Code?" required></textarea>
+        <div class="ask-row"><span class="hint">Names a provision, a citation like 2009 SCMR 230, or a judge.</span><button class="btn" type="submit">Search the graph</button></div>
+      </form>
+      <div class="examples" id="graph-examples"><span class="examples-label">Examples from the 30-question test set</span></div>
+      <div class="result" id="graph-result" aria-live="polite"></div>
+    </section>
+
+    <!-- 03 Contract review -->
+    <section class="view" id="view-review" hidden>
+      <header class="view-head">
+        <p class="eyebrow">03 · Contract review</p>
+        <h1>Review a contract against the firm's playbook.</h1>
+      </header>
+      <div class="work">
+        <form class="panel" id="review-form">
+          <p class="panel-text">Each of the 14 playbook positions is rated <b class="s s-green">acceptable</b>, <b class="s s-amber">negotiate</b>, <b class="s s-red">unacceptable</b> or <b class="s s-missing">missing</b>, with the clause it relies on, a quote checked word for word, suggested wording and the statutory source.</p>
+          <label class="field"><span>Sample contract</span>
+            <select id="review-sample"></select>
+          </label>
+          <label class="field"><span>or upload one</span>
+            <input type="file" id="review-file" accept=".pdf,.docx,.txt,.json">
+            <small>PDF, Word or text. Numbered clause headings work best.</small>
+          </label>
+          <label class="field"><span>We act for</span>
+            <input type="text" id="review-party" value="the Client" maxlength="120">
+          </label>
+          <button class="btn" type="submit">Review contract</button>
+        </form>
+        <div class="result" id="review-result" aria-live="polite">
+          <p class="placeholder">The review appears here, with a Word file that carries each finding as a margin comment on the clause.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Compare -->
+    <section class="view" id="view-compare" hidden>
+      <header class="view-head">
+        <p class="eyebrow">04 · Compare versions</p>
+        <h1>See what the other side changed, and what it means.</h1>
+      </header>
+      <div class="work">
+        <form class="panel" id="compare-form">
+          <p class="panel-text">Clauses are matched by content, not number, so a renumbered draft still lines up. Code finds every changed word, and the model only explains the changes the code found.</p>
+          <label class="check"><input type="checkbox" id="compare-sample" checked> Use the sample supply agreement, version 1 against version 2</label>
+          <div id="compare-uploads" class="uploads" hidden>
+            <label class="field"><span>Earlier version</span><input type="file" id="compare-old" accept=".pdf,.docx,.txt,.json"></label>
+            <label class="field"><span>Revised version</span><input type="file" id="compare-new" accept=".pdf,.docx,.txt,.json"></label>
+          </div>
+          <label class="field"><span>We act for</span>
+            <input type="text" id="compare-client" value="Pak Telecom Enterprises (Pvt) Ltd (the Client)" maxlength="120">
+          </label>
+          <button class="btn" type="submit">Compare</button>
+        </form>
+        <div class="result" id="compare-result" aria-live="polite">
+          <p class="placeholder">Deleted words appear struck through, inserted words underlined, each with its legal effect for your client.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 Drafting -->
+    <section class="view" id="view-drafting" hidden>
+      <header class="view-head">
+        <p class="eyebrow">05 · Drafting</p>
+        <h1>First drafts, with every source checked.</h1>
+      </header>
+      <div class="work">
+        <div class="panel">
+          <fieldset class="seg seg-block" aria-label="Document type">
+            <label><input type="radio" name="dkind" value="brief" checked><span>Case brief</span></label>
+            <label><input type="radio" name="dkind" value="notice"><span>Legal notice</span></label>
+            <label><input type="radio" name="dkind" value="clauses"><span>Clauses</span></label>
+          </fieldset>
+
+          <form id="draft-brief" class="dform">
+            <p class="panel-text">Facts, issues, holding, reasoning and outcome of one judgment, each point tied to a paragraph and quote. Authorities come from the knowledge graph.</p>
+            <label class="field"><span>Judgment</span>
+              <input type="text" id="brief-judgment" list="judgment-list" placeholder="Type a case number, e.g. Crl.P. 207-K" autocomplete="off">
+              <datalist id="judgment-list"></datalist>
+            </label>
+            <button class="btn" type="submit">Draft brief</button>
+          </form>
+
+          <form id="draft-notice" class="dform" hidden>
+            <p class="panel-text">The legal basis is researched in the corpus and every citation passes the same checker as Research.</p>
+            <label class="field"><span>From</span><input type="text" id="n-sender"></label>
+            <label class="field"><span>To</span><input type="text" id="n-recipient"></label>
+            <div class="pair">
+              <label class="field"><span>Date</span><input type="text" id="n-date"></label>
+              <label class="field"><span>Contract</span><input type="text" id="n-contract"></label>
+            </div>
+            <label class="field"><span>Facts, one per line</span><textarea id="n-facts" rows="4"></textarea></label>
+            <label class="field"><span>Demand</span><textarea id="n-demand" rows="3"></textarea></label>
+            <label class="field"><span>Points of law to research, one per line</span><textarea id="n-law" rows="2"></textarea></label>
+            <button class="btn" type="submit">Draft notice</button>
+          </form>
+
+          <form id="draft-clauses" class="dform" hidden>
+            <p class="panel-text">Starts from the firm's standard wording and adapts it to the deal, without weakening the firm's position.</p>
+            <label class="field"><span>Title</span><input type="text" id="c-title"></label>
+            <label class="field"><span>Deal facts, “name: value” per line</span><textarea id="c-facts" rows="4"></textarea></label>
+            <fieldset class="field"><legend>Clauses</legend><div class="checks" id="c-items"></div></fieldset>
+            <button class="btn" type="submit">Draft clauses</button>
+          </form>
+        </div>
+        <div class="result" id="draft-result" aria-live="polite">
+          <p class="placeholder">Every draft is headed “DRAFT — for lawyer review”. A citation that fails its check is removed and the text says so.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Evaluation -->
+    <section class="view" id="view-evaluation" hidden>
+      <header class="view-head">
+        <p class="eyebrow">06 · Evaluation</p>
+        <h1>How well each part works, measured.</h1>
+      </header>
+      <div class="headline-numbers">
+        <p><em>94%</em> of questions find the right law in the top five passages, up from 54% with plain search.</p>
+        <p><em>0</em> fabricated citations shown to a user across the tested configurations.</p>
+        <p><em>0.99</em> F1 for graph answers to multi-hop questions, against 0.40 for text search.</p>
+        <p><em>9 of 9</em> planted changes found in the version comparison.</p>
+      </div>
+      <div class="work reports">
+        <nav class="report-list" id="report-list" aria-label="Reports"></nav>
+        <article class="report md" id="report-body"><p class="placeholder">Choose a report.</p></article>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

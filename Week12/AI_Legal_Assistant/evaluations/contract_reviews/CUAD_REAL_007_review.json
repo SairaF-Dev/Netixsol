@@ -1,0 +1,268 @@
+{
+ "contract_id": "CUAD_REAL_007",
+ "title": "Franchise Agreement",
+ "type": "Franchise",
+ "party": "the Franchisee",
+ "risk_score": 85,
+ "findings": [
+  {
+   "item_id": "governing_law",
+   "title": "Governing law",
+   "status": "red",
+   "required": true,
+   "weight": 8,
+   "clause_ids": [
+    "Clause 24"
+   ],
+   "quote": "governed by and will be construed exclusively in accordance with the laws of the State of Florida",
+   "quote_note": "",
+   "reason": "The contract is governed by foreign law (Florida) and mandates foreign courts, which is unacceptable for a Pakistani franchisee.",
+   "suggested_wording": "This Agreement shall be governed by and construed in accordance with the laws of the Islamic Republic of Pakistan.",
+   "sources": []
+  },
+  {
+   "item_id": "dispute_resolution",
+   "title": "Dispute resolution",
+   "status": "red",
+   "required": true,
+   "weight": 6,
+   "clause_ids": [
+    "Clause 25"
+   ],
+   "quote": "You and the Owners must file any suit against us, and we may file any suit against you, in the federal or state court where our principal office is located",
+   "quote_note": "",
+   "reason": "The agreement mandates litigation in foreign courts and imposes a one-year time limit to bring claims, which is restrictive and unfavorable.",
+   "suggested_wording": "Any dispute arising out of or in connection with this Agreement shall first be referred to good-faith negotiation for thirty (30) days, failing which it shall be finally resolved by arbitration in Lahore, Pakistan under the Arbitration Act, 1940, by a sole arbitrator appointed by mutual agreement.",
+   "sources": [
+    {
+     "act": "Contract Act, 1872",
+     "section": "Section 28",
+     "title": "Agreements in restraint of legal proceedings void",
+     "page": 22,
+     "quote": "Every agreement, by which any party thereto is restricted absolutely from enforcing his rights under or in respect of any contract, by the usual legal proceedings in the ordinary tribunals, or which limits the time within which he may thus enforce his rights, is void to that extent. Exception 1.___Saving of contract to refer to arbitration dispute that may arise.__This section shall not render ill..."
+    }
+   ]
+  },
+  {
+   "item_id": "liability_cap",
+   "title": "Limitation of liability",
+   "status": "red",
+   "required": true,
+   "weight": 10,
+   "clause_ids": [
+    "Clause 25"
+   ],
+   "quote": "Each of us waives any right to or claim of punitive, exemplary, multiple, or consequential damages against the other in litigation and agrees to be limited to the recovery of actual damages sustained.",
+   "quote_note": "",
+   "reason": "The contract lacks a clear aggregate liability cap for the franchisor while imposing heavy enforcement costs and indemnity obligations on the franchisee.",
+   "suggested_wording": "Except for liability arising from fraud, wilful misconduct or breach of Clause [Confidentiality], each Party's aggregate liability under this Agreement shall not exceed the fees paid or payable in the twelve (12) months preceding the event giving rise to the claim. Neither Party shall be liable for any indirect or consequential loss.",
+   "sources": [
+    {
+     "act": "Contract Act, 1872",
+     "section": "Section 73",
+     "title": "Compensation for loss or damage caused by breach of contract",
+     "page": 37,
+     "quote": "When a contract has been broken, the party who suffers by such breach is entitled to receive, from the party who has bro- ken the contract, compensation for any loss or damage caused to him thereby, which naturally arose in the usual course of things from such breach, or which the parties knew, when they made the contract, to be likely to result from the breach of it. Such compensation is not to b..."
+    }
+   ]
+  },
+  {
+   "item_id": "indemnity",
+   "title": "Indemnity",
+   "status": "red",
+   "required": false,
+   "weight": 7,
+   "clause_ids": [
+    "Clause 19"
+   ],
+   "quote": "You agree to hold harmless, defend, and indemnify us... against any claims... arising directly or indirectly from, as a result of, or in connection with your activities under this Agreement.",
+   "quote_note": "",
+   "reason": "The indemnity is one-sided, forcing the franchisee to indemnify the franchisor for broad claims without a corresponding indemnity from the franchisor.",
+   "suggested_wording": "Each Party (the 'Indemnifying Party') shall indemnify the other against losses arising from third-party claims to the extent caused by the Indemnifying Party's breach of this Agreement or negligence, provided that it is promptly notified of the claim and given control of its defence.",
+   "sources": [
+    {
+     "act": "Contract Act, 1872",
+     "section": "Section 124",
+     "title": "“Contract of indemnity” defined",
+     "page": 42,
+     "quote": "A contract by which one party promises to save the other from loss caused to him by the conduct of the promisor himself, or by the conduct of any other person, is called a “contract of indemnity”. A contracts to indemnify B against the consequences of any proceedings which C may take against B in respect of a certain sum of 200 rupees. This is a contract of indemnity."
+    }
+   ]
+  },
+  {
+   "item_id": "termination",
+   "title": "Termination",
+   "status": "red",
+   "required": true,
+   "weight": 7,
+   "clause_ids": [
+    "Clause 15"
+   ],
+   "quote": "We may terminate this Agreement by written notice to you, without giving you an opportunity to cure, upon the occurrence of any of the following events",
+   "quote_note": "",
+   "reason": "The franchisor has extensive rights to terminate without notice or cure, while the franchisee has no right to terminate for convenience.",
+   "suggested_wording": "Either Party may terminate this Agreement by written notice if the other Party commits a material breach and fails to remedy it within thirty (30) days of receiving notice. The Client may terminate this Agreement for convenience on sixty (60) days' written notice.",
+   "sources": []
+  },
+  {
+   "item_id": "renewal",
+   "title": "Term and renewal",
+   "status": "missing",
+   "required": true,
+   "weight": 4,
+   "clause_ids": [],
+   "quote": "",
+   "quote_note": "",
+   "reason": "The contract does not clearly define the initial term or the renewal process in a standard format.",
+   "suggested_wording": "This Agreement shall continue for an initial term of [one (1)] year and shall renew for successive one-year terms unless either Party gives written notice of non-renewal at least sixty (60) days before the end of the then-current term.",
+   "sources": []
+  },
+  {
+   "item_id": "confidentiality",
+   "title": "Confidentiality",
+   "status": "amber",
+   "required": true,
+   "weight": 6,
+   "clause_ids": [
+    "Clause 12"
+   ],
+   "quote": "During and after the term of this Agreement, you may not communicate, divulge, or use for any purpose other than the operation of the Franchised Business any confidential information",
+   "quote_note": "",
+   "reason": "The confidentiality obligation is one-sided, binding only the franchisee, rather than being mutual.",
+   "suggested_wording": "Each Party shall keep the other Party's Confidential Information confidential and use it only for this Agreement, save for information that is public, already known to the recipient, or required to be disclosed by law. This obligation survives termination for five (5) years.",
+   "sources": []
+  },
+  {
+   "item_id": "assignment",
+   "title": "Assignment and change of control",
+   "status": "amber",
+   "required": false,
+   "weight": 4,
+   "clause_ids": [
+    "Clause 14"
+   ],
+   "quote": "",
+   "quote_note": "the model's quote was not found word for word in the clause and was removed",
+   "reason": "The assignment and change of control provisions are heavily restricted in favor of the franchisor, lacking a standard 'not unreasonably withheld' consent provision.",
+   "suggested_wording": "Neither Party may assign or transfer this Agreement without the prior written consent of the other Party, which shall not be unreasonably withheld, except to an affiliate or to a successor to all or substantially all of its relevant business.",
+   "sources": []
+  },
+  {
+   "item_id": "payment",
+   "title": "Payment terms and tax",
+   "status": "amber",
+   "required": true,
+   "weight": 5,
+   "clause_ids": [
+    "Clause 16"
+   ],
+   "quote": "You agree to promptly pay all sums owing to us, our affiliates and suppliers",
+   "quote_note": "",
+   "reason": "The payment terms are vague and do not specify a 30-day payment window or tax deduction rights for the franchisee.",
+   "suggested_wording": "The Client shall pay each undisputed invoice within thirty (30) days of receipt. The Client shall deduct withholding tax where required by the Income Tax Ordinance, 2001 and provide the Service Provider with the relevant tax deduction certificate.",
+   "sources": [
+    {
+     "act": "Income Tax Ordinance, 2001 (Income Tax Manual, amended up to 30 June 2026)",
+     "section": "Section 153",
+     "title": "Payments for goods, services and contracts",
+     "page": 346,
+     "quote": ""
+    }
+   ]
+  },
+  {
+   "item_id": "ip_ownership",
+   "title": "Intellectual property",
+   "status": "red",
+   "required": false,
+   "weight": 6,
+   "clause_ids": [
+    "Clause 10"
+   ],
+   "quote": "All data pertaining to, derived from, or displayed at the Franchised Business... is and shall be our exclusive property",
+   "quote_note": "",
+   "reason": "The franchisor claims ownership of all business data, which is overly broad and detrimental to the franchisee's operational independence.",
+   "suggested_wording": "All deliverables created specifically for the Client under this Agreement shall vest in the Client upon payment. Each Party retains its pre-existing intellectual property and grants the other a non-exclusive licence to the extent necessary to use the deliverables.",
+   "sources": []
+  },
+  {
+   "item_id": "restraint",
+   "title": "Non-compete, exclusivity and non-solicitation",
+   "status": "red",
+   "required": false,
+   "weight": 6,
+   "clause_ids": [
+    "Clause 17"
+   ],
+   "quote": "You acknowledge that a violation of the terms of this Section 17 would result in irreparable injury to us... you consent to the issuance of an injunction",
+   "quote_note": "",
+   "reason": "The restraint provisions are broad and likely unenforceable under Section 27 of the Contract Act, 1872, as they act as an unfair restraint of trade.",
+   "suggested_wording": "During the term and for twelve (12) months thereafter, neither Party shall solicit for employment any employee of the other Party who was directly involved in the performance of this Agreement, without the other Party's written consent.",
+   "sources": [
+    {
+     "act": "Contract Act, 1872",
+     "section": "Section 27",
+     "title": "Agreement in restraint of trade void",
+     "page": 22,
+     "quote": "Every agreement by which any one is restrained from exercising a lawful profession, trade or business of any kind, is to that extent void. Exception 1.___Saving of agreement not to carry on business of which good-will is sold. one who sells the good-will of a business may agree with the buyer to refrain from carrying on a similar business, within specified local limits, so long as the buyer, or an..."
+    }
+   ]
+  },
+  {
+   "item_id": "liquidated_damages",
+   "title": "Liquidated damages and penalties",
+   "status": "red",
+   "required": false,
+   "weight": 5,
+   "clause_ids": [
+    "Clause 16"
+   ],
+   "quote": "If this Agreement is terminated due to your default, you must, upon written demand, pay us a lump-sum payment",
+   "quote_note": "",
+   "reason": "The liquidated damages clause imposes a massive financial penalty on the franchisee, which is likely to be viewed as a penalty rather than a genuine pre-estimate of loss.",
+   "suggested_wording": "If the Service Provider fails to meet a milestone, it shall pay liquidated damages of [0.5]% of the relevant fees for each week of delay, up to a maximum of [10]% of those fees, which the Parties agree is a genuine pre-estimate of loss.",
+   "sources": [
+    {
+     "act": "Contract Act, 1872",
+     "section": "Section 74",
+     "title": "Compensation for breach of contract where penalty stipulated for. 2[When a contract",
+     "page": 40,
+     "quote": "has been broken, if a sum is named in the contract as the amount to be paid in case of such breach, or if the contract contains any other stipulation by way of penalty, the party complaining of the breach is entitled, whether or not actual damage or loss is proved to have been caused thereby, to receive from the party who has broken the contract reasonable compensation not exceeding the amount so ..."
+    }
+   ]
+  },
+  {
+   "item_id": "audit",
+   "title": "Audit rights",
+   "status": "amber",
+   "required": false,
+   "weight": 3,
+   "clause_ids": [
+    "Clause 8"
+   ],
+   "quote": "We have the right, both during and after the Term of this Agreement, to inspect, copy and audit your books and records",
+   "quote_note": "",
+   "reason": "The audit rights are overly broad and allow the franchisor to charge the franchisee for the costs of the audit under certain conditions.",
+   "suggested_wording": "Either Party may, on at least fifteen (15) business days' notice and not more than once in any twelve-month period, audit the other Party's records relating to this Agreement during normal business hours at its own cost.",
+   "sources": []
+  },
+  {
+   "item_id": "force_majeure",
+   "title": "Force majeure",
+   "status": "green",
+   "required": true,
+   "weight": 3,
+   "clause_ids": [
+    "Clause 23"
+   ],
+   "quote": "If the performance of any obligation by any party under this Agreement is prevented, hindered or delayed by reason of Force Majeure... the parties shall be relieved of their respective obligations",
+   "quote_note": "",
+   "reason": "The clause provides mutual relief for events beyond a party's control, which meets the playbook requirements.",
+   "suggested_wording": "",
+   "sources": []
+  }
+ ],
+ "missing": [
+  "Term and renewal"
+ ]
+}

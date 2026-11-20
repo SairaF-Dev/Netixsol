@@ -378,6 +378,24 @@ def bench_of(doc: Dict) -> List[str]:
     return names
 
 
+def apply_llm_checks(graph: Graph) -> None:
+    """Retype regex-typed links with the LLM verdicts in data/graph/llm_relation_checks.jsonl (if present)."""
+    from src.graph.llm_relation_check import load_checks
+
+    checks = load_checks()
+    if not checks:
+        return
+    for edge_type in ("FOLLOWS", "DISTINGUISHES", "OVERRULES", "INTERPRETS"):
+        for key, props in list(graph.edges[edge_type].items()):
+            verdict = checks.get(f"{edge_type}|{props['src']}|{props['dst']}|{props.get('paragraph', '')}")
+            if not verdict:
+                continue
+            props.update(method="regex+llm", needs_check=False)
+            if verdict != edge_type:
+                del graph.edges[edge_type][key]
+                graph.edges[verdict].setdefault(key, {**props, "regex_type": edge_type})
+
+
 # ----------------------------------------------------------------------------- build
 def build() -> Graph:
     graph = Graph()
@@ -534,6 +552,8 @@ def build() -> Graph:
         keep = max(members, key=lambda k: (cited[k], k))
         mapping.update({k: keep for k in members})
     graph.merge("Case", mapping, ("CITES", "FOLLOWS", "DISTINGUISHES", "OVERRULES"))
+
+    apply_llm_checks(graph)
 
     sat_on = Counter(edge["src"] for edge in graph.edges["SAT_ON"].values())
     graph.merge("Judge", judge_variants(sorted(graph.nodes["Judge"], key=lambda k: (-sat_on[k], k))), ("SAT_ON",))
