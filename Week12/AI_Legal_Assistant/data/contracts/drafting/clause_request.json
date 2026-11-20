@@ -1,0 +1,7 @@
+{
+ "_about": "Synthetic clause request for the Day 4 drafting demo.",
+ "title": "Draft clauses: software maintenance agreement",
+ "facts": {"client": "Pak Telecom Enterprises (Pvt) Ltd", "service_provider": "M/s Indus Infotech Solutions (Pvt) Ltd",
+           "annual_fees": "PKR 12,000,000", "seat_of_arbitration": "Islamabad"},
+ "items": ["liability_cap", "dispute_resolution", "restraint", "payment"]
+}

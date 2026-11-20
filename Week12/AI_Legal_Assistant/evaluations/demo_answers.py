@@ -41,7 +41,9 @@ def main(config: str) -> None:
 Pipeline: retrieval configuration `{config}` → Gemini answer (short answer, explanation, citations
 with quotes) → code verification of every citation (`src/rag/verify.py`: passage exists, Act/case
 matches, section/paragraph exists in the corpus, quote appears verbatim). Unverified citations are
-removed; an answer with none left becomes "No sufficient source found".
+removed; an answer with none left becomes "No sufficient source found". Then a conclusion check
+(`src/rag/conclusion_check.py`) asks whether the conclusion actually follows from the retrieved passages;
+an answer that fails is drafted once more with the reviewer's note, and withheld if it fails again.
 
 """ + "\n".join(blocks), encoding="utf-8")
     (OUT.with_suffix(".json")).write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")

@@ -1,0 +1,402 @@
+/* Khan & Associates - Legal Assistant: front end for web/server.py. All text is inserted as text, never as HTML. */
+"use strict";
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const URDU = /[؀-ۿ]/;
+
+function h(tag, props = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") node.className = v;
+    else if (k === "text") node.textContent = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of children.flat()) {
+    if (c == null || c === false) continue;
+    node.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  }
+  return node;
+}
+
+/* text block that switches to Nastaliq and right-to-left when it contains Urdu script */
+function prose(tag, text, cls = "") {
+  const urdu = URDU.test(text || "");
+  return h(tag, { class: (cls + (urdu ? " urdu" : "")).trim(), dir: "auto", text: text || "" });
+}
+
+async function api(path, options = {}) {
+  const res = await fetch(path, options);
+  let body = null;
+  try { body = await res.json(); } catch (_) { /* not JSON */ }
+  if (!res.ok) throw new Error((body && body.detail && (typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail))) || `Request failed (${res.status})`);
+  return body;
+}
+const postJSON = (path, data) => api(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+
+function working(box, message) {
+  box.replaceChildren(h("div", { class: "working" }, h("div", { text: message }), h("div", { class: "bar" }),
+    h("div", { class: "note", text: "Answers asked before come back at once; new ones call Gemini." })));
+}
+function showError(box, err) {
+  box.replaceChildren(h("p", { class: "error", text: err.message || String(err) }));
+}
+async function run(form, box, message, task) {
+  const btn = $("button[type=submit]", form);
+  btn.disabled = true;
+  working(box, message);
+  try { await task(); }
+  catch (err) { showError(box, err); }
+  finally { btn.disabled = false; }
+}
+
+/* ---------------------------------------------------------------- views */
+const VIEWS = ["research", "caselaw", "review", "compare", "drafting", "evaluation"];
+function showView() {
+  const name = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "research";
+  for (const v of VIEWS) $(`#view-${v}`).hidden = v !== name;
+  document.querySelectorAll(".nav a").forEach(a => a.classList.toggle("active", a.dataset.view === name));
+  if (name === "evaluation" && !$("#report-body").dataset.loaded) openReport(META && META.reports[0]);
+}
+window.addEventListener("hashchange", () => { showView(); window.scrollTo(0, 0); });
+
+/* ---------------------------------------------------------------- research and case law */
+const MODE_LABEL = { vector: "Text search", graph: "Case-law graph", hybrid: "Graph and text" };
+const RESEARCH_EXAMPLES = [
+  "Agar consideration unlawful ho to kya contract void hai?",
+  "What is the punishment for qatl-e-amd under the Pakistan Penal Code?",
+  "اگر معاہدے میں خلاف ورزی کی صورت میں جرمانے کی رقم طے ہو تو کیا عدالت اس سے زیادہ رقم دلا سکتی ہے؟",
+  "What did the Supreme Court say about the duty of police when a court dismisses a pre-arrest bail application?",
+  "What are the registration requirements for a private limited company under the Companies Act, 2017?",
+];
+const GRAPH_EXAMPLES = [
+  "Which judges sat on the cases in the corpus that refer to Section 324 of the Pakistan Penal Code?",
+  "Kin judges ne un muqadmat ki samaat ki jin mein Qanun-e-Shahadat ke Article 129 ka hawala diya gaya?",
+  "Which judges heard cases involving Section 7 of the Anti-Terrorism Act, 1997?",
+  "Which Supreme Court judgments in the corpus refer to Article 212 of the Constitution?",
+  "Which sections of the Pakistan Penal Code came up in cases heard by Justice Malik Shahzad Ahmad Khan?",
+  "Which precedent is cited the most in the corpus?",
+];
+
+function exampleButtons(box, list, input, form) {
+  for (const q of list) {
+    box.append(h("button", { type: "button", class: URDU.test(q) ? "urdu" : "", dir: "auto", text: q,
+      onclick: () => { input.value = q; form.requestSubmit(); } }));
+  }
+}
+
+function graphItem(text) {
+  // "<case> (<document id>): <details>" or a plain name
+  const m = /^(.*?) \(([A-Za-z0-9_.\-]+)\)(?:: (.*))?$/.exec(text);
+  if (!m) return h("li", {}, prose("span", text));
+  return h("li", {}, prose("span", m[1]), h("span", { class: "detail", text: [m[3], m[2]].filter(Boolean).join(" · ") }));
+}
+
+function renderGraph(g) {
+  const out = [h("h3", { text: "From the case-law graph" })];
+  if (g.error) out.push(h("p", { class: "error", text: `The graph query failed: ${g.error}` }));
+  out.push(h("p", { class: "count", text: String(g.items.length) }),
+    h("p", { class: "note", text: g.items.length === 1 ? "result" : "results" }));
+  if (g.items.length) out.push(h("ul", { class: "items" }, g.items.map(graphItem)));
+  else out.push(h("p", { class: "note", text: "No judgment in the graph matches. Check the provision or citation, or ask in text search." }));
+  const how = { local: "Followed links from the provision, citation or judge named in the question.",
+                global: "Counted over the whole graph.", "text-to-cypher": "No linked entity found, so Gemini wrote the graph query (read-only, checked before it ran)." };
+  out.push(h("details", {}, h("summary", { text: "How this was found" }),
+    h("p", { class: "note", text: how[g.method] || g.method }), g.cypher ? h("pre", { text: g.cypher }) : null));
+  return h("div", { class: "graph-block" }, out);
+}
+
+function citationRef(c) {
+  return [c.act_or_case, c.reference, c.title ? `(${c.title})` : null].filter(Boolean).join(", ").replace(", (", " (");
+}
+
+function conclusionNote(check, refused) {
+  if (!check) return null;
+  if (check.withheld) return h("p", { class: "check-note bad" }, h("b", { text: "Withheld after review. " }),
+    `An answer was drafted twice, but its conclusion does not follow from the sources: ${check.issue}`);
+  if (check.redrafted) return h("p", { class: "check-note" }, h("b", { text: refused ? "First answer rejected. " : "Redrafted after review. " }),
+    `A review found the first answer's conclusion did not follow from the sources: ${check.first_issue}`);
+  if (check.verdict === "partly") return h("p", { class: "check-note warn" }, h("b", { text: "Read with care. " }), check.issue);
+  return refused ? null : h("p", { class: "check-note ok", text: "Conclusion checked against all retrieved passages." });
+}
+
+function renderAnswer(a) {
+  const refused = !a.citations.length;
+  const left = h("div", { class: refused ? "refusal" : "" }, h("h3", { text: "Answer" }), prose("p", a.short_answer, "short"),
+    a.explanation ? prose("p", a.explanation, "explain") : null,
+    conclusionNote(a.conclusion_check, refused),
+    refused && !(a.conclusion_check || {}).redrafted ? h("p", { class: "note", text: "The assistant answers only when a source in the corpus supports it." }) : null);
+  const right = h("div", {}, h("h3", { text: refused ? "Sources" : "Verified sources" }),
+    refused ? h("p", { class: "note", text: "No citation passed the checks." }) :
+      h("ol", { class: "cites" }, a.citations.map(c => h("li", {},
+        prose("div", citationRef(c), "cite-ref"),
+        c.page ? h("div", { class: "cite-meta", text: `page ${c.page}` }) : null,
+        prose("blockquote", c.quote)))));
+  const extra = [];
+  if (a.removed_citations.length) {
+    extra.push(h("details", {}, h("summary", { text: `${a.removed_citations.length} citation${a.removed_citations.length > 1 ? "s" : ""} removed by the checker` }),
+      h("ul", {}, a.removed_citations.map(r => h("li", {}, prose("span", r.citation), h("span", { class: "note", text: ` · ${r.reason}` }))))));
+  }
+  extra.push(h("details", {}, h("summary", { text: `Passages retrieved (${a.retrieved.length})` }),
+    h("ul", {}, a.retrieved.map(r => h("li", {}, prose("span", r.source))))));
+  return h("div", {}, h("div", { class: "answer" }, left, right), extra);
+}
+
+function renderAsk(box, data) {
+  const signals = [...data.route.graph_signals, ...data.route.content_signals];
+  const route = h("div", { class: "route" }, h("b", { text: MODE_LABEL[data.mode] }),
+    h("span", { text: data.chosen_by === "router" ? `Chosen by the router${signals.length ? ": " + signals.join("; ") : " (no graph signal, so text search)"}` : "Chosen by you" }));
+  const parts = [route];
+  for (const e of data.errors || []) parts.push(h("p", { class: "error", text: e }));
+  if (data.graph) parts.push(renderGraph(data.graph));
+  if (data.answer) parts.push(renderAnswer(data.answer));
+  box.replaceChildren(...parts);
+}
+
+$("#ask-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const question = $("#ask-q").value.trim();
+  const mode = $("input[name=mode]:checked").value;
+  const box = $("#ask-result");
+  run(e.target, box, "Searching the corpus, then checking every citation against its source…",
+    async () => renderAsk(box, await postJSON("/api/ask", { question, mode })));
+});
+$("#graph-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const box = $("#graph-result");
+  run(e.target, box, "Following links in the graph…",
+    async () => renderAsk(box, await postJSON("/api/ask", { question: $("#graph-q").value.trim(), mode: "graph" })));
+});
+
+/* ---------------------------------------------------------------- review */
+const STATUS = { green: "Acceptable", amber: "Negotiate", red: "Unacceptable", missing: "Missing" };
+const status = s => h("span", { class: `s s-${s}`, text: STATUS[s] || s });
+
+function renderReview(box, r) {
+  const count = s => r.findings.filter(f => f.status === s).length;
+  const findings = r.findings.slice().sort((a, b) => ["red", "missing", "amber", "green"].indexOf(a.status) - ["red", "missing", "amber", "green"].indexOf(b.status));
+  box.replaceChildren(
+    h("div", { class: "score" },
+      h("div", { class: "big" }, String(r.risk_score), h("small", { text: " / 100" })),
+      h("div", {}, h("div", { class: `band s-${r.band.toLowerCase()}`, text: `${r.band} risk` }),
+        h("h2", { text: r.title || "Contract" }),
+        h("div", { class: "note", text: `Reviewed for ${r.party}${r.type ? " · " + r.type : ""}` }))),
+    h("div", { class: "tally" }, ["green", "amber", "red", "missing"].map(s => h("span", {}, status(s), ` ${count(s)}`))),
+    h("a", { class: "download", href: r.download, download: true, text: "Download the Word file with margin comments" }),
+    h("div", { class: "findings" }, findings.map(f => h("article", { class: "finding" },
+      h("div", {}, status(f.status), f.required ? h("div", { class: "note", text: "required" }) : null),
+      h("div", {},
+        h("h4", {}, f.title, f.clause_ids.length ? h("span", { class: "clause", text: "clause " + f.clause_ids.join(", ") }) : null),
+        prose("p", f.reason),
+        f.quote ? prose("blockquote", f.quote) : null,
+        f.quote_note ? h("div", { class: "warnline", text: `Quote removed: ${f.quote_note.replace(/^the model's quote /, "the quote ")}` }) : null,
+        (f.suggested_wording || f.sources.length) ? h("details", {}, h("summary", { text: f.suggested_wording ? "Suggested wording and legal source" : "Legal source" }),
+          f.suggested_wording ? prose("p", f.suggested_wording, "wording") : null,
+          f.sources.map(s => h("div", { class: "src" }, h("b", { text: `${s.act}, section ${s.section} (${s.title})` }), s.page ? `, page ${s.page}` : "", prose("blockquote", s.quote)))) : null)))),
+  );
+}
+
+$("#review-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const fd = new FormData();
+  const file = $("#review-file").files[0];
+  if (file) fd.append("file", file); else fd.append("contract_id", $("#review-sample").value);
+  fd.append("party", $("#review-party").value);
+  const box = $("#review-result");
+  run(e.target, box, "Finding the relevant clauses, rating each playbook position and checking every quote…",
+    async () => renderReview(box, await api("/api/review", { method: "POST", body: fd })));
+});
+$("#review-file").addEventListener("change", e => { $("#review-sample").disabled = !!e.target.files.length; });
+
+/* ---------------------------------------------------------------- compare */
+function renderCompare(box, r) {
+  const head = h("div", { class: "score" },
+    h("div", { class: "big", text: String(r.changes.length) }),
+    h("div", {}, h("div", { class: "band", text: r.changes.length === 1 ? "change" : "changes" }),
+      h("h2", { text: r.new }), h("div", { class: "note", text: `against ${r.old} · ${r.unchanged} clause${r.unchanged === 1 ? "" : "s"} unchanged · for ${r.client}` })));
+  const changes = r.changes.map(c => {
+    const imp = c.impact || {};
+    const ops = c.diff || (c.kind === "removed" ? [["delete", c.old_text]] : [["insert", c.new_text]]);
+    const red = h("p", { class: "redline", dir: "auto" }, ops.map(([op, t], i) =>
+      [i ? " " : "", op === "delete" ? h("del", { text: t }) : op === "insert" ? h("ins", { text: t }) : h("span", { class: "same", text: t })]));
+    return h("article", { class: "change" }, h("div", { class: "n", text: String(c.n) }), h("div", {},
+      h("div", { class: "change-head" }, h("h4", { text: c.new_clause || c.old_clause }),
+        h("span", { class: "meta" }, c.kind, " · ", imp.risk ? h("span", { class: `s s-${imp.risk}`, text: imp.risk === "none" ? "no risk" : `${imp.risk} risk` }) : "not rated",
+          imp.favours && imp.favours !== "neither" ? ` · favours the ${imp.favours}` : "")),
+      red,
+      imp.summary ? h("p", { class: "impact" }, h("b", { text: imp.summary + " " }), imp.legal_impact || "") : h("p", { class: "note", text: "No explanation returned for this change." })));
+  });
+  box.replaceChildren(head, h("a", { class: "download", href: r.download, download: true, text: "Download the Word redline" }), h("div", { class: "findings" }, changes));
+}
+
+$("#compare-sample").addEventListener("change", e => { $("#compare-uploads").hidden = e.target.checked; });
+$("#compare-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const fd = new FormData();
+  const sample = $("#compare-sample").checked;
+  fd.append("use_sample", sample ? "true" : "false");
+  if (!sample) {
+    const a = $("#compare-old").files[0], b = $("#compare-new").files[0];
+    if (!a || !b) { showError($("#compare-result"), new Error("Choose both versions, or use the sample pair.")); return; }
+    fd.append("old_file", a); fd.append("new_file", b);
+  }
+  fd.append("client", $("#compare-client").value);
+  const box = $("#compare-result");
+  run(e.target, box, "Matching clauses, marking changed words and explaining each change…",
+    async () => renderCompare(box, await api("/api/compare", { method: "POST", body: fd })));
+});
+
+/* ---------------------------------------------------------------- drafting */
+function renderDraft(box, d) {
+  const sheet = h("article", { class: "sheet" },
+    h("div", { class: "stamp", text: "Draft — for lawyer review" }),
+    prose("h2", d.title),
+    d.header ? h("p", { class: "head", text: d.header }) : null,
+    d.sections.map(s => h("section", {}, prose("h5", s.heading), prose("p", s.text, "body"),
+      s.sources.length ? h("ul", { class: "fn" }, s.sources.map(src => h("li", {}, h("i", { text: src.source }), ": ", prose("span", `“${src.quote}”`)))) : null)),
+    Object.entries(d.authorities || {}).filter(([, v]) => v.length).map(([k, v]) =>
+      h("section", {}, h("h5", { text: `Authorities: ${k}` }), h("p", { class: "note", text: v.join("; ") + " (from the knowledge graph)" }))),
+    h("p", { class: "note", style: "margin-top:26px", text: `${d.removed_citations} citation${d.removed_citations === 1 ? "" : "s"} removed by verification.` }));
+  box.replaceChildren(h("a", { class: "download", href: d.download, download: true, text: "Download as Word" }), sheet);
+}
+
+document.querySelectorAll("input[name=dkind]").forEach(r => r.addEventListener("change", () => {
+  const kind = $("input[name=dkind]:checked").value;
+  for (const k of ["brief", "notice", "clauses"]) $(`#draft-${k}`).hidden = k !== kind;
+}));
+const lines = id => $(id).value.split("\n").map(s => s.trim()).filter(Boolean);
+
+$("#draft-brief").addEventListener("submit", e => {
+  e.preventDefault();
+  const label = $("#brief-judgment").value.trim();
+  const j = META.judgments.find(x => x.label === label || x.id === label);
+  const box = $("#draft-result");
+  if (!j) { showError(box, new Error("Choose a judgment from the list.")); return; }
+  run(e.target, box, "Reading the judgment and checking each quote against its paragraph…",
+    async () => renderDraft(box, await postJSON("/api/draft/brief", { document_id: j.id })));
+});
+$("#draft-notice").addEventListener("submit", e => {
+  e.preventDefault();
+  const box = $("#draft-result");
+  const body = { sender: $("#n-sender").value, recipient: $("#n-recipient").value, date: $("#n-date").value,
+    contract: $("#n-contract").value, facts: lines("#n-facts"), demand: $("#n-demand").value, legal_questions: lines("#n-law") };
+  run(e.target, box, "Researching the legal basis and verifying every citation…",
+    async () => renderDraft(box, await postJSON("/api/draft/notice", body)));
+});
+$("#draft-clauses").addEventListener("submit", e => {
+  e.preventDefault();
+  const box = $("#draft-result");
+  const facts = {};
+  for (const l of lines("#c-facts")) { const i = l.indexOf(":"); if (i > 0) facts[l.slice(0, i).trim()] = l.slice(i + 1).trim(); }
+  const items = [...document.querySelectorAll("#c-items input:checked")].map(i => i.value);
+  run(e.target, box, "Adapting the firm's standard wording to the deal…",
+    async () => renderDraft(box, await postJSON("/api/draft/clauses", { title: $("#c-title").value, facts, items })));
+});
+
+/* ---------------------------------------------------------------- evaluation: a small Markdown renderer */
+function inline(text) {
+  const out = [];
+  const re = /(\*\*[^*]+\*\*|~~[^~]+~~|`[^`]+`|\*[^*\s][^*]*\*|_[^_\s][^_]*_)/g;
+  let last = 0, m;
+  while ((m = re.exec(text))) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    const t = m[0];
+    if (t.startsWith("**")) out.push(h("strong", { text: t.slice(2, -2) }));
+    else if (t.startsWith("~~")) out.push(h("del", { text: t.slice(2, -2) }));
+    else if (t.startsWith("`")) out.push(h("code", { text: t.slice(1, -1) }));
+    else out.push(h("em", { text: t.slice(1, -1) }));
+    last = m.index + t.length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+const cells = row => row.trim().replace(/^\||\|$/g, "").split("|").map(c => c.trim());
+const NUMERIC = /^[-+]?[\d.,]+\s*%?$|^[-–]$/;
+
+function markdown(src) {
+  const root = document.createDocumentFragment();
+  const rows = src.replace(/\r/g, "").split("\n");
+  for (let i = 0; i < rows.length;) {
+    const line = rows[i];
+    if (!line.trim()) { i++; continue; }
+    const head = /^(#{1,4})\s+(.*)$/.exec(line);
+    if (head) { root.append(h(`h${Math.min(head[1].length, 3)}`, {}, inline(head[2]))); i++; continue; }
+    if (line.trim().startsWith("|") && rows[i + 1] && /^\s*\|?\s*:?-{2,}/.test(rows[i + 1])) {
+      const header = cells(line); i += 2;
+      const body = [];
+      while (i < rows.length && rows[i].trim().startsWith("|")) body.push(cells(rows[i++]));
+      const numCol = header.map((_, c) => body.length && body.every(r => !r[c] || NUMERIC.test(r[c])));
+      root.append(h("div", { class: "table-wrap" }, h("table", {},
+        h("thead", {}, h("tr", {}, header.map((c, k) => h("th", { class: numCol[k] ? "num" : "" }, inline(c))))),
+        h("tbody", {}, body.map(r => h("tr", {}, header.map((_, k) => h("td", { class: numCol[k] ? "num" : "", dir: "auto" }, inline(r[k] || "")))))))));
+      continue;
+    }
+    if (/^\s*([-*]|\d+\.)\s+/.test(line)) {
+      const ordered = /^\s*\d+\./.test(line);
+      const list = h(ordered ? "ol" : "ul");
+      while (i < rows.length && /^\s*([-*]|\d+\.)\s+/.test(rows[i])) list.append(h("li", { dir: "auto" }, inline(rows[i++].replace(/^\s*([-*]|\d+\.)\s+/, ""))));
+      root.append(list); continue;
+    }
+    if (line.startsWith(">")) {
+      const q = [];
+      while (i < rows.length && rows[i].startsWith(">")) q.push(rows[i++].replace(/^>\s?/, ""));
+      root.append(h("blockquote", { dir: "auto" }, inline(q.join(" ")))); continue;
+    }
+    if (line.startsWith("```")) {
+      const code = []; i++;
+      while (i < rows.length && !rows[i].startsWith("```")) code.push(rows[i++]);
+      i++; root.append(h("pre", { text: code.join("\n") })); continue;
+    }
+    const para = [];
+    while (i < rows.length && rows[i].trim() && !/^(#{1,4}\s|\||>|```|\s*([-*]|\d+\.)\s)/.test(rows[i])) para.push(rows[i++].trim());
+    if (!para.length) { para.push(rows[i++]); }
+    root.append(h("p", { dir: "auto" }, inline(para.join(" "))));
+  }
+  return root;
+}
+
+async function openReport(r) {
+  if (!r) return;
+  const body = $("#report-body");
+  body.dataset.loaded = "1";
+  document.querySelectorAll("#report-list button").forEach(b => b.classList.toggle("active", b.dataset.file === r.file));
+  body.replaceChildren(h("p", { class: "note", text: "Loading…" }));
+  try {
+    const data = await api(`/api/report/${encodeURIComponent(r.file)}`);
+    body.replaceChildren(markdown(data.markdown));
+  } catch (err) { showError(body, err); }
+}
+
+/* ---------------------------------------------------------------- start */
+let META = null;
+async function start() {
+  exampleButtons($("#ask-examples"), RESEARCH_EXAMPLES, $("#ask-q"), $("#ask-form"));
+  exampleButtons($("#graph-examples"), GRAPH_EXAMPLES, $("#graph-q"), $("#graph-form"));
+  showView();
+  try { META = await api("/api/meta"); }
+  catch (err) { $("#services").textContent = "The server is not responding."; return; }
+
+  $("#services").replaceChildren(
+    h("span", { class: META.gemini ? "on" : "off", text: META.gemini ? "Gemini connected" : "Gemini not configured" }), h("br"),
+    h("span", { class: META.graph ? "on" : "off", text: META.graph ? "Graph connected" : "Graph not configured" }));
+  for (const dd of document.querySelectorAll("#graph-ledger dd")) dd.textContent = (META.graph_counts[dd.dataset.k] || 0).toLocaleString("en");
+
+  const sel = $("#review-sample");
+  const groups = { "Practice contracts (written for this project)": META.contracts.filter(c => c.synthetic), "CUAD contracts (real SEC filings)": META.contracts.filter(c => !c.synthetic) };
+  for (const [label, list] of Object.entries(groups)) if (list.length) sel.append(h("optgroup", { label }, list.map(c => h("option", { value: c.id, text: c.label }))));
+
+  $("#judgment-list").append(...META.judgments.map(j => h("option", { value: j.label })));
+  const n = META.notice_sample;
+  $("#n-sender").value = n.sender || ""; $("#n-recipient").value = n.recipient || ""; $("#n-date").value = n.date || "";
+  $("#n-contract").value = n.contract || ""; $("#n-facts").value = (n.facts || []).join("\n"); $("#n-demand").value = n.demand || "";
+  $("#n-law").value = (n.legal_questions || []).join("\n");
+  const c = META.clause_sample;
+  $("#c-title").value = c.title || "";
+  $("#c-facts").value = Object.entries(c.facts || {}).map(([k, v]) => `${k}: ${v}`).join("\n");
+  $("#c-items").append(...META.playbook.map(p => h("label", {}, h("input", { type: "checkbox", value: p.id, checked: (c.items || []).includes(p.id) }), p.title)));
+
+  $("#report-list").append(...META.reports.map(r => h("button", { type: "button", "data-file": r.file, text: r.title, onclick: () => openReport(r) })));
+  showView();
+}
+start();

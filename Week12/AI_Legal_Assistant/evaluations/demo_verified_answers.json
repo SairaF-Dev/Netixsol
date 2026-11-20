@@ -2,8 +2,8 @@
   {
     "question": "Agar consideration unlawful ho to kya contract void hai?",
     "config": "rerank",
-    "short_answer": "Ji haan, agar kisi muahiday (agreement) ka maqsad ya consideration ghair qanooni (unlawful) ho, to woh muahida void hota hai.",
-    "explanation": "Contract Act, 1872 ke mutabiq, har woh muahida jiska maqsad ya consideration ghair qanooni ho, void qarar diya jata hai. Mazeed bar-aan, agar consideration ka koi hissa bhi ghair qanooni ho, to poora muahida void ho jata hai.",
+    "short_answer": "Ji haan, agar kisi muahiday (agreement) ka consideration ya maqsad (object) unlawful ho to woh muahida void hota hai.",
+    "explanation": "Contract Act, 1872 ki Section 23 wazeh karti hai ke har woh muahida jiska consideration ya maqsad unlawful ho, woh void qarar diya jata hai.",
     "citations": [
       {
         "source": 1,
@@ -13,19 +13,17 @@
         "page": 19,
         "document_id": "PKLAW_012",
         "quote": "Every agreement of which the object or consideration is unlawful is void."
-      },
-      {
-        "source": 2,
-        "act_or_case": "Contract Act, 1872",
-        "reference": "Section 24",
-        "title": "Agreements void, if considerations and objects unlawful in part",
-        "page": 21,
-        "document_id": "PKLAW_012",
-        "quote": "If any part of a single consideration for one or more objects, or anyone or any part of anyone of several considerations for a single object, is unlawful, the agreement is void."
       }
     ],
     "removed_citations": [],
     "draft_refused": false,
+    "conclusion_check": {
+      "verdict": "supported",
+      "issue": "",
+      "redrafted": false,
+      "withheld": false,
+      "first_issue": ""
+    },
     "retrieved": [
       {
         "rank": 1,
@@ -57,8 +55,8 @@
   {
     "question": "What is the punishment for qatl-e-amd under the Pakistan Penal Code?",
     "config": "rerank",
-    "short_answer": "The punishment for qatl-e-amd includes death as qisas, death or life imprisonment as ta'zir, or imprisonment for up to twenty-five years depending on the circumstances and availability of proof.",
-    "explanation": "Under Section 302 of the Pakistan Penal Code, qatl-e-amd is punishable by death as qisas, death or life imprisonment as ta'zir if specific proof is unavailable, or imprisonment up to twenty-five years where qisas is not applicable, subject to the proviso regarding fasad-fil-arz.",
+    "short_answer": "The punishment for qatl-e-amd includes death as qisas, death or life imprisonment as ta'zir, or imprisonment for up to twenty-five years depending on the circumstances and the applicability of qisas.",
+    "explanation": "Under Section 302 of the Pakistan Penal Code, an offender is liable to death as qisas, or death or life imprisonment as ta'zir if proof under section 304 is unavailable. If qisas is not applicable according to Islamic Injunctions, the punishment is imprisonment for up to twenty-five years, unless the principle of fasad-fil-arz is attracted, in which case death or life imprisonment applies.",
     "citations": [
       {
         "source": 2,
@@ -72,6 +70,13 @@
     ],
     "removed_citations": [],
     "draft_refused": false,
+    "conclusion_check": {
+      "verdict": "supported",
+      "issue": "",
+      "redrafted": false,
+      "withheld": false,
+      "first_issue": ""
+    },
     "retrieved": [
       {
         "rank": 1,
@@ -106,13 +111,15 @@
     "short_answer": "No sufficient source found",
     "explanation": "",
     "citations": [],
-    "removed_citations": [
-      {
-        "citation": "مخصوص دادرسی ایکٹ ، ۱۸۷۷ء | دفعہ ۲۰",
-        "reason": "unverifiable: Urdu law pages (OCR) carry no section numbers to check against"
-      }
-    ],
+    "removed_citations": [],
     "draft_refused": false,
+    "conclusion_check": {
+      "verdict": "supported",
+      "issue": "",
+      "redrafted": true,
+      "withheld": false,
+      "first_issue": "The provided passages discuss the court's power to grant specific performance despite a penalty clause, but they do not address whether the court can award damages exceeding the amount specified in that clause."
+    },
     "retrieved": [
       {
         "rank": 1,
@@ -144,8 +151,8 @@
   {
     "question": "What did the Supreme Court say about the duty of police when a court dismisses a pre-arrest bail application?",
     "config": "rerank",
-    "short_answer": "When a court dismisses a pre-arrest bail application, police authorities are legally bound to implement the order immediately and execute the arrest without delay.",
-    "explanation": "The Supreme Court has clarified that the dismissal of pre-arrest bail means the accused is subject to lawful arrest. Police must not treat the mere filing of a petition in a higher court as an implied stay of arrest; they must act promptly and in good faith unless an express restraining order is granted by a competent court.",
+    "short_answer": "When a court dismisses a pre-arrest bail application, police authorities are legally bound to execute the arrest immediately and in good faith, without waiting for further instructions or assuming a stay exists.",
+    "explanation": "The Supreme Court clarified that the mere filing of a petition in a higher court does not act as an implied stay of arrest. Investigating officers must enforce judicial orders promptly, as failure to do so undermines the criminal justice system and the specific judicial determination that arrest is necessary for an effective investigation.",
     "citations": [
       {
         "source": 1,
@@ -166,17 +173,24 @@
         "quote": "This Court, therefore, finds it imperative to state clearly that investigating officers and police authorities are legally bound to act upon court orders dismissing pre-arrest bail immediately, without waiting for further instructions or presuming the existence of any stay where none has been granted."
       },
       {
-        "source": 4,
+        "source": 3,
         "act_or_case": "Zahid Khan, etc v. The State through Prosecutor General, Punjab and another",
-        "reference": "para 4",
+        "reference": "para 2",
         "title": null,
-        "page": 2,
+        "page": 1,
         "document_id": "SC_crl.p._645_l_2025",
-        "quote": "He further assured the Court that these instructions would be renewed and recirculated every six months to maintain institutional awareness and discipline within the force."
+        "quote": "Prompt and faithful enforcement of judicial orders is fundamental to the criminal justice system. Once pre-arrest bail is declined by a competent court of law and the accused stands exposed to arrest in accordance with law."
       }
     ],
     "removed_citations": [],
     "draft_refused": false,
+    "conclusion_check": {
+      "verdict": "supported",
+      "issue": "",
+      "redrafted": false,
+      "withheld": false,
+      "first_issue": ""
+    },
     "retrieved": [
       {
         "rank": 1,
@@ -213,6 +227,13 @@
     "citations": [],
     "removed_citations": [],
     "draft_refused": true,
+    "conclusion_check": {
+      "verdict": "supported",
+      "issue": "",
+      "redrafted": false,
+      "withheld": false,
+      "first_issue": ""
+    },
     "retrieved": [
       {
         "rank": 1,

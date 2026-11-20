@@ -1,0 +1,173 @@
+{
+ "_about": "Khan & Associates contract review playbook (sample for this project, written by Claude, an AI model; to be confirmed by the firm's partners before real use). Positions are from the point of view of OUR CLIENT. green = acceptable as is, amber = negotiate, red = do not sign without change. 'sources' are provisions in the firm's corpus (act document id + section); the review quotes their text from the corpus, so no source is invented. weight = how much a red item adds to the contract's risk score.",
+ "items": [
+  {
+   "id": "governing_law",
+   "title": "Governing law",
+   "cuad_types": ["Governing Law"],
+   "required": true,
+   "weight": 8,
+   "green": "The contract is governed by the laws of Pakistan.",
+   "amber": "Foreign law, but disputes are heard or arbitrated in Pakistan, or the client is the foreign party.",
+   "red": "Foreign law together with exclusive foreign courts, or no governing law at all.",
+   "suggested_wording": "This Agreement shall be governed by and construed in accordance with the laws of the Islamic Republic of Pakistan.",
+   "sources": []
+  },
+  {
+   "id": "dispute_resolution",
+   "title": "Dispute resolution",
+   "cuad_types": [],
+   "required": true,
+   "weight": 6,
+   "green": "Arbitration seated in Pakistan (Arbitration Act, 1940) or the courts of Lahore, Karachi or Islamabad, after a negotiation period.",
+   "amber": "Arbitration seated abroad under institutional rules (ICC, SIAC, LCIA).",
+   "red": "Exclusive foreign courts, a clause that bars the client from any legal remedy, or a time limit to sue shorter than the law allows.",
+   "suggested_wording": "Any dispute arising out of or in connection with this Agreement shall first be referred to good-faith negotiation for thirty (30) days, failing which it shall be finally resolved by arbitration in Lahore, Pakistan under the Arbitration Act, 1940, by a sole arbitrator appointed by mutual agreement.",
+   "sources": [["PKLAW_012", "Section 28"]]
+  },
+  {
+   "id": "liability_cap",
+   "title": "Limitation of liability",
+   "cuad_types": ["Cap On Liability", "Uncapped Liability"],
+   "required": true,
+   "weight": 10,
+   "green": "Mutual cap at no more than the fees paid in the 12 months before the claim, with carve-outs for fraud, wilful misconduct and breach of confidentiality; indirect and consequential loss excluded for both parties.",
+   "amber": "Cap set differently (fixed amount, total fees) but still mutual.",
+   "red": "The client's liability is uncapped while the counterparty's is capped, or the counterparty excludes liability for its own negligence or fraud.",
+   "suggested_wording": "Except for liability arising from fraud, wilful misconduct or breach of Clause [Confidentiality], each Party's aggregate liability under this Agreement shall not exceed the fees paid or payable in the twelve (12) months preceding the event giving rise to the claim. Neither Party shall be liable for any indirect or consequential loss.",
+   "sources": [["PKLAW_012", "Section 73"]]
+  },
+  {
+   "id": "indemnity",
+   "title": "Indemnity",
+   "cuad_types": [],
+   "required": false,
+   "weight": 7,
+   "green": "Mutual indemnities limited to third-party claims caused by the indemnifying party's breach or negligence, subject to notice and conduct-of-claims provisions.",
+   "amber": "One-way indemnity by the counterparty only, or no conduct-of-claims procedure.",
+   "red": "The client indemnifies the counterparty for losses caused by the counterparty's own acts, or the indemnity is unlimited and outside the liability cap.",
+   "suggested_wording": "Each Party (the 'Indemnifying Party') shall indemnify the other against losses arising from third-party claims to the extent caused by the Indemnifying Party's breach of this Agreement or negligence, provided that it is promptly notified of the claim and given control of its defence.",
+   "sources": [["PKLAW_012", "Section 124"]]
+  },
+  {
+   "id": "termination",
+   "title": "Termination",
+   "cuad_types": ["Termination For Convenience"],
+   "required": true,
+   "weight": 7,
+   "green": "Either party may terminate for material breach not cured within 30 days of notice; the client may also terminate for convenience on 30-60 days' notice.",
+   "amber": "Termination only for breach (no convenience right for the client), or a cure period longer than 60 days.",
+   "red": "Only the counterparty may terminate for convenience, or the client cannot terminate even for the counterparty's breach.",
+   "suggested_wording": "Either Party may terminate this Agreement by written notice if the other Party commits a material breach and fails to remedy it within thirty (30) days of receiving notice. The Client may terminate this Agreement for convenience on sixty (60) days' written notice.",
+   "sources": []
+  },
+  {
+   "id": "renewal",
+   "title": "Term and renewal",
+   "cuad_types": ["Expiration Date", "Renewal Term", "Notice Period To Terminate Renewal"],
+   "required": true,
+   "weight": 4,
+   "green": "Fixed term; any renewal is by written agreement, or automatic renewal that the client can stop with 30-90 days' notice.",
+   "amber": "Automatic renewal for long periods (over one year) or a notice window under 30 days.",
+   "red": "Automatic renewal that the client cannot stop, or no stated term.",
+   "suggested_wording": "This Agreement shall continue for an initial term of [one (1)] year and shall renew for successive one-year terms unless either Party gives written notice of non-renewal at least sixty (60) days before the end of the then-current term.",
+   "sources": []
+  },
+  {
+   "id": "confidentiality",
+   "title": "Confidentiality",
+   "cuad_types": [],
+   "required": true,
+   "weight": 6,
+   "green": "Mutual obligations, standard exceptions (public, already known, required by law), surviving termination for 3-5 years.",
+   "amber": "One-way protection in the client's favour only, or survival under 2 years.",
+   "red": "Confidentiality binds only the client, or the counterparty may disclose the client's information freely.",
+   "suggested_wording": "Each Party shall keep the other Party's Confidential Information confidential and use it only for this Agreement, save for information that is public, already known to the recipient, or required to be disclosed by law. This obligation survives termination for five (5) years.",
+   "sources": []
+  },
+  {
+   "id": "assignment",
+   "title": "Assignment and change of control",
+   "cuad_types": ["Anti-Assignment", "Change Of Control"],
+   "required": false,
+   "weight": 4,
+   "green": "Neither party may assign without the other's consent (not unreasonably withheld), except to an affiliate or a successor of the business.",
+   "amber": "Assignment rules that are one-sided but limited, or a change-of-control termination right for the counterparty.",
+   "red": "The counterparty may assign freely (including to a competitor of the client) while the client may not.",
+   "suggested_wording": "Neither Party may assign or transfer this Agreement without the prior written consent of the other Party, which shall not be unreasonably withheld, except to an affiliate or to a successor to all or substantially all of its relevant business.",
+   "sources": []
+  },
+  {
+   "id": "payment",
+   "title": "Payment terms and tax",
+   "cuad_types": ["Minimum Commitment", "Revenue/Profit Sharing"],
+   "required": true,
+   "weight": 5,
+   "green": "Payment within 30-45 days of a valid invoice; withholding tax deducted as required by law with certificates provided; late-payment interest, if any, is moderate.",
+   "amber": "Payment terms over 60 days, large advance payments, or minimum purchase commitments.",
+   "red": "Advance payment with no refund on termination, gross-up obligations on the client for all taxes, or penal interest.",
+   "suggested_wording": "The Client shall pay each undisputed invoice within thirty (30) days of receipt. The Client shall deduct withholding tax where required by the Income Tax Ordinance, 2001 and provide the Service Provider with the relevant tax deduction certificate.",
+   "sources": [["PKLAW_004", "Section 153"]]
+  },
+  {
+   "id": "ip_ownership",
+   "title": "Intellectual property",
+   "cuad_types": ["Ip Ownership Assignment", "Joint Ip Ownership", "License Grant"],
+   "required": false,
+   "weight": 6,
+   "green": "The client owns the deliverables made for it; each party keeps its pre-existing IP with a licence to use it as needed for the deliverables.",
+   "amber": "Joint ownership, or a broad licence instead of ownership.",
+   "red": "The counterparty owns the deliverables the client pays for, or the client must assign its own pre-existing IP.",
+   "suggested_wording": "All deliverables created specifically for the Client under this Agreement shall vest in the Client upon payment. Each Party retains its pre-existing intellectual property and grants the other a non-exclusive licence to the extent necessary to use the deliverables.",
+   "sources": []
+  },
+  {
+   "id": "restraint",
+   "title": "Non-compete, exclusivity and non-solicitation",
+   "cuad_types": ["Non-Compete", "Exclusivity", "Competitive Restriction Exception"],
+   "required": false,
+   "weight": 6,
+   "green": "No restraint, or a narrow non-solicitation of each other's staff during the term and up to 12 months after.",
+   "amber": "Exclusivity during the term limited to the contract's subject matter.",
+   "red": "A non-compete binding the client beyond the term or across a broad field: under Section 27 of the Contract Act, 1872 an agreement in restraint of a lawful trade is void (except the sale-of-goodwill exception), so it is both unfair and likely unenforceable.",
+   "suggested_wording": "During the term and for twelve (12) months thereafter, neither Party shall solicit for employment any employee of the other Party who was directly involved in the performance of this Agreement, without the other Party's written consent.",
+   "sources": [["PKLAW_012", "Section 27"]]
+  },
+  {
+   "id": "liquidated_damages",
+   "title": "Liquidated damages and penalties",
+   "cuad_types": ["Liquidated Damages"],
+   "required": false,
+   "weight": 5,
+   "green": "No penalties, or service credits that are the counterparty's sole remedy for delay.",
+   "amber": "A fixed sum payable by the client on breach: under Section 74 of the Contract Act, 1872 a court awards only reasonable compensation up to the stated amount, so check it is a genuine pre-estimate.",
+   "red": "Large penalties on the client unrelated to any likely loss.",
+   "suggested_wording": "If the Service Provider fails to meet a milestone, it shall pay liquidated damages of [0.5]% of the relevant fees for each week of delay, up to a maximum of [10]% of those fees, which the Parties agree is a genuine pre-estimate of loss.",
+   "sources": [["PKLAW_012", "Section 74"]]
+  },
+  {
+   "id": "audit",
+   "title": "Audit rights",
+   "cuad_types": ["Audit Rights"],
+   "required": false,
+   "weight": 3,
+   "green": "Audits on reasonable notice, at most once a year, during business hours, at the auditing party's cost.",
+   "amber": "More frequent audits or audits by the counterparty's chosen third party.",
+   "red": "Unlimited audits of the client at any time, or the client pays for all audits.",
+   "suggested_wording": "Either Party may, on at least fifteen (15) business days' notice and not more than once in any twelve-month period, audit the other Party's records relating to this Agreement during normal business hours at its own cost.",
+   "sources": []
+  },
+  {
+   "id": "force_majeure",
+   "title": "Force majeure",
+   "cuad_types": [],
+   "required": true,
+   "weight": 3,
+   "green": "Mutual relief for events beyond a party's control (including epidemics and government action), with notice and a right to terminate after a long event.",
+   "amber": "Force majeure that protects only the counterparty, or with no termination right.",
+   "red": "No force majeure clause at all in a long-term contract.",
+   "suggested_wording": "Neither Party shall be liable for failure to perform caused by events beyond its reasonable control, including natural disasters, epidemics and acts of government, provided it notifies the other Party promptly. If such an event continues for more than ninety (90) days, either Party may terminate this Agreement by written notice.",
+   "sources": []
+  }
+ ]
+}

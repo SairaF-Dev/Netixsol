@@ -19,7 +19,13 @@
     {
       "clause_id": "Clause 2",
       "clause_title": "Payment Terms",
-      "text": "Upon the signing of this Agreement, Client agrees to pay to Company a total of $5,000. Client shall make a prepayment of $1,900 and pay the remaining $3,100 on completion of the Scope of Work. 3. Business Hours; Rush Work. Company representatives are available during Company’s normal business hours which are 9 a.m. to 5 p.m. UTC +2, Monday through Friday. Any email or telephone correspondence received after normal business hours will be processed the following business day. Client shall pay an additional surcharge for any services requiring work to be performed outside of normal business hours by reason of a rush deadline requested by Client or as a result of Client’s failure to meet scheduled times for delivery and/or review and approval of information, content and materials. The surcharge for rush work shall be the standard hourly rate of $40 plus twenty-five percent (25%).",
+      "text": "Upon the signing of this Agreement, Client agrees to pay to Company a total of $5,000. Client shall make a prepayment of $1,900 and pay the remaining $3,100 on completion of the Scope of Work.",
+      "page_number": 1
+    },
+    {
+      "clause_id": "Clause 3",
+      "clause_title": "Business Hours; Rush Work",
+      "text": "Company representatives are available during Company’s normal business hours which are 9 a.m. to 5 p.m. UTC +2, Monday through Friday. Any email or telephone correspondence received after normal business hours will be processed the following business day. Client shall pay an additional surcharge for any services requiring work to be performed outside of normal business hours by reason of a rush deadline requested by Client or as a result of Client’s failure to meet scheduled times for delivery and/or review and approval of information, content and materials. The surcharge for rush work shall be the standard hourly rate of $40 plus twenty-five percent (25%).",
       "page_number": 1
     },
     {

@@ -57,6 +57,13 @@ The answer is a list. Write each item exactly as it is identified in the materia
 - a number, if the question asks how many.
 If the material does not contain the answer, return an empty list."""
 
+HYBRID_SYSTEM = LIST_SYSTEM + """
+The material has two parts. The GRAPH RESULT comes from a database query over the links extracted from
+ALL judgments (who sat on which case, which case cites what, which provisions it refers to), so it is
+the complete list for questions about such links: copy its items exactly as written, one item per line
+of the result. Use the passages to answer what the graph cannot (the content of a provision or holding),
+or when the graph result is empty."""
+
 
 # ----------------------------------------------------------------------------- scoring
 _DOC = re.compile(r"\(((?:SC|LHC)_[^)]+)\)")
@@ -151,8 +158,8 @@ def run(set_name: str, use_llm: bool) -> List[Dict]:
         rec["graph"] = prf(graph["items"], gold)
         if use_llm:
             vec = llm.generate_json(f"Question: {q}\n\nMaterial:\n{context}", ListAnswer, system=LIST_SYSTEM, temperature=0.0)
-            hyb = llm.generate_json(f"Question: {q}\n\nMaterial:\n{graph_text(graph)}\n\nPassages:\n{context}",
-                                    ListAnswer, system=LIST_SYSTEM, temperature=0.0)
+            hyb = llm.generate_json(f"Question: {q}\n\nGRAPH RESULT:\n{graph_text(graph)}\n\nPASSAGES:\n{context}",
+                                    ListAnswer, system=HYBRID_SYSTEM, temperature=0.0)
             rec.update(vector_items=vec.items, hybrid_items=hyb.items, vector=prf(vec.items, gold), hybrid=prf(hyb.items, gold))
         else:
             graph_hits = prf(graph["items"], gold)["recall"]
@@ -185,6 +192,15 @@ def write_report(all_runs: Dict[str, List[Dict]], use_llm: bool) -> None:
              "Questions: `evaluations/multihop_eval_set.jsonl` (30, development: GraphRAG's rules were built on them) and "
              "`evaluations/multihop_heldout.jsonl` (10, held-out: written afterwards). Answers are sets; scores are averaged "
              "over questions. Script: `python -m evaluations.graph_vs_vector`.", ""]
+    if use_llm:
+        lines += ["Answers by `gemini-3.5-flash-lite`. **graph** answers come straight from the Cypher result (local / global "
+                  "search; text-to-Cypher for the one question it cannot plan: HO_02, which it answered correctly). **vector**: "
+                  "Gemini lists the answer from the top 10 passages. **hybrid**: Gemini gets the graph result and the passages. "
+                  "The hybrid prompt was changed once after the first run: with a generic 'answer only from the material' "
+                  "instruction Gemini discarded the graph list whenever the passages did not repeat it (F1 0.56 dev / 0.43 "
+                  "held-out); the final prompt says the graph result is a query over all judgments and should be copied. Even so "
+                  "it drops or splits items, so for list questions the graph result itself is the better answer, and the router "
+                  "sends these questions to the graph.", ""]
     if not use_llm:
         lines += ["Mode `--no-llm` (no Gemini calls): **graph** is scored as an answer (precision / recall / F1 of the items "
                   "its Cypher query returns; the 1 question that needs text-to-Cypher counts as unanswered). **vector** and "

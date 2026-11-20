@@ -49,7 +49,11 @@ excerpts of those laws and are not indexed separately).
     case-law citations (PLD/SCMR/CLC/YLR…), statutes cited, numbered paragraphs,
     holding (last paragraph stating the outcome) and a `matter_id`;
   - contracts: title, type, parties, effective date, governing law, arbitration
-    clause and top-level clauses.
+    clause and top-level clauses. Clause headings may be "ARTICLE IV", "4. Term.", "4.1 Term"
+    (decimal only), "2.TERM:" (no space), Roman "I. Object" or untitled numbered paragraphs; a
+    table of contents is recognised because its clauses hold no text (every increasing run of
+    numbers is built and the run whose clauses hold text wins); clauses over 2,500 words are split
+    at their own sub-clauses ("Clause 3.12"), so a review can point to the exact place.
 
   - Urdu laws: one unit per OCR'd page, labelled with the official Urdu title,
     year and page number (see "Urdu laws (OCR)" below for why not per section).
@@ -127,7 +131,18 @@ This measures presence, not correctness; no hand-labelled check has been done.
 |---|---|
 | Statutes (13) | 2,871 sections/articles/rules, all with a start page. E.g. PPC Sections 1–511, Contract Act Sections 1–238 (76–123 repealed), CPC Sections 1–159 plus 659 Order rules, Income Tax Ordinance Sections 1–242, Constitution Articles 1–280 incl. 175A–175L (Federal Constitutional Court); 324 articles found, 170, 272 and 273 missed |
 | Judgments (225) | case number 95%, bench 94%, parties 88–89%, year 98%, hearing date 75%, citations 77%, statutes cited 83%, numbered paragraphs 94%, outcome 97% |
-| CUAD contracts (53) | title 100%, 3+ clauses 87%, effective date 72%, governing law 70%, both parties 60% |
+| CUAD contracts (53) | title 100%, 3+ clauses 98% (52/53; was 87%, see below), effective date 72%, governing law 70%, both parties 60% |
+
+**Contract clause fix (found on Day 4).** A Day 4 review pointed almost every finding at "Clause 26" of a
+franchise agreement: its table of contents had been taken as the headings, leaving clauses 1-25 empty and the
+whole contract (23,775 words) in clause 26. A check of all 53 CUAD contracts found 11 broken this way or with
+no clauses at all (headings like "1.1 Scope", "2.TERM:", "I. Object", untitled numbered paragraphs, and one PDF
+that writes ";" as the look-alike Greek question mark U+037E). After the fix (above), 9 of the 11 split
+correctly, 15 other contracts gained clauses they had merged into the previous one, and none got worse
+(compared clause by clause). Still wrong: `REAL_CUAD_025` (a scan with 123 words of text: needs OCR) and
+`CUAD_REAL_022` (a numbered list of people inside clause 3 is taken as clauses 4-9). The Day 2 search index
+still holds the earlier contract split: rebuilding it would change the reported Day 2 numbers, and the Day 2
+questions do not use contracts.
 
 ## Chunking comparison (Task 4)
 
@@ -207,8 +222,8 @@ judged by Gemini (an LLM judge, not a person). Full table: `evaluations/rag_comp
 | 1. Section-level chunks, vector search | 64% | 0.52 | 56% |
 | 2. + Hybrid (BM25 + vector, reciprocal rank fusion) | 70% | 0.56 | 64% |
 | 3. + Reranking (multilingual cross-encoder `mmarco-mMiniLMv2-L12`, top 30) | 78% | 0.73 | 70% |
-| 4. + Query rewriting (Gemini: English legal search query) | **94%** | **0.85** | pending |
-| 5. + HyDE (Gemini hypothetical answer passage) | 94% | 0.85 | pending |
+| 4. + Query rewriting (Gemini: English legal search query) | **94%** | **0.85** | **84%** |
+| 5. + HyDE (Gemini hypothetical answer passage) | 94% | 0.85 | 84% |
 | 6. + Metadata filters (Act / section / court extracted from the question) | 92% | 0.84 | pending |
 | 7. + Parent-child (80-word children searched, parent unit returned) | 91% | 0.82 | pending |
 
@@ -218,8 +233,10 @@ case law most (63% → 83% Recall@5): judgment paragraphs are long and similar t
 Query rewriting gives the largest single gain (78% → 94%): many questions are in Roman Urdu or
 everyday words, while the sources use formal English legal terms. Steps 5-7 add nothing on top of
 rewriting; their small drops are 1-3 of the 80 answerable questions, too few to call a real
-difference. Free-tier Gemini allows 500 requests a day, so steps 4-7 were first run for retrieval
-only; their answer metrics are pending.
+difference. With rewriting, wrongly refused answerable questions fall from 15% (reranking) to 2%,
+faithfulness stays 98-100%, and 19 of 20 no-answer questions are still refused (95%). HyDE gives the
+same results as rewriting at one more Gemini call per question. Free-tier Gemini allows 500 requests
+a day, so steps 6-7 have been run for retrieval only; their answer metrics are pending.
 
 ### Cited answers and citation verification (Tasks 4-5)
 
@@ -243,6 +260,8 @@ On the saved answers (`evaluations/citation_verification_report.md`):
 | 1. Section-level | 67 | 93% | 6% | 1% | **0** |
 | 2. + Hybrid | 77 | 94% | 3% | 4% | **0** |
 | 3. + Reranking | 86 | 90% | 5% | 6% | **0** |
+| 4. + Query rewriting | 99 | 90% | 6% | 4% | **0** |
+| 5. + HyDE | 96 | 92% | 3% | 5% | **0** |
 
 **Urdu laws.** Their text comes from OCR (about 1 letter in 3 wrong) and is indexed by page, because
 section numbers do not survive OCR. So for an Urdu law the page is the reference (it must be the
@@ -255,9 +274,37 @@ tells Gemini to cite Urdu laws by page; configurations 0-3 were answered before 
 
 Fabrications caught include a precedent named instead of the judgment the passage comes from, a
 quote "cleaned up" by removing a footnote that sits inside the statute text, and a quote with words
-left out without "...". Demo of 5 verified answers: `evaluations/demo_verified_answers.md`.
+left out without "...". Demo of 5 questions: `evaluations/demo_verified_answers.md` (3 answered with
+verified citations, 2 correctly refused, one of them after the conclusion check below).
 
-## Day 3: knowledge graph (in progress)
+### Conclusion check: does the answer follow from its sources?
+
+The verifier proves a quote exists; it cannot tell whether the conclusion drawn from it is right. The Urdu demo
+question asks whether a court can award **more** than the penalty amount fixed in a contract. Gemini answered
+"yes", citing a real Specific Relief Act passage (verified) that says only that such a contract can still be
+**enforced**; nothing retrieved says a court can award more. The LLM faithfulness judge passed it too, because
+each sentence matched a passage.
+
+`src/rag/conclusion_check.py` adds a second Gemini call that reviews the answer like a senior lawyer, from the
+retrieved passages only. It first writes down what exactly the question asks, what the relied-on passages
+establish on *that* point, and any passage that contradicts or limits the answer, then decides: **supported**
+(shown), **partly** (shown with a "read with care" note) or **not supported** (drafted once more with the
+reviewer's objection; withheld if it fails again). A first version that gave only a verdict passed the Urdu
+answer; asking for the reasoning first made it catch it. On the Urdu question the redraft now answers "No
+sufficient source found", which is right for the passages retrieved.
+
+Measured on the 79 answered questions of the query-rewriting run (same passages and answers; one extra Gemini
+call each; `python -m evaluations.conclusion_check_eval`, report `evaluations/conclusion_check_report.md`):
+75 supported, 2 partly, 2 not supported. All **4 flags point to a real problem**: an answer to a question the
+corpus cannot answer (the Partnership Act is not in it) built from another law; a fact reported as the court's
+view where the court said it was not important; "reporting is mandatory" resting on a passage about
+cooperating with the police; and (minor) a rule for co-sureties left out. The 10 passed answers most likely to
+hide an error (their Day 2 citation missed the gold paragraph) were read the same way: no conclusion errors (one
+answered from a similar, different judgment, a retrieval ambiguity the check cannot see). This review was done
+by Claude (an AI model) against the expected answers, not by a lawyer, and 79 answers is a small sample. The
+check runs in `main.py --ask` and the web app; the Day 2 evaluation numbers above were measured without it.
+
+## Day 3: knowledge graph and GraphRAG
 
 Schema: `docs/graph_schema.md` (Act, Section, Case, Court, Judge, Party, Contract, Clause; CITES,
 FOLLOWS, DISTINGUISHES, OVERRULES, REFERS_TO, INTERPRETS, SAT_ON, ...). Built from the structured corpus
@@ -278,10 +325,22 @@ so the held-out set of 5 other judgments, annotated afterwards, is the fairer es
 
 Entity resolution: one node per law however it is written ("Cr.P.C." = "Code of Criminal Procedure" =
 "Criminal Procedure Code"; "Qanoon-" = "Qanun-e-Shahadat"), per judge (spelling variants such as
-"Akhter" / "Akhtar" merged, kept as `aliases`), and per CPC Order ("Order 39" = "Order XXXIX"). Loaded graph:
-1,649 Case, 3,214 Section, 138 Act, 52 Judge nodes; 2,102 REFERS_TO, 146 INTERPRETS, 1,123 CITES, 232 FOLLOWS
-(sentences are split with abbreviations in mind, so "Reliance is placed on A v. State (...), B v. State (...)" marks
-every listed case as FOLLOWS, not only the first).
+"Akhter" / "Akhtar" merged, kept as `aliases`), and per CPC Order ("Order 39" = "Order XXXIX"). Loaded graph
+(after the relationship-type check below): 1,649 Case, 3,214 Section, 138 Act, 52 Judge, 73 Contract and 1,186
+Clause nodes; 2,149 REFERS_TO, 67 INTERPRETS, 1,248 CITES, 108 FOLLOWS, 4 DISTINGUISHES, 2 OVERRULES (sentences are
+split with abbreviations in mind, so "Reliance is placed on A v. State (...), B v. State (...)" links every listed
+case, not only the first).
+
+**Relationship types checked by Gemini** (`python -m src.graph.llm_relation_check`). The regex step types a link
+from cue words ("relied", "distinguish", "overrul", "meaning of"), which cannot tell who is speaking: "counsel
+relied upon X" is not the court following X. Gemini read the evidence sentence of all 385 regex-typed links
+(FOLLOWS, DISTINGUISHES, OVERRULES, INTERPRETS; 10 per request) and changed 211: 123 FOLLOWS were only CITES
+(relied on by counsel or by the court below, or a neutral mention) and 79 INTERPRETS only REFERS_TO. On 34 links
+labelled by hand before the check (all OVERRULES and DISTINGUISHES, random FOLLOWS and INTERPRETS;
+`evaluations/relation_gold_sample.json`, labelled by Claude, an AI model, not a person) the type is right for
+**28/34 with the check vs 16/34 for the regex**. Links the regex typed CITES / REFERS_TO were not re-checked:
+this fixes wrong types, it does not find missed ones. Multi-hop answers use any precedent link, so they do not
+depend on these types.
 
 **Multi-hop question set** (`evaluations/multihop_eval_set.jsonl`, built by `python -m evaluations.build_multihop_set`):
 30 questions that need several connected facts: 24 local ("Which judges sat on the cases that refer to Section
@@ -311,25 +370,140 @@ Accuracy: 100/100 Day 2 questions to vector, 30/30 multi-hop questions to graph,
 (`evaluations/router_eval_extra.jsonl`, 10 vector / 10 graph / 10 hybrid, written before the router was run on
 them) 29/30 on the first run (30/30 after a fix for a Roman Urdu phrasing the miss exposed).
 
-**Vector vs Graph vs Hybrid** (`python -m evaluations.graph_vs_vector [--no-llm]`, report
-`evaluations/graph_vs_vector_report.md`). Without Gemini so far; graph is scored as an answer, vector and hybrid by
-how much of the answer is present in their context at all (an upper bound for an LLM answer):
+**Vector vs Graph vs Hybrid** (`python -m evaluations.graph_vs_vector`, report `evaluations/graph_vs_vector_report.md`).
+Answers are sets (judges, judgments, provisions, precedents), scored by F1 per question and averaged:
 
-| Question set | Graph answer (F1) | Answer present in top 10 vector passages | Graph + passages |
-|---|---:|---:|---:|
-| Development (30; GraphRAG's rules were built on these) | 0.99 | 53% | 100% |
-| Held-out (10; `evaluations/multihop_heldout.jsonl`) | 0.90 | 56% | 90% |
+| Method | Development (30; GraphRAG's rules built on these) | Held-out (10) |
+|---|---:|---:|
+| Vector: Gemini lists the answer from the top 10 passages | 0.40 | 0.43 |
+| Graph: the Cypher result (text-to-Cypher for 1 held-out question) | 0.99 | 1.00 |
+| Hybrid: Gemini with the graph result and the passages | 0.72 | 0.73 |
+| Routed (the router chose graph for all 40) | 0.99 | 1.00 |
 
-Vector search cannot answer most multi-hop questions: the answer is spread over many judgments (6 judgments
-behind one judge list) or is a count, and the top 10 passages hold about half of it. On the held-out set
-the graph misses one question that needs text-to-Cypher ("How many judgments cite ...?") and one link
-read wrongly ("Article 51(3) & 4" read as Article 4). The LLM answer scores for vector and hybrid, and
-text-to-Cypher, run with Gemini.
+Vector search cannot answer most multi-hop questions: the answer is spread over many judgments or is a count,
+and the top 10 passages hold only about half of it (53% / 56% of the answer items appear in them at all).
+Text-to-Cypher answered the one held-out question the query builder could not plan ("How many judgments cite
+PLD 2023 SC 588?" -> 3). Hybrid is worse than graph alone: given the graph list and passages together, Gemini
+drops or splits list items (its prompt was changed once after the first run, which scored 0.56 / 0.43, see the
+report). So list questions should take the graph result as the answer and use the LLM only for content
+questions ("... and what did they hold?"), which is what the router does.
 
-Not yet done: an LLM check of the regex-typed relationship types. OVERRULES / DISTINGUISHES / INTERPRETS are
-flagged `needs_check` (2 of the 3 OVERRULES candidates are false positives: "per incuriam" mentioned as a review
-ground), and a sample of FOLLOWS shows cue-word errors ("counsel relied upon", "not supported by any evidence").
-Multi-hop answers use any precedent link, so they do not depend on these types.
+## Day 4: contract review, comparison and drafting
+
+Scenario: a 60-page agreement arrives at 6 pm and needs comments by morning. Every output is marked
+**"DRAFT — for lawyer review"**, and every quote and legal source in it is checked by code.
+
+### Clause classification: LLM vs fine-tuned models (Task 1)
+
+Data (`python -m src.contracts.cuad_data`): CUAD's lawyer-marked passages for the 28 clause types with at least
+100 examples (metadata types such as "Parties" left out), plus sentences no lawyer marked (label: none). A passage
+can have several types. Split **by contract** (80 / 10 / 10, seed 42), so test contracts are never seen in
+training: 10,088 training, 1,218 validation and 1,054 test passages; the comparison uses a 482-passage test
+sample (up to 15 per type plus 150 unmarked sentences) so the LLM run fits the free quota.
+
+* LLM: Gemini (`gemini-3.5-flash-lite`), zero-shot, given CUAD's one-line description of each type, 15 passages
+  per request.
+* Fine-tuned: a multi-label head (one yes/no output per type) on Legal-BERT-small on the laptop CPU
+  (`src/contracts/finetune.py`), and Legal-BERT-small, Legal-BERT-base and DeBERTa-v3-base on a Colab T4 GPU
+  (`colab/clause_finetune_colab.ipynb`, generated by `colab/make_clause_notebook.py`). Each keeps the epoch with the
+  best validation F1 and one decision threshold tuned on validation; the test set is never used for a choice.
+
+| | Gemini, zero-shot | Legal-BERT-small, 3 epochs (CPU) | DeBERTa-v3-base (GPU) | Legal-BERT-base (GPU) | Legal-BERT-small, 8 epochs (GPU) |
+|---|---:|---:|---:|---:|---:|
+| Micro F1 | 0.79 | 0.69 | 0.75 | **0.80** | 0.79 |
+| Macro F1 (28 types) | 0.77 | 0.59 | 0.68 | 0.77 | 0.77 |
+| False alarms on unmarked sentences | 12% | 14% | 11% | 11% | 15% |
+| Training | none | 100 min | 16 min | 9 min | 4 min |
+| Time per passage | 620 ms (API) | 50 ms | 5.7 ms | 3.0 ms | **1.0 ms** |
+
+A small model trained for 4 minutes matches Gemini (0.79) and labels a passage 600 times faster at no cost per
+call. Pre-training on legal text matters more than size: DeBERTa-v3-base, a larger general model, scores below
+both Legal-BERT models. Training longer mattered most for the small model (0.69 after 3 epochs on CPU, 0.79
+after 8 on GPU), and every model was still improving at its last epoch. Gemini is clearly better on rare,
+subtle types the models saw few examples of ("Competitive Restriction Exception": 0.74 vs 0.43 at best) and
+worse on some well-defined ones ("Volume Restriction" 0.36 vs 0.88, "Uncapped Liability" 0.64 vs 0.86).
+Types with fewer than 15 test passages have unreliable scores. F1 per type:
+`evaluations/clause_classification_report.md`.
+
+### Playbook risk review (Task 2)
+
+`data/playbook/firm_playbook.json` holds 14 positions (governing law, dispute resolution, liability cap,
+indemnity, termination, renewal, confidentiality, assignment, payment and tax, IP, restraint of trade,
+liquidated damages, audit, force majeure), each with green / amber / red positions, a weight, standard wording
+and its Pakistani statutory source (Contract Act ss. 27, 28, 73, 74, 124; Income Tax Ordinance s. 153).
+`python -m src.contracts.review <contract> --party "..."`:
+
+1. for each position, the 3 contract passages closest in meaning (multilingual-e5-small, 300-word windows, so a
+   60-page contract fits one prompt) plus any clause whose title names it;
+2. Gemini rates each position ✅ / ⚠️ / ❌ / missing from the client's side, names the clause, quotes it,
+   explains why and suggests wording;
+3. code checks every quote word for word against the clause it names (an unverified quote is removed and the
+   finding says so); statutory sources are quoted from the corpus, never written by the model; a position the
+   model skipped is reported, not dropped;
+4. risk score 0-100: red adds the position's weight, amber half, a missing required clause counts as red;
+5. Word export with a findings table, missing clauses with proposed wording, and the contract text with a
+   **Word comment** on each clause that has a finding.
+
+Samples in `evaluations/contract_reviews/`: a supply agreement in the contractor's markup (risk 64: Dubai courts,
+a one-month liability cap, one-sided termination and a non-compete rated ❌; 5 positions missing) and a real CUAD
+franchise agreement reviewed for the franchisee (risk 85; findings point to clauses 8-25 after the clause fix
+above; one quote removed by the check).
+
+### Comparing two versions (Task 3)
+
+`python -m src.contracts.compare v1.json v2.json` matches clauses by content, not number (title and text
+similarity, best pairs first), so a renumbered draft still lines up; finds changed words with a word-level diff;
+and asks Gemini to explain each change for the client: what changed, its legal effect, which side it favours, a
+risk level and the playbook position involved. The diff is computed by code, so the model can neither invent nor
+miss a change. Output: Markdown, JSON and a Word redline (deleted text struck through in red, inserted text
+underlined in blue). Test pair `data/contracts/versions/supply_agreement_v1.json` / `_v2.json`: **all 9 planted
+changes found**; 8 explained as favouring the contractor (e.g. "replaces a non-solicitation clause with a broad
+non-compete", with Section 27 of the Contract Act) and the purely stylistic one rated "no risk".
+
+### Drafting agent (Task 4)
+
+`python -m src.contracts.drafting brief | notice | clauses ...`, output in `evaluations/drafts/` (Markdown and Word):
+
+* **Case brief** of a judgment: facts, issues, holding, reasoning and outcome, each point tied to a paragraph
+  number and a quote that must appear word for word in that paragraph (2 quotes failed and were removed in the
+  sample); the precedents and provisions it relies on come from the knowledge graph.
+* **Legal notice** from facts given by the lawyer (sample: unpaid invoices of PKR 4.8 million): the legal basis is
+  retrieved from the corpus and every citation passes the Day 2 verifier (here Section 73 of the Contract Act).
+* **Contract clauses** adapted to the deal from the firm's standard wording, with the statutory sources quoted
+  from the corpus.
+
+A citation that fails its check is removed and the text says "[source removed: not verified]".
+
+### Long context vs RAG (Task 5)
+
+`python -m evaluations.long_context_vs_rag`: 10 CUAD test contracts (3,400-14,200 words), 10 clause types each
+(100 questions, 44 clauses present according to CUAD's lawyers). Gemini either reads the whole contract or only
+the 3 passages (200 words) retrieved for each clause type, and must say whether the clause is present and quote it.
+
+| | Long context (whole contract) | RAG (3 passages per type) |
+|---|---:|---:|
+| Correct (present / absent) | **90%** | 88% |
+| Missed clauses | **3 / 44** | 7 / 44 |
+| False alarms | 7 | 5 |
+| Quote real and on the right clause | 40 / 44 | 36 / 44 |
+| Input per contract | 14,300 tokens | **10,100 tokens** |
+| Time per contract | 18 s | **6 s** |
+
+Long context misses fewer clauses; RAG is 3 times faster and uses 30% fewer tokens. For a review, a missed clause
+is the costlier error, so for contracts that fit the model's context, reading the whole contract is the safer
+default. Report: `evaluations/long_context_vs_rag_report.md`.
+
+## Web app
+
+`python -m web.server`, then open http://127.0.0.1:8000. One page with six tools over the code above:
+**Research** (router → verified answer, graph list or both), **Case law** (GraphRAG; no LLM for linked
+questions), **Contract review** (a sample or an uploaded PDF / Word / text contract → findings and the Word file
+with comments), **Compare versions** (sample pair or two uploads → redline and impacts), **Drafting** (brief,
+notice, clauses → Word) and **Evaluation** (the reports in `evaluations/`). Backend: FastAPI (`web/server.py`);
+front end: plain HTML, CSS and JavaScript (`web/static/`), no framework. Uploads and generated Word files go to
+`data/web_outputs/` (not in git); downloads and reports are served only from fixed folders by name. Gemini answers
+are cached, so a question asked before costs nothing; when the free daily quota is used up the page says so.
+Tests: `tests/test_web.py` (with a fake LLM).
 
 ## Data sources not in git
 
@@ -401,6 +575,29 @@ OCR evaluation additionally requires:
 .\.venv\Scripts\python.exe -m evaluations.rag_evaluation --config hybrid --reviewed-only [--no-llm]
 .\.venv\Scripts\python.exe -m evaluations.verify_citations
 .\.venv\Scripts\python.exe -m evaluations.demo_answers
+.\.venv\Scripts\python.exe -m evaluations.conclusion_check_eval     # conclusion check on saved answers
+
+# Day 3: build the graph, check relationship types, load Neo4j (AuraDB settings in .env), evaluate
+.\.venv\Scripts\python.exe -m src.graph.regex_extract
+.\.venv\Scripts\python.exe -m src.graph.llm_relation_check         # then regex_extract again
+.\.venv\Scripts\python.exe -m src.graph.load_neo4j
+.\.venv\Scripts\python.exe -m src.graph.graphrag "Which judges sat on the cases that refer to Section 324 PPC?"
+.\.venv\Scripts\python.exe -m evaluations.graph_extraction_eval
+.\.venv\Scripts\python.exe -m evaluations.graph_vs_vector
+
+# Day 4: CUAD data, fine-tuning (or the Colab notebook), comparison, review, versions, drafting
+.\.venv\Scripts\python.exe -m src.contracts.cuad_data --download
+.\.venv\Scripts\python.exe -m src.contracts.finetune
+.\.venv\Scripts\python.exe -m evaluations.clause_classification     # --no-llm: fine-tuned models only
+.\.venv\Scripts\python.exe -m src.contracts.review data/contracts/versions/supply_agreement_v2.json --party "Pak Telecom Enterprises (the Client)"
+.\.venv\Scripts\python.exe -m src.contracts.compare data/contracts/versions/supply_agreement_v1.json data/contracts/versions/supply_agreement_v2.json
+.\.venv\Scripts\python.exe -m src.contracts.drafting brief SC_crl.p._207_k_2025
+.\.venv\Scripts\python.exe -m src.contracts.drafting notice data/contracts/drafting/notice_facts.json
+.\.venv\Scripts\python.exe -m src.contracts.drafting clauses data/contracts/drafting/clause_request.json
+.\.venv\Scripts\python.exe -m evaluations.long_context_vs_rag
+
+# Web app (http://127.0.0.1:8000)
+.\.venv\Scripts\python.exe -m web.server
 
 # Run tests
 .\.venv\Scripts\python.exe -m pytest -q
@@ -417,8 +614,15 @@ does not claim the benchmark completed.
 2. Check extraction correctness against a hand-labelled sample; the coverage
    figures above only show that a field was found. Contract party extraction (60%)
    is the weakest field.
-3. The Day 2 evaluation set was reviewed by an AI model, not by a lawyer; a person should
-   check it (and the LLM-judged faithfulness) before relying on the numbers.
-4. Confirm the documents' provenance, licensing, and integrity.
+3. The Day 2 evaluation set, the graph answer keys, the relationship-type sample and the conclusion-check
+   review were made by an AI model, not by a lawyer; a person should check them (and the LLM-judged
+   faithfulness) before relying on the numbers.
+4. Verified citations do not make an answer right: the conclusion check catches answers that draw the wrong
+   conclusion from real quotes, but it is itself an LLM and was measured on 79 answers only. Every output is a
+   draft for a lawyer.
+5. Day 2 steps 6-7 (metadata filters, parent-child) still need their answer metrics (Gemini quota).
+6. Two CUAD contracts are still split wrongly (one needs OCR); the Day 2 search index holds the earlier
+   contract split.
+7. Confirm the documents' provenance, licensing, and integrity.
 
 This prototype is for engineering evaluation, not legal advice.

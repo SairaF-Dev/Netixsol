@@ -20,3 +20,10 @@ project_instruction.txt
 
 # Cached LLM responses (re-creatable)
 data/llm_cache/
+
+# CUAD labels and contract texts (44 MB): python -m src.contracts.cuad_data --download
+data/cuad_labels/
+models/
+
+# Web app: generated Word files and uploads
+data/web_outputs/

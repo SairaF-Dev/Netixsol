@@ -1,0 +1,345 @@
+{
+ "_about": "Day 3, Task 2: hand labels for 34 regex-typed relationships (all 3 OVERRULES, all 4 DISTINGUISHES, 15 random FOLLOWS, 12 random INTERPRETS; seed 11), made by Claude (an AI model, not a person) from the evidence sentence BEFORE the LLM check was run. Precedent links: FOLLOWS (the court relies on / applies it), DISTINGUISHES (the court finds it does not apply), OVERRULES (this court declares it wrong / no longer good law), CITES (neutral, or relied on by counsel or by the court below). Provision links: INTERPRETS (the court explains meaning or scope) or REFERS_TO.",
+ "edges": [
+  {
+   "n": 1,
+   "type": "OVERRULES",
+   "src": "SC:CA-357-L-2013",
+   "dst": "CIT:2026 SCMR 287",
+   "paragraph": "13",
+   "sentence": "Recently, in Gul Tiaz Khan Marwat v. Registrar, Peshawar High Court (2026 SCMR 287), this Court reiterated that review lies where the decision is per incuriam or where the error is so manifest that it floats on the surface of the record and materially affects the outcome of the case.",
+   "gold": "FOLLOWS",
+   "why": "court relies on its statement of the review grounds; 'per incuriam' is the subject, not an overruling"
+  },
+  {
+   "n": 2,
+   "type": "OVERRULES",
+   "src": "SC:CRP-410-2023",
+   "dst": "CIT:2026 SCMR 287",
+   "paragraph": "13",
+   "sentence": "Very recently, this Court, in Gul Tiaz Khan Marwat v. Registrar Peshawar High Court (2026 SCMR 287), has held: “a reviewable ground would essentially be one where the decision was per incuriam or where error is so evident that it is floating on the surface of the record, having substantial impact on the final outcome of the case…”",
+   "gold": "FOLLOWS",
+   "why": "court quotes and applies it on review grounds"
+  },
+  {
+   "n": 3,
+   "type": "OVERRULES",
+   "src": "SC:CRLP-1121-2021",
+   "dst": "CIT:PLD 2016 SC 769",
+   "paragraph": "9",
+   "sentence": "We agree with the learned counsel for the petitioner that the High Court could not have placed reliance on the judgments in the cases of Habib Ullah (supra) and Bashir Ahmed (supra) which had restricted the scope and applicability of the 2005 Act and had been declared by the five member bench of this court in the case of Gulshan Bibi vs. Muhammad Sadiq (PLD 2016 SC 769) as “not a good law.”",
+   "gold": "FOLLOWS",
+   "why": "the cited case is the one that declared other judgments 'not a good law'; this court relies on it"
+  },
+  {
+   "n": 4,
+   "type": "DISTINGUISHES",
+   "src": "SC:CP-4146-2025",
+   "dst": "CIT:2025 SCMR 92",
+   "paragraph": "28",
+   "sentence": "A regular inquiry is triggered after issuing show cause notice with statement of allegations and if the -: 18 :- reply is not found suitable then inquiry officer is appointed and regular inquiry is commenced (unless dispensed with for some reasons in writing) in which it is obligatory for the inquiry officer to allow an even-handed and fair opportunity to the accused to place his defence and if an",
+   "gold": "FOLLOWS",
+   "why": "court quotes it ('this court held as follows'); 'distinguish' refers to kinds of inquiries"
+  },
+  {
+   "n": 5,
+   "type": "DISTINGUISHES",
+   "src": "SC:CP-4818-2024",
+   "dst": "CIT:PLD 1969 SC 187",
+   "paragraph": "9",
+   "sentence": "Sher Afzal (PLD 1969 SC 187), this Court distinguished substantive and procedural laws and held that substantive laws must obey prospectively and procedural changes can apply retrospectively.",
+   "gold": "FOLLOWS",
+   "why": "'this Court distinguished substantive and procedural laws' describes the precedent's holding, relied on"
+  },
+  {
+   "n": 6,
+   "type": "DISTINGUISHES",
+   "src": "SC:CA-1-2025",
+   "dst": "CIT:PLD 2011 SC 197",
+   "paragraph": "9",
+   "sentence": "Thus, facts and circumstances narrated in the judgment of the said case reported in PLD 2011 SC 197 are quite distinguishable from the facts and circumstances of the case in hand. 8 PLD 2009 SC 879",
+   "gold": "DISTINGUISHES",
+   "why": "'quite distinguishable from the facts and circumstances of the case in hand'"
+  },
+  {
+   "n": 7,
+   "type": "DISTINGUISHES",
+   "src": "SC:CA-1-2025",
+   "dst": "CIT:PLD 2009 SC 879",
+   "paragraph": "9",
+   "sentence": "Thus, facts and circumstances narrated in the judgment of the said case reported in PLD 2011 SC 197 are quite distinguishable from the facts and circumstances of the case in hand. 8 PLD 2009 SC 879",
+   "gold": "CITES",
+   "why": "a footnote citation glued after the sentence; the sentence distinguishes a different case"
+  },
+  {
+   "n": 8,
+   "type": "FOLLOWS",
+   "src": "SC:CA-1410-2019",
+   "dst": "CIT:2004 SCMR 1001",
+   "paragraph": "14",
+   "sentence": "JUDGE Islamabad, the 01st April, 2026 ‘APPROVED FOR REPORTING’ M.A. Hassan JUDGE 3 Nazim-Ud-Din and others v. Sheikh Zia-Ul-Qamar and others (2016 SCMR 24), Sultan Muhammad and another v. Muhammad Qasim and others (2010 SCMR 1630), Ghulam Muhammad and 3 others v. Ghulam Ali (2004 SCMR 1001) and Habib Khan and others v. Mst. Bakhtmina and others (2004 SCMR 1668).",
+   "gold": "CITES",
+   "why": "footnote list after the signature; the cue was 'APPROVED FOR REPORTING'"
+  },
+  {
+   "n": 9,
+   "type": "FOLLOWS",
+   "src": "SC:CRLP-248-L-2016",
+   "dst": "CIT:2021 SCMR 873",
+   "paragraph": "4",
+   "sentence": "In this regard, we are fortified by the judgment of this Court in the case of Ishtiaq Ahmed Mirza v Federation of Pakistan (PLD 2019 SC 675) wherein it was ruled that, \"No audio tape or video can be relied upon by a court until the same is proved to be genuine and not tampered with or doctored.\" The same dictum was also followed by this Court in the case of Ahmed Omar Sheikh v State (2021 SCMR 873",
+   "gold": "FOLLOWS",
+   "why": "'the same dictum was also followed by this Court' - relied on"
+  },
+  {
+   "n": 10,
+   "type": "FOLLOWS",
+   "src": "SC:CA-634-2018",
+   "dst": "CIT:2019 SCMR 1989",
+   "paragraph": "10",
+   "sentence": "Learned counsel who appeared in CA 634 of 2018 referred to a judgment of a five member Bench of the Court reported as Abbasi Enterprises Unilever Distributor Haripur v. Collector of Sales Tax and Federal Excise Duty 2019 SCMR 1989 and relying on observations made in para 8 thereof (at page 1993) submitted that the matter already stood settled in terms of this decision.",
+   "gold": "CITES",
+   "why": "counsel referred to and relied on it, not the court"
+  },
+  {
+   "n": 11,
+   "type": "FOLLOWS",
+   "src": "SC:CRLP-1121-2021",
+   "dst": "CIT:2010 SCMR 1254",
+   "paragraph": "11",
+   "sentence": "We say so because reference in the impugned judgment is also made to the case of Mumtaz Hussain vs. Dr. Nasir Khan (2010 SCMR 1254), wherein the following four conditions have been required to be fulfilled in order to attract the provisions of section 3 of the 2005 Act.",
+   "gold": "CITES",
+   "why": "the court reports that the impugned judgment referred to it"
+  },
+  {
+   "n": 12,
+   "type": "FOLLOWS",
+   "src": "SC:CP-422-2025",
+   "dst": "CIT:2026 SCP 211",
+   "paragraph": "10",
+   "sentence": "The same underlying principle finds support in the discussion of inheritance rights in C.P.L.A. No.1103/L/2016 (2026 SCP 211), wherein this Court reiterated that inheritance rights vest upon the death of the predecessor-in-interest and that revenue entries do not, by themselves, create or extinguish proprietary rights.",
+   "gold": "FOLLOWS",
+   "why": "'finds support in ... wherein this Court reiterated'"
+  },
+  {
+   "n": 13,
+   "type": "FOLLOWS",
+   "src": "SC:CA-1543-2019",
+   "dst": "CIT:PLD 2005 SC 977",
+   "paragraph": "8",
+   "sentence": "This Court approved the principles earlier enunciated in Haji Muhammad Salem v. Khuda Bakhsh (PLD 2003 SC 315) and Fazal Suhhan and others v. Mst. Sahib Jamala and others (PLD 2005 SC 977) and declared that omission of these foundational particulars is fatal to a suit for pre- emption.",
+   "gold": "FOLLOWS",
+   "why": "principles approved and applied"
+  },
+  {
+   "n": 14,
+   "type": "FOLLOWS",
+   "src": "SC:CA-2026-2022",
+   "dst": "CIT:PLD 1970 SC 29",
+   "paragraph": "16",
+   "sentence": "As stated by James, L.J. in Levy Ex parte Walton [(1881) 17 Ch. D 756, [1881-5] All ER Rep 548], a statement approved by this Court in Begum B.H. Sayed v. Mst. Afzal Jahan Begum [PLD 1970 SC 29] when a statute enacts that something shall be deemed to have been done which in fact and in truth was not done, the Court is entitled and bound to ascertain for what purposes and between what persons the s",
+   "gold": "FOLLOWS",
+   "why": "statement 'approved by this Court' relied on"
+  },
+  {
+   "n": 15,
+   "type": "FOLLOWS",
+   "src": "SC:CRLP-1121-2021",
+   "dst": "CIT:PLD 2010 SC 661",
+   "paragraph": "8",
+   "sentence": "In particular, reliance was placed on the judgments in the cases of Habib Ullah vs. Abdul Manan (2012 SCMR 1533) and Bashir Ahmed vs. Additional Sessions Judge, Faisalabad (PLD 2010 SC 661).",
+   "gold": "CITES",
+   "why": "the High Court relied on it; this court says it is no longer good law (declared so by another case)"
+  },
+  {
+   "n": 16,
+   "type": "FOLLOWS",
+   "src": "SC:CA-852-2025",
+   "dst": "CIT:PLD 1985 SC 341",
+   "paragraph": "6",
+   "sentence": "In Fida Muhammad v. Pir Muhammad Khan (PLD 1985 SC 341), this Court categorically held that a general power of attorney does not, by itself, confer authority to alienate property unless a clear and specific clause to that effect exists, and even then, such authority cannot be readily inferred in the absence of clear intention and consent of the principal, in the following words: “It is wrong to as",
+   "gold": "FOLLOWS",
+   "why": "'this Court categorically held', quoted and applied"
+  },
+  {
+   "n": 17,
+   "type": "FOLLOWS",
+   "src": "LHC:LHC:WRIT-PETITION-NO-3068-OF-2022",
+   "dst": "CIT:AIR 1940 PC 219",
+   "paragraph": "10",
+   "sentence": "It is a settled principle of law that the fresh plea cannot be raised before this Court as the law laid down by the Privy Council and this Court in the following judgments:-- (i) John E. Brown Lee v. Vivan Mac Millan AIR 1940 PC 219 and (ii) Ashfaque-ur-Rehman v. Ch. Muhammad Afzal PLD 1971 SC",
+   "gold": "FOLLOWS",
+   "why": "'the law laid down by the Privy Council and this Court in the following judgments'"
+  },
+  {
+   "n": 18,
+   "type": "FOLLOWS",
+   "src": "LHC:LHC:WRIT-PETITION-NO-3068-OF-2022",
+   "dst": "CIT:2005 CLD 95",
+   "paragraph": "9",
+   "sentence": "A guarantor cannot shirk from the liabilities incurred by him through the execution of documents as law laid down in the following judgments:- (i) Rafique Hazquel Masih v. Bank Alfalah Ltd. and others 2005 2005 CLD 95;",
+   "gold": "FOLLOWS",
+   "why": "'as law laid down in the following judgments'"
+  },
+  {
+   "n": 19,
+   "type": "FOLLOWS",
+   "src": "SC:CRP-410-2023",
+   "dst": "CIT:2007 SCMR 1446",
+   "paragraph": "7",
+   "sentence": "The underlying philosophy of limitation was elaborately explained by this Court in Atta Muhammad v. Maula Bakhsh (2007 SCMR 1446) in the following terms: “The law of limitation provides an element of certainty in the conduct of human affairs.",
+   "gold": "FOLLOWS",
+   "why": "'elaborately explained by this Court ... in the following terms'"
+  },
+  {
+   "n": 20,
+   "type": "FOLLOWS",
+   "src": "SC:CA-256-2011",
+   "dst": "CIT:2019 SCMR 1081",
+   "paragraph": "6",
+   "sentence": "Reliance was placed on various decisions including, in particular, H.M. Extraction Ghee & Oil Industries (Pvt) Ltd. v Commissioner of Inland Revenue 2019 SCMR 1081 and on para 8 thereof where the well known three stages relating to taxation (leviability, assessment and recovery) are set out.",
+   "gold": "CITES",
+   "why": "'Reliance was placed' by counsel in the argument summary"
+  },
+  {
+   "n": 21,
+   "type": "FOLLOWS",
+   "src": "SC:CA-1543-2019",
+   "dst": "CIT:2023 SCMR 1113",
+   "paragraph": "11",
+   "sentence": "The same view was reiterated in Sardar Muhammad (deceased) through LRs v. Taj Muhammad (deceased) through LRs and others (2023 SCMR 1113), wherein this Court held that a pre- emptor must not only plead but also prove the valid performance of Talb-i-Muwathibat and Talb-i-Ishhad, and that failure to establish any one of the statutory demands is fatal to the suit.",
+   "gold": "FOLLOWS",
+   "why": "'the same view was reiterated in'"
+  },
+  {
+   "n": 22,
+   "type": "FOLLOWS",
+   "src": "SC:CA-88-K-2023",
+   "dst": "CIT:1993 SCMR 609",
+   "paragraph": "21",
+   "sentence": "The learned counsel for the appellant (Syed Nadeem Shah) cited the dictum laid down in the case of Federation of Pakistan versus Raiz Khan (1993 SCMR 609), which in our considered view does not germane to account for the period of service rendered on contractual basis at the time of regularization of service but it was directly focused on the period of ad-hoc service followed by regular service in",
+   "gold": "DISTINGUISHES",
+   "why": "cited by counsel; the court finds it not germane to the issue"
+  },
+  {
+   "n": 23,
+   "type": "INTERPRETS",
+   "src": "SC:CA-1509-2021",
+   "dst": "EXT:pakistan-telecommunication-corporation-act::Section 2",
+   "paragraph": "12",
+   "sentence": "While interpreting Section 2(t) read with Section 35 of the Act of 1996, this Court concluded that the transition of these employees from the T&T Department to the PTC and then to the PTCL were given statutory protection, such that neither the PTC nor the PTCL could vary the terms and conditions of their service to their disadvantage, meaning 15 The Constitution of the Islamic Republic of Pakistan",
+   "gold": "INTERPRETS",
+   "why": "discusses how Section 2(t) was interpreted"
+  },
+  {
+   "n": 24,
+   "type": "INTERPRETS",
+   "src": "LHC:WP-43022-2026",
+   "dst": "REAL_STAT_001::Article 25",
+   "paragraph": "10",
+   "sentence": "Learned counsels contend that Private Medical & Dental Colleges have been singled out in comparison with Private Institutions offering engineering and business programs, contrary to Article 25 of the Constitution; add that the PM&DC Act is a regulatory enactment rather than beneficial legislation and its burdens cannot be enlarged through a liberal construction.",
+   "gold": "REFERS_TO",
+   "why": "counsel's contention"
+  },
+  {
+   "n": 25,
+   "type": "INTERPRETS",
+   "src": "SC:CRP-410-2023",
+   "dst": "REAL_STAT_001::Article 188",
+   "paragraph": "5",
+   "sentence": "Conversely, learned counsel for the respondents supported the order sought to be reviewed and contended that no ground for review, within the meaning of Article 188 of the Constitution, has been made out.",
+   "gold": "REFERS_TO",
+   "why": "counsel's contention ('within the meaning of')"
+  },
+  {
+   "n": 26,
+   "type": "INTERPRETS",
+   "src": "SC:CA-333-2024",
+   "dst": "REAL_STAT_001::Article 209",
+   "paragraph": "13",
+   "sentence": "Had the provision of Article 209 of the Constitution been interpreted progressively or purposively, in a manner that upon retirement or resignation of a judge, the inquiry initiated by a constitutional body shall stand terminated, it would have amounted to adding these words into the Constitution, which is beyond the domain of this Court.",
+   "gold": "INTERPRETS",
+   "why": "the court discusses how Article 209 should be interpreted"
+  },
+  {
+   "n": 27,
+   "type": "INTERPRETS",
+   "src": "LHC:LHC:2026-LHC-8678",
+   "dst": "PKLAW_008::Section 12",
+   "paragraph": "13",
+   "sentence": "It is clarified, however, that the setting aside of the impugned order shall not be construed as an expression of opinion on the merits or maintainability of the petitioner's application under Section 12(2), C.P.C., nor shall it be taken to mean that the said application is necessarily within limitation.",
+   "gold": "REFERS_TO",
+   "why": "'shall not be construed as an expression of opinion' - not about the section's meaning"
+  },
+  {
+   "n": 28,
+   "type": "INTERPRETS",
+   "src": "LHC:LHC:WRIT-PETITION-NO-3068-OF-2022",
+   "dst": "PKLAW_008::Section 47",
+   "paragraph": "7",
+   "sentence": "Where any person has become liable as surety __ (a) for the performance of any decree or any part thereof, or (b) for the restitution of any property taken in execution of a decree, or (c) for the payment of any money, or for the fulfillment of any condition imposed on any person, under an order of the Court in any suit or in any proceedings consequent thereon, the decree or order may be executed ",
+   "gold": "REFERS_TO",
+   "why": "quoted statute text"
+  },
+  {
+   "n": 29,
+   "type": "INTERPRETS",
+   "src": "SC:CRLP-894-2026",
+   "dst": "EXT:code-of-criminal-procedure::Section 497",
+   "paragraph": "8",
+   "sentence": "Besides, where complex questions of law and fact remain open regarding an individual’s status and ongoing administrative processes, the case falls within the ambit of further inquiry under section 497(2) Cr.P.C. The material brought on record i.e., marriage of petitioner with Pakistani female in 1994, existence of children from the said wedlock and directions issued by High Court qua determination",
+   "gold": "REFERS_TO",
+   "why": "applies section 497(2) to the facts"
+  },
+  {
+   "n": 30,
+   "type": "INTERPRETS",
+   "src": "LHC:CRLREV-1241-2026",
+   "dst": "PKLAW_010::Section 141",
+   "paragraph": "15",
+   "sentence": "In the same vein, the offence of rioting under Section 147 PPC presupposes an unlawful assembly within the meaning of Section 141 PPC, that is, an assembly of five or more persons sharing a common object of the kind specified therein, and the use of force or violence by that assembly in prosecution of that object.",
+   "gold": "INTERPRETS",
+   "why": "explains what an unlawful assembly under Section 141 PPC is"
+  },
+  {
+   "n": 31,
+   "type": "INTERPRETS",
+   "src": "SC:CP-3303-2024",
+   "dst": "PKLAW_008::Section 12",
+   "paragraph": "19",
+   "sentence": "This construction also harmonizes Sahabzadi Maharunnisa with the long and consistent line of authorities commencing with Secretary, Ministry of Religious Affairs and Minorities (1993 SCMR 1171), reaffirmed in Khawaja Muhammad Yousaf (1999 SCMR 1516), Abid Kamal (2000 SCMR 900) and Muhammad Yousuf (PLD 2002 SC 391), each of which unequivocally held that where this Court merely refuses leave against",
+   "gold": "INTERPRETS",
+   "why": "construes the scope of applications under Section 12(2) CPC"
+  },
+  {
+   "n": 32,
+   "type": "INTERPRETS",
+   "src": "SC:CRP-410-2023",
+   "dst": "PKLAW_008::Section 115",
+   "paragraph": "11",
+   "sentence": "In the case of Shahbaz Gul and others v. Muhammad Younas Khan and others (2020 SCMR 867), this Court held that where two interpretations of the evidence are possible, the appraisal of facts made by the Courts below should not be interfered with by the High Court in exercise of revisional jurisdiction under section 115, C.P.C., and the view adopted by the trial and appellate Courts must prevail.",
+   "gold": "INTERPRETS",
+   "why": "holds what the revisional jurisdiction under section 115 allows"
+  },
+  {
+   "n": 33,
+   "type": "INTERPRETS",
+   "src": "LHC:CRLMISC-63222-2025",
+   "dst": "PKLAW_010::Section 84",
+   "paragraph": "13",
+   "sentence": "Mere assertion of mental illness or invocation of section 84 PPC does not, ipso facto, amount to a judicial determination of incapacity within the meaning of sections 464 and 465 Cr.P.C. However, once such a determination is made, he becomes incompetent to act on his own in the proceedings by reason of his legal incapacity.",
+   "gold": "REFERS_TO",
+   "why": "mentions section 84 PPC; the meaning discussed is of sections 464-465 CrPC"
+  },
+  {
+   "n": 34,
+   "type": "INTERPRETS",
+   "src": "LHC:LHC:2026-LHC-8284",
+   "dst": "EXT:sales-tax-act::Section 45B",
+   "paragraph": "",
+   "sentence": "Whether, the learned Appellate Tribunal failed to interpret the word “or” in Section 45B which is disjunctive in nature, Page 2 So, in Section 45B the word “decision” should be read independently? iii.",
+   "gold": "INTERPRETS",
+   "why": "the question is how 'or' in Section 45B is read"
+  }
+ ]
+}

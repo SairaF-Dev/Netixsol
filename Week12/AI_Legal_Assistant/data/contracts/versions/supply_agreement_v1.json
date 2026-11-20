@@ -1,0 +1,19 @@
+{
+ "document_id": "SUPPLY_V1",
+ "contract_title": "IT Services and Supply Agreement (version 1, sent by the Client)",
+ "contract_type": "Services Agreement",
+ "parties": ["Pak Telecom Enterprises (Pvt) Ltd, Islamabad (the Client)", "M/s Indus Infotech Solutions (Pvt) Ltd, Karachi (the Contractor)"],
+ "note": "Synthetic contract written for this project (Day 4, Task 3), based on CONT_SYNTH_001. Version 2 is the Contractor's markup.",
+ "clauses": [
+  {"clause_id": "1", "clause_title": "Recitals", "text": "WHEREAS the Client desires to procure specialized engineering and information technology services, and the Contractor represents that it possesses the requisite expertise, equipment and personnel to deliver the same under Pakistani regulatory standards."},
+  {"clause_id": "2", "clause_title": "Services and Scope of Work", "text": "The Contractor shall faithfully execute the tasks stipulated in Schedule A in compliance with Pakistani technical standards, ISO certifications and applicable guidelines, and shall assign only qualified personnel approved by the Client."},
+  {"clause_id": "3", "clause_title": "Term and Renewal", "text": "This Agreement shall commence on 1 February 2024 and continue for one (1) year. It may be renewed for a further year by written agreement of both Parties."},
+  {"clause_id": "4", "clause_title": "Payment Terms and Withholding Tax", "text": "Invoices shall be submitted monthly and paid within thirty (30) days in Pakistani Rupees (PKR). Payments shall be subject to deduction of applicable withholding income tax under the Income Tax Ordinance, 2001 and provincial sales tax on services, and the Client shall provide tax deduction certificates."},
+  {"clause_id": "5", "clause_title": "Confidentiality", "text": "Both Parties shall protect all business proprietary secrets and customer data of the other Party. Neither Party shall disclose confidential materials to any third party without prior written consent. This obligation survives termination for seven (7) years."},
+  {"clause_id": "6", "clause_title": "Indemnity", "text": "The Contractor shall indemnify and hold harmless the Client against any third-party claims arising from the Contractor's negligence, wilful misconduct or infringement of intellectual property rights in Pakistan."},
+  {"clause_id": "7", "clause_title": "Limitation of Liability", "text": "Except for fraud, wilful misconduct and breach of Clause 5, each Party's aggregate liability under this Agreement shall not exceed the fees paid in the twelve (12) months preceding the claim. Neither Party shall be liable for indirect or consequential loss."},
+  {"clause_id": "8", "clause_title": "Termination", "text": "Either Party may terminate this Agreement if the other Party commits a material breach and fails to remedy it within thirty (30) days of written notice. The Client may terminate this Agreement for convenience on sixty (60) days' written notice."},
+  {"clause_id": "9", "clause_title": "Non-Solicitation", "text": "During the term and for twelve (12) months thereafter, neither Party shall solicit for employment any employee of the other Party who was directly involved in the performance of this Agreement."},
+  {"clause_id": "10", "clause_title": "Governing Law and Dispute Resolution", "text": "This Agreement shall be governed by the laws of the Islamic Republic of Pakistan. Any dispute arising out of or in connection with this Agreement shall be referred to arbitration in Lahore in accordance with the Arbitration Act, 1940."}
+ ]
+}

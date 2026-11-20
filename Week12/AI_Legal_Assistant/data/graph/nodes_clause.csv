@@ -147,9 +147,11 @@ CUAD_REAL_002::Clause 7,Clause 7,Confidentiality Agreement
 CUAD_REAL_002::Clause 8,Clause 8,Compensation
 CUAD_REAL_002::Clause 9,Clause 9,Miscellaneous
 CUAD_REAL_002::Clause 10,Clause 10,Expenses
+CUAD_REAL_002::Clause 11,Clause 11,Entire Agreement; Amendment
 CUAD_REAL_002::Clause 12,Clause 12,Notices
 CUAD_REAL_002::Clause 13,Clause 13,Severability
 CUAD_REAL_002::Clause 14,Clause 14,Counterparts
+CUAD_REAL_002::Clause 15,Clause 15,No Third Party Beneficiaries; Assignment
 CUAD_REAL_002::Clause 16,Clause 16,Interpretation and Construction
 CUAD_REAL_003::Clause 1,Clause 1,Services
 CUAD_REAL_003::Clause 2,Clause 2,Compensation and Expenses
@@ -161,21 +163,115 @@ CUAD_REAL_003::Clause 7,Clause 7,Nonsolicitation
 CUAD_REAL_003::Clause 8,Clause 8,Representations
 CUAD_REAL_003::Clause 9,Clause 9,Material Non-Public Information
 CUAD_REAL_003::Clause 10,Clause 10,Miscellaneous
-CUAD_REAL_004::Article 1,Article 1,Definitions
-CUAD_REAL_004::Article 2,Article 2,Licenses
-CUAD_REAL_004::Article 3,Article 3,Development
-CUAD_REAL_004::Article 4,Article 4,Regulatory
-CUAD_REAL_004::Article 5,Article 5,Commercialization
-CUAD_REAL_004::Article 6,Article 6,Supply
-CUAD_REAL_004::Article 7,Article 7,Payments
-CUAD_REAL_004::Article 8,Article 8,Payment; Records; Audits
-CUAD_REAL_004::Article 9,Article 9,Intellectual Property Matters
-CUAD_REAL_004::Article 10,Article 10,"Representations, Warranties and Covenants; Compliance"
-CUAD_REAL_004::Article 11,Article 11,Indemnification
-CUAD_REAL_004::Article 12,Article 12,Confidentiality
-CUAD_REAL_004::Article 13,Article 13,Term and Termination
-CUAD_REAL_004::Article 14,Article 14,Effects of Expiration Or Termination
-CUAD_REAL_004::Article 15,Article 15,Miscellaneous
+CUAD_REAL_004::Article 1,Article 1,DEFINITIONS
+CUAD_REAL_004::Article 1.1,Article 1.1,DEFINITIONS: “Active Ingredient” means any substance (whether chemical or...
+CUAD_REAL_004::Article 1.2,Article 1.2,"DEFINITIONS: “Affiliate” means with respect to any person, any..."
+CUAD_REAL_004::Article 1.4,Article 1.4,"DEFINITIONS: “Aimmune Common Stock” means Aimmune’s common stock, par..."
+CUAD_REAL_004::Article 1.6,Article 1.6,"DEFINITIONS: “Aimmune Invention” means an Invention that is Invented,..."
+CUAD_REAL_004::Article 1.7,Article 1.7,"DEFINITIONS: “Aimmune Know-How” means any and all Know-How, whether..."
+CUAD_REAL_004::Article 1.8,Article 1.8,DEFINITIONS: “Aimmune Patent” means any Patent that (i) (a)...
+CUAD_REAL_004::Article 1.10,Article 1.10,DEFINITIONS: “Antibody” means Xencor’s humanized antibody known as XmAb7195...
+CUAD_REAL_004::Article 1.11,Article 1.11,DEFINITIONS: “Anti-Corruption Laws” means the U.S. Foreign Corrupt Practices...
+CUAD_REAL_004::Article 1.12,Article 1.12,"DEFINITIONS: “Applicable Law” means any applicable United States federal,..."
+CUAD_REAL_004::Article 1.13,Article 1.13,"DEFINITIONS: “Baseline Quarter Net Sales” means, on a country-by-country..."
+CUAD_REAL_004::Article 1.14,Article 1.14,DEFINITIONS: “Business Day” means a day other than a...
+CUAD_REAL_004::Article 1.15,Article 1.15,DEFINITIONS: “Calendar Quarter” means each three (3) month period...
+CUAD_REAL_004::Article 1.16,Article 1.16,DEFINITIONS: “Calendar Year” means the period beginning on the...
+CUAD_REAL_004::Article 1.17,Article 1.17,"DEFINITIONS: “Clinical Trial” means a clinical trial, including any..."
+CUAD_REAL_004::Article 1.18,Article 1.18,DEFINITIONS: “Co-pay Program” means a program to support patient...
+CUAD_REAL_004::Article 1.19,Article 1.19,DEFINITIONS: “Combination Product” means any Product containing an Active...
+CUAD_REAL_004::Article 1.20,Article 1.20,"DEFINITIONS: “Commercialize” means, with respect to the Product, to..."
+CUAD_REAL_004::Article 1.21,Article 1.21,"DEFINITIONS: “Commercially Reasonable Efforts” means, with respect to the..."
+CUAD_REAL_004::Article 1.22,Article 1.22,"DEFINITIONS: “Control” or “Controlled by” means, with respect to..."
+CUAD_REAL_004::Article 1.23,Article 1.23,"DEFINITIONS: “Cover” or “Covering” means, with respect to a..."
+CUAD_REAL_004::Article 1.24,Article 1.24,"DEFINITIONS: “Designated Officer” means, with respect to Xencor, the..."
+CUAD_REAL_004::Article 1.25,Article 1.25,"DEFINITIONS: “Develop” means to research, develop, analyze, test and..."
+CUAD_REAL_004::Article 1.26,Article 1.26,DEFINITIONS: “Development Activities” means those Development activities undertaken by...
+CUAD_REAL_004::Article 1.28,Article 1.28,"DEFINITIONS: “E.U. Major Countries” means the United Kingdom, France,..."
+CUAD_REAL_004::Article 1.29,Article 1.29,DEFINITIONS: “FDA” means the United States Food and Drug...
+CUAD_REAL_004::Article 1.30,Article 1.30,"DEFINITIONS: “FD&C Act” means the U.S. Federal Food, Drug..."
+CUAD_REAL_004::Article 1.31,Article 1.31,"DEFINITIONS: “First Commercial Sale” means, with respect to a..."
+CUAD_REAL_004::Article 1.32,Article 1.32,DEFINITIONS: “Force Majeure” means any circumstances whatsoever which are...
+CUAD_REAL_004::Article 1.33,Article 1.33,"DEFINITIONS: “Generic Product” means, with respect to a Product..."
+CUAD_REAL_004::Article 1.34,Article 1.34,DEFINITIONS: “Good Clinical Practices” or “GCP” means all applicable...
+CUAD_REAL_004::Article 1.35,Article 1.35,DEFINITIONS: “Good Laboratory Practices” or “GLP” means all applicable...
+CUAD_REAL_004::Article 1.36,Article 1.36,DEFINITIONS: “Good Manufacturing Practices” or “GMP” means all applicable...
+CUAD_REAL_004::Article 1.37,Article 1.37,"DEFINITIONS: “Government Official” means: (i) any official, officer, employee,..."
+CUAD_REAL_004::Article 1.38,Article 1.38,"DEFINITIONS: “Governmental Authority” means any United States federal, state..."
+CUAD_REAL_004::Article 1.39,Article 1.39,"DEFINITIONS: “IFRS” means international financial reporting standards, or with..."
+CUAD_REAL_004::Article 1.40,Article 1.40,"DEFINITIONS: “IND” means an investigational new drug application, clinical..."
+CUAD_REAL_004::Article 1.41,Article 1.41,"DEFINITIONS: “Invented” means the acts of (an) inventor(s), as..."
+CUAD_REAL_004::Article 1.42,Article 1.42,"DEFINITIONS: “Invention” means any discovery or invention, whether or..."
+CUAD_REAL_004::Article 1.43,Article 1.43,DEFINITIONS: “Joint Invention” means an Invention that is Invented...
+CUAD_REAL_004::Article 1.44,Article 1.44,"DEFINITIONS: “Know-How” means all technical, scientific, regulatory and other..."
+CUAD_REAL_004::Article 1.46,Article 1.46,DEFINITIONS: “Major Territory” means the [***].
+CUAD_REAL_004::Article 1.47,Article 1.47,"DEFINITIONS: “Manufacture” or “Manufacturing” or “Manufactured” means, with respect..."
+CUAD_REAL_004::Article 1.48,Article 1.48,DEFINITIONS: “Marketing Authorization Application” or “MAA” means an application...
+CUAD_REAL_004::Article 1.49,Article 1.49,DEFINITIONS: “Medical Science Liaison” means an individual who is...
+CUAD_REAL_004::Article 1.50,Article 1.50,"DEFINITIONS: “Net Sales” means, with respect to a Product,..."
+CUAD_REAL_004::Article 1.51,Article 1.51,"DEFINITIONS: “Patents” means any and all (i) issued patents,..."
+CUAD_REAL_004::Article 1.52,Article 1.52,"DEFINITIONS: “Patent Term Extension” means any term extensions, supplementary..."
+CUAD_REAL_004::Article 1.53,Article 1.53,"DEFINITIONS: “Person” means any individual, firm, corporation, partnership, limited..."
+CUAD_REAL_004::Article 1.54,Article 1.54,DEFINITIONS: “Phase I Clinical Trial” means a study in...
+CUAD_REAL_004::Article 1.55,Article 1.55,DEFINITIONS: “Phase II Clinical Trial” means a study in...
+CUAD_REAL_004::Article 1.56,Article 1.56,DEFINITIONS: “Phase III Clinical Trial” means a controlled study...
+CUAD_REAL_004::Article 1.57,Article 1.57,DEFINITIONS: “Phase IV Clinical Trial” means a clinical study...
+CUAD_REAL_004::Article 1.58,Article 1.58,DEFINITIONS: “Pre-Marketing” means all sales and marketing activities undertaken...
+CUAD_REAL_004::Article 1.59,Article 1.59,"DEFINITIONS: “Pricing Approval” means, with respect to any country..."
+CUAD_REAL_004::Article 1.60,Article 1.60,DEFINITIONS: “Product” means any biopharmaceutical product containing or comprising...
+CUAD_REAL_004::Article 1.61,Article 1.61,DEFINITIONS: “Product Approval” means the approval by a Governmental...
+CUAD_REAL_004::Article 1.62,Article 1.62,"DEFINITIONS: “Product Complaint” means any written, verbal or electronic..."
+CUAD_REAL_004::Article 1.63,Article 1.63,"DEFINITIONS: “Promotional Materials” means all written, printed, video or..."
+CUAD_REAL_004::Article 1.64,Article 1.64,"DEFINITIONS: “Regulatory Approval” means, with respect to any biopharmaceutical..."
+CUAD_REAL_004::Article 1.65,Article 1.65,"DEFINITIONS: “Regulatory Authority” means, in a particular country or..."
+CUAD_REAL_004::Article 1.66,Article 1.66,"DEFINITIONS: “Regulatory Data” means any and all research data,..."
+CUAD_REAL_004::Article 1.67,Article 1.67,"DEFINITIONS: “Regulatory Materials” means regulatory applications, submissions, notifications, communications,..."
+CUAD_REAL_004::Article 1.68,Article 1.68,"DEFINITIONS: “Royalty Term” means, with respect to a Product..."
+CUAD_REAL_004::Article 1.69,Article 1.69,DEFINITIONS: “Sales Representative” means an individual who is employed...
+CUAD_REAL_004::Article 1.71,Article 1.71,"DEFINITIONS: “Third Party” means any Person other than Xencor,..."
+CUAD_REAL_004::Article 1.72,Article 1.72,DEFINITIONS: “United States” or “U.S.” means the United States...
+CUAD_REAL_004::Article 1.73,Article 1.73,DEFINITIONS: “Upstream Agreement” means that certain [***] Agreement by...
+CUAD_REAL_004::Article 1.74,Article 1.74,"DEFINITIONS: “Valid Claim” means, with respect to a particular..."
+CUAD_REAL_004::Article 1.77,Article 1.77,DEFINITIONS: “Xencor Invention” means an Invention that is Invented...
+CUAD_REAL_004::Article 1.78,Article 1.78,"DEFINITIONS: “Xencor Know-How” means any and all Know-How, whether..."
+CUAD_REAL_004::Article 1.79,Article 1.79,DEFINITIONS: “Xencor General Patent” means (i) the Patents identified...
+CUAD_REAL_004::Article 1.81,Article 1.81,DEFINITIONS: “Xencor Product Specific Patent” means (i) the Patents...
+CUAD_REAL_004::Article 1.83,Article 1.83,DEFINITIONS: Additional Definitions
+CUAD_REAL_004::Article 2,Article 2,LICENSES
+CUAD_REAL_004::Article 3,Article 3,DEVELOPMENT
+CUAD_REAL_004::Article 4,Article 4,REGULATORY
+CUAD_REAL_004::Article 5,Article 5,COMMERCIALIZATION
+CUAD_REAL_004::Article 6,Article 6,SUPPLY
+CUAD_REAL_004::Article 7,Article 7,PAYMENTS
+CUAD_REAL_004::Article 8,Article 8,PAYMENT; RECORDS; AUDITS
+CUAD_REAL_004::Article 9.1,Article 9.1,INTELLECTUAL PROPERTY MATTERS: Ownership of Intellectual Property
+CUAD_REAL_004::Article 9.2,Article 9.2,INTELLECTUAL PROPERTY MATTERS: Disclosures; Disputes Regarding Inventions
+CUAD_REAL_004::Article 9.3,Article 9.3,"INTELLECTUAL PROPERTY MATTERS: Patent Filings, Prosecution and Maintenance"
+CUAD_REAL_004::Article 9.4,Article 9.4,INTELLECTUAL PROPERTY MATTERS: Infringement of Third Party Patents; Enforcement of Patents
+CUAD_REAL_004::Article 9.5,Article 9.5,INTELLECTUAL PROPERTY MATTERS: Patent Term Extensions
+CUAD_REAL_004::Article 9.6,Article 9.6,INTELLECTUAL PROPERTY MATTERS: Patent Marking
+CUAD_REAL_004::Article 9.7,Article 9.7,INTELLECTUAL PROPERTY MATTERS: Patent Challenge
+CUAD_REAL_004::Article 10,Article 10,"REPRESENTATIONS, WARRANTIES AND COVENANTS; COMPLIANCE"
+CUAD_REAL_004::Article 11,Article 11,INDEMNIFICATION
+CUAD_REAL_004::Article 12,Article 12,CONFIDENTIALITY
+CUAD_REAL_004::Article 13,Article 13,TERM AND TERMINATION
+CUAD_REAL_004::Article 14,Article 14,EFFECTS OF EXPIRATION OR TERMINATION
+CUAD_REAL_004::Article 15.1,Article 15.1,MISCELLANEOUS: Disputes
+CUAD_REAL_004::Article 15.2,Article 15.2,MISCELLANEOUS: Entire Agreement; Amendment
+CUAD_REAL_004::Article 15.3,Article 15.3,MISCELLANEOUS: Force Majeure
+CUAD_REAL_004::Article 15.4,Article 15.4,MISCELLANEOUS: Notices
+CUAD_REAL_004::Article 15.5,Article 15.5,MISCELLANEOUS: Maintenance of Records
+CUAD_REAL_004::Article 15.6,Article 15.6,MISCELLANEOUS: Assignment
+CUAD_REAL_004::Article 15.7,Article 15.7,MISCELLANEOUS: Offset Rights
+CUAD_REAL_004::Article 15.8,Article 15.8,MISCELLANEOUS: Severability
+CUAD_REAL_004::Article 15.9,Article 15.9,MISCELLANEOUS: Cumulative Remedies
+CUAD_REAL_004::Article 15.10,Article 15.10,MISCELLANEOUS: Ambiguities; No Presumption
+CUAD_REAL_004::Article 15.11,Article 15.11,MISCELLANEOUS: Headings
+CUAD_REAL_004::Article 15.12,Article 15.12,MISCELLANEOUS: Interpretation
+CUAD_REAL_004::Article 15.13,Article 15.13,MISCELLANEOUS: Governing Law and Equitable Relief
+CUAD_REAL_004::Article 15.14,Article 15.14,MISCELLANEOUS: No Third Party Beneficiaries
+CUAD_REAL_004::Article 15.15,Article 15.15,MISCELLANEOUS: Independent Contractors
+CUAD_REAL_004::Article 15.16,Article 15.16,MISCELLANEOUS: Counterparts; Facsimile Signatures
 CUAD_REAL_005::Clause 1,Clause 1,Definitions and interpretation
 CUAD_REAL_005::Clause 2,Clause 2,Appointment
 CUAD_REAL_005::Clause 3,Clause 3,Distributor's undertakings
@@ -225,10 +321,36 @@ CUAD_REAL_006::Clause 25,Clause 25,COUNTERPARTS
 CUAD_REAL_006::Clause 26,Clause 26,CONSTRUCTION
 CUAD_REAL_006::Clause 27,Clause 27,ARBITRATION
 CUAD_REAL_007::Clause 1,Clause 1,RIGHTS GRANTED
+CUAD_REAL_007::Clause 2,Clause 2,TERM; SUCCESSOR FRANCHISE AGREEMENTS
 CUAD_REAL_007::Clause 3,Clause 3,FEES
-CUAD_REAL_007::Clause 4,Clause 4,OPENING DEADLINE
+CUAD_REAL_007::Clause 4,Clause 4,"SITE SELECTION, PREPARATION, AND OPENING DEADLINE"
 CUAD_REAL_007::Clause 5,Clause 5,TRAINING
-CUAD_REAL_007::Clause 6,Clause 6,OPERATIONS
+CUAD_REAL_007::Clause 6.1,Clause 6.1,OPERATIONS: Compliance with Standards
+CUAD_REAL_007::Clause 6.2,Clause 6.2,OPERATIONS: Products and Services You May Offer
+CUAD_REAL_007::Clause 6.3,Clause 6.3,OPERATIONS: Secret Recipe Products
+CUAD_REAL_007::Clause 6.4,Clause 6.4,"OPERATIONS: Sourcing of Other Products, Equipment and Supplies"
+CUAD_REAL_007::Clause 6.5,Clause 6.5,OPERATIONS: Delivery Vehicles
+CUAD_REAL_007::Clause 6.6,Clause 6.6,OPERATIONS: Alcohol Permits
+CUAD_REAL_007::Clause 6.7,Clause 6.7,OPERATIONS: Image Standards
+CUAD_REAL_007::Clause 6.8,Clause 6.8,OPERATIONS: Employees
+CUAD_REAL_007::Clause 6.9,Clause 6.9,OPERATIONS: Employment Responsibilities
+CUAD_REAL_007::Clause 6.10,Clause 6.10,OPERATIONS: Customer Service Program
+CUAD_REAL_007::Clause 6.11,Clause 6.11,OPERATIONS: Customer List
+CUAD_REAL_007::Clause 6.12,Clause 6.12,OPERATIONS: Major Accounts
+CUAD_REAL_007::Clause 6.13,Clause 6.13,OPERATIONS: Inspections
+CUAD_REAL_007::Clause 6.14,Clause 6.14,OPERATIONS: Compliance with Laws
+CUAD_REAL_007::Clause 6.15,Clause 6.15,OPERATIONS: Operating Principal and Management Supervision
+CUAD_REAL_007::Clause 6.16,Clause 6.16,OPERATIONS: Maintenance of Premises
+CUAD_REAL_007::Clause 6.17,Clause 6.17,OPERATIONS: Ongoing Upgrades and Refurbishments
+CUAD_REAL_007::Clause 6.18,Clause 6.18,OPERATIONS: Five-Year Refurbishment and Renovations
+CUAD_REAL_007::Clause 6.19,Clause 6.19,OPERATIONS: Insurance
+CUAD_REAL_007::Clause 6.20,Clause 6.20,OPERATIONS: Vendors
+CUAD_REAL_007::Clause 6.21,Clause 6.21,OPERATIONS: General Advice
+CUAD_REAL_007::Clause 6.22,Clause 6.22,OPERATIONS: Special Assistance
+CUAD_REAL_007::Clause 6.23,Clause 6.23,OPERATIONS: Credit Cards and Other Methods of Payment
+CUAD_REAL_007::Clause 6.24,Clause 6.24,OPERATIONS: Conferences
+CUAD_REAL_007::Clause 6.25,Clause 6.25,OPERATIONS: Pricing
+CUAD_REAL_007::Clause 6.26,Clause 6.26,OPERATIONS: Certification of Performance
 CUAD_REAL_007::Clause 7,Clause 7,PROPRIETARY MARKS
 CUAD_REAL_007::Clause 8,Clause 8,BUSINESS RECORDS AND REPORTING
 CUAD_REAL_007::Clause 9,Clause 9,MARKETING FUND AND ADVERTISING
@@ -251,6 +373,7 @@ CUAD_REAL_007::Clause 25,Clause 25,DISPUTES
 CUAD_REAL_007::Clause 26,Clause 26,ACKNOWLEDGMENTS
 CUAD_REAL_008::Clause 1,Clause 1,Website Design and Development
 CUAD_REAL_008::Clause 2,Clause 2,Payment Terms
+CUAD_REAL_008::Clause 3,Clause 3,Business Hours; Rush Work
 CUAD_REAL_008::Clause 4,Clause 4,Customer Service
 CUAD_REAL_009::Clause 1,Clause 1,DEFINITIONS AND INTERPRETATION
 CUAD_REAL_009::Clause 2,Clause 2,ASSIGNMENT OF ARIZONA ASSIGNED IP
@@ -291,6 +414,127 @@ CUAD_REAL_011::Clause 7,Clause 7,RIGHTS AND OBLIGATIONS UPON TERMINATION OR EXPI
 CUAD_REAL_011::Clause 8,Clause 8,CONFIDENTIALITY
 CUAD_REAL_011::Clause 9,Clause 9,INDEPENDENT CONTRACTORS
 CUAD_REAL_011::Clause 10,Clause 10,MISCELLANEOUS
+CUAD_REAL_012::Clause 1,Clause 1,Scope of Agreement
+CUAD_REAL_012::Clause 2,Clause 2,Affiliate
+CUAD_REAL_012::Clause 2.2,Clause 2.2,Affiliate: Agreement
+CUAD_REAL_012::Clause 2.4,Clause 2.4,Affiliate: AT&T Competitor
+CUAD_REAL_012::Clause 2.5,Clause 2.5,Affiliate: AT&T Indemnified Parties
+CUAD_REAL_012::Clause 2.6,Clause 2.6,Affiliate: Cell Site
+CUAD_REAL_012::Clause 2.7,Clause 2.7,Affiliate: Change Management Plan
+CUAD_REAL_012::Clause 2.8,Clause 2.8,Affiliate: Change of Control
+CUAD_REAL_012::Clause 2.9,Clause 2.9,Affiliate: Change Order
+CUAD_REAL_012::Clause 2.10,Clause 2.10,Affiliate: Control
+CUAD_REAL_012::Clause 2.11,Clause 2.11,Affiliate: Customer Information
+CUAD_REAL_012::Clause 2.12,Clause 2.12,Affiliate: Deliverable
+CUAD_REAL_012::Clause 2.13,Clause 2.13,Affiliate: Delivery or Completion
+CUAD_REAL_012::Clause 2.14,Clause 2.14,Affiliate: Delivery Date or Completion Date
+CUAD_REAL_012::Clause 2.15,Clause 2.15,Affiliate: Documentation
+CUAD_REAL_012::Clause 2.16,Clause 2.16,Affiliate: Drug Screen
+CUAD_REAL_012::Clause 2.17,Clause 2.17,Affiliate: Employment Claims
+CUAD_REAL_012::Clause 2.18,Clause 2.18,Affiliate: Excusable Delay
+CUAD_REAL_012::Clause 2.19,Clause 2.19,Affiliate: FirstNet Authority
+CUAD_REAL_012::Clause 2.20,Clause 2.20,Affiliate: Information
+CUAD_REAL_012::Clause 2.21,Clause 2.21,Affiliate: Intellectual Property Rights
+CUAD_REAL_012::Clause 2.22,Clause 2.22,Affiliate: Items
+CUAD_REAL_012::Clause 2.23,Clause 2.23,Affiliate: Laws
+CUAD_REAL_012::Clause 2.24,Clause 2.24,Affiliate: Liability
+CUAD_REAL_012::Clause 2.25,Clause 2.25,Affiliate: Lien
+CUAD_REAL_012::Clause 2.26,Clause 2.26,Affiliate: Litigation Expense
+CUAD_REAL_012::Clause 2.27,Clause 2.27,Affiliate: Loss
+CUAD_REAL_012::Clause 2.28,Clause 2.28,Affiliate: Material
+CUAD_REAL_012::Clause 2.29,Clause 2.29,Affiliate: Non-Service Affecting Defect
+CUAD_REAL_012::Clause 2.31,Clause 2.31,Affiliate: Permits
+CUAD_REAL_012::Clause 2.32,Clause 2.32,Affiliate: Person
+CUAD_REAL_012::Clause 2.33,Clause 2.33,Affiliate: Physical Entry
+CUAD_REAL_012::Clause 2.35,Clause 2.35,Affiliate: Service Affecting Defect
+CUAD_REAL_012::Clause 2.36,Clause 2.36,Affiliate: Services
+CUAD_REAL_012::Clause 2.37,Clause 2.37,Affiliate: Software
+CUAD_REAL_012::Clause 2.38,Clause 2.38,Affiliate: Specifications
+CUAD_REAL_012::Clause 2.39,Clause 2.39,Affiliate: Subcontractor
+CUAD_REAL_012::Clause 2.40,Clause 2.40,"Affiliate: Suspend a Site, Suspend or Suspension"
+CUAD_REAL_012::Clause 2.41,Clause 2.41,Affiliate: System
+CUAD_REAL_012::Clause 2.42,Clause 2.42,Affiliate: Third Party Loss
+CUAD_REAL_012::Clause 2.43,Clause 2.43,Affiliate: Vendor Indemnified Parties
+CUAD_REAL_012::Clause 2.44,Clause 2.44,Affiliate: Vendor Person
+CUAD_REAL_012::Clause 2.45,Clause 2.45,Affiliate: Work
+CUAD_REAL_012::Clause 2.46,Clause 2.46,Affiliate: Writing or Written
+CUAD_REAL_012::Clause 3,Clause 3,Affiliate
+CUAD_REAL_012::Clause 3.2,Clause 3.2,Affiliate: Amendments and Waivers
+CUAD_REAL_012::Clause 3.3,Clause 3.3,Affiliate: Anticipated and Actual Delays in Delivery and Performance
+CUAD_REAL_012::Clause 3.4,Clause 3.4,Affiliate: Anticorruption Laws
+CUAD_REAL_012::Clause 3.5,Clause 3.5,Affiliate: Assignment and Delegation; Change of Control
+CUAD_REAL_012::Clause 3.6,Clause 3.6,Affiliate: Compliance with Laws
+CUAD_REAL_012::Clause 3.7,Clause 3.7,Affiliate: Conflict of Interest
+CUAD_REAL_012::Clause 3.8,Clause 3.8,Affiliate: Construction and Interpretation
+CUAD_REAL_012::Clause 3.9,Clause 3.9,Affiliate: Cumulative Remedies
+CUAD_REAL_012::Clause 3.10,Clause 3.10,"Affiliate: Delivery, Performance and Acceptance"
+CUAD_REAL_012::Clause 3.11,Clause 3.11,Affiliate: Entire Agreement
+CUAD_REAL_012::Clause 3.12,Clause 3.12,Affiliate: Force Majeure
+CUAD_REAL_012::Clause 3.13,Clause 3.13,Affiliate: Government Contract Provisions and Flow Downs
+CUAD_REAL_012::Clause 3.14,Clause 3.14,Affiliate: Governing Law
+CUAD_REAL_012::Clause 3.15,Clause 3.15,Affiliate: Indemnity
+CUAD_REAL_012::Clause 3.16,Clause 3.16,Affiliate: Information
+CUAD_REAL_012::Clause 3.17,Clause 3.17,Affiliate: Infringement
+CUAD_REAL_012::Clause 3.18,Clause 3.18,Affiliate: Insurance
+CUAD_REAL_012::Clause 3.19,Clause 3.19,Affiliate: Invoicing and Payment
+CUAD_REAL_012::Clause 3.20,Clause 3.20,Affiliate: Licenses and Patents
+CUAD_REAL_012::Clause 3.21,Clause 3.21,Affiliate: Limitation of Damages
+CUAD_REAL_012::Clause 3.22,Clause 3.22,Affiliate: Offset Right
+CUAD_REAL_012::Clause 3.23,Clause 3.23,Affiliate: Material and Services Furnished by Vendor and AT&T
+CUAD_REAL_012::Clause 3.24,Clause 3.24,Affiliate: Non-Exclusive Market
+CUAD_REAL_012::Clause 3.25,Clause 3.25,Affiliate: Notice of Certain Events
+CUAD_REAL_012::Clause 3.26,Clause 3.26,Affiliate: Notices
+CUAD_REAL_012::Clause 3.27,Clause 3.27,Affiliate: Offshore Work Prohibited
+CUAD_REAL_012::Clause 3.28,Clause 3.28,Affiliate: Order of Precedence
+CUAD_REAL_012::Clause 3.29,Clause 3.29,"Affiliate: Ownership of Paid-For Development, Use and Reservation of..."
+CUAD_REAL_012::Clause 3.30,Clause 3.30,Affiliate: Publicity
+CUAD_REAL_012::Clause 3.31,Clause 3.31,Affiliate: Records and Audits
+CUAD_REAL_012::Clause 3.32,Clause 3.32,Affiliate: Restricted Entities
+CUAD_REAL_012::Clause 3.33,Clause 3.33,Affiliate: Severability
+CUAD_REAL_012::Clause 3.34,Clause 3.34,Affiliate: Supplier Citizenship and Sustainability
+CUAD_REAL_012::Clause 3.35,Clause 3.35,Affiliate: Survival of Obligations
+CUAD_REAL_012::Clause 3.36,Clause 3.36,Affiliate: Taxes
+CUAD_REAL_012::Clause 3.37,Clause 3.37,Affiliate: Termination and Suspension
+CUAD_REAL_012::Clause 3.38,Clause 3.38,Affiliate: Third Party Administrative Services
+CUAD_REAL_012::Clause 3.39,Clause 3.39,Affiliate: Third Party Beneficiaries
+CUAD_REAL_012::Clause 3.40,Clause 3.40,Affiliate: Title and Risk
+CUAD_REAL_012::Clause 3.41,Clause 3.41,Affiliate: Title To Material Furnished by AT&T
+CUAD_REAL_012::Clause 3.42,Clause 3.42,Affiliate: Transaction Costs
+CUAD_REAL_012::Clause 3.43,Clause 3.43,"Affiliate: Utilization of Minority, Women, and Disabled Veteran Owned..."
+CUAD_REAL_012::Clause 3.44,Clause 3.44,Affiliate: Vendor Personnel and Employment Matters
+CUAD_REAL_012::Clause 3.45,Clause 3.45,Affiliate: Warranty
+CUAD_REAL_012::Clause 3.46,Clause 3.46,Affiliate: Subcontractors; Work Done By Others
+CUAD_REAL_012::Clause 3.47,Clause 3.47,Affiliate: Affordable Care Act
+CUAD_REAL_012::Clause 3.48,Clause 3.48,Affiliate: Customer Information
+CUAD_REAL_012::Clause 3.49,Clause 3.49,Affiliate: Reimbursable Expenses
+CUAD_REAL_012::Clause 4,Clause 4,Access
+CUAD_REAL_012::Clause 4.2,Clause 4.2,Access: AT&T Supplier Information Security Requirements (SISR)
+CUAD_REAL_012::Clause 4.3,Clause 4.3,Access: Background Checks
+CUAD_REAL_012::Clause 4.4,Clause 4.4,Access: Clean Up
+CUAD_REAL_012::Clause 4.5,Clause 4.5,Access: Vendor’s Audited Financial Statements
+CUAD_REAL_012::Clause 4.6,Clause 4.6,Access: Vendor Personnel Information
+CUAD_REAL_012::Clause 4.7,Clause 4.7,Access: Damage to Property
+CUAD_REAL_012::Clause 4.8,Clause 4.8,Access: Dispute Resolution
+CUAD_REAL_012::Clause 4.9,Clause 4.9,Access: Electronic Data Interchange (EDI)
+CUAD_REAL_012::Clause 4.11,Clause 4.11,Access: Hazardous Material and Regulated Substances
+CUAD_REAL_012::Clause 4.12,Clause 4.12,Access: Identification of Vendor’s Personnel and Equipment
+CUAD_REAL_012::Clause 4.13,Clause 4.13,Access: Independent Contractor
+CUAD_REAL_012::Clause 4.14,Clause 4.14,Access: Inspection of Material
+CUAD_REAL_012::Clause 4.15,Clause 4.15,Access: Inspection of Work
+CUAD_REAL_012::Clause 4.16,Clause 4.16,Access: Liens
+CUAD_REAL_012::Clause 4.17,Clause 4.17,Access: Notification of Injury or Damage
+CUAD_REAL_012::Clause 4.18,Clause 4.18,Access: Protection of Property
+CUAD_REAL_012::Clause 4.19,Clause 4.19,Access: Releases Void
+CUAD_REAL_012::Clause 4.20,Clause 4.20,Access: Removal and Management of Used Batteries
+CUAD_REAL_012::Clause 4.21,Clause 4.21,Access: Resource Recovery Center
+CUAD_REAL_012::Clause 4.22,Clause 4.22,Access: Safety Management
+CUAD_REAL_012::Clause 4.23,Clause 4.23,Access: Technical Support
+CUAD_REAL_012::Clause 4.24,Clause 4.24,Access: Testimony
+CUAD_REAL_012::Clause 4.25,Clause 4.25,Access: AT&T Data and AT&T Derived Data (Big Data)
+CUAD_REAL_012::Clause 4.26,Clause 4.26,Access: Business Continuity Plan
+CUAD_REAL_012::Clause 4.27,Clause 4.27,Access: Change in Laws
+CUAD_REAL_012::Clause 4.28,Clause 4.28,Access: FOSS
+CUAD_REAL_012::Clause 5,Clause 5,Execution of Agreement
 CUAD_REAL_013::Clause 1,Clause 1,BASIC TERMS
 CUAD_REAL_013::Clause 2,Clause 2,PRODUCTION OF PRODUCT
 CUAD_REAL_013::Clause 3,Clause 3,"DELIVERY, PRICING, BILLING AND PAYMENT"
@@ -318,16 +562,21 @@ CUAD_REAL_014::Clause 3,Clause 3,Promotional Activities
 CUAD_REAL_014::Clause 4,Clause 4,Implementation
 CUAD_REAL_014::Clause 5,Clause 5,Compensation
 CUAD_REAL_014::Clause 6,Clause 6,Proprietary Rights
+CUAD_REAL_014::Clause 7,Clause 7,Representations; Indemnity
 CUAD_REAL_014::Clause 8,Clause 8,"Disclaimers, Limitations and Reservations"
 CUAD_REAL_014::Clause 9,Clause 9,Exclusivity
 CUAD_REAL_014::Clause 10,Clause 10,Term and Termination
 CUAD_REAL_014::Clause 11,Clause 11,Miscellaneous
+CUAD_REAL_015::Clause 1,Clause 1,Confidentiality; Non-competition; Non-solicitation
 CUAD_REAL_015::Clause 2,Clause 2,Notices
 CUAD_REAL_015::Clause 3,Clause 3,Successors and Assigns
 CUAD_REAL_015::Clause 4,Clause 4,Governing Law
+CUAD_REAL_015::Clause 5,Clause 5,Injunctive Relief; Attorneys Fees
 CUAD_REAL_015::Clause 6,Clause 6,Entire Agreement
 CUAD_REAL_015::Clause 7,Clause 7,"Amendment Waivers, etc"
 CUAD_REAL_015::Clause 8,Clause 8,Severability
+CUAD_REAL_015::Clause 9,Clause 9,Counterparts; Effectiveness; Third Party Beneficiaries
+CUAD_REAL_015::Clause 10,Clause 10,Cooperation; Further Assurances
 CUAD_REAL_015::Clause 11,Clause 11,Interpretation
 CUAD_REAL_016::Clause 1,Clause 1,RECORDINGS
 CUAD_REAL_016::Clause 2,Clause 2,PURPOSE OF AGREEMENT
@@ -347,9 +596,67 @@ CUAD_REAL_016::Clause 15,Clause 15,CONTRACTUAL TRANSITION
 CUAD_REAL_016::Clause 16,Clause 16,LITIGATION RULINGS
 CUAD_REAL_016::Clause 17,Clause 17,GOVERNING LAW
 CUAD_REAL_017::Article 1,Article 1,DEFINITIONS
+CUAD_REAL_017::Article 1.1,Article 1.1,"DEFINITIONS: “Act” shall mean the Federal Food, Drug and..."
+CUAD_REAL_017::Article 1.2,Article 1.2,DEFINITIONS: “Adverse Event” shall mean any untoward medical occurrence...
+CUAD_REAL_017::Article 1.3,Article 1.3,"DEFINITIONS: “Affiliate” shall mean, with respect to any Person,..."
+CUAD_REAL_017::Article 1.5,Article 1.5,DEFINITIONS: “Alliance Managers” shall have the meaning set forth...
+CUAD_REAL_017::Article 1.6,Article 1.6,DEFINITIONS: “Alternate Product” shall mean a pharmaceutical product that...
+CUAD_REAL_017::Article 1.7,Article 1.7,"DEFINITIONS: “Applicable Laws” shall mean all applicable statutes, ordinances,..."
+CUAD_REAL_017::Article 1.8,Article 1.8,"DEFINITIONS: “Business Day” means each day of the week,..."
+CUAD_REAL_017::Article 1.9,Article 1.9,DEFINITIONS: “Calendar Quarter” shall mean each successive period of...
+CUAD_REAL_017::Article 1.10,Article 1.10,DEFINITIONS: “Calendar Year” shall mean each successive period of...
+CUAD_REAL_017::Article 1.11,Article 1.11,"DEFINITIONS: “Claims” shall mean all charges, complaints, actions, suits,..."
+CUAD_REAL_017::Article 1.12,Article 1.12,DEFINITIONS: “Code” shall mean the Code on Interactions with...
+CUAD_REAL_017::Article 1.14,Article 1.14,DEFINITIONS: “Compliance Manager” shall have the meaning set forth...
+CUAD_REAL_017::Article 1.16,Article 1.16,"DEFINITIONS: “Confidential Information” shall mean all secret, confidential, non-public..."
+CUAD_REAL_017::Article 1.17,Article 1.17,DEFINITIONS: “Confidentiality Agreement” shall have the meaning set forth...
+CUAD_REAL_017::Article 1.18,Article 1.18,DEFINITIONS: “Designated Product” shall mean a specific pharmaceutical product...
+CUAD_REAL_017::Article 1.19,Article 1.19,DEFINITIONS: “Detail(s)” shall mean a Product presentation during a...
+CUAD_REAL_017::Article 1.21,Article 1.21,DEFINITIONS: “Dispute” shall have the meaning set forth in...
+CUAD_REAL_017::Article 1.23,Article 1.23,"DEFINITIONS: “Dova Trademarks and Copyrights” shall mean the logos,..."
+CUAD_REAL_017::Article 1.24,Article 1.24,DEFINITIONS: “Dova’s Third Party Data Source” shall mean [***]...
+CUAD_REAL_017::Article 1.26,Article 1.26,DEFINITIONS: “FDA” shall mean the United States Food and...
+CUAD_REAL_017::Article 1.27,Article 1.27,DEFINITIONS: “Field” shall mean the treatment of thrombocytopenia in...
+CUAD_REAL_017::Article 1.28,Article 1.28,"DEFINITIONS: “Field Force Personnel” shall mean collectively, the Sales..."
+CUAD_REAL_017::Article 1.30,Article 1.30,"DEFINITIONS: “Governmental Authority” shall mean any court, agency, authority,..."
+CUAD_REAL_017::Article 1.31,Article 1.31,"DEFINITIONS: “Gross to Net Fraction” shall mean, for each..."
+CUAD_REAL_017::Article 1.33,Article 1.33,DEFINITIONS: “Indemnifying Party” shall have the meaning set forth...
+CUAD_REAL_017::Article 1.35,Article 1.35,DEFINITIONS: “Intermediary” shall mean any wholesaler or distributor who...
+CUAD_REAL_017::Article 1.37,Article 1.37,DEFINITIONS: “JSC” shall have the meaning set forth in...
+CUAD_REAL_017::Article 1.38,Article 1.38,"DEFINITIONS: “Know-How” shall mean information, whether or not in..."
+CUAD_REAL_017::Article 1.39,Article 1.39,DEFINITIONS: “Losses” shall mean any and all amounts paid...
+CUAD_REAL_017::Article 1.40,Article 1.40,"DEFINITIONS: “Net Sales” shall mean, for an applicable period,..."
+CUAD_REAL_017::Article 1.41,Article 1.41,DEFINITIONS: “Non-Retail Institution” shall mean any institution (other than...
+CUAD_REAL_017::Article 1.42,Article 1.42,"DEFINITIONS: “Non-Retail Net Sales” shall mean, for each SKU..."
+CUAD_REAL_017::Article 1.44,Article 1.44,"DEFINITIONS: “Person” shall mean any individual, corporation, partnership, limited..."
+CUAD_REAL_017::Article 1.45,Article 1.45,DEFINITIONS: “Product” shall mean the product approved pursuant to...
+CUAD_REAL_017::Article 1.46,Article 1.46,DEFINITIONS: “Product Labeling” shall mean the labels and other...
+CUAD_REAL_017::Article 1.48,Article 1.48,DEFINITIONS: “Product Training Materials” shall have the meaning set...
+CUAD_REAL_017::Article 1.50,Article 1.50,DEFINITIONS: “Quarterly Minimum Details” for an applicable Calendar Quarter...
+CUAD_REAL_017::Article 1.51,Article 1.51,DEFINITIONS: “Regulatory Approval” shall mean any and all necessary...
+CUAD_REAL_017::Article 1.52,Article 1.52,DEFINITIONS: “Retail Pharmacy” shall mean an outlet which dispenses...
+CUAD_REAL_017::Article 1.53,Article 1.53,"DEFINITIONS: “Retail Net Sales” shall mean, for each SKU..."
+CUAD_REAL_017::Article 1.54,Article 1.54,DEFINITIONS: “Sales Representative” shall mean an individual employed and...
+CUAD_REAL_017::Article 1.55,Article 1.55,"DEFINITIONS: “Senior Officer” shall mean, with respect to Dova,..."
+CUAD_REAL_017::Article 1.56,Article 1.56,DEFINITIONS: “Specialty” shall mean (i) Target Professionals with a...
+CUAD_REAL_017::Article 1.57,Article 1.57,"DEFINITIONS: “Specialty Fraction” shall mean, for each SKU of..."
+CUAD_REAL_017::Article 1.58,Article 1.58,"DEFINITIONS: “Specialty Pharmacy Net Sales” shall mean, for each..."
+CUAD_REAL_017::Article 1.59,Article 1.59,DEFINITIONS: “Specialty Pharmacy” shall mean those specialty pharmacies to...
+CUAD_REAL_017::Article 1.60,Article 1.60,DEFINITIONS: “Tail Period” shall mean the period commencing on...
+CUAD_REAL_017::Article 1.61,Article 1.61,"DEFINITIONS: “Target Professionals” shall mean physicians, nurse practitioners, physician..."
+CUAD_REAL_017::Article 1.63,Article 1.63,DEFINITIONS: “Territory” shall mean the United States of America...
+CUAD_REAL_017::Article 1.64,Article 1.64,DEFINITIONS: “Third Party(ies)” shall mean any person or entity...
+CUAD_REAL_017::Article 1.66,Article 1.66,DEFINITIONS: “Valeant Activities” shall mean any and all promotional...
+CUAD_REAL_017::Article 1.68,Article 1.68,"DEFINITIONS: “WAC” shall mean, for each SKU of the..."
 CUAD_REAL_017::Article 2,Article 2,RIGHTS AND OBLIGATIONS
 CUAD_REAL_017::Article 3,Article 3,JOINT STEERING COMMITTEE
-CUAD_REAL_017::Article 4,Article 4,VALEANT ACTIVITIES FOR THE PRODUCT
+CUAD_REAL_017::Article 4.1,Article 4.1,VALEANT ACTIVITIES FOR THE PRODUCT: Valeant Activities
+CUAD_REAL_017::Article 4.2,Article 4.2,VALEANT ACTIVITIES FOR THE PRODUCT: Detailing
+CUAD_REAL_017::Article 4.3,Article 4.3,VALEANT ACTIVITIES FOR THE PRODUCT: Compliance with Applicable Law
+CUAD_REAL_017::Article 4.4,Article 4.4,VALEANT ACTIVITIES FOR THE PRODUCT: Field Force Personnel Training; Product Materials
+CUAD_REAL_017::Article 4.5,Article 4.5,VALEANT ACTIVITIES FOR THE PRODUCT: Provisions Related to Field Force Personnel
+CUAD_REAL_017::Article 4.6,Article 4.6,VALEANT ACTIVITIES FOR THE PRODUCT: Responsibility for Valeant Activity Costs and Expenses
+CUAD_REAL_017::Article 4.7,Article 4.7,VALEANT ACTIVITIES FOR THE PRODUCT: Data Sharing
 CUAD_REAL_017::Article 5,Article 5,"REGULATORY, SAFETY AND SURVEILLANCE, COMMERCIAL MATTERS"
 CUAD_REAL_017::Article 6,Article 6,FINANCIAL PROVISIONS
 CUAD_REAL_017::Article 7,Article 7,AUDIT RIGHTS
@@ -357,7 +664,24 @@ CUAD_REAL_017::Article 8,Article 8,INTELLECTUAL PROPERTY
 CUAD_REAL_017::Article 9,Article 9,CONFIDENTIALITY
 CUAD_REAL_017::Article 10,Article 10,REPRESENTATIONS AND WARRANTIES; ADDITIONAL COVENANTS
 CUAD_REAL_017::Article 11,Article 11,INDEMNIFICATION; LIMITATIONS ON LIABILITY
-CUAD_REAL_017::Article 13,Article 13,MISCELLANEOUS
+CUAD_REAL_017::Article 13.1,Article 13.1,MISCELLANEOUS: Force Majeure
+CUAD_REAL_017::Article 13.2,Article 13.2,MISCELLANEOUS: Assignment
+CUAD_REAL_017::Article 13.3,Article 13.3,MISCELLANEOUS: Severability
+CUAD_REAL_017::Article 13.4,Article 13.4,MISCELLANEOUS: Notices
+CUAD_REAL_017::Article 13.5,Article 13.5,MISCELLANEOUS: Governing Law
+CUAD_REAL_017::Article 13.6,Article 13.6,MISCELLANEOUS: Dispute Resolution
+CUAD_REAL_017::Article 13.7,Article 13.7,MISCELLANEOUS: Waiver of Jury Trial
+CUAD_REAL_017::Article 13.8,Article 13.8,MISCELLANEOUS: Entire Agreement; Amendments
+CUAD_REAL_017::Article 13.9,Article 13.9,MISCELLANEOUS: Headings
+CUAD_REAL_017::Article 13.10,Article 13.10,MISCELLANEOUS: Independent Contractors
+CUAD_REAL_017::Article 13.11,Article 13.11,MISCELLANEOUS: Third Party Beneficiaries
+CUAD_REAL_017::Article 13.12,Article 13.12,MISCELLANEOUS: Waiver
+CUAD_REAL_017::Article 13.13,Article 13.13,MISCELLANEOUS: Cumulative Remedies
+CUAD_REAL_017::Article 13.14,Article 13.14,MISCELLANEOUS: Waiver of Rule of Construction
+CUAD_REAL_017::Article 13.15,Article 13.15,MISCELLANEOUS: Use of Names
+CUAD_REAL_017::Article 13.16,Article 13.16,MISCELLANEOUS: Further Actions and Documents
+CUAD_REAL_017::Article 13.17,Article 13.17,MISCELLANEOUS: Certain Conventions
+CUAD_REAL_017::Article 13.18,Article 13.18,MISCELLANEOUS: Counterparts
 CUAD_REAL_018::Clause 1,Clause 1,Definitions
 CUAD_REAL_018::Clause 2,Clause 2,General Scope
 CUAD_REAL_018::Clause 3,Clause 3,Reseller Activity
@@ -382,6 +706,8 @@ CUAD_REAL_020::Clause 1,Clause 1,Scope of this Agreement
 CUAD_REAL_020::Clause 2,Clause 2,Certain Definitions
 CUAD_REAL_020::Clause 3,Clause 3,Term of this Agreement
 CUAD_REAL_020::Clause 4,Clause 4,Allied Obligations and Newegg Sponsorship Obligations
+CUAD_REAL_020::Clause 5,Clause 5,"Allied grants Newegg a non-exclusive, royalty-free, non-assignable, non-transfera"
+CUAD_REAL_020::Clause 6,Clause 6,"Newegg grants Allied a revocable, non-transferrable, non-assignable (whether volu"
 CUAD_REAL_020::Clause 7,Clause 7,Exclusivity of Sponsorship Rights for Newegg
 CUAD_REAL_020::Clause 8,Clause 8,Refund or Reduction of Sponsorship Fee
 CUAD_REAL_020::Clause 9,Clause 9,Certain Material Covenants of Allied
@@ -423,9 +749,11 @@ CUAD_REAL_023::Article XII,Article XII,Taxes and Surcharges
 CUAD_REAL_023::Article XIII,Article XIII,Limitation of Liability & Indemnifications
 CUAD_REAL_023::Article XIV,Article XIV,Creditworthiness
 CUAD_REAL_023::Article XV,Article XV,Miscellaneous
+REAL_CUAD_001::Clause 1,Clause 1,Enrollment in the Affiliate Program; Restricted Content
 REAL_CUAD_001::Clause 2,Clause 2,Affiliate Responsibilities
 REAL_CUAD_001::Clause 3,Clause 3,Referral Fee
 REAL_CUAD_001::Clause 4,Clause 4,Approved Account
+REAL_CUAD_001::Clause 5,Clause 5,Term of this Agreement
 REAL_CUAD_001::Clause 6,Clause 6,Links
 REAL_CUAD_001::Clause 7,Clause 7,Order Processing
 REAL_CUAD_001::Clause 8,Clause 8,Tracking of Sales
@@ -444,6 +772,17 @@ REAL_CUAD_001::Clause 20,Clause 20,Warranty Disclaimer
 REAL_CUAD_001::Clause 21,Clause 21,Limitation of Damages
 REAL_CUAD_001::Clause 22,Clause 22,Independent Investigation
 REAL_CUAD_001::Clause 23,Clause 23,Governing Law
+REAL_CUAD_002::Clause 2,Clause 2,"Dated: May 8, 2014"
+REAL_CUAD_002::Clause 3,Clause 3,Agreement if mandated by such third parties
+REAL_CUAD_002::Clause 5,Clause 5,Duties of Company
+REAL_CUAD_002::Clause 7,Clause 7,time by mutual agreement of the parties
+REAL_CUAD_002::Clause 8,Clause 8,7.6
+REAL_CUAD_002::Clause 10,Clause 10,MA shall notify Company in writing of any...
+REAL_CUAD_002::Clause 12,Clause 12,intellectual property rights
+REAL_CUAD_002::Clause 14,Clause 14,Distribution by MA
+REAL_CUAD_002::Clause 16,Clause 16,of employer and employee
+REAL_CUAD_002::Clause 19,Clause 19,(g)
+REAL_CUAD_002::Clause 22,Clause 22,“MA”'s Obligations. MA will make no use of...
 REAL_CUAD_003::Article I,Article I,DEFINITIONS
 REAL_CUAD_003::Article II,Article II,EQUIPMENT
 REAL_CUAD_003::Article III,Article III,DELIVERY OF THE SERVICE
@@ -465,6 +804,10 @@ REAL_CUAD_004::Clause 4,Clause 4,RELATIONSHIP OF THE PARTIES
 REAL_CUAD_004::Clause 5,Clause 5,TERM
 REAL_CUAD_004::Clause 6,Clause 6,NOTICES
 REAL_CUAD_004::Clause 7,Clause 7,ADDITIONAL PROVISIONS
+REAL_CUAD_005::Part I,Part I,Object of the Affiliate Program/ Affiliate Management Program for
+REAL_CUAD_005::Part II,Part II,Affiliate Program
+REAL_CUAD_005::Part III,Part III,Affiliate Management for Software Publishers
+REAL_CUAD_005::Part IV,Part IV,General terms
 REAL_CUAD_006::Clause 1,Clause 1,Compensation
 REAL_CUAD_006::Clause 2,Clause 2,Disputes
 REAL_CUAD_006::Clause 3,Clause 3,Operational Specifications
@@ -477,6 +820,20 @@ REAL_CUAD_006::Clause 9,Clause 9,Indemnification
 REAL_CUAD_006::Clause 10,Clause 10,Proprietary Information
 REAL_CUAD_006::Clause 11,Clause 11,Liability
 REAL_CUAD_006::Clause 12,Clause 12,Miscellaneous
+REAL_CUAD_007::Clause 1,Clause 1,DEFINITIONS
+REAL_CUAD_007::Clause 2,Clause 2,"TERM, EXTENSION AND RENEWAL"
+REAL_CUAD_007::Clause 3,Clause 3,GRANT OF RIGHTS; ACQUIRED STATIONS
+REAL_CUAD_007::Clause 4,Clause 4,CONTENT OF THE SERVICE
+REAL_CUAD_007::Clause 5,Clause 5,DELIVERY AND DISTRIBUTION OF THE SERVICE
+REAL_CUAD_007::Clause 6,Clause 6,NO FEES; REVENUE SHARE
+REAL_CUAD_007::Clause 7,Clause 7,REPORTS; AUDITS
+REAL_CUAD_007::Clause 8,Clause 8,PROMOTION; AFFILIATE ADVERTISING
+REAL_CUAD_007::Clause 9,Clause 9,WARRANTIES AND INDEMNITIES
+REAL_CUAD_007::Clause 10,Clause 10,TERMINATION
+REAL_CUAD_007::Clause 11,Clause 11,NOTICES
+REAL_CUAD_007::Clause 12,Clause 12,CONFIDENTIALITY
+REAL_CUAD_007::Clause 13,Clause 13,MISCELLANEOUS
+REAL_CUAD_007::Clause 14,Clause 14,Corporate Woods Blvd
 REAL_CUAD_008::Clause 1,Clause 1,Definitions
 REAL_CUAD_008::Clause 2,Clause 2,Services
 REAL_CUAD_008::Clause 3,Clause 3,Responsibilities of the Parties
@@ -514,6 +871,8 @@ REAL_CUAD_011::Article VIII,Article VIII,[Confidentiality]
 REAL_CUAD_011::Article IX,Article IX,[Miscellaneous]
 REAL_CUAD_012::Clause 1,Clause 1,DEFINITIONS
 REAL_CUAD_012::Clause 2,Clause 2,TERM
+REAL_CUAD_012::Clause 3,Clause 3,"DEVELOPMENT, OPERATION AND ADMINISTRATION OF INSURANCE CENTER; EXCLUSIVITY"
+REAL_CUAD_012::Clause 4,Clause 4,ADVERTISING IMPRESSIONS; INTEGRATION IMPRESSIONS; APPLICATIONS
 REAL_CUAD_012::Clause 5,Clause 5,PAYMENTS AND REPORTS
 REAL_CUAD_012::Clause 6,Clause 6,LICENSE TO USE MARKS
 REAL_CUAD_012::Clause 7,Clause 7,RIGHT TO REDESIGN AND RE-INDEX
@@ -539,11 +898,20 @@ REAL_CUAD_013::Clause 11,Clause 11,CONFIDENTIALITY
 REAL_CUAD_013::Clause 12,Clause 12,WARRANTY
 REAL_CUAD_013::Clause 13,Clause 13,INDEMNIFICATION
 REAL_CUAD_013::Clause 14,Clause 14,LIMITATION OF LIABILITY
-REAL_CUAD_013::Clause 15,Clause 15,GENERAL
+REAL_CUAD_013::Clause 15.1,Clause 15.1,GENERAL: Assignment
+REAL_CUAD_013::Clause 15.2,Clause 15.2,GENERAL: Jurisdiction and Venue
+REAL_CUAD_013::Clause 15.3,Clause 15.3,GENERAL: Governing Law
+REAL_CUAD_013::Clause 15.4,Clause 15.4,GENERAL: Notice
+REAL_CUAD_013::Clause 15.5,Clause 15.5,GENERAL: No Agency
+REAL_CUAD_013::Clause 15.6,Clause 15.6,GENERAL: Force Majeure
+REAL_CUAD_013::Clause 15.7,Clause 15.7,GENERAL: Severability
+REAL_CUAD_013::Clause 15.8,Clause 15.8,GENERAL: Entire Agreement
 REAL_CUAD_014::Clause 1,Clause 1,DEFINITIONS
 REAL_CUAD_014::Clause 2,Clause 2,"CONTENT, CO-BRANDING AND LICENSES"
 REAL_CUAD_014::Clause 3,Clause 3,COMPENSATION AND REPORTING
 REAL_CUAD_014::Clause 4,Clause 4,TERM AND TERMINATION
+REAL_CUAD_014::Clause 5,Clause 5,REPRESENTATIONS AND WARRANTIES; INDEMNITY
+REAL_CUAD_014::Clause 6,Clause 6,EXCLUSIONS; NO LIABILITY
 REAL_CUAD_014::Clause 7,Clause 7,OWNERSHIP
 REAL_CUAD_014::Clause 8,Clause 8,GENERAL PROVISIONS
 REAL_CUAD_015::Clause 1,Clause 1,SERVICES & DEVELOPMENT
@@ -591,6 +959,7 @@ REAL_CUAD_017::Clause 5,Clause 5,Royalties payable by TL
 REAL_CUAD_017::Clause 6,Clause 6,Accountings
 REAL_CUAD_017::Clause 7,Clause 7,Sound Recording Copyright and Trademark License
 REAL_CUAD_017::Clause 8,Clause 8,Term
+REAL_CUAD_017::Clause 9,Clause 9,"Warranties; Suspension, Termination"
 REAL_CUAD_017::Clause 10,Clause 10,Indemnification
 REAL_CUAD_017::Clause 11,Clause 11,Notices
 REAL_CUAD_017::Clause 12,Clause 12,Assignment
@@ -615,6 +984,7 @@ REAL_CUAD_018::Clause 19,Clause 19,WARRANTIES AND INDEMNITIES
 REAL_CUAD_018::Clause 20,Clause 20,LIMITATION OF LIABILITY
 REAL_CUAD_018::Clause 21,Clause 21,DISPUTE RESOLUTION
 REAL_CUAD_018::Clause 22,Clause 22,GENERAL
+REAL_CUAD_019::Clause 1,Clause 1,"Affiliate shall mean, when used with reference to a Party, any"
 REAL_CUAD_019::Clause 2,Clause 2,VERTICALNET BRANDED LINK
 REAL_CUAD_019::Clause 3,Clause 3,BANNER/NEWSLETTER PURCHASE COMMITMENT
 REAL_CUAD_019::Clause 4,Clause 4,EMPLOYER SPOTLIGHTS
@@ -626,6 +996,22 @@ REAL_CUAD_019::Clause 9,Clause 9,CONFIDENTIALITY
 REAL_CUAD_019::Clause 10,Clause 10,REPRESENTATIONS AND WARRANTIES
 REAL_CUAD_019::Clause 11,Clause 11,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
 REAL_CUAD_019::Clause 12,Clause 12,MISCELLANEOUS
+REAL_CUAD_020::Clause 1,Clause 1,mPhase may apply only the exact logo shown...
+REAL_CUAD_020::Clause 2,Clause 2,mPhase agrees to abide by the guidelines appearing...
+REAL_CUAD_020::Clause 3,Clause 3,In the event that mPhase's use of the...
+REAL_CUAD_020::Clause 4,Clause 4,mPhase agrees that it acquires no rights to...
+REAL_CUAD_020::Clause 5,Clause 5,mPhase agrees not to adopt any designation which...
+REAL_CUAD_020::Clause 6,Clause 6,This Agreement shall terminate in the event of...
+REAL_CUAD_020::Clause 7,Clause 7,Lucent is generally aware of the current quality...
+REAL_CUAD_020::Clause 8,Clause 8,If Lucent determines that mPhase's Goods are no...
+REAL_CUAD_020::Clause 9,Clause 9,mPhase agrees to allow Lucent to inspect the...
+REAL_CUAD_020::Clause 10,Clause 10,In the event that mPhase becomes aware of...
+REAL_CUAD_020::Clause 11,Clause 11,The Term of this Agreement will commence on...
+REAL_CUAD_020::Clause 12,Clause 12,"Upon termination of this Agreement, mPhase shall immediately cease use"
+REAL_CUAD_020::Clause 13,Clause 13,Neither Party shall be liable to the other...
+REAL_CUAD_020::Clause 14,Clause 14,This Agreement shall not be assigned by mPhase...
+REAL_CUAD_020::Clause 15,Clause 15,"The validity, construction and performance of this Agreement shall be"
+REAL_CUAD_020::Clause 16,Clause 16,"This Agreement, including the Schedules and Addenda hereto, constitutes"
 REAL_CUAD_021::Clause 1,Clause 1,Term
 REAL_CUAD_021::Clause 2,Clause 2,Engagement
 REAL_CUAD_021::Clause 3,Clause 3,Endorsement of Products
@@ -641,6 +1027,7 @@ REAL_CUAD_021::Clause 12,Clause 12,Sales and Marketing Plan And AS Product Line 
 REAL_CUAD_021::Clause 13,Clause 13,Quality Control
 REAL_CUAD_021::Clause 14,Clause 14,Independent Contractor
 REAL_CUAD_021::Clause 15,Clause 15,Indemnification
+REAL_CUAD_021::Clause 16,Clause 16,Exclusivity; Non-Competition
 REAL_CUAD_021::Clause 18,Clause 18,Assignment
 REAL_CUAD_021::Clause 19,Clause 19,Modification of Agreement
 REAL_CUAD_021::Clause 20,Clause 20,Notice
@@ -667,7 +1054,22 @@ REAL_CUAD_022::Clause 12,Clause 12,DISPUTE RESOLUTION
 REAL_CUAD_022::Clause 13,Clause 13,CONFIDENTIALITY
 REAL_CUAD_022::Clause 14,Clause 14,REPRESENTATIONS AND WARRANTIES
 REAL_CUAD_022::Clause 15,Clause 15,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
-REAL_CUAD_022::Clause 16,Clause 16,MISCELLANEOUS
+REAL_CUAD_022::Clause 16.1,Clause 16.1,MISCELLANEOUS: GOVERNING LAW
+REAL_CUAD_022::Clause 16.2,Clause 16.2,MISCELLANEOUS: NO ASSIGNMENT
+REAL_CUAD_022::Clause 16.3,Clause 16.3,MISCELLANEOUS: GOOD FAITH
+REAL_CUAD_022::Clause 16.4,Clause 16.4,MISCELLANEOUS: INDEPENDENT CONTRACTORS
+REAL_CUAD_022::Clause 16.5,Clause 16.5,MISCELLANEOUS: NOTICES
+REAL_CUAD_022::Clause 16.6,Clause 16.6,MISCELLANEOUS: AMENDMENT OR MODIFICATION
+REAL_CUAD_022::Clause 16.7,Clause 16.7,MISCELLANEOUS: ENTIRE AGREEMENT
+REAL_CUAD_022::Clause 16.8,Clause 16.8,MISCELLANEOUS: SEVERABILITY
+REAL_CUAD_022::Clause 16.9,Clause 16.9,MISCELLANEOUS: NO WAIVER
+REAL_CUAD_022::Clause 16.10,Clause 16.10,MISCELLANEOUS: SURVIVAL
+REAL_CUAD_022::Clause 16.11,Clause 16.11,MISCELLANEOUS: NO THIRD PARTY BENEFICIARIES
+REAL_CUAD_022::Clause 16.12,Clause 16.12,MISCELLANEOUS: WAIVER OF JURY TRIAL
+REAL_CUAD_022::Clause 16.13,Clause 16.13,MISCELLANEOUS: TITLES
+REAL_CUAD_022::Clause 16.14,Clause 16.14,MISCELLANEOUS: FORCE MAJEURE
+REAL_CUAD_022::Clause 16.15,Clause 16.15,MISCELLANEOUS: COMPLIANCE WITH LAWS
+REAL_CUAD_022::Clause 16.16,Clause 16.16,"MISCELLANEOUS: EXECUTION IN COUNTERPARTS, FACSIMILES"
 REAL_CUAD_023::Clause 1,Clause 1,DEFINITIONS
 REAL_CUAD_023::Clause 2,Clause 2,CO-BRANDED CAREER CENTER AND CO-BRANDED EQUIPMENT LISTINGS
 REAL_CUAD_023::Clause 3,Clause 3,VERTICALNET CONTENT
@@ -680,7 +1082,21 @@ REAL_CUAD_023::Clause 9,Clause 9,DISPUTE RESOLUTION
 REAL_CUAD_023::Clause 10,Clause 10,CONFIDENTIALITY
 REAL_CUAD_023::Clause 11,Clause 11,REPRESENTATIONS AND WARRANTIES
 REAL_CUAD_023::Clause 12,Clause 12,"DISCLAIMER OF WARRANTY, LIMITATION OF LIABILITY AND INDEMNIFICATION"
-REAL_CUAD_023::Clause 13,Clause 13,MISCELLANEOUS
+REAL_CUAD_023::Clause 13.1,Clause 13.1,MISCELLANEOUS: Governing Law
+REAL_CUAD_023::Clause 13.2,Clause 13.2,MISCELLANEOUS: No Assignment
+REAL_CUAD_023::Clause 13.3,Clause 13.3,MISCELLANEOUS: Good Faith
+REAL_CUAD_023::Clause 13.4,Clause 13.4,MISCELLANEOUS: Independent Contractors
+REAL_CUAD_023::Clause 13.5,Clause 13.5,MISCELLANEOUS: Notices
+REAL_CUAD_023::Clause 13.6,Clause 13.6,MISCELLANEOUS: Amendment or Modification
+REAL_CUAD_023::Clause 13.7,Clause 13.7,MISCELLANEOUS: Entire Agreement
+REAL_CUAD_023::Clause 13.9,Clause 13.9,MISCELLANEOUS: No Waiver
+REAL_CUAD_023::Clause 13.10,Clause 13.10,MISCELLANEOUS: Survival
+REAL_CUAD_023::Clause 13.11,Clause 13.11,MISCELLANEOUS: No Third Party Beneficiaries
+REAL_CUAD_023::Clause 13.12,Clause 13.12,MISCELLANEOUS: Waiver of Jury Trial
+REAL_CUAD_023::Clause 13.13,Clause 13.13,MISCELLANEOUS: Titles
+REAL_CUAD_023::Clause 13.14,Clause 13.14,MISCELLANEOUS: Force Majeure
+REAL_CUAD_023::Clause 13.15,Clause 13.15,MISCELLANEOUS: Compliance with Laws
+REAL_CUAD_023::Clause 13.16,Clause 13.16,"MISCELLANEOUS: Execution in Counterparts, Facsimiles"
 REAL_CUAD_024::Clause 1,Clause 1,The Co-Branded Service
 REAL_CUAD_024::Clause 2,Clause 2,Term
 REAL_CUAD_024::Clause 3,Clause 3,Payment For Service
@@ -707,12 +1123,37 @@ REAL_CUAD_027::Clause 5,Clause 5,REPRESENTATIONS AND WARRANTIES
 REAL_CUAD_027::Clause 6,Clause 6,CONFIDENTIALITY
 REAL_CUAD_027::Clause 7,Clause 7,INDEMNITY AND LIMITATION OF LIABILITY
 REAL_CUAD_027::Clause 8,Clause 8,TERM AND TERMINATION
-REAL_CUAD_027::Clause 9,Clause 9,MISCELLANEOUS
+REAL_CUAD_027::Clause 9.1,Clause 9.1,MISCELLANEOUS: Force Majeure
+REAL_CUAD_027::Clause 9.2,Clause 9.2,MISCELLANEOUS: Relationship of Parties
+REAL_CUAD_027::Clause 9.3,Clause 9.3,MISCELLANEOUS: No Third Party Beneficiaries
+REAL_CUAD_027::Clause 9.4,Clause 9.4,MISCELLANEOUS: Equitable Relief
+REAL_CUAD_027::Clause 9.5,Clause 9.5,MISCELLANEOUS: Attorneys' Fees
+REAL_CUAD_027::Clause 9.6,Clause 9.6,MISCELLANEOUS: Notices
+REAL_CUAD_027::Clause 9.7,Clause 9.7,MISCELLANEOUS: Assignment
+REAL_CUAD_027::Clause 9.8,Clause 9.8,MISCELLANEOUS: Waiver and Modification
+REAL_CUAD_027::Clause 9.9,Clause 9.9,MISCELLANEOUS: Severability
+REAL_CUAD_027::Clause 9.10,Clause 9.10,MISCELLANEOUS: Controlling Law and Jurisdiction
+REAL_CUAD_027::Clause 9.11,Clause 9.11,MISCELLANEOUS: Headings
+REAL_CUAD_027::Clause 9.12,Clause 9.12,MISCELLANEOUS: Entire Agreement
+REAL_CUAD_027::Clause 9.13,Clause 9.13,MISCELLANEOUS: Counterparts
+REAL_CUAD_028::Clause 2,Clause 2,Engagement
+REAL_CUAD_028::Clause 3,Clause 3,Ownership by PlanetCAD
+REAL_CUAD_028::Clause 4,Clause 4,Review of Co-Branded Site
+REAL_CUAD_028::Clause 5,Clause 5,Customer Billing
+REAL_CUAD_028::Clause 6,Clause 6,PlanetCAD's obligation to maintain and update Dassault
+REAL_CUAD_028::Clause 7,Clause 7,Restrictions on PlanetCAD
+REAL_CUAD_028::Clause 8,Clause 8,Mutual Representations
+REAL_CUAD_028::Clause 9,Clause 9,Dassault Systemes Indemnification
+REAL_CUAD_028::Clause 10,Clause 10,Term
+REAL_CUAD_028::Clause 11,Clause 11,Confidentiality
 REAL_CUAD_029::Clause 1,Clause 1,Definitions
 REAL_CUAD_029::Clause 2,Clause 2,"Development, Delivery and Acceptance"
 REAL_CUAD_029::Clause 3,Clause 3,Provision of Service
+REAL_CUAD_029::Clause 4,Clause 4,Support; Training
+REAL_CUAD_029::Clause 5,Clause 5,Records; Audits
 REAL_CUAD_029::Clause 6,Clause 6,Additional Development
 REAL_CUAD_029::Clause 7,Clause 7,Ownership
+REAL_CUAD_029::Clause 8,Clause 8,Payments; Taxes
 REAL_CUAD_029::Clause 9,Clause 9,Co-Marketing Obligations
 REAL_CUAD_029::Clause 10,Clause 10,Confidential Information
 REAL_CUAD_029::Clause 11,Clause 11,"Representations, Warranties and Covenants"
@@ -734,4 +1175,13 @@ REAL_CUAD_030::Clause 8,Clause 8,TERM AND TERMINATION
 REAL_CUAD_030::Clause 9,Clause 9,NO WARRANTIES
 REAL_CUAD_030::Clause 10,Clause 10,INDEMNITY
 REAL_CUAD_030::Clause 11,Clause 11,LIABILITY LIMITS
-REAL_CUAD_030::Clause 12,Clause 12,GENERAL
+REAL_CUAD_030::Clause 12.1,Clause 12.1,GENERAL: Compliance with Laws
+REAL_CUAD_030::Clause 12.2,Clause 12.2,GENERAL: Governing Law
+REAL_CUAD_030::Clause 12.3,Clause 12.3,GENERAL: Publicity
+REAL_CUAD_030::Clause 12.4,Clause 12.4,GENERAL: Independent Contractors
+REAL_CUAD_030::Clause 12.5,Clause 12.5,GENERAL: Assignment
+REAL_CUAD_030::Clause 12.6,Clause 12.6,GENERAL: Severability; Headings
+REAL_CUAD_030::Clause 12.7,Clause 12.7,GENERAL: Force Majeure
+REAL_CUAD_030::Clause 12.8,Clause 12.8,GENERAL: Notice
+REAL_CUAD_030::Clause 12.9,Clause 12.9,GENERAL: Entire Agreement; Waiver
+REAL_CUAD_030::Clause 12.10,Clause 12.10,GENERAL: Equity Stake

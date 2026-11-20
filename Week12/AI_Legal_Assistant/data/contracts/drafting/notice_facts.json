@@ -1,0 +1,17 @@
+{
+ "_about": "Synthetic facts for the Day 4 drafting demo (not a real dispute).",
+ "sender": "M/s Indus Infotech Solutions (Pvt) Ltd, Karachi, through Khan & Associates, Advocates",
+ "recipient": "Pak Telecom Enterprises (Pvt) Ltd, Islamabad",
+ "date": "20 November 2026",
+ "contract": "IT Services and Supply Agreement dated 1 February 2024",
+ "facts": [
+  "The Contractor delivered the services under Schedule A for June to September 2026 and submitted monthly invoices.",
+  "Invoices No. 114 to 117, totalling PKR 4,800,000, were due within thirty days of submission and remain unpaid.",
+  "Reminders were sent on 15 October and 2 November 2026 without response."
+ ],
+ "demand": "Payment of PKR 4,800,000 within fifteen (15) days of receipt of this notice, failing which legal proceedings, including a claim for compensation for loss caused by the breach, will be initiated without further notice.",
+ "legal_questions": [
+  "compensation for loss or damage caused by breach of contract",
+  "party who has broken the contract must pay compensation to the party who suffers by the breach"
+ ]
+}

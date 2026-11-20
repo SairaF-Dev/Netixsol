@@ -3,11 +3,13 @@
 Pipeline: retrieval configuration `rerank` → Gemini answer (short answer, explanation, citations
 with quotes) → code verification of every citation (`src/rag/verify.py`: passage exists, Act/case
 matches, section/paragraph exists in the corpus, quote appears verbatim). Unverified citations are
-removed; an answer with none left becomes "No sufficient source found".
+removed; an answer with none left becomes "No sufficient source found". Then a conclusion check
+(`src/rag/conclusion_check.py`) asks whether the conclusion actually follows from the retrieved passages;
+an answer that fails is drafted once more with the reviewer's note, and withheld if it fails again.
 
 ## Example from the brief (Roman Urdu, statute)
 
-Verified citations shown: 2; removed by verification: 0.
+Verified citations shown: 1; removed by verification: 0.
 
 ```text
 ================================================================================
@@ -15,16 +17,14 @@ QUESTION: Agar consideration unlawful ho to kya contract void hai?
 ================================================================================
 
 SHORT ANSWER
-  Ji haan, agar kisi muahiday (agreement) ka maqsad ya consideration ghair qanooni (unlawful) ho, to woh muahida void hota hai.
+  Ji haan, agar kisi muahiday (agreement) ka consideration ya maqsad (object) unlawful ho to woh muahida void hota hai.
 
 EXPLANATION
-  Contract Act, 1872 ke mutabiq, har woh muahida jiska maqsad ya consideration ghair qanooni ho, void qarar diya jata hai. Mazeed bar-aan, agar consideration ka koi hissa bhi ghair qanooni ho, to poora muahida void ho jata hai.
+  Contract Act, 1872 ki Section 23 wazeh karti hai ke har woh muahida jiska consideration ya maqsad unlawful ho, woh void qarar diya jata hai.
 
 CITATIONS (verified against the source text)
   [1] Contract Act, 1872, Section 23 - What considerations and objects are lawful and what not, page 19
       "Every agreement of which the object or consideration is unlawful is void."
-  [2] Contract Act, 1872, Section 24 - Agreements void, if considerations and objects unlawful in part, page 21
-      "If any part of a single consideration for one or more objects, or anyone or any part of anyone of several considerations for a single object, is unlawful, the agreement is void."
 
 SOURCES RETRIEVED (rerank)
   1. Contract Act, 1872 | Section 23 | page 19
@@ -46,10 +46,10 @@ QUESTION: What is the punishment for qatl-e-amd under the Pakistan Penal Code?
 ================================================================================
 
 SHORT ANSWER
-  The punishment for qatl-e-amd includes death as qisas, death or life imprisonment as ta'zir, or imprisonment for up to twenty-five years depending on the circumstances and availability of proof.
+  The punishment for qatl-e-amd includes death as qisas, death or life imprisonment as ta'zir, or imprisonment for up to twenty-five years depending on the circumstances and the applicability of qisas.
 
 EXPLANATION
-  Under Section 302 of the Pakistan Penal Code, qatl-e-amd is punishable by death as qisas, death or life imprisonment as ta'zir if specific proof is unavailable, or imprisonment up to twenty-five years where qisas is not applicable, subject to the proviso regarding fasad-fil-arz.
+  Under Section 302 of the Pakistan Penal Code, an offender is liable to death as qisas, or death or life imprisonment as ta'zir if proof under section 304 is unavailable. If qisas is not applicable according to Islamic Injunctions, the punishment is imprisonment for up to twenty-five years, unless the principle of fasad-fil-arz is attracted, in which case death or life imprisonment applies.
 
 CITATIONS (verified against the source text)
   [1] Pakistan Penal Code, 1860, Section 302 - Punishment of qatl-e-amd, page 103
@@ -67,7 +67,7 @@ This is research assistance from the firm's document corpus, not legal advice.
 
 ## Urdu script (statute)
 
-Verified citations shown: 0; removed by verification: 1.
+Verified citations shown: 0; removed by verification: 0.
 
 ```text
 ================================================================================
@@ -76,8 +76,7 @@ QUESTION: اگر معاہدے میں خلاف ورزی کی صورت میں جر
 
 No sufficient source found.
 
-(The model drafted an answer, but none of its citations passed verification:)
-  - مخصوص دادرسی ایکٹ ، ۱۸۷۷ء | دفعہ ۲۰: unverifiable: Urdu law pages (OCR) carry no section numbers to check against
+(A first answer was rejected by the conclusion check: The provided passages discuss the court's power to grant specific performance despite a penalty clause, but they do not address whether the court can award damages exceeding the amount specified in that clause.)
 
 SOURCES RETRIEVED (rerank)
   1. مخصوص دادرسی ایکٹ ، ۱۸۷۷ء | page 19
@@ -99,18 +98,18 @@ QUESTION: What did the Supreme Court say about the duty of police when a court d
 ================================================================================
 
 SHORT ANSWER
-  When a court dismisses a pre-arrest bail application, police authorities are legally bound to implement the order immediately and execute the arrest without delay.
+  When a court dismisses a pre-arrest bail application, police authorities are legally bound to execute the arrest immediately and in good faith, without waiting for further instructions or assuming a stay exists.
 
 EXPLANATION
-  The Supreme Court has clarified that the dismissal of pre-arrest bail means the accused is subject to lawful arrest. Police must not treat the mere filing of a petition in a higher court as an implied stay of arrest; they must act promptly and in good faith unless an express restraining order is granted by a competent court.
+  The Supreme Court clarified that the mere filing of a petition in a higher court does not act as an implied stay of arrest. Investigating officers must enforce judicial orders promptly, as failure to do so undermines the criminal justice system and the specific judicial determination that arrest is necessary for an effective investigation.
 
 CITATIONS (verified against the source text)
   [1] Zahid Khan, etc v. The State through Prosecutor General, Punjab and another, para 3, page 2
       "Absent such an order, a refusal of bail remains fully operative and must be implemented promptly and in good faith by investigating authorities."
   [2] Zahid Khan, etc v. The State through Prosecutor General, Punjab and another, para 6, page 3
       "This Court, therefore, finds it imperative to state clearly that investigating officers and police authorities are legally bound to act upon court orders dismissing pre-arrest bail immediately, without waiting for further instructions or presuming the existence of any stay where none has been granted."
-  [3] Zahid Khan, etc v. The State through Prosecutor General, Punjab and another, para 4, page 2
-      "He further assured the Court that these instructions would be renewed and recirculated every six months to maintain institutional awareness and discipline within the force."
+  [3] Zahid Khan, etc v. The State through Prosecutor General, Punjab and another, para 2, page 1
+      "Prompt and faithful enforcement of judicial orders is fundamental to the criminal justice system. Once pre-arrest bail is declined by a competent court of law and the accused stands exposed to arrest in accordance with law."
 
 SOURCES RETRIEVED (rerank)
   1. Supreme Court of Pakistan | CRL.P. 645-L/2025 | para 3 | page 2
