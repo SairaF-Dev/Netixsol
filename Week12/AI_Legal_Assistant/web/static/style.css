@@ -764,6 +764,25 @@ textarea:focus, input[type=text]:focus, input[type=password]:focus, select:focus
   background: var(--bg-surface-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xs);
+  cursor: pointer;
+}
+
+.field input[type=file]::file-selector-button {
+  font: 600 11.5px var(--sans);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xs);
+  padding: 4px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.field input[type=file]::file-selector-button:hover {
+  background: var(--navy-subtle);
+  border-color: var(--navy-primary);
+  color: var(--navy-primary);
 }
 
 .pair {
@@ -819,14 +838,25 @@ input[type=checkbox], input[type=radio] {
 }
 
 .placeholder {
-  color: var(--text-muted);
-  font: italic 14px/1.6 var(--serif);
-  max-width: 520px;
-  margin: 14px 0 0;
-  padding: 24px 20px;
+  color: var(--text-secondary);
+  font: 400 13.5px/1.6 var(--sans);
+  max-width: 600px;
+  margin: 0;
+  padding: 36px 32px;
   background: var(--bg-surface);
-  border: 1px dashed var(--border-strong);
+  border: 1px solid var(--border-subtle);
+  border-top: 3px solid var(--border-strong);
   border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-xs);
+}
+
+.placeholder::before {
+  content: "STANDBY FOR REVIEW";
+  display: block;
+  font: 700 11px var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--brass-accent);
+  margin-bottom: 8px;
 }
 
 /* Processing Bar */
