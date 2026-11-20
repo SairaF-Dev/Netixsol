@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Khan &amp; Associates · Legal Assistant</title>
-<meta name="description" content="Enterprise legal intelligence over Pakistani statutes, case law, and client contract playbooks.">
+<title>Khan &amp; Associates · Legal Practice &amp; Research Portal</title>
+<meta name="description" content="Internal legal practice management, statutory research, and contract intelligence portal for Khan &amp; Associates, Advocates &amp; Legal Consultants.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,74 +13,68 @@
 <body>
 <div class="signin" id="signin" hidden>
   <form class="signin-box" id="signin-form">
-    <div class="mark" style="border:none; padding-bottom: 12px;">
-      <div class="mark-crest">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="m9 12 2 2 4-4"/>
-        </svg>
-      </div>
-      <div class="mark-text">
-        <span class="firm">Khan &amp; Associates</span>
-        <span class="product">Legal Intelligence</span>
-      </div>
+    <div class="firm-seal">
+      <span class="seal-text">K&amp;A</span>
     </div>
-    <h1>Sign in to workspace</h1>
-    <p class="note">Authorized access only. Audit logging is active for all client matters and research queries under firm security policy.</p>
-    <label class="field"><span>User name</span><input type="text" id="si-user" autocomplete="username" placeholder="e.g. sana, ayesha, bilal" required></label>
-    <label class="field"><span>Password</span><input type="password" id="si-pass" autocomplete="current-password" placeholder="••••••••" required></label>
+    <div class="firm-header">
+      <span class="firm-name">KHAN &amp; ASSOCIATES</span>
+      <span class="firm-sub">Advocates &amp; Corporate Legal Consultants · Est. 1994</span>
+    </div>
+    <h1>Practitioner Portal Login</h1>
+    <p class="note">Restricted internal system. Session activity is hash-chained and logged in accordance with client confidentiality obligations.</p>
+    <label class="field"><span>Practitioner Username</span><input type="text" id="si-user" autocomplete="username" placeholder="e.g. sana, ayesha, bilal" required></label>
+    <label class="field"><span>Access Credential</span><input type="password" id="si-pass" autocomplete="current-password" placeholder="••••••••" required></label>
     <p class="error" id="si-error" hidden></p>
-    <button class="btn" type="submit">Sign in</button>
+    <button class="btn" type="submit">Authenticate Session</button>
   </form>
 </div>
 
 <div class="shell">
   <aside class="rail">
     <div class="mark">
-      <div class="mark-crest">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="m9 12 2 2 4-4"/>
-        </svg>
-      </div>
+      <div class="firm-seal-small">K&amp;A</div>
       <div class="mark-text">
-        <span class="firm">Khan &amp; Associates</span>
-        <span class="product">Legal Intelligence</span>
+        <span class="firm">KHAN &amp; ASSOCIATES</span>
+        <span class="product">Practice Portal</span>
       </div>
     </div>
 
-    <nav class="nav" aria-label="Tools">
+    <div class="rail-meta-bar">
+      <span>Chambers: Lahore · Karachi</span>
+    </div>
+
+    <nav class="nav" aria-label="Practice Sections">
       <a href="#research" data-view="research">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span class="num">01</span>Research
+        <span class="num">01</span>
+        <span class="label">Legal Research</span>
       </a>
       <a href="#caselaw" data-view="caselaw">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        <span class="num">02</span>Case law
+        <span class="num">02</span>
+        <span class="label">Precedents &amp; Citations</span>
       </a>
       <a href="#review" data-view="review">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg>
-        <span class="num">03</span>Contract review
+        <span class="num">03</span>
+        <span class="label">Agreement Review</span>
       </a>
       <a href="#compare" data-view="compare">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
-        <span class="num">04</span>Compare versions
+        <span class="num">04</span>
+        <span class="label">Bilateral Redline</span>
       </a>
       <a href="#drafting" data-view="drafting">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-        <span class="num">05</span>Drafting
+        <span class="num">05</span>
+        <span class="label">Document Assembly</span>
       </a>
       <a href="#upload" data-view="upload">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <span class="num">06</span>Upload
+        <span class="num">06</span>
+        <span class="label">Matter Repository</span>
       </a>
       <a href="#evaluation" data-view="evaluation">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        <span class="num">07</span>Evaluation
+        <span class="num">07</span>
+        <span class="label">Accuracy Audits</span>
       </a>
       <a href="#audit" data-view="audit" id="nav-audit" hidden>
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span class="num">08</span>Audit log
+        <span class="num">08</span>
+        <span class="label">Chain of Custody</span>
       </a>
     </nav>
 
@@ -92,14 +86,11 @@
           <div class="who-matters" id="who-matters"></div>
         </div>
       </div>
-      <button type="button" class="linkish" id="signout">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Sign out
-      </button>
+      <button type="button" class="linkish" id="signout">End Session</button>
     </div>
 
     <div class="rail-foot">
-      <p>Research assistance from the firm's verified corpus. Document drafts require supervising lawyer approval.</p>
+      <p class="disclaimer">Internal firm work product. Draft documents require formal review by an admitted advocate prior to execution.</p>
       <div class="services" id="services">Checking services…</div>
     </div>
   </aside>
@@ -107,14 +98,15 @@
   <main>
     <header class="topbar">
       <div class="topbar-left">
-        <span class="topbar-badge"><span class="pulse"></span> 323 Verified Legal Documents</span>
-        <span class="topbar-badge" style="background: var(--green-bg); color: var(--green);"><span class="pulse" style="background: var(--green); box-shadow: 0 0 6px var(--green);"></span> 2-Pass Citation Check Active</span>
+        <span class="jurisdiction-tag">Jurisdiction: Islamic Republic of Pakistan</span>
+        <span class="divider">/</span>
+        <span class="topbar-status">Corpus: 323 Verified Acts &amp; Judgments</span>
+        <span class="divider">/</span>
+        <span class="topbar-status">Dual-Pass Verification Enforced</span>
       </div>
       <div class="topbar-right">
+        <span class="privilege-tag">Confidential &amp; Privileged</span>
         <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
           <span id="theme-label">Theme</span>
         </button>
       </div>
@@ -123,28 +115,25 @@
     <!-- 01 Research -->
     <section class="view" id="view-research" hidden>
       <header class="view-head">
-        <p class="eyebrow">01 · Corpus Research</p>
-        <h1>Ask the firm's legal corpus.</h1>
-        <p class="lede">Comprehensive Pakistani statutes in English and Urdu, alongside 225 Supreme Court and Lahore High Court judgments. Queries are processed in English, Urdu, or Roman Urdu. Every citation is verified against exact source passages with two-tier reasoning checks.</p>
+        <p class="eyebrow">Section I · Statutory &amp; Precedent Research</p>
+        <h1>Inquire into statutory provisions and reported judicial precedents.</h1>
+        <p class="lede">Authoritative Pakistani statutes in English and Urdu, alongside 225 reported judgments of the Supreme Court and Lahore High Court. Inquiries may be entered in legal English, Urdu, or Roman Urdu. Every cited authority is checked against exact source passages with dual-pass reasoning verification.</p>
       </header>
       <form class="ask" id="ask-form">
         <label class="sr" for="ask-q">Question</label>
         <textarea id="ask-q" rows="3" dir="auto" placeholder="e.g. What is the punishment for qatl-e-amd under the Pakistan Penal Code?" required></textarea>
         <div class="ask-row">
           <fieldset class="seg" aria-label="Search method">
-            <label><input type="radio" name="mode" value="auto" checked><span>Router decides</span></label>
-            <label><input type="radio" name="mode" value="vector"><span>Text search</span></label>
-            <label><input type="radio" name="mode" value="graph"><span>Graph</span></label>
-            <label><input type="radio" name="mode" value="hybrid"><span>Both</span></label>
+            <label><input type="radio" name="mode" value="auto" checked><span>Automatic Dispatch</span></label>
+            <label><input type="radio" name="mode" value="vector"><span>Statute Text Search</span></label>
+            <label><input type="radio" name="mode" value="graph"><span>Precedent Graph</span></label>
+            <label><input type="radio" name="mode" value="hybrid"><span>Hybrid Ensemble</span></label>
           </fieldset>
-          <button class="btn" type="submit">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Ask Corpus
-          </button>
+          <button class="btn" type="submit">Execute Research</button>
         </div>
       </form>
       <div class="examples" id="ask-examples">
-        <span class="examples-label">Suggested legal queries</span>
+        <span class="examples-label">Standard Legal Reference Inquiries</span>
       </div>
       <div class="result" id="ask-result" aria-live="polite"></div>
     </section>
@@ -153,56 +142,56 @@
     <section class="view" id="view-caselaw" hidden>
       <header class="view-head split">
         <div>
-          <p class="eyebrow">02 · Precedent &amp; Network Graph</p>
-          <h1>Follow links between judgments, laws, and benches.</h1>
+          <p class="eyebrow">Section II · Judicial Citations &amp; Bench Network</p>
+          <h1>Cross-jurisdictional citations, bench compositions, and statutory references.</h1>
         </div>
         <dl class="ledger" id="graph-ledger">
-          <div><dt>Judgments</dt><dd data-k="cases">–</dd></div>
+          <div><dt>Reported Judgments</dt><dd data-k="cases">–</dd></div>
           <div><dt>Sections &amp; Articles</dt><dd data-k="sections">–</dd></div>
-          <div><dt>Judges</dt><dd data-k="judges">–</dd></div>
-          <div><dt>Citations</dt><dd data-k="case_links">–</dd></div>
-          <div><dt>Statute Links</dt><dd data-k="law_links">–</dd></div>
+          <div><dt>Hon. Judges</dt><dd data-k="judges">–</dd></div>
+          <div><dt>Case-to-Case Citations</dt><dd data-k="case_links">–</dd></div>
+          <div><dt>Statute Interpretations</dt><dd data-k="law_links">–</dd></div>
         </dl>
       </header>
-      <p class="lede narrow">Queries such as “which judges heard cases on Section 324 PPC” traverse interconnected judicial nodes. The graph resolves multi-hop precedent connections and bench references extracted directly from authoritative law reports.</p>
+      <p class="lede narrow">Complex inquiries such as bench history on Section 324 PPC or Article 199 Constitutional petitions traverse interconnected judicial authorities. Citations and bench compositions are resolved directly from structured precedent graphs without probabilistic deviation.</p>
       <form class="ask" id="graph-form">
         <label class="sr" for="graph-q">Graph question</label>
         <textarea id="graph-q" rows="2" dir="auto" placeholder="Which judges sat on the cases that refer to Section 324 of the Pakistan Penal Code?" required></textarea>
         <div class="ask-row">
-          <span class="hint">Specify a statutory provision, citation (e.g. 2009 SCMR 230), or honorable judge.</span>
-          <button class="btn" type="submit">Search Graph</button>
+          <span class="hint">Specify a statutory section, standard law report citation (e.g. 2009 SCMR 230), or honorable judge.</span>
+          <button class="btn" type="submit">Trace Citations</button>
         </div>
       </form>
-      <div class="examples" id="graph-examples"><span class="examples-label">Benchmark graph queries</span></div>
+      <div class="examples" id="graph-examples"><span class="examples-label">Standard Precedent Traces</span></div>
       <div class="result" id="graph-result" aria-live="polite"></div>
     </section>
 
     <!-- 03 Contract review -->
     <section class="view" id="view-review" hidden>
       <header class="view-head">
-        <p class="eyebrow">03 · Contract Intelligence</p>
-        <h1>Review contracts against the firm's standard playbook.</h1>
+        <p class="eyebrow">Section III · Contract Due Diligence &amp; Playbook Audit</p>
+        <h1>Audit agreements against Khan &amp; Associates standard negotiating positions.</h1>
       </header>
       <div class="work">
         <form class="panel" id="review-form">
-          <p class="panel-text">Audits 14 standard positions categorized as <b class="s s-green">acceptable</b>, <b class="s s-amber">negotiate</b>, <b class="s s-red">unacceptable</b>, or <b class="s s-missing">missing</b>, with verbatim clause extracts and statutory fallbacks.</p>
-          <label class="field"><span>Sample contract</span>
+          <p class="panel-text">Audits 14 essential corporate clauses against the firm's standard playbook. Positions are classified as <b class="s s-green">acceptable</b>, <b class="s s-amber">negotiate</b>, <b class="s s-red">unacceptable</b>, or <b class="s s-missing">missing</b>, with verbatim clause extracts, suggested substitute wording, and governing statutory sources.</p>
+          <label class="field"><span>Select Agreement Matter</span>
             <select id="review-sample"></select>
           </label>
-          <label class="field"><span>or upload one</span>
+          <label class="field"><span>or Upload Draft Agreement</span>
             <input type="file" id="review-file" accept=".pdf,.docx,.txt,.json">
-            <small>Supported formats: PDF, DOCX, TXT. Scanned for hidden instructions or prompt injections.</small>
+            <small>Accepted formats: PDF, DOCX, TXT. Files are scanned for embedded instructions and integrity compliance.</small>
           </label>
-          <label class="field" id="review-matter-field" hidden><span>Matter assignment</span>
+          <label class="field" id="review-matter-field" hidden><span>File under Client Matter</span>
             <select id="review-matter" class="matter-select"></select>
           </label>
-          <label class="field"><span>Representing party</span>
+          <label class="field"><span>Representing Client Party</span>
             <input type="text" id="review-party" value="the Client" maxlength="120">
           </label>
-          <button class="btn" type="submit">Review Contract</button>
+          <button class="btn" type="submit">Execute Audit</button>
         </form>
         <div class="result" id="review-result" aria-live="polite">
-          <p class="placeholder">Review analysis appears here, along with a Word download containing inline margin comments.</p>
+          <p class="placeholder">The contract due diligence schedule will populate here, including an exported Word file with clause-by-clause margin commentary.</p>
         </div>
       </div>
     </section>
@@ -210,25 +199,25 @@
     <!-- 04 Compare -->
     <section class="view" id="view-compare" hidden>
       <header class="view-head">
-        <p class="eyebrow">04 · Version Redline</p>
-        <h1>Identify bilateral revisions and their legal impact.</h1>
+        <p class="eyebrow">Section IV · Bilateral Blackline &amp; Amendment Analysis</p>
+        <h1>Identify counterpart revisions and evaluate legal effect.</h1>
       </header>
       <div class="work">
         <form class="panel" id="compare-form">
-          <p class="panel-text">Clauses are matched by semantic content rather than numbering. Word-level diffs are computed algorithmically and analyzed for legal effect.</p>
-          <label class="check"><input type="checkbox" id="compare-sample" checked> Use sample supply agreement (v1 vs v2)</label>
+          <p class="panel-text">Clauses are matched by substantive content rather than clause numbering. Word-level amendments are extracted via strict textual comparison and evaluated for client exposure.</p>
+          <label class="check"><input type="checkbox" id="compare-sample" checked> Use standard sample agreement pair (Version 1 vs Version 2)</label>
           <div id="compare-uploads" class="uploads" hidden>
-            <label class="field"><span>Earlier version</span><input type="file" id="compare-old" accept=".pdf,.docx,.txt,.json"></label>
-            <label class="field"><span>Revised version</span><input type="file" id="compare-new" accept=".pdf,.docx,.txt,.json"></label>
-            <label class="field"><span>File under matter</span><select id="compare-matter" class="matter-select"></select></label>
+            <label class="field"><span>Original Executed Draft</span><input type="file" id="compare-old" accept=".pdf,.docx,.txt,.json"></label>
+            <label class="field"><span>Counterpart Revised Draft</span><input type="file" id="compare-new" accept=".pdf,.docx,.txt,.json"></label>
+            <label class="field"><span>Matter Designation</span><select id="compare-matter" class="matter-select"></select></label>
           </div>
-          <label class="field"><span>Representing party</span>
+          <label class="field"><span>Representing Client Party</span>
             <input type="text" id="compare-client" value="Pak Telecom Enterprises (Pvt) Ltd (the Client)" maxlength="120">
           </label>
-          <button class="btn" type="submit">Compare Versions</button>
+          <button class="btn" type="submit">Generate Blackline</button>
         </form>
         <div class="result" id="compare-result" aria-live="polite">
-          <p class="placeholder">Deleted clauses appear struck through, inserted terms highlighted, accompanied by legal risk explanations.</p>
+          <p class="placeholder">Deleted clauses appear struck through, inserted covenants highlighted, accompanied by legal risk explanations.</p>
         </div>
       </div>
     </section>
@@ -236,50 +225,50 @@
     <!-- 05 Drafting -->
     <section class="view" id="view-drafting" hidden>
       <header class="view-head">
-        <p class="eyebrow">05 · Legal Drafting</p>
-        <h1>Verified first drafts with verified authority citations.</h1>
+        <p class="eyebrow">Section V · Legal Document Assembly</p>
+        <h1>Assemble formal case briefs, statutory legal notices, and deal covenants.</h1>
       </header>
       <div class="work">
         <div class="panel">
-          <fieldset class="seg seg-block" aria-label="Document type">
-            <label><input type="radio" name="dkind" value="brief" checked><span>Case brief</span></label>
-            <label><input type="radio" name="dkind" value="notice"><span>Legal notice</span></label>
-            <label><input type="radio" name="dkind" value="clauses"><span>Clauses</span></label>
+          <fieldset class="seg seg-block" aria-label="Document Type">
+            <label><input type="radio" name="dkind" value="brief" checked><span>Case Brief</span></label>
+            <label><input type="radio" name="dkind" value="notice"><span>Legal Notice</span></label>
+            <label><input type="radio" name="dkind" value="clauses"><span>Covenants</span></label>
           </fieldset>
 
           <form id="draft-brief" class="dform">
-            <p class="panel-text">Generates structured facts, issues, holdings, reasoning, and disposition tied to exact judgment paragraphs.</p>
-            <label class="field"><span>Target judgment</span>
-              <input type="text" id="brief-judgment" list="judgment-list" placeholder="Type case number, e.g. Crl.P. 207-K" autocomplete="off">
+            <p class="panel-text">Compiles statement of facts, legal issues, judicial holdings, ratio decidendi, and outcome directly tied to reported judgment paragraphs.</p>
+            <label class="field"><span>Reported Judgment Record</span>
+              <input type="text" id="brief-judgment" list="judgment-list" placeholder="Enter petition or case number, e.g. Crl.P. 207-K" autocomplete="off">
               <datalist id="judgment-list"></datalist>
             </label>
-            <button class="btn" type="submit">Draft Brief</button>
+            <button class="btn" type="submit">Assemble Brief</button>
           </form>
 
           <form id="draft-notice" class="dform" hidden>
             <p class="panel-text">Statutory foundation is verified against the corpus; every citation passes the dual-pass checker.</p>
-            <label class="field"><span>Sender</span><input type="text" id="n-sender"></label>
-            <label class="field"><span>Recipient</span><input type="text" id="n-recipient"></label>
+            <label class="field"><span>Issuing Party / Advocate</span><input type="text" id="n-sender"></label>
+            <label class="field"><span>Recipient Addressee</span><input type="text" id="n-recipient"></label>
             <div class="pair">
-              <label class="field"><span>Date</span><input type="text" id="n-date"></label>
-              <label class="field"><span>Governing contract</span><input type="text" id="n-contract"></label>
+              <label class="field"><span>Notice Date</span><input type="text" id="n-date"></label>
+              <label class="field"><span>Referenced Contract / Matter</span><input type="text" id="n-contract"></label>
             </div>
-            <label class="field"><span>Factual grounds (one per line)</span><textarea id="n-facts" rows="4"></textarea></label>
-            <label class="field"><span>Formal demand</span><textarea id="n-demand" rows="3"></textarea></label>
-            <label class="field"><span>Statutory questions to research</span><textarea id="n-law" rows="2"></textarea></label>
+            <label class="field"><span>Factual Grounds (one per line)</span><textarea id="n-facts" rows="4"></textarea></label>
+            <label class="field"><span>Formal Demand &amp; Remedy</span><textarea id="n-demand" rows="3"></textarea></label>
+            <label class="field"><span>Statutory Principles (one per line)</span><textarea id="n-law" rows="2"></textarea></label>
             <button class="btn" type="submit">Draft Notice</button>
           </form>
 
           <form id="draft-clauses" class="dform" hidden>
-            <p class="panel-text">Adapts the firm's standard wording to deal parameters without diluting client protections.</p>
-            <label class="field"><span>Title</span><input type="text" id="c-title"></label>
-            <label class="field"><span>Deal specifications ("name: value" per line)</span><textarea id="c-facts" rows="4"></textarea></label>
-            <fieldset class="field"><legend>Playbook clauses</legend><div class="checks" id="c-items"></div></fieldset>
-            <button class="btn" type="submit">Draft Clauses</button>
+            <p class="panel-text">Adapts firm standard covenants to deal terms without compromising client protection.</p>
+            <label class="field"><span>Document Title</span><input type="text" id="c-title"></label>
+            <label class="field"><span>Deal Specifications ("name: value" per line)</span><textarea id="c-facts" rows="4"></textarea></label>
+            <fieldset class="field"><legend>Firm Playbook Covenants</legend><div class="checks" id="c-items"></div></fieldset>
+            <button class="btn" type="submit">Draft Covenants</button>
           </form>
         </div>
         <div class="result" id="draft-result" aria-live="polite">
-          <p class="placeholder">All generated drafts are stamped “DRAFT — FOR LAWYER REVIEW”. Citations failing verification are automatically excised.</p>
+          <p class="placeholder">Assembled drafts are marked “DRAFT — FOR LAWYER REVIEW”. Unverified citations are automatically excised.</p>
         </div>
       </div>
     </section>
@@ -287,21 +276,21 @@
     <!-- 06 Upload -->
     <section class="view" id="view-upload" hidden>
       <header class="view-head">
-        <p class="eyebrow">06 · Document Ingestion</p>
-        <h1>Add confidential documents to a client matter.</h1>
-        <p class="lede">Files are segmented into discrete clauses, screened for prompt injections or covert text, and indexed under strict role-based matter isolation.</p>
+        <p class="eyebrow">Section VI · Matter File Ingestion</p>
+        <h1>File and index confidential client documents under assigned matters.</h1>
+        <p class="lede">Uploaded documents are parsed into clauses, screened for prompt injections or hidden formatting, and indexed under strict role-based matter isolation.</p>
       </header>
       <div class="work">
         <form class="panel" id="upload-form">
-          <label class="field"><span>Target matter</span><select id="upload-matter" class="matter-select"></select></label>
-          <label class="field"><span>Document file</span><input type="file" id="upload-file" accept=".pdf,.docx,.txt,.json">
-            <small>PDF (with text layer), DOCX, TXT, or JSON formats supported.</small></label>
-          <button class="btn" type="submit">Upload and Index</button>
+          <label class="field"><span>Designated Matter</span><select id="upload-matter" class="matter-select"></select></label>
+          <label class="field"><span>Contract File</span><input type="file" id="upload-file" accept=".pdf,.docx,.txt,.json">
+            <small>PDF (with text layer), DOCX, TXT, or JSON. Maximum file size 15 MB.</small></label>
+          <button class="btn" type="submit">Index Document</button>
         </form>
         <div>
           <div class="result" id="upload-result" aria-live="polite"></div>
           <h3>Indexed Matter Documents</h3>
-          <div id="upload-list"><p class="note">Loading…</p></div>
+          <div id="upload-list"><p class="note">Loading matter repository…</p></div>
         </div>
       </div>
     </section>
@@ -309,27 +298,27 @@
     <!-- 07 Evaluation -->
     <section class="view" id="view-evaluation" hidden>
       <header class="view-head">
-        <p class="eyebrow">07 · Empirical Benchmarks</p>
-        <h1>Rigorous quantitative evaluation of system accuracy.</h1>
+        <p class="eyebrow">Section VII · Quality &amp; Accuracy Audits</p>
+        <h1>Empirical quality benchmarks over legal corpus retrieval and verification.</h1>
       </header>
       <div class="headline-numbers">
-        <p><em>94%</em> Top-5 retrieval recall for statutory provisions, vs 54% baseline keyword search.</p>
-        <p><em>0</em> Hallucinated citations admitted across all evaluation benchmarks.</p>
-        <p><em>0.99</em> F1 score on complex multi-hop knowledge graph queries.</p>
-        <p><em>9 of 9</em> Adversarially planted contract modifications detected in redline evaluation.</p>
+        <p><em>94%</em> Statutory retrieval recall in top-5 passages, compared to 54% standard keyword search.</p>
+        <p><em>0</em> Fabricated citations admitted across all evaluation benchmarks.</p>
+        <p><em>0.99</em> F1 score on complex relational precedent queries.</p>
+        <p><em>9 of 9</em> Planted contractual revisions detected in redline evaluation.</p>
       </div>
       <div class="work reports">
-        <nav class="report-list" id="report-list" aria-label="Reports"></nav>
-        <article class="report md" id="report-body"><p class="placeholder">Select an evaluation report from the left sidebar.</p></article>
+        <nav class="report-list" id="report-list" aria-label="Quality Reports"></nav>
+        <article class="report md" id="report-body"><p class="placeholder">Select an audit report from the schedule.</p></article>
       </div>
     </section>
 
     <!-- 08 Audit (admin) -->
     <section class="view" id="view-audit" hidden>
       <header class="view-head">
-        <p class="eyebrow">08 · Cryptographic Audit Log</p>
-        <h1>Tamper-evident activity recording and verification.</h1>
-        <p class="lede">Every login, search query, review, upload, and export is recorded in a hash-chained audit ledger. Any retroactive modification breaks the cryptographic proof chain.</p>
+        <p class="eyebrow">Section VIII · Chain of Custody &amp; Compliance</p>
+        <h1>Cryptographically verified audit trail of all practitioner activity.</h1>
+        <p class="lede">Every session authentication, legal research query, document review, and export is recorded in a hash-chained audit ledger. Any retroactive tampering invalidates the verification hash chain.</p>
       </header>
       <div class="result" id="audit-result"></div>
     </section>

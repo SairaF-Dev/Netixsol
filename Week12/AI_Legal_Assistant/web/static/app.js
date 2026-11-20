@@ -65,7 +65,7 @@ const postJSON = (path, data) => api(path, { method: "POST", headers: { "Content
 
 function working(box, message) {
   box.replaceChildren(h("div", { class: "working" }, h("div", { class: "work-msg", text: message }), h("div", { class: "bar" }),
-    h("div", { class: "note", text: "Answers asked before come back at once; new ones call Gemini." })));
+    h("div", { class: "note", text: "Cached research responses load immediately; new queries execute primary verification protocol." })));
 }
 function showError(box, err) {
   if (err.blocked) {
@@ -167,8 +167,9 @@ function renderGraph(g) {
     h("p", { class: "note", text: g.items.length === 1 ? "result" : "results" }));
   if (g.items.length) out.push(h("ul", { class: "items" }, g.items.map(graphItem)));
   else out.push(h("p", { class: "note", text: "No judgment in the graph matches. Check the provision or citation, or ask in text search." }));
-  const how = { local: "Followed links from the provision, citation or judge named in the question.",
-                global: "Counted over the whole graph.", "text-to-cypher": "No linked entity found, so Gemini wrote the graph query (read-only, checked before it ran)." };
+  const how = { local: "Followed citations, provisions and benches named in the inquiry.",
+                global: "Aggregated over the complete judicial precedent repository.",
+                "text-to-cypher": "Direct entity index missed; relational query executed under read-only verification policy." };
   out.push(h("details", {}, h("summary", { text: "How this was found" }),
     h("p", { class: "note", text: how[g.method] || g.method }), g.cypher ? h("pre", { text: g.cypher }) : null));
   return h("div", { class: "graph-block" }, out);
@@ -193,7 +194,7 @@ function renderAnswer(a) {
   const left = h("div", { class: refused ? "refusal" : "" }, h("h3", { text: "Answer" }), prose("p", a.short_answer, "short"),
     a.explanation ? prose("p", a.explanation, "explain") : null,
     conclusionNote(a.conclusion_check, refused),
-    refused && !(a.conclusion_check || {}).redrafted ? h("p", { class: "note", text: "The assistant answers only when a source in the corpus supports it." }) : null);
+    refused && !(a.conclusion_check || {}).redrafted ? h("p", { class: "note", text: "Repository protocol: Opinions are rendered only where authoritative statutory or judicial sources substantiate the position." }) : null);
   const right = h("div", {}, h("h3", { text: refused ? "Sources" : "Verified sources" }),
     refused ? h("p", { class: "note", text: "No citation passed the checks." }) :
       h("ol", { class: "cites" }, a.citations.map(c => h("li", {},
@@ -528,8 +529,8 @@ async function load() {
   $("#nav-audit").hidden = u.role !== "admin";
 
   $("#services").replaceChildren(
-    h("span", { class: META.gemini ? "on" : "off", text: META.gemini ? "Gemini connected" : "Gemini not configured" }), h("br"),
-    h("span", { class: META.graph ? "on" : "off", text: META.graph ? "Graph connected" : "Graph not configured" }));
+    h("span", { class: META.gemini ? "on" : "off", text: META.gemini ? "Inference Engine: Active" : "Inference Engine: Offline" }), h("br"),
+    h("span", { class: META.graph ? "on" : "off", text: META.graph ? "Precedent Graph: Connected" : "Precedent Graph: Offline" }));
   for (const dd of document.querySelectorAll("#graph-ledger dd")) dd.textContent = (META.graph_counts[dd.dataset.k] || 0).toLocaleString("en");
 
   // contracts grouped by the user's client matters; other matters' contracts are not sent at all
