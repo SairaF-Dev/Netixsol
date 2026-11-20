@@ -26,22 +26,87 @@ function prose(tag, text, cls = "") {
   return h(tag, { class: (cls + (urdu ? " urdu" : "")).trim(), dir: "auto", text: text || "" });
 }
 
+/* ---------------------------------------------------------------- sign-in token (this tab only) */
+const store = {
+  get() { try { return sessionStorage.getItem("la-token"); } catch (_) { return null; } },
+  set(v) { try { v ? sessionStorage.setItem("la-token", v) : sessionStorage.removeItem("la-token"); } catch (_) { /* private mode */ } },
+};
+let TOKEN = store.get();
+
+class ApiError extends Error {
+  constructor(message, extra = {}) { super(message); Object.assign(this, extra); }
+}
+
 async function api(path, options = {}) {
-  const res = await fetch(path, options);
+  const headers = Object.assign({}, options.headers || {}, TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {});
+  const res = await fetch(path, Object.assign({}, options, { headers }));
   let body = null;
   try { body = await res.json(); } catch (_) { /* not JSON */ }
-  if (!res.ok) throw new Error((body && body.detail && (typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail))) || `Request failed (${res.status})`);
+  if (res.status === 401 && path !== "/api/login") { signOut(); throw new ApiError("Please sign in again."); }
+  if (!res.ok) {
+    const d = body && body.detail;
+    if (d && typeof d === "object" && d.blocked) throw new ApiError(d.message, { blocked: d });
+    throw new ApiError((typeof d === "string" && d) || `Request failed (${res.status})`);
+  }
   return body;
 }
+
+/* downloads carry the token too, so a link cannot be shared to someone who is not signed in */
+async function saveFile(url, name) {
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+  if (!res.ok) { alert("The file could not be downloaded."); return; }
+  const blob = await res.blob();
+  const a = h("a", { href: URL.createObjectURL(blob), download: name || url.split("/").pop() });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+const downloadLink = (url, text) => h("a", { class: "download", href: "#", text, onclick: e => { e.preventDefault(); saveFile(url); } });
 const postJSON = (path, data) => api(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
 
 function working(box, message) {
-  box.replaceChildren(h("div", { class: "working" }, h("div", { text: message }), h("div", { class: "bar" }),
+  box.replaceChildren(h("div", { class: "working" }, h("div", { class: "work-msg", text: message }), h("div", { class: "bar" }),
     h("div", { class: "note", text: "Answers asked before come back at once; new ones call Gemini." })));
 }
 function showError(box, err) {
+  if (err.blocked) {
+    const b = err.blocked;
+    box.replaceChildren(h("div", { class: "blocked" },
+      h("p", { class: "eyebrow", text: "Blocked · possible prompt injection" }),
+      h("h2", { text: `${b.file} was not processed.` }),
+      h("p", { text: b.message }),
+      h("ul", { class: "cites" }, b.findings.map(f => h("li", {},
+        h("div", { class: "cite-ref", text: `${f.kind}${f.hidden ? " · hidden text" : ""}` }),
+        h("div", { class: "cite-meta", text: f.location }),
+        prose("blockquote", f.text)))),
+      h("p", { class: "note", text: "This attempt has been recorded in the audit log." })));
+    return;
+  }
   box.replaceChildren(h("p", { class: "error", text: err.message || String(err) }));
 }
+
+function hiddenWarning(list) {
+  if (!list || !list.length) return null;
+  return h("details", { class: "hidden-warn", open: true },
+    h("summary", { text: `Warning: ${list.length} piece${list.length > 1 ? "s" : ""} of hidden text in the upload (white, tiny or hidden formatting)` }),
+    h("ul", {}, list.map(t => h("li", {}, prose("span", t)))));
+}
+/* slow work runs as a background job: the request returns a job id at once, then the page polls it */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const STATUS_TEXT = { queued: "Waiting for the worker", running: "Working" };
+
+async function waitJob(reply, box) {
+  if (!reply || !reply.job_id) return reply;
+  const started = Date.now();
+  for (;;) {
+    await sleep(1500);
+    const job = await api(`/api/jobs/${reply.job_id}`);
+    if (job.status === "done") return job.result;
+    if (job.status === "failed") throw new ApiError(job.error || "The job failed.");
+    const msg = box && box.querySelector(".work-msg");
+    if (msg) msg.textContent = `${STATUS_TEXT[job.status] || job.status}${job.progress ? ": " + job.progress : ""}… (${Math.round((Date.now() - started) / 1000)} s)`;
+  }
+}
+
 async function run(form, box, message, task) {
   const btn = $("button[type=submit]", form);
   btn.disabled = true;
@@ -52,12 +117,14 @@ async function run(form, box, message, task) {
 }
 
 /* ---------------------------------------------------------------- views */
-const VIEWS = ["research", "caselaw", "review", "compare", "drafting", "evaluation"];
+const VIEWS = ["research", "caselaw", "review", "compare", "drafting", "upload", "evaluation", "audit"];
 function showView() {
   const name = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "research";
   for (const v of VIEWS) $(`#view-${v}`).hidden = v !== name;
   document.querySelectorAll(".nav a").forEach(a => a.classList.toggle("active", a.dataset.view === name));
-  if (name === "evaluation" && !$("#report-body").dataset.loaded) openReport(META && META.reports[0]);
+  if (name === "evaluation" && META && !$("#report-body").dataset.loaded) openReport(META.reports[0]);
+  if (name === "audit" && TOKEN) loadAudit();
+  if (name === "upload" && TOKEN) loadUploads();
 }
 window.addEventListener("hashchange", () => { showView(); window.scrollTo(0, 0); });
 
@@ -183,7 +250,7 @@ function renderReview(box, r) {
         h("h2", { text: r.title || "Contract" }),
         h("div", { class: "note", text: `Reviewed for ${r.party}${r.type ? " · " + r.type : ""}` }))),
     h("div", { class: "tally" }, ["green", "amber", "red", "missing"].map(s => h("span", {}, status(s), ` ${count(s)}`))),
-    h("a", { class: "download", href: r.download, download: true, text: "Download the Word file with margin comments" }),
+    downloadLink(r.download, "Download the Word file with margin comments"), hiddenWarning(r.hidden_text),
     h("div", { class: "findings" }, findings.map(f => h("article", { class: "finding" },
       h("div", {}, status(f.status), f.required ? h("div", { class: "note", text: "required" }) : null),
       h("div", {},
@@ -201,13 +268,16 @@ $("#review-form").addEventListener("submit", e => {
   e.preventDefault();
   const fd = new FormData();
   const file = $("#review-file").files[0];
-  if (file) fd.append("file", file); else fd.append("contract_id", $("#review-sample").value);
+  if (file) { fd.append("file", file); fd.append("matter", $("#review-matter").value); } else fd.append("contract_id", $("#review-sample").value);
   fd.append("party", $("#review-party").value);
   const box = $("#review-result");
   run(e.target, box, "Finding the relevant clauses, rating each playbook position and checking every quote…",
-    async () => renderReview(box, await api("/api/review", { method: "POST", body: fd })));
+    async () => renderReview(box, await waitJob(await api("/api/review", { method: "POST", body: fd }), box)));
 });
-$("#review-file").addEventListener("change", e => { $("#review-sample").disabled = !!e.target.files.length; });
+$("#review-file").addEventListener("change", e => {
+  const chosen = !!e.target.files.length;
+  $("#review-sample").disabled = chosen; $("#review-matter-field").hidden = !chosen;
+});
 
 /* ---------------------------------------------------------------- compare */
 function renderCompare(box, r) {
@@ -227,7 +297,7 @@ function renderCompare(box, r) {
       red,
       imp.summary ? h("p", { class: "impact" }, h("b", { text: imp.summary + " " }), imp.legal_impact || "") : h("p", { class: "note", text: "No explanation returned for this change." })));
   });
-  box.replaceChildren(head, h("a", { class: "download", href: r.download, download: true, text: "Download the Word redline" }), h("div", { class: "findings" }, changes));
+  box.replaceChildren(head, downloadLink(r.download, "Download the Word redline"), hiddenWarning(r.hidden_text) || "", h("div", { class: "findings" }, changes));
 }
 
 $("#compare-sample").addEventListener("change", e => { $("#compare-uploads").hidden = e.target.checked; });
@@ -239,12 +309,12 @@ $("#compare-form").addEventListener("submit", e => {
   if (!sample) {
     const a = $("#compare-old").files[0], b = $("#compare-new").files[0];
     if (!a || !b) { showError($("#compare-result"), new Error("Choose both versions, or use the sample pair.")); return; }
-    fd.append("old_file", a); fd.append("new_file", b);
+    fd.append("old_file", a); fd.append("new_file", b); fd.append("matter", $("#compare-matter").value);
   }
   fd.append("client", $("#compare-client").value);
   const box = $("#compare-result");
   run(e.target, box, "Matching clauses, marking changed words and explaining each change…",
-    async () => renderCompare(box, await api("/api/compare", { method: "POST", body: fd })));
+    async () => renderCompare(box, await waitJob(await api("/api/compare", { method: "POST", body: fd }), box)));
 });
 
 /* ---------------------------------------------------------------- drafting */
@@ -258,7 +328,7 @@ function renderDraft(box, d) {
     Object.entries(d.authorities || {}).filter(([, v]) => v.length).map(([k, v]) =>
       h("section", {}, h("h5", { text: `Authorities: ${k}` }), h("p", { class: "note", text: v.join("; ") + " (from the knowledge graph)" }))),
     h("p", { class: "note", style: "margin-top:26px", text: `${d.removed_citations} citation${d.removed_citations === 1 ? "" : "s"} removed by verification.` }));
-  box.replaceChildren(h("a", { class: "download", href: d.download, download: true, text: "Download as Word" }), sheet);
+  box.replaceChildren(downloadLink(d.download, "Download as Word"), sheet);
 }
 
 document.querySelectorAll("input[name=dkind]").forEach(r => r.addEventListener("change", () => {
@@ -274,7 +344,7 @@ $("#draft-brief").addEventListener("submit", e => {
   const box = $("#draft-result");
   if (!j) { showError(box, new Error("Choose a judgment from the list.")); return; }
   run(e.target, box, "Reading the judgment and checking each quote against its paragraph…",
-    async () => renderDraft(box, await postJSON("/api/draft/brief", { document_id: j.id })));
+    async () => renderDraft(box, await waitJob(await postJSON("/api/draft/brief", { document_id: j.id }), box)));
 });
 $("#draft-notice").addEventListener("submit", e => {
   e.preventDefault();
@@ -282,7 +352,7 @@ $("#draft-notice").addEventListener("submit", e => {
   const body = { sender: $("#n-sender").value, recipient: $("#n-recipient").value, date: $("#n-date").value,
     contract: $("#n-contract").value, facts: lines("#n-facts"), demand: $("#n-demand").value, legal_questions: lines("#n-law") };
   run(e.target, box, "Researching the legal basis and verifying every citation…",
-    async () => renderDraft(box, await postJSON("/api/draft/notice", body)));
+    async () => renderDraft(box, await waitJob(await postJSON("/api/draft/notice", body), box)));
 });
 $("#draft-clauses").addEventListener("submit", e => {
   e.preventDefault();
@@ -291,7 +361,7 @@ $("#draft-clauses").addEventListener("submit", e => {
   for (const l of lines("#c-facts")) { const i = l.indexOf(":"); if (i > 0) facts[l.slice(0, i).trim()] = l.slice(i + 1).trim(); }
   const items = [...document.querySelectorAll("#c-items input:checked")].map(i => i.value);
   run(e.target, box, "Adapting the firm's standard wording to the deal…",
-    async () => renderDraft(box, await postJSON("/api/draft/clauses", { title: $("#c-title").value, facts, items })));
+    async () => renderDraft(box, await waitJob(await postJSON("/api/draft/clauses", { title: $("#c-title").value, facts, items }), box)));
 });
 
 /* ---------------------------------------------------------------- evaluation: a small Markdown renderer */
@@ -368,25 +438,115 @@ async function openReport(r) {
   } catch (err) { showError(body, err); }
 }
 
-/* ---------------------------------------------------------------- start */
+/* ---------------------------------------------------------------- upload */
+async function loadUploads() {
+  const box = $("#upload-list");
+  try {
+    const docs = await api("/api/uploads");
+    box.replaceChildren(docs.length
+      ? h("ul", { class: "items" }, docs.map(d => h("li", {}, prose("span", d.title),
+          h("span", { class: "detail", text: `${d.matter} · ${d.clauses} clauses · ${d.id}` }))))
+      : h("p", { class: "note", text: "Nothing uploaded on your matters yet." }));
+  } catch (err) { showError(box, err); }
+}
+
+$("#upload-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const file = $("#upload-file").files[0];
+  const box = $("#upload-result");
+  if (!file) { showError(box, new Error("Choose a file.")); return; }
+  const fd = new FormData();
+  fd.append("file", file); fd.append("matter", $("#upload-matter").value);
+  run(e.target, box, "Reading the file and screening it for hidden instructions…", async () => {
+    const reply = await api("/api/upload", { method: "POST", body: fd });
+    const r = await waitJob(reply, box);
+    box.replaceChildren(h("div", { class: "score" },
+      h("div", { class: "big", text: String(r.clauses) }),
+      h("div", {}, h("div", { class: "band", text: "clauses indexed" }), prose("h2", r.title),
+        h("div", { class: "note", text: `${r.passages} searchable passages on ${r.matter}. It now appears in Research and Contract review for the people on this matter, and for no one else.` }))),
+      hiddenWarning(reply.hidden_text) || "");
+    $("#upload-file").value = "";
+    loadUploads();
+    load();   // the contract lists now include the upload
+  });
+});
+
+/* ---------------------------------------------------------------- audit log (admin) */
+async function loadAudit() {
+  const box = $("#audit-result");
+  box.replaceChildren(h("p", { class: "note", text: "Loading…" }));
+  try {
+    const a = await api("/api/admin/audit?n=300");
+    const rows = a.log.map(e => h("tr", { class: e.outcome !== "ok" ? `o-${e.outcome}` : "" },
+      h("td", { class: "mono", text: e.ts.replace("T", " ").replace("+00:00", " UTC") }), h("td", { text: e.user }),
+      h("td", { text: e.action }), h("td", { text: e.outcome }), h("td", { text: e.matter || "" }),
+      h("td", {}, prose("span", [e.target, e.detail].filter(Boolean).join(" · ")))));
+    box.replaceChildren(
+      h("p", { class: `chain ${a.intact ? "ok" : "bad"}`, text: a.intact
+        ? `Chain intact: all ${a.entries} entries verified.`
+        : `Chain BROKEN at line ${a.first_broken_line}: an entry was changed or removed.` }),
+      h("div", { class: "md" }, h("div", { class: "table-wrap" }, h("table", {},
+        h("thead", {}, h("tr", {}, ["Time", "User", "Action", "Outcome", "Matter", "Detail"].map(t => h("th", { text: t })))),
+        h("tbody", {}, rows)))));
+  } catch (err) { showError(box, err); }
+}
+
+/* ---------------------------------------------------------------- sign-in and start */
 let META = null;
-async function start() {
-  exampleButtons($("#ask-examples"), RESEARCH_EXAMPLES, $("#ask-q"), $("#ask-form"));
-  exampleButtons($("#graph-examples"), GRAPH_EXAMPLES, $("#graph-q"), $("#graph-form"));
-  showView();
+
+function signOut() {
+  TOKEN = null; store.set(null); META = null;
+  location.hash = "";
+  location.reload();
+}
+$("#signout").addEventListener("click", signOut);
+
+$("#signin-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#si-error"); err.hidden = true;
+  try {
+    const r = await api("/api/login", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: $("#si-user").value, password: $("#si-pass").value }) });
+    TOKEN = r.token; store.set(TOKEN);
+    $("#si-pass").value = "";
+    $("#signin").hidden = true;
+    await load();
+  } catch (ex) { err.textContent = ex.message; err.hidden = false; }
+});
+
+async function load() {
   try { META = await api("/api/meta"); }
-  catch (err) { $("#services").textContent = "The server is not responding."; return; }
+  catch (err) { $("#services").textContent = err.message; return; }
+  const u = META.user;
+  $("#who").hidden = false;
+  $("#who-name").textContent = `${u.name} · ${u.role}`;
+  $("#who-matters").textContent = META.matters.length ? `Matters: ${META.matters.map(m => m.id).join(", ")}` : "No client matters";
+  const avatar = $(".who-avatar");
+  if (avatar && u.name) {
+    avatar.textContent = u.name.split(" ").map(w => w[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
+  }
+  $("#nav-audit").hidden = u.role !== "admin";
 
   $("#services").replaceChildren(
     h("span", { class: META.gemini ? "on" : "off", text: META.gemini ? "Gemini connected" : "Gemini not configured" }), h("br"),
     h("span", { class: META.graph ? "on" : "off", text: META.graph ? "Graph connected" : "Graph not configured" }));
   for (const dd of document.querySelectorAll("#graph-ledger dd")) dd.textContent = (META.graph_counts[dd.dataset.k] || 0).toLocaleString("en");
 
+  // contracts grouped by the user's client matters; other matters' contracts are not sent at all
   const sel = $("#review-sample");
-  const groups = { "Practice contracts (written for this project)": META.contracts.filter(c => c.synthetic), "CUAD contracts (real SEC filings)": META.contracts.filter(c => !c.synthetic) };
-  for (const [label, list] of Object.entries(groups)) if (list.length) sel.append(h("optgroup", { label }, list.map(c => h("option", { value: c.id, text: c.label }))));
+  sel.replaceChildren();
+  for (const m of META.matters) {
+    const list = META.contracts.filter(c => c.matter === m.id);
+    if (list.length) sel.append(h("optgroup", { label: `${m.id} · ${m.name} (${m.client})` }, list.map(c => h("option", { value: c.id, text: c.label }))));
+  }
+  if (!sel.options.length) sel.append(h("option", { value: "", text: "No contracts on your matters" }));
+  for (const ms of document.querySelectorAll(".matter-select"))
+    ms.replaceChildren(...META.matters.map(m => h("option", { value: m.id, text: `${m.id} · ${m.name}` })));
+  if (!META.version_pair.length) {
+    $("#compare-sample").checked = false; $("#compare-sample").disabled = true; $("#compare-uploads").hidden = false;
+  }
 
-  $("#judgment-list").append(...META.judgments.map(j => h("option", { value: j.label })));
+  $("#judgment-list").replaceChildren(...META.judgments.map(j => h("option", { value: j.label })));
   const n = META.notice_sample;
   $("#n-sender").value = n.sender || ""; $("#n-recipient").value = n.recipient || ""; $("#n-date").value = n.date || "";
   $("#n-contract").value = n.contract || ""; $("#n-facts").value = (n.facts || []).join("\n"); $("#n-demand").value = n.demand || "";
@@ -394,9 +554,44 @@ async function start() {
   const c = META.clause_sample;
   $("#c-title").value = c.title || "";
   $("#c-facts").value = Object.entries(c.facts || {}).map(([k, v]) => `${k}: ${v}`).join("\n");
-  $("#c-items").append(...META.playbook.map(p => h("label", {}, h("input", { type: "checkbox", value: p.id, checked: (c.items || []).includes(p.id) }), p.title)));
+  $("#c-items").replaceChildren(...META.playbook.map(p => h("label", {}, h("input", { type: "checkbox", value: p.id, checked: (c.items || []).includes(p.id) }), p.title)));
 
-  $("#report-list").append(...META.reports.map(r => h("button", { type: "button", "data-file": r.file, text: r.title, onclick: () => openReport(r) })));
+  $("#report-list").replaceChildren(...META.reports.map(r => h("button", { type: "button", "data-file": r.file, text: r.title, onclick: () => openReport(r) })));
   showView();
+}
+
+function initTheme() {
+  const saved = localStorage.getItem("la-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", saved);
+  const btn = $("#theme-toggle");
+  if (btn) {
+    const label = $("#theme-label");
+    if (label) label.textContent = saved === "dark" ? "Light" : "Dark";
+    btn.addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme") || "light";
+      const next = cur === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("la-theme", next);
+      if (label) label.textContent = next === "dark" ? "Light" : "Dark";
+    });
+  }
+}
+
+function start() {
+  initTheme();
+  for (const sel of ["#ask-q", "#graph-q"]) {
+    const el = $(sel);
+    if (el) el.addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        el.form.requestSubmit();
+      }
+    });
+  }
+  exampleButtons($("#ask-examples"), RESEARCH_EXAMPLES, $("#ask-q"), $("#ask-form"));
+  exampleButtons($("#graph-examples"), GRAPH_EXAMPLES, $("#graph-q"), $("#graph-form"));
+  if (!TOKEN) { $("#signin").hidden = false; $("#si-user").focus(); return; }
+  showView();
+  load();
 }
 start();
