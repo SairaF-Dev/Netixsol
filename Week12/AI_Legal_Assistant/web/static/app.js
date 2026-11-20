@@ -63,6 +63,32 @@ async function saveFile(url, name) {
 const downloadLink = (url, text) => h("a", { class: "download", href: "#", text, onclick: e => { e.preventDefault(); saveFile(url); } });
 const postJSON = (path, data) => api(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
 
+function copyToClipboard(text, btn, feedbackText = "Copied ✓") {
+  const applyFeedback = () => {
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = feedbackText;
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove("copied"); }, 2000);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(applyFeedback).catch(() => fallbackCopy(text, applyFeedback));
+  } else {
+    fallbackCopy(text, applyFeedback);
+  }
+}
+function fallbackCopy(text, cb) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+    if (cb) cb();
+  } catch (_) {}
+}
+
 function working(box, message) {
   box.replaceChildren(h("div", { class: "working" }, h("div", { class: "work-msg", text: message }), h("div", { class: "bar" }),
     h("div", { class: "note", text: "Cached research responses load immediately; new queries execute primary verification protocol." })));
@@ -191,14 +217,36 @@ function conclusionNote(check, refused) {
 
 function renderAnswer(a) {
   const refused = !a.citations.length;
+  const copyMemoBtn = !refused ? h("button", {
+    type: "button",
+    class: "btn-action-sm",
+    text: "Copy Legal Memorandum",
+    onclick: e => {
+      const full = `MEMORANDUM OF LAW\nJurisdiction: Islamic Republic of Pakistan\n\nOPINION:\n${a.short_answer}\n\nLEGAL GROUNDS & REASONING:\n${a.explanation || ''}\n\nAUTHORITIES CITED:\n${a.citations.map(c => `• ${citationRef(c)}${c.page ? ', page ' + c.page : ''}:\n  "${c.quote}"`).join('\n\n')}`;
+      copyToClipboard(full, e.target, "Memorandum Copied ✓");
+    }
+  }) : null;
+
   const left = h("div", { class: refused ? "refusal" : "" }, h("h3", { text: "Answer" }), prose("p", a.short_answer, "short"),
     a.explanation ? prose("p", a.explanation, "explain") : null,
     conclusionNote(a.conclusion_check, refused),
+    copyMemoBtn,
     refused && !(a.conclusion_check || {}).redrafted ? h("p", { class: "note", text: "Repository protocol: Opinions are rendered only where authoritative statutory or judicial sources substantiate the position." }) : null);
   const right = h("div", {}, h("h3", { text: refused ? "Sources" : "Verified sources" }),
     refused ? h("p", { class: "note", text: "No citation passed the checks." }) :
       h("ol", { class: "cites" }, a.citations.map(c => h("li", {},
-        prose("div", citationRef(c), "cite-ref"),
+        h("div", { class: "cite-head" },
+          prose("div", citationRef(c), "cite-ref"),
+          h("button", {
+            type: "button",
+            class: "btn-copy-cite",
+            text: "Copy Citation",
+            onclick: e => {
+              const text = `"${c.quote}"\n— ${citationRef(c)}${c.page ? ', page ' + c.page : ''} (Supreme Court / High Court of Pakistan)`;
+              copyToClipboard(text, e.target, "Copied ✓");
+            }
+          })
+        ),
         c.page ? h("div", { class: "cite-meta", text: `page ${c.page}` }) : null,
         prose("blockquote", c.quote)))));
   const extra = [];
@@ -329,7 +377,13 @@ function renderDraft(box, d) {
     Object.entries(d.authorities || {}).filter(([, v]) => v.length).map(([k, v]) =>
       h("section", {}, h("h5", { text: `Authorities: ${k}` }), h("p", { class: "note", text: v.join("; ") + " (from the knowledge graph)" }))),
     h("p", { class: "note", style: "margin-top:26px", text: `${d.removed_citations} citation${d.removed_citations === 1 ? "" : "s"} removed by verification.` }));
-  box.replaceChildren(downloadLink(d.download, "Download as Word"), sheet);
+  const printBtn = h("button", {
+    type: "button",
+    class: "btn-action-print",
+    text: "Print Document / Save PDF",
+    onclick: () => window.print()
+  });
+  box.replaceChildren(h("div", { class: "draft-toolbar" }, downloadLink(d.download, "Download as Word (.docx)"), printBtn), sheet);
 }
 
 document.querySelectorAll("input[name=dkind]").forEach(r => r.addEventListener("change", () => {
@@ -473,22 +527,57 @@ $("#upload-form").addEventListener("submit", e => {
 });
 
 /* ---------------------------------------------------------------- audit log (admin) */
+let AUDIT_LOG_ITEMS = [];
+
+function renderAuditRows() {
+  const tbody = $("#audit-table-body");
+  if (!tbody) return;
+  const q = ($("#audit-filter") ? $("#audit-filter").value : "").toLowerCase().trim();
+  const outcome = $("#audit-outcome-filter") ? $("#audit-outcome-filter").value : "";
+  const filtered = AUDIT_LOG_ITEMS.filter(e => {
+    if (outcome && e.outcome !== outcome) return false;
+    if (q) {
+      const line = `${e.ts} ${e.user} ${e.action} ${e.matter || ''} ${e.target || ''} ${e.detail || ''}`.toLowerCase();
+      if (!line.includes(q)) return false;
+    }
+    return true;
+  });
+  const rows = filtered.map(e => h("tr", { class: e.outcome !== "ok" ? `o-${e.outcome}` : "" },
+    h("td", { class: "mono", text: e.ts.replace("T", " ").replace("+00:00", " UTC") }),
+    h("td", { text: e.user }),
+    h("td", { text: e.action }),
+    h("td", { text: e.outcome }),
+    h("td", { text: e.matter || "" }),
+    h("td", {}, prose("span", [e.target, e.detail].filter(Boolean).join(" · ")))
+  ));
+  tbody.replaceChildren(...(rows.length ? rows : [h("tr", {}, h("td", { colspan: 6, style: "text-align:center; padding: 24px; color: var(--text-muted);", text: "No audit records matching filter criteria." }))]));
+}
+
 async function loadAudit() {
   const box = $("#audit-result");
-  box.replaceChildren(h("p", { class: "note", text: "Loading…" }));
+  box.replaceChildren(h("p", { class: "note", text: "Verifying cryptographic proof chain and loading ledger…" }));
   try {
     const a = await api("/api/admin/audit?n=300");
-    const rows = a.log.map(e => h("tr", { class: e.outcome !== "ok" ? `o-${e.outcome}` : "" },
-      h("td", { class: "mono", text: e.ts.replace("T", " ").replace("+00:00", " UTC") }), h("td", { text: e.user }),
-      h("td", { text: e.action }), h("td", { text: e.outcome }), h("td", { text: e.matter || "" }),
-      h("td", {}, prose("span", [e.target, e.detail].filter(Boolean).join(" · ")))));
+    AUDIT_LOG_ITEMS = a.log || [];
+    const tbody = h("tbody", { id: "audit-table-body" });
     box.replaceChildren(
       h("p", { class: `chain ${a.intact ? "ok" : "bad"}`, text: a.intact
         ? `Chain intact: all ${a.entries} entries verified.`
         : `Chain BROKEN at line ${a.first_broken_line}: an entry was changed or removed.` }),
       h("div", { class: "md" }, h("div", { class: "table-wrap" }, h("table", {},
         h("thead", {}, h("tr", {}, ["Time", "User", "Action", "Outcome", "Matter", "Detail"].map(t => h("th", { text: t })))),
-        h("tbody", {}, rows)))));
+        tbody))));
+    renderAuditRows();
+    const filterInput = $("#audit-filter");
+    const outcomeSelect = $("#audit-outcome-filter");
+    if (filterInput && !filterInput.dataset.wired) {
+      filterInput.dataset.wired = "1";
+      filterInput.addEventListener("input", renderAuditRows);
+    }
+    if (outcomeSelect && !outcomeSelect.dataset.wired) {
+      outcomeSelect.dataset.wired = "1";
+      outcomeSelect.addEventListener("change", renderAuditRows);
+    }
   } catch (err) { showError(box, err); }
 }
 
@@ -543,6 +632,30 @@ async function load() {
   if (!sel.options.length) sel.append(h("option", { value: "", text: "No contracts on your matters" }));
   for (const ms of document.querySelectorAll(".matter-select"))
     ms.replaceChildren(...META.matters.map(m => h("option", { value: m.id, text: `${m.id} · ${m.name}` })));
+  
+  // Synchronize global matter context in the topbar
+  const gSel = $("#global-matter-select");
+  if (gSel) {
+    gSel.replaceChildren(
+      h("option", { value: "", text: "All Matters & Public Corpus" }),
+      ...META.matters.map(m => h("option", { value: m.id, text: `${m.id}: ${m.name} (${m.client})` }))
+    );
+    if (!gSel.dataset.wired) {
+      gSel.dataset.wired = "1";
+      gSel.addEventListener("change", e => {
+        const val = e.target.value;
+        for (const ms of document.querySelectorAll(".matter-select")) {
+          if (val) ms.value = val;
+        }
+      });
+      for (const ms of document.querySelectorAll(".matter-select")) {
+        ms.addEventListener("change", e => {
+          if (gSel && e.target.value) gSel.value = e.target.value;
+        });
+      }
+    }
+  }
+
   if (!META.version_pair.length) {
     $("#compare-sample").checked = false; $("#compare-sample").disabled = true; $("#compare-uploads").hidden = false;
   }
@@ -578,8 +691,42 @@ function initTheme() {
   }
 }
 
+function initAutoExpandTextareas() {
+  document.querySelectorAll("textarea").forEach(tx => {
+    const adjust = () => {
+      tx.style.height = "auto";
+      tx.style.height = Math.min(Math.max(tx.scrollHeight, 56), 260) + "px";
+    };
+    tx.addEventListener("input", adjust);
+    adjust();
+  });
+}
+
+function initDropzones() {
+  document.querySelectorAll("input[type=file]").forEach(input => {
+    const parent = input.closest(".field") || input.parentElement;
+    if (!parent || parent.dataset.dropzone) return;
+    parent.dataset.dropzone = "1";
+    parent.classList.add("dropzone");
+    ["dragenter", "dragover"].forEach(evt => {
+      parent.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); parent.classList.add("dragover"); });
+    });
+    ["dragleave", "drop"].forEach(evt => {
+      parent.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); parent.classList.remove("dragover"); });
+    });
+    parent.addEventListener("drop", e => {
+      if (e.dataTransfer && e.dataTransfer.files.length) {
+        input.files = e.dataTransfer.files;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+  });
+}
+
 function start() {
   initTheme();
+  initAutoExpandTextareas();
+  initDropzones();
   for (const sel of ["#ask-q", "#graph-q"]) {
     const el = $(sel);
     if (el) el.addEventListener("keydown", e => {

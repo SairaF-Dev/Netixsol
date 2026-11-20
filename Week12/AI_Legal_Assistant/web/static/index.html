@@ -102,7 +102,12 @@
         <span class="divider">·</span>
         <span class="topbar-status">Corpus: 323 Verified Acts &amp; Judgments</span>
         <span class="divider">·</span>
-        <span class="topbar-status">Dual-Pass Verification Enforced</span>
+        <div class="topbar-matter">
+          <label for="global-matter-select" class="matter-badge">Matter Context:</label>
+          <select id="global-matter-select" class="global-matter-dropdown" aria-label="Global Client Matter Switcher">
+            <option value="">Public Corpus (All Matters)</option>
+          </select>
+        </div>
       </div>
       <div class="topbar-right">
         <span class="privilege-tag">Confidential &amp; Privileged</span>
@@ -320,6 +325,16 @@
         <h1>Cryptographically verified audit trail of all practitioner activity.</h1>
         <p class="lede">Every session authentication, legal research query, document review, and export is recorded in a hash-chained audit ledger. Any retroactive tampering invalidates the verification hash chain.</p>
       </header>
+      <div class="audit-toolbar" id="audit-toolbar" style="margin-bottom: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="audit-filter" placeholder="Search audit ledger by practitioner, matter ID, or action..." style="max-width: 440px;" autocomplete="off">
+        <select id="audit-outcome-filter" style="width: auto; min-width: 160px;">
+          <option value="">All Verification Outcomes</option>
+          <option value="ok">Verified Operations (OK)</option>
+          <option value="denied">Access Denied</option>
+          <option value="blocked">Security Quarantined</option>
+          <option value="failed">System Failures</option>
+        </select>
+      </div>
       <div class="result" id="audit-result"></div>
     </section>
   </main>
