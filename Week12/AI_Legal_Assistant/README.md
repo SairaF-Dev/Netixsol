@@ -1,8 +1,30 @@
-# Khan & Associates Legal Document Pipeline
+# Khan & Associates AI Legal Assistant
 
-Week 12 capstone prototype for collecting, parsing, structuring, chunking, and
-searching legal documents. The inventory lists real legal documents plus the 20
-synthetic contracts the brief asks for. **It is not a production legal corpus.**
+Week 12 capstone: an AI legal assistant for a Pakistani law firm. It answers questions in English, Urdu and
+Roman Urdu from Pakistani statutes and judgments with citations checked word for word against the source,
+explores case law as a knowledge graph, reviews, compares and drafts contracts, and keeps each client's
+documents visible only to the lawyers on that matter. "Khan & Associates" is the fictional firm of the
+capstone brief; the corpus is real public law plus sample and CUAD contracts. **It is a prototype for
+evaluation, not legal advice and not a production legal corpus.**
+
+**Live demo:** https://legal-assistant-g45g44rgv95vfgpv-8000.app.github.dev (GitHub Codespace; started for
+demos and grading - it stops when idle). Demo sign-ins are given with the submission.
+
+## Documentation
+
+| Document | For |
+|---|---|
+| [Architecture](docs/architecture.md) | How the parts fit together - diagrams of the system, a question, an upload, access and deployment |
+| [User guide](docs/user_guide.md) | Lawyers: every page, how to read answers, reviews and drafts |
+| [Admin guide](docs/admin_guide.md) | Accounts, matters, secrets, audit log, monitoring, backups, troubleshooting |
+| [API reference](docs/api.md) | Every endpoint, with examples (interactive: `/api/docs`) |
+| [Deployment](docs/deployment.md) | Laptop, Docker (API, worker, Qdrant, Neo4j) and the live Codespace |
+| [Future enhancements](docs/future_enhancements.md) | What comes next, from measured gaps and the red team |
+| [Red-team report](evaluations/red_team_report.md) | 80 attacks on the running app, 7 weaknesses found and fixed |
+| [Graph schema](docs/graph_schema.md) | Node and relationship types of the knowledge graph |
+| Evaluation reports | `evaluations/*.md` - one per experiment, also on the app's Accuracy Audits page |
+
+The sections below follow the five days of the brief.
 
 ## Current corpus status
 
@@ -493,17 +515,70 @@ Long context misses fewer clauses; RAG is 3 times faster and uses 30% fewer toke
 is the costlier error, so for contracts that fit the model's context, reading the whole contract is the safer
 default. Report: `evaluations/long_context_vs_rag_report.md`.
 
+## Day 5: security, deployment and evaluation
+
+### Security
+
+* **Sign-in and roles.** Accounts with PBKDF2 password hashes; signed tokens valid for 8 hours; five wrong
+  passwords lock the account for five minutes. Roles: admin, partner (all matters), associate (own matters).
+* **Client-matter access control** (`src/security/access.py`). Public law is open to everyone; a contract is
+  visible only to the users on its matter - in search results, reviews, comparisons, downloads, job results,
+  contract lists and graph queries. Another matter's document answers "404 not found", not "403", so its
+  existence is not revealed.
+* **Prompt injection in uploads** (`src/security/injection.py`). Two defences. A scanner blocks a document with
+  text addressed to an AI - in English, Roman Urdu or Urdu, hidden in white, tiny or hidden Word text or white /
+  off-page PDF text, or disguised with invisible characters, look-alike letters, spaced letters or base64.
+  Behind it, every review prompt fences the contract inside `<contract_text>` tags as data, never instructions.
+  0 false alarms on 9,071 real clauses, statute sections and judgment paragraphs.
+* **PII masking** of CNIC, phone, e-mail, IBAN, card and NTN numbers in logs and the audit log.
+* **Audit log** (`src/security/audit.py`): every sign-in, question, review, upload, download and denial, each
+  entry hash-chained to the one before, so any edit is detected (page 08 for the admin).
+* **Red team** ([report](evaluations/red_team_report.md)): 80 attacks in 9 groups. The first run found 7
+  weaknesses - a legal notice repeating a fake "Section 489-Z" planted in its facts, the system prompt leaking
+  through a refusal check, 9 of 12 disguised injections passing the scanner, two normal contract sentences
+  blocked, a CNIC unmasked in the audit user field, corrupt files crashing an upload, a Contract Act graph search
+  refused. All 7 were fixed with regression tests; the final run: **78 of 80 held**, one accepted gap (a French
+  injection passes the scanner; the fence still stops it) and one documented limitation (questions reach
+  Gemini unmasked).
+
+### Background jobs, uploads and health
+
+Reviews, comparisons, drafts and upload indexing run as jobs (`src/jobs/`): a SQLite queue and a worker - a
+thread inside the web app, or its own container. An uploaded contract is screened, filed on its matter and
+indexed, and becomes searchable for that matter's users without a restart. `GET /api/health` reports the search
+index, graph, Gemini key, worker heartbeat, audit log and disk.
+
+### Deployment
+
+* **Docker Compose** (`docker-compose.yml`): API, worker, **Qdrant** vector database, **Neo4j**, and a bootstrap
+  task that loads them. Qdrant returns the same rankings as the in-memory index (same top passage on 25/25
+  questions, 100% of the top-30 shared).
+* **No PyTorch on servers**: the embedding model and reranker run on ONNX Runtime with the official ONNX files
+  ([report](evaluations/onnx_equivalence_report.md)): identical vectors and identical top-5 results on all 100
+  evaluation questions; image 4.41 GB -> 2.68 GB, memory 2.5 GB -> 1.7 GB.
+* **CI** (`.github/workflows/legal-assistant-ci.yml`): the tests, a Docker build and a smoke test on every push.
+* **Live link** on a GitHub Codespace (free, no card): one process with the worker inside, graph on Neo4j
+  AuraDB, secrets as Codespaces secrets ([deployment guide](docs/deployment.md)).
+
+### Evaluation
+
+* **Blind rating of 30 answers** (`evaluations/blind_rating.py`, page 09 in the app): 15 evaluation questions
+  answered by the naive and the final pipeline, shuffled, rated by a person for correctness, citation support
+  and usefulness without knowing which version wrote which; the versions are revealed only after all 30 are
+  rated. Results: `evaluations/blind_rating_report.md`.
+* The Day 1-4 reports remain in `evaluations/` and on the Accuracy Audits page.
+
 ## Web app
 
-`python -m web.server`, then open http://127.0.0.1:8000. One page with six tools over the code above:
-**Research** (router → verified answer, graph list or both), **Case law** (GraphRAG; no LLM for linked
-questions), **Contract review** (a sample or an uploaded PDF / Word / text contract → findings and the Word file
-with comments), **Compare versions** (sample pair or two uploads → redline and impacts), **Drafting** (brief,
-notice, clauses → Word) and **Evaluation** (the reports in `evaluations/`). Backend: FastAPI (`web/server.py`);
-front end: plain HTML, CSS and JavaScript (`web/static/`), no framework. Uploads and generated Word files go to
-`data/web_outputs/` (not in git); downloads and reports are served only from fixed folders by name. Gemini answers
-are cached, so a question asked before costs nothing; when the free daily quota is used up the page says so.
-Tests: `tests/test_web.py` (with a fake LLM).
+`python -m web.server`, then open http://127.0.0.1:8000 and sign in. Nine pages: **01 Legal Research** (the
+router sends a question to verified-citation search, the case-law graph or both), **02 Precedents & Citations**
+(GraphRAG), **03 Agreement Review** (playbook review of a sample or uploaded contract, Word file with margin
+comments), **04 Bilateral Redline** (two versions, redline with legal impact), **05 Document Assembly** (case
+brief, legal notice, clauses), **06 Matter Repository** (upload and index a contract on a matter), **07 Accuracy
+Audits** (the reports), **08 Chain of Custody** (audit log, admin only) and **09 Blind Answer Rating**. Backend:
+FastAPI (`web/server.py`); front end: plain HTML, CSS and JavaScript (`web/static/`), all text inserted as text,
+never as HTML. Gemini answers are cached, so a question asked before costs nothing. How to use it:
+[user guide](docs/user_guide.md); endpoints: [API reference](docs/api.md).
 
 ## Data sources not in git
 
@@ -596,8 +671,18 @@ OCR evaluation additionally requires:
 .\.venv\Scripts\python.exe -m src.contracts.drafting clauses data/contracts/drafting/clause_request.json
 .\.venv\Scripts\python.exe -m evaluations.long_context_vs_rag
 
-# Web app (http://127.0.0.1:8000)
+# Day 5: accounts (first time only: demo users with random passwords in data/security/initial_passwords.txt)
+.\.venv\Scripts\python.exe -m src.security.access seed
+.\.venv\Scripts\python.exe -m src.security.access set-password ayesha "new-password"
+
+# Web app (http://127.0.0.1:8000); Docker: docker compose up -d (see docs/deployment.md)
 .\.venv\Scripts\python.exe -m web.server
+
+# Day 5: red team against a running test server, blind rating set and report, ONNX vs PyTorch check
+.\.venv\Scripts\python.exe evaluations/red_team.py --base http://127.0.0.1:8090 --server-log data/redteam_server.log
+.\.venv\Scripts\python.exe evaluations/blind_rating.py build      # then rate on page 09, then:
+.\.venv\Scripts\python.exe evaluations/blind_rating.py report
+.\.venv\Scripts\python.exe evaluations/onnx_equivalence.py
 
 # Run tests
 .\.venv\Scripts\python.exe -m pytest -q
@@ -624,5 +709,9 @@ does not claim the benchmark completed.
 6. Two CUAD contracts are still split wrongly (one needs OCR); the Day 2 search index holds the earlier
    contract split.
 7. Confirm the documents' provenance, licensing, and integrity.
+
+8. Security limits found by the red team: personal data typed into a question reaches Gemini unmasked; no
+   per-user question limit; the upload scanner does not read French. The full list, with the plan for each:
+   [future enhancements](docs/future_enhancements.md).
 
 This prototype is for engineering evaluation, not legal advice.
