@@ -114,7 +114,7 @@ and secrets, starts the server in the background, log in `/tmp/legal-assistant.l
 3. Copy the data in and start:
    ```powershell
    python deploy/codespaces/pack_data.py               # build/codespace_data.tar.gz (~36 MB)
-   gh codespace cp -c <name> build/codespace_data.tar.gz remote:/tmp/codespace_data.tar.gz
+   gh codespace cp -e -c <name> build/codespace_data.tar.gz remote:/tmp/codespace_data.tar.gz   # -e: needed with Windows scp
    gh codespace ssh -c <name> -- "cd /workspaces/Netixsol/Week12/AI_Legal_Assistant && tar -xzf /tmp/codespace_data.tar.gz && bash deploy/codespaces/start.sh"
    gh codespace ports visibility 8000:public -c <name>
    ```

@@ -3,7 +3,7 @@ Pack the data the web app needs but git does not hold (search index, saved Gemin
 into build/codespace_data.tar.gz, to copy into a GitHub Codespace:
 
     python deploy/codespaces/pack_data.py
-    gh codespace cp -c <codespace> build/codespace_data.tar.gz remote:/tmp/codespace_data.tar.gz
+    gh codespace cp -e -c <codespace> build/codespace_data.tar.gz remote:/tmp/codespace_data.tar.gz   # -e: Windows scp
     gh codespace ssh -c <codespace> -- "cd /workspaces/Netixsol/Week12/AI_Legal_Assistant && tar -xzf /tmp/codespace_data.tar.gz && bash deploy/codespaces/start.sh"
 
 Same allowlist as the Hugging Face bundle (deploy/build_space.py): no .env, no demo-password file, no audit log,

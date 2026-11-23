@@ -17,7 +17,19 @@ if [ -n "$missing" ]; then
   exit 0
 fi
 
-# 2. secrets come from the codespace's environment (GitHub > Settings > Codespaces > Secrets); names only
+# 2. secrets come from the codespace's environment (GitHub > Settings > Codespaces > Secrets). A command run
+#    through `gh codespace ssh` does not get them, so read the app's five from the codespace's secrets file
+#    (base64 values) when they are missing. Names only are ever printed.
+SECRETS_FILE=/workspaces/.codespaces/shared/.env-secrets
+if [ -z "${LLM_API_KEY:-}" ] && [ -f "$SECRETS_FILE" ]; then
+  while IFS= read -r line; do
+    key="${line%%=*}"
+    case "$key" in
+      LLM_API_KEY|APP_SECRET|NEO4J_URI|NEO4J_USERNAME|NEO4J_PASSWORD)
+        export "$key=$(printf '%s' "${line#*=}" | base64 -d)" ;;
+    esac
+  done < "$SECRETS_FILE"
+fi
 for v in LLM_API_KEY APP_SECRET NEO4J_URI NEO4J_USERNAME NEO4J_PASSWORD; do
   [ -n "${!v:-}" ] || echo "warning: secret $v is not set for this codespace"
 done
