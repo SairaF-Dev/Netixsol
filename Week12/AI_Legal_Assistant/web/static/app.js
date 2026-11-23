@@ -143,7 +143,7 @@ async function run(form, box, message, task) {
 }
 
 /* ---------------------------------------------------------------- views */
-const VIEWS = ["research", "caselaw", "review", "compare", "drafting", "upload", "evaluation", "audit"];
+const VIEWS = ["research", "caselaw", "review", "compare", "drafting", "upload", "evaluation", "audit", "rating"];
 function showView() {
   const name = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "research";
   for (const v of VIEWS) $(`#view-${v}`).hidden = v !== name;
@@ -151,6 +151,7 @@ function showView() {
   if (name === "evaluation" && META && !$("#report-body").dataset.loaded) openReport(META.reports[0]);
   if (name === "audit" && TOKEN) loadAudit();
   if (name === "upload" && TOKEN) loadUploads();
+  if (name === "rating" && TOKEN && !RATING) loadRating();
 }
 window.addEventListener("hashchange", () => { showView(); window.scrollTo(0, 0); });
 
@@ -525,6 +526,111 @@ $("#upload-form").addEventListener("submit", e => {
     load();   // the contract lists now include the upload
   });
 });
+
+/* ---------------------------------------------------------------- blind rating (Day 5) */
+let RATING = null, RATING_POS = 0;
+const CORRECT_OPTS = [["correct", "Correct"], ["partly", "Partly correct"], ["wrong", "Wrong"], ["refused", "Refused (gave no answer)"]];
+const SUPPORT_OPTS = [["yes", "Yes, fully"], ["partly", "Partly"], ["no", "No"], ["none", "No citations"]];
+
+async function loadRating() {
+  const root = $("#rating-root");
+  root.replaceChildren(h("p", { class: "note", text: "Loading the thirty answers…" }));
+  try {
+    RATING = await api("/api/rating");
+    if (!RATING.complete) {
+      const first = RATING.items.findIndex(i => !RATING.ratings[i.id]);
+      RATING_POS = first < 0 ? 0 : first;
+    }
+    renderRating();
+  } catch (err) { RATING = null; showError(root, err); }
+}
+
+function choice(name, opts, current) {
+  return h("div", { class: "choice", role: "radiogroup" }, opts.map(([value, label]) =>
+    h("label", { class: "choice-opt" },
+      h("input", { type: "radio", name, value, checked: current === value }), h("span", { text: label }))));
+}
+
+function renderRating() {
+  const items = RATING.items, done = Object.keys(RATING.ratings).length;
+  const strip = h("div", { class: "rating-strip", "aria-label": "Answers" }, items.map((it, i) => h("button", {
+    type: "button", text: it.id, title: RATING.ratings[it.id] ? "rated" : "not rated yet",
+    class: "rating-dot" + (RATING.ratings[it.id] ? " done" : "") + (i === RATING_POS ? " current" : ""),
+    onclick: () => { RATING_POS = i; renderRating(); } })));
+  const progress = h("p", { class: "rating-progress" }, h("strong", { text: `${done} of ${items.length}` }), " answers rated");
+  $("#rating-root").replaceChildren(progress, RATING.complete ? ratingResults() : "", strip, ratingCard(items[RATING_POS], RATING.complete));
+}
+
+function ratingCard(it, locked) {
+  const r = RATING.ratings[it.id] || {}, a = it.answer, ref = it.reference;
+  const answer = h("div", { class: "rating-answer" },
+    h("h3", { text: `Answer ${it.id}` + (locked ? ` · written by the ${RATING.key[it.id]} version` : "") }),
+    prose("p", a.short_answer, "short"),
+    a.explanation ? prose("p", a.explanation, "explain") : null,
+    a.citations.length
+      ? h("ol", { class: "cites" }, a.citations.map(c => h("li", {}, prose("div", c.source, "cite-ref"), prose("blockquote", c.quote))))
+      : h("p", { class: "note", text: "No citations." }));
+  const reference = h("aside", { class: "rating-ref" },
+    h("h3", { text: "Reference answer" }),
+    ref.no_answer ? h("p", { class: "note", text: "The corpus has no answer to this question: refusing (“No sufficient source found”) is the right outcome." }) : null,
+    prose("p", ref.answer, "ref-answer"),
+    ref.source ? prose("p", ref.source, "cite-ref") : null,
+    ref.quote ? prose("blockquote", ref.quote) : null);
+  const error = h("p", { class: "error", hidden: true });
+  const form = h("form", { class: "rating-form" },
+    h("fieldset", { disabled: locked }, h("legend", { text: "1. Compared with the reference, the answer is…" }), choice("correctness", CORRECT_OPTS, r.correctness)),
+    h("fieldset", { disabled: locked }, h("legend", { text: "2. Do the quoted sources support what the answer says?" }), choice("support", SUPPORT_OPTS, r.support)),
+    h("fieldset", { disabled: locked }, h("legend", { text: "3. How useful would this be to a lawyer starting research? (1 = not at all, 5 = very)" }),
+      choice("useful", ["1", "2", "3", "4", "5"].map(n => [n, n]), r.useful ? String(r.useful) : null)),
+    h("label", { class: "field" }, h("span", { text: "Note (optional)" }),
+      h("input", { type: "text", name: "note", value: r.note || "", maxlength: "500", disabled: locked })),
+    error,
+    h("div", { class: "rating-actions" },
+      h("button", { type: "button", class: "btn-quiet", text: "← Previous", disabled: RATING_POS === 0,
+        onclick: () => { RATING_POS--; renderRating(); } }),
+      locked
+        ? h("button", { type: "button", class: "btn-quiet", text: "Next →", disabled: RATING_POS === RATING.items.length - 1,
+            onclick: () => { RATING_POS++; renderRating(); } })
+        : h("button", { type: "submit", class: "btn", text: "Save and next" })));
+  if (!locked) form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const body = { correctness: fd.get("correctness"), support: fd.get("support"), useful: Number(fd.get("useful")), note: fd.get("note") || "" };
+    if (!body.correctness || !body.support || !body.useful) { error.textContent = "Answer all three questions first."; error.hidden = false; return; }
+    try {
+      const reply = await postJSON(`/api/rating/${it.id}`, body);
+      RATING.ratings[it.id] = body;
+      if (reply.complete) { await loadRating(); window.scrollTo(0, 0); return; }
+      const later = RATING.items.findIndex((x, i) => i > RATING_POS && !RATING.ratings[x.id]);
+      const any = RATING.items.findIndex(x => !RATING.ratings[x.id]);
+      RATING_POS = later >= 0 ? later : (any >= 0 ? any : RATING_POS);
+      renderRating();
+    } catch (ex) { error.textContent = ex.message; error.hidden = false; }
+  });
+  return h("article", { class: "rating-card" },
+    h("p", { class: "eyebrow", text: `${it.type.replace("_", " ")} question · ${it.language}` }),
+    prose("h2", it.question, "rating-question"),
+    h("div", { class: "rating-grid" }, answer, reference),
+    form);
+}
+
+function ratingResults() {
+  const res = RATING.results, cols = ["naive", "final"].filter(v => res[v]);
+  const row = (label, f) => h("tr", {}, h("th", { scope: "row", text: label }), cols.map(v => h("td", { text: f(res[v]) })));
+  return h("section", { class: "rating-results" },
+    h("h2", { text: "The versions, revealed" }),
+    h("p", { class: "note", text: "naive = vector search only · final = hybrid search with the reranker, the app's default. Both use the same answer model; only retrieval differs. Your ratings are now final." }),
+    h("table", { class: "rating-table" },
+      h("thead", {}, h("tr", {}, h("th", { text: "" }), cols.map(v => h("th", { scope: "col", text: v })))),
+      h("tbody", {},
+        row("Acceptable answers", x => `${x.acceptable} / ${x.rated}`),
+        row("Correct, questions with an answer", x => `${x.correct_answerable} / ${x.answerable}`),
+        row("Partly correct · wrong", x => `${x.correctness.partly} · ${x.correctness.wrong}`),
+        row("Correct refusals, no-answer questions", x => `${x.refused_no_answer} / ${x.no_answer}`),
+        row("Citations fully support the answer", x => `${x.support.yes} / ${x.rated}`),
+        row("Usefulness, mean of 1–5", x => String(x.useful)))),
+    h("p", { class: "note", text: "Each answer below now shows which version wrote it." }));
+}
 
 /* ---------------------------------------------------------------- audit log (admin) */
 let AUDIT_LOG_ITEMS = [];

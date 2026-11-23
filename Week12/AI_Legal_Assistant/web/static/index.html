@@ -76,6 +76,10 @@
         <span class="num">08</span>
         <span class="label">Chain of Custody</span>
       </a>
+      <a href="#rating" data-view="rating">
+        <span class="num">09</span>
+        <span class="label">Blind Answer Rating</span>
+      </a>
     </nav>
 
     <div class="who" id="who" hidden>
@@ -336,6 +340,16 @@
         </select>
       </div>
       <div class="result" id="audit-result"></div>
+    </section>
+
+    <!-- 09 Blind rating -->
+    <section class="view" id="view-rating" hidden>
+      <header class="view-head">
+        <p class="eyebrow">Section IX · Blind Answer Rating</p>
+        <h1>Rate thirty research answers without knowing which version wrote them.</h1>
+        <p class="lede">Fifteen evaluation questions were answered by two versions of the research pipeline. The thirty answers are shuffled and shown without their version. Compare each one with the reference answer and rate it. The versions are revealed once all thirty are rated, and the ratings are then final.</p>
+      </header>
+      <div id="rating-root"></div>
     </section>
   </main>
 </div>

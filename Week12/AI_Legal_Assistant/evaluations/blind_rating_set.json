@@ -1,0 +1,633 @@
+{
+ "about": "Blind rating set: 30 answers, version hidden (key in blind_rating_key.json)",
+ "items": [
+  {
+   "question_id": "CASE_027",
+   "type": "case_law",
+   "language": "Urdu",
+   "question": "عدالت نے 16 سال سے کم عمر کی لڑکی کے نکاح کے معاملے میں کیا فیصلہ دیا جب اسے 552 ضابطہ فوجداری کے تحت پیش کیا گیا؟",
+   "reference": {
+    "answer": "The court declared the woman to be a child under sixteen years of age and ordered her to be sent to a shelter home (Dar-ul-Aman) in Khushab.",
+    "source": "Lahore High Court Crl. Revision No.37600 of 2026, para 2",
+    "quote": "On 20.05.2026 the learned Court, decided lis by declaring Mst. Kiran Shaheen a “child” under sixteen years of age and sent her to Shelter home (Dar-ul-Aman) Khushab.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "عدالت نے 552 ضابطہ فوجداری کے تحت لڑکی کو نابالغ قرار دے کر حراست میں بھیجنے کے فیصلے کو غلط قرار دیا کیونکہ عدالت نے پنجاب چائلڈ میرج ریسٹرینٹ ایکٹ 2026 کا غلط اطلاق کیا تھا۔",
+    "explanation": "عدالت عالیہ نے قرار دیا کہ دفعہ 552 ضابطہ فوجداری کے تحت عدالت کو نابالغ قرار دینے کا اختیار نہیں ہے، خاص طور پر جب لڑکی نے خود کو عاقل و بالغ قرار دیا ہو اور اپنی مرضی سے نکاح کا بیان دیا ہو۔",
+    "citations": [
+     {
+      "source": "Sher Baz etc v. Ahmad Sher etc, para 4",
+      "quote": "culminated proceedings by declaring her “Child” under sixteen years of age by wrongly invoking “The Punjab Child Marriage Restraint Act 2026” (hereinafter the Act 2026) as well as applying Rule nisi in habeas corpus as no such powers available under section 552 Cr.P.C to pass order of detention"
+     }
+    ]
+   },
+   "id": "A01"
+  },
+  {
+   "question_id": "CASE_038",
+   "type": "case_law",
+   "language": "Roman Urdu",
+   "question": "Supreme Court ne Sindh Rented Premises Ordinance (SRPO) ke tehat concurrent findings ko set aside karne ke mamlay mein High Court ko kya direction di hai?",
+   "reference": {
+    "answer": "The Supreme Court set aside the High Court's judgment and remanded the matter for fresh adjudication with an independent application of mind, to be completed preferably within six months.",
+    "source": "Supreme Court of Pakistan C.P. 15-K/2024, para 13",
+    "quote": "Consequently, the impugned judgment of the High Court is set aside, and the matter is remanded for fresh adjudication to the High Court with independent application of mind, preferably within a period of six months from the date of receipt of this judgment.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Supreme Court ne High Court ke faislay ko kaladam qarar detay huay mamlay ko dobara faislay ke liye wapis bhej diya hai taake High Court azadana taur par ghaur kar ke naye siray se faisla kar sakay.",
+    "explanation": "Supreme Court ne note kiya ke SRPO ke tehat concurrent findings ko set aside karne ke mamlay mein High Court ko dobara ghaur karne ki zaroorat hai, is liye Supreme Court ne High Court ke impugned judgment ko set aside kar diya aur mamlay ko 6 mahine ke andar naye siray se faisla karne ki hidayat ki.",
+    "citations": [
+     {
+      "source": "C.P. 15-K/2024, para 13",
+      "quote": "Consequently, the impugned judgment of the High Court is set aside, and the matter is remanded for fresh adjudication to the High Court with independent application of mind, preferably within a period of six months from the date of receipt of this judgment."
+     }
+    ]
+   },
+   "id": "A02"
+  },
+  {
+   "question_id": "NOANS_021",
+   "type": "no_answer",
+   "language": "Roman Urdu",
+   "question": "Patents Ordinance, 2000 ke tehat ek naye invention ko patent karwane ke liye novelty ka standard kya hai?",
+   "reference": {
+    "answer": "No sufficient source found",
+    "source": "",
+    "quote": "",
+    "no_answer": true
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A03"
+  },
+  {
+   "question_id": "NOANS_022",
+   "type": "no_answer",
+   "language": "Roman Urdu",
+   "question": "Civil Aviation Rules, 1994 ke tehat pilot ki health fitness ke kya standards muqarrar kiye gaye hain?",
+   "reference": {
+    "answer": "No sufficient source found",
+    "source": "",
+    "quote": "",
+    "no_answer": true
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A04"
+  },
+  {
+   "question_id": "NOANS_022",
+   "type": "no_answer",
+   "language": "Roman Urdu",
+   "question": "Civil Aviation Rules, 1994 ke tehat pilot ki health fitness ke kya standards muqarrar kiye gaye hain?",
+   "reference": {
+    "answer": "No sufficient source found",
+    "source": "",
+    "quote": "",
+    "no_answer": true
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A05"
+  },
+  {
+   "question_id": "CASE_038",
+   "type": "case_law",
+   "language": "Roman Urdu",
+   "question": "Supreme Court ne Sindh Rented Premises Ordinance (SRPO) ke tehat concurrent findings ko set aside karne ke mamlay mein High Court ko kya direction di hai?",
+   "reference": {
+    "answer": "The Supreme Court set aside the High Court's judgment and remanded the matter for fresh adjudication with an independent application of mind, to be completed preferably within six months.",
+    "source": "Supreme Court of Pakistan C.P. 15-K/2024, para 13",
+    "quote": "Consequently, the impugned judgment of the High Court is set aside, and the matter is remanded for fresh adjudication to the High Court with independent application of mind, preferably within a period of six months from the date of receipt of this judgment.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A06"
+  },
+  {
+   "question_id": "STAT_009",
+   "type": "statute",
+   "language": "Roman Urdu",
+   "question": "Contract Act, 1872 ki Section 126 ke mutabiq, kya guarantee sirf written honi chahiye ya oral bhi ho sakti hai?",
+   "reference": {
+    "answer": "Under Section 126 of the Contract Act, 1872, a guarantee can be either oral or written.",
+    "source": "Contract Act, 1872, Section 126",
+    "quote": "A guarantee may be either oral or written.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A07"
+  },
+  {
+   "question_id": "NOANS_024",
+   "type": "no_answer",
+   "language": "Roman Urdu",
+   "question": "Board of Intermediate and Secondary Education Act, 1976 ke tehat exam mein unfair means use karne par kya penalties ho sakti hain?",
+   "reference": {
+    "answer": "No sufficient source found",
+    "source": "",
+    "quote": "",
+    "no_answer": true
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A08"
+  },
+  {
+   "question_id": "STAT_032",
+   "type": "statute",
+   "language": "Urdu",
+   "question": "کیا کوڈ آف سول پروسیجر 1908 کی سیکشن 86A کے تحت کسی سفارتی نمائندے کے خلاف قانونی کارروائی کی جا سکتی ہے؟",
+   "reference": {
+    "answer": "No proceeding can be initiated against a diplomatic agent except in cases involving private immovable property, succession as a private person, or professional and commercial activities exercised outside official functions. Such immunity may also be waived by the sending State through an express waiver.",
+    "source": "Code of Civil Procedure, 1908, Section 86A",
+    "quote": "No proceeding in any Court shall lie against a diplomatic agent except in a case relating to",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "جی ہاں، کوڈ آف سول پروسیجر 1908 کی سیکشن 86A کے تحت مخصوص حالات میں سفارتی نمائندے کے خلاف قانونی کارروائی کی جا سکتی ہے۔",
+    "explanation": "سفارتی نمائندے کے خلاف کارروائی صرف ان صورتوں میں ممکن ہے جو نجی جائیداد، وراثت، یا پاکستان میں ان کے سرکاری فرائض سے ہٹ کر کسی پیشہ ورانہ یا تجارتی سرگرمی سے متعلق ہوں۔",
+    "citations": [
+     {
+      "source": "Code of Civil Procedure, 1908, Section 86A(1)",
+      "quote": "No proceeding in any Court shall lie against a diplomatic agent except in a case relating to__ (a) any private immoveable property situated in Pakistan held by him in his private capacity and not on behalf of the sending State for the purpose of the mission ; (b) a succession in which the diplomatic agent is involved as executor, administrator, heir or legatee as a private person and not on behalf of the sending State; (c) any professional or commercial activity exercised by the diplomatic agent in Pakistan outside his official functions."
+     }
+    ]
+   },
+   "id": "A09"
+  },
+  {
+   "question_id": "STAT_010",
+   "type": "statute",
+   "language": "English",
+   "question": "If multiple people act as sureties for the same debt, how should they divide the liability among themselves if the principal debtor defaults?",
+   "reference": {
+    "answer": "In the absence of a contract stating otherwise, co-sureties are liable to pay an equal share of the debt or the remaining unpaid portion. This applies regardless of whether they entered into the agreement jointly, severally, or with knowledge of one another.",
+    "source": "Contract Act, 1872, Section 146",
+    "quote": "the co-sureties, in the absence of any contract to the contrary, are liable, as between themselves, to pay each an equal share of the whole debt",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Co-sureties are liable to pay an equal share of the debt or the remaining unpaid portion, unless they have agreed otherwise by contract.",
+    "explanation": "Under the Contract Act, 1872, co-sureties for the same debt are responsible for contributing equally to the liability, provided there is no specific contract between them stating a different arrangement.",
+    "citations": [
+     {
+      "source": "Contract Act, 1872, Section 146",
+      "quote": "the co-sureties, in the absence of any contract to the contrary, are liable, as between themselves, to pay each an equal share of the whole debt, or of that part of it which remains unpaid by the principal debtor."
+     }
+    ]
+   },
+   "id": "A10"
+  },
+  {
+   "question_id": "CASE_026",
+   "type": "case_law",
+   "language": "English",
+   "question": "What procedural course of action did the Lahore High Court suggest when a suit is missing necessary parties, and both sides agree to the withdrawal?",
+   "reference": {
+    "answer": "The Court allowed the petitioner to withdraw the suit and file a fresh one including the necessary parties, with a direction to the trial court to conclude the proceedings expeditiously.",
+    "source": "Lahore High Court CR. No. 8852 of 2025, para 9",
+    "quote": "the alternate procedure available before this Court for reaching just conclusion of the matter would be to allow the petitioner to withdraw the suit and file afresh one on the basis of same cause of action by impleading necessary parties referred to in the judgments passed by the courts below.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A11"
+  },
+  {
+   "question_id": "CASE_019",
+   "type": "case_law",
+   "language": "English",
+   "question": "What relief did the Supreme Court of Pakistan grant to the petitioners challenging the Khyber Pakhtunkhwa Service Tribunal judgments regarding their employment status?",
+   "reference": {
+    "answer": "The Supreme Court allowed the petitions, set aside the tribunal's judgments, and ordered the immediate reinstatement of the petitioners into service. The court also permitted the Directorate of E&SE to initiate an inquiry against them, provided it strictly follows the KP-E&D Rules, 2011.",
+    "source": "Supreme Court of Pakistan C.P. 4146/2025, para 38",
+    "quote": "It is directed that the petitioners be forthwith reinstated in service.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A12"
+  },
+  {
+   "question_id": "CASE_026",
+   "type": "case_law",
+   "language": "English",
+   "question": "What procedural course of action did the Lahore High Court suggest when a suit is missing necessary parties, and both sides agree to the withdrawal?",
+   "reference": {
+    "answer": "The Court allowed the petitioner to withdraw the suit and file a fresh one including the necessary parties, with a direction to the trial court to conclude the proceedings expeditiously.",
+    "source": "Lahore High Court CR. No. 8852 of 2025, para 9",
+    "quote": "the alternate procedure available before this Court for reaching just conclusion of the matter would be to allow the petitioner to withdraw the suit and file afresh one on the basis of same cause of action by impleading necessary parties referred to in the judgments passed by the courts below.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "The Lahore High Court suggested allowing the petitioner to withdraw the suit with permission to file a fresh one on the same cause of action by impleading the necessary parties.",
+    "explanation": "The Court determined that because the suit was filed without necessary parties, allowing them to be impleaded at that stage would necessitate amending pleadings, framing fresh issues, and re-recording evidence, which would be inefficient. Consequently, the Court proposed that the petitioner withdraw the suit and file a new one, a course of action to which both parties agreed.",
+    "citations": [
+     {
+      "source": "Muhammad Usman v. NADRA through its Chairman, NSRC, Islamabad and 2 others, para 9",
+      "quote": "In view thereof, the alternate procedure available before this Court for reaching just conclusion of the matter would be to allow the petitioner to withdraw the suit and file afresh one on the basis of same cause of action by impleading necessary parties referred to in the judgments passed by the courts below. When confronted, both the sides have no objection to the said course of action."
+     }
+    ]
+   },
+   "id": "A13"
+  },
+  {
+   "question_id": "STAT_009",
+   "type": "statute",
+   "language": "Roman Urdu",
+   "question": "Contract Act, 1872 ki Section 126 ke mutabiq, kya guarantee sirf written honi chahiye ya oral bhi ho sakti hai?",
+   "reference": {
+    "answer": "Under Section 126 of the Contract Act, 1872, a guarantee can be either oral or written.",
+    "source": "Contract Act, 1872, Section 126",
+    "quote": "A guarantee may be either oral or written.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Contract Act, 1872 ki Section 126 ke mutabiq, guarantee oral (zabani) ya written (tehreeri) dono ho sakti hai.",
+    "explanation": "Section 126 wazeh taur par bayan karti hai ke guarantee ka muahida oral ya written dono sooraton mein kiya ja sakta hai.",
+    "citations": [
+     {
+      "source": "Contract Act, 1872, Section 126",
+      "quote": "A guarantee may be either oral or written."
+     }
+    ]
+   },
+   "id": "A14"
+  },
+  {
+   "question_id": "CASE_027",
+   "type": "case_law",
+   "language": "Urdu",
+   "question": "عدالت نے 16 سال سے کم عمر کی لڑکی کے نکاح کے معاملے میں کیا فیصلہ دیا جب اسے 552 ضابطہ فوجداری کے تحت پیش کیا گیا؟",
+   "reference": {
+    "answer": "The court declared the woman to be a child under sixteen years of age and ordered her to be sent to a shelter home (Dar-ul-Aman) in Khushab.",
+    "source": "Lahore High Court Crl. Revision No.37600 of 2026, para 2",
+    "quote": "On 20.05.2026 the learned Court, decided lis by declaring Mst. Kiran Shaheen a “child” under sixteen years of age and sent her to Shelter home (Dar-ul-Aman) Khushab.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A15"
+  },
+  {
+   "question_id": "STAT_049",
+   "type": "statute",
+   "language": "Roman Urdu",
+   "question": "Federal Board of Revenue Act, 2007, Section 19 ke tehat, Board kin maqasid ke liye fees ya charges laga sakta hai?",
+   "reference": {
+    "answer": "The Board may levy fees or charges to cover expenditures for enhanced taxpayer facilities, direct cost reimbursements, or to earn a reasonable return on investment when services are provided under a public-private partnership.",
+    "source": "Federal Board of Revenue Act, 2007, Section 19",
+    "quote": "making expenditure on the provision of enhanced facilities for the taxpayers, or direct cost reimbursement of expenses, and reasonable return on investment or profit",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Federal Board of Revenue Act, 2007, Section 19 ke tehat, Board tax-payers ke liye behtar sahuliyat faraham karne, ikhrajat ki direct cost reimbursement, aur public-private partnership ke tehat fiscal law se mutaliq khidmat faraham karne par munasib return on investment ya munafa hasil karne ke liye fees ya charges laga sakta hai.",
+    "explanation": "Section 19 Board ko ikhtiyar deta hai ke woh tax-payers ki behtari, kharchon ki wasooli, aur public-private partnership ke zariye di gayi khidmat par munasib munafa ya return hasil karne ke liye fees ya charges lagaye.",
+    "citations": [
+     {
+      "source": "Federal Board of Revenue Act, 2007, Section 19",
+      "quote": "The Board may levy any fee or charges for making expenditure on the provision of enhanced facilities for the taxpayers, or direct cost reimbursement of expenses, and reasonable return on investment or profit; where services are provided in the matters relating to or under any fiscal law under public-private partnership."
+     }
+    ]
+   },
+   "id": "A16"
+  },
+  {
+   "question_id": "STAT_052",
+   "type": "statute",
+   "language": "English",
+   "question": "Can a person who provides essential supplies to someone who lacks the legal capacity to contract seek payment from that individual's assets?",
+   "reference": {
+    "answer": "Yes, the person who provides necessaries suited to the incapable person's condition in life is entitled to be reimbursed from that individual's property.",
+    "source": "Contract Act, 1872, Section 68",
+    "quote": "the person who has furnished such supplies is entitled to be reimbursed from the property of such incapable person.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Yes, a person who provides necessaries to an individual incapable of contracting is entitled to be reimbursed from that individual's property.",
+    "explanation": "Under the Contract Act, 1872, if a person who is incapable of entering into a contract, or anyone they are legally bound to support, is supplied with necessaries suited to their condition in life, the supplier has a legal right to be reimbursed from the property of the incapable person.",
+    "citations": [
+     {
+      "source": "Contract Act, 1872, Section 68",
+      "quote": "If a person, incapable of entering into a contract, or any one whom he is legally bound to support, is supplied by another person with necessaries suited to his condition in life, the person who has furnished such supplies is entitled to be reimbursed from the property of such incapable person."
+     }
+    ]
+   },
+   "id": "A17"
+  },
+  {
+   "question_id": "STAT_032",
+   "type": "statute",
+   "language": "Urdu",
+   "question": "کیا کوڈ آف سول پروسیجر 1908 کی سیکشن 86A کے تحت کسی سفارتی نمائندے کے خلاف قانونی کارروائی کی جا سکتی ہے؟",
+   "reference": {
+    "answer": "No proceeding can be initiated against a diplomatic agent except in cases involving private immovable property, succession as a private person, or professional and commercial activities exercised outside official functions. Such immunity may also be waived by the sending State through an express waiver.",
+    "source": "Code of Civil Procedure, 1908, Section 86A",
+    "quote": "No proceeding in any Court shall lie against a diplomatic agent except in a case relating to",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "جی ہاں، کوڈ آف سول پروسیجر 1908 کی سیکشن 86A کے تحت سفارتی نمائندے کے خلاف قانونی کارروائی اس صورت میں کی جا سکتی ہے جب معاملہ اس کی نجی حیثیت میں پاکستان میں موجود کسی نجی غیر منقولہ جائیداد سے متعلق ہو۔",
+    "explanation": "قانون کے مطابق کسی سفارتی نمائندے کے خلاف عدالت میں کوئی کارروائی نہیں کی جا سکتی، سوائے اس کے کہ معاملہ اس کی نجی ملکیت میں موجود غیر منقولہ جائیداد سے متعلق ہو۔",
+    "citations": [
+     {
+      "source": "Code of Civil Procedure, 1908, Section 86A",
+      "quote": "No proceeding in any Court shall lie against a diplomatic agent except in a case relating to__ (a) any private immoveable property situated in Pakistan held by him in his private capacity"
+     }
+    ]
+   },
+   "id": "A18"
+  },
+  {
+   "question_id": "STAT_046",
+   "type": "statute",
+   "language": "English",
+   "question": "Under the Anti-Money Laundering Act, 2010, what is the procedure if an investigating officer needs to conduct an immediate search and seizure without waiting for court permission?",
+   "reference": {
+    "answer": "If immediate action is required, the investigating officer may exercise search and seizure powers with the prior permission of a senior officer from the concerned agency who holds a rank no lower than BS-20.",
+    "source": "Anti-Money Laundering Act, 2010, Section 14",
+    "quote": "Provided that where immediate action is required, the powers of search and seizure shall be exercisable with prior permission of senior officer of the concerned investigating or prosecuting agency not below the rank of an officer of BS-20.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Where immediate action is required, an investigating officer may conduct a search and seizure with the prior permission of a senior officer of the concerned agency who is not below the rank of BS-20.",
+    "explanation": "Under the Anti-Money Laundering Act, 2010, while search and seizure powers generally require prior court permission, a proviso allows for immediate action to be taken with the authorization of a senior officer of at least BS-20 rank.",
+    "citations": [
+     {
+      "source": "Anti-Money Laundering Act, 2010, Section 14(1)",
+      "quote": "Provided that where immediate action is required, the powers of search and seizure shall be exercisable with prior permission of senior officer of the concerned investigating or prosecuting agency not below the rank of an officer of BS-20."
+     }
+    ]
+   },
+   "id": "A19"
+  },
+  {
+   "question_id": "STAT_049",
+   "type": "statute",
+   "language": "Roman Urdu",
+   "question": "Federal Board of Revenue Act, 2007, Section 19 ke tehat, Board kin maqasid ke liye fees ya charges laga sakta hai?",
+   "reference": {
+    "answer": "The Board may levy fees or charges to cover expenditures for enhanced taxpayer facilities, direct cost reimbursements, or to earn a reasonable return on investment when services are provided under a public-private partnership.",
+    "source": "Federal Board of Revenue Act, 2007, Section 19",
+    "quote": "making expenditure on the provision of enhanced facilities for the taxpayers, or direct cost reimbursement of expenses, and reasonable return on investment or profit",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Federal Board of Revenue Act, 2007, Section 19 ke tehat, Board tax-payers ko behtar sahuliyat faraham karne ke akhrajat, direct cost reimbursement, aur investment ya profit par munasib return ke liye fees ya charges laga sakta hai.",
+    "explanation": "Section 19 ke mutabiq, Board ko yeh ikhtiyar hasil hai ke woh tax-payers ke liye enhanced facilities, kharchon ki wapsi (reimbursement), aur public-private partnership ke tehat fiscal laws se mutaliq services faraham karne par fees ya charges lagaye.",
+    "citations": [
+     {
+      "source": "Federal Board of Revenue Act, 2007, Section 19",
+      "quote": "The Board may levy any fee or charges for. making expenditure on the provision of enhanced facilities for the taxpayers, or direct cost reimbursement of expenses, and reasonable return on investment or profit; where services are provided in the matters relating to or under any fiscal law under public-private partnership."
+     }
+    ]
+   },
+   "id": "A20"
+  },
+  {
+   "question_id": "CASE_028",
+   "type": "case_law",
+   "language": "Urdu",
+   "question": "لاہور ہائی کورٹ نے ایل ایل بی کے امتحانات کو ٹکڑوں میں پاس کرنے اور پہلی کوشش میں ناکامی کے حوالے سے کیا رائے دی ہے؟",
+   "reference": {
+    "answer": "The court noted that while the appellant cleared his LLB examinations in piecemeal and failed to pass in his first attempts, this fact was not significant for the determination of the current dispute.",
+    "source": "Lahore High Court Writ Petition No. 101263 of 2017, para 5",
+    "quote": "However, the said fact is not important for determination of instant dispute and further reference to the same is made for clarity in decision of this case.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "لاہور ہائی کورٹ نے اس بات پر زور دیا کہ ایل ایل بی کے امتحانات کو مقررہ مواقع کے اندر پاس کرنا لازمی ہے، اور ٹکڑوں میں پاس کرنے یا پہلی کوشش میں ناکامی کے باوجود امیدوار کو یونیورسٹی کے قواعد و ضوابط کے تحت دی گئی مقررہ مدت اور مواقع کی پابندی کرنی ہوتی ہے۔",
+    "explanation": "عدالت نے واضح کیا کہ اگر کوئی طالب علم مقررہ مواقع (جیسے کہ چار مواقع) کے اندر ایل ایل بی کا امتحان پاس کرنے میں ناکام رہتا ہے، تو اس کا نتیجہ کالعدم قرار دیا جا سکتا ہے، قطع نظر اس کے کہ اس نے امتحانات ٹکڑوں میں پاس کیے ہوں یا نہیں۔",
+    "citations": [
+     {
+      "source": "Arslan Amjad v. Controller Examinations, University of the Punjab, Lahore, etc., paras 13-14",
+      "quote": "In view of the above, as the appellant was unable to qualify the LLB (Part-II) examination within the prescribed chances till Supplementary Examination 2015, which was a mandatory requirement and not met with by the appellant, therefore, the result of LLB (Part-III), Supplementary Examination, 2015, declaring the appellant as ‘Pass’ was invalid"
+     },
+     {
+      "source": "Arslan Amjad v. Controller Examinations, University of the Punjab, Lahore, etc., para 5",
+      "quote": "The details mentioned in the above tabular form show that the appellant cleared all the parts of LLB examination in piecemeal and none of the said exams was cleared by him in his first attempt."
+     }
+    ]
+   },
+   "id": "A21"
+  },
+  {
+   "question_id": "NOANS_021",
+   "type": "no_answer",
+   "language": "Roman Urdu",
+   "question": "Patents Ordinance, 2000 ke tehat ek naye invention ko patent karwane ke liye novelty ka standard kya hai?",
+   "reference": {
+    "answer": "No sufficient source found",
+    "source": "",
+    "quote": "",
+    "no_answer": true
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A22"
+  },
+  {
+   "question_id": "CASE_028",
+   "type": "case_law",
+   "language": "Urdu",
+   "question": "لاہور ہائی کورٹ نے ایل ایل بی کے امتحانات کو ٹکڑوں میں پاس کرنے اور پہلی کوشش میں ناکامی کے حوالے سے کیا رائے دی ہے؟",
+   "reference": {
+    "answer": "The court noted that while the appellant cleared his LLB examinations in piecemeal and failed to pass in his first attempts, this fact was not significant for the determination of the current dispute.",
+    "source": "Lahore High Court Writ Petition No. 101263 of 2017, para 5",
+    "quote": "However, the said fact is not important for determination of instant dispute and further reference to the same is made for clarity in decision of this case.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A23"
+  },
+  {
+   "question_id": "NOANS_024",
+   "type": "no_answer",
+   "language": "Roman Urdu",
+   "question": "Board of Intermediate and Secondary Education Act, 1976 ke tehat exam mein unfair means use karne par kya penalties ho sakti hain?",
+   "reference": {
+    "answer": "No sufficient source found",
+    "source": "",
+    "quote": "",
+    "no_answer": true
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A24"
+  },
+  {
+   "question_id": "STAT_052",
+   "type": "statute",
+   "language": "English",
+   "question": "Can a person who provides essential supplies to someone who lacks the legal capacity to contract seek payment from that individual's assets?",
+   "reference": {
+    "answer": "Yes, the person who provides necessaries suited to the incapable person's condition in life is entitled to be reimbursed from that individual's property.",
+    "source": "Contract Act, 1872, Section 68",
+    "quote": "the person who has furnished such supplies is entitled to be reimbursed from the property of such incapable person.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Yes, a person who provides necessaries to someone incapable of contracting is entitled to be reimbursed from that individual's property.",
+    "explanation": "Under the Contract Act, 1872, if a person who is incapable of entering into a contract, or anyone they are legally bound to support, is supplied with necessaries suited to their condition in life, the supplier has a legal right to be reimbursed from the property of the incapable person.",
+    "citations": [
+     {
+      "source": "Contract Act, 1872, Section 68",
+      "quote": "If a person, incapable of entering into a contract, or any one whom he is legally bound to support, is supplied by another person with necessaries suited to his condition in life, the person who has furnished such supplies is entitled to be reimbursed from the property of such incapable person."
+     }
+    ]
+   },
+   "id": "A25"
+  },
+  {
+   "question_id": "STAT_034",
+   "type": "statute",
+   "language": "English",
+   "question": "If I failed to pay the required court fees for a document at the time of filing, can the court allow me to pay them later?",
+   "reference": {
+    "answer": "Yes, the court has the discretion at any stage to allow you to pay the unpaid court fees. Once paid, the document will be treated as if the fees had been paid correctly from the beginning.",
+    "source": "Code of Civil Procedure, 1908, Section 149",
+    "quote": "the Court may, in its discretion, at any stage, allow the person, by whom such fee is payable, to pay the whole or part, as the case may be, of such court-fee",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "Yes, the court has the discretion to allow you to pay the deficient court fees at any stage of the proceedings.",
+    "explanation": "Under the Code of Civil Procedure, 1908, if a document is filed without the required court fees, the court may permit the payment of the deficiency at any time. Once paid, the document is treated as if the fees had been paid initially.",
+    "citations": [
+     {
+      "source": "Code of Civil Procedure, 1908, Section 149",
+      "quote": "the Court may, in its discretion, at any stage, allow the person, by whom such fee is payable, to pay the whole or part, as the case may be, of such court-fee; and upon such payment the document, in respect of which such fee is payable, shall have the same force and effect as if such fee had been paid in the first instance."
+     }
+    ]
+   },
+   "id": "A26"
+  },
+  {
+   "question_id": "STAT_034",
+   "type": "statute",
+   "language": "English",
+   "question": "If I failed to pay the required court fees for a document at the time of filing, can the court allow me to pay them later?",
+   "reference": {
+    "answer": "Yes, the court has the discretion at any stage to allow you to pay the unpaid court fees. Once paid, the document will be treated as if the fees had been paid correctly from the beginning.",
+    "source": "Code of Civil Procedure, 1908, Section 149",
+    "quote": "the Court may, in its discretion, at any stage, allow the person, by whom such fee is payable, to pay the whole or part, as the case may be, of such court-fee",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A27"
+  },
+  {
+   "question_id": "CASE_019",
+   "type": "case_law",
+   "language": "English",
+   "question": "What relief did the Supreme Court of Pakistan grant to the petitioners challenging the Khyber Pakhtunkhwa Service Tribunal judgments regarding their employment status?",
+   "reference": {
+    "answer": "The Supreme Court allowed the petitions, set aside the tribunal's judgments, and ordered the immediate reinstatement of the petitioners into service. The court also permitted the Directorate of E&SE to initiate an inquiry against them, provided it strictly follows the KP-E&D Rules, 2011.",
+    "source": "Supreme Court of Pakistan C.P. 4146/2025, para 38",
+    "quote": "It is directed that the petitioners be forthwith reinstated in service.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "The Supreme Court of Pakistan converted the civil petitions into appeals, allowed them, set aside the impugned judgment of the Service Tribunal, and restored the seniority of the petitioners to its original condition.",
+    "explanation": "The Court found that the petitioners had successfully made a case for interference, leading to the reversal of the Tribunal's decision which had previously set aside the seniority list.",
+    "citations": [
+     {
+      "source": "C.P. 5091/2025, HOLDING",
+      "quote": "As a consequence thereof, we convert these civil petitions into appeals and allow them. Consequently, the impugned judgment of the learned Tribunal is set aside and the seniority of the petitioners is restored to its original condition."
+     }
+    ]
+   },
+   "id": "A28"
+  },
+  {
+   "question_id": "STAT_010",
+   "type": "statute",
+   "language": "English",
+   "question": "If multiple people act as sureties for the same debt, how should they divide the liability among themselves if the principal debtor defaults?",
+   "reference": {
+    "answer": "In the absence of a contract stating otherwise, co-sureties are liable to pay an equal share of the debt or the remaining unpaid portion. This applies regardless of whether they entered into the agreement jointly, severally, or with knowledge of one another.",
+    "source": "Contract Act, 1872, Section 146",
+    "quote": "the co-sureties, in the absence of any contract to the contrary, are liable, as between themselves, to pay each an equal share of the whole debt",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "No sufficient source found",
+    "explanation": "",
+    "citations": []
+   },
+   "id": "A29"
+  },
+  {
+   "question_id": "STAT_046",
+   "type": "statute",
+   "language": "English",
+   "question": "Under the Anti-Money Laundering Act, 2010, what is the procedure if an investigating officer needs to conduct an immediate search and seizure without waiting for court permission?",
+   "reference": {
+    "answer": "If immediate action is required, the investigating officer may exercise search and seizure powers with the prior permission of a senior officer from the concerned agency who holds a rank no lower than BS-20.",
+    "source": "Anti-Money Laundering Act, 2010, Section 14",
+    "quote": "Provided that where immediate action is required, the powers of search and seizure shall be exercisable with prior permission of senior officer of the concerned investigating or prosecuting agency not below the rank of an officer of BS-20.",
+    "no_answer": false
+   },
+   "answer": {
+    "short_answer": "If immediate action is required, an investigating officer may conduct a search and seizure with the prior permission of a senior officer of the concerned agency who is at least of BS-20 rank.",
+    "explanation": "While search and seizure powers generally require prior court permission, the Anti-Money Laundering Act provides a proviso for immediate action, allowing authorization from a senior officer of BS-20 rank or above. Additionally, the investigating officer must submit a report on the search and seizure to the head of the agency within forty-eight hours.",
+    "citations": [
+     {
+      "source": "Anti-Money Laundering Act, 2010, Section 14",
+      "quote": "Provided that where immediate action is required, the powers of search and seizure shall be exercisable with prior permission of senior officer of the concerned investigating or prosecuting agency not below the rank of an officer of BS-20."
+     },
+     {
+      "source": "Anti-Money Laundering Act, 2010, Section 14",
+      "quote": "The investigating officer shall, within forty-eight hours immediately after search and seizure, forward a copy of the report on search and seizure to the head of the concerned investigating or prosecuting agency in a sealed envelope"
+     }
+    ]
+   },
+   "id": "A30"
+  }
+ ]
+}

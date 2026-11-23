@@ -191,3 +191,27 @@ def test_corrupt_upload_gets_a_clear_400_not_a_crash(client, name, data):
     """red team I4 / I6"""
     r = client.post("/api/upload", data={"matter": "MAT-001"}, files={"file": (name, io.BytesIO(data), "application/octet-stream")})
     assert r.status_code == 400 and "could not be read" in r.json()["detail"]
+
+
+def test_blind_rating_hides_the_versions_until_all_30_are_rated_then_locks(env, monkeypatch):
+    c, sign_in, tmp_path = env
+    monkeypatch.setattr(server, "RATINGS_DIR", tmp_path / "ratings")
+    ayesha, bilal = sign_in("ayesha"), sign_in("bilal")
+    data = c.get("/api/rating", headers=ayesha).json()
+    items = data["items"]
+    assert len(items) == 30 and not data["complete"] and "key" not in data and "results" not in data
+    assert all("_system" not in i and "system" not in i for i in items)       # nothing in an item names its version
+    good = {"correctness": "correct", "support": "yes", "useful": 4, "note": ""}
+    assert c.post(f"/api/rating/{items[0]['id']}", json={**good, "useful": 9}, headers=ayesha).status_code == 400
+    assert c.post(f"/api/rating/{items[0]['id']}", json={**good, "correctness": "great"}, headers=ayesha).status_code == 400
+    assert c.post("/api/rating/A99", json=good, headers=ayesha).status_code == 404
+    for it in items[:-1]:
+        assert c.post(f"/api/rating/{it['id']}", json=good, headers=ayesha).json()["complete"] is False
+    assert "key" not in c.get("/api/rating", headers=ayesha).json()             # 29 of 30: still blind
+    assert c.post(f"/api/rating/{items[-1]['id']}", json=good, headers=ayesha).json()["complete"] is True
+    revealed = c.get("/api/rating", headers=ayesha).json()
+    assert revealed["complete"] and set(revealed["key"].values()) == {"naive", "final"}
+    assert sum(v["rated"] for v in revealed["results"].values()) == 30
+    assert c.post(f"/api/rating/{items[0]['id']}", json=good, headers=ayesha).status_code == 409   # final after the reveal
+    other = c.get("/api/rating", headers=bilal).json()                          # each rater has their own sheet
+    assert other["ratings"] == {} and "key" not in other

@@ -48,8 +48,9 @@ def main() -> None:
     for rel in CODE + DATA:
         copy(rel)
     (OUT / "evaluations").mkdir()
-    for report in (ROOT / "evaluations").glob("*.md"):    # the Evaluation page
-        shutil.copy2(report, OUT / "evaluations" / report.name)
+    for pattern in ("*.md", "blind_rating_*.json"):        # the Evaluation and Blind Rating pages
+        for report in (ROOT / "evaluations").glob(pattern):
+            shutil.copy2(report, OUT / "evaluations" / report.name)
     for name in ("Dockerfile", "README.md"):
         shutil.copy2(ROOT / "deploy" / "hf_space" / name, OUT / name)
     leaked = [p for p in OUT.rglob("*") if p.name in NEVER]

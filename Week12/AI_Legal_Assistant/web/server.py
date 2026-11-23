@@ -554,6 +554,68 @@ def audit_log(n: int = 200, user: access.User = Depends(current_user)) -> Dict:
     return {"intact": intact, "entries": entries, "first_broken_line": broken, "log": audit.tail(max(1, min(n, 1000)))[::-1]}
 
 
+# ----------------------------------------------------------------------------- blind rating (Day 5)
+RATING_SET = ROOT / "evaluations" / "blind_rating_set.json"
+RATING_KEY = ROOT / "evaluations" / "blind_rating_key.json"
+RATINGS_DIR = ROOT / "data" / "ratings"
+_ratings_lock = threading.Lock()
+
+
+class Rating(BaseModel):
+    correctness: str
+    support: str
+    useful: int
+    note: str = ""
+
+
+def _rating_items() -> List[Dict]:
+    if not RATING_SET.exists():
+        raise HTTPException(404, "The rating set has not been built (python evaluations/blind_rating.py build).")
+    return json.loads(RATING_SET.read_text(encoding="utf-8"))["items"]
+
+
+def _my_ratings(user: access.User) -> Dict:
+    path = RATINGS_DIR / f"{user.username}.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+@app.get("/api/rating")
+def rating_set(user: access.User = Depends(current_user)) -> Dict:
+    """The 30 answers without their version; the key and the per-version results only once all 30 are rated."""
+    from src.evaluation.blind_rating import summarise
+    items, mine = _rating_items(), _my_ratings(user)
+    complete = len(mine) == len(items)
+    out = {"items": items, "ratings": mine, "complete": complete}
+    if complete:
+        key = json.loads(RATING_KEY.read_text(encoding="utf-8"))
+        out.update(key=key, results=summarise(items, key, mine))
+    return out
+
+
+@app.post("/api/rating/{item_id}")
+def rate(item_id: str, body: Rating, user: access.User = Depends(current_user)) -> Dict:
+    from src.evaluation.blind_rating import CORRECTNESS, SUPPORT
+    items = _rating_items()
+    if item_id not in {i["id"] for i in items}:
+        raise HTTPException(404, "No such answer.")
+    if body.correctness not in CORRECTNESS or body.support not in SUPPORT or not 1 <= body.useful <= 5:
+        raise HTTPException(400, "Choose a value for each question (usefulness 1 to 5).")
+    with _ratings_lock:
+        mine = _my_ratings(user)
+        if len(mine) == len(items):
+            # after the reveal the ratings are final: changing them with the key in view would not be blind
+            raise HTTPException(409, "All 30 answers are rated and the versions are revealed; ratings are now final.")
+        mine[item_id] = {"correctness": body.correctness, "support": body.support, "useful": body.useful,
+                         "note": body.note.strip()[:500]}
+        RATINGS_DIR.mkdir(parents=True, exist_ok=True)
+        tmp = RATINGS_DIR / f"{user.username}.json.tmp"
+        tmp.write_text(json.dumps(mine, ensure_ascii=False, indent=1), encoding="utf-8")
+        os.replace(tmp, RATINGS_DIR / f"{user.username}.json")
+    if len(mine) == len(items):
+        audit.record(user.username, "blind rating", detail=f"all {len(items)} answers rated")
+    return {"rated": len(mine), "total": len(items), "complete": len(mine) == len(items)}
+
+
 # ----------------------------------------------------------------------------- health
 _graph_health: Dict = {"checked": 0.0, "result": None}
 

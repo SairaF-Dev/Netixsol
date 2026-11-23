@@ -34,7 +34,7 @@ RUN python -c "from huggingface_hub import hf_hub_download as get; \
 COPY --chown=app:app src ./src
 COPY --chown=app:app web ./web
 COPY --chown=app:app main.py ./
-COPY --chown=app:app evaluations/*.md ./evaluations/
+COPY --chown=app:app evaluations/*.md evaluations/blind_rating_*.json ./evaluations/
 
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
