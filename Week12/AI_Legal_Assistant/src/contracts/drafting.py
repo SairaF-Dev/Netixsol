@@ -142,8 +142,26 @@ def legal_notice(facts: Dict, llm=None, allow=None) -> Dict:
     return _checked(draft, results, "legal notice")
 
 
+# "Section 73", "s. 489-F", "Article 199", "Sections 39 and 73"
+_LEGAL_REF = re.compile(r"\b(?:sections?|s\.|ss\.|articles?|art\.)\s*(\d+(?:-?[A-Z]{1,2})?(?:\s*(?:,|and|&)\s*\d+(?:-?[A-Z]{1,2})?)*)", re.I)
+
+
+def _ref_numbers(text: str) -> set:
+    return {n.upper().replace("-", "") for m in _LEGAL_REF.finditer(text) for n in re.findall(r"\d+(?:-?[A-Z]{1,2})?", m.group(1), re.I)}
+
+
+def _unsupported_statements(text: str, allowed: set):
+    """Split a section's text into sentences; drop those naming a section / article that no verified source
+    supports (red team G1: a fake 'Section 489-Z PPC' planted in the facts reached the notice uncited)."""
+    kept, dropped = [], []
+    for sentence in re.split(r"(?<=[.!?])\s+", text):
+        refs = _ref_numbers(sentence)
+        (dropped if refs - allowed else kept).append(sentence)
+    return " ".join(kept), dropped
+
+
 def _checked(draft: Draft, results: List[Dict], kind: str) -> Dict:
-    sections, removed = [], 0
+    sections, removed, verified = [], 0, []
     for s in draft.sections:
         kept = []
         for c in s.citations:
@@ -152,10 +170,20 @@ def _checked(draft: Draft, results: List[Dict], kind: str) -> Dict:
                 kept.append({"source": f"{c.act_or_case}, {c.section_or_paragraph}", "quote": c.quote})
             else:
                 removed += 1
-        text = s.text if kept or not s.citations else s.text + " [source removed: not verified]"
-        sections.append({"heading": s.heading, "text": text, "sources": kept})
+        verified.append(kept)
+    # a legal reference in the text must be one of the notice's verified sources
+    allowed = {n for kept in verified for k in kept for n in _ref_numbers(k["source"])}
+    unsupported: List[str] = []
+    for s, kept in zip(draft.sections, verified):
+        text, dropped = _unsupported_statements(s.text, allowed)
+        unsupported += dropped
+        if dropped:
+            text += " [statement removed: it cites a provision not found in the verified sources]"
+        if s.citations and not kept:
+            text += " [source removed: not verified]"
+        sections.append({"heading": s.heading, "text": text.strip(), "sources": kept})
     return {"kind": kind, "title": draft.title, "header": "", "sections": sections, "removed_citations": removed,
-            "retrieved": [r["chunk_id"] for r in results]}
+            "removed_statements": unsupported, "retrieved": [r["chunk_id"] for r in results]}
 
 
 # ----------------------------------------------------------------------------- contract clauses

@@ -41,3 +41,5 @@ data/indices/index_version.txt
 # assembled deployment bundles (deploy/build_space.py)
 build/
 data/onnx_check/
+data/redteam_server.log
+data/redteam_tmp/

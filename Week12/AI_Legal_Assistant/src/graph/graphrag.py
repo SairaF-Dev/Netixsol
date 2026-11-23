@@ -105,7 +105,9 @@ _NODE_BODY = re.compile(r"^\s*(\w*)\s*((?::\s*`?\w+`?\s*(?:\|\s*:?`?\w+`?\s*)*)*
 
 def private_access(cypher: str) -> Optional[str]:
     """Why the query could read client data, or None if every matched node is public."""
-    if re.search(r"\b(?:Contract|Clause)\b", cypher):
+    # quoted values are data, not labels: s.act CONTAINS 'Contract Act' is a public statute search (red team F2)
+    unquoted = re.sub(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"", "''", cypher)
+    if re.search(r"\b(?:Contract|Clause)\b", unquoted):
         return "client contracts are not searchable from the graph"
     bound: set = set()
     for body in _NODE.findall(cypher):

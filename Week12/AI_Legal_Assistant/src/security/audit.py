@@ -57,7 +57,8 @@ def record(user: str, action: str, outcome: str = "ok", matter: Optional[str] = 
     with _lock, file_lock(path.with_name(path.name + ".lock")):
         path.parent.mkdir(parents=True, exist_ok=True)
         prev = _last_hash(path)
-        entry = {"ts": datetime.now(timezone.utc).isoformat(timespec="seconds"), "user": user, "action": action,
+        # the user field is masked too: a failed sign-in records whatever was typed as the user name (red team H1)
+        entry = {"ts": datetime.now(timezone.utc).isoformat(timespec="seconds"), "user": mask(user or ""), "action": action,
                  "outcome": outcome, "matter": matter, "target": mask(target or "") or None,
                  "detail": mask(detail or "")[:300], "prev": prev}
         entry["hash"] = _digest(prev, entry)

@@ -183,3 +183,11 @@ def test_downloads_and_reports_cannot_leave_their_folders(client):
 def test_quota_error_becomes_a_plain_message():
     exc = server._fail(RuntimeError("Gemini daily quota exhausted; try again tomorrow or use another key"))
     assert exc.status_code == 503 and "13:00 PKT" in exc.detail
+
+
+@pytest.mark.parametrize("name,data", [("broken.pdf", b"%PDF-1.7\n%garbage\x00\x01 not a pdf"),
+                                       ("broken.docx", b"PK\x03\x04 not a docx")])
+def test_corrupt_upload_gets_a_clear_400_not_a_crash(client, name, data):
+    """red team I4 / I6"""
+    r = client.post("/api/upload", data={"matter": "MAT-001"}, files={"file": (name, io.BytesIO(data), "application/octet-stream")})
+    assert r.status_code == 400 and "could not be read" in r.json()["detail"]

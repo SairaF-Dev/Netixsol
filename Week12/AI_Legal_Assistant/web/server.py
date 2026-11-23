@@ -69,6 +69,8 @@ REPORTS = {   # file -> title shown on the Evaluation page (only these files are
     "long_context_vs_rag_report.md": "Long context vs RAG on 10 contracts (Day 4)",
     "ocr_comparison_report.md": "Urdu OCR benchmark (Day 1)",
     "chunking_comparison_report.md": "Chunking strategies (Day 1)",
+    "red_team_report.md": "Red-team report: 80 attacks (Day 5)",
+    "onnx_equivalence_report.md": "ONNX Runtime vs PyTorch (Day 5)",
 }
 UPLOAD_TYPES = {".pdf", ".docx", ".txt", ".json"}
 MAX_UPLOAD = 15 * 1024 * 1024
@@ -182,8 +184,6 @@ async def _save_upload(upload: UploadFile) -> Path:
 
 def contract_from_file(path: Path, title: str) -> Path:
     """Any uploaded contract -> the structured JSON the review and comparison code read (clauses)."""
-    from src.extraction.contract_extractor import ContractStructureExtractor
-
     if path.suffix == ".json":
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
@@ -194,21 +194,14 @@ def contract_from_file(path: Path, title: str) -> Path:
         data.setdefault("contract_title", title)
         data.setdefault("contract_type", None)
     else:
-        extractor = ContractStructureExtractor()
-        if path.suffix == ".docx":
-            from docx import Document
-            text = "\n".join(p.text for p in Document(str(path)).paragraphs)
-            data = extractor.extract_from_text(text, doc_id=path.stem).model_dump()
-        else:
-            data = extractor.extract_from_file(path, doc_id=path.stem).model_dump()
-            text = None
+        try:
+            data, text = _parse_contract(path)
+        except Exception as exc:       # corrupt or disguised file: a clear message, not a 500 (red team I4, I6)
+            log.warning("unreadable upload %s: %s", path.name, type(exc).__name__)
+            raise HTTPException(400, f"This {path.suffix} file could not be read. It may be damaged or not a real "
+                                     f"{path.suffix} file.")
         if not data.get("clauses"):   # no numbered headings found: fall back to one clause per paragraph
-            if text is None:
-                text = path.read_text(encoding="utf-8", errors="ignore") if path.suffix == ".txt" else ""
-                if path.suffix == ".pdf":
-                    from src.ingestion.pdf_parser import LegalPDFParser
-                    text = "\n\n".join(p["text"] for p in LegalPDFParser().extract_page_texts(path))
-            paras = [re.sub(r"\s+", " ", p).strip() for p in re.split(r"\n\s*\n|\n(?=[A-Z0-9])", text)]
+            paras = [re.sub(r"\s+", " ", p).strip() for p in re.split(r"\n\s*\n|\n(?=[A-Z0-9])", text or "")]
             paras = [p for p in paras if len(p.split()) >= 8]
             data["clauses"] = [{"clause_id": f"P{i}", "clause_title": " ".join(p.split()[:6]) + "...", "text": p, "page_number": None}
                                for i, p in enumerate(paras, 1)]
@@ -219,6 +212,28 @@ def contract_from_file(path: Path, title: str) -> Path:
     out = path.with_suffix(".contract.json")
     out.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     return out
+
+
+def _parse_contract(path: Path):
+    """PDF / Word / text -> (contract dict, its plain text). The plain text is read only when no numbered clauses
+    were found, for the one-clause-per-paragraph fallback. Parser errors propagate to contract_from_file."""
+    from src.extraction.contract_extractor import ContractStructureExtractor
+
+    extractor = ContractStructureExtractor()
+    text = None
+    if path.suffix == ".docx":
+        from docx import Document
+        text = "\n".join(p.text for p in Document(str(path)).paragraphs)
+        data = extractor.extract_from_text(text, doc_id=path.stem).model_dump()
+    else:
+        data = extractor.extract_from_file(path, doc_id=path.stem).model_dump()
+    if not data.get("clauses") and text is None:
+        if path.suffix == ".pdf":
+            from src.ingestion.pdf_parser import LegalPDFParser
+            text = "\n\n".join(p["text"] for p in LegalPDFParser().extract_page_texts(path))
+        else:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+    return data, text
 
 
 async def _accept_upload(upload: UploadFile, matter: Optional[str], user: access.User, action: str) -> Dict:

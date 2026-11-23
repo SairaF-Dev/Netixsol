@@ -266,7 +266,9 @@ def verify_citation(citation, results: List[Dict]) -> Tuple[bool, str]:
 def verify_answer(answer: CitedAnswer, results: List[Dict]) -> Tuple[CitedAnswer, List[Dict]]:
     """Return the answer with only verified citations (or the refusal) and a per-citation report."""
     if is_refusal(answer):
-        return answer, []
+        # exactly the refusal, nothing else: a reply that only *contains* the phrase (e.g. the model printing its
+        # own instructions, which quote it) must not pass through unchecked (red team E1)
+        return CitedAnswer(short_answer=NO_SOURCE), []
     report, kept = [], []
     for citation in answer.citations:
         ok, reason = verify_citation(citation, results)
