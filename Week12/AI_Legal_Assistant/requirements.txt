@@ -24,7 +24,9 @@ tiktoken>=0.7.0
 
 # Indexing & Retrieval
 rank-bm25>=0.2.2
-sentence-transformers>=3.0.0
+sentence-transformers>=3.0.0       # PyTorch path (MODEL_BACKEND=torch), indexing, fine-tuning
+onnxruntime>=1.20                  # default model engine (src/indexing/onnx_models.py); the server needs only
+tokenizers>=0.20                   # these two, see requirements-server.txt
 
 # Testing & Quality Assurance
 pytest>=8.0.0
@@ -45,3 +47,6 @@ uvicorn>=0.29
 python-multipart>=0.0.9
 python-docx>=1.2.0
 httpx>=0.27
+
+# Vector database for the Docker deployment (VECTOR_BACKEND=qdrant)
+qdrant-client>=1.20

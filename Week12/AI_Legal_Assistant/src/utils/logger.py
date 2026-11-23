@@ -16,4 +16,5 @@ def setup_logger(name: str = "legal_pipeline", level: int = logging.INFO) -> log
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-    return logger
+    from src.security.pii import protect   # CNIC, phone, e-mail, IBAN, card and NTN numbers are masked
+    return protect(logger)

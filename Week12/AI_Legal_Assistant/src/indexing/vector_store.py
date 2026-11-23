@@ -10,14 +10,6 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-try:
-    from sentence_transformers import SentenceTransformer
-except Exception as exc:  # pragma: no cover - environment-dependent import path
-    SentenceTransformer = None  # type: ignore[assignment]
-    _SENTENCE_TRANSFORMERS_IMPORT_ERROR = exc
-else:
-    _SENTENCE_TRANSFORMERS_IMPORT_ERROR = None
-
 from src.utils.logger import setup_logger
 from src.utils.schemas import LegalChunk
 
@@ -50,15 +42,10 @@ def _fallback_embedding(text: str, dim: int = 24) -> np.ndarray:
 
 @lru_cache(maxsize=1)
 def _load_embedding_model() -> Optional[Any]:
-    if SentenceTransformer is None:
-        logger.warning(
-            "sentence-transformers is not available; using a deterministic fallback embedding implementation. "
-            "Original import error: %s",
-            _SENTENCE_TRANSFORMERS_IMPORT_ERROR,
-        )
-        return None
+    """The embedding model (ONNX Runtime by default, see src/indexing/onnx_models.py)."""
     try:
-        return SentenceTransformer(EMBEDDING_MODEL, device="cpu")
+        from src.indexing.onnx_models import embedder
+        return embedder()
     except Exception as exc:  # pragma: no cover - depends on optional runtime dependencies
         logger.warning("Failed to initialize %s: %s. Falling back to local deterministic embeddings.", EMBEDDING_MODEL, exc)
         return None

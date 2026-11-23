@@ -18,11 +18,12 @@ when on, decides the final order.
 """
 
 import json
+import os
 import re
 import sqlite3
 from functools import lru_cache
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Callable, Dict, List, Optional
 
 import numpy as np
 from pydantic import BaseModel, Field
@@ -76,8 +77,8 @@ def _embedder():
 
 @lru_cache(maxsize=1)
 def _reranker():
-    from sentence_transformers import CrossEncoder
-    return CrossEncoder(RERANKER_MODEL, max_length=512)
+    from src.indexing.onnx_models import reranker      # ONNX Runtime by default (no PyTorch)
+    return reranker()
 
 
 def rrf(lists: List[List[Dict]], k: int = RRF_K) -> List[Dict]:
@@ -150,7 +151,11 @@ class AdvancedRetriever:
             self.bm25 = LegalBM25Index.load(CHILD_BM25) if hybrid else None
             self.parents = load_parents()
         else:
-            self.dense = MemoryDenseIndex(INDEX_DIR / "vstore_legal.sqlite3")
+            if os.getenv("VECTOR_BACKEND", "sqlite").lower() == "qdrant":   # Docker: the Qdrant vector database
+                from src.indexing.qdrant_store import QdrantDenseIndex
+                self.dense = QdrantDenseIndex()
+            else:                                                           # laptop: SQLite file, searched in memory
+                self.dense = MemoryDenseIndex(INDEX_DIR / "vstore_legal.sqlite3")
             self.bm25 = LegalBM25Index.load(INDEX_DIR / "bm25_legal.pkl") if hybrid else None
         self.llm = None
         if rewrite or hyde or metadata:
@@ -159,11 +164,16 @@ class AdvancedRetriever:
         self.last_trace: Dict = {}
 
     # one query -> one fused candidate list (vector, plus BM25 when hybrid is on)
-    def _search(self, text: str, metadata_filter: Optional[Dict] = None) -> List[Dict]:
-        lists = [self.dense.search(text, POOL, metadata_filter=metadata_filter)]
+    def _search(self, text: str, metadata_filter: Optional[Dict] = None,
+                allow: Optional[Callable[[Dict], bool]] = None) -> List[Dict]:
+        # with an access filter, fetch 3x the pool and filter first, so a user whose top hits belong to
+        # other matters still gets a full pool; without one, results are exactly as before
+        k = POOL if allow is None else POOL * 3
+        keep = (lambda hits: hits) if allow is None else (lambda hits: [h for h in hits if allow(h)])
+        lists = [keep(self.dense.search(text, k, metadata_filter=metadata_filter))]
         if self.bm25 is not None:
-            lists.append([self.dense.by_id.get(hit["chunk_id"], hit)
-                          for hit in self.bm25.search(text, top_k=POOL, metadata_filter=metadata_filter)])
+            lists.append(keep([self.dense.by_id.get(hit["chunk_id"], hit)
+                               for hit in self.bm25.search(text, top_k=k, metadata_filter=metadata_filter)]))
         return rrf(lists)[:POOL]
 
     def _metadata_candidates(self, question: str) -> List[List[Dict]]:
@@ -209,22 +219,25 @@ class AdvancedRetriever:
             out.append(parent)
         return out
 
-    def retrieve(self, question: str, top_k: int = 5) -> List[Dict]:
+    def retrieve(self, question: str, top_k: int = 5, allow: Optional[Callable[[Dict], bool]] = None) -> List[Dict]:
+        """allow: access-control filter (src/security/access.py). Applied to the candidate pool before
+        reranking and the top-k cut, so passages of other client matters never reach the LLM."""
         self.last_trace = {}
-        lists = [self._search(question)]
+        lists = [self._search(question, allow=allow)]
         queries = [question]
         if self.rewrite:
             rewritten = self.llm.generate_json(REWRITE_PROMPT.format(question=question), Rewrite, temperature=0.0).query
             self.last_trace["rewrite"] = rewritten
             queries.append(rewritten)
-            lists.append(self._search(rewritten))
+            lists.append(self._search(rewritten, allow=allow))
         if self.hyde:
             passage = self.llm.generate_json(HYDE_PROMPT.format(question=question), Hypothetical, temperature=0.0).passage
             self.last_trace["hyde"] = passage
-            lists.append(self.dense.search(passage, POOL, prefix="passage: "))
+            hyde_hits = self.dense.search(passage, POOL if allow is None else POOL * 3, prefix="passage: ")
+            lists.append([h for h in hyde_hits if allow is None or allow(h)][:POOL])
         if self.metadata:
             lists.extend(self._metadata_candidates(question))
-        candidates = rrf(lists)[:POOL]
+        candidates = [c for c in rrf(lists) if allow is None or allow(c)][:POOL]
 
         if self.rerank and candidates:
             model = _reranker()

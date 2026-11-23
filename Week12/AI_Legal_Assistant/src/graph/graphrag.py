@@ -95,6 +95,34 @@ column `item` (plus `n` when counting); at most {MAX_ROWS} rows."""
 _WRITE = re.compile(r"\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|LOAD\s+CSV|FOREACH)\b|\bCALL\b|apoc\.|dbms\.", re.I)
 
 
+# Client contracts (Contract, Clause nodes) are confidential to their matter; the public law graph is not.
+# A query written by the LLM must name a public label on every node it matches (allowlist, not blocklist:
+# "MATCH (n) RETURN n" would otherwise return contracts). Rejecting a harmless query is the safe failure.
+PUBLIC_LABELS = {"Case", "Section", "Act", "Judge", "Court", "Party"}
+_NODE = re.compile(r"(?<![\w.`])\(([^()]*)\)")
+_NODE_BODY = re.compile(r"^\s*(\w*)\s*((?::\s*`?\w+`?\s*(?:\|\s*:?`?\w+`?\s*)*)*)\s*(\{.*\})?\s*$", re.S)
+
+
+def private_access(cypher: str) -> Optional[str]:
+    """Why the query could read client data, or None if every matched node is public."""
+    if re.search(r"\b(?:Contract|Clause)\b", cypher):
+        return "client contracts are not searchable from the graph"
+    bound: set = set()
+    for body in _NODE.findall(cypher):
+        m = _NODE_BODY.match(body)
+        if not m:
+            continue   # an expression in brackets, not a node pattern
+        var, labels = m.group(1), set(re.findall(r"\w+", m.group(2) or ""))
+        if labels:
+            if not labels <= PUBLIC_LABELS:
+                return f"label(s) {sorted(labels - PUBLIC_LABELS)} are not public"
+            if var:
+                bound.add(var)
+        elif not var or var not in bound:
+            return "every node must have a public label (Case, Section, Act, Judge, Court, Party)"
+    return None
+
+
 class GraphRAG:
     def __init__(self, llm=None):
         self.llm = llm
@@ -229,6 +257,9 @@ class GraphRAG:
             cypher = self.llm.generate_json(prompt, CypherQuery, system=SCHEMA, temperature=0.0).cypher.strip().rstrip(";")
             if _WRITE.search(cypher):
                 return cypher, [], "rejected: not a read-only query"
+            private = private_access(cypher)
+            if private:
+                return cypher, [], f"rejected: {private}"
             if not re.search(r"\bLIMIT\s+\d+\s*$", cypher, re.I):
                 cypher += f" LIMIT {MAX_ROWS}"
             try:

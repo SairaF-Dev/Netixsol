@@ -13,7 +13,13 @@ def test_inventory_minimum_counts():
     df = pd.read_csv("inventory.csv")
     assert len(df) >= 290, f"Expected at least 290 documents, got {len(df)}"
     assert df["document_id"].is_unique, "Inventory document IDs must be unique"
-    assert df["file_path"].map(lambda item: Path(item).exists()).all(), "Every inventory path must exist"
+    # The two large PDF folders are not in git (README, "Data sources not in git"): on a fresh checkout
+    # (CI) only the files that ship with the repository are checked.
+    local_only = [folder for folder in ("data/scp_judgments_pdfs", "data/pakistani_urdu_code") if not Path(folder).exists()]
+    paths = df["file_path"].map(lambda item: Path(str(item).replace("\\", "/")))
+    checked = paths[~paths.map(lambda p: any(p.as_posix().startswith(folder) for folder in local_only))]
+    missing = [str(p) for p in checked if not p.exists()]
+    assert not missing, f"Inventory paths missing: {missing[:5]}"
     
     # Check column names
     required_cols = {"document_id", "filename", "title", "type", "language", "pages", "source", "file_path"}

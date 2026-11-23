@@ -127,13 +127,14 @@ copied word for word from that passage). Do not cite any law that is not in the 
 support a point, leave the point out. Keep the tone firm and professional."""
 
 
-def legal_notice(facts: Dict, llm=None) -> Dict:
-    from evaluations.rag_evaluation import RETRIEVERS
+def legal_notice(facts: Dict, llm=None, allow=None) -> Dict:
+    """allow: access-control filter on retrieved passages (web app); None = no filter."""
+    from src.rag.pipeline import _retriever
 
-    retriever = RETRIEVERS["rerank"]()
+    retriever = _retriever("rerank")
     results, seen = [], set()
     for query in facts.get("legal_questions", []):
-        for r in retriever.retrieve(query, top_k=4):
+        for r in (retriever.retrieve(query, top_k=4, allow=allow) if allow else retriever.retrieve(query, top_k=4)):
             if r["chunk_id"] not in seen:
                 seen.add(r["chunk_id"]); results.append(r)
     prompt = f"FACTS\n{json.dumps({k: v for k, v in facts.items() if k != 'legal_questions'}, indent=1, ensure_ascii=False)}\n\nSOURCES\n{format_sources(results)}"

@@ -123,6 +123,9 @@ def _document(document_id: str) -> Optional[Dict]:
         path = STRUCTURED / kind / f"{document_id}.json"
         if path.exists():
             return {"kind": kind, **load_json(path)}
+    upload = Path("data/web_outputs/uploads") / f"{document_id}.contract.json"   # contracts uploaded in the web app
+    if document_id.startswith("UPLOAD_") and upload.exists():
+        return {"kind": "contract", **load_json(upload)}
     return None
 
 

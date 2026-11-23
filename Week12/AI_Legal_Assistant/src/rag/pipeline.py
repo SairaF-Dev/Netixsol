@@ -9,7 +9,9 @@ Day 2, Task 4: answer a legal question with verified citations.
 Used by `python main.py --ask "..."` and by the demo in evaluations/demo_answers.py.
 """
 
+import threading
 from functools import lru_cache
+from pathlib import Path
 from typing import Dict, List, Optional
 
 from src.rag.answer import NO_SOURCE, answer_question, is_refusal, source_label
@@ -18,13 +20,34 @@ from src.rag.verify import _document, parse_reference, verify_answer
 DEFAULT_CONFIG = "rerank"
 
 
-@lru_cache(maxsize=4)
+INDEX_VERSION = Path("data/indices/index_version.txt")
+_retrievers: Dict[str, tuple] = {}
+_retrievers_lock = threading.Lock()
+
+
+def _index_version() -> str:
+    try:
+        return INDEX_VERSION.read_text(encoding="utf-8").strip()
+    except OSError:
+        return "0"
+
+
 def _retriever(config: str):
+    """One retriever per configuration, rebuilt when an upload has been indexed (the worker bumps
+    data/indices/index_version.txt), so new documents are searchable without restarting the app."""
     from src.rag.advanced import CONFIGS, AdvancedRetriever
-    if config == "naive":
-        from src.rag.retrieval import NaiveDenseRetriever
-        return NaiveDenseRetriever()
-    return AdvancedRetriever(config, **CONFIGS[config])
+    version = _index_version()
+    with _retrievers_lock:
+        cached = _retrievers.get(config)
+        if cached and cached[0] == version:
+            return cached[1]
+        if config == "naive":
+            from src.rag.retrieval import NaiveDenseRetriever
+            retriever = NaiveDenseRetriever()
+        else:
+            retriever = AdvancedRetriever(config, **CONFIGS[config])
+        _retrievers[config] = (version, retriever)
+        return retriever
 
 
 @lru_cache(maxsize=1)
@@ -64,8 +87,10 @@ def _checked_answer(question: str, results: List[Dict]):
     return draft, verified, report, info
 
 
-def answer_with_citations(question: str, config: str = DEFAULT_CONFIG, top_k: int = 5) -> Dict:
-    results = _retriever(config).retrieve(question, top_k=top_k)
+def answer_with_citations(question: str, config: str = DEFAULT_CONFIG, top_k: int = 5, allow=None) -> Dict:
+    """allow: access-control filter on retrieved passages (src/security/access.py); None = no filter (CLI)."""
+    retriever = _retriever(config)
+    results = retriever.retrieve(question, top_k=top_k, allow=allow) if allow else retriever.retrieve(question, top_k=top_k)
     draft, verified, report, conclusion = _checked_answer(question, results)
 
     citations: List[Dict] = []

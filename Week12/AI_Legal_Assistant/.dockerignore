@@ -1,0 +1,20 @@
+# Keep the build context small and secrets out of the image.
+.env
+.env.*
+.venv/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.git/
+.github/
+# data is mounted at run time, not copied
+data/
+models/
+colab/
+docs/
+tests/
+evaluations/*
+!evaluations/*.md
+project_instruction.txt
+*.zip
+*.ipynb

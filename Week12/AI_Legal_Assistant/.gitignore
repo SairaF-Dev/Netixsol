@@ -27,3 +27,17 @@ models/
 
 # Web app: generated Word files and uploads
 data/web_outputs/
+
+# Day 5 security: accounts (password hashes), matters, audit log, demo passwords. The repository is public;
+# `python -m src.security.access seed` creates them, deployments get them from deploy/codespaces/pack_data.py
+data/security/
+
+# Day 5 runtime state: job queue, embedded Qdrant, lock files
+data/jobs/
+data/qdrant/
+*.lock
+data/indices/index_version.txt
+
+# assembled deployment bundles (deploy/build_space.py)
+build/
+data/onnx_check/

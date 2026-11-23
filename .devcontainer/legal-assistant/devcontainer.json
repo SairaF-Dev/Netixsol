@@ -1,0 +1,29 @@
+// GitHub Codespace for the Week 12 AI Legal Assistant (the free live link).
+// Pick "Week12 AI Legal Assistant" when creating the codespace; the root devcontainer.json is the Week 11 dashboard.
+// Steps and secrets: Week12/AI_Legal_Assistant/docs/deployment.md, section "GitHub Codespaces".
+{
+  "name": "Week12 AI Legal Assistant",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bookworm",
+
+  // 2 cores / 8 GB: the app needs about 1.7 GB with the index and both models loaded
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+
+  // sshd lets `gh codespace cp` / `gh codespace ssh` copy the data in from a laptop
+  "features": { "ghcr.io/devcontainers/features/sshd:1": {} },
+
+  // runs once when the codespace is created: libraries (no PyTorch) + the two ONNX models
+  "onCreateCommand": "bash Week12/AI_Legal_Assistant/deploy/codespaces/setup.sh",
+
+  // runs on every start: starts the web app in the background if the data is there
+  "postStartCommand": "bash Week12/AI_Legal_Assistant/deploy/codespaces/start.sh",
+
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": { "label": "Legal Assistant", "onAutoForward": "notify" }
+  },
+
+  "customizations": {
+    "codespaces": { "openFiles": ["Week12/AI_Legal_Assistant/docs/deployment.md"] },
+    "vscode": { "extensions": ["ms-python.python"] }
+  }
+}

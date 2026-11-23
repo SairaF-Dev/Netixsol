@@ -28,6 +28,7 @@ from typing import Dict, List, Literal, Optional
 from pydantic import BaseModel
 
 from src.rag.verify import quote_found
+from src.security.injection import FENCE_RULE, fence
 from src.utils.file_utils import load_json
 
 PLAYBOOK = Path("data/playbook/firm_playbook.json")
@@ -60,7 +61,8 @@ firm's client against the firm's playbook. For EVERY playbook item give one find
 - reason: one or two plain sentences a client can understand;
 - suggested_wording: replacement or new wording for amber, red or missing items (empty for green), based on
   the playbook's suggested wording and adapted to the contract.
-Judge from the client's side. Use only the clauses shown; never invent contract text."""
+Judge from the client's side. Use only the clauses shown; never invent contract text.
+""" + FENCE_RULE
 
 
 @lru_cache(maxsize=1)
@@ -70,8 +72,8 @@ def playbook() -> List[Dict]:
 
 @lru_cache(maxsize=1)
 def _embedder():
-    from sentence_transformers import SentenceTransformer
-    return SentenceTransformer("intfloat/multilingual-e5-small")
+    from src.indexing.onnx_models import embedder      # shared with search: one copy in memory
+    return embedder()
 
 
 def load_contract(contract_id: str) -> Dict:
@@ -126,7 +128,7 @@ def _prompt(contract: Dict, cands: Dict[str, List[Dict]], party: str) -> str:
         f"  red: {i['red']}\n  suggested wording: {i['suggested_wording']}\n  candidate clauses: {', '.join(dict.fromkeys(c['clause_id'] for c in cands[i['id']])) or 'none'}"
         for i in playbook())
     return (f"Contract: {contract.get('contract_title')} ({contract.get('contract_type')})\nOur client: {party}\n\n"
-            f"PLAYBOOK\n{items}\n\nCLAUSES\n{clause_text}")
+            f"PLAYBOOK\n{items}\n\nCLAUSES\n{fence(clause_text)}")
 
 
 def source_quotes(item: Dict) -> List[Dict]:

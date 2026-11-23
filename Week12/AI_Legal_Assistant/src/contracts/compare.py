@@ -25,6 +25,7 @@ from pydantic import BaseModel
 from rapidfuzz import fuzz
 
 from src.contracts.review import DRAFT, playbook
+from src.security.injection import FENCE_RULE, fence
 
 OUT_DIR = Path("evaluations/contract_comparisons")
 MIN_SIMILARITY = 55
@@ -97,7 +98,8 @@ contract to our client in plain language. For each numbered change give: a one-l
 legal impact for the client in 1-3 plain sentences (mention Pakistani law where it matters, e.g. Section 27 of the
 Contract Act, 1872 on restraint of trade, Section 74 on penalties); which side it favours; a risk level for the
 client (high, medium, low, or none for a purely stylistic change); and the matching playbook item id (or "none").
-Explain only the changes listed; do not invent others."""
+Explain only the changes listed; do not invent others.
+""" + FENCE_RULE
 
 
 def explain(change_list: List[Dict], client: str, llm=None) -> Dict[int, Dict]:
@@ -108,7 +110,7 @@ def explain(change_list: List[Dict], client: str, llm=None) -> Dict[int, Dict]:
     body = "\n\n".join(
         f"{c['n']}. {c['kind'].upper()} {c['new_clause'] or c['old_clause']}\n   OLD: {c['old_text'] or '(not in old version)'}\n"
         f"   NEW: {c['new_text'] or '(deleted)'}" for c in change_list)
-    result = llm.generate_json(f"Our client: {client}\n\nPLAYBOOK\n{positions}\n\nCHANGES\n{body}", Impacts, system=SYSTEM, temperature=0.0)
+    result = llm.generate_json(f"Our client: {client}\n\nPLAYBOOK\n{positions}\n\nCHANGES\n{fence(body)}", Impacts, system=SYSTEM, temperature=0.0)
     return {i.n: i.model_dump() for i in result.impacts}
 
 

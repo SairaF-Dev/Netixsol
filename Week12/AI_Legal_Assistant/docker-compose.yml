@@ -1,0 +1,105 @@
+# AI Legal Assistant - full stack:  docker compose up --build   then open http://localhost:8000
+#
+#   neo4j      the knowledge graph (Neo4j 5 Community)
+#   qdrant     the vector database (search vectors of the 11,232 passages)
+#   bootstrap  one-shot: loads the graph into Neo4j and the vectors into Qdrant if not already there
+#   api        the web app and REST API (FastAPI)            - starts after bootstrap succeeds
+#   worker     background jobs: reviews, comparisons, drafts, indexing uploads
+#
+# Needs in .env (next to this file): LLM_API_KEY, APP_SECRET, and NEO4J_LOCAL_PASSWORD for the local graph.
+# The search index (data/indices) and the corpus (data/) come from the host folder ./data.
+name: legal-assistant
+
+x-env: &env
+  NEO4J_URI: bolt://neo4j:7687            # overrides an AuraDB address in .env
+  NEO4J_USERNAME: neo4j
+  NEO4J_PASSWORD: ${NEO4J_LOCAL_PASSWORD:-change-me-local}
+  NEO4J_DATABASE: neo4j
+  VECTOR_BACKEND: qdrant
+  QDRANT_URL: http://qdrant:6333
+  JOB_DB: /app/state/jobs.sqlite3         # named volume: SQLite WAL needs a real local file system
+  HF_HUB_OFFLINE: "1"                     # models are in the image
+  TRANSFORMERS_OFFLINE: "1"
+
+x-app: &app
+  build: .
+  image: legal-assistant:latest
+  env_file:
+    - path: .env
+      required: false
+  volumes:
+    - ./data:/app/data
+    - state:/app/state
+  restart: unless-stopped
+
+services:
+  neo4j:
+    image: neo4j:5.26.33-community
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_LOCAL_PASSWORD:-change-me-local}
+      NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_server_memory_pagecache_size: 256M
+    volumes:
+      - neo4j-data:/data
+    ports:
+      - "127.0.0.1:7474:7474"             # Neo4j Browser, this machine only
+      - "127.0.0.1:7687:7687"
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p \"$${NEO4J_AUTH#neo4j/}\" 'RETURN 1' >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.20.2
+    volumes:
+      - qdrant-data:/qdrant/storage
+    ports:
+      - "127.0.0.1:6333:6333"             # Qdrant dashboard at /dashboard, this machine only
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/6333 && printf \"GET /readyz HTTP/1.0\\r\\n\\r\\n\" >&3 && grep -q \"200 OK\" <&3' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+
+  bootstrap:
+    <<: *app
+    environment: *env
+    command: ["python", "-m", "src.ops.bootstrap"]
+    restart: "no"
+    depends_on:
+      neo4j: { condition: service_healthy }
+      qdrant: { condition: service_healthy }
+
+  api:
+    <<: *app
+    environment:
+      <<: *env
+      WORKER_MODE: external               # jobs run in the worker container
+    command: ["python", "-m", "web.server"]
+    ports:
+      - "${APP_PORT:-8000}:8000"          # APP_PORT=8080 if another app already uses 8000
+    depends_on:
+      bootstrap: { condition: service_completed_successfully }
+
+  worker:
+    <<: *app
+    environment: *env
+    command: ["python", "-m", "src.jobs.worker"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "src.jobs.worker", "--check"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    depends_on:
+      bootstrap: { condition: service_completed_successfully }
+
+volumes:
+  neo4j-data:
+  qdrant-data:
+  state:
