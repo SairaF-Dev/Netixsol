@@ -48,7 +48,7 @@ def main() -> None:
     for rel in CODE + DATA:
         copy(rel)
     (OUT / "evaluations").mkdir()
-    for pattern in ("*.md", "blind_rating_*.json"):        # the Evaluation and Blind Rating pages
+    for pattern in ("*.md", "blind_rating_*.json", "dashboard.json"):        # the Evaluation and Blind Rating pages
         for report in (ROOT / "evaluations").glob(pattern):
             shutil.copy2(report, OUT / "evaluations" / report.name)
     for name in ("Dockerfile", "README.md"):

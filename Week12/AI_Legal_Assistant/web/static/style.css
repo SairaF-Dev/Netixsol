@@ -1942,6 +1942,10 @@ tr.o-denied td, tr.o-blocked td, tr.o-failed td {
   }
   .rail-foot { display: none; }
   .topbar { padding: 10px 16px; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .topbar-left { flex-wrap: wrap; gap: 4px 8px; max-width: 100%; }
+  .topbar-left .divider { display: none; }
+  .topbar-matter { flex-wrap: wrap; max-width: 100%; }
+  .global-matter-dropdown { max-width: 100%; }
   .view { padding: 18px 16px 56px; }
   .headline-numbers { grid-template-columns: minmax(0, 1fr); }
   .ledger { grid-template-columns: repeat(2, 1fr); }
@@ -2071,4 +2075,56 @@ fieldset:disabled .choice-opt input { cursor: default; }
   .rating-grid { grid-template-columns: 1fr; }
   .rating-answer { border-right: 0; padding-right: 0; }
   .rating-card { padding: 18px 16px; }
+}
+
+/* ---------------------------------------------------------------- 07 Results dashboard */
+.dash { margin: 0 0 28px; }
+.dash-built { font: 400 12px var(--mono); color: var(--text-muted); margin: 0 0 14px; }
+.dash-h { font: 500 20px var(--serif); color: var(--text-main); margin: 8px 0 14px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin: 0 0 26px; }
+.tile {
+  background: var(--bg-surface); border: 1px solid var(--border-subtle); border-top: 3px solid var(--navy-primary);
+  border-radius: var(--radius-xs); padding: 14px 16px; box-shadow: var(--shadow-xs);
+}
+.tile-value { font: 600 26px/1.1 var(--mono); color: var(--text-main); letter-spacing: -0.02em; }
+.tile-label { font: 600 13px/1.35 var(--sans); color: var(--text-main); margin-top: 6px; }
+.tile-sub { font: 400 12px/1.4 var(--sans); color: var(--text-muted); margin-top: 3px; }
+.dash-section { margin: 0 0 30px; }
+.dash-section > h2 { font: 500 19px var(--serif); color: var(--text-main); margin: 0 0 6px; }
+.dash-section > .note { margin: 0 0 12px; }
+.chart-card {
+  margin: 0 0 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs); padding: 14px 16px; box-shadow: var(--shadow-xs);
+}
+.chart-title { font: 600 13.5px var(--sans); color: var(--text-main); margin: 0 0 8px; }
+.chart-wrap { position: relative; }
+.chart { width: 100%; height: auto; display: block; max-width: 760px; }
+.chart-grid { stroke: var(--border-subtle); stroke-width: 1; }
+.chart-label { font: 500 12.5px var(--sans); fill: var(--text-secondary); }
+.chart-value { font: 500 12px var(--mono); fill: var(--text-main); }
+.chart-bar { fill: var(--border-strong); }
+.chart-row.hl .chart-bar { fill: var(--navy-primary); }
+.chart-row.hl .chart-label { fill: var(--text-main); font-weight: 600; }
+.chart-hit { fill: transparent; }
+.chart-row { cursor: default; outline: none; }
+.chart-row:hover .chart-hit, .chart-row:focus .chart-hit { fill: var(--bg-surface-elevated); }
+.chart-tip {
+  position: absolute; z-index: 5; min-width: 200px; max-width: 280px; padding: 8px 10px; pointer-events: none;
+  background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-xs); font: 400 12px/1.5 var(--sans); color: var(--text-secondary);
+}
+.chart-tip strong { display: block; color: var(--text-main); font-weight: 600; margin-bottom: 2px; }
+.dash-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.dash-table { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--bg-surface); }
+.dash-table th, .dash-table td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--border-subtle); }
+.dash-table thead th { font: 600 11.5px var(--sans); text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+.dash-table tbody th { font-weight: 500; color: var(--text-main); }
+.dash-table .num { text-align: right; font-family: var(--mono); color: var(--text-main); white-space: nowrap; }
+.dash-table tr.hl { background: var(--navy-subtle); }
+@media (max-width: 768px) {
+  .tile-value { font-size: 22px; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* below this width the scaled SVG text becomes unreadable: keep the chart at a readable size and scroll it */
+  .chart-wrap { overflow-x: auto; }
+  .chart { min-width: 560px; }
 }

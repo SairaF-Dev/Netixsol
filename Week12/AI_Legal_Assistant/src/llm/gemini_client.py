@@ -50,6 +50,10 @@ class GeminiClient:
         self._last_call = 0.0
         self.calls = 0          # API calls actually made (cache hits excluded)
         self.tokens = 0         # total tokens reported by the API
+        # one entry per successful API call: seconds spent in the call itself (not the rate-limit wait above,
+        # not failed attempts) and the token counts - used by evaluations/latency_cost.py
+        self.call_log: list = []
+        self.overloaded = 0                # 503 'high demand' retries (Gemini side), for the latency report
 
     @classmethod
     def judge(cls, **kwargs) -> "GeminiClient":
@@ -83,10 +87,16 @@ class GeminiClient:
                 time.sleep(wait)
             self._last_call = time.time()
             try:
+                call_start = time.perf_counter()
                 response = self._client.models.generate_content(model=self.model, contents=prompt, config=config)
+                seconds = time.perf_counter() - call_start
                 self.calls += 1
-                if response.usage_metadata and response.usage_metadata.total_token_count:
-                    self.tokens += response.usage_metadata.total_token_count
+                usage = response.usage_metadata
+                if usage and usage.total_token_count:
+                    self.tokens += usage.total_token_count
+                self.call_log.append({"seconds": round(seconds, 3),
+                                      "input_tokens": (usage.prompt_token_count or 0) if usage else 0,
+                                      "output_tokens": ((usage.total_token_count or 0) - (usage.prompt_token_count or 0)) if usage else 0})
                 if not response.text:
                     raise RuntimeError("empty response")
                 return response.text
@@ -95,6 +105,8 @@ class GeminiClient:
                 if any(code in message for code in ("400 INVALID_ARGUMENT", "401", "403", "404 NOT_FOUND")):
                     raise
                 limit = network_retries if any(e in message for e in network_errors) else self.max_retries
+                if "503" in message or "UNAVAILABLE" in message:
+                    self.overloaded += 1
                 if attempt >= limit:
                     raise
                 # A 429 says how long to wait ("retryDelay": "37s"); otherwise back off exponentially.

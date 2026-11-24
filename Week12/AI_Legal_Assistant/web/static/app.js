@@ -149,6 +149,7 @@ function showView() {
   for (const v of VIEWS) $(`#view-${v}`).hidden = v !== name;
   document.querySelectorAll(".nav a").forEach(a => a.classList.toggle("active", a.dataset.view === name));
   if (name === "evaluation" && META && !$("#report-body").dataset.loaded) openReport(META.reports[0]);
+  if (name === "evaluation" && TOKEN && !DASH) loadDashboard();
   if (name === "audit" && TOKEN) loadAudit();
   if (name === "upload" && TOKEN) loadUploads();
   if (name === "rating" && TOKEN && !RATING) loadRating();
@@ -526,6 +527,146 @@ $("#upload-form").addEventListener("submit", e => {
     load();   // the contract lists now include the upload
   });
 });
+
+/* ---------------------------------------------------------------- results dashboard (Day 5) */
+let DASH = null;
+const pct = x => x == null ? "–" : `${Math.round(x * 100)}%`;
+const fix2 = x => x == null ? "–" : x.toFixed(2);
+const secs = s => s < 1 ? `${Math.round(s * 1000)} ms` : `${s.toFixed(1)} s`;
+const SVG_NS = "http://www.w3.org/2000/svg";
+function s(tag, attrs = {}, ...children) {
+  const node = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) if (v != null) node.setAttribute(k, v);
+  for (const c of children.flat()) if (c != null) node.append(c instanceof Node ? c : document.createTextNode(String(c)));
+  return node;
+}
+
+async function loadDashboard() {
+  const box = $("#dashboard");
+  try { DASH = await api("/api/dashboard"); renderDashboard(box, DASH); }
+  catch (err) { DASH = null; showError(box, err); }
+}
+
+function tile(value, label, sub) {
+  return h("div", { class: "tile" }, h("div", { class: "tile-value", text: value }),
+    h("div", { class: "tile-label", text: label }), sub ? h("div", { class: "tile-sub", text: sub }) : null);
+}
+
+/* horizontal bars: rows [{label, value, text, highlight, tip}], one scale from 0 to max */
+function barChart(title, rows, max, caption) {
+  const W = 640, labelW = 170, valueW = 64, rowH = 30, barH = 14, top = 6;
+  const H = top + rows.length * rowH;
+  const x = v => labelW + (W - labelW - valueW) * (v / max);
+  const tip = h("div", { class: "chart-tip", hidden: true });
+  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart", role: "img", "aria-label": title });
+  for (const t of [0, 0.5, 1].map(f => f * max))
+    svg.append(s("line", { x1: x(t), x2: x(t), y1: 0, y2: H, class: "chart-grid" }));
+  rows.forEach((r, i) => {
+    const y = top + i * rowH, w = Math.max(2, x(r.value) - labelW);
+    const g = s("g", { class: "chart-row" + (r.highlight ? " hl" : ""), tabindex: "0" },
+      s("rect", { x: 0, y, width: W, height: rowH, class: "chart-hit" }),
+      s("text", { x: labelW - 10, y: y + rowH / 2 + 4, "text-anchor": "end", class: "chart-label" }, r.label),
+      s("path", { d: `M${labelW},${y + (rowH - barH) / 2} h${w - 4} a4,4 0 0 1 4,4 v${barH - 8} a4,4 0 0 1 -4,4 h${-(w - 4)} z`, class: "chart-bar" }),
+      s("text", { x: x(r.value) + 8, y: y + rowH / 2 + 4, class: "chart-value" }, r.text));
+    const show = ev => {
+      tip.replaceChildren(h("strong", { text: r.label }), ...r.tip.map(t => h("div", { text: t })));
+      tip.hidden = false;
+      const box = svg.getBoundingClientRect();
+      tip.style.left = `${Math.min(box.width - 220, Math.max(0, (x(r.value) / W) * box.width - 40))}px`;
+      tip.style.top = `${((y + rowH) / H) * box.height + 4}px`;
+    };
+    g.addEventListener("mouseenter", show); g.addEventListener("focus", show);
+    g.addEventListener("mouseleave", () => { tip.hidden = true; }); g.addEventListener("blur", () => { tip.hidden = true; });
+    svg.append(g);
+  });
+  return h("figure", { class: "chart-card" }, h("figcaption", { class: "chart-title", text: title }),
+    h("div", { class: "chart-wrap" }, svg, tip), caption ? h("p", { class: "note", text: caption }) : null);
+}
+
+function table(head, rows, highlightRow) {
+  return h("div", { class: "dash-table-wrap" }, h("table", { class: "dash-table" },
+    h("thead", {}, h("tr", {}, head.map((c, i) => h("th", { scope: "col", class: i ? "num" : "", text: c })))),
+    h("tbody", {}, rows.map((r, j) => h("tr", { class: highlightRow && highlightRow(j) ? "hl" : "" },
+      r.map((c, i) => i ? h("td", { class: "num", text: c }) : h("th", { scope: "row", text: c })))))));
+}
+
+const section = (title, lede, ...body) => h("section", { class: "dash-section" },
+  h("h2", { text: title }), lede ? h("p", { class: "note", text: lede }) : null, ...body);
+
+function renderDashboard(box, d) {
+  const R = d.retrieval, def = R.configs.find(c => c.default), naive = R.configs.find(c => c.config === "naive");
+  const L = d.latency, G = d.graph.methods, sec = d.security;
+  const graphF1 = G.find(m => m.method === "graph"), vecF1 = G.find(m => m.method === "vector");
+  const tiles = h("div", { class: "tiles" },
+    tile(pct(def.recall_at_5), "Right passage in the top 5", `app default (${def.label.replace("+ ", "")}); naive search ${pct(naive.recall_at_5)}`),
+    tile(String(d.citations.fabricated_shown), "Invented citations shown to a user", `${d.citations.citations_checked} citations checked by code`),
+    tile(pct(def.correct_refusals), "Correct refusals", "questions the library cannot answer"),
+    tile(fix2(graphF1.f1), "Case-law relationship F1 (graph)", `vector search ${fix2(vecF1.f1)}`),
+    tile(`${sec.held}/${sec.attacks}`, "Red-team attacks held", `${sec.weaknesses_fixed} weaknesses found and fixed`),
+    L ? tile(secs(L.end_to_end.median), "Research answer, median", `90th percentile ${secs(L.end_to_end.p90)}`) : null,
+    L ? tile(`$${L.usd_per_1000.toFixed(2)}`, "Per 1,000 questions (paid tier)", "free tier: $0") : null,
+    d.contracts.comparison_planted ? tile(`${d.contracts.comparison_planted.found}/${d.contracts.comparison_planted.of}`, "Planted contract changes found", "version comparison") : null);
+
+  const recall = barChart("Right passage in the top 5 (recall@5), by retrieval setup",
+    R.configs.map(c => ({ label: c.label, value: c.recall_at_5, text: pct(c.recall_at_5), highlight: c.default,
+      tip: [`MRR@5 ${fix2(c.mrr_at_5)}`, `Statutes ${pct(c.recall_at_5_statute)} · case law ${pct(c.recall_at_5_case_law)}`,
+            c.citation_accuracy != null ? `Correct citation ${pct(c.citation_accuracy)}` : "Answer metrics not run",
+            c.default ? "The app's default setup" : c.description] })), 1,
+    `${R.questions} evaluation questions; each setup adds one step to the one above. Highlighted: the app's default. Query rewrite and HyDE score higher but add a Gemini call before every search.`);
+  const retrievalTable = table(["Setup", "Recall@5", "MRR@5", "Correct citation", "Faithful", "Correct refusals", "False refusals"],
+    R.configs.map(c => [c.label + (c.default ? " (default)" : ""), pct(c.recall_at_5), fix2(c.mrr_at_5), pct(c.citation_accuracy),
+      pct(c.faithfulness), pct(c.correct_refusals), pct(c.false_refusals)]), j => R.configs[j].default);
+
+  const parts = [h("p", { class: "dash-built", text: `Built ${d.built} from the evaluation files (python evaluations/dashboard.py).` }), tiles,
+    section("Retrieval and answers", null, recall, retrievalTable),
+    section("Citations", "Every citation is checked word for word against its source by code; a citation that fails is removed before the answer is shown.",
+      table(["Setup", "Citations", "Verified", "Invented (caught)", "Invented shown"],
+        d.citations.configs.map(c => [c.config.replace(/^\d+\.\s*/, ""), String(c.citations), pct(c.verified / c.citations), String(c.fabricated), String(c.fabricated_shown)])),
+      h("p", { class: "note", text: `Conclusion check on ${Object.values(d.citations.conclusion_check).reduce((a, b) => a + b, 0)} answers: ` +
+        Object.entries(d.citations.conclusion_check).map(([k, v]) => `${k.replace("_", " ")} ${v}`).join(", ") + "." }))];
+  if (L) parts.push(section("Speed and cost", `Measured ${L.date} on ${L.questions} questions with the answer cache off. Gemini time is time inside the API call; ` +
+      `cost at the list price ($${L.price.input_per_1m} / $${L.price.output_per_1m} per 1M input / output tokens).` +
+      (L.gemini_overloaded ? ` Gemini was overloaded that day (${L.gemini_overloaded} calls refused with "high demand" and retried), ` +
+        "so the 90th percentiles mostly show Google's load; the medians are the better guide." : ""),
+    barChart("Research question, median time per stage", L.stages.map(st => ({ label: st.stage, value: st.median_s, text: secs(st.median_s),
+      tip: [`Median ${secs(st.median_s)}`, `90th percentile ${secs(st.p90_s)}`] })), Math.max(...L.stages.map(st => st.median_s)) * 1.15),
+    table(["Measure", "Value"], [
+      ["End to end, median / 90th percentile", `${secs(L.end_to_end.median)} / ${secs(L.end_to_end.p90)}`],
+      ["Gemini calls per question", String(L.calls_per_question)],
+      ["Tokens per question (in / out)", `${L.tokens_in.toLocaleString("en")} / ${L.tokens_out.toLocaleString("en")}`],
+      ["Cost per question", `$${L.usd_per_question.toFixed(5)}`],
+      ["Case-law graph question, median", secs(L.graph_median_s)],
+      ["Contract review: Gemini time / cost", `${secs(L.review_gemini_s)} / $${L.review_usd.toFixed(4)}`],
+      ...Object.entries(L.retrieval_only).map(([k, v]) => [`Retrieval only, ${k} (100 questions, median)`, secs(v.median)])])));
+  parts.push(section("Case law (knowledge graph)", "Relationship questions such as “which judges heard cases on Section 324 PPC”.",
+    table(["Method", "Precision", "Recall", "F1"], G.map(m => [m.method, pct(m.precision), pct(m.recall), fix2(m.f1)]), j => G[j].method === "routed"),
+    table(["Extracted link (held-out judgments)", "Precision", "Recall"], d.graph.extraction_heldout.map(e => [e.link, pct(e.precision), pct(e.recall)]))));
+  const C = d.contracts;
+  parts.push(section("Contracts", null,
+    table(["Clause classification (28 CUAD types)", "Micro F1", "Macro F1"], C.clause_classification.map(m => [m.model, fix2(m.micro_f1), fix2(m.macro_f1)])),
+    table(["Finding 10 clause types in 10 contracts", "Accuracy", "Time per contract"], C.long_context_vs_rag.map(m => [m.method, pct(m.accuracy), `${m.seconds} s`]))));
+  parts.push(section("Security (red team)", "Attacks run against the app after the fixes; a limitation is a documented gap, not a failure of a defence.",
+    table(["Attack group", "Attacks", "Held", "Broke", "Limitation"], sec.groups.map(g => [g.group.replace(/^[A-Z]\.\s*/, ""), String(g.attacks), String(g.held), String(g.broke), String(g.limitation)]))));
+  const B = d.blind_rating;
+  if (B) {
+    for (const [user, r] of Object.entries(B.raters)) {
+      const v = r.results, cols = ["naive", "final"].filter(k => v[k]);
+      parts.push(section(`Blind rating of 30 answers (rater: ${user})`, "Rated by a person without knowing which version wrote which answer.",
+        table(["", ...cols], [
+          ["Acceptable answers", ...cols.map(k => `${v[k].acceptable} / ${v[k].rated}`)],
+          ["Correct, questions with an answer", ...cols.map(k => `${v[k].correct_answerable} / ${v[k].answerable}`)],
+          ["Correct refusals", ...cols.map(k => `${v[k].refused_no_answer} / ${v[k].no_answer}`)],
+          ["Citations fully support the answer", ...cols.map(k => `${v[k].support.yes} / ${v[k].rated}`)],
+          ["Usefulness, mean of 1-5", ...cols.map(k => String(v[k].useful))]])));
+    }
+  } else {
+    parts.push(section("Blind rating of 30 answers", "Waiting for the ratings (page 09); the results appear here once they are in."));
+  }
+  const O = d.ocr.engines;
+  parts.push(section("Urdu OCR (scanned laws)", null, table(["Engine", "Character error", "Word error", "Time per page"],
+    O.map(e => [e.engine, pct(e.cer), pct(e.wer), secs(e.ms / 1000)]))));
+  box.replaceChildren(...parts);
+}
 
 /* ---------------------------------------------------------------- blind rating (Day 5) */
 let RATING = null, RATING_POS = 0;

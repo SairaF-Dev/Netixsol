@@ -1,0 +1,445 @@
+{
+ "built": "2026-11-24 04:22",
+ "retrieval": {
+  "default": "rerank",
+  "questions": 100,
+  "configs": [
+   {
+    "config": "naive",
+    "label": "Naive",
+    "description": "Naive: fixed 200-word chunks, vector search only, top 5",
+    "default": false,
+    "recall_at_5": 0.5375,
+    "recall_at_5_statute": 0.56,
+    "recall_at_5_case_law": 0.5,
+    "mrr_at_5": 0.3733333333333333,
+    "doc_recall_at_5": 0.7,
+    "citation_accuracy": 0.425,
+    "faithfulness": 0.9946808510638298,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.4125
+   },
+   {
+    "config": "section",
+    "label": "Section chunks",
+    "description": "1. Section-level chunks, vector search only",
+    "default": false,
+    "recall_at_5": 0.6375,
+    "recall_at_5_statute": 0.68,
+    "recall_at_5_case_law": 0.5666666666666667,
+    "mrr_at_5": 0.5237499999999999,
+    "doc_recall_at_5": 0.7625,
+    "citation_accuracy": 0.5625,
+    "faithfulness": 0.9830508474576272,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.2625
+   },
+   {
+    "config": "hybrid",
+    "label": "+ Hybrid",
+    "description": "2. + Hybrid search (BM25 + vector, RRF)",
+    "default": false,
+    "recall_at_5": 0.7,
+    "recall_at_5_statute": 0.74,
+    "recall_at_5_case_law": 0.6333333333333333,
+    "mrr_at_5": 0.5629166666666667,
+    "doc_recall_at_5": 0.825,
+    "citation_accuracy": 0.6375,
+    "faithfulness": 0.9797979797979797,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.175
+   },
+   {
+    "config": "rerank",
+    "label": "+ Reranker",
+    "description": "3. + Reranking (multilingual cross-encoder, top 30)",
+    "default": true,
+    "recall_at_5": 0.775,
+    "recall_at_5_statute": 0.74,
+    "recall_at_5_case_law": 0.8333333333333334,
+    "mrr_at_5": 0.7250000000000001,
+    "doc_recall_at_5": 0.85,
+    "citation_accuracy": 0.7,
+    "faithfulness": 0.9803921568627452,
+    "correct_refusals": 1.0,
+    "false_refusals": 0.15
+   },
+   {
+    "config": "rewrite",
+    "label": "+ Query rewrite",
+    "description": "4. + Query rewriting (Gemini, English legal query)",
+    "default": false,
+    "recall_at_5": 0.9375,
+    "recall_at_5_statute": 0.94,
+    "recall_at_5_case_law": 0.9333333333333333,
+    "mrr_at_5": 0.8472916666666667,
+    "doc_recall_at_5": 0.95,
+    "citation_accuracy": 0.8375,
+    "faithfulness": 0.9935897435897434,
+    "correct_refusals": 0.95,
+    "false_refusals": 0.025
+   },
+   {
+    "config": "hyde",
+    "label": "+ HyDE",
+    "description": "5. + HyDE (Gemini hypothetical answer passage)",
+    "default": false,
+    "recall_at_5": 0.9375,
+    "recall_at_5_statute": 0.96,
+    "recall_at_5_case_law": 0.9,
+    "mrr_at_5": 0.8535416666666666,
+    "doc_recall_at_5": 0.9625,
+    "citation_accuracy": 0.8375,
+    "faithfulness": 0.9957264957264956,
+    "correct_refusals": 0.95,
+    "false_refusals": 0.025
+   },
+   {
+    "config": "metadata",
+    "label": "+ Metadata filters",
+    "description": "6. + Metadata filters (Act/section/court from the question)",
+    "default": false,
+    "recall_at_5": 0.925,
+    "recall_at_5_statute": 0.96,
+    "recall_at_5_case_law": 0.8666666666666667,
+    "mrr_at_5": 0.8410416666666667,
+    "doc_recall_at_5": 0.9625,
+    "citation_accuracy": null,
+    "faithfulness": null,
+    "correct_refusals": null,
+    "false_refusals": null
+   },
+   {
+    "config": "parent_child",
+    "label": "+ Parent-child",
+    "description": "7. + Parent-child retrieval (80-word children, parent unit returned)",
+    "default": false,
+    "recall_at_5": 0.9125,
+    "recall_at_5_statute": 0.94,
+    "recall_at_5_case_law": 0.8666666666666667,
+    "mrr_at_5": 0.8191666666666666,
+    "doc_recall_at_5": 0.9625,
+    "citation_accuracy": null,
+    "faithfulness": null,
+    "correct_refusals": null,
+    "false_refusals": null
+   }
+  ],
+  "source": "rag_comparison_report.md (evaluations/rag_runs/summary.json)"
+ },
+ "citations": {
+  "configs": [
+   {
+    "config": "0. Naive: fixed 200-word chunks, vector search only, top 5",
+    "citations": 53,
+    "verified": 36,
+    "fabricated": 5,
+    "fabricated_shown": 0
+   },
+   {
+    "config": "1. Section-level chunks, vector search only",
+    "citations": 67,
+    "verified": 62,
+    "fabricated": 4,
+    "fabricated_shown": 0
+   },
+   {
+    "config": "2. + Hybrid search (BM25 + vector, RRF)",
+    "citations": 77,
+    "verified": 72,
+    "fabricated": 2,
+    "fabricated_shown": 0
+   },
+   {
+    "config": "3. + Reranking (multilingual cross-encoder, top 30)",
+    "citations": 86,
+    "verified": 77,
+    "fabricated": 4,
+    "fabricated_shown": 0
+   },
+   {
+    "config": "4. + Query rewriting (Gemini, English legal query)",
+    "citations": 99,
+    "verified": 89,
+    "fabricated": 6,
+    "fabricated_shown": 0
+   },
+   {
+    "config": "5. + HyDE (Gemini hypothetical answer passage)",
+    "citations": 96,
+    "verified": 88,
+    "fabricated": 3,
+    "fabricated_shown": 0
+   }
+  ],
+  "fabricated_shown": 0,
+  "citations_checked": 478,
+  "conclusion_check": {
+   "supported": 75,
+   "partly": 2,
+   "not_supported": 2
+  },
+  "source": "citation_verification_report.md, conclusion_check_report.md"
+ },
+ "graph": {
+  "methods": [
+   {
+    "method": "vector",
+    "precision": 0.49,
+    "recall": 0.4,
+    "f1": 0.4
+   },
+   {
+    "method": "graph",
+    "precision": 1.0,
+    "recall": 0.98,
+    "f1": 0.99
+   },
+   {
+    "method": "hybrid",
+    "precision": 0.77,
+    "recall": 0.74,
+    "f1": 0.72
+   },
+   {
+    "method": "routed",
+    "precision": 1.0,
+    "recall": 0.98,
+    "f1": 0.99
+   }
+  ],
+  "extraction_heldout": [
+   {
+    "link": "Precedent citations (CITES / FOLLOWS / ...)",
+    "precision": 1.0,
+    "recall": 0.95
+   },
+   {
+    "link": "Statute provisions (REFERS_TO / INTERPRETS)",
+    "precision": 1.0,
+    "recall": 0.96
+   },
+   {
+    "link": "Judges (SAT_ON)",
+    "precision": 1.0,
+    "recall": 1.0
+   }
+  ],
+  "source": "graph_vs_vector_report.md, graph_precision_recall.md (held-out judgments)"
+ },
+ "contracts": {
+  "clause_classification": [
+   {
+    "model": "LLM (Gemini, zero-shot)",
+    "micro_f1": 0.79,
+    "macro_f1": 0.77
+   },
+   {
+    "model": "Legal-BERT-small, 3 epochs (laptop CPU)",
+    "micro_f1": 0.69,
+    "macro_f1": 0.59
+   },
+   {
+    "model": "deberta-v3-base, best of 5 epochs (Colab T4)",
+    "micro_f1": 0.75,
+    "macro_f1": 0.68
+   },
+   {
+    "model": "legal-bert-base-uncased, best of 5 epochs (Colab T4)",
+    "micro_f1": 0.8,
+    "macro_f1": 0.77
+   },
+   {
+    "model": "legal-bert-small-uncased, best of 8 epochs (Colab T4)",
+    "micro_f1": 0.79,
+    "macro_f1": 0.77
+   }
+  ],
+  "long_context_vs_rag": [
+   {
+    "method": "Long context (whole contract)",
+    "accuracy": 0.9,
+    "seconds": 18.2
+   },
+   {
+    "method": "RAG (3 chunks per clause type)",
+    "accuracy": 0.88,
+    "seconds": 5.8
+   }
+  ],
+  "comparison_planted": {
+   "found": 9,
+   "of": 9
+  },
+  "source": "clause_classification_report.md, long_context_vs_rag_report.md, README (Day 4 Task 3)"
+ },
+ "ocr": {
+  "engines": [
+   {
+    "engine": "Tesseract (urd+eng)",
+    "cer": 0.7033,
+    "wer": 0.9668000000000001,
+    "ms": 756.0
+   },
+   {
+    "engine": "EasyOCR (ur+en)",
+    "cer": 0.3293,
+    "wer": 0.8687,
+    "ms": 21765.9
+   }
+  ],
+  "source": "ocr_comparison_report.md"
+ },
+ "security": {
+  "groups": [
+   {
+    "group": "A. Sign-in and tokens",
+    "attacks": 6,
+    "held": 6,
+    "broke": 0,
+    "limitation": 0
+   },
+   {
+    "group": "B. Client-matter walls",
+    "attacks": 7,
+    "held": 7,
+    "broke": 0,
+    "limitation": 0
+   },
+   {
+    "group": "C. File and path tricks",
+    "attacks": 7,
+    "held": 7,
+    "broke": 0,
+    "limitation": 0
+   },
+   {
+    "group": "D. Booby-trapped uploads",
+    "attacks": 38,
+    "held": 37,
+    "broke": 1,
+    "limitation": 0
+   },
+   {
+    "group": "E. Research jailbreaks",
+    "attacks": 7,
+    "held": 7,
+    "broke": 0,
+    "limitation": 0
+   },
+   {
+    "group": "F. Graph database",
+    "attacks": 5,
+    "held": 5,
+    "broke": 0,
+    "limitation": 0
+   },
+   {
+    "group": "G. Drafting",
+    "attacks": 1,
+    "held": 1,
+    "broke": 0,
+    "limitation": 0
+   },
+   {
+    "group": "H. Personal data",
+    "attacks": 3,
+    "held": 2,
+    "broke": 0,
+    "limitation": 1
+   },
+   {
+    "group": "I. Malformed uploads",
+    "attacks": 6,
+    "held": 6,
+    "broke": 0,
+    "limitation": 0
+   }
+  ],
+  "attacks": 80,
+  "held": 78,
+  "weaknesses_fixed": 7,
+  "source": "red_team_report.md (red_team_results.json)"
+ },
+ "latency": {
+  "date": "2026-11-24",
+  "questions": 20,
+  "config": "rerank",
+  "stages": [
+   {
+    "stage": "Retrieval",
+    "median_s": 10.97,
+    "p90_s": 11.206
+   },
+   {
+    "stage": "Answer (Gemini)",
+    "median_s": 2.794,
+    "p90_s": 16.172
+   },
+   {
+    "stage": "Citation check",
+    "median_s": 0.002,
+    "p90_s": 0.01
+   },
+   {
+    "stage": "Conclusion check (Gemini)",
+    "median_s": 4.954,
+    "p90_s": 128.258
+   }
+  ],
+  "end_to_end": {
+   "n": 20,
+   "median": 16.594,
+   "p90": 104.666,
+   "mean": 56.537,
+   "max": 345.822
+  },
+  "redrafts": 0,
+  "calls_per_question": 1.6,
+  "usd_per_question": 0.00183378,
+  "usd_per_1000": 1.83378,
+  "tokens_in": 3799,
+  "tokens_out": 278,
+  "retrieval_only": {
+   "naive": {
+    "n": 100,
+    "median": 0.341,
+    "p90": 0.444,
+    "mean": 0.352,
+    "max": 0.607
+   },
+   "section": {
+    "n": 100,
+    "median": 0.016,
+    "p90": 0.02,
+    "mean": 0.017,
+    "max": 0.044
+   },
+   "hybrid": {
+    "n": 100,
+    "median": 0.203,
+    "p90": 0.289,
+    "mean": 0.214,
+    "max": 0.577
+   },
+   "rerank": {
+    "n": 100,
+    "median": 10.035,
+    "p90": 10.193,
+    "mean": 9.697,
+    "max": 11.025
+   }
+  },
+  "graph_median_s": 0.616,
+  "review_usd": 0.0061478999999999995,
+  "price": {
+   "input_per_1m": 0.3,
+   "output_per_1m": 2.5,
+   "checked": "2026-11-24"
+  },
+  "review_gemini_s": 10.102,
+  "gemini_overloaded": 25,
+  "source": "latency_cost_report.md (latency_cost.json)"
+ },
+ "blind_rating": null
+}

@@ -215,3 +215,13 @@ def test_blind_rating_hides_the_versions_until_all_30_are_rated_then_locks(env, 
     assert c.post(f"/api/rating/{items[0]['id']}", json=good, headers=ayesha).status_code == 409   # final after the reveal
     other = c.get("/api/rating", headers=bilal).json()                          # each rater has their own sheet
     assert other["ratings"] == {} and "key" not in other
+
+
+def test_dashboard_needs_sign_in_and_matches_its_sources(env):
+    c, sign_in, _ = env
+    assert c.get("/api/dashboard").status_code == 401
+    d = c.get("/api/dashboard", headers=sign_in("ayesha")).json()
+    summary = json.loads((server.ROOT / "evaluations" / "rag_runs" / "summary.json").read_text(encoding="utf-8"))
+    default = next(x for x in d["retrieval"]["configs"] if x["default"])
+    assert default["recall_at_5"] == summary[default["config"]]["recall@5"]      # read from the file, not typed in
+    assert d["citations"]["fabricated_shown"] == 0 and d["security"]["attacks"] == 80

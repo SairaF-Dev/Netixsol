@@ -40,6 +40,7 @@ SET = ROOT / "evaluations" / "blind_rating_set.json"
 KEY = ROOT / "evaluations" / "blind_rating_key.json"
 RATINGS = ROOT / "data" / "ratings"
 REPORT = ROOT / "evaluations" / "blind_rating_report.md"
+RESULTS = ROOT / "evaluations" / "blind_rating_results.json"   # for the dashboard
 NO_SOURCE = "No sufficient source found"
 SEED = 2026
 PLAN = {"statute": 7, "case_law": 5, "no_answer": 3}
@@ -112,8 +113,10 @@ def report() -> None:
              "Questions: 7 statute and 5 case-law questions drawn (fixed seed) from those where the two versions "
              "answered differently, and 3 questions with no answer in the corpus. *Acceptable* = rated correct, or a "
              "refusal where the corpus has no answer.", ""]
+    per_rater = {}
     for user, ratings in raters.items():
         s = summarise(items, key, ratings)
+        per_rater[user] = {"rated": len(ratings), "of": len(items), "results": s}
         lines += [f"## Rater: {user} ({len(ratings)} of {len(items)} answers rated)", "",
                   "| | naive | final |", "|---|---|---|"]
         row = lambda label, f: lines.append(f"| {label} | " + " | ".join(f(s[v]) if v in s else "-" for v in ("naive", "final")) + " |")
@@ -136,6 +139,7 @@ def report() -> None:
                          f"| {r['correctness']} | {r['support']} | {r['useful']} | {r.get('note', '').replace('|', '/')[:80]} |")
         lines.append("")
     REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    RESULTS.write_text(json.dumps(per_rater, indent=1), encoding="utf-8")
     print(f"{REPORT}: {len(raters)} rater(s)")
 
 

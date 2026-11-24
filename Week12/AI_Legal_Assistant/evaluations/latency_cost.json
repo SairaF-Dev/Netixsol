@@ -1,0 +1,479 @@
+{
+ "date": "2026-11-24",
+ "machine": "Windows laptop, Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+ "price": {
+  "input_per_1m": 0.3,
+  "output_per_1m": 2.5,
+  "checked": "2026-11-24"
+ },
+ "retrieval": {
+  "naive": {
+   "n": 100,
+   "median": 0.341,
+   "p90": 0.444,
+   "mean": 0.352,
+   "max": 0.607
+  },
+  "section": {
+   "n": 100,
+   "median": 0.016,
+   "p90": 0.02,
+   "mean": 0.017,
+   "max": 0.044
+  },
+  "hybrid": {
+   "n": 100,
+   "median": 0.203,
+   "p90": 0.289,
+   "mean": 0.214,
+   "max": 0.577
+  },
+  "rerank": {
+   "n": 100,
+   "median": 10.035,
+   "p90": 10.193,
+   "mean": 9.697,
+   "max": 11.025
+  }
+ },
+ "research": {
+  "config": "rerank",
+  "questions": 20,
+  "load_s": 23.3,
+  "retrieval_s": {
+   "n": 20,
+   "median": 10.97,
+   "p90": 11.206,
+   "mean": 11.145,
+   "max": 14.084
+  },
+  "answer_s": {
+   "n": 20,
+   "median": 2.794,
+   "p90": 16.172,
+   "mean": 18.163,
+   "max": 206.362
+  },
+  "verify_s": {
+   "n": 20,
+   "median": 0.002,
+   "p90": 0.01,
+   "mean": 0.004,
+   "max": 0.026
+  },
+  "check_s": {
+   "n": 12,
+   "median": 4.954,
+   "p90": 128.258,
+   "mean": 45.373,
+   "max": 308.715
+  },
+  "redraft_s": {},
+  "redrafts": 0,
+  "total_s": {
+   "n": 20,
+   "median": 16.594,
+   "p90": 104.666,
+   "mean": 56.537,
+   "max": 345.822
+  },
+  "calls_per_question": 1.6,
+  "input_tokens_per_question": 3799,
+  "output_tokens_per_question": 278,
+  "usd_per_question": 0.00183378,
+  "by_type": {
+   "statute": {
+    "n": 8,
+    "median": 47.899,
+    "p90": 326.286,
+    "mean": 114.785,
+    "max": 345.822
+   },
+   "case_law": {
+    "n": 6,
+    "median": 19.508,
+    "p90": 29.997,
+    "mean": 21.537,
+    "max": 31.005
+   },
+   "no_answer": {
+    "n": 6,
+    "median": 13.579,
+    "p90": 15.352,
+    "mean": 13.871,
+    "max": 15.829
+   }
+  },
+  "rows": [
+   {
+    "id": "STAT_008",
+    "type": "statute",
+    "language": "Roman Urdu",
+    "retrieval_s": 11.481155399989802,
+    "verify_s": 0.009684099990408868,
+    "refused": false,
+    "gemini_s": 10.564,
+    "total_s": 22.05483949998021,
+    "calls": 2,
+    "input_tokens": 3485,
+    "output_tokens": 401,
+    "usd": 0.002048
+   },
+   {
+    "id": "STAT_021",
+    "type": "statute",
+    "language": "Roman Urdu",
+    "retrieval_s": 14.083670399995754,
+    "verify_s": 0.013517599989427254,
+    "refused": false,
+    "gemini_s": 312.18899999999996,
+    "total_s": 326.28618799998515,
+    "calls": 2,
+    "input_tokens": 4798,
+    "output_tokens": 322,
+    "usd": 0.0022444
+   },
+   {
+    "id": "STAT_035",
+    "type": "statute",
+    "language": "English",
+    "retrieval_s": 11.176348800014239,
+    "verify_s": 0.026130399986868724,
+    "refused": false,
+    "gemini_s": 334.62,
+    "total_s": 345.8224792000011,
+    "calls": 2,
+    "input_tokens": 5137,
+    "output_tokens": 376,
+    "usd": 0.0024811
+   },
+   {
+    "id": "STAT_050",
+    "type": "statute",
+    "language": "English",
+    "retrieval_s": 10.806592999986606,
+    "verify_s": 0.001854400004958734,
+    "refused": false,
+    "gemini_s": 4.5329999999999995,
+    "total_s": 15.341447399991564,
+    "calls": 2,
+    "input_tokens": 4196,
+    "output_tokens": 297,
+    "usd": 0.0020013
+   },
+   {
+    "id": "STAT_044",
+    "type": "statute",
+    "language": "Roman Urdu",
+    "retrieval_s": 10.924772800004575,
+    "verify_s": 0.003210199996829033,
+    "refused": false,
+    "gemini_s": 93.738,
+    "total_s": 104.6659830000014,
+    "calls": 2,
+    "input_tokens": 4619,
+    "output_tokens": 373,
+    "usd": 0.0023182000000000003
+   },
+   {
+    "id": "STAT_007",
+    "type": "statute",
+    "language": "Roman Urdu",
+    "retrieval_s": 11.13595820000046,
+    "verify_s": 2.239999594166875e-05,
+    "refused": true,
+    "gemini_s": 1.873,
+    "total_s": 13.0089805999964,
+    "calls": 1,
+    "input_tokens": 3093,
+    "output_tokens": 28,
+    "usd": 0.0009979
+   },
+   {
+    "id": "STAT_015",
+    "type": "statute",
+    "language": "English",
+    "retrieval_s": 11.205594800005201,
+    "verify_s": 0.008575299987569451,
+    "refused": false,
+    "gemini_s": 6.145,
+    "total_s": 17.35917009999277,
+    "calls": 2,
+    "input_tokens": 2841,
+    "output_tokens": 313,
+    "usd": 0.0016348
+   },
+   {
+    "id": "STAT_041",
+    "type": "statute",
+    "language": "Roman Urdu",
+    "retrieval_s": 11.028466000017943,
+    "verify_s": 0.005682500021066517,
+    "refused": false,
+    "gemini_s": 62.71,
+    "total_s": 73.74414850003902,
+    "calls": 2,
+    "input_tokens": 5165,
+    "output_tokens": 473,
+    "usd": 0.002732
+   },
+   {
+    "id": "CASE_026",
+    "type": "case_law",
+    "language": "English",
+    "retrieval_s": 10.971950100007234,
+    "verify_s": 0.0018522999889682978,
+    "refused": false,
+    "gemini_s": 20.031000000000002,
+    "total_s": 31.004802399996205,
+    "calls": 2,
+    "input_tokens": 4154,
+    "output_tokens": 358,
+    "usd": 0.0021412000000000002
+   },
+   {
+    "id": "CASE_022",
+    "type": "case_law",
+    "language": "English",
+    "retrieval_s": 10.967417700012447,
+    "verify_s": 0.0025205000129062682,
+    "refused": false,
+    "gemini_s": 8.792,
+    "total_s": 19.761938200025355,
+    "calls": 2,
+    "input_tokens": 5206,
+    "output_tokens": 763,
+    "usd": 0.0034693
+   },
+   {
+    "id": "CASE_017",
+    "type": "case_law",
+    "language": "Roman Urdu",
+    "retrieval_s": 10.945529199991142,
+    "verify_s": 0.003180700005032122,
+    "refused": false,
+    "gemini_s": 8.305,
+    "total_s": 19.253709899996174,
+    "calls": 2,
+    "input_tokens": 3924,
+    "output_tokens": 492,
+    "usd": 0.0024072
+   },
+   {
+    "id": "CASE_034",
+    "type": "case_law",
+    "language": "English",
+    "retrieval_s": 10.742237300000852,
+    "verify_s": 0.0021103999752085656,
+    "refused": true,
+    "gemini_s": 2.874,
+    "total_s": 13.618347699976061,
+    "calls": 1,
+    "input_tokens": 2081,
+    "output_tokens": 311,
+    "usd": 0.0014018
+   },
+   {
+    "id": "CASE_023",
+    "type": "case_law",
+    "language": "Roman Urdu",
+    "retrieval_s": 11.173441599996295,
+    "verify_s": 0.0027990000089630485,
+    "refused": false,
+    "gemini_s": 4.409,
+    "total_s": 15.585240600005257,
+    "calls": 2,
+    "input_tokens": 4486,
+    "output_tokens": 406,
+    "usd": 0.0023607999999999997
+   },
+   {
+    "id": "CASE_037",
+    "type": "case_law",
+    "language": "Roman Urdu",
+    "retrieval_s": 10.754436399991391,
+    "verify_s": 0.0030159000016283244,
+    "refused": false,
+    "gemini_s": 19.240000000000002,
+    "total_s": 29.99745229999302,
+    "calls": 2,
+    "input_tokens": 5620,
+    "output_tokens": 508,
+    "usd": 0.0029560000000000003
+   },
+   {
+    "id": "NOANS_022",
+    "type": "no_answer",
+    "language": "Roman Urdu",
+    "retrieval_s": 11.064978599984897,
+    "verify_s": 2.2299995180219412e-05,
+    "refused": true,
+    "gemini_s": 1.432,
+    "total_s": 12.497000899980078,
+    "calls": 1,
+    "input_tokens": 3660,
+    "output_tokens": 28,
+    "usd": 0.001168
+   },
+   {
+    "id": "NOANS_025",
+    "type": "no_answer",
+    "language": "Roman Urdu",
+    "retrieval_s": 10.95861370000057,
+    "verify_s": 1.4999997802078724e-05,
+    "refused": true,
+    "gemini_s": 2.482,
+    "total_s": 13.44062869999837,
+    "calls": 1,
+    "input_tokens": 2974,
+    "output_tokens": 16,
+    "usd": 0.0009321999999999999
+   },
+   {
+    "id": "NOANS_021",
+    "type": "no_answer",
+    "language": "Roman Urdu",
+    "retrieval_s": 10.869635700015351,
+    "verify_s": 1.4600023860111833e-05,
+    "refused": true,
+    "gemini_s": 4.959,
+    "total_s": 15.828650300039211,
+    "calls": 1,
+    "input_tokens": 3061,
+    "output_tokens": 16,
+    "usd": 0.0009582999999999999
+   },
+   {
+    "id": "NOANS_012",
+    "type": "no_answer",
+    "language": "Roman Urdu",
+    "retrieval_s": 10.659723599994322,
+    "verify_s": 1.4899997040629387e-05,
+    "refused": true,
+    "gemini_s": 1.733,
+    "total_s": 12.392738499991363,
+    "calls": 1,
+    "input_tokens": 2227,
+    "output_tokens": 28,
+    "usd": 0.0007381
+   },
+   {
+    "id": "NOANS_001",
+    "type": "no_answer",
+    "language": "English",
+    "retrieval_s": 10.95507979998365,
+    "verify_s": 1.6900012269616127e-05,
+    "refused": true,
+    "gemini_s": 4.397,
+    "total_s": 15.35209669999592,
+    "calls": 1,
+    "input_tokens": 2544,
+    "output_tokens": 16,
+    "usd": 0.0008031999999999999
+   },
+   {
+    "id": "NOANS_014",
+    "type": "no_answer",
+    "language": "Roman Urdu",
+    "retrieval_s": 11.003096000000369,
+    "verify_s": 1.6300007700920105e-05,
+    "refused": true,
+    "gemini_s": 2.714,
+    "total_s": 13.71711230000807,
+    "calls": 1,
+    "input_tokens": 2706,
+    "output_tokens": 28,
+    "usd": 0.0008818
+   }
+  ],
+  "overloaded": 25
+ },
+ "graph": {
+  "seconds": {
+   "n": 6,
+   "median": 0.616,
+   "p90": 0.629,
+   "mean": 0.62,
+   "max": 0.747
+  },
+  "llm_calls": 0,
+  "usd_per_question": 0.0,
+  "rows": [
+   {
+    "question": "Which judges sat on the cases in the corpus that refer to Section 324 of the Pakistan Penal Code?",
+    "method": "local",
+    "items": 8,
+    "seconds": 0.6239715999981854,
+    "calls": 0,
+    "usd": 0.0
+   },
+   {
+    "question": "Which judges presided over proceedings referencing Article 129 of the Qanun-e-Shahadat Order, 1984?",
+    "method": "local",
+    "items": 9,
+    "seconds": 0.6080485999991652,
+    "calls": 0,
+    "usd": 0.0
+   },
+   {
+    "question": "Which judges heard cases involving Section 7 of the Anti-Terrorism Act, 1997?",
+    "method": "local",
+    "items": 10,
+    "seconds": 0.5131737999909092,
+    "calls": 0,
+    "usd": 0.0
+   },
+   {
+    "question": "Which Supreme Court judgments in the corpus refer to Article 212 of the Constitution?",
+    "method": "local",
+    "items": 4,
+    "seconds": 0.6011485000199173,
+    "calls": 0,
+    "usd": 0.0
+   },
+   {
+    "question": "Which sections of the Pakistan Penal Code came up in cases heard by Justice Malik Shahzad Ahmad Khan?",
+    "method": "local",
+    "items": 3,
+    "seconds": 0.6293566999956965,
+    "calls": 0,
+    "usd": 0.0
+   },
+   {
+    "question": "Which precedent is cited the most in the corpus?",
+    "method": "global",
+    "items": 4,
+    "seconds": 0.7471746999945026,
+    "calls": 0,
+    "usd": 0.0
+   }
+  ]
+ },
+ "review": {
+  "rows": [
+   {
+    "contract": "CONT_SYNTH_001",
+    "findings": 14,
+    "wall_s": 14.89217110001482,
+    "gemini_s": 13.572,
+    "calls": 1,
+    "input_tokens": 3007,
+    "output_tokens": 1722,
+    "usd": 0.0052071
+   },
+   {
+    "contract": "CUAD_REAL_001",
+    "findings": 14,
+    "wall_s": 34.64744050000445,
+    "gemini_s": 6.632,
+    "calls": 1,
+    "input_tokens": 8129,
+    "output_tokens": 1860,
+    "usd": 0.0070887
+   }
+  ],
+  "usd_per_review": 0.0061478999999999995,
+  "overloaded": 0
+ },
+ "gemini_503_retries": 25
+}

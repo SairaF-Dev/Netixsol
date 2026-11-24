@@ -554,6 +554,15 @@ def audit_log(n: int = 200, user: access.User = Depends(current_user)) -> Dict:
     return {"intact": intact, "entries": entries, "first_broken_line": broken, "log": audit.tail(max(1, min(n, 1000)))[::-1]}
 
 
+@app.get("/api/dashboard")
+def dashboard(user: access.User = Depends(current_user)) -> Dict:
+    """All evaluation figures in one place (evaluations/dashboard.json, built by evaluations/dashboard.py)."""
+    path = ROOT / "evaluations" / "dashboard.json"
+    if not path.exists():
+        raise HTTPException(404, "The dashboard has not been built (python evaluations/dashboard.py).")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 # ----------------------------------------------------------------------------- blind rating (Day 5)
 RATING_SET = ROOT / "evaluations" / "blind_rating_set.json"
 RATING_KEY = ROOT / "evaluations" / "blind_rating_key.json"
