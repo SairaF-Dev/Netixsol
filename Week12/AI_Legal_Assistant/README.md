@@ -20,6 +20,7 @@ demos and grading - it stops when idle). Demo sign-ins are given with the submis
 | [API reference](docs/api.md) | Every endpoint, with examples (interactive: `/api/docs`) |
 | [Deployment](docs/deployment.md) | Laptop, Docker (API, worker, Qdrant, Neo4j) and the live Codespace |
 | [Future enhancements](docs/future_enhancements.md) | What comes next, from measured gaps and the red team |
+| [Demo script](docs/demo_script.md) | The 10-minute live demo: clicks, what to say, timings, fallbacks |
 | [Red-team report](evaluations/red_team_report.md) | 80 attacks on the running app, 7 weaknesses found and fixed |
 | [Graph schema](docs/graph_schema.md) | Node and relationship types of the knowledge graph |
 | Evaluation reports | `evaluations/*.md` - one per experiment, also on the app's Accuracy Audits page |
