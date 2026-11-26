@@ -10,6 +10,7 @@ scipy
 
 # content ingestion
 faster-whisper        # Whisper with segment timestamps, CPU int8 friendly
+jiwer                 # word error rate vs official subtitles
 pymupdf               # slide / notes PDF text extraction
 python-pptx           # .pptx slide extraction
 chromadb              # vector DB (local, file based)

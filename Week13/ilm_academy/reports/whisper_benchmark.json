@@ -1,0 +1,37 @@
+{
+ "lesson": 5,
+ "minutes": 5.0,
+ "reference": "official CS50P English .srt",
+ "results": [
+  {
+   "model": "tiny",
+   "audio_sec": 300.0,
+   "elapsed_sec": 16.2,
+   "speed_x_realtime": 18.53,
+   "compute_type": "int8",
+   "wer": 0.0613,
+   "ref_words": 913,
+   "hyp_words": 939
+  },
+  {
+   "model": "base",
+   "audio_sec": 300.0,
+   "elapsed_sec": 27.6,
+   "speed_x_realtime": 10.89,
+   "compute_type": "int8",
+   "wer": 0.0526,
+   "ref_words": 913,
+   "hyp_words": 938
+  },
+  {
+   "model": "small",
+   "audio_sec": 300.0,
+   "elapsed_sec": 91.2,
+   "speed_x_realtime": 3.29,
+   "compute_type": "int8",
+   "wer": 0.0427,
+   "ref_words": 913,
+   "hyp_words": 934
+  }
+ ]
+}

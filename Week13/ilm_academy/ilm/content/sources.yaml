@@ -1,0 +1,29 @@
+# Course content sources. Every lesson we ingest must be listed here with its licence.
+# Verified on 2026-11-26 from https://cs50.harvard.edu/python/license/
+#
+# Attribution (required by CC BY-NC-SA 4.0):
+#   "CS50's Introduction to Programming with Python" by David J. Malan, Harvard University,
+#   licensed under CC BY-NC-SA 4.0. Transcripts, chunks and embeddings derived from it are
+#   shared under the same licence, for non-commercial educational use only.
+
+course:
+  id: cs50p
+  title: "CS50's Introduction to Programming with Python"
+  author: "David J. Malan, Harvard University"
+  homepage: https://cs50.harvard.edu/python/
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  cdn_base: https://cdn.cs50.net/python/2022/x/lectures
+
+# lesson_id -> title and YouTube id (used to build "watch at 12:34" links: https://youtu.be/<id>?t=<sec>)
+lessons:
+  - {n: 0, id: cs50p-l0, title: "Functions, Variables", youtube: "JP7ITIXGpHk"}
+  - {n: 1, id: cs50p-l1, title: "Conditionals", youtube: "_b6NgY_pMdw"}
+  - {n: 2, id: cs50p-l2, title: "Loops", youtube: "-7xg8pGcP6w"}
+  - {n: 3, id: cs50p-l3, title: "Exceptions", youtube: "LW7g1169v7w"}
+  - {n: 4, id: cs50p-l4, title: "Libraries", youtube: "MztLZWibctI"}
+  - {n: 5, id: cs50p-l5, title: "Unit Tests", youtube: "tIrcxwLqzjQ"}
+  - {n: 6, id: cs50p-l6, title: "File I/O", youtube: "KD-Yoel6EVQ"}
+  - {n: 7, id: cs50p-l7, title: "Regular Expressions", youtube: "hy3sd9MOAcc"}
+  - {n: 8, id: cs50p-l8, title: "Object-Oriented Programming", youtube: "e4fwY9ZsxPw"}
+  - {n: 9, id: cs50p-l9, title: "Et Cetera", youtube: "6pgodt1mezg"}
