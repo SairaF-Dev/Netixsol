@@ -1,0 +1,76 @@
+# Retrieval benchmark: does search find the right lesson for a student question?
+#
+# Rules (written 2026-11-26, before any fix was tuned):
+# - Student language, NOT copied from lecture text (copying would leak the answer).
+# - type: term    = student uses the technical word ("recursion", "dictionary")
+#         symptom = student describes what they see, without the term
+# - lessons: every lesson that genuinely answers the question (any one counts as a hit).
+# - split: dev = used while choosing and tuning fixes.
+#          holdout = scored ONCE at the end; never used for tuning.
+#   Questions already tried by hand during development are in dev.
+
+questions:
+  # ---- cs50p-l0: functions, variables, strings ----
+  - {q: "how do I define my own function with def", type: term, lessons: [cs50p-l0], split: dev}
+  - {q: "my name prints with extra spaces at the start, how do I remove them", type: symptom, lessons: [cs50p-l0], split: holdout}
+  - {q: "how do f-strings round a float to two decimal places", type: term, lessons: [cs50p-l0], split: holdout}
+  - {q: "when I add two numbers the user typed I get 12 instead of 3", type: symptom, lessons: [cs50p-l0], split: dev}
+
+  # ---- cs50p-l1: conditionals ----
+  - {q: "what is the difference between elif and else", type: term, lessons: [cs50p-l1], split: holdout}
+  - {q: "how do I make my program do something only when the score is above 90", type: symptom, lessons: [cs50p-l1], split: dev}
+  - {q: "how does the modulo operator tell if a number is even", type: term, lessons: [cs50p-l1], split: holdout}
+  - {q: "is there a cleaner way than lots of ifs to compare one value against many options", type: symptom, lessons: [cs50p-l1], split: holdout}
+
+  # ---- cs50p-l2: loops, lists, dictionaries ----
+  - {q: "how does a for loop work with range", type: term, lessons: [cs50p-l2], split: dev}
+  - {q: "I want to print meow three times without copy pasting the same line", type: symptom, lessons: [cs50p-l2], split: dev}
+  - {q: "how do I store key value pairs in a dictionary", type: term, lessons: [cs50p-l2, mit6001-l6], split: dev}
+  - {q: "my program never stops and keeps running the same lines forever", type: symptom, lessons: [cs50p-l2], split: dev}
+  - {q: "how do I keep asking the user again until they type a positive number", type: symptom, lessons: [cs50p-l2, cs50p-l3], split: dev}
+
+  # ---- cs50p-l3: exceptions ----
+  - {q: "how do I use try and except to catch a ValueError", type: term, lessons: [cs50p-l3], split: dev}
+  - {q: "my program crashes when the user types a word instead of a number", type: symptom, lessons: [cs50p-l3], split: dev}
+  - {q: "what does pass do inside an except block", type: term, lessons: [cs50p-l3], split: holdout}
+
+  # ---- cs50p-l4: libraries ----
+  - {q: "how do I import the random module and pick a random item", type: term, lessons: [cs50p-l4], split: dev}
+  - {q: "how can my script read the words I type after python file.py in the terminal", type: symptom, lessons: [cs50p-l4], split: holdout}
+  - {q: "how do I install a package with pip", type: term, lessons: [cs50p-l4], split: holdout}
+  - {q: "how can my program get live data from a website", type: symptom, lessons: [cs50p-l4], split: dev}
+
+  # ---- cs50p-l5: unit tests ----
+  - {q: "how do I write tests with pytest", type: term, lessons: [cs50p-l5], split: holdout}
+  - {q: "how do I check my code automatically with tests", type: symptom, lessons: [cs50p-l5], split: dev}
+  - {q: "how can I be sure my function still gives the right answers after I change it", type: symptom, lessons: [cs50p-l5], split: holdout}
+  - {q: "what does assert do", type: term, lessons: [cs50p-l5], split: dev}
+
+  # ---- cs50p-l6: file I/O ----
+  - {q: "how do I open a file using the with statement", type: term, lessons: [cs50p-l6], split: dev}
+  - {q: "my program forgets all the names once it closes, how do I keep them", type: symptom, lessons: [cs50p-l6], split: holdout}
+  - {q: "how do I read a CSV file with DictReader", type: term, lessons: [cs50p-l6], split: holdout}
+  - {q: "how do I make an animated gif out of a few pictures", type: symptom, lessons: [cs50p-l6], split: dev}
+
+  # ---- cs50p-l7: regular expressions ----
+  - {q: "how do I use re.search to validate an email address", type: term, lessons: [cs50p-l7], split: holdout}
+  - {q: "how can I check that what the user typed looks like a real email", type: symptom, lessons: [cs50p-l7], split: dev}
+  - {q: "how do I pull just the username out of a twitter link the user pasted", type: symptom, lessons: [cs50p-l7], split: dev}
+
+  # ---- cs50p-l8: object-oriented programming ----
+  - {q: "what is the __init__ method in a class", type: term, lessons: [cs50p-l8], split: dev}
+  - {q: "I want to bundle a student's name and house together and reject a house that doesn't exist", type: symptom, lessons: [cs50p-l8], split: holdout}
+  - {q: "how does inheritance work between classes", type: term, lessons: [cs50p-l8], split: dev}
+  - {q: "how can I make the plus sign work for my own objects", type: symptom, lessons: [cs50p-l8], split: dev}
+
+  # ---- cs50p-l9: et cetera ----
+  - {q: "how do list comprehensions work", type: term, lessons: [cs50p-l9], split: dev}
+  - {q: "how do I get both the position and the item when looping over a list", type: symptom, lessons: [cs50p-l9], split: dev}
+  - {q: "what are type hints and does mypy check them", type: term, lessons: [cs50p-l9], split: dev}
+  - {q: "my program uses too much memory building a huge list of numbers", type: symptom, lessons: [cs50p-l9], split: dev}
+
+  # ---- mit6001-l6: recursion ----
+  - {q: "what is recursion and what is a base case", type: term, lessons: [mit6001-l6], split: dev}
+  - {q: "why does my function keep calling itself", type: symptom, lessons: [mit6001-l6], split: dev}
+  - {q: "I get maximum depth exceeded when my function runs", type: symptom, lessons: [mit6001-l6], split: holdout}
+  - {q: "how can I solve a problem by reducing it to a smaller copy of the same problem", type: symptom, lessons: [mit6001-l6], split: holdout}

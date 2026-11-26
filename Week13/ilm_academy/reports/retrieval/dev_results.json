@@ -1,0 +1,812 @@
+[
+ {
+  "system": "bm25",
+  "overall": {
+   "n": 27,
+   "hit@1": 0.778,
+   "hit@5": 0.889,
+   "mrr": 0.817
+  },
+  "by_type": {
+   "term": {
+    "n": 12,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 15,
+    "hit@1": 0.6,
+    "hit@5": 0.8,
+    "mrr": 0.67
+   }
+  },
+  "rows": [
+   {
+    "q": "how do I define my own function with def",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l2",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "when I add two numbers the user typed I get 12 instead of 3",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how do I make my program do something only when the score is above 90",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does a for loop work with range",
+    "type": "term",
+    "lessons": [
+     "cs50p-l2"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "I want to print meow three times without copy pasting the same line",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l2"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I store key value pairs in a dictionary",
+    "type": "term",
+    "lessons": [
+     "cs50p-l2",
+     "mit6001-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "my program never stops and keeps running the same lines forever",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l2"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l3",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I keep asking the user again until they type a positive number",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l2",
+     "cs50p-l3"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I use try and except to catch a ValueError",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "my program crashes when the user types a word instead of a number",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "dev",
+    "rank": 2,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l3",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I import the random module and pick a random item",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "how can my program get live data from a website",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "dev",
+    "rank": 10,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I check my code automatically with tests",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l2",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "what does assert do",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how do I open a file using the with statement",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I make an animated gif out of a few pictures",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how can I check that what the user typed looks like a real email",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "how do I pull just the username out of a twitter link the user pasted",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "what is the __init__ method in a class",
+    "type": "term",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "how does inheritance work between classes",
+    "type": "term",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "how can I make the plus sign work for my own objects",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "dev",
+    "rank": 4,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how do list comprehensions work",
+    "type": "term",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l9",
+     "cs50p-l9",
+     "cs50p-l9"
+    ]
+   },
+   {
+    "q": "how do I get both the position and the item when looping over a list",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": null,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "what are type hints and does mypy check them",
+    "type": "term",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l9",
+     "cs50p-l9",
+     "cs50p-l9"
+    ]
+   },
+   {
+    "q": "my program uses too much memory building a huge list of numbers",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": null,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "what is recursion and what is a base case",
+    "type": "term",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "why does my function keep calling itself",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "dev",
+    "rank": 5,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l2"
+    ]
+   }
+  ]
+ },
+ {
+  "system": "vector:bge-small-en-v1.5",
+  "overall": {
+   "n": 27,
+   "hit@1": 0.852,
+   "hit@5": 0.852,
+   "mrr": 0.856
+  },
+  "by_type": {
+   "term": {
+    "n": 12,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 15,
+    "hit@1": 0.733,
+    "hit@5": 0.733,
+    "mrr": 0.742
+   }
+  },
+  "rows": [
+   {
+    "q": "how do I define my own function with def",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "when I add two numbers the user typed I get 12 instead of 3",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l2",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how do I make my program do something only when the score is above 90",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does a for loop work with range",
+    "type": "term",
+    "lessons": [
+     "cs50p-l2"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "I want to print meow three times without copy pasting the same line",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l2"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I store key value pairs in a dictionary",
+    "type": "term",
+    "lessons": [
+     "cs50p-l2",
+     "mit6001-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "my program never stops and keeps running the same lines forever",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l2"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I keep asking the user again until they type a positive number",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l2",
+     "cs50p-l3"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I use try and except to catch a ValueError",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "my program crashes when the user types a word instead of a number",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how do I import the random module and pick a random item",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how can my program get live data from a website",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how do I check my code automatically with tests",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "what does assert do",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how do I open a file using the with statement",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I make an animated gif out of a few pictures",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how can I check that what the user typed looks like a real email",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "how do I pull just the username out of a twitter link the user pasted",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "what is the __init__ method in a class",
+    "type": "term",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "how does inheritance work between classes",
+    "type": "term",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "how can I make the plus sign work for my own objects",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "dev",
+    "rank": null,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l2",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how do list comprehensions work",
+    "type": "term",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l9",
+     "cs50p-l9",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how do I get both the position and the item when looping over a list",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": 8,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "what are type hints and does mypy check them",
+    "type": "term",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "cs50p-l9",
+     "cs50p-l9",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "my program uses too much memory building a huge list of numbers",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l9"
+    ],
+    "split": "dev",
+    "rank": null,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l2",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "what is recursion and what is a base case",
+    "type": "term",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "dev",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "why does my function keep calling itself",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "dev",
+    "rank": null,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l1",
+     "cs50p-l0"
+    ]
+   }
+  ]
+ }
+]

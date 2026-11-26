@@ -147,6 +147,7 @@ pyvis==0.3.2
 pywinpty==3.1.2
 PyYAML==6.0.4
 pyzmq==27.3.0
+rank-bm25==0.2.2
 RapidFuzz==3.14.6
 referencing==0.37.0
 regex==2026.11.25

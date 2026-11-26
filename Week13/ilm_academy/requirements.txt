@@ -15,6 +15,7 @@ pymupdf               # slide / notes PDF text extraction
 beautifulsoup4        # notes HTML parsing (was only a transitive dependency)
 python-pptx           # .pptx slide extraction
 chromadb              # vector DB (local, file based)
+rank-bm25             # keyword-search baseline for the retrieval benchmark
 sentence-transformers # embeddings for chunks
 
 # concept graph
