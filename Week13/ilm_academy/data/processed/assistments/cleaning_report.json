@@ -1,0 +1,16 @@
+{
+ "raw_rows": 525534,
+ "raw_users": 4217,
+ "dropped_no_skill": 66326,
+ "dropped_repeated_same_skill": 121207,
+ "merged_multi_skill_copies": 54896,
+ "multi_skill_answers": 47037,
+ "blanked_bad_response_times": 445,
+ "rows": 283105,
+ "users": 4163,
+ "problems": 17751,
+ "skills": 149,
+ "accuracy": 0.658,
+ "answers_per_user_median": 20.0,
+ "users_with_under_5_answers": 519
+}

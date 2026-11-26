@@ -71,3 +71,37 @@
    misconception? Write one better distractor if not.
 9. About 40 MCQs (e.g. "what is self?") cannot be checked by running code. How could we still
    catch a wrong answer key in them? (Hint: Day 2 data.)
+
+## Part 5: Learner data (2026-11-26)
+
+### Real data: ASSISTments 2009-2010 skill builder
+- 525,534 rows, but only 283,105 real answers. The rest were copies: the same answer repeated
+  under the same skill (a documented bug), multi-skill answers copied once per skill, and rows
+  with no skill. Copies leak answers to knowledge-tracing models and inflate their scores.
+- Rule: one row per real answer, multi-skill problems get one combined skill, time order.
+  Every dropped row is counted (`cleaning_report.json`) and the counts add up exactly.
+- Checked before relying on it: the copies of an answer never disagree on correct, student or
+  problem, so keeping the first copy loses nothing.
+- Even plain accuracy was inflated by the copies: 0.679 raw vs 0.658 clean.
+
+### Simulated data: 1,000 students + Ali and Sara
+- Hidden traits per student: ability, learning rate, speed, slip, motivation (`truth_*` columns).
+- `truth_*` columns are the ANSWER KEY for scoring Day 2, never model inputs.
+  `simulator.public(df)` strips them.
+- Dropout base rate found by bisection so that 45% quit before week 4 (the client's figure).
+- 14 questions are planted as "bad" (ability does not predict them). Day 2 IRT should find them,
+  and with simulated data we can check whether it did.
+
+### Checking the simulator against real students
+- Found a bug by comparing: real students improve with practice, simulated ones got WORSE.
+  Cause: I ordered each concept's questions easy-first, so every attempt was harder. Fixed
+  with a fixed shuffled order.
+- A worry that turned out wrong: ability vs accuracy correlation 0.88 looked "too clean".
+  Measured split-half reliability on equal-length histories: simulated 0.53 vs real 0.74,
+  so the simulation is NOT too clean. Measure before you "fix".
+
+### Check yourself
+10. Why must every student be wholly in train or wholly in test?
+11. Why can a model look excellent on simulated data and still fail on real students?
+12. The client says 45% drop out before week 4. Name two things the simulator CANNOT tell us
+    about why real students drop out.

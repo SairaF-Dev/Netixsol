@@ -1,0 +1,24 @@
+{
+ "students": 1000,
+ "personas": [
+  "ali",
+  "sara"
+ ],
+ "interactions": 107298,
+ "seed": 42,
+ "calibrated_drop_base": -1.511,
+ "dropout_before_week4": 0.45,
+ "dropped_by_week": {
+  "1": 177,
+  "2": 151,
+  "3": 122,
+  "4": 94,
+  "5": 62,
+  "6": 58,
+  "7": 30,
+  "8": 11
+ },
+ "finished_course": 237,
+ "overall_accuracy": 0.533,
+ "bad_questions_planted": 14
+}

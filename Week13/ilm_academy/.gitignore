@@ -15,6 +15,10 @@ data/raw/*
 data/videos/*
 !data/videos/.gitkeep
 data/processed/chroma/
+# ASSISTments belongs to its authors (research use): keep only our cleaning report in git;
+# rebuild the data with: python -m ilm.learners.assistments
+data/processed/assistments/*
+!data/processed/assistments/cleaning_report.json
 models/*
 !models/.gitkeep
 
