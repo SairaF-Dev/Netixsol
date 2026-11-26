@@ -1,0 +1,432 @@
+# CS50P Lecture 8: object-oriented programming (and raising exceptions).
+# Code tests may build an object and use it in one expression with the walrus
+# operator:  (c := Counter(), c.increment(), c.value)[-1]  -> the last value.
+
+questions:
+  # ---------------- raising_exceptions ----------------
+  - id: raising_exceptions-01
+    type: code
+    concepts: [raising_exceptions, if_statements]
+    difficulty: 3
+    bloom: apply
+    stem: Write check_age(age) that returns age when it is between 0 and 150 (inclusive) and raises ValueError otherwise.
+    function: check_age
+    solution: |
+      def check_age(age):
+          if age < 0 or age > 150:
+              raise ValueError("age out of range")
+          return age
+    buggy: |
+      def check_age(age):
+          if age < 0 or age > 150:
+              print("age out of range")
+          return age
+    tests:
+      - {call: "check_age(30)", expect: "30"}
+      - {call: "check_age(-1)", raises: ValueError, hidden: true}
+      - {call: "check_age(200)", raises: ValueError, hidden: true}
+      - {call: "check_age(0)", expect: "0", hidden: true}
+
+  - id: raising_exceptions-02
+    type: mcq
+    concepts: [raising_exceptions, try_except]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      def check(n):
+          if n < 0:
+              raise ValueError("negative")
+          return n
+      try:
+          check(-5)
+      except ValueError as e:
+          print(e)
+    check_output: true
+    options: ["negative", "ValueError", "-5", "None"]
+    answer: 0
+    misconceptions:
+      1: printing the exception shows only its type
+      2: the exception holds the value that caused it
+      3: a function that raises returns None
+
+  - id: raising_exceptions-03
+    type: mcq
+    concepts: [raising_exceptions, classes_objects]
+    difficulty: 4
+    bloom: evaluate
+    stem: Student.__init__ receives an empty name. What is the best thing for it to do?
+    options:
+      - raise ValueError("Missing name")
+      - print("Missing name") and carry on
+      - sys.exit("Missing name")
+      - Quietly set the name to "Unknown"
+    answer: 0
+    misconceptions:
+      1: printing a warning stops a broken object from being created
+      2: ending the whole program is a good way for a class to report a problem
+      3: hiding bad data is safer than reporting it
+
+  # ---------------- classes_objects ----------------
+  - id: classes_objects-01
+    type: mcq
+    concepts: [classes_objects]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      class Student:
+          def __init__(self, name, house):
+              self.name = name
+              self.house = house
+      s = Student("Harry", "Gryffindor")
+      print(s.house)
+    check_output: true
+    options: ["Gryffindor", "house", "Harry", "AttributeError"]
+    answer: 0
+    misconceptions:
+      1: an attribute lookup returns the attribute's name
+      2: attributes are looked up by position, not by name
+      3: attributes set in __init__ are not kept on the object
+
+  - id: classes_objects-02
+    type: mcq
+    concepts: [classes_objects]
+    difficulty: 2
+    bloom: remember
+    stem: Inside a method, what is self?
+    options:
+      - The object the method was called on
+      - The class itself
+      - An argument the caller must type in every call
+      - A global variable shared by all objects
+    answer: 0
+    misconceptions:
+      1: self refers to the class, not the object
+      2: you pass self explicitly when calling obj.method()
+      3: self is shared between all objects
+
+  - id: classes_objects-03
+    type: code
+    concepts: [classes_objects]
+    difficulty: 3
+    bloom: apply
+    stem: Write a class Counter. A new Counter has value 0, and its method increment() adds 1 to value.
+    function: Counter
+    solution: |
+      class Counter:
+          def __init__(self):
+              self.value = 0
+          def increment(self):
+              self.value += 1
+    buggy: |
+      class Counter:
+          def __init__(self):
+              self.value = 0
+          def increment(self):
+              value = self.value + 1
+    tests:
+      - {call: "(c := Counter(), c.increment(), c.increment(), c.value)[-1]", expect: "2"}
+      - {call: "Counter().value", expect: "0", hidden: true}
+      - {call: "(a := Counter(), b := Counter(), a.increment(), b.value)[-1]", expect: "0", hidden: true}
+
+  - id: classes_objects-04
+    type: mcq
+    concepts: [classes_objects]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      class Point:
+          def __init__(self, x, y):
+              self.x, self.y = x, y
+          def __str__(self):
+              return f"({self.x}, {self.y})"
+      print(Point(1, 2))
+    check_output: true
+    options: ["(1, 2)", "<__main__.Point object>", "Point(1, 2)"]
+    answer: 0
+    misconceptions:
+      1: print ignores __str__
+      2: print shows the code that made the object
+
+  # ---------------- properties_decorators ----------------
+  - id: properties_decorators-01
+    type: mcq
+    concepts: [properties_decorators]
+    difficulty: 4
+    bloom: analyze
+    stem: What happens when you run this program?
+    code: |
+      class Student:
+          def __init__(self, house):
+              self.house = house
+          @property
+          def house(self):
+              return self._house
+          @house.setter
+          def house(self, value):
+              if value not in ["Gryffindor", "Slytherin"]:
+                  raise ValueError("Invalid house")
+              self._house = value
+      s = Student("Gryffindor")
+      s.house = "Mordor"
+    check_output: true
+    options: ["ValueError", "Nothing is printed; the house becomes Mordor", "AttributeError"]
+    answer: 0
+    misconceptions:
+      1: the setter only runs inside __init__
+      2: a property cannot be assigned to
+
+  - id: properties_decorators-02
+    type: mcq
+    concepts: [properties_decorators]
+    difficulty: 5
+    bloom: analyze
+    stem: In the house setter above, why is the value stored in self._house and not in self.house?
+    options:
+      - self.house = value inside the setter would call the setter again and again (RecursionError)
+      - The underscore makes the attribute private, so Python blocks access from outside
+      - Python requires property names to start with an underscore
+      - There is no reason; both work the same
+    answer: 0
+    misconceptions:
+      1: a leading underscore is enforced privacy (it is only a convention)
+      2: the underscore is a syntax rule for properties
+      3: assigning to the property name inside its own setter is harmless
+
+  - id: properties_decorators-03
+    type: code
+    concepts: [properties_decorators, classes_objects]
+    difficulty: 4
+    bloom: apply
+    stem: Write a class Temperature(celsius) with a read-only property fahrenheit (celsius * 9 / 5 + 32) that is always up to date, even after celsius changes.
+    function: Temperature
+    solution: |
+      class Temperature:
+          def __init__(self, celsius):
+              self.celsius = celsius
+          @property
+          def fahrenheit(self):
+              return self.celsius * 9 / 5 + 32
+    buggy: |
+      class Temperature:
+          def __init__(self, celsius):
+              self.celsius = celsius
+              self.fahrenheit = celsius * 9 / 5 + 32
+    tests:
+      - {call: "Temperature(100).fahrenheit", expect: "212.0"}
+      - {call: "Temperature(0).fahrenheit", expect: "32.0", hidden: true}
+      - {call: "(t := Temperature(10), setattr(t, 'celsius', 20), t.fahrenheit)[-1]", expect: "68.0", hidden: true}
+
+  # ---------------- class_static_methods ----------------
+  - id: class_static_methods-01
+    type: mcq
+    concepts: [class_static_methods]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      class Hat:
+          houses = ["Gryffindor", "Slytherin"]
+          @classmethod
+          def count(cls):
+              return len(cls.houses)
+      print(Hat.count())
+    check_output: true
+    options: ["2", "TypeError", "AttributeError"]
+    answer: 0
+    misconceptions:
+      1: you must create an object before calling any method
+      2: class variables cannot be reached through cls
+
+  - id: class_static_methods-02
+    type: mcq
+    concepts: [class_static_methods]
+    difficulty: 3
+    bloom: understand
+    stem: When should a method be a @classmethod instead of a normal method?
+    options:
+      - When it works with the class as a whole, such as shared data or another way to create objects, not with one object
+      - When it is called very often
+      - When it has no parameters at all
+      - When the class only ever has one object
+    answer: 0
+    misconceptions:
+      1: classmethod is a speed feature
+      2: classmethod is for methods with no arguments
+      3: classmethod is for classes with a single object
+
+  - id: class_static_methods-03
+    type: code
+    concepts: [class_static_methods, string_methods]
+    difficulty: 4
+    bloom: apply
+    stem: 'Write a class Student(name, house) with a classmethod from_string(cls, text) that builds a Student from text like "Harry,Gryffindor".'
+    function: Student
+    solution: |
+      class Student:
+          def __init__(self, name, house):
+              self.name = name
+              self.house = house
+          @classmethod
+          def from_string(cls, text):
+              name, house = text.split(",")
+              return cls(name, house)
+    buggy: |
+      class Student:
+          def __init__(self, name, house):
+              self.name = name
+              self.house = house
+          @classmethod
+          def from_string(cls, text):
+              return text.split(",")
+    tests:
+      - {call: 'Student.from_string("Harry,Gryffindor").house', expect: "'Gryffindor'"}
+      - {call: 'Student.from_string("Draco,Slytherin").name', expect: "'Draco'", hidden: true}
+      - {call: 'type(Student.from_string("A,B")).__name__', expect: "'Student'", hidden: true}
+
+  # ---------------- inheritance ----------------
+  - id: inheritance-01
+    type: mcq
+    concepts: [inheritance]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      class Wizard:
+          def __init__(self, name):
+              self.name = name
+      class Student(Wizard):
+          def __init__(self, name, house):
+              super().__init__(name)
+              self.house = house
+      s = Student("Harry", "Gryffindor")
+      print(s.name, s.house)
+    check_output: true
+    options: ["Harry Gryffindor", "AttributeError", "None Gryffindor"]
+    answer: 0
+    misconceptions:
+      1: a child class cannot use attributes set by the parent
+      2: an attribute set by the parent starts as None in the child
+
+  - id: inheritance-02
+    type: mcq
+    concepts: [inheritance]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      class Animal:
+          def sound(self):
+              return "..."
+      class Cat(Animal):
+          def sound(self):
+              return "meow"
+      print(Cat().sound(), Animal().sound())
+    check_output: true
+    options: ["meow ...", "meow meow", "... ..."]
+    answer: 0
+    misconceptions:
+      1: overriding a method in the child changes the parent too
+      2: the parent's method always wins
+
+  - id: inheritance-03
+    type: mcq
+    concepts: [inheritance]
+    difficulty: 4
+    bloom: analyze
+    stem: What happens when you run this program?
+    code: |
+      class Wizard:
+          def __init__(self, name):
+              self.name = name
+      class Student(Wizard):
+          def __init__(self, name, house):
+              self.house = house
+      print(Student("Harry", "Gryffindor").name)
+    check_output: true
+    options: ["AttributeError", "Harry", "None"]
+    answer: 0
+    misconceptions:
+      1: the parent's __init__ runs automatically even when the child defines its own
+      2: a missing attribute is None
+
+  - id: inheritance-04
+    type: short
+    concepts: [inheritance]
+    difficulty: 4
+    bloom: evaluate
+    stem: When does inheritance make sense? Explain the "is a" rule with an example.
+    rubric:
+      - Use inheritance when the child IS A kind of the parent (a Student is a Wizard)
+      - The child reuses the parent's code and adds to or changes its behaviour
+      - If the relationship is "has a", store the other object as an attribute instead
+
+  # ---------------- operator_overloading ----------------
+  - id: operator_overloading-01
+    type: mcq
+    concepts: [operator_overloading]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      class Vault:
+          def __init__(self, galleons):
+              self.galleons = galleons
+          def __add__(self, other):
+              return Vault(self.galleons + other.galleons)
+      total = Vault(5) + Vault(7)
+      print(total.galleons)
+    check_output: true
+    options: ["12", "57", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: + between objects joins them like strings
+      2: + can never be used with your own objects
+
+  - id: operator_overloading-02
+    type: code
+    concepts: [operator_overloading, classes_objects]
+    difficulty: 4
+    bloom: create
+    stem: Write a class Money(amount) where Money(2) + Money(3) gives a NEW Money with amount 5, and Money(2) == Money(2) is True.
+    function: Money
+    solution: |
+      class Money:
+          def __init__(self, amount):
+              self.amount = amount
+          def __add__(self, other):
+              return Money(self.amount + other.amount)
+          def __eq__(self, other):
+              return self.amount == other.amount
+    buggy: |
+      class Money:
+          def __init__(self, amount):
+              self.amount = amount
+          def __add__(self, other):
+              return self.amount + other.amount
+          def __eq__(self, other):
+              return self.amount == other.amount
+    tests:
+      - {call: "(Money(2) + Money(3)).amount", expect: "5"}
+      - {call: "Money(1) + Money(1) == Money(2)", expect: "True", hidden: true}
+      - {call: "type(Money(1) + Money(2)).__name__", expect: "'Money'", hidden: true}
+
+  - id: operator_overloading-03
+    type: mcq
+    concepts: [operator_overloading]
+    difficulty: 2
+    bloom: understand
+    stem: What happens when you run this program?
+    code: |
+      class Box:
+          def __init__(self, n):
+              self.n = n
+      print(Box(1) + Box(2))
+    check_output: true
+    options: ["TypeError", "3", "a Box holding 3"]
+    answer: 0
+    misconceptions:
+      1: Python adds objects' attributes automatically
+      2: Python creates a combined object automatically

@@ -1,0 +1,118 @@
+# CS50P Lecture 7: regular expressions.
+
+questions:
+  - id: regular_expressions-01
+    type: mcq
+    concepts: [regular_expressions]
+    difficulty: 3
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      import re
+      print(bool(re.search(r"^\d{3}$", "1234")))
+    check_output: true
+    options: ["False", "True", "error"]
+    answer: 0
+    misconceptions:
+      1: ^ and $ are ignored, so three digits anywhere is a match
+      2: "{3} is not valid regex syntax"
+
+  - id: regular_expressions-02
+    type: mcq
+    concepts: [regular_expressions]
+    difficulty: 2
+    bloom: remember
+    stem: In a regular expression, what does .+ match?
+    options:
+      - One or more of any character (except a newline)
+      - A dot followed by a plus sign
+      - Zero or more characters
+      - Exactly one character
+    answer: 0
+    misconceptions:
+      1: . and + are literal characters in a pattern
+      2: "+ means zero or more (that is *)"
+      3: + has no effect on the dot
+
+  - id: regular_expressions-03
+    type: code
+    concepts: [regular_expressions, boolean_expressions]
+    difficulty: 3
+    bloom: apply
+    stem: 'Write is_valid_email(s) that returns True only for name@domain.edu style addresses: one or more non-@ characters, one @, a domain, a dot, and an ending of com, edu or org. Use re.'
+    function: is_valid_email
+    solution: |
+      import re
+      def is_valid_email(s):
+          return re.fullmatch(r"[^@\s]+@[^@\s]+\.(com|edu|org)", s) is not None
+    buggy: |
+      def is_valid_email(s):
+          return "@" in s
+    tests:
+      - {call: 'is_valid_email("malan@harvard.edu")', expect: "True"}
+      - {call: 'is_valid_email("malan@@harvard.edu")', expect: "False", hidden: true}
+      - {call: 'is_valid_email("malan@harvard")', expect: "False", hidden: true}
+      - {call: 'is_valid_email("@harvard.edu")', expect: "False", hidden: true}
+
+  - id: regular_expressions-04
+    type: mcq
+    concepts: [regular_expressions]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      import re
+      m = re.search(r"(\w+)@(\w+)\.edu", "malan@harvard.edu")
+      print(m.group(2))
+    check_output: true
+    options: ["harvard", "malan", "malan@harvard.edu", "edu"]
+    answer: 0
+    misconceptions:
+      1: group numbers start at 0 for the first bracket
+      2: group(2) returns the whole match
+      3: groups are counted from the end
+
+  - id: regular_expressions-05
+    type: code
+    concepts: [regular_expressions]
+    difficulty: 4
+    bloom: create
+    stem: 'Write extract_username(url) that returns the username from a Twitter profile link. The link may start with https:// or http:// or nothing, and may have www. before twitter.com. extract_username("https://twitter.com/davidjmalan") returns "davidjmalan".'
+    function: extract_username
+    solution: |
+      import re
+      def extract_username(url):
+          return re.sub(r"^(https?://)?(www\.)?twitter\.com/", "", url)
+    buggy: |
+      def extract_username(url):
+          return url.replace("https://twitter.com/", "")
+    tests:
+      - {call: 'extract_username("https://twitter.com/davidjmalan")', expect: "'davidjmalan'"}
+      - {call: 'extract_username("twitter.com/ada")', expect: "'ada'", hidden: true}
+      - {call: 'extract_username("http://www.twitter.com/grace")', expect: "'grace'", hidden: true}
+
+  - id: regular_expressions-06
+    type: short
+    concepts: [regular_expressions]
+    difficulty: 4
+    bloom: understand
+    stem: Why should regex patterns be written as raw strings, like r"\b\d+\b"?
+    rubric:
+      - In a normal string Python handles backslash escapes first (for example \b becomes a backspace character)
+      - A raw string passes the backslashes to the regex engine unchanged
+
+  - id: regular_expressions-07
+    type: mcq
+    concepts: [regular_expressions]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      import re
+      print(re.sub(r"\s+", " ", "a   b \t c"))
+    check_output: true
+    options: ["a b c", "a   b \t c", "abc"]
+    answer: 0
+    misconceptions:
+      1: re.sub only reports matches and does not replace
+      2: "\\s+ is replaced with nothing because the replacement is a space"

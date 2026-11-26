@@ -34,3 +34,40 @@
 3.
 4.
 5.
+
+## Part 4: Question bank (2026-11-26)
+
+### What we did and why
+- One format (`ilm/questions/schema.py`) for three question types: MCQ, short answer, coding.
+  Day 2 (IRT), Day 3 (generation, calibration) and Day 4 (grading) all read this same format.
+- Every question carries: main concept, difficulty 1-5 (OUR GUESS, a "prior"; IRT measures the
+  real one on Day 2), and a Bloom's level (remember, understand, apply, analyze, evaluate, create).
+- Every wrong MCQ option names the misconception behind it, so a wrong answer tells the tutor
+  WHAT to teach, not just THAT the student is wrong.
+- The lesson link is not stored on the question: it comes from the concept's `taught_in`.
+  One source of truth, so the two can never disagree.
+
+### "Don't trust the author": the validator RUNS the answers
+- "What does this print?": the snippet is executed and the marked option must be the real output.
+- Coding questions: the reference solution must pass all tests, AND a do-nothing stub and a
+  typical wrong solution (`buggy`) must FAIL at least one test. A test nothing can fail grades nothing.
+- Each run is a separate process with a 5-second timeout (protects against our own infinite loops).
+  This is NOT a sandbox for student code; that is Day 4.
+- Two different comparisons: checking AUTHORS is exact (case matters: "Hello World" is not
+  "hello world"); grading STUDENTS' short answers is lenient on case and spacing.
+
+### Bugs we hit
+- YAML: an unquoted `{"a": 2}` or `lambda n: n` inside a value is read as a key. The validator
+  first CRASHED on it; now it reports file + line and keeps checking the other files.
+- A validator that passes everything proves nothing: `tests/test_questions.py` plants each kind
+  of mistake (wrong answer, weak tests, broken solution, typo in a field, infinite loop) and checks
+  that it is caught.
+
+### Check yourself
+6. Why is difficulty written down now if IRT will measure it on Day 2 anyway?
+7. In `square(n)`, the tests `square(2) == 4` and `square(0) == 0` pass for the right solution.
+   Why are they still bad tests? (Hint: try `n * 2` and `n + n`.)
+8. Pick any MCQ in `bank/cs50p-l2.yaml`. For each wrong option, could a real student believe its
+   misconception? Write one better distractor if not.
+9. About 40 MCQs (e.g. "what is self?") cannot be checked by running code. How could we still
+   catch a wrong answer key in them? (Hint: Day 2 data.)

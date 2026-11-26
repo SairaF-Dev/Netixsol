@@ -1,0 +1,153 @@
+# MIT 6.0001 Lecture 6: recursion (and dictionaries).
+# Recursion is the Day 3 tutor scenario ("1 am, stuck on recursion"), so it gets
+# the most questions and the widest spread of levels.
+
+questions:
+  - id: recursion-01
+    type: mcq
+    concepts: [recursion]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      def f(n):
+          if n == 0:
+              return 0
+          return n + f(n - 1)
+      print(f(4))
+    check_output: true
+    options: ["10", "4", "0", "RecursionError"]
+    answer: 0
+    misconceptions:
+      1: the function returns its first argument
+      2: the base case's value is the final answer
+      3: a function calling itself never stops
+
+  - id: recursion-02
+    type: mcq
+    concepts: [recursion]
+    difficulty: 3
+    bloom: analyze
+    stem: What happens when you run this program?
+    code: |
+      def f(n):
+          return n * f(n - 1)
+      print(f(3))
+    check_output: true
+    options: ["RecursionError", "6", "0"]
+    answer: 0
+    misconceptions:
+      1: Python stops the recursion at 1 by itself
+      2: the recursion stops at 0 by itself
+
+  - id: recursion-03
+    type: code
+    concepts: [recursion]
+    difficulty: 2
+    bloom: apply
+    stem: Write a recursive factorial(n) for n >= 0, where factorial(0) is 1 and factorial(n) is n * factorial(n - 1).
+    function: factorial
+    solution: |
+      def factorial(n):
+          if n == 0:
+              return 1
+          return n * factorial(n - 1)
+    buggy: |
+      def factorial(n):
+          if n == 1:
+              return 1
+          return n * factorial(n - 1)
+    tests:
+      - {call: "factorial(5)", expect: "120"}
+      - {call: "factorial(0)", expect: "1", hidden: true}
+      - {call: "factorial(1)", expect: "1", hidden: true}
+
+  - id: recursion-04
+    type: code
+    concepts: [recursion]
+    difficulty: 3
+    bloom: apply
+    stem: Write a recursive fib(n) where fib(0) is 0, fib(1) is 1 and fib(n) is fib(n - 1) + fib(n - 2).
+    function: fib
+    solution: |
+      def fib(n):
+          if n < 2:
+              return n
+          return fib(n - 1) + fib(n - 2)
+    buggy: |
+      def fib(n):
+          if n <= 1:
+              return 1
+          return fib(n - 1) + fib(n - 2)
+    tests:
+      - {call: "fib(6)", expect: "8"}
+      - {call: "fib(0)", expect: "0", hidden: true}
+      - {call: "fib(1)", expect: "1", hidden: true}
+      - {call: "fib(10)", expect: "55", hidden: true}
+
+  - id: recursion-05
+    type: code
+    concepts: [recursion, slicing]
+    difficulty: 4
+    bloom: create
+    stem: 'Write a recursive is_palindrome(s): a string is a palindrome if it has 0 or 1 characters, or if its first and last characters match and the middle is a palindrome.'
+    function: is_palindrome
+    solution: |
+      def is_palindrome(s):
+          if len(s) <= 1:
+              return True
+          return s[0] == s[-1] and is_palindrome(s[1:-1])
+    buggy: |
+      def is_palindrome(s):
+          return s[0] == s[-1]
+    tests:
+      - {call: 'is_palindrome("racecar")', expect: "True"}
+      - {call: 'is_palindrome("ab")', expect: "False", hidden: true}
+      - {call: 'is_palindrome("")', expect: "True", hidden: true}
+      - {call: 'is_palindrome("abca")', expect: "False", hidden: true}
+
+  - id: recursion-06
+    type: short
+    concepts: [recursion]
+    difficulty: 2
+    bloom: remember
+    stem: Every recursive function needs two parts. Name them and say what each one does.
+    rubric:
+      - A base case that returns an answer directly without calling itself, so the recursion stops
+      - A recursive step that calls the function on a smaller version of the problem, moving towards the base case
+
+  - id: recursion-07
+    type: mcq
+    concepts: [recursion]
+    difficulty: 5
+    bloom: evaluate
+    stem: fib(n) written with plain recursion is very slow for n = 35, but a loop version is instant. Why?
+    options:
+      - The recursive version computes the same smaller values again and again, a huge number of times
+      - Python can only make a few function calls per second
+      - Recursion turns all the numbers into floats
+      - The loop version skips most of the numbers
+    answer: 0
+    misconceptions:
+      1: function calls themselves are extremely slow
+      2: recursion changes the number type
+      3: the loop is fast because it does less of the real work
+
+  - id: recursion-08
+    type: short
+    concepts: [recursion, constants_globals]
+    difficulty: 5
+    bloom: analyze
+    stem: Type exactly what this program prints. (It counts how many times fib is called.)
+    code: |
+      calls = 0
+      def fib(n):
+          global calls
+          calls += 1
+          if n < 2:
+              return n
+          return fib(n - 1) + fib(n - 2)
+      fib(5)
+      print(calls)
+    check_output: true
+    accept: ["15"]

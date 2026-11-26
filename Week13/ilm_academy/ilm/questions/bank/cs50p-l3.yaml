@@ -1,0 +1,123 @@
+# CS50P Lecture 3: exceptions.
+
+questions:
+  - id: try_except-01
+    type: mcq
+    concepts: [try_except, type_conversion]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      try:
+          x = int("cat")
+          print("A")
+      except ValueError:
+          print("B")
+      print("C")
+    check_output: true
+    options: ["B\nC", "A\nB\nC", "B", "ValueError"]
+    answer: 0
+    misconceptions:
+      1: the rest of the try block still runs after the error
+      2: the program stops after the except block
+      3: except does not stop the crash, it only labels it
+
+  - id: try_except-02
+    type: code
+    concepts: [try_except, type_conversion]
+    difficulty: 2
+    bloom: apply
+    stem: Write to_int(s) that returns s converted to an int, or None if s is not a valid whole number. Use try/except.
+    function: to_int
+    solution: |
+      def to_int(s):
+          try:
+              return int(s)
+          except ValueError:
+              return None
+    buggy: |
+      def to_int(s):
+          if s.isdigit():
+              return int(s)
+          return None
+    tests:
+      - {call: 'to_int("42")', expect: "42"}
+      - {call: 'to_int("cat")', expect: "None", hidden: true}
+      - {call: 'to_int("-3")', expect: "-3", hidden: true}
+
+  - id: try_except-03
+    type: mcq
+    concepts: [try_except]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      try:
+          n = int("5")
+      except ValueError:
+          print("bad")
+      else:
+          print("good", n)
+    check_output: true
+    options: ["good 5", "bad", "bad\ngood 5"]
+    answer: 0
+    misconceptions:
+      1: else runs when there was an error
+      2: except and else both run
+
+  - id: try_except-04
+    type: mcq
+    concepts: [try_except]
+    difficulty: 4
+    bloom: evaluate
+    stem: Why is except ValueError better than the bare except in this code?
+    code: |
+      try:
+          n = int(input("Number: "))
+      except:
+          print("not a number")
+    options:
+      - A bare except also catches unrelated errors (a typo in a name, Ctrl-C) and wrongly reports them all as "not a number"
+      - A bare except is a syntax error in Python 3
+      - except ValueError makes the program run faster
+      - There is no difference
+    answer: 0
+    misconceptions:
+      1: bare except is not allowed
+      2: the choice of exception is about speed
+      3: catching everything is always safer
+
+  - id: try_except-05
+    type: code
+    concepts: [try_except, floats]
+    difficulty: 3
+    bloom: apply
+    stem: Write safe_divide(a, b) that returns a / b, or None when b is 0. Use try/except with the right exception.
+    function: safe_divide
+    solution: |
+      def safe_divide(a, b):
+          try:
+              return a / b
+          except ZeroDivisionError:
+              return None
+    buggy: |
+      def safe_divide(a, b):
+          try:
+              return a / b
+          except ValueError:
+              return None
+    tests:
+      - {call: "safe_divide(6, 3)", expect: "2.0"}
+      - {call: "safe_divide(1, 0)", expect: "None", hidden: true}
+      - {call: "safe_divide(-3, 2)", expect: "-1.5", hidden: true}
+
+  - id: try_except-06
+    type: short
+    concepts: [try_except, while_loops]
+    difficulty: 3
+    bloom: understand
+    stem: A program keeps asking for a number with while True and try/except ValueError until the user types a valid one. Explain how the loop keeps asking and how it ends.
+    rubric:
+      - int() raises ValueError for invalid text, which jumps to the except block
+      - except handles it (a message or pass) and the loop goes round again
+      - When int() succeeds, break (or return) leaves the loop

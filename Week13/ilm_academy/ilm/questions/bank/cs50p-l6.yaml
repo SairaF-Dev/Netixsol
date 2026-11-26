@@ -1,0 +1,190 @@
+# CS50P Lecture 6: file I/O. (The validator runs code in an empty temporary folder,
+# so questions may create and read files safely.)
+
+questions:
+  # ---------------- file_io ----------------
+  - id: file_io-01
+    type: mcq
+    concepts: [file_io]
+    difficulty: 2
+    bloom: remember
+    stem: What does open("names.txt", "w") do if names.txt already exists?
+    options:
+      - Empties the file and starts writing from the beginning
+      - Adds new text at the end of the file
+      - Raises FileExistsError
+      - Opens it for reading only
+    answer: 0
+    misconceptions:
+      1: '"w" appends (that is "a")'
+      2: '"w" refuses to touch existing files (that is "x")'
+      3: open always reads unless you say otherwise, whatever the mode
+
+  - id: file_io-02
+    type: mcq
+    concepts: [file_io, with_statement]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      with open("names.txt", "w") as f:
+          f.write("Ada\n")
+      with open("names.txt", "a") as f:
+          f.write("Bob\n")
+      with open("names.txt") as f:
+          print(f.read().strip())
+    check_output: true
+    options: ["Ada\nBob", "Bob", "Ada"]
+    answer: 0
+    misconceptions:
+      1: '"a" replaces the file just like "w"'
+      2: '"a" only writes when the file is new'
+
+  - id: file_io-03
+    type: code
+    concepts: [file_io, with_statement]
+    difficulty: 3
+    bloom: apply
+    stem: Write write_names(path, names) that writes each name on its own line in the file at path (each line ends with a newline).
+    function: write_names
+    solution: |
+      def write_names(path, names):
+          with open(path, "w") as f:
+              for name in names:
+                  f.write(name + "\n")
+    buggy: |
+      def write_names(path, names):
+          with open(path, "w") as f:
+              for name in names:
+                  f.write(name)
+    tests:
+      - {call: '(write_names("a.txt", ["Ada", "Bob"]), open("a.txt").read())[1]', expect: "'Ada\\nBob\\n'"}
+      - {call: '(write_names("b.txt", []), open("b.txt").read())[1]', expect: "''", hidden: true}
+      - {call: '(write_names("c.txt", ["x"]), open("c.txt").read())[1]', expect: "'x\\n'", hidden: true}
+
+  # ---------------- with_statement ----------------
+  - id: with_statement-01
+    type: mcq
+    concepts: [with_statement]
+    difficulty: 2
+    bloom: understand
+    stem: What is the main advantage of with open(...) as f over f = open(...)?
+    options:
+      - The file is closed automatically when the block ends, even if an error happens
+      - It reads the file faster
+      - It can open files that do not exist yet in read mode
+      - It is the only way to read a file
+    answer: 0
+    misconceptions:
+      1: with is a speed feature
+      2: with changes what modes can do
+      3: open without with cannot read files
+
+  - id: with_statement-02
+    type: mcq
+    concepts: [with_statement]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      with open("x.txt", "w") as f:
+          f.write("hi")
+      print(f.closed)
+    check_output: true
+    options: ["True", "False", "NameError"]
+    answer: 0
+    misconceptions:
+      1: the file stays open until the program ends
+      2: the name f stops existing after the with block
+
+  - id: with_statement-03
+    type: short
+    concepts: [with_statement, file_io]
+    difficulty: 4
+    bloom: evaluate
+    stem: A program opens a file with f = open(...), writes to it, and crashes before f.close(). What can go wrong, and how does with prevent it?
+    rubric:
+      - The written data may not be saved (flushed) and the file stays open
+      - with closes the file automatically when the block ends, even when an error happens
+
+  # ---------------- csv_files ----------------
+  - id: csv_files-01
+    type: mcq
+    concepts: [csv_files]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print? (io.StringIO acts like an open file.)
+    code: |
+      import csv, io
+      f = io.StringIO("name,house\nHarry,Gryffindor\n")
+      for row in csv.DictReader(f):
+          print(row["house"])
+    check_output: true
+    options: ["Gryffindor", "house\nGryffindor", "Harry"]
+    answer: 0
+    misconceptions:
+      1: DictReader also returns the header line as a row
+      2: row["house"] gives the first column
+
+  - id: csv_files-02
+    type: mcq
+    concepts: [csv_files, string_methods]
+    difficulty: 3
+    bloom: evaluate
+    stem: Why use the csv module instead of line.split(",") to read a CSV file?
+    options:
+      - It handles values that contain commas inside quotes, such as "Cambridge, MA"
+      - split cannot be used on lines read from a file
+      - The csv module is shorter to type
+      - split removes the newline automatically, which corrupts data
+    answer: 0
+    misconceptions:
+      1: strings from files are different from other strings
+      2: the choice is about typing less
+      3: split does remove newlines
+
+  - id: csv_files-03
+    type: code
+    concepts: [csv_files, type_conversion]
+    difficulty: 3
+    bloom: apply
+    stem: 'rows came from csv.DictReader, so every value is a string, e.g. [{"name": "a", "score": "80"}, ...]. Write average_score(rows) that returns the average score as a float.'
+    function: average_score
+    solution: |
+      def average_score(rows):
+          total = 0
+          for row in rows:
+              total += int(row["score"])
+          return total / len(rows)
+    buggy: |
+      def average_score(rows):
+          total = 0
+          for row in rows:
+              total += row["score"]
+          return total / len(rows)
+    tests:
+      - {call: 'average_score([{"name": "a", "score": "80"}, {"name": "b", "score": "90"}])', expect: "85.0"}
+      - {call: 'average_score([{"name": "a", "score": "7"}])', expect: "7.0", hidden: true}
+
+  - id: csv_files-04
+    type: code
+    concepts: [csv_files, dictionaries]
+    difficulty: 4
+    bloom: apply
+    stem: 'Write read_houses(text) that reads CSV text with a header "name,house" and returns a dict from name to house. Use csv.DictReader(io.StringIO(text)). Names may contain commas, in quotes.'
+    function: read_houses
+    solution: |
+      import csv, io
+      def read_houses(text):
+          return {row["name"]: row["house"] for row in csv.DictReader(io.StringIO(text))}
+    buggy: |
+      def read_houses(text):
+          houses = {}
+          for line in text.strip().split("\n")[1:]:
+              name, house = line.split(",")
+              houses[name] = house
+          return houses
+    tests:
+      - {call: 'read_houses("name,house\nHarry,Gryffindor\n")', expect: "{'Harry': 'Gryffindor'}"}
+      - {call: 'read_houses("name,house\n\"Potter, Harry\",Gryffindor\n")', expect: "{'Potter, Harry': 'Gryffindor'}", hidden: true}
+      - {call: 'read_houses("name,house\n")', expect: "{}", hidden: true}

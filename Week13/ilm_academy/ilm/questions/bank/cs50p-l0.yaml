@@ -1,0 +1,919 @@
+# CS50P Lecture 0: functions, variables, strings, numbers.
+# Format: ilm/questions/schema.py.  Validate: python -m ilm.questions.validate
+# difficulty is the author's guess (1 easy .. 5 hard); Day 2 IRT measures the real one.
+
+questions:
+  # ---------------- program_basics ----------------
+  - id: program_basics-01
+    type: mcq
+    concepts: [program_basics]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: print("hello", "world")
+    check_output: true
+    options: ["hello world", "helloworld", "hello, world", "('hello', 'world')"]
+    answer: 0
+    misconceptions:
+      1: print joins its arguments with nothing in between
+      2: the comma between arguments is printed too
+      3: print shows several arguments as a tuple
+
+  - id: program_basics-02
+    type: mcq
+    concepts: [program_basics, function_calls]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      print("a", end="")
+      print("b")
+    check_output: true
+    options: ["ab", "a b", "a"]
+    answer: 0
+    misconceptions:
+      1: end="" still leaves a space between the two prints
+      2: end="" stops anything else from being printed
+
+  - id: program_basics-03
+    type: short
+    concepts: [program_basics]
+    difficulty: 1
+    bloom: remember
+    stem: What is the name of the built-in function that shows text on the screen?
+    accept: ["print", "print()"]
+
+  # ---------------- comments ----------------
+  - id: comments-01
+    type: mcq
+    concepts: [comments]
+    difficulty: 1
+    bloom: remember
+    stem: Which line is a comment in Python?
+    options: ["# ask the user for their name", "// ask the user for their name", "/* ask the user for their name */", "<!-- ask the user for their name -->"]
+    answer: 0
+    misconceptions:
+      1: comment syntax from C, Java or JavaScript works in Python
+      2: C-style block comments work in Python
+      3: HTML comments work in Python
+
+  - id: comments-02
+    type: mcq
+    concepts: [comments]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      # print("one")
+      print("two")  # print("three")
+    check_output: true
+    options: ["two", "one\ntwo\nthree", "two\nthree", "one\ntwo"]
+    answer: 0
+    misconceptions:
+      1: Python still runs code inside comments
+      2: "# only hides code when it is at the start of a line"
+      3: "# only hides code at the end of a line"
+
+  - id: comments-03
+    type: short
+    concepts: [comments]
+    difficulty: 2
+    bloom: understand
+    stem: Why do programmers write comments, and what should a good comment explain?
+    rubric:
+      - Python ignores comments; they are for people reading the code
+      - A good comment explains what a block does or why, rather than repeating each line
+      - Helps other people (and your future self) understand and change the code
+
+  # ---------------- variables ----------------
+  - id: variables-01
+    type: mcq
+    concepts: [variables]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      x = 5
+      x = x + 1
+      print(x)
+    check_output: true
+    options: ["6", "5", "x + 1", "SyntaxError"]
+    answer: 0
+    misconceptions:
+      1: a variable cannot change after it is first set
+      2: print shows the expression, not its value
+      3: x = x + 1 is false in maths, so Python rejects it
+
+  - id: variables-02
+    type: mcq
+    concepts: [variables]
+    difficulty: 3
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      a = 1
+      b = a
+      a = 2
+      print(b)
+    check_output: true
+    options: ["1", "2", "a"]
+    answer: 0
+    misconceptions:
+      1: b = a links b to a forever, so b follows later changes to a
+      2: b stores the name a, not its value
+
+  - id: variables-03
+    type: mcq
+    concepts: [variables]
+    difficulty: 1
+    bloom: remember
+    stem: Which of these is a valid variable name in Python?
+    options: ["first_name", "first-name", "1st_name", "first name"]
+    answer: 0
+    misconceptions:
+      1: a hyphen is allowed in names (Python reads it as minus)
+      2: names may start with a digit
+      3: names may contain spaces
+
+  # ---------------- strings ----------------
+  - id: strings-01
+    type: mcq
+    concepts: [strings]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: print("1" + "2")
+    check_output: true
+    options: ["12", "3", "1 2", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: + always adds numbers, even when they are in quotes
+      2: + puts a space between joined strings
+      3: strings cannot be joined with +
+
+  - id: strings-02
+    type: mcq
+    concepts: [strings]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: print("ha" * 3)
+    check_output: true
+    options: ["hahaha", "ha ha ha", "TypeError", "ha3"]
+    answer: 0
+    misconceptions:
+      1: repeating a string adds spaces between the copies
+      2: strings cannot be multiplied
+      3: "* joins the number onto the string"
+
+  - id: strings-03
+    type: short
+    concepts: [strings]
+    difficulty: 2
+    bloom: understand
+    stem: Type exactly what this program prints.
+    code: print('He said "hi"')
+    check_output: true
+    accept: ['He said "hi"']
+
+  - id: strings-04
+    type: code
+    concepts: [strings, defining_functions]
+    difficulty: 1
+    bloom: apply
+    stem: Write greet(name) that returns "hello, " followed by the name, e.g. greet("David") returns "hello, David".
+    function: greet
+    starter: |
+      def greet(name):
+          ...
+    solution: |
+      def greet(name):
+          return "hello, " + name
+    buggy: |
+      def greet(name):
+          return "hello " + name
+    tests:
+      - {call: 'greet("David")', expect: "'hello, David'"}
+      - {call: 'greet("")', expect: "'hello, '", hidden: true}
+      - {call: 'greet("Ada")', expect: "'hello, Ada'", hidden: true}
+
+  # ---------------- function_calls ----------------
+  - id: function_calls-01
+    type: mcq
+    concepts: [function_calls]
+    difficulty: 2
+    bloom: remember
+    stem: In print("hi", end="!"), what is end="!"?
+    options: ["a named (keyword) argument", "a new variable called end", "a comparison between end and \"!\"", "a second function call"]
+    answer: 0
+    misconceptions:
+      1: "= inside a call creates a variable"
+      2: "= compares two values"
+      3: anything after a comma is a separate call
+
+  - id: function_calls-02
+    type: mcq
+    concepts: [function_calls, return_values]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      x = print("hi")
+      print(x)
+    check_output: true
+    options: ["hi\nNone", "hi\nhi", "hi", "None"]
+    answer: 0
+    misconceptions:
+      1: print returns the text it showed
+      2: storing a call in a variable stops the second print from showing anything
+      3: assigning a call to a variable does not run the call
+
+  - id: function_calls-03
+    type: short
+    concepts: [function_calls]
+    difficulty: 1
+    bloom: remember
+    stem: In the line print("hello"), what do we call the value "hello" that is passed to the function?
+    accept: ["argument", "an argument", "arguments", "an arg", "arg"]
+
+  # ---------------- user_input ----------------
+  - id: user_input-01
+    type: mcq
+    concepts: [user_input]
+    difficulty: 1
+    bloom: remember
+    stem: What type of value does input() always return?
+    options: ["str (a string)", "int, if the user types digits", "whatever type the user typed", "bool"]
+    answer: 0
+    misconceptions:
+      1: input converts digits to numbers automatically
+      2: input guesses the type of what was typed
+      3: input returns True when the user typed something
+
+  - id: user_input-02
+    type: mcq
+    concepts: [user_input, type_conversion]
+    difficulty: 3
+    bloom: apply
+    stem: The user types 5 at age = input("Age? "). The next line is print(age + 1). What happens? (The code below stands in for input.)
+    code: |
+      age = "5"  # what input() returns when the user types 5
+      print(age + 1)
+    check_output: true
+    options: ["TypeError", "6", "51", "5 1"]
+    answer: 0
+    misconceptions:
+      1: input gives a number when the user types digits
+      2: a string and a number are joined automatically
+      3: + between a string and a number adds a space
+
+  - id: user_input-03
+    type: short
+    concepts: [user_input, type_conversion]
+    difficulty: 3
+    bloom: analyze
+    stem: A program asks for two numbers with input() and prints their sum, but typing 1 and 2 prints 12. Explain the bug and how to fix it.
+    rubric:
+      - input() returns strings, so + joins the text instead of adding numbers
+      - Fix by converting each value with int() (or float()) before adding
+
+  # ---------------- string_methods ----------------
+  - id: string_methods-01
+    type: mcq
+    concepts: [string_methods]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: print("[" + "  Ada  ".strip() + "]")
+    check_output: true
+    options: ["[Ada]", "[  Ada  ]", "[Ada  ]"]
+    answer: 0
+    misconceptions:
+      1: strip() changes the string only if you assign the result first
+      2: strip() removes spaces from the start only
+
+  - id: string_methods-02
+    type: mcq
+    concepts: [string_methods]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: print("hello world".title())
+    check_output: true
+    options: ["Hello World", "Hello world", "HELLO WORLD", "hello world"]
+    answer: 0
+    misconceptions:
+      1: title() capitalises only the first letter of the whole string (that is capitalize)
+      2: title() makes every letter upper case
+      3: string methods change nothing unless assigned
+
+  - id: string_methods-03
+    type: code
+    concepts: [string_methods]
+    difficulty: 2
+    bloom: apply
+    stem: Write clean_name(s) that removes spaces at both ends and capitalises each word, e.g. clean_name("  david malan ") returns "David Malan".
+    function: clean_name
+    solution: |
+      def clean_name(s):
+          return s.strip().title()
+    buggy: |
+      def clean_name(s):
+          return s.title()
+    tests:
+      - {call: 'clean_name("  david malan ")', expect: "'David Malan'"}
+      - {call: 'clean_name("ADA")', expect: "'Ada'", hidden: true}
+      - {call: 'clean_name(" grace hopper")', expect: "'Grace Hopper'", hidden: true}
+
+  - id: string_methods-04
+    type: mcq
+    concepts: [string_methods]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      first, last = "Ada Lovelace".split(" ")
+      print(last)
+    check_output: true
+    options: ["Lovelace", "Ada", "['Ada', 'Lovelace']", "ValueError"]
+    answer: 0
+    misconceptions:
+      1: the first variable gets the last piece
+      2: split() returns one list, so last gets the whole list
+      3: you cannot assign the result of split to two names
+
+  # ---------------- f_strings ----------------
+  - id: f_strings-01
+    type: mcq
+    concepts: [f_strings]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      name = "Ada"
+      print(f"hello, {name}")
+    check_output: true
+    options: ["hello, Ada", "hello, {name}", "hello, name"]
+    answer: 0
+    misconceptions:
+      1: the braces are printed literally even in an f-string
+      2: an f-string prints the variable's name instead of its value
+
+  - id: f_strings-02
+    type: mcq
+    concepts: [f_strings, floats]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      z = 2 / 3
+      print(f"{z:.2f}")
+    check_output: true
+    options: ["0.67", "0.66", "0.6666666666666666", "0.7"]
+    answer: 0
+    misconceptions:
+      1: .2f cuts off extra digits instead of rounding
+      2: the format part after the colon is ignored
+      3: .2f means two significant digits
+
+  - id: f_strings-03
+    type: short
+    concepts: [f_strings]
+    difficulty: 3
+    bloom: apply
+    stem: Type exactly what this program prints.
+    code: |
+      n = 1000000
+      print(f"{n:,}")
+    check_output: true
+    accept: ["1,000,000"]
+
+  - id: f_strings-04
+    type: code
+    concepts: [f_strings, floats]
+    difficulty: 3
+    bloom: apply
+    stem: 'Write price_tag(item, price) that returns the item and the price with exactly two decimals, e.g. price_tag("tea", 2.5) returns "tea: $2.50".'
+    function: price_tag
+    solution: |
+      def price_tag(item, price):
+          return f"{item}: ${price:.2f}"
+    buggy: |
+      def price_tag(item, price):
+          return f"{item}: ${price}"
+    tests:
+      - {call: 'price_tag("tea", 2.5)', expect: "'tea: $2.50'"}
+      - {call: 'price_tag("cake", 10)', expect: "'cake: $10.00'", hidden: true}
+      - {call: 'price_tag("pie", 3.14159)', expect: "'pie: $3.14'", hidden: true}
+
+  # ---------------- integers ----------------
+  - id: integers-01
+    type: mcq
+    concepts: [integers, arithmetic_operators]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: print(7 // 2)
+    check_output: true
+    options: ["3", "3.5", "4", "1"]
+    answer: 0
+    misconceptions:
+      1: "// is the same as normal division"
+      2: "// rounds to the nearest whole number"
+      3: "// gives the remainder"
+
+  - id: integers-02
+    type: mcq
+    concepts: [integers]
+    difficulty: 1
+    bloom: remember
+    stem: Which of these values is an int?
+    options: ["42", "42.0", '"42"', "4.2e1"]
+    answer: 0
+    misconceptions:
+      1: a decimal with .0 is a whole number, so it is an int
+      2: digits in quotes are a number
+      3: scientific notation gives an int when the value is whole
+
+  - id: integers-03
+    type: short
+    concepts: [integers, floats]
+    difficulty: 3
+    bloom: understand
+    stem: Type exactly what this program prints.
+    code: print(type(10 / 2))
+    check_output: true
+    accept: ["<class 'float'>"]
+
+  # ---------------- arithmetic_operators ----------------
+  - id: arithmetic_operators-01
+    type: mcq
+    concepts: [arithmetic_operators]
+    difficulty: 1
+    bloom: apply
+    stem: What does this program print?
+    code: print(2 + 3 * 4)
+    check_output: true
+    options: ["14", "20", "24"]
+    answer: 0
+    misconceptions:
+      1: Python always works left to right, so + happens before *
+      2: every operator is multiplication when * is present
+
+  - id: arithmetic_operators-02
+    type: mcq
+    concepts: [arithmetic_operators]
+    difficulty: 1
+    bloom: remember
+    stem: What does this program print?
+    code: print(2 ** 3)
+    check_output: true
+    options: ["8", "6", "9", "23"]
+    answer: 0
+    misconceptions:
+      1: "** is multiplication"
+      2: "a ** b means b to the power a"
+      3: "** joins the digits"
+
+  - id: arithmetic_operators-03
+    type: code
+    concepts: [arithmetic_operators, return_values]
+    difficulty: 2
+    bloom: apply
+    stem: Write average(a, b, c) that returns the average of three numbers, e.g. average(1, 2, 3) returns 2.0.
+    function: average
+    solution: |
+      def average(a, b, c):
+          return (a + b + c) / 3
+    buggy: |
+      def average(a, b, c):
+          return a + b + c / 3
+    tests:
+      - {call: "average(1, 2, 3)", expect: "2.0"}
+      - {call: "average(1, 2, 4)", expect: "7 / 3", hidden: true}
+      - {call: "average(0, 0, 0)", expect: "0.0", hidden: true}
+
+  - id: arithmetic_operators-04
+    type: short
+    concepts: [arithmetic_operators, variables]
+    difficulty: 2
+    bloom: apply
+    stem: Type exactly what this program prints.
+    code: |
+      x = 10
+      x += 5
+      x *= 2
+      print(x)
+    check_output: true
+    accept: ["30"]
+
+  # ---------------- floats ----------------
+  - id: floats-01
+    type: mcq
+    concepts: [floats]
+    difficulty: 1
+    bloom: apply
+    stem: What does this program print?
+    code: print(round(3.14159, 2))
+    check_output: true
+    options: ["3.14", "3.15", "3", "3.1"]
+    answer: 0
+    misconceptions:
+      1: round always rounds up
+      2: round ignores its second argument
+      3: the second argument counts significant digits, not decimals
+
+  - id: floats-02
+    type: mcq
+    concepts: [floats, boolean_expressions]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: print(0.1 + 0.2 == 0.3)
+    check_output: true
+    options: ["False", "True", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: floats store decimal numbers exactly
+      2: floats cannot be compared with ==
+
+  - id: floats-03
+    type: short
+    concepts: [floats]
+    difficulty: 4
+    bloom: understand
+    stem: Why can 0.1 + 0.2 print 0.30000000000000004, and how should you compare two floats safely?
+    rubric:
+      - Floats are stored in binary, and many decimals such as 0.1 cannot be stored exactly
+      - Compare with a tolerance (abs(a - b) < 1e-9 or math.isclose) or round before comparing
+
+  - id: floats-04
+    type: code
+    concepts: [floats, arithmetic_operators]
+    difficulty: 3
+    bloom: apply
+    stem: Write to_celsius(f) that converts Fahrenheit to Celsius with (f - 32) * 5 / 9, rounded to 1 decimal. to_celsius(212) returns 100.0.
+    function: to_celsius
+    solution: |
+      def to_celsius(f):
+          return round((f - 32) * 5 / 9, 1)
+    buggy: |
+      def to_celsius(f):
+          return round(f - 32 * 5 / 9, 1)
+    tests:
+      - {call: "to_celsius(212)", expect: "100.0"}
+      - {call: "to_celsius(98.6)", expect: "37.0", hidden: true}
+      - {call: "to_celsius(-40)", expect: "-40.0", hidden: true}
+
+  # ---------------- type_conversion ----------------
+  - id: type_conversion-01
+    type: mcq
+    concepts: [type_conversion]
+    difficulty: 1
+    bloom: apply
+    stem: What does this program print?
+    code: print(int("3") + int("4"))
+    check_output: true
+    options: ["7", "34", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: int() keeps the values as text
+      2: int() cannot read a string
+
+  - id: type_conversion-02
+    type: mcq
+    concepts: [type_conversion]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: print(int(3.9))
+    check_output: true
+    options: ["3", "4", "3.9", "ValueError"]
+    answer: 0
+    misconceptions:
+      1: int() rounds to the nearest whole number
+      2: int() leaves a float unchanged
+      3: int() cannot convert a float
+
+  - id: type_conversion-03
+    type: mcq
+    concepts: [type_conversion]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: print(int("3.5"))
+    check_output: true
+    options: ["ValueError", "3", "4", "3.5"]
+    answer: 0
+    misconceptions:
+      1: int() reads a decimal string and drops the fraction
+      2: int() rounds a decimal string
+      3: int() returns the string unchanged when it cannot convert
+
+  - id: type_conversion-04
+    type: code
+    concepts: [type_conversion]
+    difficulty: 2
+    bloom: apply
+    stem: Write add_strings(a, b). a and b are strings of digits typed by a user; return their sum as an int. add_strings("1", "2") returns 3.
+    function: add_strings
+    solution: |
+      def add_strings(a, b):
+          return int(a) + int(b)
+    buggy: |
+      def add_strings(a, b):
+          return a + b
+    tests:
+      - {call: 'add_strings("1", "2")', expect: "3"}
+      - {call: 'add_strings("10", "-4")', expect: "6", hidden: true}
+      - {call: 'add_strings("0", "0")', expect: "0", hidden: true}
+
+  # ---------------- indentation_blocks ----------------
+  - id: indentation_blocks-01
+    type: mcq
+    concepts: [indentation_blocks, if_statements]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      x = 5
+      if x > 10:
+          print("big")
+      print("done")
+    check_output: true
+    options: ["done", "big\ndone", "big", "nothing is printed"]
+    answer: 0
+    misconceptions:
+      1: every line after an if runs as part of it
+      2: a line after the if block belongs to the if because it comes after it
+      3: when the condition is false the whole program stops
+
+  - id: indentation_blocks-02
+    type: mcq
+    concepts: [indentation_blocks, defining_functions]
+    difficulty: 2
+    bloom: remember
+    stem: What happens when you run this program?
+    code: |
+      def f():
+      print("hi")
+    check_output: true
+    options: ["IndentationError", "TypeError", "NameError", "hi"]
+    answer: 0
+    misconceptions:
+      1: a missing indent is a problem with types
+      2: Python cannot find the name print
+      3: indentation is only for looks, so it runs fine
+
+  - id: indentation_blocks-03
+    type: short
+    concepts: [indentation_blocks]
+    difficulty: 2
+    bloom: understand
+    stem: How does Python know which lines belong to a function or an if statement? How is this different from languages that use braces { }?
+    rubric:
+      - Lines indented under a header line that ends with a colon form the block
+      - The block ends when the indentation goes back to the earlier level
+      - In Python indentation is part of the syntax, not just style; other languages mark blocks with braces
+
+  # ---------------- defining_functions ----------------
+  - id: defining_functions-01
+    type: mcq
+    concepts: [defining_functions]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      def hello():
+          print("hi")
+      print("start")
+    check_output: true
+    options: ["start", "hi\nstart", "start\nhi"]
+    answer: 0
+    misconceptions:
+      1: defining a function also runs it
+      2: Python runs every function at the end of the program
+
+  - id: defining_functions-02
+    type: mcq
+    concepts: [defining_functions]
+    difficulty: 3
+    bloom: analyze
+    stem: What happens when you run this program?
+    code: |
+      hello()
+      def hello():
+          print("hi")
+    check_output: true
+    options: ["NameError", "hi", "SyntaxError"]
+    answer: 0
+    misconceptions:
+      1: Python reads all functions first, so the order does not matter
+      2: calling before defining is a grammar mistake
+
+  - id: defining_functions-03
+    type: code
+    concepts: [defining_functions, return_values]
+    difficulty: 1
+    bloom: apply
+    stem: Write square(n) that returns n multiplied by itself.
+    function: square
+    solution: |
+      def square(n):
+          return n * n
+    buggy: |
+      def square(n):
+          return n * 2
+    tests:
+      - {call: "square(3)", expect: "9"}
+      - {call: "square(-4)", expect: "16", hidden: true}
+      - {call: "square(0)", expect: "0", hidden: true}
+
+  - id: defining_functions-04
+    type: short
+    concepts: [defining_functions]
+    difficulty: 2
+    bloom: understand
+    stem: Give two reasons to put code in your own function instead of copying the same lines into several places.
+    rubric:
+      - "Avoids repetition: a bug is fixed in one place"
+      - A good name makes the code easier to read
+      - The function can be tested and reused on its own
+
+  # ---------------- parameters ----------------
+  - id: parameters-01
+    type: mcq
+    concepts: [parameters]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      def greet(name="world"):
+          print(f"hello, {name}")
+      greet()
+      greet("Ada")
+    check_output: true
+    options: ["hello, world\nhello, Ada", "hello, Ada\nhello, Ada", "TypeError", "hello,\nhello, Ada"]
+    answer: 0
+    misconceptions:
+      1: the last value passed becomes the new default
+      2: calling a function without an argument is always an error
+      3: a parameter with a default starts out empty
+
+  - id: parameters-02
+    type: mcq
+    concepts: [parameters, function_calls]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      def area(width, height):
+          return width * height
+      print(area(height=2, width=5))
+    check_output: true
+    options: ["10", "TypeError", "SyntaxError"]
+    answer: 0
+    misconceptions:
+      1: keyword arguments must be in the same order as the parameters
+      2: you cannot name the arguments in a call
+
+  - id: parameters-03
+    type: code
+    concepts: [parameters]
+    difficulty: 3
+    bloom: apply
+    stem: Write repeat(text, times=2) that returns text repeated `times` times, separated by single spaces. repeat("hi") returns "hi hi"; repeat("ha", 3) returns "ha ha ha".
+    function: repeat
+    solution: |
+      def repeat(text, times=2):
+          return " ".join([text] * times)
+    buggy: |
+      def repeat(text, times=1):
+          return " ".join([text] * times)
+    tests:
+      - {call: 'repeat("hi")', expect: "'hi hi'"}
+      - {call: 'repeat("ha", 3)', expect: "'ha ha ha'"}
+      - {call: 'repeat("x", 1)', expect: "'x'", hidden: true}
+
+  # ---------------- return_values ----------------
+  - id: return_values-01
+    type: mcq
+    concepts: [return_values]
+    difficulty: 3
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      def double(n):
+          print(n * 2)
+      x = double(4)
+      print(x)
+    check_output: true
+    options: ["8\nNone", "8\n8", "8", "None"]
+    answer: 0
+    misconceptions:
+      1: printing inside a function also returns the value
+      2: a function without return makes the second print show nothing
+      3: storing the call in x stops the print inside the function
+
+  - id: return_values-02
+    type: mcq
+    concepts: [return_values]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      def f():
+          return 1
+          print("after")
+      print(f())
+    check_output: true
+    options: ["1", "after\n1", "1\nafter"]
+    answer: 0
+    misconceptions:
+      1: the lines after return still run before the value is handed back
+      2: return hands back the value and the function keeps going
+
+  - id: return_values-03
+    type: code
+    concepts: [return_values, strings]
+    difficulty: 2
+    bloom: apply
+    stem: Write full_name(first, last) that RETURNS (not prints) the two names joined by one space.
+    function: full_name
+    solution: |
+      def full_name(first, last):
+          return f"{first} {last}"
+    buggy: |
+      def full_name(first, last):
+          print(first, last)
+    tests:
+      - {call: 'full_name("Ada", "Lovelace")', expect: "'Ada Lovelace'"}
+      - {call: 'full_name("Grace", "Hopper")', expect: "'Grace Hopper'", hidden: true}
+
+  - id: return_values-04
+    type: short
+    concepts: [return_values]
+    difficulty: 2
+    bloom: understand
+    stem: What is the difference between a function that prints a result and a function that returns it?
+    rubric:
+      - print shows the value on the screen, but the caller gets None back
+      - return hands the value back to the caller so it can be stored or used in more code
+
+  # ---------------- scope ----------------
+  - id: scope-01
+    type: mcq
+    concepts: [scope]
+    difficulty: 3
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      def set_x():
+          x = 10
+      x = 5
+      set_x()
+      print(x)
+    check_output: true
+    options: ["5", "10", "NameError"]
+    answer: 0
+    misconceptions:
+      1: assigning inside a function changes the variable outside
+      2: a function cannot create a variable with the same name as an outside one
+
+  - id: scope-02
+    type: mcq
+    concepts: [scope]
+    difficulty: 2
+    bloom: understand
+    stem: What happens when you run this program?
+    code: |
+      def f():
+          y = 3
+      f()
+      print(y)
+    check_output: true
+    options: ["NameError", "3", "None"]
+    answer: 0
+    misconceptions:
+      1: variables made inside a function stay available after it ends
+      2: a variable from a finished function becomes None
+
+  - id: scope-03
+    type: mcq
+    concepts: [scope]
+    difficulty: 5
+    bloom: analyze
+    stem: What happens when you run this program?
+    code: |
+      count = 0
+      def add():
+          count = count + 1
+      add()
+      print(count)
+    check_output: true
+    options: ["UnboundLocalError", "1", "0", "NameError"]
+    answer: 0
+    misconceptions:
+      1: functions can update outside variables freely
+      2: the failed update is silently ignored
+      3: Python reports the name as missing everywhere, not as a local used too early

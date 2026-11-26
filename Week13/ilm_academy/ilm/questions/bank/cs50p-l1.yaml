@@ -1,0 +1,356 @@
+# CS50P Lecture 1: conditionals.
+
+questions:
+  # ---------------- boolean_expressions ----------------
+  - id: boolean_expressions-01
+    type: mcq
+    concepts: [boolean_expressions]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: print(3 == 3.0)
+    check_output: true
+    options: ["True", "False", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: an int and a float are never equal
+      2: an int and a float cannot be compared
+
+  - id: boolean_expressions-02
+    type: mcq
+    concepts: [boolean_expressions, strings]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: print("Zebra" < "apple")
+    check_output: true
+    options: ["True", "False", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: strings compare alphabetically ignoring case (upper-case letters actually come first)
+      2: strings cannot be compared with <
+
+  - id: boolean_expressions-03
+    type: mcq
+    concepts: [boolean_expressions]
+    difficulty: 1
+    bloom: remember
+    stem: Which line checks whether x is equal to 5?
+    options: ["if x == 5:", "if x = 5:", "if x === 5:", "if x equals 5:"]
+    answer: 0
+    misconceptions:
+      1: "a single = compares values"
+      2: "=== from JavaScript works in Python"
+      3: Python understands English words for comparisons
+
+  - id: boolean_expressions-04
+    type: code
+    concepts: [boolean_expressions, return_values]
+    difficulty: 1
+    bloom: apply
+    stem: Write is_adult(age) that returns True when age is 18 or more, otherwise False.
+    function: is_adult
+    solution: |
+      def is_adult(age):
+          return age >= 18
+    buggy: |
+      def is_adult(age):
+          return age > 18
+    tests:
+      - {call: "is_adult(30)", expect: "True"}
+      - {call: "is_adult(18)", expect: "True", hidden: true}
+      - {call: "is_adult(17)", expect: "False", hidden: true}
+
+  - id: boolean_expressions-05
+    type: short
+    concepts: [boolean_expressions, variables]
+    difficulty: 1
+    bloom: remember
+    stem: What is the difference between = and == in Python?
+    rubric:
+      - "= assigns a value to a variable"
+      - "== compares two values and gives True or False"
+
+  # ---------------- logical_operators ----------------
+  - id: logical_operators-01
+    type: mcq
+    concepts: [logical_operators]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: print(not (5 > 3 or 2 > 4))
+    check_output: true
+    options: ["False", "True", "SyntaxError"]
+    answer: 0
+    misconceptions:
+      1: not only applies to the first comparison
+      2: not cannot be used in front of brackets
+
+  - id: logical_operators-02
+    type: mcq
+    concepts: [logical_operators, boolean_expressions]
+    difficulty: 5
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      x = 5
+      print(x == 3 or 4)
+    check_output: true
+    options: ["4", "False", "True"]
+    answer: 0
+    misconceptions:
+      1: x == 3 or 4 means x == 3 or x == 4
+      2: or always gives True or False
+
+  - id: logical_operators-03
+    type: code
+    concepts: [logical_operators]
+    difficulty: 2
+    bloom: apply
+    stem: Write in_range(n, low, high) that returns True if n is between low and high, including both ends.
+    function: in_range
+    solution: |
+      def in_range(n, low, high):
+          return low <= n and n <= high
+    buggy: |
+      def in_range(n, low, high):
+          return low < n and n < high
+    tests:
+      - {call: "in_range(5, 1, 10)", expect: "True"}
+      - {call: "in_range(1, 1, 10)", expect: "True", hidden: true}
+      - {call: "in_range(10, 1, 10)", expect: "True", hidden: true}
+      - {call: "in_range(11, 1, 10)", expect: "False", hidden: true}
+
+  # ---------------- if_statements ----------------
+  - id: if_statements-01
+    type: mcq
+    concepts: [if_statements]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      x = 7
+      if x > 5:
+          print("A")
+      if x > 3:
+          print("B")
+    check_output: true
+    options: ["A\nB", "A", "B"]
+    answer: 0
+    misconceptions:
+      1: only the first true if runs, as with elif
+      2: the last true if replaces the earlier one
+
+  - id: if_statements-02
+    type: code
+    concepts: [if_statements, elif_else]
+    difficulty: 2
+    bloom: apply
+    stem: Write absolute(n) that returns the distance of n from zero, without using abs().
+    function: absolute
+    solution: |
+      def absolute(n):
+          if n < 0:
+              return -n
+          return n
+    buggy: |
+      def absolute(n):
+          if n < 0:
+              return -n
+    tests:
+      - {call: "absolute(-3)", expect: "3"}
+      - {call: "absolute(4)", expect: "4", hidden: true}
+      - {call: "absolute(0)", expect: "0", hidden: true}
+
+  - id: if_statements-03
+    type: mcq
+    concepts: [if_statements, indentation_blocks]
+    difficulty: 2
+    bloom: analyze
+    stem: Why does this code not run?
+    code: |
+      if x > 5
+          print("big")
+    options: ["the if line is missing a colon", "print must not be indented", "x > 5 must be in brackets", "if needs an else"]
+    answer: 0
+    misconceptions:
+      1: the body of an if is not indented
+      2: conditions need brackets as in C or Java
+      3: every if must have an else
+
+  # ---------------- elif_else ----------------
+  - id: elif_else-01
+    type: code
+    concepts: [elif_else]
+    difficulty: 3
+    bloom: apply
+    stem: Write grade(score) that returns "A" for 90 or more, "B" for 80 or more, "C" for 70 or more, and "F" otherwise.
+    function: grade
+    solution: |
+      def grade(score):
+          if score >= 90:
+              return "A"
+          elif score >= 80:
+              return "B"
+          elif score >= 70:
+              return "C"
+          else:
+              return "F"
+    buggy: |
+      def grade(score):
+          if score >= 70:
+              return "C"
+          elif score >= 80:
+              return "B"
+          elif score >= 90:
+              return "A"
+          else:
+              return "F"
+    tests:
+      - {call: "grade(95)", expect: "'A'"}
+      - {call: "grade(80)", expect: "'B'", hidden: true}
+      - {call: "grade(79)", expect: "'C'", hidden: true}
+      - {call: "grade(10)", expect: "'F'", hidden: true}
+
+  - id: elif_else-02
+    type: mcq
+    concepts: [elif_else]
+    difficulty: 3
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      x = 95
+      if x >= 70:
+          print("C")
+      elif x >= 90:
+          print("A")
+    check_output: true
+    options: ["C", "A", "C\nA"]
+    answer: 0
+    misconceptions:
+      1: Python picks the branch that matches best, not the first one that is true
+      2: every true branch of an if/elif chain runs
+
+  - id: elif_else-03
+    type: mcq
+    concepts: [elif_else, if_statements]
+    difficulty: 3
+    bloom: evaluate
+    stem: To choose exactly one of three messages, version 1 uses three separate if statements and version 2 uses if / elif / else. Why is version 2 the better choice?
+    options:
+      - It stops at the first true condition, so exactly one branch runs and later checks are skipped
+      - elif is compiled into a faster machine instruction
+      - There is no difference; they always behave the same
+      - Version 1 is better because every branch gets a chance to run
+    answer: 0
+    misconceptions:
+      1: the benefit of elif is speed of the instruction, not the logic
+      2: separate ifs and an elif chain always behave the same
+      3: running several branches is what we want when choosing one option
+
+  # ---------------- modulo ----------------
+  - id: modulo-01
+    type: mcq
+    concepts: [modulo]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: print(17 % 5)
+    check_output: true
+    options: ["2", "3", "3.4", "1"]
+    answer: 0
+    misconceptions:
+      1: "% gives the whole-number result of dividing"
+      2: "% is normal division"
+      3: "% gives 1 whenever the division is not exact"
+
+  - id: modulo-02
+    type: code
+    concepts: [modulo, boolean_expressions]
+    difficulty: 1
+    bloom: apply
+    stem: Write is_even(n) that returns True if n is even, otherwise False.
+    function: is_even
+    solution: |
+      def is_even(n):
+          return n % 2 == 0
+    buggy: |
+      def is_even(n):
+          return n % 2 == 1
+    tests:
+      - {call: "is_even(4)", expect: "True"}
+      - {call: "is_even(7)", expect: "False", hidden: true}
+      - {call: "is_even(0)", expect: "True", hidden: true}
+      - {call: "is_even(-2)", expect: "True", hidden: true}
+
+  - id: modulo-03
+    type: short
+    concepts: [modulo]
+    difficulty: 5
+    bloom: analyze
+    stem: Type exactly what this program prints. (Careful, it is not the same as in C or Java.)
+    code: print(-7 % 3)
+    check_output: true
+    accept: ["2"]
+
+  # ---------------- match_statement ----------------
+  - id: match_statement-01
+    type: mcq
+    concepts: [match_statement]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      name = "Harry"
+      match name:
+          case "Harry" | "Hermione" | "Ron":
+              print("Gryffindor")
+          case "Draco":
+              print("Slytherin")
+          case _:
+              print("Who?")
+    check_output: true
+    options: ["Gryffindor", "Who?", "Gryffindor\nWho?"]
+    answer: 0
+    misconceptions:
+      1: "| inside a case does not mean 'or'"
+      2: case _ always runs as well, like falling through a switch in C
+
+  - id: match_statement-02
+    type: mcq
+    concepts: [match_statement]
+    difficulty: 2
+    bloom: remember
+    stem: In a match statement, what does case _ do?
+    options: ["matches anything that no earlier case matched", "matches only an empty string", "matches the underscore character", "is a syntax error"]
+    answer: 0
+    misconceptions:
+      1: _ stands for an empty value
+      2: _ is a literal character to compare against
+      3: match has no default case
+
+  - id: match_statement-03
+    type: code
+    concepts: [match_statement]
+    difficulty: 2
+    bloom: apply
+    stem: Using match, write day_type(day) that returns "weekend" for "Saturday" or "Sunday" and "weekday" for anything else.
+    function: day_type
+    solution: |
+      def day_type(day):
+          match day:
+              case "Saturday" | "Sunday":
+                  return "weekend"
+              case _:
+                  return "weekday"
+    buggy: |
+      def day_type(day):
+          match day:
+              case "Saturday":
+                  return "weekend"
+              case _:
+                  return "weekday"
+    tests:
+      - {call: 'day_type("Saturday")', expect: "'weekend'"}
+      - {call: 'day_type("Monday")', expect: "'weekday'"}
+      - {call: 'day_type("Sunday")', expect: "'weekend'", hidden: true}

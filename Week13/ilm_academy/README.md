@@ -45,8 +45,8 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 ## Status
 
 - [x] Day 1 setup: environment, structure, config, test isolation, retrieval smoke test
-- [ ] Day 1 Task 1: content ingestion
-- [ ] Day 1 Task 2: concept graph
-- [ ] Day 1 Task 3: question bank
+- [~] Day 1 Task 1: content ingestion (Whisper transcripts, chunking, Chroma index, retrieval benchmark; lectures 8-9 transcribing)
+- [x] Day 1 Task 2: concept graph (65 concepts, DAG-validated, visualised)
+- [x] Day 1 Task 3: question bank (225 questions, every answer checked by running code: `python -m ilm.questions.validate`)
 - [ ] Day 1 Task 4: learner data and simulator
 - [ ] Day 1 Task 5: analytics EDA

@@ -1,0 +1,604 @@
+# CS50P Lecture 2: loops, lists, dictionaries.
+
+questions:
+  # ---------------- while_loops ----------------
+  - id: while_loops-01
+    type: mcq
+    concepts: [while_loops]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      i = 3
+      while i > 0:
+          print(i)
+          i -= 1
+    check_output: true
+    options: ["3\n2\n1", "3\n2\n1\n0", "2\n1\n0"]
+    answer: 0
+    misconceptions:
+      1: the loop runs once more after the condition becomes false
+      2: the variable changes before the first print
+
+  - id: while_loops-02
+    type: mcq
+    concepts: [while_loops]
+    difficulty: 2
+    bloom: analyze
+    stem: This loop never stops. Why?
+    code: |
+      i = 0
+      while i < 3:
+          print(i)
+    options:
+      - i never changes, so i < 3 stays True forever
+      - while loops always run forever unless you use break
+      - print stops the loop from updating i
+      - i < 3 should be i <= 3
+    answer: 0
+    misconceptions:
+      1: a while loop can only end with break
+      2: the loop updates the variable by itself
+      3: the problem is the comparison, not the missing update
+
+  - id: while_loops-03
+    type: code
+    concepts: [while_loops, integers]
+    difficulty: 3
+    bloom: apply
+    stem: Write count_digits(n) for a whole number n >= 1 that returns how many digits it has, using a while loop and // 10 (no str()).
+    function: count_digits
+    solution: |
+      def count_digits(n):
+          count = 0
+          while n > 0:
+              n //= 10
+              count += 1
+          return count
+    buggy: |
+      def count_digits(n):
+          count = 0
+          while n > 9:
+              n //= 10
+              count += 1
+          return count
+    tests:
+      - {call: "count_digits(12345)", expect: "5"}
+      - {call: "count_digits(5)", expect: "1", hidden: true}
+      - {call: "count_digits(100)", expect: "3", hidden: true}
+
+  - id: while_loops-04
+    type: code
+    concepts: [while_loops, modulo, elif_else]
+    difficulty: 4
+    bloom: create
+    stem: The Collatz rule turns n into n // 2 if n is even, or 3 * n + 1 if it is odd. Write collatz_steps(n) that returns how many steps it takes to reach 1.
+    function: collatz_steps
+    solution: |
+      def collatz_steps(n):
+          steps = 0
+          while n != 1:
+              if n % 2 == 0:
+                  n = n // 2
+              else:
+                  n = 3 * n + 1
+              steps += 1
+          return steps
+    buggy: |
+      def collatz_steps(n):
+          steps = 1
+          while n != 1:
+              if n % 2 == 0:
+                  n = n // 2
+              else:
+                  n = 3 * n + 1
+              steps += 1
+          return steps
+    tests:
+      - {call: "collatz_steps(6)", expect: "8"}
+      - {call: "collatz_steps(1)", expect: "0", hidden: true}
+      - {call: "collatz_steps(27)", expect: "111", hidden: true}
+
+  # ---------------- range_function ----------------
+  - id: range_function-01
+    type: mcq
+    concepts: [range_function, lists]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: print(list(range(2, 8, 2)))
+    check_output: true
+    options: ["[2, 4, 6]", "[2, 4, 6, 8]", "[2, 3, 4, 5, 6, 7]"]
+    answer: 0
+    misconceptions:
+      1: the stop value is included
+      2: the third argument is ignored
+
+  - id: range_function-02
+    type: mcq
+    concepts: [range_function, for_loops]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      for i in range(3):
+          print(i)
+    check_output: true
+    options: ["0\n1\n2", "1\n2\n3", "0\n1\n2\n3"]
+    answer: 0
+    misconceptions:
+      1: range starts counting at 1
+      2: range(3) includes 3
+
+  - id: range_function-03
+    type: short
+    concepts: [range_function]
+    difficulty: 3
+    bloom: apply
+    stem: Type exactly what this program prints.
+    code: print(len(range(5, 10)))
+    check_output: true
+    accept: ["5"]
+
+  # ---------------- for_loops ----------------
+  - id: for_loops-01
+    type: code
+    concepts: [for_loops, range_function]
+    difficulty: 2
+    bloom: apply
+    stem: Write sum_to(n) that returns 1 + 2 + ... + n using a for loop. sum_to(0) is 0.
+    function: sum_to
+    solution: |
+      def sum_to(n):
+          total = 0
+          for i in range(1, n + 1):
+              total += i
+          return total
+    buggy: |
+      def sum_to(n):
+          total = 0
+          for i in range(n):
+              total += i
+          return total
+    tests:
+      - {call: "sum_to(3)", expect: "6"}
+      - {call: "sum_to(1)", expect: "1", hidden: true}
+      - {call: "sum_to(100)", expect: "5050", hidden: true}
+      - {call: "sum_to(0)", expect: "0", hidden: true}
+
+  - id: for_loops-02
+    type: mcq
+    concepts: [for_loops, strings]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      for ch in "hi":
+          print(ch * 2)
+    check_output: true
+    options: ["hh\nii", "hihi", "h\ni\nh\ni"]
+    answer: 0
+    misconceptions:
+      1: a for loop over a string uses the whole string at once
+      2: the loop runs over the string twice
+
+  - id: for_loops-03
+    type: mcq
+    concepts: [for_loops, variables]
+    difficulty: 3
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      total = 0
+      for i in range(1, 4):
+          total = i
+      print(total)
+    check_output: true
+    options: ["3", "6", "0"]
+    answer: 0
+    misconceptions:
+      1: "= inside a loop adds to the variable"
+      2: changes made inside a loop are lost after it
+
+  # ---------------- break_continue ----------------
+  - id: break_continue-01
+    type: mcq
+    concepts: [break_continue]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      for i in range(5):
+          if i == 3:
+              break
+          print(i)
+    check_output: true
+    options: ["0\n1\n2", "0\n1\n2\n3", "0\n1\n2\n4"]
+    answer: 0
+    misconceptions:
+      1: break lets the current pass of the loop finish first
+      2: break skips one value and continues (that is continue)
+
+  - id: break_continue-02
+    type: mcq
+    concepts: [break_continue, modulo]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      for i in range(5):
+          if i % 2 == 0:
+              continue
+          print(i)
+    check_output: true
+    options: ["1\n3", "0\n2\n4", "1"]
+    answer: 0
+    misconceptions:
+      1: continue keeps the values that match the condition
+      2: continue stops the whole loop (that is break)
+
+  - id: break_continue-03
+    type: code
+    concepts: [break_continue, lists]
+    difficulty: 3
+    bloom: apply
+    stem: Write first_negative(nums) that returns the first negative number in the list, or None if there is none.
+    function: first_negative
+    solution: |
+      def first_negative(nums):
+          for n in nums:
+              if n < 0:
+                  return n
+          return None
+    buggy: |
+      def first_negative(nums):
+          result = None
+          for n in nums:
+              if n < 0:
+                  result = n
+          return result
+    tests:
+      - {call: "first_negative([3, -1, -5])", expect: "-1"}
+      - {call: "first_negative([1, 2])", expect: "None", hidden: true}
+      - {call: "first_negative([-2])", expect: "-2", hidden: true}
+
+  # ---------------- lists ----------------
+  - id: lists-01
+    type: mcq
+    concepts: [lists]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      nums = [10, 20, 30]
+      print(nums[1])
+    check_output: true
+    options: ["20", "10", "30", "IndexError"]
+    answer: 0
+    misconceptions:
+      1: list positions start at 1
+      2: index 1 means the last item
+      3: index 1 is not allowed
+
+  - id: lists-02
+    type: mcq
+    concepts: [lists]
+    difficulty: 2
+    bloom: understand
+    stem: What happens when you run this program?
+    code: |
+      nums = [1, 2, 3]
+      print(nums[3])
+    check_output: true
+    options: ["IndexError", "3", "None"]
+    answer: 0
+    misconceptions:
+      1: the last item of a 3-item list is at index 3
+      2: a missing position gives None
+
+  - id: lists-03
+    type: mcq
+    concepts: [lists, variables]
+    difficulty: 5
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      a = [1, 2]
+      b = a
+      b.append(3)
+      print(a)
+    check_output: true
+    options: ["[1, 2, 3]", "[1, 2]", "[1, 2, 3, 3]"]
+    answer: 0
+    misconceptions:
+      1: b = a makes a copy of the list
+      2: append adds to both names separately
+
+  - id: lists-04
+    type: code
+    concepts: [lists, if_statements]
+    difficulty: 2
+    bloom: apply
+    stem: Write last_item(items) that returns the last item of a list, or None if the list is empty.
+    function: last_item
+    solution: |
+      def last_item(items):
+          if not items:
+              return None
+          return items[-1]
+    buggy: |
+      def last_item(items):
+          return items[-1]
+    tests:
+      - {call: "last_item([1, 2, 3])", expect: "3"}
+      - {call: 'last_item(["a"])', expect: "'a'", hidden: true}
+      - {call: "last_item([])", expect: "None", hidden: true}
+
+  # ---------------- iterating_lists ----------------
+  - id: iterating_lists-01
+    type: code
+    concepts: [iterating_lists]
+    difficulty: 2
+    bloom: apply
+    stem: Write count_long(words, n) that returns how many words have MORE than n letters.
+    function: count_long
+    solution: |
+      def count_long(words, n):
+          count = 0
+          for w in words:
+              if len(w) > n:
+                  count += 1
+          return count
+    buggy: |
+      def count_long(words, n):
+          count = 0
+          for w in words:
+              if len(w) >= n:
+                  count += 1
+          return count
+    tests:
+      - {call: 'count_long(["hi", "hello", "hey"], 2)', expect: "2"}
+      - {call: "count_long([], 3)", expect: "0", hidden: true}
+      - {call: 'count_long(["abc"], 3)', expect: "0", hidden: true}
+
+  - id: iterating_lists-02
+    type: mcq
+    concepts: [iterating_lists]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      nums = [1, 2, 3]
+      for n in nums:
+          n = n * 10
+      print(nums)
+    check_output: true
+    options: ["[1, 2, 3]", "[10, 20, 30]", "[1, 2, 3, 10, 20, 30]"]
+    answer: 0
+    misconceptions:
+      1: changing the loop variable changes the item in the list
+      2: assigning to the loop variable adds new items
+
+  - id: iterating_lists-03
+    type: code
+    concepts: [iterating_lists, if_statements]
+    difficulty: 3
+    bloom: apply
+    stem: Write largest(nums) that returns the largest number in a non-empty list, without using max().
+    function: largest
+    solution: |
+      def largest(nums):
+          biggest = nums[0]
+          for n in nums:
+              if n > biggest:
+                  biggest = n
+          return biggest
+    buggy: |
+      def largest(nums):
+          biggest = 0
+          for n in nums:
+              if n > biggest:
+                  biggest = n
+          return biggest
+    tests:
+      - {call: "largest([3, 9, 2])", expect: "9"}
+      - {call: "largest([-5, -2, -9])", expect: "-2", hidden: true}
+      - {call: "largest([7])", expect: "7", hidden: true}
+
+  # ---------------- nested_loops ----------------
+  - id: nested_loops-01
+    type: mcq
+    concepts: [nested_loops, range_function]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      for i in range(2):
+          for j in range(3):
+              print("#", end="")
+          print()
+    check_output: true
+    options: ["###\n###", "##\n##\n##", "#####"]
+    answer: 0
+    misconceptions:
+      1: the outer loop controls the columns and the inner loop the rows
+      2: the two loop counts add up instead of multiplying
+
+  - id: nested_loops-02
+    type: code
+    concepts: [nested_loops, lists]
+    difficulty: 4
+    bloom: create
+    stem: Write multiplication_table(n) that returns a list of n rows; row i (starting at 1) is [i*1, i*2, ..., i*n]. multiplication_table(2) returns [[1, 2], [2, 4]].
+    function: multiplication_table
+    solution: |
+      def multiplication_table(n):
+          table = []
+          for i in range(1, n + 1):
+              row = []
+              for j in range(1, n + 1):
+                  row.append(i * j)
+              table.append(row)
+          return table
+    buggy: |
+      def multiplication_table(n):
+          table = []
+          for i in range(n):
+              row = []
+              for j in range(n):
+                  row.append(i * j)
+              table.append(row)
+          return table
+    tests:
+      - {call: "multiplication_table(2)", expect: "[[1, 2], [2, 4]]"}
+      - {call: "multiplication_table(3)", expect: "[[1, 2, 3], [2, 4, 6], [3, 6, 9]]", hidden: true}
+      - {call: "multiplication_table(1)", expect: "[[1]]", hidden: true}
+
+  - id: nested_loops-03
+    type: short
+    concepts: [nested_loops]
+    difficulty: 4
+    bloom: analyze
+    stem: Type exactly what this program prints.
+    code: |
+      count = 0
+      for i in range(4):
+          for j in range(i):
+              count += 1
+      print(count)
+    check_output: true
+    accept: ["6"]
+
+  # ---------------- dictionaries ----------------
+  - id: dictionaries-01
+    type: mcq
+    concepts: [dictionaries]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      houses = {"Harry": "Gryffindor", "Draco": "Slytherin"}
+      print(houses["Draco"])
+    check_output: true
+    options: ["Slytherin", "Draco", "KeyError"]
+    answer: 0
+    misconceptions:
+      1: looking up a key gives back the key itself
+      2: dictionaries are looked up by position, not by key
+
+  - id: dictionaries-02
+    type: mcq
+    concepts: [dictionaries]
+    difficulty: 2
+    bloom: understand
+    stem: What happens when you run this program?
+    code: |
+      d = {"a": 1}
+      print(d["b"])
+    check_output: true
+    options: ["KeyError", "None", "0"]
+    answer: 0
+    misconceptions:
+      1: a missing key gives None (that is what d.get does)
+      2: a missing key gives 0
+
+  - id: dictionaries-03
+    type: code
+    concepts: [dictionaries, for_loops]
+    difficulty: 3
+    bloom: apply
+    stem: 'Write count_letters(word) that returns a dictionary mapping each letter to how many times it appears. count_letters("aab") returns {"a": 2, "b": 1}.'
+    function: count_letters
+    solution: |
+      def count_letters(word):
+          counts = {}
+          for ch in word:
+              counts[ch] = counts.get(ch, 0) + 1
+          return counts
+    buggy: |
+      def count_letters(word):
+          counts = {}
+          for ch in word:
+              counts[ch] = 1
+          return counts
+    tests:
+      - {call: 'count_letters("aab")', expect: "{'a': 2, 'b': 1}"}
+      - {call: 'count_letters("")', expect: "{}", hidden: true}
+      - {call: 'count_letters("hello")', expect: "{'h': 1, 'e': 1, 'l': 2, 'o': 1}", hidden: true}
+
+  - id: dictionaries-04
+    type: mcq
+    concepts: [dictionaries]
+    difficulty: 2
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      d = {"a": 1}
+      d["a"] = 5
+      d["b"] = 2
+      print(d)
+    check_output: true
+    options: ["{'a': 5, 'b': 2}", "{'a': 1, 'a': 5, 'b': 2}", "{'a': 1, 'b': 2}"]
+    answer: 0
+    misconceptions:
+      1: assigning to an existing key adds a second entry with the same key
+      2: the value of an existing key cannot be changed
+
+  # ---------------- nested_data ----------------
+  - id: nested_data-01
+    type: mcq
+    concepts: [nested_data]
+    difficulty: 2
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      students = [
+          {"name": "Hermione", "house": "Gryffindor"},
+          {"name": "Draco", "house": "Slytherin"},
+      ]
+      print(students[1]["name"])
+    check_output: true
+    options: ["Draco", "Hermione", "KeyError", "Slytherin"]
+    answer: 0
+    misconceptions:
+      1: list positions start at 1
+      2: you cannot use a key on an item taken from a list
+      3: the second lookup goes to the next key instead of the named one
+
+  - id: nested_data-02
+    type: code
+    concepts: [nested_data, iterating_lists]
+    difficulty: 3
+    bloom: apply
+    stem: students is a list of dictionaries with keys "name" and "house". Write names_in_house(students, house) that returns the list of names in that house, in order.
+    function: names_in_house
+    solution: |
+      def names_in_house(students, house):
+          names = []
+          for s in students:
+              if s["house"] == house:
+                  names.append(s["name"])
+          return names
+    buggy: |
+      def names_in_house(students, house):
+          names = []
+          for s in students:
+              if s["house"] == house:
+                  names.append(s)
+          return names
+    tests:
+      - {call: 'names_in_house([{"name": "Harry", "house": "Gryffindor"}, {"name": "Draco", "house": "Slytherin"}], "Gryffindor")', expect: "['Harry']"}
+      - {call: 'names_in_house([], "Gryffindor")', expect: "[]", hidden: true}
+      - {call: 'names_in_house([{"name": "Ron", "house": "Gryffindor"}, {"name": "Ginny", "house": "Gryffindor"}], "Gryffindor")', expect: "['Ron', 'Ginny']", hidden: true}
+
+  - id: nested_data-03
+    type: short
+    concepts: [nested_data]
+    difficulty: 2
+    bloom: apply
+    stem: Type exactly what this program prints.
+    code: |
+      data = {"scores": [90, 85, 77]}
+      print(data["scores"][-1])
+    check_output: true
+    accept: ["77"]

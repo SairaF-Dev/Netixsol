@@ -1,0 +1,295 @@
+# CS50P Lecture 4: libraries.
+
+questions:
+  # ---------------- imports ----------------
+  - id: imports-01
+    type: mcq
+    concepts: [imports]
+    difficulty: 3
+    bloom: understand
+    stem: What happens when you run this program?
+    code: |
+      import math
+      print(sqrt(16))
+    check_output: true
+    options: ["NameError", "4.0", "4"]
+    answer: 0
+    misconceptions:
+      1: import math makes its functions usable without the math. prefix
+      2: same belief, and sqrt of a perfect square gives an int
+
+  - id: imports-02
+    type: mcq
+    concepts: [imports]
+    difficulty: 2
+    bloom: remember
+    stem: Which line lets you call choice(["heads", "tails"]) without any prefix?
+    options: ["from random import choice", "import random", "import choice from random", "include random"]
+    answer: 0
+    misconceptions:
+      1: import random also makes choice available by itself
+      2: the JavaScript word order works in Python
+      3: C's include works in Python
+
+  - id: imports-03
+    type: mcq
+    concepts: [imports]
+    difficulty: 4
+    bloom: analyze
+    stem: What does this program print?
+    code: |
+      import random
+      random.seed(1)
+      a = random.randint(1, 100)
+      random.seed(1)
+      b = random.randint(1, 100)
+      print(a == b)
+    check_output: true
+    options: ["True", "False", "it changes every time you run it"]
+    answer: 0
+    misconceptions:
+      1: random numbers can never repeat
+      2: seeding does not make the random sequence repeatable
+
+  # ---------------- slicing ----------------
+  - id: slicing-01
+    type: mcq
+    concepts: [slicing, strings]
+    difficulty: 2
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      s = "python"
+      print(s[1:4])
+    check_output: true
+    options: ["yth", "pyth", "ytho", "pyt"]
+    answer: 0
+    misconceptions:
+      1: positions start at 1
+      2: the end position is included
+      3: the second number is a length counted from the start of the string
+
+  - id: slicing-02
+    type: mcq
+    concepts: [slicing]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print?
+    code: print("hello"[::-1])
+    check_output: true
+    options: ["olleh", "hello", "h", "o"]
+    answer: 0
+    misconceptions:
+      1: a step of -1 is ignored
+      2: "[::-1] takes the first character"
+      3: "[::-1] takes the last character"
+
+  - id: slicing-03
+    type: code
+    concepts: [slicing, lists]
+    difficulty: 2
+    bloom: apply
+    stem: Write middle(items) that returns a new list without the first and the last item. middle([1, 2, 3, 4]) returns [2, 3].
+    function: middle
+    solution: |
+      def middle(items):
+          return items[1:-1]
+    buggy: |
+      def middle(items):
+          return items[1:-2]
+    tests:
+      - {call: "middle([1, 2, 3, 4])", expect: "[2, 3]"}
+      - {call: "middle([1, 2])", expect: "[]", hidden: true}
+      - {call: 'middle(["a", "b", "c"])', expect: "['b']", hidden: true}
+
+  - id: slicing-04
+    type: short
+    concepts: [slicing, lists]
+    difficulty: 3
+    bloom: apply
+    stem: Type exactly what this program prints.
+    code: |
+      nums = [0, 1, 2, 3, 4, 5]
+      print(nums[-2:])
+    check_output: true
+    accept: ["[4, 5]"]
+
+  # ---------------- command_line_args ----------------
+  - id: command_line_args-01
+    type: mcq
+    concepts: [command_line_args]
+    difficulty: 2
+    bloom: understand
+    stem: You run python greet.py David in the terminal. What is sys.argv inside greet.py?
+    options: ["['greet.py', 'David']", "['David']", "'David'", "['python', 'greet.py', 'David']"]
+    answer: 0
+    misconceptions:
+      1: sys.argv holds only the arguments, not the program name
+      2: sys.argv is one string
+      3: sys.argv also includes the word python
+
+  - id: command_line_args-02
+    type: code
+    concepts: [command_line_args, lists]
+    difficulty: 2
+    bloom: apply
+    stem: 'Write parse_name(argv) that gets a list like sys.argv and returns the first argument after the program name, or "world" if there is none. parse_name(["greet.py", "David"]) returns "David".'
+    function: parse_name
+    solution: |
+      def parse_name(argv):
+          if len(argv) < 2:
+              return "world"
+          return argv[1]
+    buggy: |
+      def parse_name(argv):
+          return argv[1]
+    tests:
+      - {call: 'parse_name(["greet.py", "David"])', expect: "'David'"}
+      - {call: 'parse_name(["greet.py"])', expect: "'world'", hidden: true}
+      - {call: 'parse_name(["greet.py", "Ada", "x"])', expect: "'Ada'", hidden: true}
+
+  - id: command_line_args-03
+    type: short
+    concepts: [command_line_args]
+    difficulty: 2
+    bloom: understand
+    stem: Why should a program check len(sys.argv) before using sys.argv[1]?
+    rubric:
+      - If the user gives no argument, sys.argv[1] raises IndexError and the program crashes
+      - Checking first lets the program show a usage message and exit cleanly (sys.exit)
+
+  # ---------------- packages_pip ----------------
+  - id: packages_pip-01
+    type: mcq
+    concepts: [packages_pip]
+    difficulty: 1
+    bloom: remember
+    stem: Which terminal command installs the package cowsay?
+    options: ["pip install cowsay", "import cowsay", "python install cowsay", "pip cowsay"]
+    answer: 0
+    misconceptions:
+      1: import downloads a package when it is missing
+      2: python itself installs packages
+      3: pip needs no sub-command
+
+  - id: packages_pip-02
+    type: mcq
+    concepts: [packages_pip, imports]
+    difficulty: 2
+    bloom: apply
+    stem: You run import requests and get ModuleNotFoundError. What is the most likely fix?
+    options:
+      - Install it with pip install requests
+      - Rename your own file to requests.py
+      - Add requests to sys.argv
+      - Use from requests import * instead
+    answer: 0
+    misconceptions:
+      1: naming your file like a package provides the package (it actually hides the real one)
+      2: command-line arguments make modules available
+      3: a different import style finds packages that are not installed
+
+  - id: packages_pip-03
+    type: short
+    concepts: [packages_pip]
+    difficulty: 2
+    bloom: remember
+    stem: What is PyPI, and how does pip use it?
+    rubric:
+      - PyPI (the Python Package Index) is an online collection of packages that others have published
+      - pip downloads packages from PyPI and installs them so you can import them
+
+  # ---------------- apis_json ----------------
+  - id: apis_json-01
+    type: mcq
+    concepts: [apis_json, dictionaries]
+    difficulty: 3
+    bloom: apply
+    stem: What does this program print?
+    code: |
+      import json
+      data = json.loads('{"name": "Ada", "age": 36}')
+      print(data["age"] + 1)
+    check_output: true
+    options: ["37", "361", "TypeError"]
+    answer: 0
+    misconceptions:
+      1: numbers in JSON stay text after loading
+      2: json.loads gives a string, not a dictionary
+
+  - id: apis_json-02
+    type: mcq
+    concepts: [apis_json]
+    difficulty: 2
+    bloom: understand
+    stem: What does a web API such as the iTunes Search API usually send back to your program?
+    options:
+      - Text in JSON format, which your program turns into dictionaries and lists
+      - A ready-made Python dictionary object
+      - An HTML web page to show the user
+      - A Python file to run
+    answer: 0
+    misconceptions:
+      1: Python objects travel over the internet as they are
+      2: an API returns the same thing a browser shows
+      3: APIs send code to execute
+
+  - id: apis_json-03
+    type: code
+    concepts: [apis_json, nested_data]
+    difficulty: 3
+    bloom: apply
+    stem: 'An API response was parsed into a dict like {"results": [{"trackName": "Hello"}, ...]}. Write track_names(response) that returns the list of track names.'
+    function: track_names
+    solution: |
+      def track_names(response):
+          return [r["trackName"] for r in response["results"]]
+    buggy: |
+      def track_names(response):
+          return response["results"]
+    tests:
+      - {call: 'track_names({"results": [{"trackName": "Hello"}, {"trackName": "Yesterday"}]})', expect: "['Hello', 'Yesterday']"}
+      - {call: 'track_names({"results": []})', expect: "[]", hidden: true}
+      - {call: 'track_names({"resultCount": 1, "results": [{"trackName": "A", "artistName": "B"}]})', expect: "['A']", hidden: true}
+
+  # ---------------- own_modules ----------------
+  - id: own_modules-01
+    type: mcq
+    concepts: [own_modules]
+    difficulty: 3
+    bloom: understand
+    stem: 'Why do we put if __name__ == "__main__": main() at the bottom of a file?'
+    options:
+      - So main() runs when the file is run directly, but not when another file imports it
+      - Every Python program needs it in order to run
+      - It makes the program run faster
+      - It imports a module called main
+    answer: 0
+    misconceptions:
+      1: the check is required for any program to start
+      2: the check is a speed optimisation
+      3: the line is an import
+
+  - id: own_modules-02
+    type: mcq
+    concepts: [own_modules]
+    difficulty: 3
+    bloom: understand
+    stem: What does this program print when you run it directly?
+    code: print(__name__)
+    check_output: true
+    options: ["__main__", "__name__", "print"]
+    answer: 0
+    misconceptions:
+      1: __name__ holds its own name as text
+      2: __name__ holds the name of the function being called
+
+  - id: own_modules-03
+    type: short
+    concepts: [own_modules, imports]
+    difficulty: 2
+    bloom: apply
+    stem: You wrote greet.py with a function hello(name). How do you use hello from main.py in the same folder?
+    rubric:
+      - import greet and call greet.hello(...), or from greet import hello and call hello(...)
+      - The module name is the file name without .py

@@ -1,0 +1,104 @@
+# CS50P Lecture 5: unit tests.
+
+questions:
+  # ---------------- assert_statement ----------------
+  - id: assert_statement-01
+    type: mcq
+    concepts: [assert_statement]
+    difficulty: 2
+    bloom: understand
+    stem: What happens when you run this program?
+    code: |
+      x = 3
+      assert x > 5
+      print("ok")
+    check_output: true
+    options: ["AssertionError", "ok", "False\nok"]
+    answer: 0
+    misconceptions:
+      1: a failing assert only warns and the program continues
+      2: assert prints the value of the condition
+
+  - id: assert_statement-02
+    type: mcq
+    concepts: [assert_statement]
+    difficulty: 1
+    bloom: understand
+    stem: What does this program print?
+    code: |
+      assert 1 + 1 == 2
+      print("ok")
+    check_output: true
+    options: ["ok", "True\nok", "AssertionError"]
+    answer: 0
+    misconceptions:
+      1: a passing assert prints True
+      2: assert always raises an error
+
+  - id: assert_statement-03
+    type: short
+    concepts: [assert_statement]
+    difficulty: 4
+    bloom: evaluate
+    stem: Why should assert not be used to check what a user typed in a finished program?
+    rubric:
+      - Asserts can be switched off (python -O), so the check would silently disappear
+      - A failing assert crashes with AssertionError instead of a helpful message; use if with a message or raise ValueError
+
+  # ---------------- pytest_testing ----------------
+  - id: pytest_testing-01
+    type: mcq
+    concepts: [pytest_testing]
+    difficulty: 1
+    bloom: remember
+    stem: Which function in test_calc.py will pytest find and run automatically?
+    options: ["def test_square():", "def square_test():", "def check_square():", "def TestSquare():"]
+    answer: 0
+    misconceptions:
+      1: pytest finds tests that end with _test
+      2: pytest runs any function that checks something
+      3: functions starting with Test (capital, no underscore) are collected
+
+  - id: pytest_testing-02
+    type: mcq
+    concepts: [pytest_testing]
+    difficulty: 4
+    bloom: evaluate
+    stem: Which set of test inputs is best for is_even(n)?
+    options:
+      - is_even(2), is_even(3), is_even(0), is_even(-4)
+      - is_even(2), is_even(4), is_even(6), is_even(8)
+      - is_even(1000000)
+      - None; the function is too short to need tests
+    answer: 0
+    misconceptions:
+      1: many similar inputs test as much as different kinds of input
+      2: one big input proves the function works
+      3: short functions cannot have bugs
+
+  - id: pytest_testing-03
+    type: mcq
+    concepts: [pytest_testing, try_except]
+    difficulty: 3
+    bloom: apply
+    stem: In pytest, how do you check that int("cat") raises ValueError?
+    options:
+      - "with pytest.raises(ValueError):\n    int(\"cat\")"
+      - assert int("cat") == ValueError
+      - assert raises ValueError
+      - "try:\n    int(\"cat\")\nexcept ValueError:\n    pass"
+    answer: 0
+    misconceptions:
+      1: an exception is a value that a call returns
+      2: assert has a built-in raises keyword
+      3: catching the error checks it (this test also passes when NO error happens)
+
+  - id: pytest_testing-04
+    type: short
+    concepts: [pytest_testing]
+    difficulty: 2
+    bloom: understand
+    stem: Why do good tests include edge cases such as 0, negative numbers and empty strings?
+    rubric:
+      - Bugs often hide at boundaries and special values
+      - A function can pass for typical values and still fail for edge values
