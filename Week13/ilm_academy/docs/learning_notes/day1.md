@@ -136,3 +136,22 @@
     "same students" one?
 15. Why is "students who failed recently dropped out more" NOT an insight from the simulated
     data? (Hint: who wrote the dropout rule?)
+
+## Part 7: Transcription accuracy on all 11 lectures (2026-11-26)
+
+- Overall WER 3.0% over 189,093 words (best lecture 1.9%, worst 4.8%: Lecture 7, regex).
+- **Correction of an earlier claim.** I said most "errors" were filler words (um, uh) that
+  subtitle editors removed. Measured: Whisper kept only 55 fillers in 189k words, and
+  removing them changes WER by < 0.1 points. The claim was a guess, never checked. Wrong.
+- What the errors really are (Lectures 0, 7 and MIT, word by word):
+  - subtitles write symbols, Whisper spells them out ("plus", "slash", "dot", "at");
+    our normaliser deletes the symbols, so the spelled words count as extra
+  - digits vs number words ("1" vs "one"); "whitespace" vs "white space"
+  - a real mishearing: "carrot" for "caret" (the regex ^), 17 times. A student searching
+    "caret" will not find those passages by that word: noted for the retrieval work.
+- So the true error rate is below 3%; Lecture 7 scores worst because regex is full of
+  spoken symbols, not because the audio is worse.
+
+### Check yourself
+16. Two transcripts of the same sentence: "x equals 1" and "x = one". Our WER counts errors.
+    Are there any real ones? What would you change to measure fairly?

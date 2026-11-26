@@ -1,0 +1,118 @@
+{
+ "lessons": 11,
+ "ref_words": 189093,
+ "overall_wer": 0.0298,
+ "overall_wer_without_fillers": 0.0298,
+ "per_lesson": [
+  {
+   "lesson": "cs50p-l0",
+   "wer": 0.0241,
+   "substitutions": 195,
+   "deletions": 167,
+   "insertions": 145,
+   "ref_words": 20994,
+   "wer_without_fillers": 0.0242,
+   "filler_words_whisper_kept": 7
+  },
+  {
+   "lesson": "cs50p-l1",
+   "wer": 0.0306,
+   "substitutions": 206,
+   "deletions": 44,
+   "insertions": 83,
+   "ref_words": 10893,
+   "wer_without_fillers": 0.0304,
+   "filler_words_whisper_kept": 2
+  },
+  {
+   "lesson": "cs50p-l2",
+   "wer": 0.0206,
+   "substitutions": 165,
+   "deletions": 77,
+   "insertions": 73,
+   "ref_words": 15327,
+   "wer_without_fillers": 0.0206,
+   "filler_words_whisper_kept": 1
+  },
+  {
+   "lesson": "cs50p-l3",
+   "wer": 0.0293,
+   "substitutions": 143,
+   "deletions": 36,
+   "insertions": 75,
+   "ref_words": 8683,
+   "wer_without_fillers": 0.0293,
+   "filler_words_whisper_kept": 2
+  },
+  {
+   "lesson": "cs50p-l4",
+   "wer": 0.0285,
+   "substitutions": 218,
+   "deletions": 68,
+   "insertions": 136,
+   "ref_words": 14819,
+   "wer_without_fillers": 0.0284,
+   "filler_words_whisper_kept": 7
+  },
+  {
+   "lesson": "cs50p-l5",
+   "wer": 0.0391,
+   "substitutions": 136,
+   "deletions": 65,
+   "insertions": 177,
+   "ref_words": 9657,
+   "wer_without_fillers": 0.0388,
+   "filler_words_whisper_kept": 4
+  },
+  {
+   "lesson": "cs50p-l6",
+   "wer": 0.0193,
+   "substitutions": 179,
+   "deletions": 72,
+   "insertions": 88,
+   "ref_words": 17609,
+   "wer_without_fillers": 0.0193,
+   "filler_words_whisper_kept": 2
+  },
+  {
+   "lesson": "cs50p-l7",
+   "wer": 0.0476,
+   "substitutions": 410,
+   "deletions": 167,
+   "insertions": 525,
+   "ref_words": 23135,
+   "wer_without_fillers": 0.0475,
+   "filler_words_whisper_kept": 7
+  },
+  {
+   "lesson": "cs50p-l8",
+   "wer": 0.0285,
+   "substitutions": 353,
+   "deletions": 108,
+   "insertions": 424,
+   "ref_words": 31069,
+   "wer_without_fillers": 0.0283,
+   "filler_words_whisper_kept": 10
+  },
+  {
+   "lesson": "cs50p-l9",
+   "wer": 0.0266,
+   "substitutions": 453,
+   "deletions": 156,
+   "insertions": 133,
+   "ref_words": 27938,
+   "wer_without_fillers": 0.0265,
+   "filler_words_whisper_kept": 9
+  },
+  {
+   "lesson": "mit6001-l6",
+   "wer": 0.0406,
+   "substitutions": 229,
+   "deletions": 75,
+   "insertions": 60,
+   "ref_words": 8969,
+   "wer_without_fillers": 0.0405,
+   "filler_words_whisper_kept": 4
+  }
+ ]
+}

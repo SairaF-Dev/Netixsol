@@ -20,9 +20,9 @@ from ilm.learners.assistments import load_clean
 from ilm.tracing.evaluate import load_splits, metrics
 
 
-def tune_bkt(train, valid):
+def tune_bkt(train, valid, settings=(False, True)):
     from ilm.tracing.bkt import BKT
-    for forgets in (False, True):
+    for forgets in settings:
         t = time.time()
         m = BKT(forgets=forgets).fit(train)
         print(m.name, metrics(valid["correct"], m.predict(valid)), f"{time.time() - t:.0f}s", flush=True)
@@ -42,9 +42,14 @@ def tune_deep(train, valid):
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("which", choices=["bkt", "deep"])
+    p.add_argument("--forgets", nargs="+", choices=["no", "yes"], default=["no", "yes"],
+                   help="BKT settings to run (to redo one after an interruption)")
     a = p.parse_args()
     train, valid, _ = load_splits(load_clean())   # the test split is not even kept
-    {"bkt": tune_bkt, "deep": tune_deep}[a.which](train, valid)
+    if a.which == "bkt":
+        tune_bkt(train, valid, [f == "yes" for f in a.forgets])
+    else:
+        tune_deep(train, valid)
 
 
 if __name__ == "__main__":
