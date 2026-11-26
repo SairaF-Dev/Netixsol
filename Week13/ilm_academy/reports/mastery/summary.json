@@ -9,7 +9,7 @@
   "tuples_unpacking",
   "type_hints"
  ],
- "mastery_rule": "P(known) >= 0.95 and last 3 answers right",
+ "mastery_rule": "earned: P(known) >= 0.95 and last 3 answers right; lost: P(known) < 0.95",
  "note": "3 answers per concept in this history, so the streak rule cannot fire here; the bins show how far P(known) ALONE can be trusted. The engine's mastery calls are checked against the truth in reports/adaptive/comparison.json.",
  "auc_p_known_vs_truth_knew": 0.659,
  "auc_p_correct_vs_answer": 0.639,

@@ -13,7 +13,12 @@ prerequisites in place and makes repeated failure push students to drop out, whi
 exactly what the engine exploits. A win here is evidence, not proof: Day 5 designs the
 real A/B test.
 
-Run:  python -m ilm.adaptive.compare     (needs python -m ilm.tracing.mastery first)
+Seeds: 2026 is the DEVELOPMENT group (the first run was diagnosed on it and the mastery
+rule changed because of it); 2027 is a FRESH group, run once to confirm, so the engine is
+not judged on the students it was adjusted for.
+
+Run:  python -m ilm.adaptive.compare [--seed 2027]   (needs python -m ilm.tracing.mastery first)
+      -> reports/adaptive/comparison_seed<seed>.json
 """
 from __future__ import annotations
 
@@ -31,18 +36,21 @@ EVAL_SEED = 2026
 N_STUDENTS = 1000
 
 
+FRESH_SEED = 2027
+
+
 def students(course, n=N_STUDENTS, seed=EVAL_SEED):
     rng = np.random.default_rng(seed)
     return [sim.make_student(i, rng, course) for i in range(n)]
 
 
-def engine(course, **switches):
+def engine(course, seed=EVAL_SEED, **switches):
     irt = config.REPORTS_DIR / "irt"
     item = pd.read_csv(irt / "question_params_2pl.csv", index_col=0)[["a", "b"]]
     bad = set(pd.read_csv(irt / "flagged_questions.csv", index_col=0).index)
     params = pd.read_csv(PARAMS_FILE, index_col=0)
     return AdaptiveEngine(course.order, course.prereqs, course.questions, params,
-                          item_params=item, bad=bad, seed=EVAL_SEED, **switches)
+                          item_params=item, bad=bad, seed=seed, **switches)
 
 
 def outcomes(log: pd.DataFrame, people: pd.DataFrame) -> pd.DataFrame:
@@ -71,20 +79,24 @@ def paired_ci(diff: np.ndarray, n_boot: int = 2000, seed: int = 0) -> tuple[floa
 
 
 def main() -> None:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--seed", type=int, default=EVAL_SEED)
+    seed = ap.parse_args().seed
     course = sim.Course.load(config.RANDOM_SEED)          # same questions + truth as the history
     base = json.loads((config.PROCESSED_DIR / "simulated" / "summary.json").read_text())["calibrated_drop_base"]
     policies = {
         "fixed path": lambda: sim.FixedPath(course),
-        "adaptive (all four ideas)": lambda: engine(course),
-        "adaptive without prerequisites": lambda: engine(course, use_prereqs=False),
-        "adaptive without ZPD": lambda: engine(course, use_zpd=False),
-        "adaptive without bandit": lambda: engine(course, use_bandit=False),
-        "adaptive without reviews": lambda: engine(course, use_reviews=False),
+        "adaptive (all four ideas)": lambda: engine(course, seed),
+        "adaptive without prerequisites": lambda: engine(course, seed, use_prereqs=False),
+        "adaptive without ZPD": lambda: engine(course, seed, use_zpd=False),
+        "adaptive without bandit": lambda: engine(course, seed, use_bandit=False),
+        "adaptive without reviews": lambda: engine(course, seed, use_reviews=False),
     }
     results, calls = {}, {}
     for name, make in policies.items():
-        group, policy = students(course), make()
-        log, people = sim.run_course(group, course, policy, EVAL_SEED, base)
+        group, policy = students(course, seed=seed), make()
+        log, people = sim.run_course(group, course, policy, seed, base)
         results[name] = outcomes(log, people)
         if isinstance(policy, AdaptiveEngine):
             calls[name] = mastery_calls(policy, group)
@@ -105,10 +117,11 @@ def main() -> None:
         rows.append(row)
     out = config.REPORTS_DIR / "adaptive"
     out.mkdir(parents=True, exist_ok=True)
-    report = {"students": N_STUDENTS, "eval_seed": EVAL_SEED, "drop_base": base,
+    report = {"students": N_STUDENTS, "eval_seed": seed,
+              "group": "fresh (confirmation)" if seed != EVAL_SEED else "development", "drop_base": base,
               "caveat": "Simulated students; the simulator rewards what the engine does. Evidence, not proof.",
               "policies": rows}
-    (out / "comparison.json").write_text(json.dumps(report, indent=1), encoding="utf-8")
+    (out / f"comparison_seed{seed}.json").write_text(json.dumps(report, indent=1), encoding="utf-8")
     print(json.dumps(rows[1], indent=1))
 
 

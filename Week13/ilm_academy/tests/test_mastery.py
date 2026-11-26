@@ -73,7 +73,21 @@ def test_one_lucky_answer_is_not_mastery_even_with_a_huge_learn_rate():
     for _ in range(STREAK - 1):
         t.update("loops", True)
     assert t.mastered("loops")
-    t.update("loops", False)                                            # a miss resets the streak
+
+
+def test_mastery_survives_one_slip_but_not_repeated_misses():
+    t = MasteryTracker(PARAMS)
+    for _ in range(10):
+        t.update("loops", True)
+    assert t.mastered("loops")
+    t.update("loops", False)                              # one slip: P(known) stays >= 0.95
+    assert t.p_known("loops") >= MASTERED and t.mastered("loops")
+    misses = 1
+    while t.mastered("loops"):
+        t.update("loops", False)
+        misses += 1
+    assert misses >= 2 and t.p_known("loops") < MASTERED   # how many depends on the evidence so far
+    t.update("loops", True)                               # must be earned again with a streak
     assert not t.mastered("loops")
 
 

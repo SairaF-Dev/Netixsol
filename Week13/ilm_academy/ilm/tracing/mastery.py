@@ -10,8 +10,13 @@ simulated course's PUBLIC answers. The per-student update is the standard BKT ru
        P(L) <- P(L | answer) + (1 - P(L | answer)) * learns
 
   P(right next time) = P(L)(1 - slip) + (1 - P(L)) guess
-  mastered when P(L) >= 0.95 (Corbett & Anderson's classic threshold) AND the last
-  STREAK answers on the concept were right (ASSISTments skill builders' "3 in a row").
+  mastery is EARNED when P(L) >= 0.95 (Corbett & Anderson's classic threshold) AND the
+  last STREAK answers on the concept were right (ASSISTments skill builders' "3 in a row"),
+  and LOST only when P(L) falls below 0.95 again (hysteresis). One slip on a well-known
+  concept (0.99 -> ~0.97) keeps it; repeated misses take it away (more of them the longer
+  the record of right answers), and it must then be earned again. Without this, 17% of reviews failed (about the slip rate, so mostly slips)
+  and each failure sent the student back to relearn the concept and re-locked everything
+  built on it: 18% of all adaptive answers were relearning (reports/adaptive/).
 
 Why both: the simulated history has only 3 answers per concept, too few for pyBKT to tell
 "learned fast" from "got lucky"; some concepts got learn rates near 1, so P(L) passed 0.95
@@ -45,6 +50,7 @@ class MasteryTracker:
     params: pd.DataFrame
     known: dict[str, float] = field(default_factory=dict)
     streak: dict[str, int] = field(default_factory=dict)      # right answers in a row
+    earned: set[str] = field(default_factory=set)             # mastery earned, not yet lost
 
     def p_known(self, concept: str) -> float:
         return self.known.get(concept, float(self.params.at[concept, "prior"]))
@@ -62,10 +68,14 @@ class MasteryTracker:
             post = p * slip / (p * slip + (1 - p) * (1 - guess))
         self.known[concept] = post + (1 - post) * row["learns"]
         self.streak[concept] = self.streak.get(concept, 0) + 1 if correct else 0
+        if self.known[concept] < MASTERED:
+            self.earned.discard(concept)
+        elif self.streak[concept] >= STREAK:
+            self.earned.add(concept)
         return self.known[concept]
 
     def mastered(self, concept: str) -> bool:
-        return self.p_known(concept) >= MASTERED and self.streak.get(concept, 0) >= STREAK
+        return concept in self.earned
 
     def report(self) -> pd.DataFrame:
         rows = [{"concept": c, "p_known": round(self.p_known(c), 3), "mastered": self.mastered(c)}
@@ -129,7 +139,7 @@ def main() -> None:
     report = {
         "concepts": len(params),
         "degenerate_replaced_by_median": params.attrs.get("repaired", []),
-        "mastery_rule": f"P(known) >= {MASTERED} and last {STREAK} answers right",
+        "mastery_rule": f"earned: P(known) >= {MASTERED} and last {STREAK} answers right; lost: P(known) < {MASTERED}",
         "note": "3 answers per concept in this history, so the streak rule cannot fire here; "
                 "the bins show how far P(known) ALONE can be trusted. The engine's mastery "
                 "calls are checked against the truth in reports/adaptive/comparison.json.",
