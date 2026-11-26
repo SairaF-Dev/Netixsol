@@ -90,3 +90,31 @@ Knowledge tracing asks "what does the STUDENT know?". IRT asks "what is the QUES
 4. A question has a = -0.9. What would you check first, and why?
 5. Why does IRT use only each student's FIRST answer to a question?
 6. Why can a model find every bad question and still estimate difficulty only roughly?
+
+## Part 3: Mastery per concept, and debugging long jobs (2026-11-26)
+
+### Mastery = BKT's P(knows the concept)
+After each answer, two steps:
+1. **Evidence (Bayes' rule).** A right answer raises the belief, but less when guessing is easy.
+   A wrong answer lowers it, but less when careless slips are common.
+2. **Learning.** Practice itself may have taught them: add `learns` x the remaining doubt.
+Mastered when P(knows) >= 0.95 (the classic threshold).
+Our 10-line tracker (`ilm/tracing/mastery.py`) gives the same predictions as pyBKT to
+4 decimals, so the adaptive engine can use it directly.
+
+### Debugging jobs that run for a long time
+- **A silent hour can mean slow, stuck or broken; from outside they look the same.** Every
+  long job now prints one line per epoch.
+- **Look at each process, not just "is it running".** BKT's 12 worker processes had used
+  1-2 CPU-seconds each in 25 minutes: idle, waiting for each other (a deadlock), not slow.
+  Fix: pyBKT with parallel=False.
+- **Measure before guessing.** One DKT epoch takes 7 seconds in the foreground, yet the
+  background job ran for over an hour without finishing one setting. Running BKT and DKT
+  together oversubscribed the CPU (10 PyTorch threads fighting other processes).
+  Fix: one heavy job at a time.
+
+### Check yourself
+7. A student answers 3 loops questions right in a row. Why does their mastery go up LESS
+   on a 4-option MCQ than on a coding question?
+8. A background job has printed nothing for an hour. Name three different things that
+   could be happening, and how you would tell them apart.

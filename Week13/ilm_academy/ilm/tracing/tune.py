@@ -3,6 +3,9 @@
 Run:  python -m ilm.tracing.tune bkt     -> logs/bkt_tuning.log
       python -m ilm.tracing.tune deep    -> logs/deep_tuning.log
 
+Run ONE tuning job at a time: running BKT and the deep models together made a 3-minute
+DKT job take over an hour (CPU oversubscription, 2026-11-26).
+
 Must be run as a module FILE, not piped in on stdin: pyBKT trains skills in parallel worker
 processes, and on Windows every worker re-imports the main script. A script read from stdin
 cannot be re-imported, so every worker crashed (found 2026-11-26). The
@@ -30,7 +33,7 @@ def tune_deep(train, valid):
     for arch in ("dkt", "sakt"):
         for dim in (64, 128):
             t = time.time()
-            m = DeepKT(arch, dim=dim).fit(train, valid)
+            m = DeepKT(arch, dim=dim, verbose=True).fit(train, valid)
             best = max(m.history, key=lambda h: h["valid_auc"])
             print(m.name, "best", best, "epochs run", len(m.history),
                   metrics(valid["correct"], m.predict(valid)), f"{time.time() - t:.0f}s", flush=True)

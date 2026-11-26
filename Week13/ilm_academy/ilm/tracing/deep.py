@@ -16,6 +16,7 @@ window of history (except a student's first answers, which have less history any
 from __future__ import annotations
 
 import copy
+import time
 
 import numpy as np
 import pandas as pd
@@ -69,10 +70,12 @@ class _SAKTNet(nn.Module):
 
 class DeepKT:
     def __init__(self, arch: str = "dkt", dim: int = 64, epochs: int = 20, lr: float = 1e-3,
-                 batch_size: int = 64, patience: int = 3, seed: int = config.RANDOM_SEED):
+                 batch_size: int = 64, patience: int = 3, seed: int = config.RANDOM_SEED,
+                 verbose: bool = False):
         assert arch in ("dkt", "sakt")
         self.arch, self.dim, self.epochs, self.lr = arch, dim, epochs, lr
         self.batch_size, self.patience, self.seed = batch_size, patience, seed
+        self.verbose = verbose   # one line per epoch: a silent hour can mean slow, stuck or broken
         self.name = f"{arch.upper()} (dim={dim})"
         self.history: list[dict] = []
 
@@ -137,6 +140,7 @@ class DeepKT:
         windows = self._windows(self._sequences(train), stride=MAX_LEN)
         best, best_state, bad = -1.0, None, 0
         for epoch in range(self.epochs):
+            t0 = time.time()
             self.net.train()
             order = rng.permutation(len(windows))
             for i in range(0, len(order), self.batch_size):
@@ -152,6 +156,8 @@ class DeepKT:
                 continue
             auc = metrics(valid["correct"], self.predict(valid))["auc"]
             self.history.append({"epoch": epoch + 1, "valid_auc": auc})
+            if self.verbose:
+                print(f"  {self.name} epoch {epoch + 1}: valid AUC {auc:.4f} ({time.time() - t0:.0f}s)", flush=True)
             if auc > best:
                 best, best_state, bad = auc, copy.deepcopy(self.net.state_dict()), 0
             else:

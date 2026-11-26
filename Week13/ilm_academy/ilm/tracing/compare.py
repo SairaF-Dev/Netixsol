@@ -23,8 +23,11 @@ CHOSEN = {
     "student_so_far_m": 40,         # AUC flat at 40-80; tie broken by RMSE
     "pfa": {"C": 1.0, "transform": "log"},
     "bkt_forgets": None,            # filled in from logs/bkt_tuning.log
-    "dkt_dim": None,                # filled in from logs/deep_tuning.log
-    "sakt_dim": None,
+    # deep (logs/deep_tuning.log): DKT 64 -> 0.7505, 128 -> 0.7537 (stopped early at 12);
+    # SAKT 64 -> 0.7312, 128 -> 0.7325. Both size-64 runs hit the 20-epoch cap while still
+    # improving, but 128 was better AND converged, so 128 for both.
+    "dkt_dim": 128,
+    "sakt_dim": 128,
 }
 
 

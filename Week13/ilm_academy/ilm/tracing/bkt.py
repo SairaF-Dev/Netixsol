@@ -39,7 +39,9 @@ class BKT:
         from pyBKT.models import Model
         self.p = float(train["correct"].mean())
         self.skills = set(train["skill"].astype(str))
-        self.model = Model(seed=self.seed, num_fits=self.num_fits)
+        # parallel=False: on Windows pyBKT's worker pool sat idle for 25+ minutes (workers at
+        # 1-2 CPU-seconds each) and never returned; single-process fitting finishes.
+        self.model = Model(seed=self.seed, num_fits=self.num_fits, parallel=False)
         self.model.fit(data=self._prep(train), defaults=_DEFAULTS, forgets=self.forgets)
         return self
 
