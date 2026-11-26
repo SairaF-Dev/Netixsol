@@ -226,6 +226,14 @@ class FixedPath:
         return self.plan[i]
 
 
+def drop_hazard(drop_base, recent_wrong, motivation, empty_week):
+    """Chance of quitting at the end of a week. recent_wrong: wrong share of the last 10
+    answers (0.5 if none yet). Works on numbers or arrays (the dropout model's ceiling check
+    in ilm.analytics.dropout uses the same formula)."""
+    z = drop_base + 2.0 * (np.asarray(recent_wrong) - 0.5) - 0.6 * np.asarray(motivation) + 1.0 * np.asarray(empty_week)
+    return 1.0 / (1.0 + np.exp(-z))
+
+
 def run_course(students: list[SimStudent], course: Course, policy, seed: int,
                drop_base: float) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Simulate WEEKS weeks. Returns (interactions, students)."""
@@ -253,8 +261,7 @@ def run_course(students: list[SimStudent], course: Course, policy, seed: int,
             if finished:
                 break
             recent = (1 - sum(s.recent) / len(s.recent)) if s.recent else 0.5
-            hazard = sigmoid(drop_base + 2.0 * (recent - 0.5) - 0.6 * s.motivation
-                             + 1.0 * (n_sessions == 0))
+            hazard = drop_hazard(drop_base, recent, s.motivation, n_sessions == 0)
             if rng.random() < hazard:
                 dropped = week
                 break

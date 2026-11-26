@@ -1,0 +1,260 @@
+{
+ "setup": {
+  "checkpoints": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "train_valid": "seed-42 history, split by student",
+  "test": "fresh cohort seed 2027, fixed course, scored once",
+  "rows": {
+   "train": 3092,
+   "valid": 766,
+   "test": 3691
+  }
+ },
+ "tuning_on_validation": [
+  {
+   "num_leaves": 7,
+   "min_child_samples": 20,
+   "valid_pr_auc": 0.3097,
+   "trees": 105
+  },
+  {
+   "num_leaves": 7,
+   "min_child_samples": 50,
+   "valid_pr_auc": 0.3115,
+   "trees": 165
+  },
+  {
+   "num_leaves": 7,
+   "min_child_samples": 100,
+   "valid_pr_auc": 0.2959,
+   "trees": 84
+  },
+  {
+   "num_leaves": 15,
+   "min_child_samples": 20,
+   "valid_pr_auc": 0.3127,
+   "trees": 58
+  },
+  {
+   "num_leaves": 15,
+   "min_child_samples": 50,
+   "valid_pr_auc": 0.3125,
+   "trees": 59
+  },
+  {
+   "num_leaves": 15,
+   "min_child_samples": 100,
+   "valid_pr_auc": 0.3085,
+   "trees": 67
+  },
+  {
+   "num_leaves": 31,
+   "min_child_samples": 20,
+   "valid_pr_auc": 0.3081,
+   "trees": 58
+  },
+  {
+   "num_leaves": 31,
+   "min_child_samples": 50,
+   "valid_pr_auc": 0.2973,
+   "trees": 42
+  },
+  {
+   "num_leaves": 31,
+   "min_child_samples": 100,
+   "valid_pr_auc": 0.3084,
+   "trees": 116
+  }
+ ],
+ "chosen": {
+  "num_leaves": 15,
+  "min_child_samples": 20
+ },
+ "trees": 58,
+ "test_results": {
+  "baseline (logistic, 3 signals)": {
+   "pr_auc": 0.3243,
+   "roc_auc": 0.6446,
+   "brier": 0.149,
+   "base_rate": 0.1953
+  },
+  "LightGBM": {
+   "pr_auc": 0.3166,
+   "roc_auc": 0.6258,
+   "brier": 0.1502,
+   "base_rate": 0.1953
+  }
+ },
+ "best_possible_pr_auc": {
+  "rule_with_hidden_motivation": 0.3856,
+  "rule_observable_part_only": 0.3067
+ },
+ "test_pr_auc_by_week": [
+  {
+   "week": 1,
+   "rows": 1000.0,
+   "base_rate": 0.207,
+   "pr_auc": 0.339
+  },
+  {
+   "week": 2,
+   "rows": 793.0,
+   "base_rate": 0.198,
+   "pr_auc": 0.317
+  },
+  {
+   "week": 3,
+   "rows": 636.0,
+   "base_rate": 0.203,
+   "pr_auc": 0.351
+  },
+  {
+   "week": 4,
+   "rows": 498.0,
+   "base_rate": 0.187,
+   "pr_auc": 0.311
+  },
+  {
+   "week": 5,
+   "rows": 370.0,
+   "base_rate": 0.151,
+   "pr_auc": 0.253
+  },
+  {
+   "week": 6,
+   "rows": 251.0,
+   "base_rate": 0.203,
+   "pr_auc": 0.311
+  },
+  {
+   "week": 7,
+   "rows": 143.0,
+   "base_rate": 0.196,
+   "pr_auc": 0.342
+  }
+ ],
+ "risk_cutoffs_from_validation": {
+  "high": 0.2505,
+  "medium": 0.1884
+ },
+ "risk_levels_on_test": [
+  {
+   "level": "high",
+   "students": 427,
+   "dropouts": 165,
+   "dropout_rate": 0.386,
+   "share_of_all_dropouts": 0.229
+  },
+  {
+   "level": "medium",
+   "students": 814,
+   "dropouts": 172,
+   "dropout_rate": 0.211,
+   "share_of_all_dropouts": 0.239
+  },
+  {
+   "level": "low",
+   "students": 2450,
+   "dropouts": 384,
+   "dropout_rate": 0.157,
+   "share_of_all_dropouts": 0.533
+  }
+ ],
+ "actions": {
+  "by_level": {
+   "high": "mentor calls within 24 hours (plus the reason action)",
+   "medium": "personalised UrduLish nudge in the app / WhatsApp (plus the reason action)",
+   "low": "no extra action: the normal weekly progress summary"
+  },
+  "by_reason": {
+   "activity": "reminder at the student's usual study time + a 10-minute 'quick win' session",
+   "struggling": "switch to easier ZPD questions and offer the Socratic tutor on the last mistake",
+   "pace": "shorter sessions; split code exercises into smaller steps",
+   "other": "check in: ask what is getting in the way"
+  }
+ },
+ "flagged_reason_mix": {
+  "struggling": 0.739,
+  "activity": 0.228,
+  "pace": 0.026,
+  "other": 0.007
+ },
+ "shap_mean_abs": {
+  "acc_last10": 0.1587,
+  "acc_this_week": 0.0792,
+  "answers_this_week": 0.0633,
+  "acc_change": 0.0495,
+  "acc_total": 0.0422,
+  "code_share_this_week": 0.0422,
+  "answers_total": 0.0401,
+  "speed": 0.0401,
+  "sessions_last_week": 0.034,
+  "wrong_streak": 0.0315,
+  "active_weeks_share": 0.0279,
+  "week": 0.0196,
+  "sessions_this_week": 0.0187,
+  "days_since_last": 0.0086,
+  "empty_week": 0.0
+ },
+ "examples": [
+  {
+   "student_id": "s0191",
+   "week": 3,
+   "risk": 0.326,
+   "level": "high",
+   "actually_dropped": false,
+   "top_pushes_up": {
+    "acc_last10": 0.426,
+    "wrong_streak": 0.14,
+    "speed": 0.084
+   },
+   "top_pushes_down": {
+    "active_weeks_share": -0.011,
+    "acc_total": -0.016
+   },
+   "action": "mentor calls within 24 hours (plus the reason action); reason: switch to easier ZPD questions and offer the Socratic tutor on the last mistake"
+  },
+  {
+   "student_id": "s0582",
+   "week": 7,
+   "risk": 0.208,
+   "level": "medium",
+   "actually_dropped": true,
+   "top_pushes_up": {
+    "acc_last10": 0.291,
+    "week": 0.05,
+    "acc_change": 0.03
+   },
+   "top_pushes_down": {
+    "code_share_this_week": -0.05,
+    "answers_total": -0.069
+   },
+   "action": "personalised UrduLish nudge in the app / WhatsApp (plus the reason action); reason: switch to easier ZPD questions and offer the Socratic tutor on the last mistake"
+  },
+  {
+   "student_id": "s0089",
+   "week": 1,
+   "risk": 0.151,
+   "level": "low",
+   "actually_dropped": false,
+   "top_pushes_up": {
+    "answers_total": 0.05,
+    "sessions_last_week": 0.034,
+    "code_share_this_week": 0.032
+   },
+   "top_pushes_down": {
+    "wrong_streak": -0.054,
+    "acc_last10": -0.093
+   },
+   "action": "no extra action: the normal weekly progress summary"
+  }
+ ],
+ "caveat": "Simulated students; the dropout rule is ours, so SHAP recovering it validates the pipeline."
+}
