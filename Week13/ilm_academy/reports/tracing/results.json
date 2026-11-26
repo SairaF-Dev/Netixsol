@@ -1,0 +1,76 @@
+{
+ "meta": {
+  "data": "ASSISTments 2009-10 skill builder, cleaned (one row per real answer)",
+  "split": "student-level: train/valid/test students = 2664/666/833",
+  "test_answers": 54478,
+  "chosen_on_validation": {
+   "student_so_far_m": 40,
+   "pfa": {
+    "C": 1.0,
+    "transform": "log"
+   },
+   "bkt_forgets": true,
+   "dkt_dim": 128,
+   "sakt_dim": 128
+  },
+  "seed": 42
+ },
+ "results": [
+  {
+   "model": "baseline: global mean",
+   "auc": 0.5,
+   "accuracy": 0.6458,
+   "rmse": 0.4785,
+   "n": 54478,
+   "train_seconds": 0
+  },
+  {
+   "model": "baseline: skill mean",
+   "auc": 0.624,
+   "accuracy": 0.6577,
+   "rmse": 0.4668,
+   "n": 54478,
+   "train_seconds": 0
+  },
+  {
+   "model": "baseline: student so far",
+   "auc": 0.7106,
+   "accuracy": 0.6908,
+   "rmse": 0.4484,
+   "n": 54478,
+   "train_seconds": 0
+  },
+  {
+   "model": "PFA (C=1.0, log counts)",
+   "auc": 0.7362,
+   "accuracy": 0.7128,
+   "rmse": 0.4365,
+   "n": 54478,
+   "train_seconds": 2
+  },
+  {
+   "model": "BKT (pyBKT, with forgetting)",
+   "auc": 0.7378,
+   "accuracy": 0.7172,
+   "rmse": 0.4359,
+   "n": 54478,
+   "train_seconds": 4602
+  },
+  {
+   "model": "DKT (dim=128)",
+   "auc": 0.7705,
+   "accuracy": 0.7359,
+   "rmse": 0.4227,
+   "n": 54478,
+   "train_seconds": 261
+  },
+  {
+   "model": "SAKT (dim=128)",
+   "auc": 0.7468,
+   "accuracy": 0.7215,
+   "rmse": 0.4321,
+   "n": 54478,
+   "train_seconds": 462
+  }
+ ]
+}
