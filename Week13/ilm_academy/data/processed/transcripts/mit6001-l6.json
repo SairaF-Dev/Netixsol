@@ -1,0 +1,7758 @@
+{
+ "lesson_id": "mit6001-l6",
+ "course_id": "mit6001",
+ "title": "Recursion and Dictionaries",
+ "youtube": "WPSeyjX1-4s",
+ "license": "CC BY-NC-SA 4.0",
+ "stats": {
+  "audio_sec": 2901.1,
+  "elapsed_sec": 1026.6,
+  "speed_x_realtime": 2.83,
+  "model": "small",
+  "compute_type": "int8"
+ },
+ "segments": [
+  {
+   "start": 0.37,
+   "end": 3.13,
+   "text": "The following content is provided under a Creative",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 3.13,
+   "end": 4.57,
+   "text": "Commons license.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 4.57,
+   "end": 7.57,
+   "text": "Your support will help MIT OpenCourseWare continue to",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 7.57,
+   "end": 11.21,
+   "text": "offer high quality educational resources for free.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 11.21,
+   "end": 14.13,
+   "text": "To make a donation or view additional materials from",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 14.13,
+   "end": 18.05,
+   "text": "hundreds of MIT courses, visit MIT OpenCourseWare at",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 18.05,
+   "end": 31.78,
+   "text": "ocw.mit.edu.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 31.78,
+   "end": 37.18,
+   "text": "Ladies and gentlemen, I'd like to get started.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 37.18,
+   "end": 38.42,
+   "text": "My name's Eric Grimson.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.149
+  },
+  {
+   "start": 38.42,
+   "end": 41.22,
+   "text": "I have the privilege of serving as MIT's Chancellor",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 41.22,
+   "end": 42.54,
+   "text": "for Academic Advancement.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 42.54,
+   "end": 44.38,
+   "text": "You can go look up what that means.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 44.38,
+   "end": 46.9,
+   "text": "And like John, I'm a former head of course six.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 46.9,
+   "end": 49.74,
+   "text": "And today, or sorry, this term with Anna and John,",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 49.74,
+   "end": 53.06,
+   "text": "I'm going to be splitting the lectures, so I'm up today.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 53.06,
+   "end": 57.14,
+   "text": "OK, last time, Anna introduced the first",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 57.14,
+   "end": 61.1,
+   "text": "of the compound data types, tuples and lists.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 61.1,
+   "end": 63.7,
+   "text": "She showed lots of ways of manipulating them,",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 63.7,
+   "end": 66.7,
+   "text": "lots of built-in things for manipulating those structures.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 66.7,
+   "end": 68.66,
+   "text": "And the key difference between the two of them",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 68.66,
+   "end": 71.24,
+   "text": "was that tuples were immutable, meaning",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 71.24,
+   "end": 72.94,
+   "text": "you could not change them.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 72.94,
+   "end": 74.18,
+   "text": "Lists were mutable.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 74.18,
+   "end": 76.26,
+   "text": "They could be changed or mutated.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 76.26,
+   "end": 78.06,
+   "text": "And that led to both some nice power",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 78.06,
+   "end": 80.42,
+   "text": "and some opportunities for challenges.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 80.42,
+   "end": 83.34,
+   "text": "And in particular, she showed you things like aliasing,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 83.34,
+   "end": 84.9,
+   "text": "where you could have two names pointing",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 84.9,
+   "end": 86.22,
+   "text": "to the same list structure.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 86.22,
+   "end": 89.5,
+   "text": "And because of that, you could change the contents of one.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 89.5,
+   "end": 92.94,
+   "text": "It would change the appearance of the contents of the other.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 92.94,
+   "end": 94.9,
+   "text": "And that leads to some nice challenges.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 94.9,
+   "end": 96.42,
+   "text": "So the side effects of mutability",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 96.42,
+   "end": 98.74,
+   "text": "One of the things you're going to see both as a plus and a",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 98.74,
+   "end": 102.26,
+   "text": "minus as we go through the course.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 102.26,
+   "end": 105.62,
+   "text": "Today, we're going to take a different direction for a",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 105.62,
+   "end": 106.34,
+   "text": "little while.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 106.34,
+   "end": 108.1,
+   "text": "We're going to talk about recursion.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 108.1,
+   "end": 110.82,
+   "text": "It's a powerful and wonderful tool for solving",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 110.82,
+   "end": 112.86,
+   "text": "computational problems.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 112.86,
+   "end": 116.18,
+   "text": "We're then going to look at another type of compound",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 116.18,
+   "end": 119.54,
+   "text": "data structure, a dictionary, which is also mutable.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 119.54,
+   "end": 121.38,
+   "text": "And then we're going to put the two pieces together and",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 121.38,
+   "end": 123.46,
+   "text": "show how together they actually give you a lot of",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 123.46,
+   "end": 126.18,
+   "text": "power for solving some really neat problems, very",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 126.18,
+   "end": 128.38,
+   "text": "effectively.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 128.38,
+   "end": 131.58,
+   "text": "But I want to start with recursion.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 131.58,
+   "end": 133.58,
+   "text": "Perhaps one of the most mysterious, at least",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 133.58,
+   "end": 136.14,
+   "text": "according to programmers, concepts in computer science,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 136.14,
+   "end": 138.58,
+   "text": "one that leads to lots of really bad computer science",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 138.58,
+   "end": 138.82,
+   "text": "jokes.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 138.82,
+   "end": 141.06,
+   "text": "Actually, all computer science jokes are bad,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 141.06,
+   "end": 143.38,
+   "text": "but these are particularly bad.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 143.38,
+   "end": 145.5,
+   "text": "So let's start with the obvious question.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 145.5,
+   "end": 147.34,
+   "text": "What is recursion?",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 147.34,
+   "end": 151.22,
+   "text": "If you go to the ultimate source of knowledge, Wikipedia,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 151.22,
+   "end": 154.34,
+   "text": "you get something that says, in essence, recursion",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.058
+  },
+  {
+   "start": 154.34,
+   "end": 159.7,
+   "text": "is the process of repeating items in a self-similar way.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 159.7,
+   "end": 161.7,
+   "text": "Well, boy, that's really helpful, right?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 161.7,
+   "end": 163.06,
+   "text": "But we're going to see that idea,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 163.06,
+   "end": 165.1,
+   "text": "because recursion, as we're going to see in a second,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 165.1,
+   "end": 168.66,
+   "text": "is the idea of taking a problem and reducing it",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 168.66,
+   "end": 172.38,
+   "text": "to a smaller version of the same problem",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 172.38,
+   "end": 174.14,
+   "text": "and using that idea to actually tackle",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 174.14,
+   "end": 176.3,
+   "text": "a bunch of really interesting problems.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 176.3,
+   "end": 178.06,
+   "text": "But recursion gets used a lot of places.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 178.06,
+   "end": 179.86,
+   "text": "So it's this idea of using or repeating",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 179.86,
+   "end": 181.78,
+   "text": "the idea multiple times.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 181.78,
+   "end": 184.22,
+   "text": "So wouldn't it be great if your 3D printer,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 184.22,
+   "end": 185.66,
+   "text": "printed 3D printers.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 185.66,
+   "end": 189.18,
+   "text": "And you could just keep doing that all the way along.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 189.18,
+   "end": 190.7,
+   "text": "Or one that's a little more common.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 190.7,
+   "end": 191.82,
+   "text": "It's actually got a wonderful name.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 191.82,
+   "end": 195.22,
+   "text": "It's called Mise en Abime in art, sometimes referred to as",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 195.22,
+   "end": 196.78,
+   "text": "the drost effect.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 196.78,
+   "end": 199.1,
+   "text": "Pictures that have inside them a picture of the picture,",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 199.1,
+   "end": 201.1,
+   "text": "which has inside them a picture of the picture, and",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 201.1,
+   "end": 202.74,
+   "text": "you get the idea.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 202.74,
+   "end": 204.2,
+   "text": "And of course, one of the things you want to think",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 204.2,
+   "end": 207.34,
+   "text": "about in recursion is not to have it go on infinitely.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 207.34,
+   "end": 209.46,
+   "text": "And yes, there are even light bulb jokes about",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 209.46,
+   "end": 209.94,
+   "text": "recursion.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 209.94,
+   "end": 211.9,
+   "text": "If you can't read it, it says, how many twists does",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.329
+  },
+  {
+   "start": 211.9,
+   "end": 214.34,
+   "text": "to take to screw in a light bulb.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 214.34,
+   "end": 218.5,
+   "text": "And it says, if it's already screwed in, the answer is zero.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 218.5,
+   "end": 222.66,
+   "text": "Otherwise, twist it once, ask me again, add one to my answer.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 222.66,
+   "end": 226.38,
+   "text": "And that's actually a nice description of recursion.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 226.38,
+   "end": 228.02,
+   "text": "So let's look at it more seriously.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 228.02,
+   "end": 230.74,
+   "text": "What is recursion?",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 230.74,
+   "end": 234.1,
+   "text": "I want to describe it both abstractly, or",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 234.1,
+   "end": 237.3,
+   "text": "algorithmically, and semantically, or if you",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 237.3,
+   "end": 239.74,
+   "text": "like in terms of programming.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 239.74,
+   "end": 242.14,
+   "text": "Abstractly, this is a great instance",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 242.14,
+   "end": 244.94,
+   "text": "of something often called divide and conquer",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 244.94,
+   "end": 247.66,
+   "text": "or sometimes called decrease and conquer.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 247.66,
+   "end": 250.54,
+   "text": "And the idea of recursion is I want to take a problem I'm",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 250.54,
+   "end": 253.58,
+   "text": "trying to solve and say, how could I reduce it",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 253.58,
+   "end": 257.06,
+   "text": "to a simpler version of the same problem",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 257.06,
+   "end": 259.06,
+   "text": "plus some things I know how to do?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 259.06,
+   "end": 260.54,
+   "text": "And then that simpler version, I'm",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 260.54,
+   "end": 262.42,
+   "text": "going to reduce it again and keep doing that",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 262.42,
+   "end": 264.94,
+   "text": "until I get down to a simple case",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 264.94,
+   "end": 265.98,
+   "text": "that I can solve directly.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 265.98,
+   "end": 269.06,
+   "text": "That is how we're going to think about designing",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 269.06,
+   "end": 271.62,
+   "text": "solutions to problems.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 271.62,
+   "end": 275.06,
+   "text": "Semantically, this is typically going to lead to the case",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 275.06,
+   "end": 279.14,
+   "text": "where a program, a definition, a function, will refer to",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 279.14,
+   "end": 281.22,
+   "text": "itself in its body.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 281.22,
+   "end": 284.7,
+   "text": "It will call itself inside its body.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 284.7,
+   "end": 286.9,
+   "text": "Now, if you remember your high school geometry teacher,",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 286.9,
+   "end": 288.74,
+   "text": "she probably would wrap your knuckles, which you're not",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 288.74,
+   "end": 289.82,
+   "text": "allowed to do.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 289.82,
+   "end": 291.7,
+   "text": "Because in things like geometry, you can't define",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 291.7,
+   "end": 293.1,
+   "text": "something in terms of itself.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 293.1,
+   "end": 294.62,
+   "text": "That's not allowed.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 294.62,
+   "end": 296.38,
+   "text": "In recursion, this is OK.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.056
+  },
+  {
+   "start": 296.38,
+   "end": 300.9,
+   "text": "Our definition of a procedure can, in its body, call itself.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 300.9,
+   "end": 304.86,
+   "text": "So long as I have what I call a base case, a way of stopping",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 304.86,
+   "end": 308.9,
+   "text": "that unwinding of the problems, when I get to something I",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 308.9,
+   "end": 310.78,
+   "text": "can solve directly.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 310.78,
+   "end": 313.1,
+   "text": "And so what we're going to do is avoid infinite recursion by",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 313.1,
+   "end": 315.66,
+   "text": "ensuring that we have at least one or more base cases that",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 315.66,
+   "end": 316.94,
+   "text": "are easy to solve.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 316.94,
+   "end": 319.34,
+   "text": "And then the basic idea is I just want to solve the",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 319.34,
+   "end": 322.34,
+   "text": "same problem on some simpler input with the idea of",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 322.34,
+   "end": 325.78,
+   "text": "using that solution to solve the larger problem.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 325.78,
+   "end": 327.86,
+   "text": "OK, let's look at an example.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 327.86,
+   "end": 329.86,
+   "text": "And to set the stage, I'm going to go back to something",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 329.86,
+   "end": 332.06,
+   "text": "you've been doing, iterative algorithms.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 332.06,
+   "end": 334.14,
+   "text": "For loops, while loops, they naturally",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 334.14,
+   "end": 336.42,
+   "text": "lead to what we would call iterative algorithms.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 336.42,
+   "end": 340.02,
+   "text": "And these algorithms can be described as being captured",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 340.02,
+   "end": 343.34,
+   "text": "by a set of state variables, meaning",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 343.34,
+   "end": 345.58,
+   "text": "one or more variables that tell us exactly",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 345.58,
+   "end": 347.54,
+   "text": "the state of the computation.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 347.54,
+   "end": 348.38,
+   "text": "It's a lot of words.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 348.38,
+   "end": 350.74,
+   "text": "Let's look at an example.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 350.74,
+   "end": 352.18,
+   "text": "I know it's trivial, but bear with me.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 352.18,
+   "end": 354.34,
+   "text": "Suppose I want to do integer multiplication,",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 354.34,
+   "end": 356.46,
+   "text": "multiply two integers together.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 356.46,
+   "end": 358.9,
+   "text": "And all I have available to me is addition.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 358.9,
+   "end": 363.74,
+   "text": "So a times b is the same as adding a to itself b times.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 363.74,
+   "end": 366.66,
+   "text": "If I'm thinking about this iteratively, I could capture",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 366.66,
+   "end": 370.02,
+   "text": "this computation with two state variables.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 370.02,
+   "end": 373.14,
+   "text": "One would just call the iteration number.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 373.14,
+   "end": 377.1,
+   "text": "And it would be something, for example, that starts at b.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 377.1,
+   "end": 379.9,
+   "text": "And each time through the loop reduces by 1.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 379.9,
+   "end": 382.22,
+   "text": "And it will keep doing that until I've counted down b",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 382.22,
+   "end": 384.62,
+   "text": "times, and I get down to 0.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 384.62,
+   "end": 386.96,
+   "text": "And at the same time, I would have some value of the",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 386.96,
+   "end": 387.58,
+   "text": "computation.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 387.58,
+   "end": 391.5,
+   "text": "I might call it result, which starts at 0, first time",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 391.5,
+   "end": 394.3,
+   "text": "through ads in A, next time through ads in A. And it just",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 394.3,
+   "end": 397.02,
+   "text": "keeps track of how many things have I added up",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 397.02,
+   "end": 398.94,
+   "text": "until I get done.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 398.94,
+   "end": 400.94,
+   "text": "And yeah, I know you could just do mult, but this is",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 400.94,
+   "end": 402.78,
+   "text": "trying to get this idea of how would I do this",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 402.78,
+   "end": 405.02,
+   "text": "iteratively.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 405.02,
+   "end": 409.9,
+   "text": "So I might start off with I saying there are b things",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 409.9,
+   "end": 413.02,
+   "text": "still to add, and result is 1 the first time through the loop.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 413.02,
+   "end": 416.34,
+   "text": "I add an a, reduce i by 1, next time through the loop.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 416.34,
+   "end": 419.58,
+   "text": "I add in another a, reduce i by 1, and you get the idea.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 419.58,
+   "end": 421.38,
+   "text": "I just walked down it until eventually I",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 421.38,
+   "end": 425.65,
+   "text": "got to the end of this computation.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 425.65,
+   "end": 427.17,
+   "text": "So we could write code for this.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 427.17,
+   "end": 429.65,
+   "text": "And actually, it should be pretty straightforward.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 429.65,
+   "end": 431.13,
+   "text": "There it is.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 431.13,
+   "end": 433.37,
+   "text": "I'm going to call it multiter.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 433.37,
+   "end": 435.25,
+   "text": "Takes in two arguments, a and b.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 435.25,
+   "end": 437.21,
+   "text": "And I'm going to capture exactly that process.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 437.21,
+   "end": 438.01,
+   "text": "And notice what I do.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 438.01,
+   "end": 440.93,
+   "text": "I set up result internally as just a little variable.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.103
+  },
+  {
+   "start": 440.93,
+   "end": 443.01,
+   "text": "I'm going to use to accumulate things.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 443.01,
+   "end": 445.97,
+   "text": "And then there's the iteration.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 445.97,
+   "end": 449.33,
+   "text": "As long as b is greater than 0, what do I do?",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 449.33,
+   "end": 451.93,
+   "text": "Add a to results, store it away.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 451.93,
+   "end": 453.73,
+   "text": "Reduce b by 1.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 453.73,
+   "end": 455.73,
+   "text": "And I'll keep doing that until b gets down",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 455.73,
+   "end": 457.57,
+   "text": "to being equal to 0, in which case",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 457.57,
+   "end": 460.17,
+   "text": "I just returned the result.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 460.17,
+   "end": 463.49,
+   "text": "OK, simple solution.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 463.49,
+   "end": 467.73,
+   "text": "Now let's think about this a different way.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 467.73,
+   "end": 471.17,
+   "text": "a times b is just adding a to itself b times.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 471.17,
+   "end": 478.53,
+   "text": "And that's the same as a plus adding a to itself b minus 1",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 478.53,
+   "end": 480.69,
+   "text": "times.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 480.69,
+   "end": 482.73,
+   "text": "OK, that sounds like leisure domain.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 482.73,
+   "end": 484.65,
+   "text": "That sounds like just playing with words.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 484.65,
+   "end": 488.21,
+   "text": "But it's really important, because what is this?",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 488.21,
+   "end": 492.81,
+   "text": "Ah, that's just a times b minus 1,",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 492.81,
+   "end": 495.73,
+   "text": "by the definition of the top point.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 495.73,
+   "end": 497.45,
+   "text": "And I know you're totally impressed,",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 497.45,
+   "end": 499.49,
+   "text": "But this is actually really cool.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 499.49,
+   "end": 500.29,
+   "text": "Because what have I done?",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 500.29,
+   "end": 504.13,
+   "text": "I've taken one problem, this one up here.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 504.13,
+   "end": 506.85,
+   "text": "And I've reduced it to a simpler version of the same",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 506.85,
+   "end": 509.97,
+   "text": "problem, plus some things I know how to do.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 509.97,
+   "end": 511.73,
+   "text": "And how would I solve this?",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 511.73,
+   "end": 512.93,
+   "text": "Same trick.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 512.93,
+   "end": 516.01,
+   "text": "That's A times B minus 2.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 516.01,
+   "end": 517.69,
+   "text": "I would just unwrap it one more time.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 517.69,
+   "end": 520.65,
+   "text": "And I would just keep doing that until I get down to",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 520.65,
+   "end": 523.29,
+   "text": "something I can solve directly, a base case.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 523.29,
+   "end": 523.97,
+   "text": "And that's easy.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 523.97,
+   "end": 527.37,
+   "text": "When B is equal to 1, the answer is just A. Or I",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 527.37,
+   "end": 531.78,
+   "text": "could do on b is equal to 0, the answer is just 0.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 531.78,
+   "end": 534.22,
+   "text": "And there's code to capture that.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 534.22,
+   "end": 537.5,
+   "text": "Different form, wonderful compact description.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 537.5,
+   "end": 538.14,
+   "text": "What does it say?",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 538.14,
+   "end": 543.46,
+   "text": "It says, if I'm at the base case, if b is equal to 1,",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 543.46,
+   "end": 545.54,
+   "text": "the answer is just a.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 545.54,
+   "end": 549.06,
+   "text": "Otherwise, I'm going to solve the same problem",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 549.06,
+   "end": 552.74,
+   "text": "with a smaller version and add it to a and return",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 552.74,
+   "end": 554.94,
+   "text": "that result.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 554.94,
+   "end": 558.94,
+   "text": "That's nice, crisp characterization of a problem.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 558.94,
+   "end": 561.38,
+   "text": "Recursive definition that reduces a problem to a simpler",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 561.38,
+   "end": 564.39,
+   "text": "version of the same problem.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 564.39,
+   "end": 568.23,
+   "text": "OK, let's look at another example.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 568.23,
+   "end": 570.95,
+   "text": "Classic problem and recursion is to compute factorial, right?",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 570.95,
+   "end": 574.27,
+   "text": "n factorial or n bang, if you like, and exclamation point",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 574.27,
+   "end": 576.43,
+   "text": "is n times m minus 1 all the way down to 1.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 576.43,
+   "end": 579.03,
+   "text": "So it's the product of all the integers from 1 up to n,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 579.03,
+   "end": 581.87,
+   "text": "assuming n is a positive integer.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 581.87,
+   "end": 583.27,
+   "text": "So we can ask the same question.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 583.27,
+   "end": 585.39,
+   "text": "If I wanted to solve this recursively, what would the",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 585.39,
+   "end": 587.67,
+   "text": "base case b.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 587.67,
+   "end": 592.71,
+   "text": "Well, when n is equal to 1, it's just 1.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 592.71,
+   "end": 594.63,
+   "text": "And the recursive case, well, n times",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 594.63,
+   "end": 596.11,
+   "text": "n minus 1 all the way down to 1.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 596.11,
+   "end": 601.92,
+   "text": "That's the same as n times n minus 1 factorial.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 601.92,
+   "end": 606.2,
+   "text": "So I can easily write out the base case.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 606.2,
+   "end": 611.98,
+   "text": "And I've got a nice recursive solution to this problem.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 611.98,
+   "end": 615.18,
+   "text": "OK, if you're like me, and this is the first time you",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 615.18,
+   "end": 617.22,
+   "text": "see it, it feels like I've taken your head and twisted it",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 617.22,
+   "end": 618.34,
+   "text": "about 180 degrees.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 618.34,
+   "end": 620.58,
+   "text": "I'm going to take it another 180 degrees,",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 620.58,
+   "end": 622.34,
+   "text": "because you might be saying, well, wait a minute.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 622.34,
+   "end": 623.98,
+   "text": "How do you know what really stops?",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 623.98,
+   "end": 627.86,
+   "text": "How do you know it really terminates the computation?",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 627.86,
+   "end": 629.62,
+   "text": "So let's look at it.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 629.62,
+   "end": 633.62,
+   "text": "There's my definition for fact, short for factorial.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 633.62,
+   "end": 636.18,
+   "text": "Fact of n is if n is equal to 1, return 1.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 636.18,
+   "end": 639.9,
+   "text": "Otherwise, return n times fact of n minus 1.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 639.9,
+   "end": 642.3,
+   "text": "And let's use the tools that Anna talked about in terms",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 642.3,
+   "end": 644.5,
+   "text": "of an environment at a scope and think",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 644.5,
+   "end": 646.7,
+   "text": "about what happens here.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 646.7,
+   "end": 649.02,
+   "text": "So when I read that in, or I evaluate that in Python,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 649.02,
+   "end": 653.46,
+   "text": "it creates a definition that binds the name fact to some",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 653.46,
+   "end": 656.06,
+   "text": "code, just all of that stuff over here, plus the name for",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 656.06,
+   "end": 657.66,
+   "text": "the formal parameter.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 657.66,
+   "end": 660.02,
+   "text": "Hasn't done anything with it yet.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 660.02,
+   "end": 664.38,
+   "text": "And then I'm going to evaluate print of fact of four.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 664.38,
+   "end": 666.66,
+   "text": "Print needs a value, so it has to get the value of fact",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 666.66,
+   "end": 667.86,
+   "text": "of four.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 667.86,
+   "end": 668.82,
+   "text": "And we know what that does.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 668.82,
+   "end": 670.38,
+   "text": "It looks up fact.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 670.38,
+   "end": 671.46,
+   "text": "There it is.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 671.46,
+   "end": 673.86,
+   "text": "It's procedure definition.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 673.86,
+   "end": 675.98,
+   "text": "So it creates a new frame, a new environment.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 675.98,
+   "end": 678.1,
+   "text": "It calls that procedure.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 678.1,
+   "end": 681.74,
+   "text": "And inside that frame, the formal parameter for fact",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 681.74,
+   "end": 684.06,
+   "text": "is bound to the value passed in.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 684.06,
+   "end": 686.54,
+   "text": "So n is bound to 4.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 686.54,
+   "end": 689.3,
+   "text": "That frame is scoped by this global frame,",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 689.3,
+   "end": 692.02,
+   "text": "meaning it's going to inherit things in the global frame.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 692.02,
+   "end": 692.62,
+   "text": "And what does it do?",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 692.62,
+   "end": 698.42,
+   "text": "It says, inside of this frame, evaluate the body of fact.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 698.42,
+   "end": 699.38,
+   "text": "OK.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 699.38,
+   "end": 701.18,
+   "text": "So it says, is n equal to 1?",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 701.18,
+   "end": 702.18,
+   "text": "Nope.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 702.18,
+   "end": 702.68,
+   "text": "It's not.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 702.68,
+   "end": 703.7,
+   "text": "It's 4.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 703.7,
+   "end": 706.58,
+   "text": "So in that case, go to the l statement and it says, oh,",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 706.58,
+   "end": 708.66,
+   "text": "return n times fact of n.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 708.66,
+   "end": 714.54,
+   "text": "And n is 4, fact of n minus 1 says, I need to return 4 times",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 714.54,
+   "end": 716.5,
+   "text": "fact of 3.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 716.5,
+   "end": 717.58,
+   "text": "4 is easy.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 717.58,
+   "end": 718.58,
+   "text": "Multiplication is easy.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 718.58,
+   "end": 721.22,
+   "text": "Fact of 3, ah, yes.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 721.22,
+   "end": 722.06,
+   "text": "I look up fact.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 722.06,
+   "end": 723.26,
+   "text": "Now I'm in this frame.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 723.26,
+   "end": 725.42,
+   "text": "I don't see fact there, but I go up to that frame.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 725.42,
+   "end": 727.06,
+   "text": "There's the definition for fact.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 727.06,
+   "end": 728.94,
+   "text": "And we're going to do the rest of this a little more",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 728.94,
+   "end": 729.26,
+   "text": "quickly.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 729.26,
+   "end": 729.9,
+   "text": "What does that do?",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 729.9,
+   "end": 733.58,
+   "text": "It creates a new frame called by fact.",
+   "avg_logprob": -0.19,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 733.58,
+   "end": 738.1,
+   "text": "And the argument passed in for n is n minus 1.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 738.1,
+   "end": 739.42,
+   "text": "That value right there of 3.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 739.42,
+   "end": 742.26,
+   "text": "So 3 is now bound to n.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 742.26,
+   "end": 743.38,
+   "text": "Same game.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 743.38,
+   "end": 744.18,
+   "text": "Evaluate the body.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 744.18,
+   "end": 745.22,
+   "text": "Is n equal to 1?",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 745.22,
+   "end": 746.1,
+   "text": "No.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 746.1,
+   "end": 748.14,
+   "text": "So in that case, I'm going to go to the return statement.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 748.14,
+   "end": 751.5,
+   "text": "It says return 3 times fact of 2.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 751.5,
+   "end": 754.02,
+   "text": "And notice it's only looking at this value of n",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 754.02,
+   "end": 755.62,
+   "text": "because that's the frame in which I'm in.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 755.62,
+   "end": 759.46,
+   "text": "It never sees that value of n.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 759.46,
+   "end": 761.7,
+   "text": "OK, aren't you glad I didn't do fact of 400?",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 761.7,
+   "end": 762.78,
+   "text": "We've only got two more to go.",
+   "avg_logprob": -0.176,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 762.78,
+   "end": 764.1,
+   "text": "But you get the idea.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 764.1,
+   "end": 764.58,
+   "text": "Same thing.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 764.58,
+   "end": 765.78,
+   "text": "I need to get fact of 2.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 765.78,
+   "end": 768.86,
+   "text": "It's going to call fact to gain with n bound to 2.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 768.86,
+   "end": 770.38,
+   "text": "Relative to that, it evaluates the body.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 770.38,
+   "end": 771.98,
+   "text": "n is not yet equal to 1.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 771.98,
+   "end": 773.62,
+   "text": "That says I can go into the else clause",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 773.62,
+   "end": 776.42,
+   "text": "and return 2 times fact of 1.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 776.42,
+   "end": 779.62,
+   "text": "I call fact to gain now with n bound to 1.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 779.62,
+   "end": 783.1,
+   "text": "And fortunately now, that clause is true.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 783.1,
+   "end": 787.5,
+   "text": "And it says return 1.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 787.5,
+   "end": 788.38,
+   "text": "Whoops, sorry, before I do.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 788.38,
+   "end": 790.7,
+   "text": "So there's the base case.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 790.7,
+   "end": 793.1,
+   "text": "And it may seem apparent to you, but this is important.",
+   "avg_logprob": -0.195,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 793.1,
+   "end": 795.12,
+   "text": "I'm unwinding this till I get to something that",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 795.12,
+   "end": 797.0,
+   "text": "can stop the computation.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 797.0,
+   "end": 799.2,
+   "text": "Now I'm simply going to gather the computation up,",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 799.2,
+   "end": 800.3,
+   "text": "because it says return 1.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 800.3,
+   "end": 801.96,
+   "text": "Who asked for it?",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 801.96,
+   "end": 803.96,
+   "text": "Well, that called a fact of 1.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 803.96,
+   "end": 807.32,
+   "text": "So that reduces to return 2 times 1.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 807.32,
+   "end": 808.6,
+   "text": "And who called for that?",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 808.6,
+   "end": 809.84,
+   "text": "Fact of 2.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 809.84,
+   "end": 812.94,
+   "text": "That reduces to return of 3 times 2, which",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 812.94,
+   "end": 819.28,
+   "text": "reduces to 4 times 6, which reduces to printing out 24.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 819.28,
+   "end": 823.04,
+   "text": "So it unwinds it down to a base case, and it stops.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 823.04,
+   "end": 825.36,
+   "text": "couple of observations.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 825.36,
+   "end": 828.8,
+   "text": "Notice how each recursive call creates its own frame.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 828.8,
+   "end": 832.12,
+   "text": "And as a consequence, there's no confusion about which value",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 832.12,
+   "end": 834.12,
+   "text": "of n I'm using.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 834.12,
+   "end": 837.08,
+   "text": "Also notice in the other frames, n was not changed.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 837.08,
+   "end": 838.04,
+   "text": "We did not mutate it.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 838.04,
+   "end": 840.0,
+   "text": "So we're literally creating a local scope",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 840.0,
+   "end": 843.92,
+   "text": "for that recursive call, which is exactly what we want.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 843.92,
+   "end": 847.56,
+   "text": "Also notice how there was a sense of flow of control",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 847.56,
+   "end": 848.88,
+   "text": "and computing fact of something",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 848.88,
+   "end": 852.2,
+   "text": "that reduces to returning n times fact of n minus 1.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 852.2,
+   "end": 855.44,
+   "text": "And that creates a new scope.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 855.44,
+   "end": 857.08,
+   "text": "And that will simply keep on winding",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 857.08,
+   "end": 859.2,
+   "text": "until I get to something that can return a value.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 859.2,
+   "end": 861.72,
+   "text": "And then I gather all those frames back up.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 861.72,
+   "end": 864.32,
+   "text": "So there's a natural flow of control here.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 864.32,
+   "end": 866.44,
+   "text": "But most importantly, there's no confusion",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 866.44,
+   "end": 867.96,
+   "text": "about which variable I'm using when",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 867.96,
+   "end": 871.12,
+   "text": "I'm looking for a value event.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 871.12,
+   "end": 874.04,
+   "text": "Because this is often a place where things get a little",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 874.04,
+   "end": 875.64,
+   "text": "confusing, I want to do one more example.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 875.64,
+   "end": 878.8,
+   "text": "But let me first show you side by side the two different",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 878.8,
+   "end": 880.84,
+   "text": "versions of factorial.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 880.84,
+   "end": 881.96,
+   "text": "Actually, I lied slightly.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 881.96,
+   "end": 884.08,
+   "text": "We didn't show this on earlier, but there's factorial if I",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 884.08,
+   "end": 885.16,
+   "text": "wanted to do it iteratively.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 885.16,
+   "end": 889.04,
+   "text": "I'd set up some initial variable to 1, and then I'd just",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 889.04,
+   "end": 890.32,
+   "text": "run through a loop.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 890.32,
+   "end": 894.04,
+   "text": "For example, from 1 up to just below m minus 1 or 1 up to",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 894.04,
+   "end": 900.52,
+   "text": "n, multiplying it and putting it back into return product.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 900.52,
+   "end": 902.8,
+   "text": "Which one do you like more?",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 902.8,
+   "end": 903.64,
+   "text": "You can't say neither.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 903.64,
+   "end": 904.8,
+   "text": "You had to pick one.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 904.8,
+   "end": 908.12,
+   "text": "Show of hands, how many of you like this one?",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 908.12,
+   "end": 908.92,
+   "text": "Some hesitant ones.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 908.92,
+   "end": 911.32,
+   "text": "How many prefer this one?",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 911.32,
+   "end": 913.08,
+   "text": "Yeah.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 913.08,
+   "end": 913.84,
+   "text": "That's my view.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 913.84,
+   "end": 916.12,
+   "text": "I'm biased, but I really like the recursive one.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 916.12,
+   "end": 917.84,
+   "text": "It is crisper to look at.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 917.84,
+   "end": 919.6,
+   "text": "You can see what it's doing.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 919.6,
+   "end": 924.44,
+   "text": "I'm reducing this problem to a simpler version of that problem.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 924.44,
+   "end": 926.44,
+   "text": "Pick your own version, but I would argue that the recursive",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 926.44,
+   "end": 929.12,
+   "text": "version is more intuitive to understand.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 929.12,
+   "end": 931.44,
+   "text": "From a programmer's perspective, it's actually",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 931.44,
+   "end": 933.48,
+   "text": "often more efficient to write, because I don't have to",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 933.48,
+   "end": 936.12,
+   "text": "think about interior variables.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 936.12,
+   "end": 939.44,
+   "text": "Depending on the machine, it may not be as efficient when",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 939.44,
+   "end": 940.6,
+   "text": "you call it.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 940.6,
+   "end": 942.56,
+   "text": "Because in the recursive version, I've got to set",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 942.56,
+   "end": 944.18,
+   "text": "up that set of frames.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 944.18,
+   "end": 945.84,
+   "text": "And some versions of these languages",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 945.84,
+   "end": 948.76,
+   "text": "are actually very efficient about it, some of them a little less so.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 948.76,
+   "end": 950.92,
+   "text": "But given the speed of computers to get who cares,",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 950.92,
+   "end": 954.8,
+   "text": "as long as it actually just does the computation.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 954.8,
+   "end": 956.76,
+   "text": "Right, one more example.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 956.76,
+   "end": 959.84,
+   "text": "How do we really know our recursive code works?",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 959.84,
+   "end": 961.12,
+   "text": "Well, we just did a simulation.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 961.12,
+   "end": 963.64,
+   "text": "But let's look at it one more way.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 963.64,
+   "end": 967.24,
+   "text": "The iterative version, what can I say about it?",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 967.24,
+   "end": 969.4,
+   "text": "Well, I know it's going to terminate",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 969.4,
+   "end": 971.12,
+   "text": "because B is initially positive,",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.116
+  },
+  {
+   "start": 971.12,
+   "end": 973.74,
+   "text": "assuming I gave it an appropriate value,",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 973.74,
+   "end": 976.62,
+   "text": "it decreases by 1 every time around this loop.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 976.62,
+   "end": 978.34,
+   "text": "At some point, it has to get less than 1.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 978.34,
+   "end": 979.86,
+   "text": "It's going to stop.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 979.86,
+   "end": 983.02,
+   "text": "So I can conclude it's always going to terminate.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 983.02,
+   "end": 985.7,
+   "text": "What about the recursive version?",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 985.7,
+   "end": 989.98,
+   "text": "Well, if I call it with b equal to 1, I'm done.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 989.98,
+   "end": 993.54,
+   "text": "If I call it with b greater than 1, again,",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 993.54,
+   "end": 996.22,
+   "text": "it's going to reduce it by 1 on the recursive call, which",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 996.22,
+   "end": 998.18,
+   "text": "means on each recursive call it's going to reduce it.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 998.18,
+   "end": 1000.02,
+   "text": "Eventually, it gets down to a place,",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1000.02,
+   "end": 1002.46,
+   "text": "Assuming I gave it a positive integer where b is equal to",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1002.46,
+   "end": 1003.22,
+   "text": "1.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1003.22,
+   "end": 1006.98,
+   "text": "So it'll stop, which is good.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1006.98,
+   "end": 1011.46,
+   "text": "What we just did was we used a great tool from math.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1011.46,
+   "end": 1014.46,
+   "text": "Second best department at MIT.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1014.46,
+   "end": 1016.58,
+   "text": "Wow, I didn't even get any hisses on that one, John.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1016.58,
+   "end": 1017.94,
+   "text": "All right.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1017.94,
+   "end": 1021.1,
+   "text": "And I'm now in trouble with the head of the math department.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1021.1,
+   "end": 1023.22,
+   "text": "So now that I got your attention, and yes, all",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1023.22,
+   "end": 1025.66,
+   "text": "computer science jokes are bad and mine are really bad,",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1025.66,
+   "end": 1028.06,
+   "text": "but I'm tenured you cannot do a damn thing about it.",
+   "avg_logprob": -0.173,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1028.06,
+   "end": 1034.1,
+   "text": "Let's look at mathematical induction, which turns out to be a tool that lets us think",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1034.1,
+   "end": 1037.18,
+   "text": "about programs in a really nice way.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1037.18,
+   "end": 1038.18,
+   "text": "You haven't seen this.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1038.18,
+   "end": 1039.62,
+   "text": "Here's the idea of mathematical induction.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1039.62,
+   "end": 1044.34,
+   "text": "If I want to prove a statement, and we refer to it as being indexed on the integers,",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1044.34,
+   "end": 1047.78,
+   "text": "in other words, it's some mathematical statement that runs over integers.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1047.78,
+   "end": 1053.54,
+   "text": "If I want to prove it's true for all values of those integers, mathematically I do it",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1053.54,
+   "end": 1057.18,
+   "text": "by simply proving it's true for the smallest value of n.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1057.18,
+   "end": 1059.9,
+   "text": "Typically, n is equal to 0 or 1.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1059.9,
+   "end": 1061.22,
+   "text": "And then I do an interesting thing.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1061.22,
+   "end": 1062.94,
+   "text": "I say, I need to prove that if it's",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1062.94,
+   "end": 1065.5,
+   "text": "true for an arbitrary value of n, I'm",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1065.5,
+   "end": 1069.7,
+   "text": "just going to prove that it's also then true for n plus 1.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1069.7,
+   "end": 1070.98,
+   "text": "And if I can do those two things,",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1070.98,
+   "end": 1074.06,
+   "text": "I can then conclude for an infinite number of values",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1074.06,
+   "end": 1076.02,
+   "text": "of n, it's always true.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1076.02,
+   "end": 1078.14,
+   "text": "I'm going to relate it back to programming in a second,",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1078.14,
+   "end": 1080.02,
+   "text": "but let me show you a simple example of this, one",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1080.02,
+   "end": 1082.1,
+   "text": "that you may have seen.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1082.1,
+   "end": 1085.94,
+   "text": "If I add the integers from 0 up to n, or even from 1 up to n,",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1085.94,
+   "end": 1090.02,
+   "text": "I claim that's the same as n times n plus 1 over 2.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1090.02,
+   "end": 1092.18,
+   "text": "So 1, 2, 3, that's 6, right?",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1092.18,
+   "end": 1093.1,
+   "text": "And that's exactly right.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1093.1,
+   "end": 1097.7,
+   "text": "3 times 4, which is divided by 2, which gives me out 6.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1097.7,
+   "end": 1099.78,
+   "text": "How would I prove this?",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1099.78,
+   "end": 1103.06,
+   "text": "Well, by induction, I need to do the simple cases.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1103.06,
+   "end": 1107.02,
+   "text": "If any is equal to 0, well, then this side is just 0.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1107.02,
+   "end": 1109.38,
+   "text": "And that's 0 times 1, which is 0 divided by true.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1109.38,
+   "end": 1112.14,
+   "text": "So 0 equals 0, it's true.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1112.14,
+   "end": 1114.3,
+   "text": "And now the inductive step.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1114.3,
+   "end": 1116.22,
+   "text": "I'm going to assume it's true for some k.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1116.22,
+   "end": 1118.46,
+   "text": "I should have picked n, but for some k.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1118.46,
+   "end": 1123.62,
+   "text": "And then what I need to show is it's true for k plus 1.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1123.62,
+   "end": 1125.14,
+   "text": "Well, there's the left-hand side.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1125.14,
+   "end": 1128.82,
+   "text": "And I want to show that this is equal to that.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1128.82,
+   "end": 1131.3,
+   "text": "And I'm going to do it by using exactly this recursive",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1131.3,
+   "end": 1132.5,
+   "text": "idea, because what do I know?",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1132.5,
+   "end": 1137.94,
+   "text": "I know that this sum in here I'm assuming is true.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1137.94,
+   "end": 1141.34,
+   "text": "And so that says that the left-hand side, the first portion",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1141.34,
+   "end": 1143.98,
+   "text": "of it, is just k times k plus 1 over 2.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1143.98,
+   "end": 1146.82,
+   "text": "That's the definition that I think I'm assuming is true.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1146.82,
+   "end": 1150.38,
+   "text": "To that, I'm going to add k plus 1.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1150.38,
+   "end": 1151.62,
+   "text": "Well, you can do the algebra, right?",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1151.62,
+   "end": 1155.66,
+   "text": "That's k plus 1 all times k over 2 plus 1,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1155.66,
+   "end": 1158.22,
+   "text": "which is k plus 2 over 2.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1158.22,
+   "end": 1159.74,
+   "text": "Oh, cool.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1159.74,
+   "end": 1161.98,
+   "text": "It's exactly that.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1161.98,
+   "end": 1163.7,
+   "text": "Having done that, I can now conclude",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1163.7,
+   "end": 1167.66,
+   "text": "this is true for all values of n.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1167.66,
+   "end": 1170.98,
+   "text": "What does it have to do with programming?",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1170.98,
+   "end": 1173.22,
+   "text": "That's exactly what we're doing when we think about",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1173.22,
+   "end": 1175.38,
+   "text": "recursive code.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1175.38,
+   "end": 1178.26,
+   "text": "We're saying show that it's true for the base case.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1178.26,
+   "end": 1181.26,
+   "text": "And then what I'm essentially assuming is that if it works",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1181.26,
+   "end": 1185.58,
+   "text": "for values smaller than b, then does the code return the",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1185.58,
+   "end": 1186.78,
+   "text": "right answer for b?",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1186.78,
+   "end": 1188.54,
+   "text": "And the answer is absolutely it does.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1188.54,
+   "end": 1191.7,
+   "text": "And I'm using induction to deduce that, in fact, my code",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1191.7,
+   "end": 1194.54,
+   "text": "does the right thing.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1194.54,
+   "end": 1197.14,
+   "text": "Why am I torturing you with this?",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1197.14,
+   "end": 1200.54,
+   "text": "Because this is the way I want you to think about recursion.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1200.54,
+   "end": 1202.82,
+   "text": "When I'm going to break a problem down into a smaller",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1202.82,
+   "end": 1205.3,
+   "text": "version of the same problem, I can assume that the smaller",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1205.3,
+   "end": 1206.62,
+   "text": "version gives you the answer.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1206.62,
+   "end": 1209.38,
+   "text": "All I have to do is make sure that what I combine together",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1209.38,
+   "end": 1212.5,
+   "text": "gives me out the right result.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1212.5,
+   "end": 1214.82,
+   "text": "OK.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1214.82,
+   "end": 1217.1,
+   "text": "You may be wondering what I'm doing with these wonderful",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1217.1,
+   "end": 1218.46,
+   "text": "high-tech toys down here.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1218.46,
+   "end": 1220.78,
+   "text": "I want to show you another example of recursion.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1220.78,
+   "end": 1222.5,
+   "text": "So far, we've seen simple things that just",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1222.5,
+   "end": 1224.18,
+   "text": "have one base case.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1224.18,
+   "end": 1226.9,
+   "text": "And this is a mythical story called The Towers of Hanoi.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1226.9,
+   "end": 1228.94,
+   "text": "And the story, as I heard it, is there's",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1228.94,
+   "end": 1232.78,
+   "text": "a temple somewhere in Hanoi with three tall spikes",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1232.78,
+   "end": 1235.62,
+   "text": "and 64 jewel-encrusted golden discs,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1235.62,
+   "end": 1237.54,
+   "text": "all of a different size.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1237.54,
+   "end": 1240.14,
+   "text": "They all started out on one spike with the property",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1240.14,
+   "end": 1243.5,
+   "text": "that they were ordered, from smallest down to largest.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1243.5,
+   "end": 1244.9,
+   "text": "And there are priests in this temple",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1244.9,
+   "end": 1247.94,
+   "text": "who are moving the discs one at a time, one per second.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1247.94,
+   "end": 1250.22,
+   "text": "And their goal is to move the entire stack",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1250.22,
+   "end": 1253.22,
+   "text": "from one spike to another spike.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1253.22,
+   "end": 1255.72,
+   "text": "And when they do, Nirvana is achieved,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1255.72,
+   "end": 1258.24,
+   "text": "and we all get a really great life.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1258.24,
+   "end": 1259.76,
+   "text": "We'll talk separately about how long",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1259.76,
+   "end": 1261.76,
+   "text": "it's going to take, because there's one trick to it.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1261.76,
+   "end": 1265.24,
+   "text": "They can never cover a smaller disk with a larger disk",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1265.24,
+   "end": 1266.0,
+   "text": "as they're doing it.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1266.0,
+   "end": 1269.12,
+   "text": "So they've got a third disk as a temporary thing.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1269.12,
+   "end": 1271.12,
+   "text": "And I want to show you how to solve this problem,",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1271.12,
+   "end": 1273.36,
+   "text": "because you're going to write code with my help in a second,",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1273.36,
+   "end": 1275.2,
+   "text": "or I'm going to write code with your help in a second",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1275.2,
+   "end": 1275.6,
+   "text": "to solve it.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1275.6,
+   "end": 1276.6,
+   "text": "So let's look at it.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1276.6,
+   "end": 1277.76,
+   "text": "So watch carefully.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1277.76,
+   "end": 1281.92,
+   "text": "Moving a disk a size 1, well, that's pretty easy, right?",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1281.92,
+   "end": 1284.08,
+   "text": "Moving a disk a size 2, we'll just put this one",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1284.08,
+   "end": 1285.64,
+   "text": "on the spare one while you move it over,",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1285.64,
+   "end": 1287.6,
+   "text": "so you don't cover it up, that's easy.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1288.6,
+   "end": 1290.72,
+   "text": "Moving a disc of size three,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1290.72,
+   "end": 1291.8,
+   "text": "you gotta be a little more careful.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1291.8,
+   "end": 1293.84,
+   "text": "You can't cover up a smaller one with a larger one,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1293.84,
+   "end": 1296.0,
+   "text": "so you have to really think about where you're putting it.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1296.0,
+   "end": 1297.4,
+   "text": "It would help if these things didn't juggle,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1297.4,
+   "end": 1300.04,
+   "text": "and there you go, you got it done.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1300.04,
+   "end": 1301.92,
+   "text": "All right, you're watching, gotta do four.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1301.92,
+   "end": 1303.96,
+   "text": "To do four, again, you gotta be really careful",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1303.96,
+   "end": 1306.12,
+   "text": "not to cover things up as you do this.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1306.12,
+   "end": 1308.36,
+   "text": "You wanna get the bottom one eventually exposed,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1308.36,
+   "end": 1309.76,
+   "text": "and so you're gonna pull that one over there.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1309.76,
+   "end": 1311.04,
+   "text": "If you do the pattern really well,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1311.04,
+   "end": 1312.84,
+   "text": "you won't notice if I make a serious mistake",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1312.84,
+   "end": 1314.56,
+   "text": "as I'm doing this, which I just did,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 1314.56,
+   "end": 1316.5,
+   "text": "But I'm going to cover from that and do it that way",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1316.5,
+   "end": 1318.18,
+   "text": "to put this one over here.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1318.18,
+   "end": 1319.7,
+   "text": "And that one goes there.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1319.7,
+   "end": 1321.66,
+   "text": "And if I did this in Harvard Square, I could make money.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1321.66,
+   "end": 1325.91,
+   "text": "There you go, right?",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1325.91,
+   "end": 1328.99,
+   "text": "OK, got the solution.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1328.99,
+   "end": 1330.19,
+   "text": "See how to solve it?",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1330.19,
+   "end": 1332.59,
+   "text": "Could you write code for this?",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1332.59,
+   "end": 1335.59,
+   "text": "Yeah, maybe not.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1335.59,
+   "end": 1336.27,
+   "text": "That's on quiz.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1336.27,
+   "end": 1337.07,
+   "text": "Thank you, John.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1337.07,
+   "end": 1339.19,
+   "text": "Don't tell him it's on the quiz, damn.",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1339.19,
+   "end": 1343.03,
+   "text": "All right, I'm going to claim, though, that, in fact,",
+   "avg_logprob": -0.241,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1343.03,
+   "end": 1346.71,
+   "text": "There's a beautiful recursive solution.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1346.71,
+   "end": 1348.59,
+   "text": "And here's the way to think about recursively.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1348.59,
+   "end": 1351.71,
+   "text": "I want to move a tower of size n.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1351.71,
+   "end": 1353.79,
+   "text": "I'm going to assume I can move smaller towers.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1353.79,
+   "end": 1354.75,
+   "text": "And then it's really easy.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1354.75,
+   "end": 1357.87,
+   "text": "What I do, I take a stack of size n minus 1,",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1357.87,
+   "end": 1361.27,
+   "text": "I move it onto the spare one, I move the bottom one over,",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1361.27,
+   "end": 1365.47,
+   "text": "and then I move a stack of size n minus 1 to there.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1365.47,
+   "end": 1367.75,
+   "text": "Beautiful, recursive solution.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1367.75,
+   "end": 1370.23,
+   "text": "And how do I move the smaller stack just the same way?",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1370.23,
+   "end": 1372.99,
+   "text": "I just unwind it.",
+   "avg_logprob": -0.158,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1372.99,
+   "end": 1373.85,
+   "text": "Simple.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1373.85,
+   "end": 1378.81,
+   "text": "And in fact, the code follows exactly that.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1378.81,
+   "end": 1381.05,
+   "text": "OK, I do a little larger domain up here",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1381.05,
+   "end": 1383.93,
+   "text": "to try and get your attention, but notice by doing that,",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1383.93,
+   "end": 1385.09,
+   "text": "what did I do?",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1385.09,
+   "end": 1386.65,
+   "text": "I asked you to think about a recursively.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1386.65,
+   "end": 1388.93,
+   "text": "The recursive solution when you see it",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1388.93,
+   "end": 1391.21,
+   "text": "is, in fact, very straightforward.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1391.21,
+   "end": 1393.77,
+   "text": "And there's the code.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1393.77,
+   "end": 1394.53,
+   "text": "Dead trivial.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1394.53,
+   "end": 1397.45,
+   "text": "Well, dead trivial is unfair, but it's very simple, right?",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1397.45,
+   "end": 1400.05,
+   "text": "I simply write something, so let me describe it.",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1400.05,
+   "end": 1402.25,
+   "text": "I need to say, how big a tower am I moving?",
+   "avg_logprob": -0.191,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1402.25,
+   "end": 1406.97,
+   "text": "And I'm going to label the three stacks, a from, a to, and a spare.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1406.97,
+   "end": 1410.49,
+   "text": "I have a little procedure that just prints out the move for me.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1410.49,
+   "end": 1412.65,
+   "text": "And then what's the solution?",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1412.65,
+   "end": 1415.33,
+   "text": "If it's just a stack of size one, just print the move.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1415.33,
+   "end": 1418.01,
+   "text": "Take it from from from to to.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1418.01,
+   "end": 1422.49,
+   "text": "Otherwise, move a tower of size n minus 1 from the from",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1422.49,
+   "end": 1425.53,
+   "text": "spot to the spare spot.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1425.53,
+   "end": 1429.61,
+   "text": "Then move what's left a tower of size one from from to to.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.021
+  },
+  {
+   "start": 1429.61,
+   "end": 1431.85,
+   "text": "And then take that thing I stuck on spare",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1431.85,
+   "end": 1436.48,
+   "text": "and move it over to two and I'm done.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1436.48,
+   "end": 1438.12,
+   "text": "In that code that we handed out,",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1438.12,
+   "end": 1439.8,
+   "text": "you'll see this code you can run it.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1439.8,
+   "end": 1441.6,
+   "text": "I'm not gonna print it out because if I did use this,",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1441.6,
+   "end": 1443.04,
+   "text": "it's gonna say, okay, it looks like",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1443.04,
+   "end": 1444.96,
+   "text": "it does the right kind of thing.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1444.96,
+   "end": 1448.0,
+   "text": "Look at the code, nice and easy.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1448.0,
+   "end": 1449.16,
+   "text": "And that's what we like you to do",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1449.16,
+   "end": 1450.24,
+   "text": "when you're given a problem,",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1450.24,
+   "end": 1451.88,
+   "text": "we ask you to think about it recursively.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1451.88,
+   "end": 1454.48,
+   "text": "How do I solve this with a smaller version",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1454.48,
+   "end": 1455.88,
+   "text": "of the same problem?",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1455.88,
+   "end": 1459.28,
+   "text": "And then how do I use that to build the larger solution?",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1459.28,
+   "end": 1461.28,
+   "text": "This case is a little different.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1461.28,
+   "end": 1463.04,
+   "text": "You could argue that this is not really",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1463.04,
+   "end": 1464.12,
+   "text": "a recursive call here.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1464.12,
+   "end": 1465.12,
+   "text": "It's just moving the bottom one.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1465.12,
+   "end": 1466.84,
+   "text": "I could have done that directly.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1466.84,
+   "end": 1471.44,
+   "text": "But I've got two recursive calls in the body here.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1471.44,
+   "end": 1473.68,
+   "text": "I have to move a smaller stack twice.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1473.68,
+   "end": 1477.87,
+   "text": "We're going to come back to that in a little bit.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1477.87,
+   "end": 1480.59,
+   "text": "Let me show you one other example of recursion",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1480.59,
+   "end": 1482.91,
+   "text": "that runs a little bit differently.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1482.91,
+   "end": 1485.35,
+   "text": "In this case, it's going to have multiple base cases.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1485.35,
+   "end": 1486.75,
+   "text": "And this is another very old problem.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1486.75,
+   "end": 1487.95,
+   "text": "It's called the Fibonacci numbers.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1487.95,
+   "end": 1490.63,
+   "text": "It's based on something from several centuries ago",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1490.63,
+   "end": 1493.09,
+   "text": "when a gentleman named Leonardo of Pisa, also known",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1493.09,
+   "end": 1498.17,
+   "text": "Fibonacci, asked the following challenge. He said, I'm going to put a newborn pair of",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1498.17,
+   "end": 1503.45,
+   "text": "rabbits, one male and one female, into an enclosure, a pan of some sort. And those rabbits have",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1503.45,
+   "end": 1509.89,
+   "text": "the following properties. They mate at age one month, so they take a month to mature.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1509.89,
+   "end": 1514.09,
+   "text": "After a one month gestation period, they produce another pair of rabbits, a male",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1514.09,
+   "end": 1519.53,
+   "text": "and a female. And he said, I'm going to assume that the rabbits never die. So",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 1519.53,
+   "end": 1522.37,
+   "text": "Each month, mature females are going to produce another pair.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1522.37,
+   "end": 1524.73,
+   "text": "And his question was, how many female rabbits are there at",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1524.73,
+   "end": 1528.69,
+   "text": "the end of a year, or two years, or three years?",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1528.69,
+   "end": 1533.61,
+   "text": "So ideas, I start off with two immature rabbits.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1533.61,
+   "end": 1536.77,
+   "text": "After one month, they've matured, which means after",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1536.77,
+   "end": 1541.65,
+   "text": "another month, they will have produced a new pair.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1541.65,
+   "end": 1543.93,
+   "text": "After another month, that mature pair has produced",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1543.93,
+   "end": 1547.85,
+   "text": "another pair, and the immature pair has matured.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1547.85,
+   "end": 1550.89,
+   "text": "Which means after another month, those two mature pairs are",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1550.89,
+   "end": 1553.89,
+   "text": "going to produce offspring.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1553.89,
+   "end": 1556.37,
+   "text": "And that immature pair has matured.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1556.37,
+   "end": 1557.41,
+   "text": "And you get the idea.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1557.41,
+   "end": 1563.76,
+   "text": "And after several months, you get to Australia.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1563.76,
+   "end": 1565.48,
+   "text": "You can also see this is going to be interesting to think",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1565.48,
+   "end": 1566.52,
+   "text": "about how do you compute this.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1566.52,
+   "end": 1567.68,
+   "text": "But what I want you to see is the",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1567.68,
+   "end": 1568.84,
+   "text": "recursive solution to it.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1568.84,
+   "end": 1571.84,
+   "text": "So how could we capture this?",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1571.84,
+   "end": 1574.24,
+   "text": "Well, here's another way of thinking about it.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1574.24,
+   "end": 1575.84,
+   "text": "After the first month, and I know we're going to do",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1575.84,
+   "end": 1577.32,
+   "text": "this funny thing, we're going to index it zero.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1577.32,
+   "end": 1578.88,
+   "text": "So call it month zero.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1578.88,
+   "end": 1582.08,
+   "text": "There is one female, which is immature.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1582.08,
+   "end": 1585.16,
+   "text": "After the second month, that female is mature and now",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1585.16,
+   "end": 1589.68,
+   "text": "pregnant, which means after the third month, it is produced",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1589.68,
+   "end": 1591.36,
+   "text": "an offspring.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1591.36,
+   "end": 1595.44,
+   "text": "And more generally, at the nth month, after we get past",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1595.44,
+   "end": 1598.16,
+   "text": "the first few cases, what do we have?",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1598.16,
+   "end": 1603.08,
+   "text": "Any female that was there two months ago has produced an",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1603.08,
+   "end": 1605.64,
+   "text": "offspring, because it's taken at least one month to",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1605.64,
+   "end": 1607.64,
+   "text": "mature, if it hasn't already been mature, and then it's",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1607.64,
+   "end": 1609.52,
+   "text": "going to produce an offspring.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1609.52,
+   "end": 1613.4,
+   "text": "And any female that was around last month is still around",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1613.4,
+   "end": 1615.24,
+   "text": "because they never die off.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1615.24,
+   "end": 1616.48,
+   "text": "So this is a little different.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1616.48,
+   "end": 1620.24,
+   "text": "This is now the number of females at month n is the",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1620.24,
+   "end": 1622.88,
+   "text": "number of females at month n minus 1 plus the number of",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1622.88,
+   "end": 1625.56,
+   "text": "females at month n minus 2.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1625.56,
+   "end": 1630.84,
+   "text": "So two recursive calls, but with different arguments,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1630.84,
+   "end": 1633.92,
+   "text": "different from towers of Hanoi where there were two",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1633.92,
+   "end": 1637.88,
+   "text": "recursive calls, but with the same size problem.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1637.88,
+   "end": 1639.64,
+   "text": "OK.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1639.64,
+   "end": 1642.72,
+   "text": "So now I need two base cases.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1642.72,
+   "end": 1646.84,
+   "text": "One for when n is equal to 0, one for when n is equal to 1.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1646.84,
+   "end": 1649.68,
+   "text": "And then I've got that recursive case.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1649.68,
+   "end": 1654.4,
+   "text": "And so there's a nice little piece of code.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1654.4,
+   "end": 1656.48,
+   "text": "Fibonacci, I'm going to assume x is an integer greater",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1656.48,
+   "end": 1657.24,
+   "text": "than or equal to 0.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1657.24,
+   "end": 1659.4,
+   "text": "I'm going to return Fibonacci of x.",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1659.4,
+   "end": 1662.8,
+   "text": "And you can see now it says if either x is equal to 0",
+   "avg_logprob": -0.157,
+   "no_speech_prob": 0.024
+  },
+  {
+   "start": 1662.8,
+   "end": 1665.84,
+   "text": "or x is equal to 1, I'm going to return 1.",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1665.84,
+   "end": 1669.88,
+   "text": "Otherwise, I reduce it to two simpler versions",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1669.88,
+   "end": 1672.72,
+   "text": "of the problem, but with different arguments,",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1672.72,
+   "end": 1676.3,
+   "text": "and I add them up.",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1676.3,
+   "end": 1679.82,
+   "text": "And if we go look at this, we can actually run this.",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1679.82,
+   "end": 1689.8,
+   "text": "I can find my code, which is right there.",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1689.8,
+   "end": 1692.96,
+   "text": "So we can, for example, check it by saying fib of 0.",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1701.39,
+   "end": 1707.37,
+   "text": "I just hit a bug, which I don't see.",
+   "avg_logprob": -0.213,
+   "no_speech_prob": 0.031
+  },
+  {
+   "start": 1707.37,
+   "end": 1712.46,
+   "text": "Let me try it again.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1712.46,
+   "end": 1727.6,
+   "text": "I'll try it one more time with fib of zero, darn.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1727.6,
+   "end": 1729.32,
+   "text": "I'll let me try it.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1729.32,
+   "end": 1731.04,
+   "text": "I've got two different versions of fib in here.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1731.04,
+   "end": 1732.2,
+   "text": "That's what I've got going on.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1732.2,
+   "end": 1733.0,
+   "text": "So let me do it again.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1733.0,
+   "end": 1734.24,
+   "text": "Let's do fib of one.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1734.24,
+   "end": 1734.8,
+   "text": "There we go.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1734.8,
+   "end": 1737.2,
+   "text": "Fib of two, which is two.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1737.2,
+   "end": 1739.24,
+   "text": "Fib of three, which is three.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1739.24,
+   "end": 1741.64,
+   "text": "And fib of four, which should add the previous two, which",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1741.64,
+   "end": 1742.52,
+   "text": "gives me five.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1742.52,
+   "end": 1742.88,
+   "text": "There we go.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1742.88,
+   "end": 1743.64,
+   "text": "Sorry about that.",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1743.64,
+   "end": 1746.36,
+   "text": "I had two versions of fib in my file, which is why",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1746.36,
+   "end": 1749.04,
+   "text": "you complained at me, which is why you should",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1749.04,
+   "end": 1750.96,
+   "text": "always read the error instructions, because it",
+   "avg_logprob": -0.209,
+   "no_speech_prob": 0.042
+  },
+  {
+   "start": 1750.96,
+   "end": 1753.74,
+   "text": "tells you what you did wrong.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1753.74,
+   "end": 1758.14,
+   "text": "Let's go on and look at one more example of doing recursion.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1758.14,
+   "end": 1759.46,
+   "text": "And we're going to dictionaries, and then we're going to",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1759.46,
+   "end": 1761.42,
+   "text": "pull it all together.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1761.42,
+   "end": 1764.94,
+   "text": "So far, we've been doing recursion on numerical things.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1764.94,
+   "end": 1766.7,
+   "text": "We can do it on non-numerical things.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1766.7,
+   "end": 1768.94,
+   "text": "So a nice way of thinking about this is, how would I",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1768.94,
+   "end": 1771.34,
+   "text": "tell if a string of characters is a palindrome?",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1771.34,
+   "end": 1774.26,
+   "text": "Meaning it reads the same backwards and forwards.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1774.26,
+   "end": 1776.94,
+   "text": "Probably the most famous palindrome is attributed to",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1776.94,
+   "end": 1777.46,
+   "text": "Napoleon.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1777.46,
+   "end": 1779.94,
+   "text": "Able was I, ere I saw Elba.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.108
+  },
+  {
+   "start": 1779.94,
+   "end": 1782.58,
+   "text": "Given that the pull-in was French, I really doubt he said,",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1782.58,
+   "end": 1786.02,
+   "text": "Abel was I error, I saw Elba, but it's a great palindrome.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1786.02,
+   "end": 1787.86,
+   "text": "Another one attributed to Ann Michaels,",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1787.86,
+   "end": 1789.18,
+   "text": "are we not drawn onward?",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1789.18,
+   "end": 1792.94,
+   "text": "We few drawn onward to a new era.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1792.94,
+   "end": 1795.46,
+   "text": "Reads the same backwards and forwards.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1795.46,
+   "end": 1798.54,
+   "text": "It's fun to think about how do you create the palindromes.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1798.54,
+   "end": 1801.78,
+   "text": "I want to write code to solve this.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1801.78,
+   "end": 1803.58,
+   "text": "Again, I want to think about it recursively.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1803.58,
+   "end": 1805.22,
+   "text": "So here's what I'm going to do.",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1805.22,
+   "end": 1808.22,
+   "text": "I'm first going to take a string of characters,",
+   "avg_logprob": -0.207,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1808.22,
+   "end": 1810.94,
+   "text": "reduce them all to lower case, and strip out",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1810.94,
+   "end": 1812.18,
+   "text": "spaces in punctuation.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1812.18,
+   "end": 1815.5,
+   "text": "I just want the characters.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1815.5,
+   "end": 1817.1,
+   "text": "And once I got that, I want to say,",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1817.1,
+   "end": 1819.14,
+   "text": "is that string, that list of characters,",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1819.14,
+   "end": 1823.02,
+   "text": "or that collection of characters, I should say, a palindrome?",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1823.02,
+   "end": 1824.98,
+   "text": "And I'm going to think about it recursively.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1824.98,
+   "end": 1827.74,
+   "text": "And that's actually pretty easy.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1827.74,
+   "end": 1832.34,
+   "text": "If it's either 0 or 1 long, it's a palindrome.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1832.34,
+   "end": 1834.86,
+   "text": "Otherwise, you could think about having an index",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1834.86,
+   "end": 1837.46,
+   "text": "at each end of this thing and sort of counting into the middle.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1837.46,
+   "end": 1840.42,
+   "text": "But as much easier to say, take the two at the end.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1840.42,
+   "end": 1842.58,
+   "text": "If they're the same, then check to see",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1842.58,
+   "end": 1844.9,
+   "text": "what's left in the middle is a palindrome.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1844.9,
+   "end": 1848.06,
+   "text": "And if those two properties are true, I'm done.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1848.06,
+   "end": 1849.22,
+   "text": "And notice what I just did.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1849.22,
+   "end": 1851.94,
+   "text": "I nicely reduced a bigger problem",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1851.94,
+   "end": 1853.3,
+   "text": "to a slightly smaller problem.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1853.3,
+   "end": 1856.18,
+   "text": "So exactly what I want to do.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1856.18,
+   "end": 1857.22,
+   "text": "OK?",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1857.22,
+   "end": 1859.74,
+   "text": "So what it says to check is this.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1859.74,
+   "end": 1862.1,
+   "text": "I'm going to reduce it to just the string of characters.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1862.1,
+   "end": 1863.98,
+   "text": "And then I'm going to check that's a palindrome",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1863.98,
+   "end": 1865.58,
+   "text": "by pulling those two off and checking",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1865.58,
+   "end": 1868.1,
+   "text": "to see they're the same, and then checking",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1868.1,
+   "end": 1872.77,
+   "text": "to see if the middle is itself a palindrome.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1872.77,
+   "end": 1874.61,
+   "text": "OK.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1874.61,
+   "end": 1876.69,
+   "text": "How would I write it?",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1876.69,
+   "end": 1878.53,
+   "text": "I'm going to create a procedure up here.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1878.53,
+   "end": 1879.77,
+   "text": "Is palindrome.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1879.77,
+   "end": 1882.25,
+   "text": "I'm going to have inside of it two internal procedures that",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1882.25,
+   "end": 1883.05,
+   "text": "do the work for me.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1883.05,
+   "end": 1886.65,
+   "text": "The first one is simply going to reduce this to all lower",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1886.65,
+   "end": 1888.17,
+   "text": "case with no spaces.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1888.17,
+   "end": 1890.13,
+   "text": "And notice what I can do, because s",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1890.13,
+   "end": 1892.37,
+   "text": "is a string of characters.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1892.37,
+   "end": 1895.25,
+   "text": "I can use the built-in string method lower.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1895.25,
+   "end": 1896.73,
+   "text": "So there's that dot notation.",
+   "avg_logprob": -0.188,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1896.73,
+   "end": 1900.33,
+   "text": "s, dot lower, says apply the method lower to a string.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1900.33,
+   "end": 1903.17,
+   "text": "I need an open and closed parent to actually call that",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1903.17,
+   "end": 1904.25,
+   "text": "procedure.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1904.25,
+   "end": 1908.73,
+   "text": "And that will mutate s to just be all lowercase.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1908.73,
+   "end": 1909.93,
+   "text": "And then I'm going to run a little loop.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1909.93,
+   "end": 1912.37,
+   "text": "I'll set up answer or ants to be an empty string.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1912.37,
+   "end": 1916.17,
+   "text": "And then for everything inside that mutated string, I'll",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1916.17,
+   "end": 1920.13,
+   "text": "simply say, if it's inside this string, if it's a",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1920.13,
+   "end": 1923.09,
+   "text": "letter, add it into answer.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1923.09,
+   "end": 1925.37,
+   "text": "If it's a space or a comma or something else, I'll",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.05
+  },
+  {
+   "start": 1925.37,
+   "end": 1930.53,
+   "text": "ignored. And when I'm done, just return answer. Strips it down to lower case. And",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1930.53,
+   "end": 1936.25,
+   "text": "then I'm going to pass that into isPal, which simply says if this is either zero",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1936.25,
+   "end": 1941.81,
+   "text": "or one long, it's a palindrome. Return true. Otherwise, check to see that the",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1941.81,
+   "end": 1947.25,
+   "text": "first and last element of the string are the same. Notice the indexing to",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1947.25,
+   "end": 1951.25,
+   "text": "get into the last element. And similarly, just slice into the string",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1951.25,
+   "end": 1954.93,
+   "text": "Ignoring the first and last element and ask, is that a",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1954.93,
+   "end": 1956.77,
+   "text": "palindrome?",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1956.77,
+   "end": 1958.57,
+   "text": "And then just call it.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1958.57,
+   "end": 1960.33,
+   "text": "And that'll do it.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1960.33,
+   "end": 1962.33,
+   "text": "And again, there's a nice example of that in the code.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1962.33,
+   "end": 1963.01,
+   "text": "I'm not going to run out.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1963.01,
+   "end": 1964.01,
+   "text": "I'll let you just go look at it.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1964.01,
+   "end": 1965.97,
+   "text": "But it will actually pull out something that checks.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1965.97,
+   "end": 1968.41,
+   "text": "Is this a palindrome?",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1968.41,
+   "end": 1971.17,
+   "text": "Notice again what I'm doing here.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1971.17,
+   "end": 1972.81,
+   "text": "I'm doing divide and conquer.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1972.81,
+   "end": 1974.61,
+   "text": "I'm taking a problem, reducing it.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1974.61,
+   "end": 1976.45,
+   "text": "I keep saying this to a simpler version of the",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1976.45,
+   "end": 1977.61,
+   "text": "same problem.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1977.61,
+   "end": 1979.93,
+   "text": "Keep unwinding it till I get down to something I can",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 1979.93,
+   "end": 1983.09,
+   "text": "solved directly in my base case, and I'm done.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1983.09,
+   "end": 1985.81,
+   "text": "And that's really the heart of thinking about recursive",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1985.81,
+   "end": 1988.41,
+   "text": "solutions to problems.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1988.41,
+   "end": 1990.45,
+   "text": "I would hope that one of the things you remember, besides",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1990.45,
+   "end": 1993.97,
+   "text": "my really lousy pattern up here, is the idea of towers of",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1993.97,
+   "end": 1996.73,
+   "text": "Hanoi, because to me it's one of the nicest examples of a",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1996.73,
+   "end": 2000.09,
+   "text": "problem that would be hard to solve iteratively.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2000.09,
+   "end": 2002.21,
+   "text": "But when you see the recursive solution, it's",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2002.21,
+   "end": 2003.49,
+   "text": "pretty straightforward.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2003.49,
+   "end": 2007.92,
+   "text": "Keep that in mind as you think about doing recursion.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2007.92,
+   "end": 2009.8,
+   "text": "OK, let's switch gears.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2009.8,
+   "end": 2012.24,
+   "text": "And let's talk very briefly about another kind of",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2012.24,
+   "end": 2014.96,
+   "text": "data type called a dictionary.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2014.96,
+   "end": 2016.88,
+   "text": "In the idea of a dictionary, I'm going to motivate with a",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2016.88,
+   "end": 2018.68,
+   "text": "simple example.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2018.68,
+   "end": 2020.52,
+   "text": "There's a quiz coming up on Thursday.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2020.52,
+   "end": 2022.68,
+   "text": "I know you don't want to hear that, but there is, which",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2022.68,
+   "end": 2024.08,
+   "text": "means we're going to be recording grades.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2024.08,
+   "end": 2026.56,
+   "text": "And so imagine I wanted to build a little database just",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2026.56,
+   "end": 2029.08,
+   "text": "to keep track of grades of students.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2029.08,
+   "end": 2030.88,
+   "text": "So one of the ways I could do it is I could create a",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2030.88,
+   "end": 2033.08,
+   "text": "list with the names of the students.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2033.08,
+   "end": 2035.76,
+   "text": "I could create another list with their grades, and a",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2035.76,
+   "end": 2039.12,
+   "text": "third list with the actual subject or course from which",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2039.12,
+   "end": 2041.8,
+   "text": "They got that great.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2041.8,
+   "end": 2043.56,
+   "text": "Keep a separate list for each one of them.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2043.56,
+   "end": 2045.08,
+   "text": "Keep them of the same length.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2045.08,
+   "end": 2047.68,
+   "text": "And in essence, what I'm doing here is I'm storing",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2047.68,
+   "end": 2053.64,
+   "text": "information at the same index in each list.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2053.64,
+   "end": 2056.44,
+   "text": "So Anna, who's going to have to take the class again, gets",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2056.44,
+   "end": 2059.28,
+   "text": "a B. John, who's created the class, gets an A plus.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2059.28,
+   "end": 2060.76,
+   "text": "Sorry, Anna.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2060.76,
+   "end": 2063.36,
+   "text": "John's had a longer time at it.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2063.36,
+   "end": 2064.36,
+   "text": "All right, bad jokes aside.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2064.36,
+   "end": 2066.28,
+   "text": "What I'm doing is I could imagine just creating lists.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2066.28,
+   "end": 2067.84,
+   "text": "I could create lists of lists, but a simple",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2067.84,
+   "end": 2073.36,
+   "text": "ways to do lists, where basically, at each index, I've got associated information.",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2073.36,
+   "end": 2076.0,
+   "text": "It's a simple way to deal with it.",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2077.08,
+   "end": 2079.32,
+   "text": "Getting a grade out takes a little bit of work,",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2079.32,
+   "end": 2082.56,
+   "text": "because if I want to get the grade associated with a particular student,",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2082.56,
+   "end": 2083.16,
+   "text": "what would I do?",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2084.2,
+   "end": 2089.04,
+   "text": "I would go into the name list and use the method index, which you've seen",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2089.04,
+   "end": 2090.84,
+   "text": "before, again, notice the dot notation.",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2090.84,
+   "end": 2095.84,
+   "text": "It says, this is a list, use the index method, call it on student.",
+   "avg_logprob": -0.217,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2095.84,
+   "end": 2099.72,
+   "text": "And whatever the value of student is, it will find that in the list, return the index at",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2099.72,
+   "end": 2101.24,
+   "text": "that point.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2101.24,
+   "end": 2108.4,
+   "text": "And then I can use that to go in and get the grade in the course and return something out.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2108.4,
+   "end": 2111.34,
+   "text": "Simple way to do it, but a little ugly.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2111.34,
+   "end": 2115.38,
+   "text": "Because among other things, I've got things stored in different places in the list.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2115.38,
+   "end": 2117.74,
+   "text": "I've got to think about if I'm going to add something to the list, I've got to",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2117.74,
+   "end": 2119.98,
+   "text": "put them in the same spot in the list.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2119.98,
+   "end": 2123.82,
+   "text": "I've got to remember to always index using integers, which is what we know how to",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2123.82,
+   "end": 2127.86,
+   "text": "to do with lists, at least so far.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2127.86,
+   "end": 2130.06,
+   "text": "It will be nice if I had a better way to do it,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2130.06,
+   "end": 2131.58,
+   "text": "and that's exactly what a dictionary is",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2131.58,
+   "end": 2133.62,
+   "text": "going to provide for me.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2133.62,
+   "end": 2136.22,
+   "text": "So rather than indexing on integers,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2136.22,
+   "end": 2138.78,
+   "text": "I'd like to index directly on the item of interest.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2138.78,
+   "end": 2141.34,
+   "text": "I'd like to say, where's Anna's record?",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2141.34,
+   "end": 2143.9,
+   "text": "And find that in one data structure.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2143.9,
+   "end": 2147.06,
+   "text": "And so whereas a list is indexed by integers",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2147.06,
+   "end": 2149.42,
+   "text": "and has elements associated with it,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2149.42,
+   "end": 2153.26,
+   "text": "a dictionary is going to combine a key",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2153.26,
+   "end": 2157.18,
+   "text": "or if you like, a name of some sort with an actual value.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2157.18,
+   "end": 2159.94,
+   "text": "And we're going to index just by the name or the label",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2159.94,
+   "end": 2162.58,
+   "text": "as we go into it.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2162.58,
+   "end": 2165.1,
+   "text": "So let me show you some examples.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2165.1,
+   "end": 2166.62,
+   "text": "First of all, to create a dictionary,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2166.62,
+   "end": 2168.82,
+   "text": "I use curly braces, open-close curly brace.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2168.82,
+   "end": 2171.98,
+   "text": "So an empty dictionary would be simply that call.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2171.98,
+   "end": 2173.9,
+   "text": "If I want to create an actual dictionary",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2173.9,
+   "end": 2175.34,
+   "text": "before I insert things into it,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2175.34,
+   "end": 2177.94,
+   "text": "I use a little bit of a funky notation.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2177.94,
+   "end": 2182.46,
+   "text": "It is a key or a label, a colon, and then a value.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2182.46,
+   "end": 2186.34,
+   "text": "In this case, the string Anna and the string B,",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2186.34,
+   "end": 2188.22,
+   "text": "followed by a comma, which separates it",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2188.22,
+   "end": 2192.34,
+   "text": "from the next pairing of a key and a label,",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2192.34,
+   "end": 2195.9,
+   "text": "or key and a value, and so on.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2195.9,
+   "end": 2198.14,
+   "text": "And so if I do this, what it does in my dictionary",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2198.14,
+   "end": 2204.14,
+   "text": "is it creates pairings of those labels with the values",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2204.14,
+   "end": 2207.22,
+   "text": "associated with them.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2207.22,
+   "end": 2210.1,
+   "text": "OK, these are pretty simple.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2210.1,
+   "end": 2211.86,
+   "text": "But in fact, there's lots of nice things",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2211.86,
+   "end": 2212.54,
+   "text": "we can do with it.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2212.54,
+   "end": 2215.78,
+   "text": "But once we've got them, indexing now is similar to a list.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2215.78,
+   "end": 2218.1,
+   "text": "But not done by a number, it's done by a value.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2218.1,
+   "end": 2222.34,
+   "text": "So if that's my key, I can say, what's John's grade?",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2222.34,
+   "end": 2223.14,
+   "text": "Notice the call.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2223.14,
+   "end": 2225.22,
+   "text": "It's grades, which is my dictionary.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2225.22,
+   "end": 2229.1,
+   "text": "Open close square brackets with the label John.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2229.1,
+   "end": 2231.0,
+   "text": "And what it does, it goes in and finds that in the",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2231.0,
+   "end": 2234.26,
+   "text": "dictionary, returns the value associated with it.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2234.26,
+   "end": 2236.06,
+   "text": "If I ask for something not in the dictionary, it's",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2236.06,
+   "end": 2239.37,
+   "text": "going to give me a key error.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2239.37,
+   "end": 2242.33,
+   "text": "Other things we can do with dictionaries.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 2242.33,
+   "end": 2246.97,
+   "text": "We can add entries just like we would do with lists.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2246.97,
+   "end": 2248.21,
+   "text": "Grades is a dictionary.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2248.21,
+   "end": 2250.41,
+   "text": "In open and closed square brackets,",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2250.41,
+   "end": 2255.05,
+   "text": "I put in a new label and a value.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2255.05,
+   "end": 2258.45,
+   "text": "And that adds that to the dictionary.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2258.45,
+   "end": 2260.81,
+   "text": "I can test if something's in the dictionary",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2260.81,
+   "end": 2264.81,
+   "text": "by simply saying, is this label in Grades?",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2264.81,
+   "end": 2268.45,
+   "text": "And it simply checks all of the labels or the keys",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2268.45,
+   "end": 2270.29,
+   "text": "for the dictionary to see if it's there.",
+   "avg_logprob": -0.16,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2270.29,
+   "end": 2275.29,
+   "text": "And if it's not returns false, I can remove entries.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2275.29,
+   "end": 2277.85,
+   "text": "Del, something we've seen before, a very generic thing.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2277.85,
+   "end": 2278.89,
+   "text": "It will delete something.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2278.89,
+   "end": 2281.77,
+   "text": "And in this case, it says, in the dictionary grades,",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2281.77,
+   "end": 2285.09,
+   "text": "find the entry associated with that key.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2285.09,
+   "end": 2287.37,
+   "text": "Sorry, Anna, you're about to be flushed.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2287.37,
+   "end": 2289.61,
+   "text": "Remove it.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2289.61,
+   "end": 2291.81,
+   "text": "She's only getting a b in the class, and she teaches it.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2291.81,
+   "end": 2295.21,
+   "text": "We've got to do something about this, right?",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2295.21,
+   "end": 2297.01,
+   "text": "OK, so I can add things, I can delete things,",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2297.01,
+   "end": 2298.89,
+   "text": "I can test if things are there.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2298.89,
+   "end": 2302.85,
+   "text": "Let me show you a couple of other things about dictionaries.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2302.85,
+   "end": 2306.93,
+   "text": "I can ask for all of the keys in the dictionary.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2306.93,
+   "end": 2307.77,
+   "text": "Notice the format.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2307.77,
+   "end": 2308.97,
+   "text": "There's that dot notation.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2308.97,
+   "end": 2310.09,
+   "text": "Grades is a dictionary.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2310.09,
+   "end": 2313.41,
+   "text": "It says, use the keys method associated with this data",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2313.41,
+   "end": 2315.01,
+   "text": "structured dictionaries.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2315.01,
+   "end": 2316.77,
+   "text": "Open close actually calls it.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2316.77,
+   "end": 2320.81,
+   "text": "And it gives me back a collection of all the keys",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2320.81,
+   "end": 2323.89,
+   "text": "in some arbitrary order.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2323.89,
+   "end": 2326.29,
+   "text": "I'm going to use a funny term here, which I'm not",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2326.29,
+   "end": 2327.33,
+   "text": "certain we've seen so far.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2327.33,
+   "end": 2329.33,
+   "text": "It returns something we call an iterable.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2329.33,
+   "end": 2330.53,
+   "text": "It's like range.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2330.53,
+   "end": 2332.89,
+   "text": "Think of it as giving us back the equivalent of a list.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2332.89,
+   "end": 2335.01,
+   "text": "It's not actually a list, but it's something we can walk",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2335.01,
+   "end": 2338.69,
+   "text": "down, which is exactly why I can then say is something in a",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2338.69,
+   "end": 2342.25,
+   "text": "dictionary, because it returns this set of keys.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2342.25,
+   "end": 2344.25,
+   "text": "And I can test to see if something's in there.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2344.25,
+   "end": 2347.01,
+   "text": "I can similarly get all of the values if I wanted to",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2347.01,
+   "end": 2351.61,
+   "text": "look at them, giving us out two iterables.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2351.61,
+   "end": 2353.37,
+   "text": "Here are the key things to keep in mind about",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2353.37,
+   "end": 2356.72,
+   "text": "dictionaries.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2356.72,
+   "end": 2358.56,
+   "text": "The values can be anything.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2358.56,
+   "end": 2362.0,
+   "text": "Any type, mutable, immutable, they could be duplicates.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2362.0,
+   "end": 2362.76,
+   "text": "That actually makes sense.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2362.76,
+   "end": 2364.92,
+   "text": "I could have the same value associated, for example,",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2364.92,
+   "end": 2366.96,
+   "text": "the same grade associated with different people.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2366.96,
+   "end": 2368.48,
+   "text": "That's perfectly fine.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2368.48,
+   "end": 2369.8,
+   "text": "The values could be lists.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2369.8,
+   "end": 2371.2,
+   "text": "They could be other data structures.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2371.2,
+   "end": 2372.64,
+   "text": "They could even be other dictionaries.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2372.64,
+   "end": 2375.6,
+   "text": "They can be anything, which is great.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2375.6,
+   "end": 2379.16,
+   "text": "The keys, the first part of it, are a little more",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2379.16,
+   "end": 2380.56,
+   "text": "structure.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2380.56,
+   "end": 2382.72,
+   "text": "They need to be unique.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2382.72,
+   "end": 2383.88,
+   "text": "Well, duh, that makes sense.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2383.88,
+   "end": 2386.0,
+   "text": "If I have the same key in two places in the",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2386.0,
+   "end": 2387.72,
+   "text": "dictionary, when I go to look it up, how am I going",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.035
+  },
+  {
+   "start": 2387.72,
+   "end": 2393.56,
+   "text": "know which one I want. So it needs to be unique. And they also need to be immutable,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2393.56,
+   "end": 2397.0,
+   "text": "which also makes sense. If I'm storing something in a key in the dictionary and I can go and",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2397.0,
+   "end": 2401.36,
+   "text": "change the value of the key, how am I going to remember what I was looking for? So they",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2401.36,
+   "end": 2407.92,
+   "text": "can only be things like ints, floats, strings, tuples, willyons. I don't recommend using",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2407.92,
+   "end": 2410.88,
+   "text": "floats because you need to make sure it's exactly the same float and that's sometimes",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2410.88,
+   "end": 2414.68,
+   "text": "a little bit challenging. But nonetheless, you can have any immutable type as your",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 2414.68,
+   "end": 2418.56,
+   "text": "key, and notice that there's no order to the keys or the values.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2418.56,
+   "end": 2423.36,
+   "text": "They are simply stored arbitrarily by Python as it puts them in.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2423.36,
+   "end": 2426.84,
+   "text": "And so if I compare these two, lists are ordered sequences,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2426.84,
+   "end": 2428.4,
+   "text": "index by integers.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2428.4,
+   "end": 2431.0,
+   "text": "I look them up by integer index, and the indices",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2431.0,
+   "end": 2432.96,
+   "text": "have to have an order as a consequence.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2432.96,
+   "end": 2435.64,
+   "text": "Dictionaries are this nice generalization.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2435.64,
+   "end": 2437.8,
+   "text": "Arbitrarily match keys to values.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2437.8,
+   "end": 2440.44,
+   "text": "I simply look up one item by looking up things",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2440.44,
+   "end": 2442.4,
+   "text": "under the appropriate key.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.034
+  },
+  {
+   "start": 2442.4,
+   "end": 2447.2,
+   "text": "All it requires is that the keys have to be immutable.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2447.2,
+   "end": 2448.96,
+   "text": "OK, I want to do two last things.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2448.96,
+   "end": 2451.12,
+   "text": "We've got seven minutes to go here.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2451.12,
+   "end": 2453.92,
+   "text": "I want to show you an example of using dictionaries.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2453.92,
+   "end": 2455.56,
+   "text": "And I'm going to do this with a little bit more",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2455.56,
+   "end": 2456.76,
+   "text": "interesting, I hope, example.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2456.76,
+   "end": 2458.84,
+   "text": "I'm going to analyze song lyrics.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2458.84,
+   "end": 2460.64,
+   "text": "Now I'm going to show you, you can already tell the",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2460.64,
+   "end": 2462.44,
+   "text": "difference between my age and Anna's age.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2462.44,
+   "end": 2466.0,
+   "text": "She used Taylor Swift and Justin Bieber.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2466.0,
+   "end": 2467.04,
+   "text": "I'm going to use the Beatles.",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2467.04,
+   "end": 2469.2,
+   "text": "That's more my generation, most of you have never heard",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2469.2,
+   "end": 2471.28,
+   "text": "of the Beatles unless you watch Shining Time Station",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2471.28,
+   "end": 2473.92,
+   "text": "where you saw Ringo Starr, right?",
+   "avg_logprob": -0.165,
+   "no_speech_prob": 0.022
+  },
+  {
+   "start": 2473.92,
+   "end": 2476.4,
+   "text": "OK, what I'm going to do is I want to write a little set of",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2476.4,
+   "end": 2479.92,
+   "text": "procedures that record the frequencies of words in a",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2479.92,
+   "end": 2481.44,
+   "text": "song lyric.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2481.44,
+   "end": 2484.36,
+   "text": "So I'm going to match strings or words to integers.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2484.36,
+   "end": 2487.92,
+   "text": "How many times did that word appear in the song lyric?",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2487.92,
+   "end": 2490.56,
+   "text": "And then I'm going to ask, can I easily figure out which",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2490.56,
+   "end": 2492.6,
+   "text": "words occur most often?",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2492.6,
+   "end": 2494.08,
+   "text": "And how many times?",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2494.08,
+   "end": 2495.8,
+   "text": "I'm going to gather them together to see what are the",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2495.8,
+   "end": 2497.6,
+   "text": "most common words in here.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2497.6,
+   "end": 2499.04,
+   "text": "And I'm going to do that where I'm going to let a",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2499.04,
+   "end": 2501.08,
+   "text": "user say, I want every word that appears more than",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2501.08,
+   "end": 2502.44,
+   "text": "some number of times.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2502.44,
+   "end": 2505.28,
+   "text": "It's a simple example, but I want you to see how mutation",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2505.28,
+   "end": 2508.32,
+   "text": "of the dictionary gives you a really powerful tool for",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2508.32,
+   "end": 2509.8,
+   "text": "solving this problem.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2509.8,
+   "end": 2513.09,
+   "text": "So let's write the code to do that.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2513.09,
+   "end": 2514.61,
+   "text": "It's also in the handout.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2514.61,
+   "end": 2515.53,
+   "text": "Here we go.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2515.53,
+   "end": 2516.57,
+   "text": "Lyrics to frequencies.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2516.57,
+   "end": 2520.81,
+   "text": "Lyrics is just a list of words, strings.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2520.81,
+   "end": 2522.53,
+   "text": "So I'm going to set up an empty dictionary.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2522.53,
+   "end": 2524.93,
+   "text": "There's that open, closed, curly brace.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2524.93,
+   "end": 2526.69,
+   "text": "And here's what I'm going to do.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2526.69,
+   "end": 2528.89,
+   "text": "I'm going to walk through all the words in lyrics.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2528.89,
+   "end": 2529.61,
+   "text": "You've seen this before.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2529.61,
+   "end": 2533.13,
+   "text": "This is looping over for every word in lyrics.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2533.13,
+   "end": 2534.29,
+   "text": "Notice what I'm going to do.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2534.29,
+   "end": 2537.89,
+   "text": "I'm going to simply say, so the first part is I can easily",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2537.89,
+   "end": 2539.21,
+   "text": "iterate over the list.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2539.21,
+   "end": 2543.37,
+   "text": "But now I'm going to say if the word is in the dictionary.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2543.37,
+   "end": 2546.37,
+   "text": "And because the dictionary is iterable, simply going to",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2546.37,
+   "end": 2547.53,
+   "text": "give me back all of the keys.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2547.53,
+   "end": 2549.73,
+   "text": "It's simply going to say, in this case, if it's in the",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2549.73,
+   "end": 2551.97,
+   "text": "dictionary, it's already there.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2551.97,
+   "end": 2553.81,
+   "text": "I've got some values associated with it.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2553.81,
+   "end": 2556.73,
+   "text": "Get the value out, add one to it, put it back in.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2559.57,
+   "end": 2561.77,
+   "text": "If it's not already in the dictionary, this is the",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2561.77,
+   "end": 2566.37,
+   "text": "first time I've seen it, just store it into the dictionary. And when I'm done,",
+   "avg_logprob": -0.185,
+   "no_speech_prob": 0.055
+  },
+  {
+   "start": 2566.37,
+   "end": 2572.69,
+   "text": "just return the dictionary. Okay? So I'm gonna, if I can do this right with my",
+   "avg_logprob": -0.185,
+   "no_speech_prob": 0.055
+  },
+  {
+   "start": 2572.69,
+   "end": 2577.57,
+   "text": "Python, show you an example of this. You know, I have put in one of the great",
+   "avg_logprob": -0.185,
+   "no_speech_prob": 0.055
+  },
+  {
+   "start": 2577.57,
+   "end": 2584.09,
+   "text": "classic Beatles songs. You might recognize it right there. Mostly because",
+   "avg_logprob": -0.185,
+   "no_speech_prob": 0.055
+  },
+  {
+   "start": 2584.09,
+   "end": 2587.09,
+   "text": "it's got a whole lot of repetitions of things. So she loves you. Yeah, yeah,",
+   "avg_logprob": -0.185,
+   "no_speech_prob": 0.055
+  },
+  {
+   "start": 2587.09,
+   "end": 2589.97,
+   "text": "yeah, yeah. Sorry. Actually, they sing it better than I just did it",
+   "avg_logprob": -0.185,
+   "no_speech_prob": 0.055
+  },
+  {
+   "start": 2589.97,
+   "end": 2594.05,
+   "text": "sarcastically. Sorry about that but I've got she loves you there and here's my",
+   "avg_logprob": -0.214,
+   "no_speech_prob": 0.07
+  },
+  {
+   "start": 2594.05,
+   "end": 2598.45,
+   "text": "code up here lyrics to frequency so let's see what happens if we call it and we",
+   "avg_logprob": -0.214,
+   "no_speech_prob": 0.07
+  },
+  {
+   "start": 2598.45,
+   "end": 2610.92,
+   "text": "say lyrics to frequencies of she loves you and it would help if I can type.",
+   "avg_logprob": -0.214,
+   "no_speech_prob": 0.07
+  },
+  {
+   "start": 2610.92,
+   "end": 2612.54,
+   "text": "All right, we'll try it one more time.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2612.54,
+   "end": 2617.14,
+   "text": "Lyric's two frequencies.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2617.14,
+   "end": 2624.48,
+   "text": "She loves you.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2624.48,
+   "end": 2625.84,
+   "text": "Cool.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2625.84,
+   "end": 2627.64,
+   "text": "This gave me back a dictionary.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2627.64,
+   "end": 2629.4,
+   "text": "You can see the curly braces.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2629.4,
+   "end": 2631.44,
+   "text": "And there are all the words that appear in there in the",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2631.44,
+   "end": 2635.18,
+   "text": "number of times that they appear.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2635.18,
+   "end": 2636.66,
+   "text": "What's the order?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2636.66,
+   "end": 2637.82,
+   "text": "You don't care.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2637.82,
+   "end": 2638.86,
+   "text": "You don't know.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2638.86,
+   "end": 2640.42,
+   "text": "What we want to do is to think about how can we",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2640.42,
+   "end": 2640.94,
+   "text": "analyze it.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2640.94,
+   "end": 2643.82,
+   "text": "So let's go back and look at the last piece of this.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2643.82,
+   "end": 2649.72,
+   "text": "Which is, OK, I can convert lyrics to frequencies.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2649.72,
+   "end": 2652.24,
+   "text": "So here's the next thing I want to do.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2652.24,
+   "end": 2654.56,
+   "text": "How do I find the most common words?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2654.56,
+   "end": 2656.44,
+   "text": "Well, here's what I'm going to do.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2656.44,
+   "end": 2659.88,
+   "text": "Frequencies is a dictionary, something that I just pulled",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2659.88,
+   "end": 2661.52,
+   "text": "out.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2661.52,
+   "end": 2665.04,
+   "text": "So I can use the values method on it, which returns an",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2665.04,
+   "end": 2666.28,
+   "text": "iterable, as I said earlier.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2666.28,
+   "end": 2668.72,
+   "text": "Again, notice the open close, because I've got to call it.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2668.72,
+   "end": 2671.88,
+   "text": "That gives me back an iterable that is all of the",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2671.88,
+   "end": 2672.96,
+   "text": "frequencies inside of there.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2672.96,
+   "end": 2676.68,
+   "text": "Because it's an iterable, I can use max on it, and it will",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2676.68,
+   "end": 2679.76,
+   "text": "take that iterable and give me back the biggest value.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2679.76,
+   "end": 2681.28,
+   "text": "I'm going to call that best.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2681.28,
+   "end": 2683.24,
+   "text": "I'm going to set up words to be an empty list, and then I'm",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2683.24,
+   "end": 2685.4,
+   "text": "just going to walk through all of the entries in the",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2685.4,
+   "end": 2689.96,
+   "text": "dictionary, saying if the value at that entry is equal",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2689.96,
+   "end": 2693.6,
+   "text": "to best, add that entry into words.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2693.6,
+   "end": 2696.16,
+   "text": "Just append it onto the end of the list.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2696.16,
+   "end": 2698.08,
+   "text": "And when I'm done all of that loop, I'm just going to",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2698.08,
+   "end": 2701.4,
+   "text": "return a tuple of both the collections of words that",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2701.4,
+   "end": 2705.96,
+   "text": "it appeared that many times and how often they appeared.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2705.96,
+   "end": 2707.24,
+   "text": "I'm going to show you an example in a second.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2707.24,
+   "end": 2710.56,
+   "text": "But notice I'm simply using the properties of the dictionary.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2710.56,
+   "end": 2712.88,
+   "text": "The last thing I want to do then is say I want to see how",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2712.88,
+   "end": 2714.04,
+   "text": "often the words appear.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2714.04,
+   "end": 2717.16,
+   "text": "So I'm going to give it a dictionary and a minimum number",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2717.16,
+   "end": 2718.64,
+   "text": "of times.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2718.64,
+   "end": 2721.12,
+   "text": "And here I'm going to set result up to be an empty list.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2721.12,
+   "end": 2723.12,
+   "text": "I'm going to create a flag called false.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2723.12,
+   "end": 2725.04,
+   "text": "It's going to keep track of when I'm done.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2725.04,
+   "end": 2727.92,
+   "text": "And as long as I'm not yet done, I'll call that",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2727.92,
+   "end": 2730.28,
+   "text": "previous procedure that's going to give me back the",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2730.28,
+   "end": 2733.36,
+   "text": "most common words on how often they appeared.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2733.36,
+   "end": 2735.76,
+   "text": "I checked, remember it was a tuple, how often did they",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2735.76,
+   "end": 2738.28,
+   "text": "appear if it's bigger than the thing I'm looking for?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2738.28,
+   "end": 2741.12,
+   "text": "I'll add that into my result.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2741.12,
+   "end": 2744.0,
+   "text": "And then the best part is I'm not going to walk through",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2744.0,
+   "end": 2747.12,
+   "text": "all the words that appeared that many times and just",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2747.12,
+   "end": 2749.68,
+   "text": "delete them from the dictionary.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2749.68,
+   "end": 2750.84,
+   "text": "I can mutate the dictionary.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2750.84,
+   "end": 2753.88,
+   "text": "And by doing that, I can go back around and do this",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2753.88,
+   "end": 2756.24,
+   "text": "again, and it will pull out how many times has this",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2756.24,
+   "end": 2757.48,
+   "text": "appeared and keep doing it.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2757.48,
+   "end": 2759.8,
+   "text": "When I can go all the way through that, if I can't",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.161
+  },
+  {
+   "start": 2759.8,
+   "end": 2763.62,
+   "text": "find any more, I'll set the flag to true, which means it will drop out of here and",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.193
+  },
+  {
+   "start": 2763.62,
+   "end": 2767.94,
+   "text": "return the result. And if you, I'm going to let you run this yourself. If you do that,",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.193
+  },
+  {
+   "start": 2767.94,
+   "end": 2771.58,
+   "text": "you'll find that it comes up with, not surprisingly, I think, Yaz, the most common one",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.193
+  },
+  {
+   "start": 2771.58,
+   "end": 2775.74,
+   "text": "and she loves you, followed by loves and a few others. What I want you to see here",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.193
+  },
+  {
+   "start": 2775.74,
+   "end": 2781.9,
+   "text": "is how the dictionary captured the pieces we wanted to. Very last one. There's",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.193
+  },
+  {
+   "start": 2781.9,
+   "end": 2787.86,
+   "text": "Fibonacci, as we called it before. It's actually incredibly inefficient because",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.193
+  },
+  {
+   "start": 2787.86,
+   "end": 2790.1,
+   "text": "If I call it, I have to do all the subcalls",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2790.1,
+   "end": 2792.86,
+   "text": "until I get down to the base case, which is OK.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2792.86,
+   "end": 2796.02,
+   "text": "But notice, every other thing I do here,",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2796.02,
+   "end": 2799.06,
+   "text": "I've actually computed those values.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2799.06,
+   "end": 2800.86,
+   "text": "I'm wasting time.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2800.86,
+   "end": 2802.58,
+   "text": "Now, it's not so bad with fib of 5,",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2802.58,
+   "end": 2804.18,
+   "text": "but this is fib of 20.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2804.18,
+   "end": 2806.78,
+   "text": "Almost everything on the right-hand side of this tree,",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2806.78,
+   "end": 2808.34,
+   "text": "I've already computed once, and it",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2808.34,
+   "end": 2811.88,
+   "text": "means fib's very inefficient.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2811.88,
+   "end": 2815.92,
+   "text": "I can improve it by using a dictionary, a very handy tool.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2815.92,
+   "end": 2818.72,
+   "text": "I'm going to call fib not only with a value of n,",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2818.72,
+   "end": 2820.2,
+   "text": "but a dictionary, which initially I'm",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2820.2,
+   "end": 2823.28,
+   "text": "going to initialize to the base cases.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2823.28,
+   "end": 2824.36,
+   "text": "And notice what I do.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2824.36,
+   "end": 2827.04,
+   "text": "I'm going to say, if I've already computed this,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2827.04,
+   "end": 2829.56,
+   "text": "just return the value in the dictionary.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2829.56,
+   "end": 2832.66,
+   "text": "If I haven't, go ahead and do the computation,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2832.66,
+   "end": 2835.36,
+   "text": "store it in the dictionary at that point,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2835.36,
+   "end": 2838.0,
+   "text": "and return the answer.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2838.0,
+   "end": 2839.36,
+   "text": "Different way of thinking about it,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2839.36,
+   "end": 2840.88,
+   "text": "and the reason this is really nice,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2840.88,
+   "end": 2843.56,
+   "text": "it's a method called memoization,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2843.56,
+   "end": 2846.84,
+   "text": "is if I call fib of 34 the standard way,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2846.84,
+   "end": 2851.96,
+   "text": "It takes 11 million plus recursive calls to get the answer out.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2851.96,
+   "end": 2853.28,
+   "text": "It takes a long time.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2853.28,
+   "end": 2854.24,
+   "text": "I'm giving you some code for it.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2854.24,
+   "end": 2856.84,
+   "text": "You can try it and see how long it takes.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2856.84,
+   "end": 2860.52,
+   "text": "Using the dictionary to keep track of intermediate values,",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2860.52,
+   "end": 2862.64,
+   "text": "65 calls.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2862.64,
+   "end": 2864.64,
+   "text": "And if you try it, you'll see the difference in speed",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2864.64,
+   "end": 2866.04,
+   "text": "as you run this.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2866.04,
+   "end": 2867.76,
+   "text": "So dictionaries are valuable not only",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2867.76,
+   "end": 2869.16,
+   "text": "for just storing away data.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2869.16,
+   "end": 2872.48,
+   "text": "They're valuable on procedure calls",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2872.48,
+   "end": 2875.24,
+   "text": "when those intermediate values are not going to change.",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2875.24,
+   "end": 2876.76,
+   "text": "And what you're going to see as we go along",
+   "avg_logprob": -0.182,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2876.76,
+   "end": 2880.48,
+   "text": "Because we're going to use exactly these ideas, using dictionaries to capture information,",
+   "avg_logprob": -0.199,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2880.48,
+   "end": 2885.0,
+   "text": "but especially using recursion to break bigger problems down into smaller versions of the",
+   "avg_logprob": -0.199,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2885.0,
+   "end": 2891.0,
+   "text": "same problem, to use that as a tool for solving what turned out to be really complex things.",
+   "avg_logprob": -0.199,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2891.0,
+   "end": 2892.0,
+   "text": "And with that, we'll see you next time.",
+   "avg_logprob": -0.199,
+   "no_speech_prob": 0.001
+  }
+ ]
+}

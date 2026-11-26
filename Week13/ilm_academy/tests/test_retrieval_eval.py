@@ -6,7 +6,7 @@ import collections
 import pytest
 
 from ilm.content.download import all_lessons
-from ilm.content.retrieval_eval import first_hit_rank, load_questions, metrics
+from ilm.content.retrieval_eval import first_hit_rank, load_questions, metrics, rrf
 
 
 def test_first_hit_rank_counts_from_one_and_accepts_any_relevant_lesson():
@@ -40,3 +40,10 @@ def test_holdout_cannot_be_scored_by_accident(monkeypatch):
     monkeypatch.setattr(sys, "argv", ["x", "--split", "holdout"])
     with pytest.raises(SystemExit, match="final exam"):
         retrieval_eval.main()
+
+
+def test_rrf_rewards_agreement_between_systems():
+    # "b" is 2nd in both lists; "a" is 1st in one and missing from the other
+    assert rrf([["a", "b", "c"], ["d", "b", "e"]])[0] == "b"
+    assert rrf([["a", "b"], ["a", "b"]]) == ["a", "b"]          # identical rankings stay identical
+    assert set(rrf([["a"], ["z"]])) == {"a", "z"}               # nothing is lost

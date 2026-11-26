@@ -1,0 +1,68 @@
+{
+ "collection": "course_content",
+ "chunks": 1093,
+ "by_source": {
+  "transcript": 894,
+  "notes": 142,
+  "slides": 57
+ },
+ "lessons_missing_transcript": [],
+ "embed_seconds": 115.0,
+ "per_lesson": {
+  "cs50p-l0": {
+   "transcript": 98,
+   "notes": 20,
+   "slides": 1
+  },
+  "cs50p-l1": {
+   "transcript": 51,
+   "notes": 13,
+   "slides": 1
+  },
+  "cs50p-l2": {
+   "transcript": 72,
+   "notes": 14,
+   "slides": 1
+  },
+  "cs50p-l3": {
+   "transcript": 41,
+   "notes": 6,
+   "slides": 1
+  },
+  "cs50p-l4": {
+   "transcript": 70,
+   "notes": 12,
+   "slides": 1
+  },
+  "cs50p-l5": {
+   "transcript": 46,
+   "notes": 9,
+   "slides": 1
+  },
+  "cs50p-l6": {
+   "transcript": 83,
+   "notes": 14,
+   "slides": 1
+  },
+  "cs50p-l7": {
+   "transcript": 110,
+   "notes": 15,
+   "slides": 5
+  },
+  "cs50p-l8": {
+   "transcript": 148,
+   "notes": 18,
+   "slides": 2
+  },
+  "cs50p-l9": {
+   "transcript": 132,
+   "notes": 21,
+   "slides": 1
+  },
+  "mit6001-l6": {
+   "transcript": 43,
+   "notes": 0,
+   "slides": 42
+  }
+ }
+}

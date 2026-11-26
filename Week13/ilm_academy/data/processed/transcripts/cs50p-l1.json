@@ -1,0 +1,8128 @@
+{
+ "lesson_id": "cs50p-l1",
+ "title": "Conditionals",
+ "youtube": "_b6NgY_pMdw",
+ "license": "CC BY-NC-SA 4.0",
+ "stats": {
+  "audio_sec": 3367.6,
+  "elapsed_sec": 884.9,
+  "speed_x_realtime": 3.81,
+  "model": "small",
+  "compute_type": "int8"
+ },
+ "segments": [
+  {
+   "start": 24.46,
+   "end": 28.62,
+   "text": "All right, this is CS50's Introduction to Programming with Python.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 28.62,
+   "end": 29.82,
+   "text": "My name is David Malan.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 29.82,
+   "end": 32.26,
+   "text": "And this week, we focus on conditionals.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 32.26,
+   "end": 36.3,
+   "text": "Conditionals or conditional statements in Python and in other languages",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 36.3,
+   "end": 40.38,
+   "text": "are this ability to ask questions and answer those questions",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 40.38,
+   "end": 43.3,
+   "text": "or in order to decide, do you want to execute this line of code",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 43.3,
+   "end": 46.06,
+   "text": "or this line of code or this other line of code instead?",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 46.06,
+   "end": 48.82,
+   "text": "They allow you to take the proverbial forks in the road",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 48.82,
+   "end": 50.98,
+   "text": "within your own code logically.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 50.98,
+   "end": 54.3,
+   "text": "So how might we go about making some of these decisions?",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 54.3,
+   "end": 57.86,
+   "text": "Well, it turns out that Python comes with a lot of built-in syntax.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 57.86,
+   "end": 60.82,
+   "text": "For instance, here are just some of the symbols you can use in Python",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 60.82,
+   "end": 63.62,
+   "text": "to ask questions, admittedly mathematical questions.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 63.62,
+   "end": 67.66,
+   "text": "But we'll start there if only to keep the example simple early on.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 67.66,
+   "end": 71.34,
+   "text": "This first symbol, as you might know from math, represents greater than.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 71.34,
+   "end": 73.7,
+   "text": "The second symbol might not look too familiar,",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 73.7,
+   "end": 76.94,
+   "text": "because we usually write it all as one thing on a piece of paper.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 76.94,
+   "end": 79.9,
+   "text": "But on a keyboard, if you want to say greater than or equal to,",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 79.9,
+   "end": 81.5,
+   "text": "you'd use this symbol instead.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 81.5,
+   "end": 83.1,
+   "text": "This, of course, means less than.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 83.1,
+   "end": 85.74,
+   "text": "This means less than or equal to.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 85.74,
+   "end": 87.78,
+   "text": "And this one's a bit of a curiosity.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 87.78,
+   "end": 90.3,
+   "text": "We've seen in our look at functions and variables",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 90.3,
+   "end": 95.7,
+   "text": "how we were able to assign values to variables using a single equal sign.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 95.7,
+   "end": 98.06,
+   "text": "But that equal sign didn't represent equality.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 98.06,
+   "end": 100.42,
+   "text": "It represented assignment from right to left.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 100.42,
+   "end": 102.46,
+   "text": "That's great because it solved that problem.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 102.46,
+   "end": 104.18,
+   "text": "But it kind of left us in a bit of a bind",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 104.18,
+   "end": 107.34,
+   "text": "because how do we now compare two things left and right?",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 107.34,
+   "end": 111.54,
+   "text": "Well, in Python and in many languages, you actually use two equal signs.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 111.54,
+   "end": 115.74,
+   "text": "So two equal signs represents equality, comparing the thing on the left",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 115.74,
+   "end": 116.46,
+   "text": "and the right.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 116.46,
+   "end": 119.3,
+   "text": "One equal sign, as always, represents assignment,",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 119.3,
+   "end": 121.82,
+   "text": "copying the thing from the right to the left.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 121.82,
+   "end": 124.7,
+   "text": "Lastly, this last symbol represents not equal to.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 124.7,
+   "end": 128.76,
+   "text": "So the exclamation point, or bang, followed by an equal sign,",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 128.76,
+   "end": 132.38,
+   "text": "means not equal to some value next to it.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 132.38,
+   "end": 135.98,
+   "text": "Well, to ask the questions using these symbols or any others,",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 135.98,
+   "end": 138.38,
+   "text": "we're going to need another keyword in Python.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 138.38,
+   "end": 141.3,
+   "text": "And that keyword, quite simply, as in English, is if.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 141.3,
+   "end": 144.08,
+   "text": "You can ask questions in Python code along the lines",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 144.08,
+   "end": 149.68,
+   "text": "of, if the answer to this question is true, then go ahead and execute",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 149.68,
+   "end": 150.72,
+   "text": "this code for me.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 150.72,
+   "end": 153.32,
+   "text": "So let's go ahead and write some of these examples here.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 153.32,
+   "end": 155.4,
+   "text": "I'm going to go over to VS Code.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 155.4,
+   "end": 158.84,
+   "text": "And let's go ahead and create a program first called compare.py,",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 158.84,
+   "end": 162.56,
+   "text": "the goal of which is simply to write code that compares values",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 162.56,
+   "end": 164.96,
+   "text": "and makes decisions based on those values.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 164.96,
+   "end": 167.8,
+   "text": "Let's go ahead and type code of compare.py in order",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 167.8,
+   "end": 170.72,
+   "text": "to create a brand new file called compare in which we'll",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 170.72,
+   "end": 172.26,
+   "text": "start to express some of this logic.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 172.26,
+   "end": 173.88,
+   "text": "All right, well, what do we want to compare?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 173.88,
+   "end": 177.6,
+   "text": "Suppose we want to compare, for the sake of discussion, just a couple of integers.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 177.6,
+   "end": 180.34,
+   "text": "But we'd like those integers to come from the user",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 180.34,
+   "end": 183.84,
+   "text": "so that we can make decisions based on numbers",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 183.84,
+   "end": 186.04,
+   "text": "we don't know the values of in advance.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 186.04,
+   "end": 187.36,
+   "text": "Well, let's go ahead and do this.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 187.36,
+   "end": 190.56,
+   "text": "As we've done in the past, let's declare a variable like x.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 190.56,
+   "end": 195.56,
+   "text": "Let's assign it equal to the return value of the int function",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 195.56,
+   "end": 199.38,
+   "text": "and pass to the int function the return value of the input function",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.041
+  },
+  {
+   "start": 199.38,
+   "end": 202.28,
+   "text": "asking the user a question like, what's x?",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 202.28,
+   "end": 204.36,
+   "text": "Question mark, as we've done in the past.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 204.36,
+   "end": 209.68,
+   "text": "Let's do this one more time with y, asking the user for the value of y.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 209.68,
+   "end": 213.84,
+   "text": "And again, converting that ultimately to an int as well.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 213.84,
+   "end": 217.4,
+   "text": "So with this amount in the story, we have two variables, x and y,",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 217.4,
+   "end": 218.68,
+   "text": "each of which has values.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 218.68,
+   "end": 221.12,
+   "text": "And ideally, we should be able to now compare these values.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 221.12,
+   "end": 223.6,
+   "text": "So suppose I want to make a decision based",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 223.6,
+   "end": 225.64,
+   "text": "on the values of these variables.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 225.64,
+   "end": 227.56,
+   "text": "I'm going to use the keyword if, and I'm",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 227.56,
+   "end": 231.16,
+   "text": "going to use some of those mathematical symbols to actually ask the question itself.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 231.16,
+   "end": 232.16,
+   "text": "So how about this?",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 232.16,
+   "end": 237.08,
+   "text": "If x is less than y, then let's go ahead and just print as much out.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 237.08,
+   "end": 239.88,
+   "text": "Quote unquote, x is less than y.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 239.88,
+   "end": 242.32,
+   "text": "So this isn't a very interesting program yet.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 242.32,
+   "end": 245.72,
+   "text": "I'm literally just stating the obvious based on the math.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 245.72,
+   "end": 248.2,
+   "text": "But it's allowing me to now introduce some new syntax.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 248.2,
+   "end": 250.2,
+   "text": "And exactly what is this syntax?",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 250.2,
+   "end": 251.24,
+   "text": "Well, it's this.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 251.24,
+   "end": 255.36,
+   "text": "Not just the keyword if, which I've added here at the start of line 4.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 255.36,
+   "end": 257.32,
+   "text": "But then I ask my question here.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 257.32,
+   "end": 258.48,
+   "text": "x less than y.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 258.48,
+   "end": 261.52,
+   "text": "x is one variable on the left, y is one variable on the right.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 261.52,
+   "end": 264.6,
+   "text": "And of course, the less than sign is expressing the mathematical question",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 264.6,
+   "end": 265.36,
+   "text": "I have.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 265.36,
+   "end": 269.48,
+   "text": "What I've highlighted here is technically called a Boolean expression.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 269.48,
+   "end": 272.68,
+   "text": "A Boolean expression named after a mathematician named Boole",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 272.68,
+   "end": 276.2,
+   "text": "is simply a question that has a yes or no answer,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 276.2,
+   "end": 278.88,
+   "text": "or technically a true or false answer.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 278.88,
+   "end": 281.72,
+   "text": "And that's nice, because if there's only two possible answers,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 281.72,
+   "end": 283.12,
+   "text": "it's very easy for me.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 283.12,
+   "end": 287.3,
+   "text": "And in turn, the computer to make a decision, do this or don't do this thing.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.037
+  },
+  {
+   "start": 287.3,
+   "end": 289.94,
+   "text": "Now notice, if you come from other languages,",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 289.94,
+   "end": 293.14,
+   "text": "you might notice that I have not typed any parentheses.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 293.14,
+   "end": 296.3,
+   "text": "They are not, in fact, necessary, at least in this case in Python.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 296.3,
+   "end": 299.18,
+   "text": "But I have typed a colon at the end of the line.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 299.18,
+   "end": 302.1,
+   "text": "And even more importantly, at the next line,",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 302.1,
+   "end": 304.42,
+   "text": "I have begun my line with some indentation,",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 304.42,
+   "end": 307.54,
+   "text": "hitting the spacebar four times or just hitting tab once,",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 307.54,
+   "end": 309.82,
+   "text": "which will automatically be converted to the same.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 309.82,
+   "end": 312.5,
+   "text": "That indentation is what tells Python",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 312.5,
+   "end": 315.02,
+   "text": "that line five should only be executed",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 315.02,
+   "end": 320.34,
+   "text": "if the answer to line 4's question is, in fact, true.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 320.34,
+   "end": 324.14,
+   "text": "So if x is less than y, that phrase will be printed thereafter.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 324.14,
+   "end": 325.78,
+   "text": "Well, let's add a few more lines of code.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 325.78,
+   "end": 326.98,
+   "text": "How about another question?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 326.98,
+   "end": 330.78,
+   "text": "If x is greater than y, then let's go ahead and print that.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 330.78,
+   "end": 333.18,
+   "text": "x is greater than y.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 333.18,
+   "end": 334.94,
+   "text": "And let's do one final question.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 334.94,
+   "end": 341.42,
+   "text": "If x equals y, then wait a minute, what have I done wrong here, right?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 341.42,
+   "end": 342.3,
+   "text": "A good i here.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 342.3,
+   "end": 347.74,
+   "text": "I don't want to assign y to x if x equals equals y is how I express equality.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 347.74,
+   "end": 352.66,
+   "text": "Let's go ahead and print out x is equal to y.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 352.66,
+   "end": 356.58,
+   "text": "So I now have three conditions, if you will.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 356.58,
+   "end": 359.94,
+   "text": "One question asking x less than y, one asking x greater than y,",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 359.94,
+   "end": 363.1,
+   "text": "one asking x equals equals y.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 363.1,
+   "end": 364.06,
+   "text": "Let's run the code.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 364.06,
+   "end": 365.66,
+   "text": "Well, down here in my terminal window, I'm",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 365.66,
+   "end": 368.58,
+   "text": "going to run Python of compare.py and hit Enter.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 368.58,
+   "end": 369.3,
+   "text": "What's x?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 369.3,
+   "end": 370.62,
+   "text": "Let's go with 1.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 370.62,
+   "end": 371.26,
+   "text": "What's y?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 371.26,
+   "end": 372.54,
+   "text": "Let's go with 2.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 372.54,
+   "end": 376.02,
+   "text": "This should, of course, execute that first line of code",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 376.02,
+   "end": 381.9,
+   "text": "and tell me, indeed, that x is less than y, exactly as I would expect there.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 381.9,
+   "end": 384.46,
+   "text": "Well, what just happened, though, in code?",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 384.46,
+   "end": 388.14,
+   "text": "Well, let's take a look, perhaps, at the same code visually,",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 388.14,
+   "end": 390.38,
+   "text": "particularly if you're a more visual learner.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 390.38,
+   "end": 392.58,
+   "text": "This, I dare say, is what just happened.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 392.58,
+   "end": 394.9,
+   "text": "So what we're looking at here is a flow chart.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 394.9,
+   "end": 397.98,
+   "text": "It's a diagram of this program's logic.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 397.98,
+   "end": 401.52,
+   "text": "And more technically, it shows the program's control flow,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 401.52,
+   "end": 404.84,
+   "text": "that is the ability of you and code to control the flow of a program,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 404.84,
+   "end": 406.32,
+   "text": "generally from top to bottom.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 406.32,
+   "end": 409.36,
+   "text": "In fact, let me go ahead and zoom in on the top of this flow chart.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 409.36,
+   "end": 412.68,
+   "text": "And you'll see an oval at the very top that says quite literally start.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 412.68,
+   "end": 416.24,
+   "text": "That is irrespective of what shape or layout the diagram is,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 416.24,
+   "end": 419.36,
+   "text": "is where your own thinking and logic should start when trying",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 419.36,
+   "end": 421.52,
+   "text": "to wrap your mind around this program.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 421.52,
+   "end": 424.52,
+   "text": "Notice that there's an arrow from start to this diamond shape.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 424.52,
+   "end": 427.64,
+   "text": "And inside of that diamond is a question, a Boolean expression,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 427.64,
+   "end": 428.92,
+   "text": "x less than y.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 428.92,
+   "end": 432.32,
+   "text": "And this shape just means, based on the answer to that question,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 432.32,
+   "end": 436.88,
+   "text": "go left or go right, specifically go left if the answer is true",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 436.88,
+   "end": 439.4,
+   "text": "or go right if the answer is false.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 439.4,
+   "end": 444.6,
+   "text": "Well, the inputs I typed were 1 and 2, respectively, for x and y.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 444.6,
+   "end": 447.12,
+   "text": "So of course, 1 is less than 2.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 447.12,
+   "end": 452.76,
+   "text": "So that's why my program printed out, quote unquote, x is less than y.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 452.76,
+   "end": 454.2,
+   "text": "But recall the code.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 454.2,
+   "end": 457.36,
+   "text": "The code then proceeded to ask two more questions.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 457.36,
+   "end": 459.0,
+   "text": "is x greater than y?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 459.0,
+   "end": 460.64,
+   "text": "Is x equal equal to y?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 460.64,
+   "end": 463.68,
+   "text": "Well, the flowchart depicts those questions too.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 463.68,
+   "end": 468.24,
+   "text": "Notice that no matter whether the question had an answer of true or false,",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 468.24,
+   "end": 473.16,
+   "text": "the arrows both converge back down to this second diamond shape here.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 473.16,
+   "end": 477.2,
+   "text": "And that second diamond shape asks the second question, x greater than y.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 477.2,
+   "end": 480.56,
+   "text": "That too has a true or false answer, so we go one way or the other.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 480.56,
+   "end": 484.64,
+   "text": "But if x is 1 and y is 2, then no, the answer is false.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 484.64,
+   "end": 486.32,
+   "text": "1 is not greater than y.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 486.32,
+   "end": 489.48,
+   "text": "So logically, in the flowchart, you follow the false arrow this time.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 489.48,
+   "end": 493.8,
+   "text": "And notice, along that false arrow, you don't print anything this time.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 493.8,
+   "end": 496.24,
+   "text": "That's why we only saw one print out on the screen.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 496.24,
+   "end": 497.72,
+   "text": "Now, there was still a third question.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 497.72,
+   "end": 499.48,
+   "text": "And this flowchart captures that as well.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 499.48,
+   "end": 502.64,
+   "text": "The third diamond asks x equals equals y.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 502.64,
+   "end": 504.88,
+   "text": "Now, that too has a false answer in this case,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 504.88,
+   "end": 507.36,
+   "text": "because one, of course, does not equal equal y.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 507.36,
+   "end": 510.88,
+   "text": "And so we again follow the third false branch here.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 510.88,
+   "end": 512.96,
+   "text": "And that leads us, of course, to stop.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 512.96,
+   "end": 515.8,
+   "text": "And stop just indicates that's it for the program.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 515.8,
+   "end": 518.28,
+   "text": "So I think that's correct.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 518.28,
+   "end": 523.08,
+   "text": "And that particular flow chart does happen to represent the actual code",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 523.08,
+   "end": 524.36,
+   "text": "that I wrote.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 524.36,
+   "end": 525.32,
+   "text": "So it's correct.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 525.32,
+   "end": 526.76,
+   "text": "It does what it's supposed to do.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 526.76,
+   "end": 530.52,
+   "text": "It answered the question correctly by printing on the screen x less than y.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 530.52,
+   "end": 533.76,
+   "text": "But what is perhaps poorly designed about it?",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 533.76,
+   "end": 535.16,
+   "text": "Let's make this first distinction.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 535.16,
+   "end": 537.84,
+   "text": "It's not enough necessarily for the code that you write to be correct",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 537.84,
+   "end": 540.8,
+   "text": "and do what you intend longer term, especially as our programs get",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 540.8,
+   "end": 543.2,
+   "text": "longer and more sophisticated and more complicated.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 543.2,
+   "end": 546.96,
+   "text": "We're going to want them to be well-designed, too.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 546.96,
+   "end": 552.76,
+   "text": "Thoughts on in what way this program is arguably not well-designed,",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 552.76,
+   "end": 555.24,
+   "text": "even though it's correct?",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 555.24,
+   "end": 556.32,
+   "text": "Let's see here.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 556.32,
+   "end": 558.92,
+   "text": "Khalid, if I'm saying that right, your thoughts?",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 558.92,
+   "end": 561.76,
+   "text": "Too many ifs, I think, is getting repetitive.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 561.76,
+   "end": 564.48,
+   "text": "We can make our code more concise, maybe.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 564.48,
+   "end": 565.96,
+   "text": "Yeah, it seems a little repetitive.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 565.96,
+   "end": 568.76,
+   "text": "I'm asking if this, if this, if this.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 568.76,
+   "end": 570.72,
+   "text": "And yet, logically, I should know the answer",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 570.72,
+   "end": 573.12,
+   "text": "to some of those later questions once I figure one out.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.023
+  },
+  {
+   "start": 573.12,
+   "end": 575.44,
+   "text": "And in short, if you look at this diagram here,",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 575.44,
+   "end": 578.76,
+   "text": "notice that no matter whether I go left or I go right,",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 578.76,
+   "end": 581.12,
+   "text": "I'm always asking three questions.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 581.12,
+   "end": 585.16,
+   "text": "No matter what, all of those arrows lead to the first, the second,",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 585.16,
+   "end": 586.6,
+   "text": "and the third diamond.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 586.6,
+   "end": 588.68,
+   "text": "So I'm asking three questions, no matter",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 588.68,
+   "end": 590.96,
+   "text": "whether any of those answers are true or false.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 590.96,
+   "end": 592.6,
+   "text": "Well, how might I go about improving this?",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 592.6,
+   "end": 595.36,
+   "text": "Well, let me propose that we introduce another keyword",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 595.36,
+   "end": 597.76,
+   "text": "to our Python vocabulary, namely LIF.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 597.76,
+   "end": 599.88,
+   "text": "And this, too, is kind of a succinct one.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 599.88,
+   "end": 602.76,
+   "text": "It's a conjunction of else if in English,",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 602.76,
+   "end": 606.84,
+   "text": "which allows us to ask a question that takes into account",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 606.84,
+   "end": 610.88,
+   "text": "whether or not a previous question had a true or false answer.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 610.88,
+   "end": 612.0,
+   "text": "Well, what do I mean by that?",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 612.0,
+   "end": 614.2,
+   "text": "Well, let me go back to my code here and let",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 614.2,
+   "end": 619.48,
+   "text": "me propose that we now improve upon this here by asking ourselves,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 619.48,
+   "end": 622.36,
+   "text": "ultimately, how can we ask fewer questions?",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 622.36,
+   "end": 627.04,
+   "text": "And let me go ahead here and propose that instead of asking if,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 627.04,
+   "end": 631.56,
+   "text": "if, if, let's make these conditions potentially mutually exclusive.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 631.56,
+   "end": 637.12,
+   "text": "That is to say, don't keep answering questions once we get back a true answer.",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 637.12,
+   "end": 639.32,
+   "text": "So I'm going to change my code up here as follows.",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 639.32,
+   "end": 643.96,
+   "text": "Instead of asking if, if, if, I'm going to say if x less than y,",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 643.96,
+   "end": 650.24,
+   "text": "l if x greater than y, l if x equals equals y.",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 650.24,
+   "end": 652.76,
+   "text": "So I'm going to implicitly, just like in English,",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 652.76,
+   "end": 657.52,
+   "text": "take into account that I'm only going to keep asking myself these questions",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 657.52,
+   "end": 660.32,
+   "text": "if I haven't yet gotten a true response.",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 660.32,
+   "end": 661.36,
+   "text": "Think about the logic here.",
+   "avg_logprob": -0.109,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 661.36,
+   "end": 667.76,
+   "text": "or the English, if x is less than y, on line 4, print out x is less than y.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 667.76,
+   "end": 670.52,
+   "text": "Well, if that's the case, you're done logically.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 670.52,
+   "end": 673.68,
+   "text": "Because if the English is saying, if x less than y,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 673.68,
+   "end": 677.4,
+   "text": "else if x greater than y, those are going to be mutually exclusive",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 677.4,
+   "end": 679.76,
+   "text": "if the answer to the first question is true.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 679.76,
+   "end": 682.12,
+   "text": "You don't have to keep asking questions to which you already",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 682.12,
+   "end": 683.64,
+   "text": "logically know the answer.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 683.64,
+   "end": 685.72,
+   "text": "So let me go ahead now and run this program.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 685.72,
+   "end": 687.76,
+   "text": "And I think the behavior is going to be the same.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 687.76,
+   "end": 689.76,
+   "text": "Python of compare.py, what's x?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 689.76,
+   "end": 690.76,
+   "text": "Let's do 1.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 690.76,
+   "end": 691.26,
+   "text": "What's y?",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 691.26,
+   "end": 692.56,
+   "text": "Let's do 2.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 692.56,
+   "end": 694.16,
+   "text": "x is less than y.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 694.16,
+   "end": 697.36,
+   "text": "Now honestly, I didn't really notice a difference when I ran the program.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 697.36,
+   "end": 702.68,
+   "text": "And honestly, my Mac, my PC, my phone nowadays are so darn fast.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 702.68,
+   "end": 706.56,
+   "text": "These kinds of improvements aren't going to necessarily feel any faster",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 706.56,
+   "end": 709.44,
+   "text": "until we're writing bigger, faster programs.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 709.44,
+   "end": 712.8,
+   "text": "But it's laying the foundation for writing better code longer term.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 712.8,
+   "end": 714.72,
+   "text": "Now what is the improvement I've just made?",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 714.72,
+   "end": 717.76,
+   "text": "Well, if previously my diagram looked like this,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 717.76,
+   "end": 723.12,
+   "text": "which was problematic insofar as I was asking three questions, no matter what.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 723.12,
+   "end": 726.44,
+   "text": "Even if I already figure out what I want to print on the screen,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 726.44,
+   "end": 729.8,
+   "text": "this new version of the program that has if, L, if, L,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 729.8,
+   "end": 732.6,
+   "text": "if might look a little something like this instead.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 732.6,
+   "end": 733.68,
+   "text": "Now, it got a little wider.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 733.68,
+   "end": 736.44,
+   "text": "That's just because we drew the arrows to be a bit wider here.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 736.44,
+   "end": 739.2,
+   "text": "But let's focus on just how many questions are getting asked.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 739.2,
+   "end": 741.2,
+   "text": "Let me zoom in at the top as before.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 741.2,
+   "end": 745.12,
+   "text": "And let me propose that we note that the start oval is at the very top.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 745.12,
+   "end": 747.6,
+   "text": "And it's asking us to ask one question first.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 747.6,
+   "end": 750.12,
+   "text": "x less than y is 1 less than 2.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 750.12,
+   "end": 751.84,
+   "text": "But notice here, let me zoom out.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 751.84,
+   "end": 759.72,
+   "text": "If 1 is indeed less than 2, we follow this longer arrow, down mark true.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 759.72,
+   "end": 762.72,
+   "text": "We print out, quote unquote, x is less than y.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 762.72,
+   "end": 768.4,
+   "text": "But then we immediately follow this next arrow down to the icon that says stop.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 768.4,
+   "end": 771.8,
+   "text": "So that's what's implied by doing if, elif, elif.",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 771.8,
+   "end": 774.8,
+   "text": "If we get back a true answer right away to that first",
+   "avg_logprob": -0.167,
+   "no_speech_prob": 0.209
+  },
+  {
+   "start": 774.8,
+   "end": 777.84,
+   "text": "if we're going to print out x is less than y and then stop.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 777.84,
+   "end": 779.84,
+   "text": "We're logically at the end of the program.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 779.84,
+   "end": 783.32,
+   "text": "So this picture is just representing graphically",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 783.32,
+   "end": 785.76,
+   "text": "what the code is actually doing.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 785.76,
+   "end": 787.4,
+   "text": "But suppose I typed in something else.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 787.4,
+   "end": 793.6,
+   "text": "Suppose that my code actually ran and I typed in 2 for x and 1 for y.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 793.6,
+   "end": 796.56,
+   "text": "That is to say the answer to the first question is now false,",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 796.56,
+   "end": 799.08,
+   "text": "but the answer to the second question is now true.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 799.08,
+   "end": 803.76,
+   "text": "Because of course, 1, 2 is greater than 1.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 803.76,
+   "end": 806.36,
+   "text": "Well, let's go back to the diagram, same as before.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 806.36,
+   "end": 808.8,
+   "text": "We start at the very top where it says start.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 808.8,
+   "end": 813.6,
+   "text": "The very first question up here now, x less than y, is an answer of false,",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 813.6,
+   "end": 816.12,
+   "text": "because no, 2 is not less than 1.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 816.12,
+   "end": 819.44,
+   "text": "So we follow this arrow to the next question, this diamond.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 819.44,
+   "end": 820.88,
+   "text": "Is x greater than y?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 820.88,
+   "end": 823.8,
+   "text": "Well, yes, 2 is greater than 1.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 823.8,
+   "end": 827.56,
+   "text": "So now we follow this left arrow, which is true.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 827.56,
+   "end": 832.36,
+   "text": "We print out, quote unquote, x is greater than y, and then stop.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 832.36,
+   "end": 833.68,
+   "text": "So what's the improvement?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 833.68,
+   "end": 835.84,
+   "text": "Well, in the first case, we got lucky, and we only",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 835.84,
+   "end": 838.32,
+   "text": "had to ask one question, and boom, we're done.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 838.32,
+   "end": 841.64,
+   "text": "This time, we had to ask two questions, but then boom, we're done.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 841.64,
+   "end": 845.64,
+   "text": "Only if x happens to equal y, do we actually",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 845.64,
+   "end": 848.92,
+   "text": "find ourselves logically getting all the way down",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 848.92,
+   "end": 851.8,
+   "text": "to this final L if in my code?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 851.8,
+   "end": 854.72,
+   "text": "And pictorially, only if x is equal to y,",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 854.72,
+   "end": 858.08,
+   "text": "do we find ourselves going all the way down to the third diamond,",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 858.08,
+   "end": 863.12,
+   "text": "the third question, asking is it equal to y or not?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 863.12,
+   "end": 865.76,
+   "text": "Now, hopefully the answer at that point is not false.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 865.76,
+   "end": 869.64,
+   "text": "We've included a false arrow just so that the program itself is well-defined.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 869.64,
+   "end": 873.56,
+   "text": "But logically, we shouldn't actually be getting there anyway,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 873.56,
+   "end": 877.6,
+   "text": "because it's got to be less than or greater than or equal to in this case.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 877.6,
+   "end": 879.84,
+   "text": "Well, let me pause here to see if there's any questions now,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 879.84,
+   "end": 882.52,
+   "text": "either on the code version there of here",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 882.52,
+   "end": 887.12,
+   "text": "or on this diagramming of that very same logic.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 887.12,
+   "end": 892.16,
+   "text": "Questions here on this control flow?",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 892.16,
+   "end": 895.52,
+   "text": "aren't we supposed to put them else at the end?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 895.52,
+   "end": 897.08,
+   "text": "Ah, a good question.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 897.08,
+   "end": 900.08,
+   "text": "And yes, so that's going to be my third and final approach.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 900.08,
+   "end": 902.28,
+   "text": "And if you don't mind, let's pivot there right away,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 902.28,
+   "end": 905.8,
+   "text": "identifying a third keyword that indeed exists in Python that",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 905.8,
+   "end": 909.0,
+   "text": "allows us to be even better at expressing this logic,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 909.0,
+   "end": 910.96,
+   "text": "to design this program even better.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 910.96,
+   "end": 913.56,
+   "text": "And that's going to solve a particular problem.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 913.56,
+   "end": 916.32,
+   "text": "So if I take us back to our code here,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 916.32,
+   "end": 920.92,
+   "text": "notice that what I've highlighted earlier, L if x equals equals y,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.138
+  },
+  {
+   "start": 920.92,
+   "end": 923.24,
+   "text": "It's not wrong to ask that question.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 923.24,
+   "end": 925.8,
+   "text": "In fact, if you're trying to be especially thorough,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 925.8,
+   "end": 929.72,
+   "text": "it makes perfect sense to check if x is less than y, greater than y,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 929.72,
+   "end": 931.12,
+   "text": "or equal to y.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 931.12,
+   "end": 937.28,
+   "text": "But why don't I need to ask this third and final question?",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 937.28,
+   "end": 940.8,
+   "text": "We don't need to ask if x is equal to y anymore,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 940.8,
+   "end": 945.36,
+   "text": "because logically, if the two conditionals evaluate to false,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 945.36,
+   "end": 950.2,
+   "text": "there is only one conditional that will evaluate to true.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 950.2,
+   "end": 952.16,
+   "text": "And that is x is equal to y.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 952.16,
+   "end": 952.8,
+   "text": "Exactly.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 952.8,
+   "end": 956.28,
+   "text": "If we're all pretty comfortable with math and comparisons here, of course.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 956.28,
+   "end": 959.8,
+   "text": "x is either going to be less than y, greater than y, or equal to y.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 959.8,
+   "end": 963.04,
+   "text": "But once you rule out the first two scenarios, logically,",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 963.04,
+   "end": 965.36,
+   "text": "it's got to be the case that x must equal y",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 965.36,
+   "end": 968.24,
+   "text": "if it wasn't the case that it's less than or greater than.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 968.24,
+   "end": 971.24,
+   "text": "So hope proposed that we use this other keyword, else.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 971.24,
+   "end": 972.2,
+   "text": "And how do we use this?",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 972.2,
+   "end": 973.72,
+   "text": "Well, exactly as we might in English.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 973.72,
+   "end": 975.24,
+   "text": "Let me go back to my code here.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 975.24,
+   "end": 978.96,
+   "text": "And instead of bothering to ask the third and final question,",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 978.96,
+   "end": 980.4,
+   "text": "Let's not ask a question at all.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 980.4,
+   "end": 984.24,
+   "text": "Let's just have this catch all, so to speak, a final line of code that",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 984.24,
+   "end": 989.84,
+   "text": "says else just assume that x is equal to y, therefore printing it as well.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 989.84,
+   "end": 990.96,
+   "text": "So what's the upside of that?",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 990.96,
+   "end": 993.52,
+   "text": "My code is still going to work exactly the same.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 993.52,
+   "end": 996.24,
+   "text": "And again, my computer's so darn fast, I don't even",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 996.24,
+   "end": 999.44,
+   "text": "notice that it's working even faster than it was before.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 999.44,
+   "end": 1001.28,
+   "text": "But we would notice these kinds of things",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1001.28,
+   "end": 1004.36,
+   "text": "if we were doing a lot more work, a lot bigger programs here.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1004.36,
+   "end": 1006.56,
+   "text": "But let me run Python of compare.py.",
+   "avg_logprob": -0.118,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1006.56,
+   "end": 1009.7,
+   "text": "Let's do, for instance, 1 and 2.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1009.7,
+   "end": 1010.78,
+   "text": "Still works for that.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1010.78,
+   "end": 1012.7,
+   "text": "Let's do 2 and 1.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1012.7,
+   "end": 1013.7,
+   "text": "Still works for that.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1013.7,
+   "end": 1015.54,
+   "text": "Let's do 1 and 1.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1015.54,
+   "end": 1017.62,
+   "text": "And it indeed now works for that.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1017.62,
+   "end": 1021.42,
+   "text": "But in these cases now, let's consider the path we just went down.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1021.42,
+   "end": 1026.02,
+   "text": "Previously, our diagram, when we had if, l if, l if in place,",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1026.02,
+   "end": 1028.06,
+   "text": "looked a little something like this.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1028.06,
+   "end": 1032.1,
+   "text": "And notice, they began, we might have asked one question, or two,",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1032.1,
+   "end": 1033.98,
+   "text": "or worst case, three whole questions.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1033.98,
+   "end": 1035.34,
+   "text": "But we can do better than that.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1035.34,
+   "end": 1039.78,
+   "text": "Using else as hope proposed, we can whittle this diagram now down to this.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1039.78,
+   "end": 1042.1,
+   "text": "And even though it looks like the diagram is getting bigger,",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1042.1,
+   "end": 1045.82,
+   "text": "notice that it's having fewer building blocks inside of it.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1045.82,
+   "end": 1049.42,
+   "text": "There's fewer arrows, and there's fewer nodes in this picture.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1049.42,
+   "end": 1050.66,
+   "text": "Let's start at the top now.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1050.66,
+   "end": 1053.22,
+   "text": "Start leads us to the first question still.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1053.22,
+   "end": 1054.34,
+   "text": "x less than y?",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1054.34,
+   "end": 1055.74,
+   "text": "If the answer is true, great.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1055.74,
+   "end": 1058.7,
+   "text": "We can say as much x is less than y, and we can stop.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1058.7,
+   "end": 1061.54,
+   "text": "If it's not true, if it's false, we can ask the next question.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1061.54,
+   "end": 1064.06,
+   "text": "x is greater than y, true or false?",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1064.06,
+   "end": 1064.94,
+   "text": "If it is, great.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1064.94,
+   "end": 1067.5,
+   "text": "We can print x is greater than y and stop.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1067.5,
+   "end": 1071.58,
+   "text": "Else, if it's not the case that x is greater than y, the answer is false.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1071.58,
+   "end": 1076.14,
+   "text": "We can just immediately logically say x is equal to y.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1076.14,
+   "end": 1078.74,
+   "text": "We don't have to add the third question at all.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1078.74,
+   "end": 1080.9,
+   "text": "We can just immediately conclude there.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1080.9,
+   "end": 1082.22,
+   "text": "So what's the implication here?",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1082.22,
+   "end": 1085.26,
+   "text": "You can see with these pictures a relative decrease",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1085.26,
+   "end": 1087.1,
+   "text": "in the complexity of a program.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1087.1,
+   "end": 1089.78,
+   "text": "The first one was very long and stringy with lots and lots",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1089.78,
+   "end": 1092.3,
+   "text": "of questions unnecessarily, ultimately.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1092.3,
+   "end": 1093.78,
+   "text": "The next one got a little shorter.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1093.78,
+   "end": 1095.78,
+   "text": "And this one's even shorter still.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1095.78,
+   "end": 1098.42,
+   "text": "And again, the fewer lines of code you have,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1098.42,
+   "end": 1101.38,
+   "text": "the less likely you are, arguably, to make any mistakes.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1101.38,
+   "end": 1103.22,
+   "text": "The easier it is for other people to read.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1103.22,
+   "end": 1107.1,
+   "text": "And so generally, this readability, this simplification,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1107.1,
+   "end": 1108.9,
+   "text": "is indeed a good thing.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1108.9,
+   "end": 1113.34,
+   "text": "Well, let's go ahead and add another piece of capability into Python.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1113.34,
+   "end": 1115.3,
+   "text": "And that's this one here, just like in English,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1115.3,
+   "end": 1117.86,
+   "text": "where you can ask this question or this other question.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1117.86,
+   "end": 1121.02,
+   "text": "You can say the same thing in Python using literally this word,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1121.02,
+   "end": 1121.78,
+   "text": "or.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1121.78,
+   "end": 1124.98,
+   "text": "So let me go back to my Python code here, and let's",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1124.98,
+   "end": 1128.38,
+   "text": "propose how we might ask a couple of questions at once this time,",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1128.38,
+   "end": 1132.62,
+   "text": "perhaps this time considering how we might ask not whether or not",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1132.62,
+   "end": 1136.06,
+   "text": "it's greater than or equal to in caring about the precise answer.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1136.06,
+   "end": 1138.78,
+   "text": "Let's take a coarser approach here, and let's just",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1138.78,
+   "end": 1144.9,
+   "text": "try to determine, is x equal to y or not?",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1144.9,
+   "end": 1147.06,
+   "text": "Well, let me go ahead and delete some of this code",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1147.06,
+   "end": 1148.62,
+   "text": "and change the question we're asking.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1148.62,
+   "end": 1149.26,
+   "text": "Let me do this.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1149.26,
+   "end": 1152.44,
+   "text": "Well, if I care about whether it's equal or not,",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1152.44,
+   "end": 1154.16,
+   "text": "let's check the possible scenarios.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1154.16,
+   "end": 1161.56,
+   "text": "If x is less than y or x is greater than y, let's go ahead and print out x",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1161.56,
+   "end": 1163.92,
+   "text": "is not equal to y.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1163.92,
+   "end": 1165.12,
+   "text": "Now, y is that.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1165.12,
+   "end": 1166.48,
+   "text": "No pun intended.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1166.48,
+   "end": 1169.4,
+   "text": "If x is less than y, well, it's obviously not equal.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1169.4,
+   "end": 1171.8,
+   "text": "If x is greater than y, it's obviously not equal.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1171.8,
+   "end": 1175.92,
+   "text": "So we can conclude x is not equal to y.",
+   "avg_logprob": -0.093,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1175.92,
+   "end": 1181.28,
+   "text": "So if we instead want to make sure that it is equal to,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1181.28,
+   "end": 1188.0,
+   "text": "we can just use hope's else using print quote unquote x is equal to y.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1188.0,
+   "end": 1189.56,
+   "text": "And again, y is this?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1189.56,
+   "end": 1194.0,
+   "text": "Well, if x is less than y or x is greater than y, they're obviously not equal.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1194.0,
+   "end": 1196.64,
+   "text": "Otherwise, logically, they must be equal in fact.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1196.64,
+   "end": 1197.44,
+   "text": "So let's run this.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1197.44,
+   "end": 1200.04,
+   "text": "Let's go ahead and run Python of compare.py.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1200.04,
+   "end": 1200.56,
+   "text": "What's x?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1200.56,
+   "end": 1201.06,
+   "text": "1.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1201.06,
+   "end": 1201.6,
+   "text": "What's y?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1201.6,
+   "end": 1202.52,
+   "text": "2.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1202.52,
+   "end": 1204.04,
+   "text": "OK, x is not equal to y.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1204.04,
+   "end": 1204.76,
+   "text": "Let's do it again.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1204.76,
+   "end": 1208.64,
+   "text": "But 2 for x, 1 for y, x is not equal to y.",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1208.64,
+   "end": 1214.92,
+   "text": "And one third time, how about x is 1 and y is 1, x is now equal to y.",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1214.92,
+   "end": 1217.76,
+   "text": "Now if we want to compare that visually too,",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1217.76,
+   "end": 1221.16,
+   "text": "let me propose that the picture looks a little something like this.",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1221.16,
+   "end": 1223.4,
+   "text": "And again, this is the exact same thing logically,",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1223.4,
+   "end": 1225.32,
+   "text": "but it's a pictorial representation thereof.",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1225.32,
+   "end": 1226.32,
+   "text": "What's the first question?",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1226.32,
+   "end": 1230.96,
+   "text": "Well, if x is less than y, well, then we follow the true arrow",
+   "avg_logprob": -0.112,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1230.96,
+   "end": 1233.96,
+   "text": "And we say, quote unquote, x is not equal to y.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1233.96,
+   "end": 1235.48,
+   "text": "And then we stop.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1235.48,
+   "end": 1237.56,
+   "text": "But what if x is not less than y?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1237.56,
+   "end": 1238.84,
+   "text": "What if it's greater than y?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1238.84,
+   "end": 1240.96,
+   "text": "What if it's 2 and 1, respectively?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1240.96,
+   "end": 1244.52,
+   "text": "Then the answer to x less than y's first question is false.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1244.52,
+   "end": 1245.64,
+   "text": "So we go here.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1245.64,
+   "end": 1249.64,
+   "text": "We ask the second question because of the or, and that asks,",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1249.64,
+   "end": 1251.2,
+   "text": "is x greater than y?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1251.2,
+   "end": 1252.56,
+   "text": "If so, notice this.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1252.56,
+   "end": 1255.96,
+   "text": "We can kind of reuse some of the same parts of this picture",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1255.96,
+   "end": 1258.32,
+   "text": "and just say x is not equal to y.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 1258.32,
+   "end": 1261.08,
+   "text": "We don't need to add arrows and add boxes unnecessarily.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1261.08,
+   "end": 1266.64,
+   "text": "We can reuse parts of the picture just as we have lines of code.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1266.64,
+   "end": 1267.88,
+   "text": "And then we stop.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1267.88,
+   "end": 1269.84,
+   "text": "Lastly, we have the following.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1269.84,
+   "end": 1274.0,
+   "text": "If we know that x is not less than y, we know that x is not greater than y,",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1274.0,
+   "end": 1276.24,
+   "text": "it must be the case that x equals y.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1276.24,
+   "end": 1279.04,
+   "text": "We don't need to ask a third question, another diamond.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1279.04,
+   "end": 1284.24,
+   "text": "We can just immediately print as much and then say, stop as well.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1284.24,
+   "end": 1285.8,
+   "text": "Well, what could I do here?",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1285.8,
+   "end": 1288.84,
+   "text": "I bet I could improve this code slightly.",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1288.84,
+   "end": 1291.48,
+   "text": "And if we really want to be nitpicky, I would",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1291.48,
+   "end": 1294.84,
+   "text": "argue that this is now really just a minor refinement,",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1294.84,
+   "end": 1297.6,
+   "text": "but it's a good habit to get into thinking about,",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1297.6,
+   "end": 1298.8,
+   "text": "could my code be better?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1298.8,
+   "end": 1301.28,
+   "text": "Could my code be simpler?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1301.28,
+   "end": 1303.8,
+   "text": "Could I improve this code further?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1303.8,
+   "end": 1307.36,
+   "text": "It's subtle, but could I improve the design?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1307.36,
+   "end": 1309.0,
+   "text": "Could I ask fewer questions?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1309.0,
+   "end": 1312.48,
+   "text": "Could I tighten it up, so to speak?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1312.48,
+   "end": 1314.32,
+   "text": "What do folks think?",
+   "avg_logprob": -0.105,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 1314.32,
+   "end": 1318.12,
+   "text": "You can ask if x is just equal to y.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1318.12,
+   "end": 1324.0,
+   "text": "Then if we print x is equal to y, else x is not equal to y.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1324.0,
+   "end": 1324.52,
+   "text": "Perfect.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1324.52,
+   "end": 1327.56,
+   "text": "Recall one of the other symbols we saw in the available list earlier.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1327.56,
+   "end": 1330.76,
+   "text": "We can check not just less than or greater than or equal to.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1330.76,
+   "end": 1333.48,
+   "text": "We can literally ask the question, is it not equal to?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1333.48,
+   "end": 1337.44,
+   "text": "Why are we wasting time asking if it's less than or if it's greater than?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1337.44,
+   "end": 1339.64,
+   "text": "Well, if all you care about is, is it not equal,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1339.64,
+   "end": 1341.08,
+   "text": "I think we can do exactly that.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 1341.08,
+   "end": 1344.6,
+   "text": "Let's just ask the one simple question we do care about.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1344.6,
+   "end": 1346.56,
+   "text": "And so let me go back up here and let me just",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1346.56,
+   "end": 1349.68,
+   "text": "say, not both of these questions, let's get rid of the or.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1349.68,
+   "end": 1356.6,
+   "text": "Let's just say if x is not equal to y, then go ahead and print x is not equal to y.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1356.6,
+   "end": 1359.08,
+   "text": "And that, too, I think is going to work exactly the same.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1359.08,
+   "end": 1361.92,
+   "text": "But the picture now looks a little bit different.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1361.92,
+   "end": 1366.08,
+   "text": "Notice that this was our flow chart earlier that represented that same logic.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1366.08,
+   "end": 1367.32,
+   "text": "And there's a bit of complexity.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1367.32,
+   "end": 1368.0,
+   "text": "You've got to go left.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1368.0,
+   "end": 1370.8,
+   "text": "You've got to go right based on the answer to these couple of questions.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1370.8,
+   "end": 1373.72,
+   "text": "If we now take into account what this version of the program looks",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1373.72,
+   "end": 1376.96,
+   "text": "like, it's even simpler, perhaps the simplest one we've seen yet.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1376.96,
+   "end": 1380.36,
+   "text": "When we start off the program, we ask just one and only one question.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1380.36,
+   "end": 1382.2,
+   "text": "Is x not equal to y?",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1382.2,
+   "end": 1387.08,
+   "text": "And if so, true, we go ahead and print out x not equal to y.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1387.08,
+   "end": 1390.52,
+   "text": "If the answer is false, then, of course, it must be equal to y.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1390.52,
+   "end": 1392.12,
+   "text": "So we say that instead.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1392.12,
+   "end": 1394.16,
+   "text": "And if we really want, we could invert this.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1394.16,
+   "end": 1397.04,
+   "text": "If I go back here to my code, and if for whatever reason,",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.02
+  },
+  {
+   "start": 1397.04,
+   "end": 1400.88,
+   "text": "You just prefer to think in terms of equal or not equal,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1400.88,
+   "end": 1403.48,
+   "text": "as opposed to not equal or equal.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1403.48,
+   "end": 1405.28,
+   "text": "It's really up to you.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1405.28,
+   "end": 1408.04,
+   "text": "We could change this to be equals equals,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1408.04,
+   "end": 1410.48,
+   "text": "but I'm going to have to change my print statements",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1410.48,
+   "end": 1411.96,
+   "text": "to be in the opposite order.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1411.96,
+   "end": 1415.12,
+   "text": "So let me go ahead now and reverse these two here",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1415.12,
+   "end": 1419.04,
+   "text": "and move the second one first and the first one second.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1419.04,
+   "end": 1422.32,
+   "text": "So now when I execute this code, I'm asking still just one question.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1422.32,
+   "end": 1424.72,
+   "text": "So it's still just as good, just as succinct.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1424.72,
+   "end": 1427.2,
+   "text": "But now the diagram, instead of looking like this,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1427.2,
+   "end": 1430.44,
+   "text": "is going to change the not equal to equal equal.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1430.44,
+   "end": 1434.44,
+   "text": "And we just need to make sure that we print out the right thing accordingly.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1434.44,
+   "end": 1437.8,
+   "text": "And again, here too, just as the code is getting a little more compact,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1437.8,
+   "end": 1440.48,
+   "text": "a little more compact with fewer and fewer characters,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1440.48,
+   "end": 1443.72,
+   "text": "so are these diagrams, these flow charts capturing",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1443.72,
+   "end": 1447.92,
+   "text": "the relative simplification of each of those programs too.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1447.92,
+   "end": 1450.32,
+   "text": "All right, let me go ahead and pause here to see if there's",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1450.32,
+   "end": 1456.57,
+   "text": "any questions now on any of these versions of code.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1456.57,
+   "end": 1459.09,
+   "text": "I have a couple of questions.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1459.09,
+   "end": 1462.37,
+   "text": "What if indentation is not used?",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1462.37,
+   "end": 1465.61,
+   "text": "If indentation is not used, your program will not work.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1465.61,
+   "end": 1468.77,
+   "text": "So Python is a little different from a lot of languages",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1468.77,
+   "end": 1472.13,
+   "text": "in that it enforces the indentation requirement.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1472.13,
+   "end": 1474.09,
+   "text": "Some of you who have been programming for years",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1474.09,
+   "end": 1477.81,
+   "text": "might not necessarily be in the best habit of indenting your code properly.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1477.81,
+   "end": 1480.33,
+   "text": "And one of the features, arguably, of Python",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1480.33,
+   "end": 1484.89,
+   "text": "is that it makes you indent your code or it will not just work.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.083
+  },
+  {
+   "start": 1484.89,
+   "end": 1487.37,
+   "text": "And I think did you have one other question?",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1487.37,
+   "end": 1488.37,
+   "text": "Yeah.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1488.37,
+   "end": 1490.85,
+   "text": "Is the colon necessary?",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1490.85,
+   "end": 1492.69,
+   "text": "Is the colon necessary?",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1492.69,
+   "end": 1493.21,
+   "text": "Yes.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1493.21,
+   "end": 1495.09,
+   "text": "The colon 2 is necessary.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1495.09,
+   "end": 1497.97,
+   "text": "So with Python, what you see is what you get here.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1497.97,
+   "end": 1499.65,
+   "text": "And indeed, it needs to be indented.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1499.65,
+   "end": 1501.09,
+   "text": "And the colon is necessary.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1501.09,
+   "end": 1505.21,
+   "text": "Python does not use in the same way by convention as C and C++",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1505.21,
+   "end": 1506.61,
+   "text": "and Java curly braces.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1506.61,
+   "end": 1510.85,
+   "text": "To connote blocks instead, it relies indeed on this indentation.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1510.85,
+   "end": 1513.37,
+   "text": "Well, let me propose that we introduce one other keyword",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1513.37,
+   "end": 1517.33,
+   "text": "here in Python to see exactly how we might combine additional thoughts.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1517.33,
+   "end": 1519.17,
+   "text": "And that's going to be literally the word and,",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1519.17,
+   "end": 1522.85,
+   "text": "a conjunction of one or two or more questions",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1522.85,
+   "end": 1524.77,
+   "text": "that we might want to ask at once.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1524.77,
+   "end": 1528.73,
+   "text": "And let me propose here that we explore this kind of logic",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1528.73,
+   "end": 1532.45,
+   "text": "by way of another program altogether in VS Code, whereby I'll go ahead now",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1532.45,
+   "end": 1535.81,
+   "text": "and create a new program, say, called grade.py.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1535.81,
+   "end": 1539.21,
+   "text": "Let's consider exactly what grade a student should get based on their score",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1539.21,
+   "end": 1543.01,
+   "text": "on an exam or a test or a quiz or some other assignment like that.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 1543.01,
+   "end": 1546.57,
+   "text": "I'm going to go ahead and run code of grade.py to give myself a new file.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1546.57,
+   "end": 1549.41,
+   "text": "And I'm going to go ahead and start by just getting the user's score.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1549.41,
+   "end": 1551.73,
+   "text": "Again, on some assignment or test or the like.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1551.73,
+   "end": 1554.21,
+   "text": "And I'm going to store it in a variable called score",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1554.21,
+   "end": 1556.89,
+   "text": "equal the return value of the int function, which",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1556.89,
+   "end": 1560.69,
+   "text": "is going to convert whatever the user's input is when prompted for this score.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1560.69,
+   "end": 1565.21,
+   "text": "So again, the user should just oblige by giving me a number like 0 or 1 or 2",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1565.21,
+   "end": 1569.65,
+   "text": "or hopefully much higher than that, like 97, 98, 99, 100, assuming",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1569.65,
+   "end": 1573.41,
+   "text": "the test or assessment is out of 100 percentage points.",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1573.41,
+   "end": 1577.37,
+   "text": "Now, how could I go about assigning a grade to the student's score?",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1577.37,
+   "end": 1579.77,
+   "text": "Well, in the US, it's very commonly the case",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1579.77,
+   "end": 1582.69,
+   "text": "that if you get between a 90 and 100, that's an A.",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1582.69,
+   "end": 1586.89,
+   "text": "And if it's between an 80 and an 89, it's a B.",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1586.89,
+   "end": 1591.73,
+   "text": "If it's 70 and 79, it's a C, and so forth, all the way down to F,",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1591.73,
+   "end": 1594.57,
+   "text": "which should be E, but we'll see that there's a bit of a jump.",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1594.57,
+   "end": 1595.69,
+   "text": "So how might I express this?",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1595.69,
+   "end": 1596.85,
+   "text": "Well, I can use conditionals.",
+   "avg_logprob": -0.11,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 1596.85,
+   "end": 1600.73,
+   "text": "And I can ask a few questions and then print out the student's grade accordingly.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1600.73,
+   "end": 1602.29,
+   "text": "So let me express it like this.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1602.29,
+   "end": 1606.21,
+   "text": "If the student's score is greater than or equal to 90",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1606.21,
+   "end": 1611.13,
+   "text": "and the student's score is less than or equal to 100, so it's in that range,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1611.13,
+   "end": 1614.65,
+   "text": "let's go ahead and print out that their grade shall be an A,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1614.65,
+   "end": 1618.29,
+   "text": "because they're in the 90s above grades range.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1618.29,
+   "end": 1622.81,
+   "text": "L if the score is greater than or equal to 80",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1622.81,
+   "end": 1626.73,
+   "text": "and the score is less than or equal to, say, 89,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1626.73,
+   "end": 1628.01,
+   "text": "But here I have some options.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1628.01,
+   "end": 1630.97,
+   "text": "Logically, I can actually express myself in any number of ways.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1630.97,
+   "end": 1635.25,
+   "text": "And maybe just to be a little cleaner, I'm going to say a score is less than 90.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1635.25,
+   "end": 1638.33,
+   "text": "So I'm using less than instead of less than or equal to.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1638.33,
+   "end": 1641.85,
+   "text": "So I'm making sure that their boundaries between these grades are correct.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1641.85,
+   "end": 1646.69,
+   "text": "Then I'm going to go ahead and give the student a b, if it's in the 80s.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1646.69,
+   "end": 1651.81,
+   "text": "L if score is greater than or equal to 70 and the score is less than 80,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1651.81,
+   "end": 1654.93,
+   "text": "I'm going to go ahead and give them a c.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1654.93,
+   "end": 1660.45,
+   "text": "L, if the score is greater than or equal to 60, and the score is less than 70,",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1660.45,
+   "end": 1662.73,
+   "text": "I'm going to go ahead and give them a D.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1662.73,
+   "end": 1665.85,
+   "text": "And here's where it's a little anomalous, at least in some schools here.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1665.85,
+   "end": 1669.29,
+   "text": "Else, I'm going to go ahead and give them an F.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1669.29,
+   "end": 1671.25,
+   "text": "So we're skipping E altogether.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1671.25,
+   "end": 1674.01,
+   "text": "And we're going to give an F instead for the grade.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1674.01,
+   "end": 1675.17,
+   "text": "So that's the catch-all.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1675.17,
+   "end": 1678.53,
+   "text": "And I think logically I've gotten this correct, at least based",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1678.53,
+   "end": 1682.17,
+   "text": "on where I went to school growing up, such that it's going to give an A",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1682.17,
+   "end": 1684.09,
+   "text": "or a B or a C or a D.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1684.09,
+   "end": 1686.63,
+   "text": "else, it's going to assume that you've got an F.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1686.63,
+   "end": 1688.31,
+   "text": "Well, let's try just a few of these here.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1688.31,
+   "end": 1690.51,
+   "text": "Let's run Python of grade dot pi.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1690.51,
+   "end": 1693.35,
+   "text": "My score is, let's start strong, 100.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1693.35,
+   "end": 1695.47,
+   "text": "All right, I got an A. Didn't do as well.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1695.47,
+   "end": 1698.31,
+   "text": "The next time, maybe it's a 95, still an A.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1698.31,
+   "end": 1700.71,
+   "text": "Starting to slip further, so I got an 89.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1700.71,
+   "end": 1704.23,
+   "text": "The next time, that's now, say, a B. And let's say,",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1704.23,
+   "end": 1707.19,
+   "text": "I really had a bad week, and it's now like a 71.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1707.19,
+   "end": 1709.75,
+   "text": "That's now a C. Or I didn't even submit it at all.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1709.75,
+   "end": 1711.91,
+   "text": "That's an F altogether.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.145
+  },
+  {
+   "start": 1711.91,
+   "end": 1712.99,
+   "text": "So it seems to work.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1712.99,
+   "end": 1714.75,
+   "text": "That's not really an exhaustive test.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1714.75,
+   "end": 1718.99,
+   "text": "But at least based on some sampling there, my code seems to work as I expect.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1718.99,
+   "end": 1720.59,
+   "text": "But let's see if we can't tighten this up.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1720.59,
+   "end": 1721.27,
+   "text": "It's not wrong.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1721.27,
+   "end": 1722.19,
+   "text": "It's correct.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1722.19,
+   "end": 1724.11,
+   "text": "And indeed, according to my own specifications,",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1724.11,
+   "end": 1725.67,
+   "text": "I dare say this code is correct.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1725.67,
+   "end": 1726.75,
+   "text": "But can we tighten it up?",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1726.75,
+   "end": 1730.47,
+   "text": "Can we reduce the probability of bugs now or down the line?",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1730.47,
+   "end": 1732.27,
+   "text": "Can we increase the readability of it?",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1732.27,
+   "end": 1734.07,
+   "text": "And can we increase the efficiency of it?",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1734.07,
+   "end": 1737.75,
+   "text": "Can we get the computer to have to answer fewer questions",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1737.75,
+   "end": 1739.63,
+   "text": "and still get the same result?",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1739.63,
+   "end": 1740.91,
+   "text": "Well, let's see what we might do.",
+   "avg_logprob": -0.131,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1740.91,
+   "end": 1743.35,
+   "text": "Let me just kind of switch things up if only to demonstrate",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1743.35,
+   "end": 1745.95,
+   "text": "that we can use these symbols in different ways.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1745.95,
+   "end": 1750.35,
+   "text": "I could say, as I've done, if score is greater than or equal to 90,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1750.35,
+   "end": 1751.43,
+   "text": "but I can actually do this.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1751.43,
+   "end": 1752.63,
+   "text": "I can flip it around.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1752.63,
+   "end": 1757.67,
+   "text": "Instead of saying greater than or equal to, let's say 90 is less than",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1757.67,
+   "end": 1759.27,
+   "text": "or equal to score.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1759.27,
+   "end": 1764.11,
+   "text": "And here, let's say if 80 is less than or equal to score,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1764.11,
+   "end": 1768.23,
+   "text": "and here, 70 is less than or equal to score,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1768.23,
+   "end": 1771.43,
+   "text": "And then lastly, 60 is less than or equal to score.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1771.43,
+   "end": 1773.43,
+   "text": "So it's the same thing logically.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1773.43,
+   "end": 1775.19,
+   "text": "I'm just kind of switching things around just",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1775.19,
+   "end": 1777.79,
+   "text": "like you could do on paper pencil if you really want it.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1777.79,
+   "end": 1779.15,
+   "text": "But now notice this trick.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1779.15,
+   "end": 1780.27,
+   "text": "And this is not possible.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1780.27,
+   "end": 1784.47,
+   "text": "For those of you who have programmed in C or C++ or Java or other languages,",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1784.47,
+   "end": 1788.83,
+   "text": "notice what I can do here is actually combine these ranges.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1788.83,
+   "end": 1792.19,
+   "text": "Notice that I'm asking two questions, two Boolean expressions.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1792.19,
+   "end": 1797.47,
+   "text": "Is 90 less than or equal to score and is score less than or equal to 100?",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1797.47,
+   "end": 1802.79,
+   "text": "Well, Python allows you to nest these things like this and chain them together.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1802.79,
+   "end": 1806.19,
+   "text": "And just like you would on paper, pencil in the real world,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1806.19,
+   "end": 1809.87,
+   "text": "you can encode in Python do this, which is just a little cleaner, right?",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1809.87,
+   "end": 1811.51,
+   "text": "It's tightening up the code a little bit.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1811.51,
+   "end": 1812.63,
+   "text": "It's fewer keystrokes.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1812.63,
+   "end": 1813.79,
+   "text": "It's faster to type.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1813.79,
+   "end": 1815.55,
+   "text": "It's easier to read moving forward.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1815.55,
+   "end": 1818.27,
+   "text": "So that's arguably better as well.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1818.27,
+   "end": 1819.51,
+   "text": "So that's one improvement.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1819.51,
+   "end": 1821.51,
+   "text": "It's largely aesthetic in this case.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1821.51,
+   "end": 1823.43,
+   "text": "It's still asking the same number of questions,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1823.43,
+   "end": 1827.07,
+   "text": "but it's doing it a little more succinctly still.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1827.07,
+   "end": 1829.71,
+   "text": "Well, what more could I do here next?",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1829.71,
+   "end": 1830.83,
+   "text": "Well, you know what?",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1830.83,
+   "end": 1832.99,
+   "text": "Each time I'm deciding these grades, I don't",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1832.99,
+   "end": 1834.99,
+   "text": "think I have to ask two questions.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1834.99,
+   "end": 1838.35,
+   "text": "I don't have to ask, is it greater than 90 and less than 100?",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1838.35,
+   "end": 1840.95,
+   "text": "Is it greater than 80 and less than 90?",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1840.95,
+   "end": 1845.11,
+   "text": "If I kind of rethink my logic, I can maybe do this better still.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1845.11,
+   "end": 1848.91,
+   "text": "Let me propose that we simplify this further and just do this.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1848.91,
+   "end": 1853.43,
+   "text": "If we know the input for the moment is going to be within 0 and 100,",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1853.43,
+   "end": 1854.83,
+   "text": "we can make some assumptions.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1854.83,
+   "end": 1859.11,
+   "text": "We could say something like if the score is greater than or equal to 90,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1859.11,
+   "end": 1864.23,
+   "text": "well, the student gets an A. L if the score is greater than or equal to 80,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1864.23,
+   "end": 1868.19,
+   "text": "the student gets a B. L if score is greater than or equal to 70,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1868.19,
+   "end": 1874.15,
+   "text": "they get a C. L if the score is greater than or equal to 60,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1874.15,
+   "end": 1878.39,
+   "text": "they get a D. L else, they get an F.",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1878.39,
+   "end": 1879.95,
+   "text": "So what have I done here?",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1879.95,
+   "end": 1883.35,
+   "text": "Well, instead of asking two questions every time,",
+   "avg_logprob": -0.116,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1883.35,
+   "end": 1886.39,
+   "text": "checking the lower bound and the upper bound of that range,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1886.39,
+   "end": 1888.15,
+   "text": "I'm kind of being a little more clever here",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1888.15,
+   "end": 1892.19,
+   "text": "by asking if the score is greater than 90, well, they've obviously",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1892.19,
+   "end": 1893.51,
+   "text": "gotten an A or better.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1893.51,
+   "end": 1896.11,
+   "text": "If your score is greater than 80, well, you either",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1896.11,
+   "end": 1900.91,
+   "text": "deserve an A if it's really strong or a B if it's just above 80.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1900.91,
+   "end": 1904.35,
+   "text": "But because of the if-lif logic, we've already",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1904.35,
+   "end": 1906.51,
+   "text": "checked as the student score greater than 90.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1906.51,
+   "end": 1908.67,
+   "text": "And if it's not, then we're asking the question,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1908.67,
+   "end": 1910.15,
+   "text": "well, is it greater than 80?",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 1910.15,
+   "end": 1914.27,
+   "text": "So you implicitly know it's somewhere in the 80 to 89 range.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1914.27,
+   "end": 1917.11,
+   "text": "Else, you know it's in the 70 to 79 range.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1917.11,
+   "end": 1919.47,
+   "text": "Else, it's in the next range down.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1919.47,
+   "end": 1922.99,
+   "text": "So it's a minor optimization that allows us to ask fewer questions.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1922.99,
+   "end": 1926.11,
+   "text": "But again, it's making the code arguably a little more readable,",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1926.11,
+   "end": 1928.67,
+   "text": "certainly more succinct, and then hopefully more",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1928.67,
+   "end": 1930.79,
+   "text": "maintainable longer term.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1930.79,
+   "end": 1935.95,
+   "text": "Any questions then on these types of changes",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1935.95,
+   "end": 1939.75,
+   "text": "and this type of logic with our code?",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 1939.75,
+   "end": 1942.15,
+   "text": "What if we don't use a lift at all?",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1942.15,
+   "end": 1945.87,
+   "text": "What if we write the code in F?",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1945.87,
+   "end": 1948.31,
+   "text": "Yeah, so that's a good question because it's actually",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1948.31,
+   "end": 1951.47,
+   "text": "going to have an unintended effect here.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1951.47,
+   "end": 1954.95,
+   "text": "Let me get rid of the F temporarily and just focus on A through D.",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1954.95,
+   "end": 1958.47,
+   "text": "If we revert to where we began today's story with conditional,",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1958.47,
+   "end": 1962.15,
+   "text": "saying if, if, if, if, now our cleverness",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1962.15,
+   "end": 1965.79,
+   "text": "here of using broader strokes and not using",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1965.79,
+   "end": 1967.99,
+   "text": "an upper and lower bound ranges is going",
+   "avg_logprob": -0.148,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 1967.99,
+   "end": 1971.07,
+   "text": "to come back to be a downside.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1971.07,
+   "end": 1973.51,
+   "text": "Let me go ahead and run Python of grade dot pi.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1973.51,
+   "end": 1976.63,
+   "text": "And suppose my score is 95.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1976.63,
+   "end": 1978.19,
+   "text": "I am so darn excited.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1978.19,
+   "end": 1984.07,
+   "text": "I want my A. But nope, I just got an A, a B, a C, and a D.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1984.07,
+   "end": 1986.11,
+   "text": "So logically, that's broken things.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1986.11,
+   "end": 1989.47,
+   "text": "Because if you don't make these conditions mutually exclusive,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1989.47,
+   "end": 1993.71,
+   "text": "every one of those questions is going to get asked and therefore answered.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1993.71,
+   "end": 1996.59,
+   "text": "And even if your grade is above a 90,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.052
+  },
+  {
+   "start": 1996.59,
+   "end": 2000.19,
+   "text": "It's also logically above an 80, above a 70, above a 60.",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2000.19,
+   "end": 2003.67,
+   "text": "And if I'd kept it in there, I would have failed as well with an F.",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2003.67,
+   "end": 2004.95,
+   "text": "Really good question.",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2004.95,
+   "end": 2008.19,
+   "text": "Other questions here on this form of logic?",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2008.19,
+   "end": 2010.03,
+   "text": "Well, would there be any, I guess, better way",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2010.03,
+   "end": 2012.31,
+   "text": "to kind of clean up even just this simple statement",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2012.31,
+   "end": 2015.11,
+   "text": "like we had before, the previous one that you had with the L-sys?",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2015.11,
+   "end": 2020.43,
+   "text": "Oh, I like your enthusiasm for simplifying things further.",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2020.43,
+   "end": 2022.51,
+   "text": "I'm going to go out on a limb here and say,",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2022.51,
+   "end": 2025.07,
+   "text": "this is about as good as it gets.",
+   "avg_logprob": -0.197,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2025.07,
+   "end": 2028.11,
+   "text": "at least using only conditional statements.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2028.11,
+   "end": 2032.43,
+   "text": "I can, if my mind wanders, think of a slightly more clever way",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2032.43,
+   "end": 2036.03,
+   "text": "to do this, maybe with something called a loop or another programming construct.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2036.03,
+   "end": 2037.71,
+   "text": "We don't have that yet in our vocabulary.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2037.71,
+   "end": 2039.59,
+   "text": "But yes, there's absolutely other ways to do it.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2039.59,
+   "end": 2042.43,
+   "text": "But I think not yet if we want to restrict ourselves to just words",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2042.43,
+   "end": 2047.35,
+   "text": "like if, and or, and else, and elif, and and the like.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2047.35,
+   "end": 2048.87,
+   "text": "Well, let me propose that we pivot now",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2048.87,
+   "end": 2052.35,
+   "text": "to use another approach here that uses one other symbol that up",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2052.35,
+   "end": 2054.59,
+   "text": "until now we've not really had occasion to use.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2054.59,
+   "end": 2058.79,
+   "text": "Let me propose that we implement a program that we'll call parity.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2058.79,
+   "end": 2062.51,
+   "text": "And mathematics parity can refer to whether a number is even or odd.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2062.51,
+   "end": 2064.47,
+   "text": "And that's kind of an interesting question.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2064.47,
+   "end": 2067.19,
+   "text": "And it turns out it can be useful in other applications, too.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2067.19,
+   "end": 2069.83,
+   "text": "So I just asked the question, is a given number even or odd?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2069.83,
+   "end": 2071.43,
+   "text": "Maybe that the user typed in.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2071.43,
+   "end": 2076.67,
+   "text": "And let me go ahead and write a new program called parity.py via code",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2076.67,
+   "end": 2078.95,
+   "text": "parity.py in my terminal.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2078.95,
+   "end": 2081.59,
+   "text": "And let me propose that we use this as an opportunity",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2081.59,
+   "end": 2086.59,
+   "text": "to introduce the last of those arithmetic symbols, at least most of which",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2086.59,
+   "end": 2089.99,
+   "text": "we're familiar with, addition, subtraction, multiplication, division.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2089.99,
+   "end": 2093.35,
+   "text": "But there's been on this list before this last one here a percent sign.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2093.35,
+   "end": 2095.19,
+   "text": "And it doesn't mean percentage in this case",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2095.19,
+   "end": 2097.99,
+   "text": "when used as an operator in programming in Python.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2097.99,
+   "end": 2102.31,
+   "text": "Rather, it represents the so-called modulo operator for modular arithmetic.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2102.31,
+   "end": 2105.51,
+   "text": "Or at least in our case, we're going to use it to calculate the remainder",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2105.51,
+   "end": 2107.91,
+   "text": "when dividing one number by another.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2107.91,
+   "end": 2109.07,
+   "text": "Well, what do I mean by that?",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2109.07,
+   "end": 2112.27,
+   "text": "Well, if you take a number like 1 divided by 3,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2112.27,
+   "end": 2116.87,
+   "text": "3 does not go into 1, eat cleanly, so you have a remainder of 1.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2116.87,
+   "end": 2120.31,
+   "text": "2 divided by 3 has a remainder of 2.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2120.31,
+   "end": 2124.79,
+   "text": "3 divided by 3 has a remainder of 0, because it divides cleanly.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2124.79,
+   "end": 2130.23,
+   "text": "4 divided by 3 has a remainder of 1, because you can divide it in once,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2130.23,
+   "end": 2132.47,
+   "text": "but then that leaves 1, so it has a remainder of 1.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2132.47,
+   "end": 2135.83,
+   "text": "And then lastly, something like 5 divided by 3",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2135.83,
+   "end": 2137.23,
+   "text": "has a remainder, of course, of 2.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2137.23,
+   "end": 2138.63,
+   "text": "So that's all we mean by remainder.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2138.63,
+   "end": 2142.07,
+   "text": "how much is left over after dividing one number by another.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2142.07,
+   "end": 2145.07,
+   "text": "Well, if I go back now to my code and I consider",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2145.07,
+   "end": 2149.31,
+   "text": "how I might implement the question, is this number even or odd?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2149.31,
+   "end": 2151.55,
+   "text": "Let's consider how we might implement that.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2151.55,
+   "end": 2154.07,
+   "text": "Since it's perhaps not necessarily obvious how",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2154.07,
+   "end": 2156.51,
+   "text": "we can use this additional building block, but it turns out",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2156.51,
+   "end": 2158.51,
+   "text": "it's going to be a very useful longer term.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2158.51,
+   "end": 2161.79,
+   "text": "Well, let's first just get a number from the user in a variable called x.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2161.79,
+   "end": 2163.91,
+   "text": "And I'm going to set that equal to the conversion",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2163.91,
+   "end": 2167.95,
+   "text": "to int of whatever the user inputs after asking them, what's x?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2167.95,
+   "end": 2169.07,
+   "text": "Question mark.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2169.07,
+   "end": 2171.07,
+   "text": "And we've done that before many times.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2171.07,
+   "end": 2174.91,
+   "text": "How do I now determine if x is even or odd?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2174.91,
+   "end": 2178.83,
+   "text": "Well, it turns out if I have access to a programmatic operator that",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2178.83,
+   "end": 2181.91,
+   "text": "tells me the remainder, I think I can do this.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2181.91,
+   "end": 2183.27,
+   "text": "In fact, let me just ask the group.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2183.27,
+   "end": 2185.51,
+   "text": "And this is just from grade school math, perhaps.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2185.51,
+   "end": 2190.43,
+   "text": "What does it mean for a number to be even, to be clear?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2190.43,
+   "end": 2196.39,
+   "text": "a number like 0, 2, 4, 6, 8, 10, 12, 14, 16.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2196.39,
+   "end": 2197.43,
+   "text": "Those are all even numbers.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2197.43,
+   "end": 2198.47,
+   "text": "But what does that really mean?",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2198.47,
+   "end": 2200.99,
+   "text": "Olayna, if I'm saying that right?",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2200.99,
+   "end": 2204.03,
+   "text": "Even numbers that can divide it exactly by two.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2204.03,
+   "end": 2208.71,
+   "text": "For example, 2, 4, 6, 8, and 10.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2208.71,
+   "end": 2209.23,
+   "text": "Perfect.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2209.23,
+   "end": 2211.07,
+   "text": "And we could go on all day long, literally.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2211.07,
+   "end": 2213.19,
+   "text": "So there's an infinite number of those even numbers.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2213.19,
+   "end": 2216.35,
+   "text": "But it's nice that you formulated it in terms of a question",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2216.35,
+   "end": 2218.39,
+   "text": "that we can ask very clearly.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.025
+  },
+  {
+   "start": 2218.39,
+   "end": 2221.51,
+   "text": "is this number cleanly divided by 2?",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2221.51,
+   "end": 2225.95,
+   "text": "That is, can we divide it by 2 with no remainder, a remainder of 0?",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2225.95,
+   "end": 2228.75,
+   "text": "Well, that's perfect, because if we have this operator, this percentage",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2228.75,
+   "end": 2232.35,
+   "text": "sign, that allows us to answer just that, what is the remainder?",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2232.35,
+   "end": 2235.87,
+   "text": "We can presumably check, is the remainder is 0 or is it 1?",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2235.87,
+   "end": 2239.19,
+   "text": "Do we have nothing left over or do we have 1 left over?",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2239.19,
+   "end": 2240.27,
+   "text": "Well, let's ask that.",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2240.27,
+   "end": 2248.15,
+   "text": "If x divided by 2 has a remainder of 0, as Elena proposes,",
+   "avg_logprob": -0.147,
+   "no_speech_prob": 0.046
+  },
+  {
+   "start": 2248.15,
+   "end": 2250.71,
+   "text": "Let's go ahead and print out something like quote, unquote, even.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2250.71,
+   "end": 2252.63,
+   "text": "And just say as much to the user.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2252.63,
+   "end": 2255.43,
+   "text": "Else, I think we can assume that if a number is not even,",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2255.43,
+   "end": 2258.59,
+   "text": "it's going to be odd if it's indeed an integer.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2258.59,
+   "end": 2261.79,
+   "text": "So I'm going to go ahead and print out quote, unquote, odd instead.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2261.79,
+   "end": 2265.15,
+   "text": "And let's go ahead and now run Python of parity.py in my prompt.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2265.15,
+   "end": 2265.91,
+   "text": "What's x?",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2265.91,
+   "end": 2267.15,
+   "text": "Let's start with 2.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2267.15,
+   "end": 2268.35,
+   "text": "2 is in fact even.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2268.35,
+   "end": 2269.59,
+   "text": "Let's start with 4.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2269.59,
+   "end": 2270.59,
+   "text": "4 is in fact even.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2270.59,
+   "end": 2273.79,
+   "text": "Let's get interesting with 3.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2273.79,
+   "end": 2275.03,
+   "text": "3 is now odd.",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2275.03,
+   "end": 2277.55,
+   "text": "And I think we could do that all day long and hopefully get back",
+   "avg_logprob": -0.162,
+   "no_speech_prob": 0.027
+  },
+  {
+   "start": 2277.55,
+   "end": 2280.03,
+   "text": "indeed, exactly that answer.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2280.03,
+   "end": 2282.15,
+   "text": "But what more could we do here?",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2282.15,
+   "end": 2284.07,
+   "text": "How could we improve upon this?",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2284.07,
+   "end": 2288.11,
+   "text": "Well, recall that we have the ability to invent our own functions.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2288.11,
+   "end": 2290.35,
+   "text": "And let me just propose for the sake of discussion",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2290.35,
+   "end": 2293.39,
+   "text": "that we're going to eventually find that it's useful to be able to determine",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2293.39,
+   "end": 2294.59,
+   "text": "if a number is even or odd.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2294.59,
+   "end": 2297.27,
+   "text": "And so we'd like to have that functionality built in.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2297.27,
+   "end": 2300.11,
+   "text": "And I don't think Python has a function for telling me just",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2300.11,
+   "end": 2303.39,
+   "text": "that, but I can invent it using code like just this.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2303.39,
+   "end": 2307.03,
+   "text": "So let me go into my earlier version here.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.1
+  },
+  {
+   "start": 2307.03,
+   "end": 2309.79,
+   "text": "And let me propose that we do this.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2309.79,
+   "end": 2312.75,
+   "text": "Let me go ahead and write a main function.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2312.75,
+   "end": 2315.59,
+   "text": "I'm going to get back into that habit of defining a main function",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2315.59,
+   "end": 2317.47,
+   "text": "to represent the main part of my program.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2317.47,
+   "end": 2319.15,
+   "text": "And I'm going to do what I did before.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2319.15,
+   "end": 2322.59,
+   "text": "I'm going to get an integer from the user's input, asking them,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2322.59,
+   "end": 2323.59,
+   "text": "what's x?",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2323.59,
+   "end": 2324.95,
+   "text": "Question mark.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2324.95,
+   "end": 2326.51,
+   "text": "And then I'm going to ask this question.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2326.51,
+   "end": 2329.71,
+   "text": "For the moment, I'm going to naively assume that the function already",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2329.71,
+   "end": 2332.59,
+   "text": "exists, but that's a useful problem-solving technique.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2332.59,
+   "end": 2335.31,
+   "text": "Even if I have no idea yet where I'm going with this,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2335.31,
+   "end": 2338.93,
+   "text": "how I'm going to invent a function that determines if a number is even,",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2338.93,
+   "end": 2341.97,
+   "text": "I'm just going to assume that there's a function called is even.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2341.97,
+   "end": 2344.49,
+   "text": "And I'm going to call it blindly like this.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2344.49,
+   "end": 2351.69,
+   "text": "If is even passing in x, then go ahead and print quote unquote even.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2351.69,
+   "end": 2357.05,
+   "text": "So if this magical function called is even returns true as its return",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2357.05,
+   "end": 2360.17,
+   "text": "value, I am going to print out that it's even.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2360.17,
+   "end": 2363.93,
+   "text": "Else otherwise, I'm going to assume that it's, of course, odd.",
+   "avg_logprob": -0.14,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 2363.93,
+   "end": 2368.09,
+   "text": "Now the one problem with this program, even if I call main over here,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2368.09,
+   "end": 2370.05,
+   "text": "is that isEven does not exist.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2370.05,
+   "end": 2372.73,
+   "text": "And this program would break if I ran it right now.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2372.73,
+   "end": 2373.53,
+   "text": "But that's OK.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2373.53,
+   "end": 2376.05,
+   "text": "I have the ability recall to invent my own function.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2376.05,
+   "end": 2380.17,
+   "text": "So let me define with def a function called isEven.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2380.17,
+   "end": 2382.89,
+   "text": "I want this function to take an argument.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2382.89,
+   "end": 2385.69,
+   "text": "And I'm going to call it n, just a number, generically.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2385.69,
+   "end": 2388.41,
+   "text": "I could call it x, but again, I don't want to confuse myself",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2388.41,
+   "end": 2391.29,
+   "text": "as to which x is which, so I'm going to give it a different name.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2391.29,
+   "end": 2392.09,
+   "text": "And that's fine.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2392.09,
+   "end": 2394.93,
+   "text": "I'm just going to call it more generically n for number.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2394.93,
+   "end": 2396.69,
+   "text": "And then I'm going to do this.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2396.69,
+   "end": 2403.61,
+   "text": "I'm going to say if n percent 2 equals equals 0, just like before, then,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2403.61,
+   "end": 2406.57,
+   "text": "and here's the magic, you, the programmer,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2406.57,
+   "end": 2410.85,
+   "text": "can actually return what are called Boolean values.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2410.85,
+   "end": 2416.41,
+   "text": "We've seen in Python that Python has strs or strings, ints or integers,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2416.41,
+   "end": 2419.05,
+   "text": "floats or floating point values, all of which",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2419.05,
+   "end": 2421.65,
+   "text": "are different types of data in Python.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2421.65,
+   "end": 2426.21,
+   "text": "Python also has a fourth data type called bool for a Boolean value.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2426.21,
+   "end": 2428.17,
+   "text": "And even though this is just adding to our list,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2428.17,
+   "end": 2433.13,
+   "text": "the nice thing about bools is that they can only be true or false.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2433.13,
+   "end": 2436.33,
+   "text": "An int can be any number of an infinite possible values.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2436.33,
+   "end": 2439.09,
+   "text": "A bool can only be true or false.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2439.09,
+   "end": 2443.69,
+   "text": "And it must be capital T and capital F if you're writing itself.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2443.69,
+   "end": 2448.97,
+   "text": "So if I go back now to my code and I consider exactly what I want to return",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2448.97,
+   "end": 2456.57,
+   "text": "Well, if n percent 2 equals equals 0, that is, if n divided by 2 has a remainder of 0,",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 2456.57,
+   "end": 2461.85,
+   "text": "well, I think it's even to Elena your definition, so let's return true capital T.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 2461.85,
+   "end": 2466.17,
+   "text": "Else, if it doesn't have a remainder of 0, I'm pretty sure mathematically it's",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 2466.17,
+   "end": 2468.85,
+   "text": "got to have a remainder of 1, but it doesn't matter.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 2468.85,
+   "end": 2472.77,
+   "text": "I know it's not even, so I'm going to return false.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 2472.77,
+   "end": 2475.37,
+   "text": "And we've returned false instead capital F.",
+   "avg_logprob": -0.208,
+   "no_speech_prob": 0.039
+  },
+  {
+   "start": 2475.37,
+   "end": 2479.37,
+   "text": "And now that we've defined both main and is even,",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2479.37,
+   "end": 2482.87,
+   "text": "and I'm calling main at the bottom, I think I've got this right.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2482.87,
+   "end": 2485.37,
+   "text": "Python of parity.py enter.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2485.37,
+   "end": 2486.37,
+   "text": "What's x?",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2486.37,
+   "end": 2488.37,
+   "text": "Let's try something simple like 2.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2488.37,
+   "end": 2489.37,
+   "text": "And it's even.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2489.37,
+   "end": 2490.37,
+   "text": "Let's do it again.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2490.37,
+   "end": 2491.37,
+   "text": "What's x?",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2491.37,
+   "end": 2492.37,
+   "text": "How about 4?",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2492.37,
+   "end": 2493.37,
+   "text": "Even.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2493.37,
+   "end": 2494.37,
+   "text": "Once more.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2494.37,
+   "end": 2495.37,
+   "text": "What's x?",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2495.37,
+   "end": 2496.37,
+   "text": "How about 3?",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2496.37,
+   "end": 2497.37,
+   "text": "And it's odd.",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2497.37,
+   "end": 2498.37,
+   "text": "Now what have I done here?",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2498.37,
+   "end": 2501.37,
+   "text": "I've just made the point that if I want to create my own function",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2501.37,
+   "end": 2504.37,
+   "text": "called is even that answers this question for me",
+   "avg_logprob": -0.117,
+   "no_speech_prob": 0.124
+  },
+  {
+   "start": 2504.37,
+   "end": 2507.33,
+   "text": "that I can now use in this program, and heck, maybe future programs",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2507.33,
+   "end": 2511.17,
+   "text": "that I write, I now have a function that no one gave me.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2511.17,
+   "end": 2513.29,
+   "text": "I gave myself that I can use and reuse.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2513.29,
+   "end": 2515.57,
+   "text": "And I can even perhaps share it with others.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2515.57,
+   "end": 2519.53,
+   "text": "I'm using that function now on line three just to make a decision.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2519.53,
+   "end": 2521.45,
+   "text": "I'm using a conditional up there.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2521.45,
+   "end": 2525.21,
+   "text": "And my Boolean expression, something that's true or false,",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2525.21,
+   "end": 2528.89,
+   "text": "is going to be not something explicit like x less than y,",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2528.89,
+   "end": 2533.17,
+   "text": "or y greater than x or the like, it's going to be a function call.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 2533.17,
+   "end": 2535.89,
+   "text": "I'm using a function as my Boolean expression.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2535.89,
+   "end": 2538.25,
+   "text": "But that's OK, because I know, because I wrote it,",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2538.25,
+   "end": 2543.53,
+   "text": "that that function is even returns true or it returns false.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2543.53,
+   "end": 2549.89,
+   "text": "And that's all I need in a conditional to make a decision to print even or print odd.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2549.89,
+   "end": 2552.57,
+   "text": "So let me pause here to see if there's any questions now",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2552.57,
+   "end": 2557.61,
+   "text": "on how I've implemented is even using this Boo.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2557.61,
+   "end": 2558.41,
+   "text": "Hello, hi, David.",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2558.41,
+   "end": 2561.81,
+   "text": "First of all, thank you for this wonderful class named for yesterday",
+   "avg_logprob": -0.193,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2561.81,
+   "end": 2567.77,
+   "text": "And today, sir, I have just one query like basis on the background of Java.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2567.77,
+   "end": 2571.81,
+   "text": "There when we use to pass the arguments, we can also",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2571.81,
+   "end": 2574.05,
+   "text": "pass the address of the variables.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2574.05,
+   "end": 2577.45,
+   "text": "So is there any sort of this concept in Python?",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2577.45,
+   "end": 2578.45,
+   "text": "Short answer, no.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2578.45,
+   "end": 2582.45,
+   "text": "Those who are unfamiliar with Java or other languages or C or C++,",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2582.45,
+   "end": 2585.69,
+   "text": "there's generally ways to pass values in different mechanisms",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2585.69,
+   "end": 2587.93,
+   "text": "that allow you or disallow you to change them.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2587.93,
+   "end": 2589.05,
+   "text": "In Python, no.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2589.05,
+   "end": 2591.57,
+   "text": "Everything we're going to see is actually, in fact, an object.",
+   "avg_logprob": -0.186,
+   "no_speech_prob": 0.115
+  },
+  {
+   "start": 2591.57,
+   "end": 2593.95,
+   "text": "But more on that down the line.",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2593.95,
+   "end": 2599.83,
+   "text": "How about time for one more question here on these bulls and these is evens?",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2599.83,
+   "end": 2604.95,
+   "text": "So I actually had a question about defining a function if that's OK.",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2604.95,
+   "end": 2609.11,
+   "text": "So if you define one, are you within your code, like you made it up,",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2609.11,
+   "end": 2613.27,
+   "text": "are you allowed to use the dot operator like we did name dot strip",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2613.27,
+   "end": 2614.79,
+   "text": "and use it like that?",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2614.79,
+   "end": 2615.47,
+   "text": "Good question.",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2615.47,
+   "end": 2617.91,
+   "text": "If you've created your own function, can you",
+   "avg_logprob": -0.179,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2617.91,
+   "end": 2622.39,
+   "text": "use other functions like .strip or .title or .capitalize",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2622.39,
+   "end": 2626.63,
+   "text": "that we've seen in the past, you can use those on strings.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2626.63,
+   "end": 2629.07,
+   "text": "Those functions come with strings.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2629.07,
+   "end": 2632.07,
+   "text": "You can't necessarily use them on your own functions",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2632.07,
+   "end": 2636.19,
+   "text": "unless your function returns a string, for the examples you gave.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2636.19,
+   "end": 2637.47,
+   "text": "I'm returning a bool.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2637.47,
+   "end": 2640.19,
+   "text": "Bools have no notion of white space to the left or the right.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2640.19,
+   "end": 2641.15,
+   "text": "You can't call strip.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2641.15,
+   "end": 2642.39,
+   "text": "You can't call capitalize.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2642.39,
+   "end": 2645.15,
+   "text": "But if you were writing a different function that returns a string,",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.134
+  },
+  {
+   "start": 2645.15,
+   "end": 2648.23,
+   "text": "Absolutely, you could use those functions as well.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2648.23,
+   "end": 2650.95,
+   "text": "Well, let me turn our attention, if I may, back to this example here",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2650.95,
+   "end": 2653.75,
+   "text": "and consider, as we now frequently do, can we",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2653.75,
+   "end": 2655.99,
+   "text": "improve on the design of this code?",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2655.99,
+   "end": 2658.59,
+   "text": "Can I make this particular program better?",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2658.59,
+   "end": 2659.43,
+   "text": "And I can.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2659.43,
+   "end": 2660.71,
+   "text": "There's a couple of ways here.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2660.71,
+   "end": 2662.95,
+   "text": "And I'll show you something that's now generally known",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2662.95,
+   "end": 2664.39,
+   "text": "as something pythonic.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2664.39,
+   "end": 2666.91,
+   "text": "There's actually this term of art in the Python world",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2666.91,
+   "end": 2670.87,
+   "text": "where something is pythonic if it's just the way you do things",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2670.87,
+   "end": 2673.15,
+   "text": "in Python, which is to say, we've seen already",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.028
+  },
+  {
+   "start": 2673.15,
+   "end": 2675.61,
+   "text": "There's so many different ways to solve certain problems.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2675.61,
+   "end": 2678.13,
+   "text": "And in the Python community of programmers,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2678.13,
+   "end": 2682.13,
+   "text": "there tend to be some ways that are smiled upon more than others.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2682.13,
+   "end": 2685.61,
+   "text": "And they tend to relate to features that maybe only Python has,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2685.61,
+   "end": 2686.97,
+   "text": "but not other languages.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2686.97,
+   "end": 2688.53,
+   "text": "And here's some syntax that you might not",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2688.53,
+   "end": 2692.45,
+   "text": "have seen in languages like Java or C or C++ if you've programmed before.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2692.45,
+   "end": 2695.81,
+   "text": "And if you've never programmed before, this too is going to be new.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2695.81,
+   "end": 2698.73,
+   "text": "Instead of asking a question like this,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2698.73,
+   "end": 2703.05,
+   "text": "If else using four lines, in Python, you can actually",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2703.05,
+   "end": 2707.69,
+   "text": "collapse this into just one more elegant line, if you will.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2707.69,
+   "end": 2713.81,
+   "text": "Instead of asking, if n divided by 2 has a remainder of 0, return true.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2713.81,
+   "end": 2715.41,
+   "text": "Else return false.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2715.41,
+   "end": 2718.09,
+   "text": "Let me delete all of that and just say this.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2718.09,
+   "end": 2727.81,
+   "text": "Return true if n divided by 2 has a remainder of 0, else return false.",
+   "avg_logprob": -0.151,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2727.81,
+   "end": 2730.19,
+   "text": "Now those of you who do have prior programming experience",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2730.19,
+   "end": 2731.99,
+   "text": "might actually think this is kind of cool.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2731.99,
+   "end": 2736.15,
+   "text": "You can condense from four lines into one line that very same thought.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2736.15,
+   "end": 2738.67,
+   "text": "And one of the reasons why Python is popular",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2738.67,
+   "end": 2741.31,
+   "text": "is that it does tend to read rather like English.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2741.31,
+   "end": 2744.71,
+   "text": "It's not quite as user-friendly as most English or most human languages.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2744.71,
+   "end": 2748.63,
+   "text": "But notice now, the line does rather say what you mean.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2748.63,
+   "end": 2755.07,
+   "text": "Return true if n divided by 2 has a remainder of 0 else false.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2755.07,
+   "end": 2757.07,
+   "text": "I mean, that's pretty darn close to something",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2757.07,
+   "end": 2762.15,
+   "text": "you might say logically in English, be it about even an odd or really anything else.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2762.15,
+   "end": 2764.31,
+   "text": "So that program is going to work exactly the same.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2764.31,
+   "end": 2765.71,
+   "text": "Python of parry.py.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2765.71,
+   "end": 2766.75,
+   "text": "Let me type in 2.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2766.75,
+   "end": 2767.59,
+   "text": "It's still even.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2767.59,
+   "end": 2768.75,
+   "text": "Let me type in 3.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2768.75,
+   "end": 2770.03,
+   "text": "It's still odd.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2770.03,
+   "end": 2772.15,
+   "text": "But I can refine this even further.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2772.15,
+   "end": 2775.43,
+   "text": "And again, consistent with this idea of not just writing correct code,",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2775.43,
+   "end": 2780.03,
+   "text": "but writing better and better code, but still keeping it readable,",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2780.03,
+   "end": 2782.83,
+   "text": "I can do one even better than this.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2782.83,
+   "end": 2785.95,
+   "text": "Notice this value here is my Boolean expression.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 2785.95,
+   "end": 2788.87,
+   "text": "And it is going to evaluate to true or false.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2788.87,
+   "end": 2793.63,
+   "text": "Is n divided by 2 having a remainder of 0 or not?",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2793.63,
+   "end": 2795.91,
+   "text": "Like that is, by definition, a Boolean expression.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2795.91,
+   "end": 2799.75,
+   "text": "It has a yes, no answer, a true false answer.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2799.75,
+   "end": 2805.43,
+   "text": "Well, if your Boolean expression itself has a true or false answer,",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2805.43,
+   "end": 2808.87,
+   "text": "why are you asking a question in the first place?",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2808.87,
+   "end": 2810.39,
+   "text": "Why ask if?",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.026
+  },
+  {
+   "start": 2810.39,
+   "end": 2811.95,
+   "text": "Why say else?",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2811.95,
+   "end": 2817.31,
+   "text": "Just return the value of your own Boolean expression.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2817.31,
+   "end": 2821.75,
+   "text": "And perhaps the tightest version, the most succinct and still readable",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2821.75,
+   "end": 2824.95,
+   "text": "version of this code would be to delete this whole line,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2824.95,
+   "end": 2832.79,
+   "text": "Pythonic though it is, and just return n modulo 2 equals equals 0.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2832.79,
+   "end": 2835.75,
+   "text": "If it helps, let me add parentheses temporarily,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2835.75,
+   "end": 2839.07,
+   "text": "because what's going to happen in parentheses will happen first,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2839.07,
+   "end": 2844.27,
+   "text": "n divided by 2 either does or does not have a remainder of 0.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2844.27,
+   "end": 2846.19,
+   "text": "If it does, the answer is true.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2846.19,
+   "end": 2848.19,
+   "text": "If it doesn't, the answer is false.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2848.19,
+   "end": 2851.35,
+   "text": "So just return the question, if you will.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2851.35,
+   "end": 2855.19,
+   "text": "You don't need to wrap it explicitly with an if and an else.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2855.19,
+   "end": 2857.83,
+   "text": "And in fact, because of order of operations,",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2857.83,
+   "end": 2859.67,
+   "text": "you don't even need the parentheses.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2859.67,
+   "end": 2863.03,
+   "text": "So now this is perhaps the most elegant way",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2863.03,
+   "end": 2865.51,
+   "text": "to implement this same idea.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2865.51,
+   "end": 2866.67,
+   "text": "Now, which is better?",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2866.67,
+   "end": 2867.83,
+   "text": "This is pretty darn good.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 2867.83,
+   "end": 2871.07,
+   "text": "And it's hard to take fault with this because it's so very succinct.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2871.07,
+   "end": 2876.59,
+   "text": "But it's perfectly OK and just as correct to have an if and then an else,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2876.59,
+   "end": 2880.43,
+   "text": "even though it might be four total lines, if that helps you think about your code",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2880.43,
+   "end": 2884.19,
+   "text": "more clearly and it helps other people reason about it as well.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2884.19,
+   "end": 2886.55,
+   "text": "So it turns out there's another syntax that you",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2886.55,
+   "end": 2888.95,
+   "text": "can use to implement the same idea of a conditional,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2888.95,
+   "end": 2892.95,
+   "text": "whereby you do something optionally based on the answer to some Boolean",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2892.95,
+   "end": 2893.87,
+   "text": "expression.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2893.87,
+   "end": 2897.15,
+   "text": "And the keyword that you can now use in recent versions of Python",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2897.15,
+   "end": 2898.63,
+   "text": "is called this match.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2898.63,
+   "end": 2901.03,
+   "text": "Match is a mechanism that, if you've programmed before,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2901.03,
+   "end": 2904.51,
+   "text": "is similar in spirit to something called switch in other languages.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2904.51,
+   "end": 2908.03,
+   "text": "For instance, let me go ahead here and close out parity.py.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2908.03,
+   "end": 2911.99,
+   "text": "And let me go ahead and create a new file called house.py.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2911.99,
+   "end": 2914.03,
+   "text": "And in house.py, I think what we're going to do",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2914.03,
+   "end": 2917.39,
+   "text": "is try to implement a program that prompts the user for their name",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2917.39,
+   "end": 2920.27,
+   "text": "and then just outputs what house they're known to be in the world",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2920.27,
+   "end": 2921.15,
+   "text": "of Harry Potter.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2921.15,
+   "end": 2923.11,
+   "text": "So for instance, let me go ahead and do this.",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2923.11,
+   "end": 2925.27,
+   "text": "Let me give myself a variable called name,",
+   "avg_logprob": -0.133,
+   "no_speech_prob": 0.029
+  },
+  {
+   "start": 2925.27,
+   "end": 2927.91,
+   "text": "set it equal to the return value of the input function.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2927.91,
+   "end": 2929.91,
+   "text": "And I'll say something like, what's your name?",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2929.91,
+   "end": 2931.15,
+   "text": "Question mark.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2931.15,
+   "end": 2934.83,
+   "text": "And then after that, I'm just going to use a traditional if l,",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2934.83,
+   "end": 2938.27,
+   "text": "if else construct to decide what house this person is in.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2938.27,
+   "end": 2942.95,
+   "text": "So let me say, if name equals equals, say Harry, as in Harry Potter.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2942.95,
+   "end": 2946.35,
+   "text": "Well, let's go ahead and print out Harry's house, which is Gryffindor",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2946.35,
+   "end": 2948.35,
+   "text": "in the world of Harry Potter.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2948.35,
+   "end": 2952.91,
+   "text": "l, if the name is instead Hermione, then go ahead and print out",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2952.91,
+   "end": 2956.99,
+   "text": "Also, quote unquote, Gryffindor, as she's in the same house, too.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2956.99,
+   "end": 2959.35,
+   "text": "Elif name equals equals Ron.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2959.35,
+   "end": 2963.55,
+   "text": "Let's go ahead and similarly print out Gryffindor, quote unquote.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2963.55,
+   "end": 2965.63,
+   "text": "And let's make this a little more interesting now.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2965.63,
+   "end": 2969.27,
+   "text": "Elif name equals quote unquote, how about Draco?",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2969.27,
+   "end": 2970.91,
+   "text": "Draco Malfoy in the books.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2970.91,
+   "end": 2973.99,
+   "text": "Let's go ahead and print out, quote unquote, Slytherin.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2973.99,
+   "end": 2977.19,
+   "text": "And just in case someone else's name gets inputted for now,",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2977.19,
+   "end": 2980.95,
+   "text": "let's just suppose that we don't recognize them and say, by default,",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.068
+  },
+  {
+   "start": 2980.95,
+   "end": 2983.33,
+   "text": "else print out, quote unquote, who?",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2983.33,
+   "end": 2985.35,
+   "text": "Question mark, just to convey that we don't actually",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2985.35,
+   "end": 2988.19,
+   "text": "have a hard-coded response to that particular name.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2988.19,
+   "end": 2992.95,
+   "text": "Let me go ahead now and run this as Python of house.py enter.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2992.95,
+   "end": 2994.87,
+   "text": "And I'll go ahead and type in something like Harry.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2994.87,
+   "end": 2997.43,
+   "text": "And while we see that Harry is indeed in Gryffindor,",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2997.43,
+   "end": 2998.83,
+   "text": "let's run it one more time.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 2998.83,
+   "end": 3000.07,
+   "text": "Python of house.py.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 3000.07,
+   "end": 3001.83,
+   "text": "Let's type in Draco this time.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 3001.83,
+   "end": 3002.59,
+   "text": "Slytherin.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 3002.59,
+   "end": 3005.19,
+   "text": "And now let's type in an unrecognized name.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 3005.19,
+   "end": 3007.75,
+   "text": "Let's go ahead and rerun Python of house.py.",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 3007.75,
+   "end": 3010.67,
+   "text": "And let's go ahead and type in Padma enter and who?",
+   "avg_logprob": -0.163,
+   "no_speech_prob": 0.109
+  },
+  {
+   "start": 3010.67,
+   "end": 3013.79,
+   "text": "because we haven't actually hard-coded with an LIF condition,",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3013.79,
+   "end": 3017.03,
+   "text": "in this case, what house Padma is meant to be in.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3017.03,
+   "end": 3019.83,
+   "text": "All right, well, it turns out there's other ways to implement this.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3019.83,
+   "end": 3022.19,
+   "text": "Indeed, there's some redundancy here in that we're",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3022.19,
+   "end": 3026.07,
+   "text": "checking if Harry or Hermione or Ron are all in Gryffindor.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3026.07,
+   "end": 3028.75,
+   "text": "I feel like we can at least tighten this code up a little bit using",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3028.75,
+   "end": 3030.31,
+   "text": "techniques we've seen already.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3030.31,
+   "end": 3031.63,
+   "text": "So let me go ahead and do this.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3031.63,
+   "end": 3034.35,
+   "text": "Let me go up here and instead do something like this.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3034.35,
+   "end": 3038.27,
+   "text": "Let's get rid of these two blocks of LIFs, leaving just Harry's",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 3038.27,
+   "end": 3040.83,
+   "text": "for a moment, and let's use that or keyword again.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3040.83,
+   "end": 3044.71,
+   "text": "And say or name equals equals quote unquote Hermione,",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3044.71,
+   "end": 3049.91,
+   "text": "or name equals quote unquote Ron, thereby consolidating all three cases,",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3049.91,
+   "end": 3052.47,
+   "text": "if you will, into just one if statement.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3052.47,
+   "end": 3054.67,
+   "text": "Then we still have a separate L if for Draco,",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3054.67,
+   "end": 3057.47,
+   "text": "because he's not, in fact, in Gryffindor, and then the final else",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3057.47,
+   "end": 3059.03,
+   "text": "to catch anyone else.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3059.03,
+   "end": 3061.83,
+   "text": "All right, let me go ahead now and run this version of the program,",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3061.83,
+   "end": 3063.43,
+   "text": "Python of house.py.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3063.43,
+   "end": 3065.67,
+   "text": "I'll type in Hermione this time.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3065.67,
+   "end": 3067.11,
+   "text": "She too is still in Gryffindor.",
+   "avg_logprob": -0.177,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 3067.11,
+   "end": 3068.35,
+   "text": "Let me try it with Ron.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3068.35,
+   "end": 3070.91,
+   "text": "And that too still seems to be correct.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3070.91,
+   "end": 3073.11,
+   "text": "Well, it turns out there's another approach all together",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3073.11,
+   "end": 3076.07,
+   "text": "that can perhaps make your code a little less verbose.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3076.07,
+   "end": 3078.83,
+   "text": "You could imagine how complicated this code might",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3078.83,
+   "end": 3081.19,
+   "text": "get if we had not just Harry and Hermione and Ron,",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3081.19,
+   "end": 3084.63,
+   "text": "but a whole bunch of other names as well for Gryffindor, for Slytherin,",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3084.63,
+   "end": 3086.59,
+   "text": "and for all of the other Hogwarts houses.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3086.59,
+   "end": 3090.19,
+   "text": "So you could imagine that code just getting pretty unwieldy, pretty fast.",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3090.19,
+   "end": 3092.27,
+   "text": "Well, it turns out another technique you can use is indeed",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3092.27,
+   "end": 3094.95,
+   "text": "this keyword called match, which is very similar in spirit,",
+   "avg_logprob": -0.153,
+   "no_speech_prob": 0.067
+  },
+  {
+   "start": 3094.95,
+   "end": 3098.15,
+   "text": "but the syntax is different and allows you to express the same ideas",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3098.15,
+   "end": 3099.75,
+   "text": "a little more compactly.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3099.75,
+   "end": 3102.75,
+   "text": "So let me go back to house.py and let me propose",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3102.75,
+   "end": 3107.23,
+   "text": "that I get rid of my current if-lif-else approach and instead do this.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3107.23,
+   "end": 3111.59,
+   "text": "Literally use the keyword match and type the name of the variable or value",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3111.59,
+   "end": 3113.23,
+   "text": "that we want to match on.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3113.23,
+   "end": 3115.27,
+   "text": "And then I'm going to go ahead and include a colon.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3115.27,
+   "end": 3119.87,
+   "text": "And then underneath that, I'm going to include literally a keyword called case.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3119.87,
+   "end": 3122.47,
+   "text": "And the first case I want to consider is going to be Harry.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 3122.47,
+   "end": 3125.75,
+   "text": "And I'm going to put Harry in quotes because it's a string or a stir.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3125.75,
+   "end": 3128.55,
+   "text": "And I'm going to have another colon at the end of this line.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3128.55,
+   "end": 3131.87,
+   "text": "And indented under that one, I'm going to go ahead and for now print out",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3131.87,
+   "end": 3134.19,
+   "text": "Gryffindor, which of course is Harry's house.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3134.19,
+   "end": 3137.71,
+   "text": "Otherwise, I'm going to have another case for quote unquote Hermione.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3137.71,
+   "end": 3141.91,
+   "text": "And similarly, I'm going to have under that indented print quote unquote",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3141.91,
+   "end": 3143.79,
+   "text": "Gryffindor, close quote.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3143.79,
+   "end": 3147.79,
+   "text": "Now I'm going to have another case for Ron, also in quotes with a colon.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3147.79,
+   "end": 3150.19,
+   "text": "Now print quote unquote Gryffindor.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 3150.19,
+   "end": 3153.27,
+   "text": "And now, I'm going to have a other case for, let's say, Draco.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3153.27,
+   "end": 3156.15,
+   "text": "This one gets a little more interesting because Draco, of course, now",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3156.15,
+   "end": 3158.03,
+   "text": "is in Slytherin.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3158.03,
+   "end": 3161.07,
+   "text": "And then I'm going to go ahead and leave it as that for now.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3161.07,
+   "end": 3164.11,
+   "text": "So let me go ahead and save this file and go back down to my terminal window,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3164.11,
+   "end": 3167.07,
+   "text": "running python of house.py enter.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3167.07,
+   "end": 3168.71,
+   "text": "And let's go ahead and try Harry.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3168.71,
+   "end": 3170.15,
+   "text": "And he seems still to be in Gryffindor.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3170.15,
+   "end": 3172.23,
+   "text": "Let's run it again for Hermione.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3172.23,
+   "end": 3172.99,
+   "text": "Enter.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3172.99,
+   "end": 3173.59,
+   "text": "Gryffindor.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3173.59,
+   "end": 3176.95,
+   "text": "Let's skip ahead to Draco and type in Draco's name.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3176.95,
+   "end": 3177.95,
+   "text": "He's indeed in Slytherin.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 3177.95,
+   "end": 3181.51,
+   "text": "Now let's try another name that we haven't handled a case for,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3181.51,
+   "end": 3184.59,
+   "text": "like Padma again, Enter, and we're just ignored.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3184.59,
+   "end": 3187.83,
+   "text": "There's no output whatsoever because there wasn't a case for Padma.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3187.83,
+   "end": 3191.63,
+   "text": "Now we could, of course, go back in and explicitly add one for Padma.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3191.63,
+   "end": 3194.51,
+   "text": "But what if we, similarly to the else construct,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3194.51,
+   "end": 3197.43,
+   "text": "just want kind of a catch-all that handles anyone whose name is not",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3197.43,
+   "end": 3198.87,
+   "text": "explicitly specified?",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3198.87,
+   "end": 3202.31,
+   "text": "Well, turns out the syntax for that, using this new match statement,",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3202.31,
+   "end": 3206.43,
+   "text": "is to still have another case, but then to use this single underscore",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 3206.43,
+   "end": 3208.55,
+   "text": "character, which is used in other contexts in Python.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3208.55,
+   "end": 3212.55,
+   "text": "But for here, it's meant to say, whatever case has not yet been handled,",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3212.55,
+   "end": 3216.31,
+   "text": "go ahead and print out, as we did before, for instance, quote unquote,",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3216.31,
+   "end": 3218.87,
+   "text": "who with a question mark at the end.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3218.87,
+   "end": 3220.87,
+   "text": "Now let's go ahead and rerun this.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3220.87,
+   "end": 3223.91,
+   "text": "Python of house.py, I'll type Padma's name again.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3223.91,
+   "end": 3225.51,
+   "text": "And this time, I think we're at least going",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3225.51,
+   "end": 3228.43,
+   "text": "to get an explicit response indicating who,",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3228.43,
+   "end": 3231.19,
+   "text": "whereas previously we did not have the equivalent of that.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3231.19,
+   "end": 3233.51,
+   "text": "Now I think we've regressed a little bit.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.081
+  },
+  {
+   "start": 3233.51,
+   "end": 3235.83,
+   "text": "We went from tightening things up by putting",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3235.83,
+   "end": 3239.79,
+   "text": "Harry and Hermione and Ron all on the same line and the same if statement.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3239.79,
+   "end": 3243.39,
+   "text": "But here we have now three case statements, again, for all three of those.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3243.39,
+   "end": 3246.03,
+   "text": "Well, we can tighten this code up as well.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3246.03,
+   "end": 3248.27,
+   "text": "But the syntax is going to be a little bit different.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3248.27,
+   "end": 3252.43,
+   "text": "I'm going to go ahead and delete these two middle cases for Hermione and Ron.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3252.43,
+   "end": 3255.35,
+   "text": "And then up here next to Harry's name, before the colon,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3255.35,
+   "end": 3258.43,
+   "text": "I'm going to go ahead and use a single vertical bar and then a quote",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3258.43,
+   "end": 3263.31,
+   "text": "unquote Hermione, then another single bar and do quote unquote Ron.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3263.31,
+   "end": 3266.29,
+   "text": "And this is how, using this relatively new match statement,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3266.29,
+   "end": 3270.45,
+   "text": "you can say the equivalent of Harry or Hermione or Ron,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3270.45,
+   "end": 3274.13,
+   "text": "but more concisely than you could using an if statement alone",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3274.13,
+   "end": 3276.01,
+   "text": "as we implemented it previously.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3276.01,
+   "end": 3280.41,
+   "text": "So now, one final run of the program with Python of house.py.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3280.41,
+   "end": 3282.69,
+   "text": "Let's make sure that Harry is still in Gryffindor.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3282.69,
+   "end": 3285.09,
+   "text": "Let's make sure that Hermione is still in Gryffindor.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3285.09,
+   "end": 3287.05,
+   "text": "Let's make sure that Ron is still in Gryffindor.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3287.05,
+   "end": 3289.09,
+   "text": "And indeed, all three of them are.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3289.09,
+   "end": 3291.89,
+   "text": "Now, as always with Python and programming more generally,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 3291.89,
+   "end": 3294.41,
+   "text": "There's going to be different ways you can solve these problems.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3294.41,
+   "end": 3296.45,
+   "text": "This is just another tool on your toolkit.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3296.45,
+   "end": 3298.29,
+   "text": "Arguably, it has tightened things up.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3298.29,
+   "end": 3300.25,
+   "text": "Arguably, it's perhaps a little more readable",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3300.25,
+   "end": 3302.61,
+   "text": "because there's a little less syntax going on,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3302.61,
+   "end": 3306.17,
+   "text": "a little less duplication of equal signs and elif and elif",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3306.17,
+   "end": 3307.53,
+   "text": "and elif all over the place.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3307.53,
+   "end": 3310.37,
+   "text": "But ultimately, this would be an equally correct approach",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3310.37,
+   "end": 3311.85,
+   "text": "to that same problem.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3311.85,
+   "end": 3313.57,
+   "text": "But it turns out with the match statement,",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3313.57,
+   "end": 3316.49,
+   "text": "you can do even more powerful forms of matching as well.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3316.49,
+   "end": 3319.21,
+   "text": "Here, we've used it to implement the same idea",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3319.21,
+   "end": 3321.65,
+   "text": "as that if elif else construct.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.206
+  },
+  {
+   "start": 3321.65,
+   "end": 3324.77,
+   "text": "And it's worth noting, if you've programmed in some other language,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3324.77,
+   "end": 3326.25,
+   "text": "the syntax here is indeed correct.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3326.25,
+   "end": 3328.65,
+   "text": "You do not need, for instance, a break statement,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3328.65,
+   "end": 3330.13,
+   "text": "as has been peppered throughout.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3330.13,
+   "end": 3333.13,
+   "text": "And you don't need something like default or something explicit.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3333.13,
+   "end": 3337.85,
+   "text": "You indeed just use this underscore as your catch all at the end of the match.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3337.85,
+   "end": 3341.41,
+   "text": "So just by adding in some of these new keywords here,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3341.41,
+   "end": 3344.81,
+   "text": "like if, and l, if, and else, we have now",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3344.81,
+   "end": 3347.37,
+   "text": "the ability to ask questions about values.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3347.37,
+   "end": 3350.17,
+   "text": "We have the ability to analyze input from users",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.011
+  },
+  {
+   "start": 3350.17,
+   "end": 3352.21,
+   "text": "and ultimately make decisions about it.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3352.21,
+   "end": 3354.85,
+   "text": "And these, then, were our conditionals.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3354.85,
+   "end": 3357.09,
+   "text": "Lying ahead is going to be the ability for us",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3357.09,
+   "end": 3359.41,
+   "text": "to not only use functions and variables, and also",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3359.41,
+   "end": 3361.77,
+   "text": "with these conditionals, but also next loops,",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 3361.77,
+   "end": 3366.41,
+   "text": "the ability to do something now, again and again.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.007
+  }
+ ]
+}

@@ -1,0 +1,6567 @@
+{
+ "lesson_id": "cs50p-l3",
+ "title": "Exceptions",
+ "youtube": "LW7g1169v7w",
+ "license": "CC BY-NC-SA 4.0",
+ "stats": {
+  "audio_sec": 2675.4,
+  "elapsed_sec": 726.6,
+  "speed_x_realtime": 3.68,
+  "model": "small",
+  "compute_type": "int8"
+ },
+ "segments": [
+  {
+   "start": 24.66,
+   "end": 28.78,
+   "text": "All right, this is CS50's Introduction to Programming with Python.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 28.78,
+   "end": 29.82,
+   "text": "My name is David Malin.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 29.82,
+   "end": 31.98,
+   "text": "And this is our week on exceptions.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 31.98,
+   "end": 35.1,
+   "text": "Exceptions in Python, as well as in other programming languages,",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 35.1,
+   "end": 37.3,
+   "text": "refer to problems in your code.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 37.3,
+   "end": 39.82,
+   "text": "Indeed, when something is exceptional in your program,",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 39.82,
+   "end": 41.86,
+   "text": "it actually doesn't mean it's a good thing.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 41.86,
+   "end": 45.54,
+   "text": "It means something has gone wrong that ideally you will somehow solve.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 45.54,
+   "end": 47.54,
+   "text": "So what are some of the things that can go wrong?",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 47.54,
+   "end": 50.62,
+   "text": "So I'm going to go ahead and open up VS Code on my computer here.",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 50.62,
+   "end": 53.3,
+   "text": "And in the terminal window, I'm going to go ahead and run code",
+   "avg_logprob": -0.159,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 53.3,
+   "end": 54.86,
+   "text": "of hello.py.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 54.86,
+   "end": 57.22,
+   "text": "That's going to, of course, open up a brand new tab for me,",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 57.22,
+   "end": 59.42,
+   "text": "hello.py, in which I can write my code.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 59.42,
+   "end": 61.62,
+   "text": "And let me go ahead and write some very simple code just",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 61.62,
+   "end": 63.3,
+   "text": "to say hello to the world.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 63.3,
+   "end": 68.38,
+   "text": "Let's go ahead and say print, quote, hello, comma, world.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 68.38,
+   "end": 72.46,
+   "text": "And then let me go ahead and I'm forgetting to close that quote.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 72.46,
+   "end": 74.98,
+   "text": "So a mistake that you yourself might have already made or might",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 74.98,
+   "end": 77.74,
+   "text": "surely in the future make, and it's a little subtle because you",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 77.74,
+   "end": 80.74,
+   "text": "might not necessarily notice that you just missed that one character.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.054
+  },
+  {
+   "start": 80.74,
+   "end": 83.5,
+   "text": "Well, let me go ahead and, somewhat optimistically,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 83.5,
+   "end": 88.46,
+   "text": "go down to my terminal window now and run Python of hello.py and hit Enter.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 88.46,
+   "end": 90.02,
+   "text": "And that's the first of my errors.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 90.02,
+   "end": 91.9,
+   "text": "My gosh, I've only written one line of code,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 91.9,
+   "end": 94.5,
+   "text": "and I seem to have more lines of errors on the screen.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 94.5,
+   "end": 97.18,
+   "text": "But the salient point is this bottom most thing here.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 97.18,
+   "end": 99.1,
+   "text": "Notice where it says syntax error.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 99.1,
+   "end": 103.18,
+   "text": "Syntax error is a problem with the code that you have typed, your syntax.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 103.18,
+   "end": 106.66,
+   "text": "Just like English and other human languages have syntax associated with them,",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 106.66,
+   "end": 107.86,
+   "text": "so does my code.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 107.86,
+   "end": 109.18,
+   "text": "And it's not quite correct.",
+   "avg_logprob": -0.129,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 109.18,
+   "end": 110.42,
+   "text": "Something is awry.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 110.42,
+   "end": 112.54,
+   "text": "I didn't follow the instructions properly.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 112.54,
+   "end": 116.18,
+   "text": "And it does elaborate for me, unterminated string literal.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 116.18,
+   "end": 117.42,
+   "text": "Now, that's a bit arcane.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 117.42,
+   "end": 119.5,
+   "text": "That is a bit of a confusing error message.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 119.5,
+   "end": 122.74,
+   "text": "But unterminated would generally mean that I started something,",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 122.74,
+   "end": 124.02,
+   "text": "but didn't stop it.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 124.02,
+   "end": 125.26,
+   "text": "I didn't terminate it.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 125.26,
+   "end": 127.3,
+   "text": "String, of course, is a sequence of text",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 127.3,
+   "end": 129.94,
+   "text": "like we discussed before, or stir in Python.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 129.94,
+   "end": 133.06,
+   "text": "And literal generally refers to something that you literally typed.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 133.06,
+   "end": 134.22,
+   "text": "It's not a variable.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 134.22,
+   "end": 138.3,
+   "text": "It's something like quote unquote, or just quote, hello world.",
+   "avg_logprob": -0.145,
+   "no_speech_prob": 0.047
+  },
+  {
+   "start": 138.3,
+   "end": 143.24,
+   "text": "So the fix here, of course, is going to be to go ahead and terminate that string",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 143.24,
+   "end": 144.72,
+   "text": "and actually close the quote.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 144.72,
+   "end": 147.32,
+   "text": "And if I now go back down into my terminal window",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 147.32,
+   "end": 151.96,
+   "text": "and rerun Python of hello.py, now I'm saying hello to the world.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 151.96,
+   "end": 156.52,
+   "text": "So the catch with syntax errors here is that syntax errors are entirely",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 156.52,
+   "end": 157.6,
+   "text": "on you to solve.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 157.6,
+   "end": 160.6,
+   "text": "A syntax error is a problem that you've got to go back into your code",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 160.6,
+   "end": 161.88,
+   "text": "and fix from the get-go.",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 161.88,
+   "end": 164.96,
+   "text": "You can't just kind of hope that it's going to resolve itself",
+   "avg_logprob": -0.107,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 164.96,
+   "end": 168.32,
+   "text": "or expect that other parts of your code will catch it for you.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 168.32,
+   "end": 170.8,
+   "text": "Syntax errors just must be fixed.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 170.8,
+   "end": 173.4,
+   "text": "But there's a lot of other types of errors in Python",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 173.4,
+   "end": 178.04,
+   "text": "that might be described as runtime errors that happen while your code is running.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 178.04,
+   "end": 181.84,
+   "text": "And it's really up to you to write some additional code defensively",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 181.84,
+   "end": 184.08,
+   "text": "to detect when those errors happen.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 184.08,
+   "end": 187.12,
+   "text": "Because you don't necessarily know, for instance, what input humans",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 187.12,
+   "end": 188.68,
+   "text": "are going to type into your program.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 188.68,
+   "end": 191.8,
+   "text": "And so you better be ready defensively to accommodate things",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 191.8,
+   "end": 194.04,
+   "text": "that they type or even mistype.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 194.04,
+   "end": 197.32,
+   "text": "So for instance, let's go back over here to VS Code.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 197.32,
+   "end": 200.76,
+   "text": "And let me propose that we take a look at a new file altogether.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 200.76,
+   "end": 206.24,
+   "text": "I'm going to close hello.py, and I'm going to write code of, say, number.py.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 206.24,
+   "end": 208.88,
+   "text": "So let's play around with some numbers in Python.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 208.88,
+   "end": 212.72,
+   "text": "And the first thing I'm going to go ahead here and do with number.py",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 212.72,
+   "end": 214.8,
+   "text": "after opening this new tab is I think I'm",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 214.8,
+   "end": 218.28,
+   "text": "going to go ahead and type up a relatively simple program that",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 218.28,
+   "end": 221.24,
+   "text": "maybe prompts the user for an integer, like x,",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 221.24,
+   "end": 222.96,
+   "text": "and then just prints out what x is.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 222.96,
+   "end": 226.0,
+   "text": "So we're going to start super simple, but again, in starting simple,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 226.0,
+   "end": 228.92,
+   "text": "we'll be able to really see where I've done something wrong.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 228.92,
+   "end": 229.6,
+   "text": "Well, here we go.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 229.6,
+   "end": 232.24,
+   "text": "I'm going to go ahead and say a variable called x",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 232.24,
+   "end": 237.72,
+   "text": "is going to get assigned the value of the return value of input, quote,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 237.72,
+   "end": 238.88,
+   "text": "unquote, what's x?",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 238.88,
+   "end": 239.76,
+   "text": "Question mark.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 239.76,
+   "end": 242.72,
+   "text": "And I'm going to include a space to move the cursor over a little bit.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 242.72,
+   "end": 245.64,
+   "text": "And then ultimately, I'm going to go ahead and, oh, wait a minute,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 245.64,
+   "end": 248.24,
+   "text": "if I'm wanting to get an int from the user,",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 248.24,
+   "end": 250.6,
+   "text": "recall that I need to do something proactively.",
+   "avg_logprob": -0.154,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 250.6,
+   "end": 256.12,
+   "text": "I need to actually convert that input to an integer using the int function in Python.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 256.12,
+   "end": 260.6,
+   "text": "So now I'm passing the return value of input as the argument to int.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 260.6,
+   "end": 265.08,
+   "text": "And that will store in x ultimately an integer, not a string that looks like an integer.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 265.08,
+   "end": 268.04,
+   "text": "All right, let me go ahead now and just quite simply print out what this is.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 268.04,
+   "end": 272.76,
+   "text": "I'm going to go ahead and print out quote unquote x is x.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 272.76,
+   "end": 275.0,
+   "text": "But I don't want to literally say x is x.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 275.0,
+   "end": 276.44,
+   "text": "I want to plug in the value of x.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 276.44,
+   "end": 280.28,
+   "text": "So maybe the easiest way to do that is to surround it with curly braces.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 280.28,
+   "end": 282.2,
+   "text": "And then if I'm using these curly braces,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 282.2,
+   "end": 285.8,
+   "text": "and I want Python to interpolate the value of that variable, that",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 285.8,
+   "end": 289.6,
+   "text": "is substitute what x actually is in between those curly braces,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 289.6,
+   "end": 292.2,
+   "text": "recall that I need to use a format string or an f string",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 292.2,
+   "end": 294.96,
+   "text": "by prefixing this whole thing with an f.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 294.96,
+   "end": 297.64,
+   "text": "Now that I've done that, let's go ahead and see what happens.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 297.64,
+   "end": 299.52,
+   "text": "I'm going to go ahead in my terminal window",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 299.52,
+   "end": 302.2,
+   "text": "and run Python of number.py.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 302.2,
+   "end": 303.8,
+   "text": "I hit Enter, and so far, so good.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 303.8,
+   "end": 305.72,
+   "text": "All is well, I'm being prompted for x.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 305.72,
+   "end": 308.68,
+   "text": "Let me go ahead and type in a number, like 50.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 308.68,
+   "end": 309.88,
+   "text": "All right, that seems to work.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 309.88,
+   "end": 312.68,
+   "text": "The program seems to be correct.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 312.68,
+   "end": 314.8,
+   "text": "Or is it?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 314.8,
+   "end": 319.64,
+   "text": "What could go wrong in this program, even though nothing did just go wrong?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 319.64,
+   "end": 324.2,
+   "text": "But if I run it and run it and run it again during the running of my program,",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 324.2,
+   "end": 328.88,
+   "text": "what could still go wrong, especially if I'm not the human interacting with it,",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 328.88,
+   "end": 331.0,
+   "text": "but some other human instead?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 331.0,
+   "end": 334.0,
+   "text": "Any volunteers here for this one?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 334.0,
+   "end": 335.8,
+   "text": "What could go wrong?",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 335.8,
+   "end": 340.04,
+   "text": "And in what way is this program not really correct?",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 340.04,
+   "end": 343.44,
+   "text": "Even though at first glance, it seems so.",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 343.44,
+   "end": 345.6,
+   "text": "What is an interpreter?",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 345.6,
+   "end": 353.0,
+   "text": "When we code in an integrated ID, we can't code in an interpreter.",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 353.0,
+   "end": 354.72,
+   "text": "So I'm not calling an integer.",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 354.72,
+   "end": 356.16,
+   "text": "I'm still having trouble hearing you.",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 356.16,
+   "end": 359.0,
+   "text": "But what I think I heard is that if what the user types in",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 359.0,
+   "end": 363.92,
+   "text": "is not, in fact, an integer, I can't just blindly convert it to an int.",
+   "avg_logprob": -0.243,
+   "no_speech_prob": 0.038
+  },
+  {
+   "start": 363.92,
+   "end": 365.88,
+   "text": "If I'm not putting too many words into your mouth,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 365.88,
+   "end": 370.88,
+   "text": "I think what I should perhaps do here is be a little defensive.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 370.88,
+   "end": 374.8,
+   "text": "And let me see if I can't simulate exactly the problem that could go wrong here.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 374.8,
+   "end": 378.08,
+   "text": "Let me go ahead and run, again, Python of number.py.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 378.08,
+   "end": 379.12,
+   "text": "Let me try another number.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 379.12,
+   "end": 381.32,
+   "text": "And in fact, when testing your code, generally",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 381.32,
+   "end": 383.34,
+   "text": "it's a good idea to test corner cases.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 383.34,
+   "end": 388.16,
+   "text": "Maybe numbers that aren't quite as plain as 50, or 49, or 51.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 388.16,
+   "end": 390.56,
+   "text": "Let's choose some numbers that might be a little more interesting",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 390.56,
+   "end": 392.72,
+   "text": "if only mathematically, like 0.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 392.72,
+   "end": 394.08,
+   "text": "All right, 0 seems to work.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 394.08,
+   "end": 395.88,
+   "text": "My code still prints out that x is 0.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 395.88,
+   "end": 398.04,
+   "text": "What might be another corner case to consider?",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 398.04,
+   "end": 399.92,
+   "text": "Well, let me go ahead and try a negative number.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 399.92,
+   "end": 402.8,
+   "text": "That, too, is pretty different in spirit from 50.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 402.8,
+   "end": 403.8,
+   "text": "Negative 1?",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 403.8,
+   "end": 404.88,
+   "text": "OK, that works, too.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 404.88,
+   "end": 406.44,
+   "text": "Well, let me try it one more time.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 406.44,
+   "end": 409.12,
+   "text": "I've tried positive numbers, negative number 0.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 409.12,
+   "end": 410.96,
+   "text": "Let me try something like a cat.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 410.96,
+   "end": 415.08,
+   "text": "So literally, C-A-T, typing in a string that doesn't even look",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 415.08,
+   "end": 416.2,
+   "text": "like a number.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 416.2,
+   "end": 419.04,
+   "text": "And yet, let's see now what happens when I hit Enter.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 419.04,
+   "end": 421.6,
+   "text": "All right, we'll see now we've got another kind of error.",
+   "avg_logprob": -0.144,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 421.6,
+   "end": 425.36,
+   "text": "It's not a syntax error, because I didn't make a typographical mistake.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 425.36,
+   "end": 427.8,
+   "text": "I didn't forget some piece of syntax.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 427.8,
+   "end": 431.72,
+   "text": "I actually now have an error with one of my values, and it's a value.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 431.72,
+   "end": 434.36,
+   "text": "I didn't even anticipate the human, me in this case,",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 434.36,
+   "end": 437.28,
+   "text": "typed it in long after I wrote the code.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 437.28,
+   "end": 438.56,
+   "text": "So what does this refer to?",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 438.56,
+   "end": 439.6,
+   "text": "A value error.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 439.6,
+   "end": 441.44,
+   "text": "Well, let's see what the explanation is.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 441.44,
+   "end": 445.6,
+   "text": "Invalid literal for int with base 10, quote unquote, cat.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 445.6,
+   "end": 447.04,
+   "text": "Now, this too is a bit of a mouthful.",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 447.04,
+   "end": 450.0,
+   "text": "And unfortunately, in Python and a lot of programming languages,",
+   "avg_logprob": -0.149,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 450.0,
+   "end": 452.94,
+   "text": "The error messages are written for pretty comfortable programmers.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 452.94,
+   "end": 455.68,
+   "text": "And of course, when you're learning programming for the first time,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 455.68,
+   "end": 458.24,
+   "text": "you might not be so comfortable with the programming language,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 458.24,
+   "end": 459.92,
+   "text": "let alone the error messages.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 459.92,
+   "end": 462.48,
+   "text": "But let's see if we can't glean some insight.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 462.48,
+   "end": 463.84,
+   "text": "So invalid literal.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 463.84,
+   "end": 466.64,
+   "text": "Well, again, a literal is just something that's been typed in,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 466.64,
+   "end": 468.44,
+   "text": "it would seem, for int.",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 468.44,
+   "end": 470.24,
+   "text": "What is int exactly?",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 470.24,
+   "end": 473.56,
+   "text": "Well, int is the function I'm using to convert the user's input",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 473.56,
+   "end": 477.76,
+   "text": "to a corresponding integer, base 10, that refers to the decimal system,",
+   "avg_logprob": -0.142,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 477.76,
+   "end": 480.16,
+   "text": "which is the default that Python's using.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 480.16,
+   "end": 483.04,
+   "text": "And it looks like at the end of the day, what Python really doesn't like",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 483.04,
+   "end": 487.68,
+   "text": "is that I passed cat, quote unquote, to the int function.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 487.68,
+   "end": 490.92,
+   "text": "So how do I go about actually fixing this problem?",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 490.92,
+   "end": 494.08,
+   "text": "Well, I could just add instructions in my program.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 494.08,
+   "end": 497.08,
+   "text": "Maybe I could add a line of print telling the user more explicitly,",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 497.08,
+   "end": 498.84,
+   "text": "be sure to type an integer.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 498.84,
+   "end": 500.24,
+   "text": "Or please don't type cat.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 500.24,
+   "end": 501.84,
+   "text": "Please don't type strings.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 501.84,
+   "end": 503.72,
+   "text": "Of course, the user might still not oblige.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 503.72,
+   "end": 505.52,
+   "text": "They might not be reading the instructions.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 505.52,
+   "end": 507.6,
+   "text": "So that too is probably not an effective strategy.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.03
+  },
+  {
+   "start": 507.6,
+   "end": 511.36,
+   "text": "What we really want to do is write our code with error handling in mind.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 511.36,
+   "end": 514.96,
+   "text": "We want to write lines of code that not only accomplish the problems we care about,",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 514.96,
+   "end": 519.36,
+   "text": "but that also handle errors that might unexpectedly happen.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 519.36,
+   "end": 522.0,
+   "text": "And in general, when programming, programming defensively,",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 522.0,
+   "end": 524.36,
+   "text": "assume that the users aren't going to be paying attention.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 524.36,
+   "end": 525.8,
+   "text": "Or worse, they're malicious.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 525.8,
+   "end": 528.24,
+   "text": "They're trying to crash your program, so we",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 528.24,
+   "end": 530.52,
+   "text": "want to handle as many errors as we can.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 530.52,
+   "end": 532.52,
+   "text": "Now, how do we go about doing that in Python?",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 532.52,
+   "end": 535.96,
+   "text": "Well, it turns out whether you want to catch a value error",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 535.96,
+   "end": 539.4,
+   "text": "or other types of errors as well, though not syntax error,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 539.4,
+   "end": 541.68,
+   "text": "Python actually has this keyword called try.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 541.68,
+   "end": 542.92,
+   "text": "And it's sort of aptly named.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 542.92,
+   "end": 545.84,
+   "text": "If you want to try to do something in Python,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 545.84,
+   "end": 547.88,
+   "text": "you can literally use this keyword.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 547.88,
+   "end": 551.44,
+   "text": "And you can check whether or not something exceptional, something",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 551.44,
+   "end": 553.12,
+   "text": "erroneous, has happened.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 553.12,
+   "end": 556.32,
+   "text": "So using both try and this other keyword, except,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 556.32,
+   "end": 560.64,
+   "text": "can I go and try to do something, except if something goes wrong,",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 560.64,
+   "end": 562.48,
+   "text": "I can do something else instead.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.009
+  },
+  {
+   "start": 562.48,
+   "end": 565.2,
+   "text": "So let's consider how can I go about trying",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 565.2,
+   "end": 569.16,
+   "text": "to convert the user's input to an int, except if something goes wrong.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 569.16,
+   "end": 571.6,
+   "text": "Well, let me go back to my code here and let",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 571.6,
+   "end": 574.8,
+   "text": "me propose that I now modify this example as follows.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 574.8,
+   "end": 577.36,
+   "text": "Let me go ahead and above my first line of code,",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 577.36,
+   "end": 582.16,
+   "text": "I literally write try and a colon, telling Python, try to do the following.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 582.16,
+   "end": 585.24,
+   "text": "I'm going to go ahead and indent my existing lines of codes here",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 585.24,
+   "end": 587.8,
+   "text": "by the same number of spaces, four in this case.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 587.8,
+   "end": 590.08,
+   "text": "And then I'm going to add one more new line down here",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 590.08,
+   "end": 593.52,
+   "text": "that's literally says, except value error.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 593.52,
+   "end": 595.64,
+   "text": "And notice it's important that I've capitalized the v,",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 595.64,
+   "end": 597.36,
+   "text": "and I've capitalized the e.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 597.36,
+   "end": 599.64,
+   "text": "These symbols are case sensitive.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 599.64,
+   "end": 602.88,
+   "text": "And this is now an opportunity after this colon",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 602.88,
+   "end": 608.28,
+   "text": "to tell Python what I want to do in exceptional cases, when the number",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 608.28,
+   "end": 611.12,
+   "text": "or the input from the user is not, in fact, a number.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 611.12,
+   "end": 614.0,
+   "text": "And I'm going to say something plain like print quote unquote,",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 614.0,
+   "end": 615.8,
+   "text": "x is not an integer.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 615.8,
+   "end": 619.24,
+   "text": "I'm at least going to tell the user roughly what the problem actually",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 619.24,
+   "end": 619.88,
+   "text": "is.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 619.88,
+   "end": 621.08,
+   "text": "So notice another detail.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 621.08,
+   "end": 622.76,
+   "text": "The indentation is important.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 622.76,
+   "end": 626.6,
+   "text": "Because I have try on line 1, and I've indented lines 2 and 3,",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 626.6,
+   "end": 628.92,
+   "text": "those are the two lines of code that I'm trying.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 628.92,
+   "end": 633.0,
+   "text": "Except if I see a value error, line 5, because it's indented",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 633.0,
+   "end": 636.84,
+   "text": "is what is going to get executed in cases of those errors.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 636.84,
+   "end": 639.24,
+   "text": "Let me go ahead now back to my terminal window",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 639.24,
+   "end": 644.64,
+   "text": "and run Python of number dot pi enter.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 644.64,
+   "end": 647.32,
+   "text": "And let's go ahead and type in 50 again.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 647.32,
+   "end": 648.28,
+   "text": "Still seems to work.",
+   "avg_logprob": -0.137,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 648.28,
+   "end": 650.32,
+   "text": "And of course, I'm trying and succeeding.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 650.32,
+   "end": 651.6,
+   "text": "Let me go ahead and try once more.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 651.6,
+   "end": 654.2,
+   "text": "This time, though, with the word cat or really anything",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 654.2,
+   "end": 655.44,
+   "text": "that's not a decimal number.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 655.44,
+   "end": 659.72,
+   "text": "And now, you'll see much more cleanly, x is not an integer.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 659.72,
+   "end": 662.44,
+   "text": "I'm not seeing some scary error message that I of the user",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 662.44,
+   "end": 665.8,
+   "text": "am going to have no idea how to handle now you, the programmer,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 665.8,
+   "end": 668.44,
+   "text": "have anticipated that something exceptional can happen",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 668.44,
+   "end": 673.08,
+   "text": "and you've gone about actually handling the error for the user,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 673.08,
+   "end": 675.68,
+   "text": "giving them an appropriate error message instead.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 675.68,
+   "end": 676.72,
+   "text": "Let me pause here and see.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 676.72,
+   "end": 679.36,
+   "text": "Are there any questions now on what we've just",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 679.36,
+   "end": 685.84,
+   "text": "done by introducing try and accept to handle this value error?",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 685.84,
+   "end": 689.76,
+   "text": "Is value ever the only type of error you can get or are there other types?",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 689.76,
+   "end": 691.4,
+   "text": "Is value ever the only thing you can catch?",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 691.4,
+   "end": 692.56,
+   "text": "There are other errors as well.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 692.56,
+   "end": 693.96,
+   "text": "And we'll see a few of them today.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 693.96,
+   "end": 696.84,
+   "text": "And there's many, many more, honestly, that if you continue programming",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 696.84,
+   "end": 699.16,
+   "text": "and programming in Python, you're going to see a lot of them",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 699.16,
+   "end": 701.76,
+   "text": "over the weeks, the months, the years to come.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 701.76,
+   "end": 705.36,
+   "text": "But the technique for handling them is going to be largely the same.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 705.36,
+   "end": 709.68,
+   "text": "Other questions on try, accept, or these exceptions more generally?",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 709.68,
+   "end": 711.2,
+   "text": "Yes, sir.",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 711.2,
+   "end": 715.68,
+   "text": "Actually, to use the accept block, you need to know the type of error, right?",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 715.68,
+   "end": 717.68,
+   "text": "Like here, you knew it was a value error.",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 717.68,
+   "end": 721.52,
+   "text": "What if you can't anticipate this particular type of the error?",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 721.52,
+   "end": 722.64,
+   "text": "A really good question.",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 722.64,
+   "end": 726.48,
+   "text": "So I'm being very good about catching, so to speak,",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 726.48,
+   "end": 728.88,
+   "text": "the very error that I know might happen.",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 728.88,
+   "end": 730.76,
+   "text": "I don't know when it might happen, because it's",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 730.76,
+   "end": 731.96,
+   "text": "going to depend on the user.",
+   "avg_logprob": -0.216,
+   "no_speech_prob": 0.017
+  },
+  {
+   "start": 731.96,
+   "end": 735.4,
+   "text": "So what kind of error will happen from the int function?",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 735.4,
+   "end": 739.64,
+   "text": "There is a way in Python where you can say, except if anything goes wrong,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 739.64,
+   "end": 743.52,
+   "text": "and you can literally omit value error and just catch everything.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 743.52,
+   "end": 747.68,
+   "text": "The problem with that is that it sometimes hides other bugs in your code",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 747.68,
+   "end": 750.28,
+   "text": "because you don't necessarily know what's going wrong.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 750.28,
+   "end": 752.2,
+   "text": "And if you don't necessarily know what's going wrong,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 752.2,
+   "end": 754.24,
+   "text": "how can you possibly handle it correctly?",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 754.24,
+   "end": 755.56,
+   "text": "So bad practice.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 755.56,
+   "end": 757.6,
+   "text": "And put another way, it's lazy to do that.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 757.6,
+   "end": 760.36,
+   "text": "So just say catch everything, and I'll deal with it here.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.016
+  },
+  {
+   "start": 760.36,
+   "end": 763.9,
+   "text": "So a much better practice would be to figure out what kind of errors",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 763.9,
+   "end": 768.4,
+   "text": "could happen and include mention of them explicitly as I've done.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 768.4,
+   "end": 771.4,
+   "text": "Now with that said, if you read Python's official documentation",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 771.4,
+   "end": 773.68,
+   "text": "as you'll eventually invariably do, it",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 773.68,
+   "end": 778.24,
+   "text": "is not great about telling you proactively what kinds of errors",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 778.24,
+   "end": 780.56,
+   "text": "can be raised in this way.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 780.56,
+   "end": 783.28,
+   "text": "So it's a bit of contradictory advice.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 783.28,
+   "end": 785.6,
+   "text": "You should do it this way, but it's not always",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 785.6,
+   "end": 787.52,
+   "text": "obvious what you should be checking for.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 787.52,
+   "end": 789.48,
+   "text": "But you get better at it with practice.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 789.48,
+   "end": 792.84,
+   "text": "And some of the times the documentation does spell out what could go wrong.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 792.84,
+   "end": 795.32,
+   "text": "Let me turn our attention now back to this and point out",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 795.32,
+   "end": 799.8,
+   "text": "that even though this is better code, it is more correct in the sense",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 799.8,
+   "end": 801.72,
+   "text": "that I'm not just leaving it to the user to see",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 801.72,
+   "end": 804.72,
+   "text": "some really ugly default Python error message",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 804.72,
+   "end": 807.4,
+   "text": "that most people are going to have no idea what to do with.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 807.4,
+   "end": 809.14,
+   "text": "I'm at least handling it more elegantly.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 809.14,
+   "end": 811.52,
+   "text": "And I'm printing out x is not an integer.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 811.52,
+   "end": 813.16,
+   "text": "So it's at least more instructive.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 813.16,
+   "end": 816.92,
+   "text": "But this isn't necessarily the best way to implement this code y.",
+   "avg_logprob": -0.123,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 816.92,
+   "end": 820.0,
+   "text": "Well, here, too, I'm actually still being a little lazy.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 820.0,
+   "end": 824.36,
+   "text": "So notice that I'm trying to do not one line of code, but two lines of code.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 824.36,
+   "end": 826.4,
+   "text": "And this isn't a huge deal because we're only",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 826.4,
+   "end": 827.88,
+   "text": "talking about two lines of code.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 827.88,
+   "end": 831.16,
+   "text": "But in the interest of preaching best practices,",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 831.16,
+   "end": 836.84,
+   "text": "you should really only be trying to do the one or very few lines of code",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 836.84,
+   "end": 841.92,
+   "text": "that can actually raise an exception, that can actually fail in some way.",
+   "avg_logprob": -0.113,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 841.92,
+   "end": 846.92,
+   "text": "I am pretty sure that calling print here is not going to raise the value error.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 846.92,
+   "end": 850.88,
+   "text": "Whether x is an int or a string or a float or anything else,",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 850.88,
+   "end": 855.12,
+   "text": "the format string feature of Python is going to handle printing it just fine.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 855.12,
+   "end": 857.28,
+   "text": "So really, what I'm going to do is this.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 857.28,
+   "end": 861.56,
+   "text": "I'm going to move this line three down to the bottom of my code.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 861.56,
+   "end": 862.88,
+   "text": "I no longer need to indent it.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 862.88,
+   "end": 866.64,
+   "text": "I'm just going to execute it at the bottom of my file here.",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 866.64,
+   "end": 869.84,
+   "text": "Unfortunately, by doing this, I've done a good thing",
+   "avg_logprob": -0.091,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 869.84,
+   "end": 873.12,
+   "text": "By now only trying to do the minimal amount of work necessary",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 873.12,
+   "end": 876.56,
+   "text": "that might raise the exception of value error,",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 876.56,
+   "end": 878.92,
+   "text": "but I fear I've introduced a new mistake.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 878.92,
+   "end": 879.6,
+   "text": "Well, let's see.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 879.6,
+   "end": 881.0,
+   "text": "What is now incorrect?",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 881.0,
+   "end": 884.64,
+   "text": "Let me go ahead and again run Python of number.py enter.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 884.64,
+   "end": 888.32,
+   "text": "Let me go ahead and do it correctly with 50 and all seems to be well.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 888.32,
+   "end": 891.28,
+   "text": "But again, let's try those corner cases, the zeros, the negative",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 891.28,
+   "end": 893.04,
+   "text": "numbers, or in this case, the cat.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 893.04,
+   "end": 896.16,
+   "text": "Let me go ahead and type in cat again, enter.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 896.16,
+   "end": 897.64,
+   "text": "Now I have a name error.",
+   "avg_logprob": -0.17,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 897.64,
+   "end": 901.52,
+   "text": "So now it's yet another type of error in my code that I've introduced here.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 901.52,
+   "end": 903.24,
+   "text": "And what does this name error mean?",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 903.24,
+   "end": 907.16,
+   "text": "Well, just as a value error refers to that, the value of some variable,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 907.16,
+   "end": 911.2,
+   "text": "the value that someone has typed in is incorrect, name error tends to refer",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 911.2,
+   "end": 915.24,
+   "text": "to your code, like you're doing something with the name of a variable",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 915.24,
+   "end": 916.6,
+   "text": "that you shouldn't.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 916.6,
+   "end": 917.56,
+   "text": "And why might that be?",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 917.56,
+   "end": 919.68,
+   "text": "Well, let me turn our attention back to the code here",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 919.68,
+   "end": 922.56,
+   "text": "and consider, what is it complaining about?",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 922.56,
+   "end": 924.8,
+   "text": "Well, the name error is what I see down here.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 924.8,
+   "end": 928.92,
+   "text": "And it's telling me name quote unquote x is not defined.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 928.92,
+   "end": 932.12,
+   "text": "And notice if I look further here, it is mentioning line 6.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 932.12,
+   "end": 935.8,
+   "text": "So I know the problem is with my code on line 6.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 935.8,
+   "end": 938.72,
+   "text": "And that worked a moment ago.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 938.72,
+   "end": 942.4,
+   "text": "And I'm defining x on line 2.",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 942.4,
+   "end": 946.32,
+   "text": "But let me ask the group here, why does x not in fact",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 946.32,
+   "end": 949.0,
+   "text": "exist on line 6?",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 949.0,
+   "end": 950.8,
+   "text": "Why is it not defined?",
+   "avg_logprob": -0.121,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 950.8,
+   "end": 955.44,
+   "text": "even though I'm pretty sure I was intending to define it online, too.",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 955.44,
+   "end": 960.56,
+   "text": "Maybe the scope of the variable is between the triplos?",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 960.56,
+   "end": 962.16,
+   "text": "So good terminology.",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 962.16,
+   "end": 966.48,
+   "text": "Scope refers to the portion of code in which a variable exists.",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 966.48,
+   "end": 968.4,
+   "text": "That too, though, isn't quite right in Python.",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 968.4,
+   "end": 970.56,
+   "text": "That would be true in C, C++, and Java,",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 970.56,
+   "end": 975.28,
+   "text": "where indentation or curly braces tend to define the scope of a variable.",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 975.28,
+   "end": 978.64,
+   "text": "But again, here in general, and this worked a moment ago,",
+   "avg_logprob": -0.18,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 978.64,
+   "end": 983.0,
+   "text": "x exists once it's defined on line 2, because remember, I printed out x",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 983.0,
+   "end": 984.68,
+   "text": "is 50 a little bit ago.",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 984.68,
+   "end": 988.16,
+   "text": "Let's try one more hypothesis here.",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 988.16,
+   "end": 990.0,
+   "text": "One more hand.",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 990.0,
+   "end": 993.24,
+   "text": "Why is x somehow still not defined?",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 993.24,
+   "end": 996.32,
+   "text": "Yeah, so is it because it's local variable,",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 996.32,
+   "end": 999.4,
+   "text": "meaning that it doesn't define outside of the scope",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 999.4,
+   "end": 1001.36,
+   "text": "is like what people have mentioned.",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1001.36,
+   "end": 1005.32,
+   "text": "It prompts the input and try, right?",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1005.32,
+   "end": 1007.32,
+   "text": "But outside of it, it's undefined.",
+   "avg_logprob": -0.235,
+   "no_speech_prob": 0.019
+  },
+  {
+   "start": 1007.32,
+   "end": 1009.72,
+   "text": "So still good instincts and good terminology, too.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1009.72,
+   "end": 1011.72,
+   "text": "There's this notion of local variables, which",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1011.72,
+   "end": 1015.32,
+   "text": "tend to exist inside of functions, for instance, global variables, which",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1015.32,
+   "end": 1017.32,
+   "text": "tend to exist in entire files.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1017.32,
+   "end": 1019.8,
+   "text": "In this case, too, though, that's not quite the case.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1019.8,
+   "end": 1023.12,
+   "text": "What's happening here boils down to order of operations.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1023.12,
+   "end": 1025.32,
+   "text": "Let me come back to the code here and recall",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1025.32,
+   "end": 1028.16,
+   "text": "that any time we've discussed the assignment operator, the single",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1028.16,
+   "end": 1031.44,
+   "text": "equal sign, that copies a value from the right to the left.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1031.44,
+   "end": 1034.84,
+   "text": "But consider for a moment at what point something is going wrong.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1034.84,
+   "end": 1037.88,
+   "text": "Well, the input function is probably working just fine,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1037.88,
+   "end": 1040.32,
+   "text": "because we've used that a lot now to get user's input.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1040.32,
+   "end": 1044.36,
+   "text": "It always returns a string or a stirrer in Python.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1044.36,
+   "end": 1045.68,
+   "text": "But what could be going wrong?",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1045.68,
+   "end": 1052.44,
+   "text": "Well, if I'm passing that string to the int function as its argument,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1052.44,
+   "end": 1054.96,
+   "text": "it's probably the int function that's airing.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1054.96,
+   "end": 1057.92,
+   "text": "And indeed, if you think back earlier when we had the value error,",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1057.92,
+   "end": 1062.6,
+   "text": "it was, in fact, the int function that did not like quote unquote cat as input.",
+   "avg_logprob": -0.132,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1062.6,
+   "end": 1066.64,
+   "text": "So this is all to say that this portion of my code highlighted now",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1066.64,
+   "end": 1070.72,
+   "text": "to the right of the equal sign, that's the code that's creating a problem.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1070.72,
+   "end": 1073.56,
+   "text": "That's the code that was creating a value error.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1073.56,
+   "end": 1077.2,
+   "text": "And in this case, we're catching the value error.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1077.2,
+   "end": 1081.32,
+   "text": "But because the value error is happening on the right of the equal sign,",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1081.32,
+   "end": 1083.8,
+   "text": "there's no value being copied to the left.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1083.8,
+   "end": 1086.56,
+   "text": "The error is interrupting that whole process.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1086.56,
+   "end": 1090.68,
+   "text": "So even though we see x equals dot, dot, dot on line 2,",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1090.68,
+   "end": 1093.24,
+   "text": "The portion of that line to the left of the equal sign",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1093.24,
+   "end": 1098.48,
+   "text": "isn't getting evaluated, ultimately, because the value error is happening too soon.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1098.48,
+   "end": 1101.16,
+   "text": "And so when we finally get down to line 6,",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1101.16,
+   "end": 1103.32,
+   "text": "even though it looked like I was defining on line 2,",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1103.32,
+   "end": 1106.36,
+   "text": "and I would have defined x on line 2 if all had gone well,",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1106.36,
+   "end": 1109.4,
+   "text": "we didn't get to the part where the value is copied from right to left",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1109.4,
+   "end": 1114.56,
+   "text": "because the value error happened first, so this code is just incorrect now.",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1114.56,
+   "end": 1117.0,
+   "text": "So how do I go about solving something like this?",
+   "avg_logprob": -0.12,
+   "no_speech_prob": 0.012
+  },
+  {
+   "start": 1117.0,
+   "end": 1121.76,
+   "text": "Well, it turns out that there's another feature of the try and accept",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1121.76,
+   "end": 1126.4,
+   "text": "syntax that Python supports, which is that it also supports the keyword else.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1126.4,
+   "end": 1128.0,
+   "text": "Now, we've seen else before.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1128.0,
+   "end": 1130.08,
+   "text": "If you think back to our discussion of conditionals,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1130.08,
+   "end": 1135.0,
+   "text": "we saw if, we saw l if, we saw else, which was kind of this catchall",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1135.0,
+   "end": 1138.32,
+   "text": "what you should do in the event that nothing else is relevant.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1138.32,
+   "end": 1142.92,
+   "text": "That's kind of the same intuition here for the try accept feature of Python.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1142.92,
+   "end": 1144.64,
+   "text": "What you can do is this.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1144.64,
+   "end": 1149.52,
+   "text": "You can try to do the following, as I've done, except if this goes wrong.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1149.52,
+   "end": 1153.52,
+   "text": "But if nothing goes wrong, else go ahead and do this.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1153.52,
+   "end": 1156.72,
+   "text": "So this is one way I can solve this same problem now.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1156.72,
+   "end": 1161.04,
+   "text": "No matter what now, Python is going to try to execute line 2.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1161.04,
+   "end": 1163.0,
+   "text": "If something goes wrong, it's going to execute",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1163.0,
+   "end": 1166.56,
+   "text": "lines 3 and 4 to handle that value error.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1166.56,
+   "end": 1170.28,
+   "text": "However, if you try and this code succeeds,",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1170.28,
+   "end": 1173.0,
+   "text": "then there is no exception to handle.",
+   "avg_logprob": -0.128,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1173.0,
+   "end": 1175.88,
+   "text": "So you're then going to execute this line here.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1175.88,
+   "end": 1178.74,
+   "text": "So it's a little confusing, perhaps, in that we're now using else,",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1178.74,
+   "end": 1182.16,
+   "text": "both for conditionals, if, l, if, l, if, l, if, else.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1182.16,
+   "end": 1185.84,
+   "text": "And we're also using else with these try, accept blocks.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1185.84,
+   "end": 1186.6,
+   "text": "But that's OK.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1186.6,
+   "end": 1188.8,
+   "text": "That's part of the language that's one of the features.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1188.8,
+   "end": 1192.24,
+   "text": "So now, if I rerun this code in my terminal window,",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1192.24,
+   "end": 1195.32,
+   "text": "Python of number.py, let's do something correct.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1195.32,
+   "end": 1198.68,
+   "text": "Like 50, I see that x is 50.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1198.68,
+   "end": 1200.48,
+   "text": "So line 1 is executed.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1200.48,
+   "end": 1201.96,
+   "text": "We're trying to do the following.",
+   "avg_logprob": -0.168,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1201.96,
+   "end": 1205.44,
+   "text": "Line 2 is executed because the conversion happened successfully",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1205.44,
+   "end": 1208.12,
+   "text": "and the number 50 gets copied from right to left.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1208.12,
+   "end": 1209.96,
+   "text": "The exception does not happen.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1209.96,
+   "end": 1211.76,
+   "text": "So we ignore lines 3 and 4.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1211.76,
+   "end": 1216.28,
+   "text": "We jump immediately to line 5 and 6, which prints out the result.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1216.28,
+   "end": 1218.92,
+   "text": "By contrast, though, let's do this one last time.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1218.92,
+   "end": 1222.68,
+   "text": "Python of number.py, let's type in cat or again any other word.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1222.68,
+   "end": 1223.84,
+   "text": "And hit Enter now.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1223.84,
+   "end": 1225.44,
+   "text": "We don't see what x is.",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1225.44,
+   "end": 1229.6,
+   "text": "Rather, we see, quote unquote, x is not an integer, which",
+   "avg_logprob": -0.155,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1229.6,
+   "end": 1233.22,
+   "text": "is what's being handled in my accept clause.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1233.22,
+   "end": 1235.9,
+   "text": "All right, let me pause here because that's a lot of new syntax",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1235.9,
+   "end": 1240.78,
+   "text": "and see here if there's any questions on try, on accept, on else,",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1240.78,
+   "end": 1243.38,
+   "text": "name error, or value error.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1243.38,
+   "end": 1246.18,
+   "text": "Can you please repeat the try function?",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1246.18,
+   "end": 1247.26,
+   "text": "Repeat the name error.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1247.26,
+   "end": 1248.94,
+   "text": "What's the problem with the name error?",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1248.94,
+   "end": 1249.58,
+   "text": "Yes, yes.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1249.58,
+   "end": 1252.74,
+   "text": "Yeah, so let's just rewind a couple of lines here",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1252.74,
+   "end": 1256.02,
+   "text": "before I fix this problem by now getting rid of the else.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.095
+  },
+  {
+   "start": 1256.02,
+   "end": 1262.18,
+   "text": "A moment ago, we had code that looks like this, whereby I was getting a name error,",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1262.18,
+   "end": 1267.14,
+   "text": "Python of number.py enter typing in cat that looked like this, where name x is not",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1267.14,
+   "end": 1271.9,
+   "text": "defined and the problem was on line 6, according to this output in Python.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1271.9,
+   "end": 1273.86,
+   "text": "Well, let's think about this now deductively.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1273.86,
+   "end": 1275.18,
+   "text": "Let's try a different approach.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1275.18,
+   "end": 1278.7,
+   "text": "On line 6, I'm seeing an error that name x is not defined.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1278.7,
+   "end": 1282.26,
+   "text": "OK, Python's already telling me x does not exist at that point.",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1282.26,
+   "end": 1283.82,
+   "text": "So how could that possibly be?",
+   "avg_logprob": -0.146,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1283.82,
+   "end": 1286.36,
+   "text": "Well, where should x be defined?",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1286.36,
+   "end": 1290.0,
+   "text": "Well, presumably, x is defined on line 2 up here.",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1290.0,
+   "end": 1291.44,
+   "text": "So what could go wrong?",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1291.44,
+   "end": 1295.24,
+   "text": "Well, if the user has inputted something that doesn't look like a number,",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1295.24,
+   "end": 1300.32,
+   "text": "like the word cat, passing cat, the return value of input,",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1300.32,
+   "end": 1305.72,
+   "text": "as the argument to int to convert the word to an int makes no sense.",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1305.72,
+   "end": 1309.68,
+   "text": "You can't convert a cat, C-A-T, to an integer at all.",
+   "avg_logprob": -0.126,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1309.68,
+   "end": 1315.52,
+   "text": "So the int function is raising a value error at that point,",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1315.52,
+   "end": 1318.76,
+   "text": "and the error is being handled with this code here.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1318.76,
+   "end": 1322.2,
+   "text": "But notice, this line 6 is not indented.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1322.2,
+   "end": 1324.6,
+   "text": "It's left aligned with the rest of my code,",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1324.6,
+   "end": 1328.36,
+   "text": "which means no matter what line 6 is going to execute,",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1328.36,
+   "end": 1332.12,
+   "text": "it's going to execute whether I typed in 50 or I typed in cat.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1332.12,
+   "end": 1335.56,
+   "text": "But if I typed in cat, again, x never gets a value,",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1335.56,
+   "end": 1338.12,
+   "text": "so it's not defined here on line 6.",
+   "avg_logprob": -0.115,
+   "no_speech_prob": 0.0
+  },
+  {
+   "start": 1338.12,
+   "end": 1340.76,
+   "text": "So when I introduced finally the else statement,",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1340.76,
+   "end": 1343.68,
+   "text": "that makes sure that these things are mutually exclusive.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1343.68,
+   "end": 1350.16,
+   "text": "I only execute the else if I tried and succeeded up above.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1350.16,
+   "end": 1354.64,
+   "text": "Well, let me propose that we refine this just a little bit further",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1354.64,
+   "end": 1359.52,
+   "text": "as well and consider how we might improve this example a little bit more.",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1359.52,
+   "end": 1365.28,
+   "text": "It's a little unfriendly of me to be rejecting the user's input",
+   "avg_logprob": -0.108,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1365.28,
+   "end": 1369.24,
+   "text": "after they fail to provide an integer and just quitting the program really.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1369.24,
+   "end": 1373.84,
+   "text": "It'd be more user friendly if I just prompt or reprompt the user again",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1373.84,
+   "end": 1374.48,
+   "text": "and again.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1374.48,
+   "end": 1378.32,
+   "text": "And in the chat, if you could, what's the feature of Python",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1378.32,
+   "end": 1382.32,
+   "text": "that you can use if you want to do something again and again and again",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1382.32,
+   "end": 1385.76,
+   "text": "until such time as the user cooperates and gives you what you're looking for,",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1385.76,
+   "end": 1387.56,
+   "text": "like a number?",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1387.56,
+   "end": 1389.04,
+   "text": "So yeah, loop, loop, loop.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1389.04,
+   "end": 1392.44,
+   "text": "So a loop is something that happens again and again and again.",
+   "avg_logprob": -0.141,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1392.44,
+   "end": 1395.36,
+   "text": "And maybe we can use that same mechanism, a loop,",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1395.36,
+   "end": 1397.36,
+   "text": "in order to prompt the user for x.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1397.36,
+   "end": 1399.76,
+   "text": "And if they don't give us a number, prompt them again.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1399.76,
+   "end": 1402.2,
+   "text": "And if they don't prompt them again and again and again,",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1402.2,
+   "end": 1405.0,
+   "text": "we don't need to just quit out of the program so quickly.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1405.0,
+   "end": 1406.24,
+   "text": "So let me propose this.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1406.24,
+   "end": 1410.72,
+   "text": "Let me propose here that I improve this code by deliberately doing this.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1410.72,
+   "end": 1416.52,
+   "text": "Let me induce a infinite loop at the very top of my code with while true.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1416.52,
+   "end": 1420.6,
+   "text": "Recall that the while keyword induces a loop, a cycle that behaves like this.",
+   "avg_logprob": -0.106,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1420.6,
+   "end": 1423.88,
+   "text": "And it asks a question, a boolean expression that needs to evaluate",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1423.88,
+   "end": 1425.48,
+   "text": "either it's a true or false.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1425.48,
+   "end": 1428.64,
+   "text": "Well, if I want this thing to loop forever, at least initially,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1428.64,
+   "end": 1431.72,
+   "text": "we'll just say while true, because true is true.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1431.72,
+   "end": 1434.76,
+   "text": "So this has the effect of doing something no matter what forever,",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1434.76,
+   "end": 1436.84,
+   "text": "unless we break out of it early.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1436.84,
+   "end": 1439.0,
+   "text": "Now I'm going to go ahead and do this.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1439.0,
+   "end": 1444.2,
+   "text": "I'm going to go ahead and move my try accept code indented underneath",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1444.2,
+   "end": 1446.96,
+   "text": "this loop so that I'm trying to get an x.",
+   "avg_logprob": -0.143,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1446.96,
+   "end": 1451.3,
+   "text": "If I have a value error instead, I print out x is not an integer.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1451.3,
+   "end": 1457.1,
+   "text": "But this time, what do I want to do if the user does try and succeed",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1457.1,
+   "end": 1458.86,
+   "text": "in giving me a number?",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1458.86,
+   "end": 1460.14,
+   "text": "Well, I can do this.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1460.14,
+   "end": 1462.58,
+   "text": "I can just break out of my code here.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1462.58,
+   "end": 1465.18,
+   "text": "And down here now, I can use that same line of code",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1465.18,
+   "end": 1471.34,
+   "text": "from before in fstring that says x is, and then in curly braces, x again.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1471.34,
+   "end": 1472.86,
+   "text": "So what's going on here?",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1472.86,
+   "end": 1476.02,
+   "text": "I think this code now, because I've added the loop,",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 1476.02,
+   "end": 1479.38,
+   "text": "is going to have the effect of trying at least once, maybe",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1479.38,
+   "end": 1482.9,
+   "text": "a second time, maybe a third time, maybe 500 times",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1482.9,
+   "end": 1486.74,
+   "text": "until the user finally gives me what I want, which is an integer.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1486.74,
+   "end": 1490.18,
+   "text": "And once they do, once there's no value error happening,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1490.18,
+   "end": 1494.58,
+   "text": "then I break out of the loop and line 9 executes, as I would hope.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1494.58,
+   "end": 1496.58,
+   "text": "So let me go ahead and try executing this version.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1496.58,
+   "end": 1499.22,
+   "text": "Python of number dot pi, enter.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1499.22,
+   "end": 1500.14,
+   "text": "What's x?",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1500.14,
+   "end": 1503.34,
+   "text": "Let me go ahead and type in the easy thing first, 50.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1503.34,
+   "end": 1504.1,
+   "text": "x is 50.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1504.1,
+   "end": 1507.54,
+   "text": "What just happened in terms of the control flow of this program,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1507.54,
+   "end": 1508.94,
+   "text": "the flow of my logic?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1508.94,
+   "end": 1511.78,
+   "text": "Well, I first found myself on line 1 inside of a loop.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1511.78,
+   "end": 1513.54,
+   "text": "Hopefully, I'll get out of this loop.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1513.54,
+   "end": 1514.42,
+   "text": "What did I then do?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1514.42,
+   "end": 1518.14,
+   "text": "On lines 2 and 3, I tried to get input from the user",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1518.14,
+   "end": 1519.34,
+   "text": "and convert it to an int.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1519.34,
+   "end": 1522.62,
+   "text": "Well, I was a nice guy this time, and I typed in 50, which looks like",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1522.62,
+   "end": 1525.26,
+   "text": "and is a number, so the int function converted it just fine",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1525.26,
+   "end": 1528.38,
+   "text": "and stored it from right to left in x.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1528.38,
+   "end": 1530.54,
+   "text": "Except value error, there is no value error.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1530.54,
+   "end": 1533.42,
+   "text": "Because if I typed in a number, there's nothing exceptional happening.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1533.42,
+   "end": 1536.82,
+   "text": "This is a boring, good execution of my program.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1536.82,
+   "end": 1538.26,
+   "text": "So what happens?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1538.26,
+   "end": 1539.86,
+   "text": "I break out of the loop.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1539.86,
+   "end": 1544.9,
+   "text": "So again, the else clause is associated with the try, not with the accept.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1544.9,
+   "end": 1548.1,
+   "text": "And once I'm out of the loop, of course, I'm just printing out what x is.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1548.1,
+   "end": 1550.58,
+   "text": "Well, let's try the other scenario that might happen.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1550.58,
+   "end": 1553.46,
+   "text": "Python of number.py enter, what's x?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1553.46,
+   "end": 1556.86,
+   "text": "Let's try cat, or any other word, enter.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1556.86,
+   "end": 1559.58,
+   "text": "Ah, this is now a new feature.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1559.58,
+   "end": 1561.58,
+   "text": "I'm being informed what I did wrong.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1561.58,
+   "end": 1565.34,
+   "text": "x is not an integer, so I'm getting some useful user feedback.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1565.34,
+   "end": 1567.7,
+   "text": "But notice again, I'm prompted, what's x?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1567.7,
+   "end": 1569.9,
+   "text": "Well, let me try typing in dog.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1569.9,
+   "end": 1570.98,
+   "text": "x is not an integer.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1570.98,
+   "end": 1571.82,
+   "text": "What's x?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1571.82,
+   "end": 1573.34,
+   "text": "Let me try bird.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1573.34,
+   "end": 1574.3,
+   "text": "Enter.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1574.3,
+   "end": 1575.22,
+   "text": "x is not an integer.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1575.22,
+   "end": 1575.86,
+   "text": "What's x?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1575.86,
+   "end": 1578.82,
+   "text": "And suffice it to say, this will happen now forever,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1578.82,
+   "end": 1582.7,
+   "text": "if I'm in an infinite loop, until I try and succeed,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1582.7,
+   "end": 1583.82,
+   "text": "at which point I break out.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1583.82,
+   "end": 1585.02,
+   "text": "So let's try again, 50.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1585.02,
+   "end": 1585.62,
+   "text": "Enter.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1585.62,
+   "end": 1590.5,
+   "text": "Now I'm out of the loop, and I'm printing out what x actually is.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1590.5,
+   "end": 1594.18,
+   "text": "All right, let me pause here and see if there are any questions.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1594.18,
+   "end": 1596.86,
+   "text": "The logic is almost the same, but what is different now",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1596.86,
+   "end": 1600.9,
+   "text": "is I'm in a loop, and I'm using the keyword break in Python",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1600.9,
+   "end": 1604.66,
+   "text": "to deliberately break out of the loop when I'm ready to,",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1604.66,
+   "end": 1606.94,
+   "text": "once the user has cooperated.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1606.94,
+   "end": 1608.9,
+   "text": "We really need to break.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1608.9,
+   "end": 1611.22,
+   "text": "Can't we just print?",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1611.22,
+   "end": 1614.7,
+   "text": "Or what keeps us from just printing?",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1614.7,
+   "end": 1615.38,
+   "text": "Good question.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1615.38,
+   "end": 1616.38,
+   "text": "So let me try that.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1616.38,
+   "end": 1617.74,
+   "text": "Could and I just print?",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1617.74,
+   "end": 1619.54,
+   "text": "Well, let's see what happens if I do that.",
+   "avg_logprob": -0.161,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1619.54,
+   "end": 1623.38,
+   "text": "move this print line at the end into my loop here,",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1623.38,
+   "end": 1624.62,
+   "text": "thereby shortening the program.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1624.62,
+   "end": 1626.34,
+   "text": "And in general, that's been a good thing.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1626.34,
+   "end": 1628.58,
+   "text": "Python of number.py enter.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1628.58,
+   "end": 1631.06,
+   "text": "Let me go ahead and type in 50.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1631.06,
+   "end": 1631.78,
+   "text": "x is 50.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1631.78,
+   "end": 1633.22,
+   "text": "What's x?",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1633.22,
+   "end": 1634.7,
+   "text": "OK, maybe it's 49.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1634.7,
+   "end": 1635.74,
+   "text": "x is 49.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1635.74,
+   "end": 1637.46,
+   "text": "OK, maybe 48.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1637.46,
+   "end": 1639.06,
+   "text": "Unfortunately, I think you're laughing.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1639.06,
+   "end": 1639.42,
+   "text": "You see it.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1639.42,
+   "end": 1642.3,
+   "text": "I never break out of the loop, which maybe that's a feature.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1642.3,
+   "end": 1644.3,
+   "text": "Maybe you want this to be your program, but I didn't.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1644.3,
+   "end": 1645.9,
+   "text": "I'd eventually like this game to stop.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1645.9,
+   "end": 1648.3,
+   "text": "So I need to break out in that way.",
+   "avg_logprob": -0.156,
+   "no_speech_prob": 0.086
+  },
+  {
+   "start": 1648.3,
+   "end": 1649.94,
+   "text": "But I can do it a little differently.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1649.94,
+   "end": 1653.26,
+   "text": "And let me propose that we modify this a little bit.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1653.26,
+   "end": 1656.18,
+   "text": "But first, any other questions on this syntax here?",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1656.18,
+   "end": 1661.74,
+   "text": "Let me rewind to the prior version.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1661.74,
+   "end": 1662.54,
+   "text": "Hi.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1662.54,
+   "end": 1666.94,
+   "text": "Can I use break all in exception, except in else?",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1666.94,
+   "end": 1671.82,
+   "text": "For example, in another print, when you use print in the else,",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1671.82,
+   "end": 1675.7,
+   "text": "you can use print together with break or something like this?",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1675.7,
+   "end": 1679.18,
+   "text": "So you can use break inside of loops to break out of loops.",
+   "avg_logprob": -0.169,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 1679.18,
+   "end": 1683.78,
+   "text": "And you can use it inside of a conditional, like an if, an lif, or an else.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1683.78,
+   "end": 1687.1,
+   "text": "You can do it inside of a try, accept, else statement too.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1687.1,
+   "end": 1689.38,
+   "text": "Any time you're in a loop that you want to break out of,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1689.38,
+   "end": 1691.18,
+   "text": "you can use this keyword break.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1691.18,
+   "end": 1694.78,
+   "text": "I'm using it in the context of exceptions, but it's not restricted to that.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1694.78,
+   "end": 1697.38,
+   "text": "And let me show you, too, it doesn't even have to be in the else.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1697.38,
+   "end": 1700.3,
+   "text": "If I wanted to, I could actually do this.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1700.3,
+   "end": 1704.34,
+   "text": "I could get rid of my else, and I could go back to line 3,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1704.34,
+   "end": 1709.1,
+   "text": "add another line that's indented, line 4, and break out here.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 1709.1,
+   "end": 1711.6,
+   "text": "Now, why is this logically OK?",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1711.6,
+   "end": 1714.68,
+   "text": "Well, consider what I'm now trying to do.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1714.68,
+   "end": 1719.12,
+   "text": "I'm trying to execute line 3 and converting the user's input to an int.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1719.12,
+   "end": 1723.16,
+   "text": "And I'm trying to store the result from right to left in x.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1723.16,
+   "end": 1725.72,
+   "text": "If something goes wrong, the code we've already seen",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1725.72,
+   "end": 1731.88,
+   "text": "is immediately going to jump to line 5 and then 6 to handle the exception.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1731.88,
+   "end": 1734.44,
+   "text": "But if nothing goes wrong, my code presumably",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1734.44,
+   "end": 1737.52,
+   "text": "should just keep on executing line by line.",
+   "avg_logprob": -0.104,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 1737.52,
+   "end": 1740.12,
+   "text": "So I could technically, logically put the break here",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1740.12,
+   "end": 1742.44,
+   "text": "and watch what happens when I run this version.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1742.44,
+   "end": 1746.56,
+   "text": "Python of number.py 50 enter, it worked.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1746.56,
+   "end": 1748.32,
+   "text": "I broke out of the loop.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1748.32,
+   "end": 1749.88,
+   "text": "Now, which way is better?",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1749.88,
+   "end": 1752.52,
+   "text": "Honestly, I think it could go either way at this point.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1752.52,
+   "end": 1755.52,
+   "text": "This program is so relatively short that even though I'm",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1755.52,
+   "end": 1759.76,
+   "text": "trying to do two things now, one of which the break is not going to fail.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1759.76,
+   "end": 1761.28,
+   "text": "Like you either break or you don't.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1761.28,
+   "end": 1764.36,
+   "text": "There's no piece of data from the user that's going to influence that.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1764.36,
+   "end": 1767.32,
+   "text": "We don't strictly need to have those two lines of code there,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1767.32,
+   "end": 1769.2,
+   "text": "but it's only two lines, so I think it's OK.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1769.2,
+   "end": 1772.12,
+   "text": "And if you recall our discussion in the past, not just of correctness,",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1772.12,
+   "end": 1773.72,
+   "text": "does the code work as it should?",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1773.72,
+   "end": 1776.44,
+   "text": "But design, I think you could argue it either way.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1776.44,
+   "end": 1778.92,
+   "text": "If you prefer the readability of this and the fact",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1778.92,
+   "end": 1781.16,
+   "text": "that you don't have an else, that's fine.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1781.16,
+   "end": 1784.44,
+   "text": "If though, you prefer to minimize just how many lines of code",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1784.44,
+   "end": 1787.36,
+   "text": "you're trying to execute in case something goes wrong,",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1787.36,
+   "end": 1790.12,
+   "text": "the else is a reasonable approach too.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1790.12,
+   "end": 1793.08,
+   "text": "Well, let me to propose too now that we refine this further.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1793.08,
+   "end": 1796.44,
+   "text": "I think we're at the point where it's pretty darn correct.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 1796.44,
+   "end": 1800.36,
+   "text": "But suppose now that I find myself today and tomorrow",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1800.36,
+   "end": 1802.92,
+   "text": "trying to get numbers from the user quite a bit.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1802.92,
+   "end": 1806.2,
+   "text": "It would be nice, as we've seen, to maybe just invent my own function,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1806.2,
+   "end": 1810.28,
+   "text": "get int to get an integer from the user, both today and tomorrow and beyond.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1810.28,
+   "end": 1813.04,
+   "text": "And heck, maybe I can even share that function with other people",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1813.04,
+   "end": 1816.12,
+   "text": "if they want to write programs that get integers from users.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1816.12,
+   "end": 1817.8,
+   "text": "So how might I go about doing this?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1817.8,
+   "end": 1819.84,
+   "text": "Well, let me go ahead and propose that we do this.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1819.84,
+   "end": 1822.92,
+   "text": "Let me get rid of the print line, but keep most of my loop here.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 1822.92,
+   "end": 1827.72,
+   "text": "Let me define a function called getInt that takes no arguments for now.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1827.72,
+   "end": 1831.96,
+   "text": "And I'm going to go ahead and indent all of the code I already wrote underneath getInt.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1831.96,
+   "end": 1837.48,
+   "text": "So now I have a function called getInt that tries to do the following.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1837.48,
+   "end": 1839.36,
+   "text": "Try to get an int from the user.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1839.36,
+   "end": 1841.32,
+   "text": "If something goes wrong and there's a value error,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1841.32,
+   "end": 1845.32,
+   "text": "yell at them with x is not an integer, else break.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1845.32,
+   "end": 1847.88,
+   "text": "But it's not just breaking that I want to do here.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1847.88,
+   "end": 1851.96,
+   "text": "Now that I'm in a function, recall our discussion of return values.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 1851.96,
+   "end": 1854.96,
+   "text": "If you're inventing your own function, whose purpose in life",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1854.96,
+   "end": 1857.56,
+   "text": "isn't just to print something on the screen like a side effect,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1857.56,
+   "end": 1861.92,
+   "text": "but is to hand back a value, to hand you back a value,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1861.92,
+   "end": 1865.24,
+   "text": "like on that same post-it note from our discussion of functions,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1865.24,
+   "end": 1867.76,
+   "text": "well, you need to return x explicitly.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1867.76,
+   "end": 1869.28,
+   "text": "How do I now use this function?",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1869.28,
+   "end": 1871.36,
+   "text": "Well, as soon as we start making our own functions,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1871.36,
+   "end": 1874.68,
+   "text": "it tends to be convenient to define our own main function as well.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1874.68,
+   "end": 1876.2,
+   "text": "That's the main part of our program.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1876.2,
+   "end": 1877.6,
+   "text": "And I'm going to keep this simple.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1877.6,
+   "end": 1880.56,
+   "text": "I'm now going to say x equals get int.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1880.56,
+   "end": 1883.28,
+   "text": "And then on the next line, I'm going to do that print from before.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1883.28,
+   "end": 1886.64,
+   "text": "Quote unquote, x is, in curly braces, x.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1886.64,
+   "end": 1889.2,
+   "text": "And at the very bottom of my program, recall, I'm",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1889.2,
+   "end": 1891.24,
+   "text": "going to call main, so that no matter what,",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1891.24,
+   "end": 1894.6,
+   "text": "I'm invoking my main function after everything's been defined.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1894.6,
+   "end": 1895.88,
+   "text": "Well, let's see how this works.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1895.88,
+   "end": 1900.44,
+   "text": "Let me go ahead and run Python of number.py enter.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1900.44,
+   "end": 1902.0,
+   "text": "Let's type in 50.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1902.0,
+   "end": 1903.64,
+   "text": "And it seems to work as before.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1903.64,
+   "end": 1907.44,
+   "text": "Let's go ahead and run it again, typing in cat, C-A-T this time.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1907.44,
+   "end": 1908.36,
+   "text": "x is not an integer.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1908.36,
+   "end": 1909.6,
+   "text": "And I'm being prompted.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 1909.6,
+   "end": 1911.44,
+   "text": "Dog, and I'm being prompted.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1911.44,
+   "end": 1912.88,
+   "text": "Bird, and I'm being prompted.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1912.88,
+   "end": 1914.8,
+   "text": "Fine, fine, fine, 50.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1914.8,
+   "end": 1915.76,
+   "text": "That's an int.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1915.76,
+   "end": 1917.4,
+   "text": "And so it is printed.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1917.4,
+   "end": 1918.92,
+   "text": "So what's worth noting here?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1918.92,
+   "end": 1921.16,
+   "text": "Well, I'm manifesting a couple of good properties here.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1921.16,
+   "end": 1925.64,
+   "text": "One, I've kind of abstracted away this notion of getting an integer.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1925.64,
+   "end": 1928.68,
+   "text": "And even though I just artificially hit Enter a whole bunch of times,",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1928.68,
+   "end": 1930.88,
+   "text": "just to hide that function for now, it needs to be there.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1930.88,
+   "end": 1932.56,
+   "text": "But we don't need to see it at this point.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1932.56,
+   "end": 1934.72,
+   "text": "Notice that now this entire program really",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1934.72,
+   "end": 1937.04,
+   "text": "boils down to just these three lines of code.",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1937.04,
+   "end": 1938.2,
+   "text": "Now, why?",
+   "avg_logprob": -0.152,
+   "no_speech_prob": 0.062
+  },
+  {
+   "start": 1938.2,
+   "end": 1941.32,
+   "text": "because I've abstracted away that whole process of getting an int",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1941.32,
+   "end": 1945.4,
+   "text": "from the user into this new function of my own called get int.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1945.4,
+   "end": 1946.76,
+   "text": "But can I improve upon this?",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1946.76,
+   "end": 1949.64,
+   "text": "Well, let me go ahead and undo all of those blank lines",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1949.64,
+   "end": 1952.48,
+   "text": "and pull this up just so we can see more on the screen at once.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1952.48,
+   "end": 1954.92,
+   "text": "Can I tighten up my implementation of get int?",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1954.92,
+   "end": 1955.88,
+   "text": "It is correct.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1955.88,
+   "end": 1957.4,
+   "text": "I claim this is correct.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1957.4,
+   "end": 1959.56,
+   "text": "It's handling errors and it's returning x.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1959.56,
+   "end": 1963.28,
+   "text": "But I don't strictly speaking need to write the code as long.",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1963.28,
+   "end": 1964.8,
+   "text": "What else could I do?",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1964.8,
+   "end": 1967.76,
+   "text": "Well, let me propose that if all you're doing on this line 13",
+   "avg_logprob": -0.111,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 1967.76,
+   "end": 1968.84,
+   "text": "is breaking.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1968.84,
+   "end": 1971.56,
+   "text": "And then immediately after that, per the indentation,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1971.56,
+   "end": 1974.76,
+   "text": "you're executing return x on line 14.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1974.76,
+   "end": 1976.48,
+   "text": "Why are you wasting everyone's time?",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1976.48,
+   "end": 1980.6,
+   "text": "Once you know you're ready to return the value, you could just return x.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1980.6,
+   "end": 1983.8,
+   "text": "And so in my else, I could break out and return a value.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1983.8,
+   "end": 1988.88,
+   "text": "So here too, return is used to return values from functions.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1988.88,
+   "end": 1991.92,
+   "text": "Break is used to break out of loops.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1991.92,
+   "end": 1995.72,
+   "text": "But it turns out that return is sort of stronger than break.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.018
+  },
+  {
+   "start": 1995.72,
+   "end": 2000.52,
+   "text": "It will not only break you out of a loop, it will also return a value for you.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2000.52,
+   "end": 2004.04,
+   "text": "So it's doing two things for once, if you will.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2004.04,
+   "end": 2008.16,
+   "text": "But can I make this even more compact?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2008.16,
+   "end": 2012.72,
+   "text": "If my goal is to just tighten the code up, even though it's already correct,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2012.72,
+   "end": 2015.58,
+   "text": "can anyone think of a further refinement, whether you've",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2015.58,
+   "end": 2020.28,
+   "text": "programmed in Python before or not, can I shorten this implementation further?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2020.28,
+   "end": 2023.6,
+   "text": "Just a little bit, if only, to decrease the probability that I've",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2023.6,
+   "end": 2026.9,
+   "text": "made a mistake by having fewer lines and just make it a little easier",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2026.9,
+   "end": 2029.3,
+   "text": "to read because it's shorter.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2029.3,
+   "end": 2033.54,
+   "text": "Any suggestions for tightening up my implementation of get int?",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2033.54,
+   "end": 2036.62,
+   "text": "You can just return the value on the try function",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2036.62,
+   "end": 2042.66,
+   "text": "when you're trying, and you take the input x and then return x.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2042.66,
+   "end": 2045.5,
+   "text": "Good, we can just return x a little higher up.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2045.5,
+   "end": 2048.1,
+   "text": "And let me correct, folks, as we go, it's not a try function.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2048.1,
+   "end": 2049.78,
+   "text": "It would be a try statement, technically.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2049.78,
+   "end": 2052.46,
+   "text": "A function typically has a parenthesis and another one.",
+   "avg_logprob": -0.166,
+   "no_speech_prob": 0.049
+  },
+  {
+   "start": 2052.46,
+   "end": 2055.74,
+   "text": "In this case, it's just a statement, but we can do exactly that.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2055.74,
+   "end": 2057.34,
+   "text": "I don't technically need the else.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2057.34,
+   "end": 2059.38,
+   "text": "If I really want, I could do this.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2059.38,
+   "end": 2062.74,
+   "text": "Right after line 9, I could return x here.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2062.74,
+   "end": 2067.46,
+   "text": "Or recall our discussion of defining variables unnecessarily sometimes.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2067.46,
+   "end": 2070.5,
+   "text": "Like why define a variable here if you're immediately going to use it here",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2070.5,
+   "end": 2071.7,
+   "text": "and then never again?",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2071.7,
+   "end": 2074.06,
+   "text": "So we could avoid a new line here.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2074.06,
+   "end": 2077.5,
+   "text": "And I could avoid even defining x explicitly.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2077.5,
+   "end": 2079.14,
+   "text": "I could just say something like this.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2079.14,
+   "end": 2082.92,
+   "text": "I could return int, input, quote unquote, what's x?",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2082.92,
+   "end": 2084.56,
+   "text": "I can do it all at once.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2084.56,
+   "end": 2086.6,
+   "text": "Now, which is better?",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2086.6,
+   "end": 2087.56,
+   "text": "I don't know.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2087.56,
+   "end": 2090.36,
+   "text": "I mean, again, this is where reasonable people might disagree.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2090.36,
+   "end": 2093.36,
+   "text": "I'd argue that on the one hand, we're tightening up the code.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2093.36,
+   "end": 2094.68,
+   "text": "We're using fewer lines.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2094.68,
+   "end": 2095.76,
+   "text": "It's easier to read.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2095.76,
+   "end": 2098.08,
+   "text": "There were probability that I've made a mistake.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2098.08,
+   "end": 2101.22,
+   "text": "On the other hand, it's a little more complicated to understand,",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2101.22,
+   "end": 2104.24,
+   "text": "perhaps it's a little less obvious where I'm returning from.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2104.24,
+   "end": 2106.08,
+   "text": "So I think arguments can be made either way.",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2106.08,
+   "end": 2107.52,
+   "text": "At the end of the day, what's important",
+   "avg_logprob": -0.15,
+   "no_speech_prob": 0.007
+  },
+  {
+   "start": 2107.52,
+   "end": 2109.88,
+   "text": "is that you've done this consciously, you've",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2109.88,
+   "end": 2112.12,
+   "text": "made a decision to do it this way or this way,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2112.12,
+   "end": 2113.92,
+   "text": "and you can justify it in your mind.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2113.92,
+   "end": 2117.08,
+   "text": "Not that your answer is, ugh, it worked, so I left it alone.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2117.08,
+   "end": 2118.12,
+   "text": "Like, have a good reason.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2118.12,
+   "end": 2122.2,
+   "text": "Come up with a good reason, and that will come with experience and practice.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2122.2,
+   "end": 2125.8,
+   "text": "Well, let me propose to you that we make one other refinement here.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2125.8,
+   "end": 2128.96,
+   "text": "Suppose that you're finding your programs to be a little noisy,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2128.96,
+   "end": 2131.4,
+   "text": "and it's a little obnoxious that you keep telling the user,",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2131.4,
+   "end": 2134.64,
+   "text": "x is not an integer, x is not an integer, x is not an integer.",
+   "avg_logprob": -0.125,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2134.64,
+   "end": 2139.28,
+   "text": "What if you want to make things a little gentler and just prompt the user",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2139.28,
+   "end": 2141.84,
+   "text": "again with the same words, what's x?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2141.84,
+   "end": 2142.52,
+   "text": "What is x?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2142.52,
+   "end": 2144.48,
+   "text": "What's x again and again?",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2144.48,
+   "end": 2145.88,
+   "text": "Well, you can do that as well.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2145.88,
+   "end": 2150.12,
+   "text": "And it turns out that if you want to handle an exception in Python,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2150.12,
+   "end": 2153.36,
+   "text": "but you want to pass on doing anything with it.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2153.36,
+   "end": 2156.52,
+   "text": "So you want to catch it, but you essentially want to ignore it.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2156.52,
+   "end": 2158.0,
+   "text": "You don't want to print anything.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2158.0,
+   "end": 2159.8,
+   "text": "You don't want to quit the program.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2159.8,
+   "end": 2162.56,
+   "text": "You just want to silently ignore it, like if you're",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2162.56,
+   "end": 2165.4,
+   "text": "You're talking in a room full of people, and it's your turn to talk,",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2165.4,
+   "end": 2167.24,
+   "text": "and you're just like, pass.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2167.24,
+   "end": 2170.76,
+   "text": "They're still calling on you, but you're not doing or saying anything more.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2170.76,
+   "end": 2173.44,
+   "text": "Well, we can add this keyword to our code here.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2173.44,
+   "end": 2175.44,
+   "text": "Let me go back to my program here.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2175.44,
+   "end": 2179.16,
+   "text": "And instead of printing out again and again, x is not an integer,",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2179.16,
+   "end": 2180.48,
+   "text": "I could just do this.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2180.48,
+   "end": 2183.48,
+   "text": "I could pass on handling the error further.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2183.48,
+   "end": 2184.6,
+   "text": "I'm still catching it.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2184.6,
+   "end": 2188.04,
+   "text": "So the user is not going to see a scary message even mentioning value error.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2188.04,
+   "end": 2192.36,
+   "text": "My code is catching it, but I'm passing on saying anything about it.",
+   "avg_logprob": -0.124,
+   "no_speech_prob": 0.015
+  },
+  {
+   "start": 2192.36,
+   "end": 2194.48,
+   "text": "I'm going to stay in the loop, I'm going to stay in the loop,",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2194.48,
+   "end": 2196.32,
+   "text": "and keep prompting and reprompting the user.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2196.32,
+   "end": 2198.96,
+   "text": "So now the effect looks a little something like this.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2198.96,
+   "end": 2202.36,
+   "text": "Python of number.py, let's type in cat.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2202.36,
+   "end": 2203.2,
+   "text": "What's x again?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2203.2,
+   "end": 2204.52,
+   "text": "Let's type in dog.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2204.52,
+   "end": 2205.36,
+   "text": "What's x again?",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2205.36,
+   "end": 2206.4,
+   "text": "Type in bird.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2206.4,
+   "end": 2208.76,
+   "text": "So it's just a little maybe more user friendly",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2208.76,
+   "end": 2210.96,
+   "text": "in that you're just reminding the user what you want.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2210.96,
+   "end": 2211.84,
+   "text": "Maybe it's worse.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2211.84,
+   "end": 2214.8,
+   "text": "Maybe it would be helpful to tell the user why you're",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2214.8,
+   "end": 2216.44,
+   "text": "prompting them again and again.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2216.44,
+   "end": 2218.6,
+   "text": "It's not obvious, so it could go both ways.",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2218.6,
+   "end": 2221.16,
+   "text": "But again, it's just another mechanism now",
+   "avg_logprob": -0.139,
+   "no_speech_prob": 0.014
+  },
+  {
+   "start": 2221.16,
+   "end": 2222.44,
+   "text": "for handling these errors.",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2222.44,
+   "end": 2225.52,
+   "text": "We use the accept keyword to catch a specific error,",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2225.52,
+   "end": 2227.64,
+   "text": "but we don't have to handle it more than that.",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2227.64,
+   "end": 2230.6,
+   "text": "We can just pass on doing something further.",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2230.6,
+   "end": 2234.96,
+   "text": "Let me pause here and see if there's any questions now on try, except,",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2234.96,
+   "end": 2237.92,
+   "text": "else, or pass.",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2237.92,
+   "end": 2240.48,
+   "text": "OK, I was just kind of curious, I guess,",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2240.48,
+   "end": 2245.68,
+   "text": "about the idea of when you were indenting with the getint function,",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2245.68,
+   "end": 2247.48,
+   "text": "for example.",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2247.48,
+   "end": 2249.68,
+   "text": "Because I'm noticing, obviously, going through it",
+   "avg_logprob": -0.184,
+   "no_speech_prob": 0.036
+  },
+  {
+   "start": 2249.68,
+   "end": 2254.48,
+   "text": "with the whole logic and breakdown of the entire function while true do this.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2254.48,
+   "end": 2257.2,
+   "text": "But I'm just kind of curious and elaborating with the indentations",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2257.2,
+   "end": 2259.16,
+   "text": "for the code more.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2259.16,
+   "end": 2261.96,
+   "text": "Yeah, so the indentation is deliberate logically.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2261.96,
+   "end": 2265.52,
+   "text": "Some languages don't require as rigorous indentation.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2265.52,
+   "end": 2267.76,
+   "text": "You can use curly braces or other symbology",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2267.76,
+   "end": 2270.08,
+   "text": "to make clear what is associated with what.",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2270.08,
+   "end": 2274.8,
+   "text": "In general, anytime you indent something in Python on this line,",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2274.8,
+   "end": 2278.32,
+   "text": "rather, anytime you write a line of code in Python that's here,",
+   "avg_logprob": -0.164,
+   "no_speech_prob": 0.01
+  },
+  {
+   "start": 2278.32,
+   "end": 2281.08,
+   "text": "And the lines below it are somehow indented.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2281.08,
+   "end": 2284.68,
+   "text": "That means that those lines are somehow associated with that first line.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2284.68,
+   "end": 2287.36,
+   "text": "And presumably, those indented lines should only",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2287.36,
+   "end": 2293.2,
+   "text": "be executed if the first line told the computer to do so.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2293.2,
+   "end": 2294.96,
+   "text": "So concretely, what does this mean?",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2294.96,
+   "end": 2298.36,
+   "text": "On line six here, we're defining a function called getInt",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2298.36,
+   "end": 2300.84,
+   "text": "that takes no arguments colon.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2300.84,
+   "end": 2304.96,
+   "text": "Everything that's indented by at least four spaces here after",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2304.96,
+   "end": 2306.2,
+   "text": "is part of that function.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2306.2,
+   "end": 2306.72,
+   "text": "Why?",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.008
+  },
+  {
+   "start": 2306.72,
+   "end": 2309.48,
+   "text": "That's just the design of the Python language.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2309.48,
+   "end": 2312.68,
+   "text": "Frankly, I think the designers got tired of seeing really ugly code",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2312.68,
+   "end": 2317.6,
+   "text": "in languages like C and C++ and Java that don't necessarily",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2317.6,
+   "end": 2321.12,
+   "text": "enforce indentation to this extent.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2321.12,
+   "end": 2322.64,
+   "text": "So now it's baked into the language.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2322.64,
+   "end": 2324.4,
+   "text": "And my chronology might be a little off there,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2324.4,
+   "end": 2326.92,
+   "text": "but there's been many languages that are looser than Python",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2326.92,
+   "end": 2329.16,
+   "text": "when it comes to indentation.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2329.16,
+   "end": 2331.92,
+   "text": "The indentation is meaningful on line 7, 2.",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2331.92,
+   "end": 2335.08,
+   "text": "Notice that because the while true is indented by four spaces,",
+   "avg_logprob": -0.13,
+   "no_speech_prob": 0.003
+  },
+  {
+   "start": 2335.08,
+   "end": 2337.32,
+   "text": "That just means it's part of the get int function.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2337.32,
+   "end": 2341.4,
+   "text": "But notice, below the while true statement, there's 8, there's 12,",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2341.4,
+   "end": 2343.52,
+   "text": "there's 8, there's 12 spaces here.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2343.52,
+   "end": 2345.2,
+   "text": "And I'm just quickly counting the dots.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2345.2,
+   "end": 2347.6,
+   "text": "That means that all of the lines I've just highlighted",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2347.6,
+   "end": 2349.76,
+   "text": "are inside of that while loop.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2349.76,
+   "end": 2353.84,
+   "text": "While true means to execute lines 8 through 11 potentially again",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2353.84,
+   "end": 2354.68,
+   "text": "and again and again.",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2354.68,
+   "end": 2359.88,
+   "text": "And now lastly, on line 8, because we have try and indented",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2359.88,
+   "end": 2363.64,
+   "text": "below it is line 9, that just means that what you should try",
+   "avg_logprob": -0.134,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2363.64,
+   "end": 2365.12,
+   "text": "is what's on line 9.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2365.12,
+   "end": 2369.12,
+   "text": "And similarly, on line 10, below it, we have indented line 11,",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2369.12,
+   "end": 2374.0,
+   "text": "you should only pass when there is an exception of a value error.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2374.0,
+   "end": 2377.16,
+   "text": "So the indentation just means what is associated with what.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2377.16,
+   "end": 2378.96,
+   "text": "And once you get comfortable with that, you'll",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2378.96,
+   "end": 2383.72,
+   "text": "see that the indentation alone helps explain the logic of your program.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2383.72,
+   "end": 2386.8,
+   "text": "And it has a wonderful side effect that for yourself",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2386.8,
+   "end": 2389.6,
+   "text": "the next morning, for your colleagues, your family, your friends,",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2389.6,
+   "end": 2392.96,
+   "text": "your teachers, your code is much more readable as a result.",
+   "avg_logprob": -0.119,
+   "no_speech_prob": 0.079
+  },
+  {
+   "start": 2392.96,
+   "end": 2395.72,
+   "text": "It's not one big mess of a blob of text.",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2395.72,
+   "end": 2400.28,
+   "text": "Other questions now on try, except, else, or pass?",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2400.28,
+   "end": 2401.6,
+   "text": "Yeah, thanks.",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2401.6,
+   "end": 2405.4,
+   "text": "Two question, question one.",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2405.4,
+   "end": 2409.44,
+   "text": "Once you say pass, can the caller still",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2409.44,
+   "end": 2414.6,
+   "text": "learn anything about this error through a system variable or whatever?",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2414.6,
+   "end": 2419.32,
+   "text": "And question two, problem set zero referenced some string methods,",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2419.32,
+   "end": 2421.8,
+   "text": "including, is numeric?",
+   "avg_logprob": -0.192,
+   "no_speech_prob": 0.006
+  },
+  {
+   "start": 2421.8,
+   "end": 2427.6,
+   "text": "Is it any different to go via, is numeric here?",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2427.6,
+   "end": 2428.24,
+   "text": "Good question.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2428.24,
+   "end": 2430.88,
+   "text": "So on the first question, if I'm handling the error in this way,",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2430.88,
+   "end": 2433.08,
+   "text": "the caller is not going to know anything about it.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2433.08,
+   "end": 2436.64,
+   "text": "That's the point of my handling it, so that main or other callers",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2436.64,
+   "end": 2439.08,
+   "text": "don't know that anything technically went wrong.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2439.08,
+   "end": 2442.0,
+   "text": "On the second question, is numeric is another function",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2442.0,
+   "end": 2444.72,
+   "text": "that you can call that can look at a string and determine,",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2444.72,
+   "end": 2446.48,
+   "text": "is this, in fact, a number?",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2446.48,
+   "end": 2448.76,
+   "text": "I could use a mechanism like that.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2448.76,
+   "end": 2450.24,
+   "text": "I could use a conditional.",
+   "avg_logprob": -0.181,
+   "no_speech_prob": 0.013
+  },
+  {
+   "start": 2450.24,
+   "end": 2454.08,
+   "text": "If this looks like a number, then pass it to the int function",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2454.08,
+   "end": 2456.16,
+   "text": "and go ahead and convert it to an integer.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2456.16,
+   "end": 2457.64,
+   "text": "That's totally fine.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2457.64,
+   "end": 2461.24,
+   "text": "I would generally say that the Pythonic way of doing things",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2461.24,
+   "end": 2464.8,
+   "text": "is often, for better or for worse, to try things.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2464.8,
+   "end": 2468.24,
+   "text": "Hope they work, but if they don't, handle the exception.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2468.24,
+   "end": 2472.56,
+   "text": "So other languages are more in favor of checking if, if, if,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2472.56,
+   "end": 2475.24,
+   "text": "if, l, if, else in all of these conditionals.",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2475.24,
+   "end": 2479.6,
+   "text": "Python tends to be a little more of the mindset, eh, try it,",
+   "avg_logprob": -0.136,
+   "no_speech_prob": 0.004
+  },
+  {
+   "start": 2479.6,
+   "end": 2481.56,
+   "text": "But just make sure you're handling the error.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2481.56,
+   "end": 2483.64,
+   "text": "So this would be the Pythonic way of doing it.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2483.64,
+   "end": 2486.64,
+   "text": "Your way, though, checking with the conditional, is it a number first?",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2486.64,
+   "end": 2490.04,
+   "text": "Is totally reasonable, too, if you want to go that way.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2490.04,
+   "end": 2493.16,
+   "text": "Well, let me propose some final refinements to this program that",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2493.16,
+   "end": 2497.8,
+   "text": "really just kind of tighten things up one additional step to improve",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2497.8,
+   "end": 2500.36,
+   "text": "the implementation of this getInt function.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2500.36,
+   "end": 2503.88,
+   "text": "Let me propose that we not hard code, so to speak, that is type",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2503.88,
+   "end": 2505.92,
+   "text": "manually x all over the place.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2505.92,
+   "end": 2509.28,
+   "text": "Let's make this function getInt a little more reusable.",
+   "avg_logprob": -0.135,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2509.28,
+   "end": 2512.56,
+   "text": "Right now, notice that I'm just kind of using the honor system",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2512.56,
+   "end": 2516.16,
+   "text": "that, well, main is defining a variable called x,",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2516.16,
+   "end": 2520.12,
+   "text": "and getInt is asking for a variable called x.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2520.12,
+   "end": 2523.24,
+   "text": "But it would be nice if the caller, main, doesn't",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2523.24,
+   "end": 2527.08,
+   "text": "have to know what the calle is naming its variables and vice-versa.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2527.08,
+   "end": 2529.76,
+   "text": "So caller to call a function means to use it.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2529.76,
+   "end": 2531.84,
+   "text": "The caller is the function that's using it.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2531.84,
+   "end": 2534.56,
+   "text": "The calle is just the function being called.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2534.56,
+   "end": 2536.92,
+   "text": "It would be nice if I'm not just hoping",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2536.92,
+   "end": 2538.96,
+   "text": "that x is the same in both places.",
+   "avg_logprob": -0.127,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2538.96,
+   "end": 2540.6,
+   "text": "So let me propose this.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2540.6,
+   "end": 2547.28,
+   "text": "Let me propose that we actually add a parameter to get int like this.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2547.28,
+   "end": 2548.44,
+   "text": "What's x?",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2548.44,
+   "end": 2551.68,
+   "text": "That is to say, if main wants to use the get int function,",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2551.68,
+   "end": 2554.84,
+   "text": "well then main should probably tell the get int function",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2554.84,
+   "end": 2556.44,
+   "text": "what prompt to show the user.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2556.44,
+   "end": 2559.52,
+   "text": "Just like the input function recall that comes with Python,",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2559.52,
+   "end": 2562.4,
+   "text": "it's up to you to pass in a prompt that the user then",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2562.4,
+   "end": 2565.44,
+   "text": "sees when the human is asked for input.",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2565.44,
+   "end": 2567.4,
+   "text": "So how do I make this work here?",
+   "avg_logprob": -0.114,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2567.4,
+   "end": 2569.44,
+   "text": "I can go down to my definition of get int.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2569.44,
+   "end": 2573.84,
+   "text": "And I can say, all right, get int is going to take a parameter now called prompt.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2573.84,
+   "end": 2577.64,
+   "text": "I could call it anything I want, but prompt in English is pretty self-explanatory.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2577.64,
+   "end": 2578.52,
+   "text": "It means what do you want?",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2578.52,
+   "end": 2580.16,
+   "text": "The message the user will see.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2580.16,
+   "end": 2582.96,
+   "text": "And now, down here, when I actually use input,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2582.96,
+   "end": 2585.44,
+   "text": "I don't have to presumptuously say what's x,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2585.44,
+   "end": 2587.88,
+   "text": "because what if the program, the caller,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2587.88,
+   "end": 2591.08,
+   "text": "wants to ask for y, or z, or some other variable,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2591.08,
+   "end": 2596.0,
+   "text": "I can just pass to input whatever prompt the caller has provided.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.005
+  },
+  {
+   "start": 2596.0,
+   "end": 2598.32,
+   "text": "So now I'm making more reusable code.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2598.32,
+   "end": 2600.04,
+   "text": "It still works just the same.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2600.04,
+   "end": 2602.24,
+   "text": "I haven't changed the functionality per se,",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2602.24,
+   "end": 2605.72,
+   "text": "but now it's a little more dynamic because now getint doesn't have",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2605.72,
+   "end": 2609.92,
+   "text": "to know or care what variable is being asked for, what's being asked for.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2609.92,
+   "end": 2613.6,
+   "text": "It just needs to know what prompt it should show to the user.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2613.6,
+   "end": 2617.92,
+   "text": "So if I now run this program down here again, prompt number dot pi enter",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2617.92,
+   "end": 2620.52,
+   "text": "what's x, 50, still seems to work.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2620.52,
+   "end": 2621.24,
+   "text": "Let's run it again.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2621.24,
+   "end": 2622.36,
+   "text": "Let's type in cat.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2622.36,
+   "end": 2623.6,
+   "text": "It still seems to work.",
+   "avg_logprob": -0.171,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2623.6,
+   "end": 2626.36,
+   "text": "And if I type in cat, dog, bird, or anything else,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2626.36,
+   "end": 2628.64,
+   "text": "it will keep prompting me with that same prompt,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2628.64,
+   "end": 2631.92,
+   "text": "making this code, therefore, all the more usable.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2631.92,
+   "end": 2635.24,
+   "text": "Now, it turns out, too, you can even raise exceptions yourself",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2635.24,
+   "end": 2639.52,
+   "text": "using Python's raise keyword, but more on that another time.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2639.52,
+   "end": 2642.04,
+   "text": "So in the coming days, the coming weeks, the coming months,",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2642.04,
+   "end": 2643.84,
+   "text": "as you write more code in Python, you'll",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2643.84,
+   "end": 2645.6,
+   "text": "see that errors are inevitable.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2645.6,
+   "end": 2647.44,
+   "text": "Sometimes there's syntax errors, which",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2647.44,
+   "end": 2650.56,
+   "text": "you've got to just fix if you even want to run your program at all.",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2650.56,
+   "end": 2653.04,
+   "text": "But they could be name errors, for instance, variables",
+   "avg_logprob": -0.122,
+   "no_speech_prob": 0.002
+  },
+  {
+   "start": 2653.04,
+   "end": 2655.12,
+   "text": "that you meant to define but somehow didn't,",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2655.12,
+   "end": 2657.28,
+   "text": "value errors where maybe the user didn't cooperate",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2657.28,
+   "end": 2659.96,
+   "text": "and provided you with something that you weren't expecting",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2659.96,
+   "end": 2664.04,
+   "text": "or a whole list of other possible errors or exceptions.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2664.04,
+   "end": 2666.84,
+   "text": "But now, hopefully, you know how you can handle these errors",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2666.84,
+   "end": 2669.28,
+   "text": "and respond to them in any way you like.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  },
+  {
+   "start": 2669.28,
+   "end": 2673.68,
+   "text": "This then was our look at exceptions, and we'll see you next time.",
+   "avg_logprob": -0.138,
+   "no_speech_prob": 0.001
+  }
+ ]
+}

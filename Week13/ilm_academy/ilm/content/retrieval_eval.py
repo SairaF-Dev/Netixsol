@@ -65,6 +65,41 @@ class VectorSystem:
         return [h["lesson_id"] for h in hits]
 
 
+def rrf(rankings: list[list[str]], k: int = 60) -> list[str]:
+    """Reciprocal Rank Fusion: an item's score is the sum of 1 / (k + rank) over rankings."""
+    fused: dict[str, float] = {}
+    for ranking in rankings:
+        for r, item in enumerate(ranking, start=1):
+            fused[item] = fused.get(item, 0.0) + 1 / (k + r)
+    return sorted(fused, key=lambda c: -fused[c])
+
+
+class HybridSystem:
+    """Reciprocal Rank Fusion of BM25 and vector search over the same chunks:
+    score(chunk) = sum over systems of 1 / (RRF_K + rank). Keyword search is strong on exact
+    terms, embeddings on paraphrases; RRF needs no score scaling, only ranks."""
+    RRF_K = 60          # the constant from Cormack et al. (2009); not tuned
+    POOL = 50           # chunks taken from each system before fusing
+
+    def __init__(self):
+        from rank_bm25 import BM25Okapi
+        from ilm.content import index
+        self.chunks, _ = index.collect_chunks()
+        self.lesson_of = {c.id: c.lesson_id for c in self.chunks}
+        self.bm25 = BM25Okapi([_tokens(c.text) for c in self.chunks])
+        self._search = index.search
+        self.name = "hybrid:bm25+vector (RRF)"
+
+    def ranked_ids(self, question: str) -> list[str]:
+        scores = self.bm25.get_scores(_tokens(question))
+        kw = [self.chunks[i].id for i in sorted(range(len(scores)), key=lambda i: -scores[i])[:self.POOL]]
+        vec = [h["id"] for h in self._search(question, k=self.POOL)]
+        return rrf([kw, vec], self.RRF_K)
+
+    def lessons(self, question: str) -> list[str]:
+        return [self.lesson_of[c] for c in self.ranked_ids(question)[:TOP_K]]
+
+
 # ------------------------------------------------------------------ scoring ----
 def first_hit_rank(retrieved: list[str], relevant: list[str]) -> int | None:
     for rank, lesson in enumerate(retrieved, start=1):
@@ -95,13 +130,14 @@ def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--split", default="dev", choices=["dev", "holdout"])
     p.add_argument("--final", action="store_true", help="required to score the holdout set")
-    p.add_argument("--systems", nargs="+", default=["bm25", "vector"])
+    p.add_argument("--systems", nargs="+", default=["bm25", "vector", "hybrid"])
     a = p.parse_args()
     if a.split == "holdout" and not a.final:
         raise SystemExit("Holdout is the final exam: score it once, after all tuning, with --final.")
 
     questions = load_questions(a.split)
-    systems = {"bm25": BM25System, "vector": VectorSystem}
+    systems = {"bm25": BM25System, "vector": VectorSystem, "hybrid": HybridSystem,
+               "vector-base": lambda: VectorSystem("BAAI/bge-base-en-v1.5", "course_content_bge_base")}
     results = [evaluate(systems[s](), questions) for s in a.systems]
 
     for res in results:
