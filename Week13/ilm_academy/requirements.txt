@@ -31,6 +31,9 @@ python-dotenv
 pytest
 jupyter
 nbconvert
+# Day 3: tutor LLM (provider set in .env: LLM_PROVIDER, LLM_MODEL, LLM_API_KEY)
+google-genai
+
 # Day 2: knowledge tracing, adaptive engine, dropout early warning
 scikit-learn          # PFA, metrics, logistic baseline
 torch                 # DKT / SAKT (CPU is enough)
