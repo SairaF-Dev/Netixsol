@@ -98,7 +98,7 @@ After each answer, two steps:
 1. **Evidence (Bayes' rule).** A right answer raises the belief, but less when guessing is easy.
    A wrong answer lowers it, but less when careless slips are common.
 2. **Learning.** Practice itself may have taught them: add `learns` x the remaining doubt.
-Mastered when P(knows) >= 0.95 (the classic threshold).
+Mastered when P(knows) >= 0.95 (the classic threshold). *Later changed: see Part 5.*
 Our 10-line tracker (`ilm/tracing/mastery.py`) gives the same predictions as pyBKT to
 4 decimals, so the adaptive engine can use it directly.
 
@@ -118,3 +118,83 @@ Our 10-line tracker (`ilm/tracing/mastery.py`) gives the same predictions as pyB
    on a 4-option MCQ than on a coding question?
 8. A background job has printed nothing for an hour. Name three different things that
    could be happening, and how you would tell them apart.
+
+## Part 4: Final knowledge-tracing scores (test students, scored once)
+
+| model | AUC | accuracy | RMSE | train time |
+|---|---|---|---|---|
+| DKT (LSTM, 128) | **0.770** | **0.736** | **0.423** | 4 min |
+| SAKT (attention, 128) | 0.747 | 0.722 | 0.432 | 8 min |
+| BKT with forgetting | 0.738 | 0.717 | 0.436 | 77 min |
+| PFA | 0.736 | 0.713 | 0.436 | 2 s |
+| student's accuracy so far | 0.711 | 0.691 | 0.448 | 0 |
+| skill average | 0.624 | 0.658 | 0.467 | 0 |
+| everyone's average | 0.500 | 0.646 | 0.478 | 0 |
+
+- Every real model beats every baseline; DKT wins clearly.
+- SAKT beats DKT in many papers but not here: ~2,700 training students suit the simpler LSTM.
+- BKT and PFA tie, but BKT's numbers MEAN something (knows / learns / guesses / slips), so
+  BKT drives mastery in the adaptive engine; accuracy is not the only reason to pick a model.
+- "Everyone's average" is 64.6% accurate with AUC 0.500: accuracy alone can fool you.
+
+## Part 5: A confident number with little evidence, and the adaptive engine
+
+### The bug the simulator caught
+When the tracker said "at least 95% sure they know it", only 44.5% truly knew it. Cause: the
+history has 3 answers per concept, too few for pyBKT to tell "learned fast" from "got lucky";
+some concepts got learn rates near 1, so 1-2 right answers jumped P(known) past 0.95.
+
+### Fixes
+1. **Earn mastery with evidence:** P(known) >= 0.95 AND 3 right in a row (ASSISTments' rule).
+2. **Lose it only when P(known) drops below 0.95 again** (hysteresis, like a thermostat):
+   one careless slip no longer sends a student back to relearn a concept.
+3. **Degenerate parameters** (guess + slip >= 1: a right answer would LOWER the belief) are
+   replaced by the healthy concepts' median: 7 of 65 concepts.
+Now 95% of the engine's "mastered" calls are true.
+
+### Adaptive vs fixed path (1,000 fresh simulated students, same students on both)
+| adaptive minus fixed | result (95% interval) |
+|---|---|
+| quit by week 3 | **-11.0 points** [-14.7, -7.5] |
+| concepts truly known at the end | **-5.1** [-5.8, -4.4] |
+
+- **Depth vs breadth:** the fixed path touches ~34 concepts (3 questions each, learned or
+  not; some stick by chance); the engine works through ~9 and makes sure they are learned.
+- **Ablations:** prerequisites matter most; ZPD and the bandit barely matter; reviews cost
+  the most time.
+- **Development vs fresh students:** the fix was found on the seed-2026 students, so the
+  claim is checked on seed 2027, the same rule as never tuning on the test set.
+
+## Part 6: Personalised learning path
+
+- **Path:** every unmastered concept in prerequisite order; "quick check" if P(known) >= 0.8
+  already, otherwise a lesson; "after X" when a prerequisite is missing.
+- **Time:** expected answers to mastery (simulating BKT 400 times with the same mastery
+  rule) x typical seconds per answer x the student's own speed.
+  Checked on 2,554 cases: median actual / estimate = 0.92 (unbiased), but only 57% within x2.
+- **Message:** a template filled with the plan's own numbers, not an LLM, so it can never
+  promise "2 weeks" when the plan says 32 days.
+
+## Part 7: Dropout early warning
+
+- **Setup:** at the end of each week, predict "won't come back next week" from answers so far.
+- **PR-AUC, not accuracy:** about 1 in 5 quit each week, so "nobody quits" is 80% accurate and
+  useless. PR-AUC's zero-skill value is the base rate (0.195), not 0.5.
+- **Results:** LightGBM 0.317, logistic 0.324. The simulator's own rule scored directly
+  (the ceiling) gets 0.307 from visible data and 0.386 if you could see hidden motivation.
+  Both models are at the ceiling, and LightGBM cannot beat logistic because the rule IS logistic.
+- **SHAP:** for each student, how much each feature pushed THIS prediction up or down.
+  The top driver, accuracy on the last 10 answers, is exactly the simulator's rule.
+- **Correlated features share credit:** "empty week" got 0 because "answers this week = 0" says
+  the same thing; low SHAP does not always mean "doesn't matter".
+- **Risk levels by capacity:** top 10% = mentor call, next 20% = nudge, the rest = nothing extra.
+  Flagging 30% catches about half the quitters.
+
+### Check yourself
+9. You must ship a tracing model to a school with no GPU, and teachers ask "why does it think
+   Ali hasn't learned loops?". Which model, and what do you give up?
+10. The adaptive engine's students are right 19 points more often. Why is that NOT evidence
+    they learned more?
+11. Why are the risk levels set by capacity (top 10%) and not "probability above 50%"?
+12. SHAP says "empty week" has zero influence. Does inactivity not matter? What else could
+    explain it?

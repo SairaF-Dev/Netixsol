@@ -50,3 +50,8 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 - [x] Day 1 Task 3: question bank (225 questions, every answer checked by running code: `python -m ilm.questions.validate`)
 - [x] Day 1 Task 4: learner data (ASSISTments 2009-10 cleaned: 525,534 rows -> 283,105 real answers) and a simulator of 1,000 students + Ali and Sara, dropout calibrated to 45% before week 4
 - [x] Day 1 Task 5: EDA notebook (`notebooks/day1_eda.ipynb`): accuracy per concept, learning curves, dropout points, hardest concepts, each with an insight computed from the numbers (`reports/eda/insights.csv`)
+- [x] Day 2 Task 1: knowledge tracing on ASSISTments, student-level split, test scored once: DKT 0.770 AUC > SAKT 0.747 > BKT 0.738 > PFA 0.736 > best baseline 0.711 (`reports/tracing/results.md`)
+- [x] Day 2 Task 2: BKT mastery per concept (earned with 3 in a row, hysteresis) and 1PL/2PL IRT: 12/12 planted bad questions found (`reports/irt/`, `reports/mastery/`)
+- [x] Day 2 Task 3: adaptive engine (prerequisites, 60-80% ZPD, Thompson sampling, spaced repetition) vs fixed path on fresh students: -11 pts week-3 dropout, -5.1 concepts known (`reports/adaptive/`)
+- [x] Day 2 Task 4: personalised learning path with time estimates (median actual/estimate 0.92) and UrduLish message (`reports/learning_path/`)
+- [x] Day 2 Task 5: dropout early warning: LightGBM + SHAP, PR-AUC 0.317 vs ceiling 0.307 (visible data), risk levels with actions (`reports/dropout/report.md`)
