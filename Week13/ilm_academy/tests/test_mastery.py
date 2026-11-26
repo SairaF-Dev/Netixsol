@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from ilm.tracing.mastery import MASTERED, MasteryTracker, trace
+from ilm.tracing.mastery import MASTERED, STREAK, MasteryTracker, repair_degenerate, trace
 
 PARAMS = pd.DataFrame({"prior": [0.3], "learns": [0.2], "guesses": [0.25], "slips": [0.1]},
                       index=["loops"])
@@ -63,3 +63,26 @@ def test_tracker_matches_pybkt_predictions():
 
 def test_threshold_is_the_classic_095():
     assert MASTERED == 0.95
+
+
+def test_one_lucky_answer_is_not_mastery_even_with_a_huge_learn_rate():
+    fast = PARAMS.assign(learns=0.99)
+    t = MasteryTracker(fast)
+    t.update("loops", True)
+    assert t.p_known("loops") >= MASTERED and not t.mastered("loops")   # confident, no evidence
+    for _ in range(STREAK - 1):
+        t.update("loops", True)
+    assert t.mastered("loops")
+    t.update("loops", False)                                            # a miss resets the streak
+    assert not t.mastered("loops")
+
+
+def test_degenerate_parameters_are_replaced():
+    p = pd.DataFrame({"prior": [0.3, 0.4, 0.5], "learns": [0.2, 0.1, 0.9],
+                      "guesses": [0.2, 0.3, 0.7], "slips": [0.1, 0.1, 0.6]}, index=["a", "b", "bad"])
+    fixed = repair_degenerate(p)
+    assert fixed.attrs["repaired"] == ["bad"]
+    assert fixed.loc["bad"].tolist() == p.loc[["a", "b"]].median().tolist()
+    t = MasteryTracker(fixed)
+    before = t.p_known("bad")
+    assert t.update("bad", True) > before                               # right answers help again

@@ -10,7 +10,16 @@ simulated course's PUBLIC answers. The per-student update is the standard BKT ru
        P(L) <- P(L | answer) + (1 - P(L | answer)) * learns
 
   P(right next time) = P(L)(1 - slip) + (1 - P(L)) guess
-  mastered when P(L) >= 0.95 (Corbett & Anderson's classic threshold)
+  mastered when P(L) >= 0.95 (Corbett & Anderson's classic threshold) AND the last
+  STREAK answers on the concept were right (ASSISTments skill builders' "3 in a row").
+
+Why both: the simulated history has only 3 answers per concept, too few for pyBKT to tell
+"learned fast" from "got lucky"; some concepts got learn rates near 1, so P(L) passed 0.95
+after one or two right answers while fewer than half of those students truly knew it
+(reports/mastery/summary.json). The streak is the evidence the probability alone lacks.
+
+Degenerate parameters (guess + slip >= 1: a right answer would LOWER P(L)) are replaced by
+the median of the healthy concepts, and listed in the report.
 
 Run:  python -m ilm.tracing.mastery   (fits the parameters and checks them against the truth)
 """
@@ -25,6 +34,7 @@ import pandas as pd
 from ilm import config
 
 MASTERED = 0.95
+STREAK = 3
 PARAMS_FILE = config.MODELS_DIR / "bkt_concept_params.csv"
 
 
@@ -34,6 +44,7 @@ class MasteryTracker:
     columns prior, learns, guesses, slips."""
     params: pd.DataFrame
     known: dict[str, float] = field(default_factory=dict)
+    streak: dict[str, int] = field(default_factory=dict)      # right answers in a row
 
     def p_known(self, concept: str) -> float:
         return self.known.get(concept, float(self.params.at[concept, "prior"]))
@@ -50,10 +61,11 @@ class MasteryTracker:
         else:
             post = p * slip / (p * slip + (1 - p) * (1 - guess))
         self.known[concept] = post + (1 - post) * row["learns"]
+        self.streak[concept] = self.streak.get(concept, 0) + 1 if correct else 0
         return self.known[concept]
 
     def mastered(self, concept: str) -> bool:
-        return self.p_known(concept) >= MASTERED
+        return self.p_known(concept) >= MASTERED and self.streak.get(concept, 0) >= STREAK
 
     def report(self) -> pd.DataFrame:
         rows = [{"concept": c, "p_known": round(self.p_known(c), 3), "mastered": self.mastered(c)}
@@ -83,7 +95,20 @@ def fit_params(log: pd.DataFrame) -> pd.DataFrame:
     m.fit(data=d, defaults={"user_id": "student_id", "skill_name": "concept",
                             "correct": "correct", "order_id": "_order"})
     p = m.params().reset_index().pivot_table(index="skill", columns="param", values="value")
-    return p[["prior", "learns", "guesses", "slips"]].rename_axis("concept")
+    return repair_degenerate(p[["prior", "learns", "guesses", "slips"]].rename_axis("concept"))
+
+
+def degenerate(params: pd.DataFrame) -> pd.Series:
+    return params["guesses"] + params["slips"] >= 1
+
+
+def repair_degenerate(params: pd.DataFrame) -> pd.DataFrame:
+    """Concepts where a right answer would lower P(known) get the healthy concepts' median."""
+    bad = degenerate(params)
+    out = params.copy()
+    out.loc[bad] = params.loc[~bad].median().to_numpy()
+    out.attrs["repaired"] = sorted(params.index[bad])
+    return out
 
 
 def main() -> None:
@@ -103,6 +128,11 @@ def main() -> None:
              .agg(["mean", "size"]).round(3))
     report = {
         "concepts": len(params),
+        "degenerate_replaced_by_median": params.attrs.get("repaired", []),
+        "mastery_rule": f"P(known) >= {MASTERED} and last {STREAK} answers right",
+        "note": "3 answers per concept in this history, so the streak rule cannot fire here; "
+                "the bins show how far P(known) ALONE can be trusted. The engine's mastery "
+                "calls are checked against the truth in reports/adaptive/comparison.json.",
         "auc_p_known_vs_truth_knew": round(float(roc_auc_score(truth, traced["p_known_before"])), 3),
         "auc_p_correct_vs_answer": round(float(roc_auc_score(log["correct"], traced["p_correct_before"])), 3),
         "calibration_share_truly_known_by_p_known_bin": {str(k): v for k, v in calib["mean"].items()},

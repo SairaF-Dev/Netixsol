@@ -1,0 +1,222 @@
+{
+ "students": 1000,
+ "eval_seed": 2026,
+ "drop_base": -1.511,
+ "caveat": "Simulated students; the simulator rewards what the engine does. Evidence, not proof.",
+ "policies": [
+  {
+   "policy": "fixed path",
+   "truth_known_at_end": 16.986,
+   "dropped_by_week3": 0.469,
+   "dropped_ever": 0.736,
+   "hours": 2.8507,
+   "n_answers": 98.892,
+   "accuracy": 0.5387
+  },
+  {
+   "policy": "adaptive (all four ideas)",
+   "mastered_calls": 7247,
+   "truly_known_share": 0.967,
+   "truth_known_at_end": 11.157,
+   "truth_known_at_end_vs_fixed": [
+    -5.829,
+    -6.465,
+    -5.185
+   ],
+   "dropped_by_week3": 0.379,
+   "dropped_by_week3_vs_fixed": [
+    -0.09,
+    -0.128,
+    -0.054
+   ],
+   "dropped_ever": 0.667,
+   "dropped_ever_vs_fixed": [
+    -0.069,
+    -0.105,
+    -0.033
+   ],
+   "hours": 2.4764,
+   "hours_vs_fixed": [
+    -0.3743,
+    -0.5174,
+    -0.2359
+   ],
+   "n_answers": 127.944,
+   "n_answers_vs_fixed": [
+    29.052,
+    24.0756,
+    33.8971
+   ],
+   "accuracy": 0.732,
+   "accuracy_vs_fixed": [
+    0.1933,
+    0.1867,
+    0.2001
+   ]
+  },
+  {
+   "policy": "adaptive without prerequisites",
+   "mastered_calls": 6003,
+   "truly_known_share": 0.944,
+   "truth_known_at_end": 9.599,
+   "truth_known_at_end_vs_fixed": [
+    -7.387,
+    -8.029,
+    -6.725
+   ],
+   "dropped_by_week3": 0.386,
+   "dropped_by_week3_vs_fixed": [
+    -0.083,
+    -0.116,
+    -0.051
+   ],
+   "dropped_ever": 0.716,
+   "dropped_ever_vs_fixed": [
+    -0.02,
+    -0.052,
+    0.014
+   ],
+   "hours": 1.9772,
+   "hours_vs_fixed": [
+    -0.8735,
+    -1.0058,
+    -0.7421
+   ],
+   "n_answers": 122.264,
+   "n_answers_vs_fixed": [
+    23.372,
+    18.894,
+    27.8315
+   ],
+   "accuracy": 0.6807,
+   "accuracy_vs_fixed": [
+    0.142,
+    0.1355,
+    0.1485
+   ]
+  },
+  {
+   "policy": "adaptive without ZPD",
+   "mastered_calls": 6770,
+   "truly_known_share": 0.964,
+   "truth_known_at_end": 11.425,
+   "truth_known_at_end_vs_fixed": [
+    -5.561,
+    -6.195,
+    -4.9459
+   ],
+   "dropped_by_week3": 0.378,
+   "dropped_by_week3_vs_fixed": [
+    -0.091,
+    -0.125,
+    -0.058
+   ],
+   "dropped_ever": 0.693,
+   "dropped_ever_vs_fixed": [
+    -0.043,
+    -0.078,
+    -0.006
+   ],
+   "hours": 2.3773,
+   "hours_vs_fixed": [
+    -0.4734,
+    -0.6058,
+    -0.3389
+   ],
+   "n_answers": 124.912,
+   "n_answers_vs_fixed": [
+    26.02,
+    21.2057,
+    30.5731
+   ],
+   "accuracy": 0.7242,
+   "accuracy_vs_fixed": [
+    0.1855,
+    0.1794,
+    0.1919
+   ]
+  },
+  {
+   "policy": "adaptive without bandit",
+   "mastered_calls": 7355,
+   "truly_known_share": 0.962,
+   "truth_known_at_end": 11.201,
+   "truth_known_at_end_vs_fixed": [
+    -5.785,
+    -6.428,
+    -5.145
+   ],
+   "dropped_by_week3": 0.377,
+   "dropped_by_week3_vs_fixed": [
+    -0.092,
+    -0.128,
+    -0.058
+   ],
+   "dropped_ever": 0.681,
+   "dropped_ever_vs_fixed": [
+    -0.055,
+    -0.087,
+    -0.021
+   ],
+   "hours": 2.1053,
+   "hours_vs_fixed": [
+    -0.7454,
+    -0.8754,
+    -0.6218
+   ],
+   "n_answers": 126.056,
+   "n_answers_vs_fixed": [
+    27.164,
+    22.2391,
+    31.6427
+   ],
+   "accuracy": 0.7283,
+   "accuracy_vs_fixed": [
+    0.1896,
+    0.1832,
+    0.196
+   ]
+  },
+  {
+   "policy": "adaptive without reviews",
+   "mastered_calls": 11443,
+   "truly_known_share": 0.947,
+   "truth_known_at_end": 14.333,
+   "truth_known_at_end_vs_fixed": [
+    -2.653,
+    -3.246,
+    -2.066
+   ],
+   "dropped_by_week3": 0.414,
+   "dropped_by_week3_vs_fixed": [
+    -0.055,
+    -0.089,
+    -0.022
+   ],
+   "dropped_ever": 0.692,
+   "dropped_ever_vs_fixed": [
+    -0.044,
+    -0.076,
+    -0.009
+   ],
+   "hours": 2.8184,
+   "hours_vs_fixed": [
+    -0.0323,
+    -0.1701,
+    0.1054
+   ],
+   "n_answers": 123.704,
+   "n_answers_vs_fixed": [
+    24.812,
+    20.3446,
+    29.4082
+   ],
+   "accuracy": 0.6871,
+   "accuracy_vs_fixed": [
+    0.1484,
+    0.1421,
+    0.1544
+   ]
+  }
+ ]
+}

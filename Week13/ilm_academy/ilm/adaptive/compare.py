@@ -55,6 +55,15 @@ def outcomes(log: pd.DataFrame, people: pd.DataFrame) -> pd.DataFrame:
     return out.drop(columns="dropped_week")
 
 
+def mastery_calls(engine: AdaptiveEngine, group) -> dict:
+    """At the end: of the concepts the engine says are mastered, how many does the student
+    truly know (simulator truth, never shown to the engine)?"""
+    said = [(s.student_id, c) for s in group for c in engine.order if engine.mastered(s.student_id, c)]
+    knows = {s.student_id: s.known for s in group}
+    right = sum(c in knows[sid] for sid, c in said)
+    return {"mastered_calls": len(said), "truly_known_share": round(right / max(len(said), 1), 3)}
+
+
 def paired_ci(diff: np.ndarray, n_boot: int = 2000, seed: int = 0) -> tuple[float, float, float]:
     rng = np.random.default_rng(seed)
     means = [rng.choice(diff, len(diff)).mean() for _ in range(n_boot)]
@@ -72,10 +81,13 @@ def main() -> None:
         "adaptive without bandit": lambda: engine(course, use_bandit=False),
         "adaptive without reviews": lambda: engine(course, use_reviews=False),
     }
-    results = {}
+    results, calls = {}, {}
     for name, make in policies.items():
-        log, people = sim.run_course(students(course), course, make(), EVAL_SEED, base)
+        group, policy = students(course), make()
+        log, people = sim.run_course(group, course, policy, EVAL_SEED, base)
         results[name] = outcomes(log, people)
+        if isinstance(policy, AdaptiveEngine):
+            calls[name] = mastery_calls(policy, group)
         r = results[name]
         print(f"{name:32s} known {r['truth_known_at_end'].mean():5.1f}  dropped by wk3 "
               f"{r['dropped_by_week3'].mean():.1%}  hours {r['hours'].mean():4.1f}  accuracy {r['accuracy'].mean():.2f}",
@@ -84,7 +96,7 @@ def main() -> None:
     fixed = results["fixed path"]
     rows = []
     for name, r in results.items():
-        row = {"policy": name}
+        row = {"policy": name, **calls.get(name, {})}
         for m in ("truth_known_at_end", "dropped_by_week3", "dropped_ever", "hours", "n_answers", "accuracy"):
             row[m] = round(float(r[m].mean()), 4)
             if name != "fixed path":

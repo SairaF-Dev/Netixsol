@@ -1,0 +1,32 @@
+{
+ "concepts": 65,
+ "degenerate_replaced_by_median": [
+  "class_static_methods",
+  "elif_else",
+  "f_strings",
+  "generators",
+  "regular_expressions",
+  "tuples_unpacking",
+  "type_hints"
+ ],
+ "mastery_rule": "P(known) >= 0.95 and last 3 answers right",
+ "note": "3 answers per concept in this history, so the streak rule cannot fire here; the bins show how far P(known) ALONE can be trusted. The engine's mastery calls are checked against the truth in reports/adaptive/comparison.json.",
+ "auc_p_known_vs_truth_knew": 0.659,
+ "auc_p_correct_vs_answer": 0.639,
+ "calibration_share_truly_known_by_p_known_bin": {
+  "(-0.001, 0.2]": 0.135,
+  "(0.2, 0.4]": 0.138,
+  "(0.4, 0.6]": 0.223,
+  "(0.6, 0.8]": 0.316,
+  "(0.8, 0.95]": 0.382,
+  "(0.95, 1.0]": 0.445
+ },
+ "answers_per_bin": {
+  "(-0.001, 0.2]": 12902,
+  "(0.2, 0.4]": 30529,
+  "(0.4, 0.6]": 24468,
+  "(0.6, 0.8]": 18322,
+  "(0.8, 0.95]": 11777,
+  "(0.95, 1.0]": 9300
+ }
+}

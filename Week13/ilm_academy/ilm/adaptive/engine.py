@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 from ilm import config
-from ilm.tracing.mastery import MASTERED, MasteryTracker
+from ilm.tracing.mastery import MasteryTracker
 
 ZPD = (0.60, 0.80)
 REVIEW_DAYS = (1, 3, 7, 14, 30)
@@ -83,7 +83,7 @@ class AdaptiveEngine:
         return 1 / (1 + math.exp(-(_logit(p) - self.shift.get(q, 0.0))))
 
     def mastered(self, sid: str, c: str) -> bool:
-        return self._st(sid).tracker.p_known(c) >= MASTERED
+        return self._st(sid).tracker.mastered(c)
 
     def unlocked(self, sid: str, c: str) -> bool:
         return not self.use["prereqs"] or all(self.mastered(sid, p) for p in self.prereqs.get(c, []))
