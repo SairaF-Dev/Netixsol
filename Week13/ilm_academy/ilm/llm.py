@@ -34,11 +34,12 @@ def _retryable(err: Exception) -> bool:
 
 
 def ask(prompt: str, system: str | None = None, temperature: float = 0.2,
-        model: str | None = None, max_tokens: int = 1024) -> str:
-    """Send one prompt, return the text answer."""
+        model: str | None = None, max_tokens: int = 1024, json_mode: bool = False) -> str:
+    """Send one prompt, return the text answer (a JSON string when json_mode)."""
     from google.genai import types
     cfg = types.GenerateContentConfig(temperature=temperature, max_output_tokens=max_tokens,
-                                      system_instruction=system)
+                                      system_instruction=system,
+                                      response_mime_type="application/json" if json_mode else None)
     for attempt in range(RETRIES):
         try:
             r = _client().models.generate_content(model=model or config.LLM_MODEL, contents=prompt, config=cfg)

@@ -18,6 +18,7 @@ from pathlib import Path
 import yaml
 
 from ilm import config
+from ilm.content.search import rrf, tokens as _tokens  # noqa: F401  (rrf re-exported for tests)
 
 BENCHMARK = Path(__file__).with_name("retrieval_benchmark.yaml")
 TOP_K = 10
@@ -29,10 +30,6 @@ def load_questions(split: str) -> list[dict]:
 
 
 # ------------------------------------------------------------------ systems ----
-def _tokens(text: str) -> list[str]:
-    return re.findall(r"[a-z0-9_]+", text.lower())
-
-
 class BM25System:
     """Classic keyword search: scores chunks by shared words, weighting rare words more.
     The simple baseline every 'smart' method must beat."""
@@ -65,71 +62,25 @@ class VectorSystem:
         return [h["lesson_id"] for h in hits]
 
 
-def rrf(rankings: list[list[str]], k: int = 60) -> list[str]:
-    """Reciprocal Rank Fusion: an item's score is the sum of 1 / (k + rank) over rankings."""
-    fused: dict[str, float] = {}
-    for ranking in rankings:
-        for r, item in enumerate(ranking, start=1):
-            fused[item] = fused.get(item, 0.0) + 1 / (k + r)
-    return sorted(fused, key=lambda c: -fused[c])
-
-
 class HybridSystem:
-    """Reciprocal Rank Fusion of BM25 and vector search over the same chunks:
-    score(chunk) = sum over systems of 1 / (RRF_K + rank). Keyword search is strong on exact
-    terms, embeddings on paraphrases; RRF needs no score scaling, only ranks."""
-    RRF_K = 60          # the constant from Cormack et al. (2009); not tuned
-    POOL = 50           # chunks taken from each system before fusing
-
+    """Reciprocal Rank Fusion of BM25 and vector search (ilm.content.search)."""
     def __init__(self):
-        from rank_bm25 import BM25Okapi
-        from ilm.content import index
-        self.chunks, _ = index.collect_chunks()
-        self.lesson_of = {c.id: c.lesson_id for c in self.chunks}
-        self.bm25 = BM25Okapi([_tokens(c.text) for c in self.chunks])
-        self._search = index.search
+        from ilm.content.search import HybridSearch
+        self.search = HybridSearch()
         self.name = "hybrid:bm25+vector (RRF)"
 
-    def ranked_ids(self, question: str) -> list[str]:
-        scores = self.bm25.get_scores(_tokens(question))
-        kw = [self.chunks[i].id for i in sorted(range(len(scores)), key=lambda i: -scores[i])[:self.POOL]]
-        vec = [h["id"] for h in self._search(question, k=self.POOL)]
-        return rrf([kw, vec], self.RRF_K)
-
     def lessons(self, question: str) -> list[str]:
-        return [self.lesson_of[c] for c in self.ranked_ids(question)[:TOP_K]]
-
-
-REWRITE_PROMPT = """A beginner in an introductory Python course asked the question below.
-Rewrite it as a short search query using the standard Python terms a lecture would use
-for the concept behind it (for example name the language feature, error or technique).
-Reply with the query only, at most 15 words.
-
-Question: {q}"""
+        return [c.lesson_id for c in self.search.top_chunks(question, TOP_K)]
 
 
 class RewriteSystem(HybridSystem):
-    """Hybrid search on (student question + an LLM's rewrite into course terms). Bridges
-    the vocabulary gap of 'symptom' questions ('my function keeps calling itself' never says
-    'recursion'). The original question is kept so a bad rewrite cannot lose it entirely.
-    Rewrites are cached on disk: reruns are free and the result is reproducible."""
+    """LLM rewrite into course terms + hybrid search (ilm.content.search)."""
     CACHE = config.PROCESSED_DIR / "retrieval_rewrites.json"
 
     def __init__(self):
-        super().__init__()
-        from ilm import llm
-        self._ask = llm.ask
+        from ilm.content.search import RewriteSearch
+        self.search = RewriteSearch(cache=self.CACHE)
         self.name = f"rewrite+hybrid ({config.LLM_MODEL})"
-        self.cache = json.loads(self.CACHE.read_text(encoding="utf-8")) if self.CACHE.exists() else {}
-
-    def rewrite(self, question: str) -> str:
-        if question not in self.cache:
-            self.cache[question] = self._ask(REWRITE_PROMPT.format(q=question), temperature=0).strip()
-            self.CACHE.write_text(json.dumps(self.cache, indent=1, ensure_ascii=False), encoding="utf-8")
-        return self.cache[question]
-
-    def lessons(self, question: str) -> list[str]:
-        return super().lessons(f"{question} {self.rewrite(question)}")
 
 
 # ------------------------------------------------------------------ scoring ----
