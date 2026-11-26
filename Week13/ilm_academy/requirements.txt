@@ -12,6 +12,7 @@ scipy
 faster-whisper        # Whisper with segment timestamps, CPU int8 friendly
 jiwer                 # word error rate vs official subtitles
 pymupdf               # slide / notes PDF text extraction
+beautifulsoup4        # notes HTML parsing (was only a transitive dependency)
 python-pptx           # .pptx slide extraction
 chromadb              # vector DB (local, file based)
 sentence-transformers # embeddings for chunks
