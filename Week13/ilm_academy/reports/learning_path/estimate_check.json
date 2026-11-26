@@ -1,0 +1,10 @@
+{
+ "pairs": 2554,
+ "students": 291,
+ "median_estimate_min": 6.6,
+ "median_actual_min": 7.2,
+ "median_actual_over_estimate": 0.92,
+ "share_within_x2": 0.574,
+ "spearman": 0.632,
+ "note": "Only concepts that reached mastery: students who quit mid-concept have no actual time."
+}

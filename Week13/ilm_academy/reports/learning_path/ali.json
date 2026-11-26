@@ -1,0 +1,773 @@
+{
+ "answers_so_far": 120,
+ "speed_factor": 1.01,
+ "recent_accuracy": 0.5,
+ "mastered": [
+  "Variables & assignment",
+  "Type conversion (int, str, float)",
+  "Lists & indexing"
+ ],
+ "strongest": [
+  "Type conversion (int, str, float)",
+  "Lists & indexing"
+ ],
+ "weakest": [
+  "String methods (strip, title, split)",
+  "match statement"
+ ],
+ "quick_checks": 18,
+ "quick_check_minutes": 93,
+ "path": [
+  {
+   "concept": "program_basics",
+   "name": "Running a program & print",
+   "p_known": 0.924,
+   "kind": "quick check",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 6.1,
+   "est_minutes": 3.5
+  },
+  {
+   "concept": "comments",
+   "name": "Comments",
+   "p_known": 0.895,
+   "kind": "quick check",
+   "status": "after Running a program & print",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 3.8,
+   "est_minutes": 2.2
+  },
+  {
+   "concept": "indentation_blocks",
+   "name": "Indentation & code blocks",
+   "p_known": 0.911,
+   "kind": "quick check",
+   "status": "after Running a program & print",
+   "lessons": [
+    "cs50p-l0: Functions, Variables",
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 3.8,
+   "est_minutes": 2.3
+  },
+  {
+   "concept": "function_calls",
+   "name": "Calling functions & arguments",
+   "p_known": 0.853,
+   "kind": "quick check",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 6.5,
+   "est_minutes": 4.0
+  },
+  {
+   "concept": "defining_functions",
+   "name": "Defining functions (def)",
+   "p_known": 1.0,
+   "kind": "quick check",
+   "status": "after Calling functions & arguments, Indentation & code blocks",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 2.7,
+   "est_minutes": 2.6
+  },
+  {
+   "concept": "integers",
+   "name": "Integers",
+   "p_known": 0.896,
+   "kind": "quick check",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 7.3,
+   "est_minutes": 4.5
+  },
+  {
+   "concept": "arithmetic_operators",
+   "name": "Arithmetic operators",
+   "p_known": 0.997,
+   "kind": "quick check",
+   "status": "after Integers",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 4.6,
+   "est_minutes": 3.0
+  },
+  {
+   "concept": "floats",
+   "name": "Floats & rounding",
+   "p_known": 0.923,
+   "kind": "quick check",
+   "status": "after Arithmetic operators",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 10.3,
+   "est_minutes": 7.8
+  },
+  {
+   "concept": "parameters",
+   "name": "Parameters & default values",
+   "p_known": 0.29,
+   "kind": "learn",
+   "status": "after Defining functions (def)",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 44.8,
+   "est_minutes": 32.8
+  },
+  {
+   "concept": "return_values",
+   "name": "Return values",
+   "p_known": 0.262,
+   "kind": "learn",
+   "status": "after Defining functions (def)",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 22.4,
+   "est_minutes": 17.1
+  },
+  {
+   "concept": "scope",
+   "name": "Variable scope",
+   "p_known": 0.208,
+   "kind": "learn",
+   "status": "after Defining functions (def)",
+   "lessons": [
+    "cs50p-l0: Functions, Variables",
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 52.8,
+   "est_minutes": 30.3
+  },
+  {
+   "concept": "strings",
+   "name": "Strings",
+   "p_known": 0.57,
+   "kind": "learn",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 29.1,
+   "est_minutes": 26.4
+  },
+  {
+   "concept": "f_strings",
+   "name": "f-strings & formatting",
+   "p_known": 0.644,
+   "kind": "learn",
+   "status": "after Strings",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 7.9,
+   "est_minutes": 5.1
+  },
+  {
+   "concept": "string_methods",
+   "name": "String methods (strip, title, split)",
+   "p_known": 0.143,
+   "kind": "learn",
+   "status": "after Strings, Calling functions & arguments",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 54.7,
+   "est_minutes": 36.3
+  },
+  {
+   "concept": "user_input",
+   "name": "input()",
+   "p_known": 0.325,
+   "kind": "learn",
+   "status": "after Strings, Calling functions & arguments",
+   "lessons": [
+    "cs50p-l0: Functions, Variables"
+   ],
+   "est_answers": 34.8,
+   "est_minutes": 21.6
+  },
+  {
+   "concept": "boolean_expressions",
+   "name": "Comparisons & booleans",
+   "p_known": 0.806,
+   "kind": "quick check",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 5.8,
+   "est_minutes": 2.9
+  },
+  {
+   "concept": "if_statements",
+   "name": "if statements",
+   "p_known": 0.89,
+   "kind": "quick check",
+   "status": "after Comparisons & booleans, Indentation & code blocks",
+   "lessons": [
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 6.6,
+   "est_minutes": 4.5
+  },
+  {
+   "concept": "elif_else",
+   "name": "elif & else",
+   "p_known": 0.644,
+   "kind": "learn",
+   "status": "after if statements",
+   "lessons": [
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 8.3,
+   "est_minutes": 6.2
+  },
+  {
+   "concept": "logical_operators",
+   "name": "and / or / not",
+   "p_known": 0.451,
+   "kind": "learn",
+   "status": "after Comparisons & booleans",
+   "lessons": [
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 32.6,
+   "est_minutes": 26.0
+  },
+  {
+   "concept": "match_statement",
+   "name": "match statement",
+   "p_known": 0.206,
+   "kind": "learn",
+   "status": "after elif & else",
+   "lessons": [
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 13.0,
+   "est_minutes": 9.2
+  },
+  {
+   "concept": "modulo",
+   "name": "Modulo %",
+   "p_known": 0.999,
+   "kind": "quick check",
+   "status": "after Arithmetic operators",
+   "lessons": [
+    "cs50p-l1: Conditionals"
+   ],
+   "est_answers": 5.2,
+   "est_minutes": 5.9
+  },
+  {
+   "concept": "dictionaries",
+   "name": "Dictionaries",
+   "p_known": 0.999,
+   "kind": "quick check",
+   "status": "after Strings",
+   "lessons": [
+    "cs50p-l2: Loops",
+    "mit6001-l6: Recursion and Dictionaries"
+   ],
+   "est_answers": 5.0,
+   "est_minutes": 3.5
+  },
+  {
+   "concept": "nested_data",
+   "name": "Lists of dictionaries",
+   "p_known": 1.0,
+   "kind": "quick check",
+   "status": "after Dictionaries",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 7.3,
+   "est_minutes": 7.6
+  },
+  {
+   "concept": "range_function",
+   "name": "range()",
+   "p_known": 1.0,
+   "kind": "quick check",
+   "status": "after Calling functions & arguments, Integers",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 6.7,
+   "est_minutes": 3.7
+  },
+  {
+   "concept": "for_loops",
+   "name": "for loops",
+   "p_known": 0.555,
+   "kind": "learn",
+   "status": "after Indentation & code blocks, range()",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 6.2,
+   "est_minutes": 4.5
+  },
+  {
+   "concept": "break_continue",
+   "name": "break & continue",
+   "p_known": 0.368,
+   "kind": "learn",
+   "status": "after for loops",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 45.8,
+   "est_minutes": 33.3
+  },
+  {
+   "concept": "iterating_lists",
+   "name": "Looping over lists & len()",
+   "p_known": 0.897,
+   "kind": "quick check",
+   "status": "after for loops",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 5.5,
+   "est_minutes": 19.8
+  },
+  {
+   "concept": "nested_loops",
+   "name": "Nested loops",
+   "p_known": 1.0,
+   "kind": "quick check",
+   "status": "after for loops",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 8.5,
+   "est_minutes": 9.5
+  },
+  {
+   "concept": "while_loops",
+   "name": "while loops",
+   "p_known": 0.393,
+   "kind": "learn",
+   "status": "after Comparisons & booleans, Indentation & code blocks",
+   "lessons": [
+    "cs50p-l2: Loops"
+   ],
+   "est_answers": 32.3,
+   "est_minutes": 131.1
+  },
+  {
+   "concept": "try_except",
+   "name": "try / except / else",
+   "p_known": 0.212,
+   "kind": "learn",
+   "status": "after Calling functions & arguments, Indentation & code blocks",
+   "lessons": [
+    "cs50p-l3: Exceptions"
+   ],
+   "est_answers": 14.4,
+   "est_minutes": 15.1
+  },
+  {
+   "concept": "imports",
+   "name": "import & standard library",
+   "p_known": 0.749,
+   "kind": "learn",
+   "status": "after Calling functions & arguments",
+   "lessons": [
+    "cs50p-l4: Libraries"
+   ],
+   "est_answers": 5.5,
+   "est_minutes": 2.9
+  },
+  {
+   "concept": "command_line_args",
+   "name": "Command-line arguments (sys.argv)",
+   "p_known": 0.301,
+   "kind": "learn",
+   "status": "after import & standard library",
+   "lessons": [
+    "cs50p-l4: Libraries"
+   ],
+   "est_answers": 44.1,
+   "est_minutes": 43.0
+  },
+  {
+   "concept": "own_modules",
+   "name": "Own modules & __name__",
+   "p_known": 0.9,
+   "kind": "quick check",
+   "status": "after import & standard library, Defining functions (def), if statements",
+   "lessons": [
+    "cs50p-l4: Libraries"
+   ],
+   "est_answers": 2.7,
+   "est_minutes": 1.7
+  },
+  {
+   "concept": "packages_pip",
+   "name": "Packages & pip",
+   "p_known": 0.219,
+   "kind": "learn",
+   "status": "after import & standard library",
+   "lessons": [
+    "cs50p-l4: Libraries"
+   ],
+   "est_answers": 52.2,
+   "est_minutes": 29.0
+  },
+  {
+   "concept": "apis_json",
+   "name": "APIs & JSON",
+   "p_known": 0.593,
+   "kind": "learn",
+   "status": "after Packages & pip, Dictionaries",
+   "lessons": [
+    "cs50p-l4: Libraries"
+   ],
+   "est_answers": 25.0,
+   "est_minutes": 15.9
+  },
+  {
+   "concept": "slicing",
+   "name": "Slicing",
+   "p_known": 1.0,
+   "kind": "quick check",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l4: Libraries"
+   ],
+   "est_answers": 3.9,
+   "est_minutes": 4.0
+  },
+  {
+   "concept": "assert_statement",
+   "name": "assert",
+   "p_known": 0.796,
+   "kind": "learn",
+   "status": "after Comparisons & booleans",
+   "lessons": [
+    "cs50p-l5: Unit Tests"
+   ],
+   "est_answers": 5.0,
+   "est_minutes": 3.2
+  },
+  {
+   "concept": "pytest_testing",
+   "name": "Unit testing with pytest",
+   "p_known": 0.363,
+   "kind": "learn",
+   "status": "after assert, Own modules & __name__",
+   "lessons": [
+    "cs50p-l5: Unit Tests"
+   ],
+   "est_answers": 6.1,
+   "est_minutes": 3.7
+  },
+  {
+   "concept": "file_io",
+   "name": "Reading & writing files",
+   "p_known": 0.425,
+   "kind": "learn",
+   "status": "after Strings, Calling functions & arguments",
+   "lessons": [
+    "cs50p-l6: File I/O"
+   ],
+   "est_answers": 7.3,
+   "est_minutes": 5.0
+  },
+  {
+   "concept": "csv_files",
+   "name": "CSV files",
+   "p_known": 0.316,
+   "kind": "learn",
+   "status": "after Reading & writing files, Looping over lists & len(), import & standard library",
+   "lessons": [
+    "cs50p-l6: File I/O"
+   ],
+   "est_answers": 22.4,
+   "est_minutes": 16.7
+  },
+  {
+   "concept": "with_statement",
+   "name": "with (context managers)",
+   "p_known": 0.4,
+   "kind": "learn",
+   "status": "after Reading & writing files, Indentation & code blocks",
+   "lessons": [
+    "cs50p-l6: File I/O"
+   ],
+   "est_answers": 11.4,
+   "est_minutes": 7.7
+  },
+  {
+   "concept": "regular_expressions",
+   "name": "Regular expressions",
+   "p_known": 0.328,
+   "kind": "learn",
+   "status": "after Strings, import & standard library",
+   "lessons": [
+    "cs50p-l7: Regular Expressions"
+   ],
+   "est_answers": 11.5,
+   "est_minutes": 8.1
+  },
+  {
+   "concept": "classes_objects",
+   "name": "Classes, objects & __init__",
+   "p_known": 0.26,
+   "kind": "learn",
+   "status": "after Defining functions (def)",
+   "lessons": [
+    "cs50p-l8: Object-Oriented Programming"
+   ],
+   "est_answers": 45.9,
+   "est_minutes": 31.6
+  },
+  {
+   "concept": "class_static_methods",
+   "name": "Class & static methods",
+   "p_known": 0.328,
+   "kind": "learn",
+   "status": "after Classes, objects & __init__",
+   "lessons": [
+    "cs50p-l8: Object-Oriented Programming"
+   ],
+   "est_answers": 12.0,
+   "est_minutes": 8.8
+  },
+  {
+   "concept": "inheritance",
+   "name": "Inheritance",
+   "p_known": 0.121,
+   "kind": "learn",
+   "status": "after Classes, objects & __init__",
+   "lessons": [
+    "cs50p-l8: Object-Oriented Programming"
+   ],
+   "est_answers": 53.2,
+   "est_minutes": 35.2
+  },
+  {
+   "concept": "operator_overloading",
+   "name": "Operator overloading",
+   "p_known": 0.182,
+   "kind": "learn",
+   "status": "after Classes, objects & __init__, Arithmetic operators",
+   "lessons": [
+    "cs50p-l8: Object-Oriented Programming"
+   ],
+   "est_answers": 6.5,
+   "est_minutes": 4.2
+  },
+  {
+   "concept": "properties_decorators",
+   "name": "Properties & decorators",
+   "p_known": 0.325,
+   "kind": "learn",
+   "status": "after Classes, objects & __init__",
+   "lessons": [
+    "cs50p-l8: Object-Oriented Programming"
+   ],
+   "est_answers": 10.8,
+   "est_minutes": 8.2
+  },
+  {
+   "concept": "raising_exceptions",
+   "name": "raise",
+   "p_known": 0.582,
+   "kind": "learn",
+   "status": "after try / except / else, Defining functions (def)",
+   "lessons": [
+    "cs50p-l8: Object-Oriented Programming"
+   ],
+   "est_answers": 29.8,
+   "est_minutes": 21.8
+  },
+  {
+   "concept": "argparse_module",
+   "name": "argparse",
+   "p_known": 0.321,
+   "kind": "learn",
+   "status": "after Command-line arguments (sys.argv)",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 7.9,
+   "est_minutes": 6.1
+  },
+  {
+   "concept": "constants_globals",
+   "name": "Global variables & constants",
+   "p_known": 0.2,
+   "kind": "learn",
+   "status": "after Variable scope",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 8.1,
+   "est_minutes": 5.2
+  },
+  {
+   "concept": "docstrings",
+   "name": "Docstrings",
+   "p_known": 0.771,
+   "kind": "learn",
+   "status": "after Defining functions (def), Comments",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 11.0,
+   "est_minutes": 6.7
+  },
+  {
+   "concept": "enumerate_function",
+   "name": "enumerate()",
+   "p_known": 0.311,
+   "kind": "learn",
+   "status": "after Looping over lists & len()",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 46.3,
+   "est_minutes": 34.8
+  },
+  {
+   "concept": "generators",
+   "name": "Generators & yield",
+   "p_known": 0.328,
+   "kind": "learn",
+   "status": "after Looping over lists & len(), Return values",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 11.9,
+   "est_minutes": 8.0
+  },
+  {
+   "concept": "lambda_functions",
+   "name": "lambda",
+   "p_known": 0.296,
+   "kind": "learn",
+   "status": "after Return values",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 44.0,
+   "est_minutes": 32.9
+  },
+  {
+   "concept": "list_comprehensions",
+   "name": "List comprehensions",
+   "p_known": 0.341,
+   "kind": "learn",
+   "status": "after Looping over lists & len()",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 22.9,
+   "est_minutes": 16.4
+  },
+  {
+   "concept": "dict_comprehensions",
+   "name": "Dictionary comprehensions",
+   "p_known": 0.558,
+   "kind": "learn",
+   "status": "after List comprehensions, Dictionaries",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 8.5,
+   "est_minutes": 5.8
+  },
+  {
+   "concept": "map_filter",
+   "name": "map & filter",
+   "p_known": 0.147,
+   "kind": "learn",
+   "status": "after Looping over lists & len(), Defining functions (def)",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 7.8,
+   "est_minutes": 4.8
+  },
+  {
+   "concept": "sets",
+   "name": "Sets",
+   "p_known": 0.145,
+   "kind": "learn",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 5.5,
+   "est_minutes": 3.9
+  },
+  {
+   "concept": "tuples_unpacking",
+   "name": "Tuples & unpacking",
+   "p_known": 0.328,
+   "kind": "learn",
+   "status": "ready",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 12.1,
+   "est_minutes": 8.4
+  },
+  {
+   "concept": "args_kwargs",
+   "name": "*args & **kwargs",
+   "p_known": 0.121,
+   "kind": "learn",
+   "status": "after Tuples & unpacking, Parameters & default values, Dictionaries",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 11.1,
+   "est_minutes": 7.8
+  },
+  {
+   "concept": "type_hints",
+   "name": "Type hints",
+   "p_known": 0.328,
+   "kind": "learn",
+   "status": "after Defining functions (def)",
+   "lessons": [
+    "cs50p-l9: Et Cetera"
+   ],
+   "est_answers": 12.0,
+   "est_minutes": 6.4
+  },
+  {
+   "concept": "recursion",
+   "name": "Recursion",
+   "p_known": 0.235,
+   "kind": "learn",
+   "status": "after Return values, if statements",
+   "lessons": [
+    "mit6001-l6: Recursion and Dictionaries"
+   ],
+   "est_answers": 14.6,
+   "est_minutes": 56.6
+  }
+ ],
+ "total_minutes": 937,
+ "minutes_per_day": 30,
+ "days_at_that_pace": 32,
+ "message": "Ali, Type conversion (int, str, float) aur Lists & indexing pe tumhari grip zabardast hai, shabaash! String methods (strip, title, split) aur match statement pe thodi aur practice chahiye, aur hum wahi saath mil kar karenge. 18 concepts tum shayad pehle se jaante ho: un ka quick check (taqreeban 1.6 ghante). Agla naya concept: Strings (taqreeban 26 minute). Roz sirf 30 minute do, aur poora course 32 din mein complete. Chalo, shuru karein!"
+}
