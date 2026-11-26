@@ -45,7 +45,7 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 ## Status
 
 - [x] Day 1 setup: environment, structure, config, test isolation, retrieval smoke test
-- [~] Day 1 Task 1: content ingestion (Whisper transcripts, chunking, Chroma index, retrieval benchmark; lectures 8-9 transcribing)
+- [x] Day 1 Task 1: content ingestion: 11 Whisper transcripts (WER 3.0%), 1,093 chunks in Chroma, retrieval benchmark: LLM rewrite + hybrid search chosen on dev, holdout MRR 0.96 (`reports/retrieval/`)
 - [x] Day 1 Task 2: concept graph (65 concepts, DAG-validated, visualised)
 - [x] Day 1 Task 3: question bank (225 questions, every answer checked by running code: `python -m ilm.questions.validate`)
 - [x] Day 1 Task 4: learner data (ASSISTments 2009-10 cleaned: 525,534 rows -> 283,105 real answers) and a simulator of 1,000 students + Ali and Sara, dropout calibrated to 45% before week 4
