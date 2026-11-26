@@ -49,4 +49,4 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 - [x] Day 1 Task 2: concept graph (65 concepts, DAG-validated, visualised)
 - [x] Day 1 Task 3: question bank (225 questions, every answer checked by running code: `python -m ilm.questions.validate`)
 - [x] Day 1 Task 4: learner data (ASSISTments 2009-10 cleaned: 525,534 rows -> 283,105 real answers) and a simulator of 1,000 students + Ali and Sara, dropout calibrated to 45% before week 4
-- [ ] Day 1 Task 5: analytics EDA
+- [x] Day 1 Task 5: EDA notebook (`notebooks/day1_eda.ipynb`): accuracy per concept, learning curves, dropout points, hardest concepts, each with an insight computed from the numbers (`reports/eda/insights.csv`)

@@ -105,3 +105,34 @@
 11. Why can a model look excellent on simulated data and still fail on real students?
 12. The client says 45% drop out before week 4. Name two things the simulator CANNOT tell us
     about why real students drop out.
+
+## Part 6: EDA (2026-11-26)
+
+### Ideas
+- **Interval, not just a number.** 3 heads in 4 coin flips is 75%, but nobody believes the coin
+  is a 75% coin. The 95% Wilson interval shows how much an accuracy could be luck. Skills with
+  fewer than 200 answers are not ranked at all.
+- **Learning curve** = accuracy by attempt number. **Who is left changes the curve**: in
+  ASSISTments strong students stop after 3 right in a row, so later attempts are made by weaker
+  students. Everyone curve: +8 points; same students: +21 points.
+- **Survival and hazard.** Survival = share not yet dropped. Hazard = chance of quitting THIS
+  week given you got here (a light bulb that has worked 3 years: chance it fails this month).
+- **Compare with size.** 41% of dropouts happen in Lecture 0, but Lecture 0 is 26% of the
+  course, so the fair statement is "1.6x its size".
+
+### Mistakes caught by reading the output
+- I wrote insight sentences before seeing the numbers and only filled the numbers in. The
+  simulated "hardest concepts" sentence said accuracy agrees "only partly" with true difficulty
+  while the number was -0.82 (close agreement). Now the wording is chosen FROM the number.
+- "Peak in week 2 (18%)" when week 1 was 18.0% and week 2 18.2%: a tie, not a peak.
+- Two curve labels printed on top of each other; a survival chart that started at 82% instead of 100%.
+- ASSISTments cannot answer the dropout question: reconstructed "quits" mostly ended on a CORRECT
+  answer, a sign the sessions are incomplete. Dropout uses simulated data and says so.
+
+### Check yourself
+13. Two skills: 14% correct (n=413) and 19% correct (n=234), with overlapping intervals.
+    Can you say which is harder? What would you need?
+14. In your own words: why does the "everyone" learning curve look flatter than the
+    "same students" one?
+15. Why is "students who failed recently dropped out more" NOT an insight from the simulated
+    data? (Hint: who wrote the dropout rule?)

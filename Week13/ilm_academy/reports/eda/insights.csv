@@ -1,0 +1,9 @@
+section,insight
+1 accuracy (real),"15 of 112 maths skills are answered correctly less than half the time, and the middle half of skills sits between 59% and 76%: skills differ a lot in difficulty, so equal practice per skill is likely too much for some and too little for others."
+1 accuracy (simulated),"In the simulation the lowest accuracy is in mit6001-l6 (37%); this reflects our simulator's rules, so it tests the pipeline, not real students."
+2 learning curves (real),"Following the same students, accuracy rises 21 points from attempt 1 to 8; the everyone curve shows only 8 because strong students finish early and leave."
+2 learning curves (simulated),"Simulated students improve from 48% to 56% between their 1st and 2nd question on a concept; the fixed path gives only 3 questions per concept, so the curve is too short to show when students master a concept."
+3 dropout (simulated),"45% of students are gone by the end of week 3; the weekly risk is about 18% each week in weeks 1-3 and falls to 14% on average afterwards, so retention work pays off most in the first three weeks."
+3 dropout position (simulated),"41% of dropouts happen in cs50p-l0 (Functions, Variables), which is 26% of the course: 1.6x its size, so the first lesson needs extra support."
+4 hardest (real),"'Rotations' is the hardest skill (14% correct), but its interval overlaps 'Solving Systems of Linear Equations', so treat the top two as tied."
+4 hardest (simulated),"Observed accuracy tracks the TRUE difficulty we planted closely (rank correlation -0.82; -1 = perfect): a fair first ranking, but accuracy also depends on who reached the concept, which Day 2's IRT separates out."
