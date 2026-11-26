@@ -40,6 +40,13 @@ before it) does not change. A deliberately cheating model fails it, which proves
 - **Code that re-does something already true confuses readers.** Removed a line in deep.py
   that "carried" a token that the shifting had already put there.
 
+- **Windows + worker processes need `if __name__ == "__main__":`.** pyBKT trains skills in
+  parallel processes; on Windows each worker re-imports the main script. My tuning script was
+  piped in on stdin, which cannot be re-imported, so every worker crashed and wrote 7.7 MB of
+  errors. The small test data never used parallel workers, so the tests could not catch it.
+  Fix: tuning lives in `python -m ilm.tracing.tune`, behind the guard (same idea as question
+  `own_modules-01` in our bank). Then I checked the new run actually stayed quiet.
+
 ### Check yourself
 1. "Always predict right" gets 66% accuracy. Why does that make accuracy a weak way to
    compare models, and why does AUC not have this problem?
