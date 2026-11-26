@@ -31,3 +31,6 @@ python-dotenv
 pytest
 jupyter
 nbconvert
+# pyBKT: the 1.4.3 release crashes with NumPy 2 and scikit-learn 1.9; the fixes are merged
+# upstream (PRs #76, #93) but not released yet. Pinned to that exact commit.
+pyBKT @ git+https://github.com/CAHLR/pyBKT.git@3bf77884676338d969bbc7b9442a2f28578fb159

@@ -7,6 +7,8 @@ import pandas as pd
 import pytest
 
 from ilm.tracing import evaluate as ev
+from ilm.tracing.bkt import BKT
+from ilm.tracing.deep import MAX_LEN, DeepKT
 from ilm.tracing.pfa import PFA
 
 
@@ -38,7 +40,9 @@ def test_prior_counts_exclude_the_current_answer():
     assert c["successes"].tolist() == [0, 1, 1, 0] and c["failures"].tolist() == [0, 0, 1, 0]
 
 
-@pytest.mark.parametrize("model", [ev.GlobalMean(), ev.SkillMean(), ev.StudentSoFar(), PFA()],
+@pytest.mark.parametrize("model", [ev.GlobalMean(), ev.SkillMean(), ev.StudentSoFar(), PFA(),
+                                   BKT(num_fits=1), DeepKT("dkt", dim=8, epochs=1),
+                                   DeepKT("sakt", dim=8, epochs=1)],
                          ids=lambda m: m.name)
 def test_no_model_sees_the_answer_it_predicts(model):
     df = _toy()
@@ -68,3 +72,29 @@ def test_pfa_learns_that_practice_helps_and_beats_baselines():
     assert (pfa.skill_weights()["gamma"] > 0).all()        # earlier successes raise the odds
     auc = {m.name: ev.score(m, train, test)["auc"] for m in (ev.SkillMean(), pfa)}
     assert auc[pfa.name] > auc["baseline: skill mean"]
+
+
+def test_bkt_unseen_skill_falls_back_and_rows_stay_aligned():
+    train = _toy(n_students=60)
+    bkt = BKT(num_fits=1).fit(train)
+    test = _toy(n_students=5, seed=9)
+    test.loc[test.index[3], "skill"] = "never-seen"
+    p = bkt.predict(test)
+    assert len(p) == len(test) and p[3] == pytest.approx(train["correct"].mean())
+    assert ((p > 0) & (p < 1)).all()
+
+
+@pytest.mark.parametrize("arch", ["dkt", "sakt"])
+def test_deep_models_stay_blind_across_window_boundaries(arch):
+    # one long student (longer than a training window) so windowing code paths are used
+    df = _toy(n_students=3, n_answers=MAX_LEN + 50)
+    model = DeepKT(arch, dim=8, epochs=1).fit(df)
+    for row in (0, MAX_LEN - 1, MAX_LEN, MAX_LEN + 30):
+        assert ev.future_blind(model, df, row), f"{arch} peeked at row {row}"
+
+
+@pytest.mark.parametrize("arch", ["dkt", "sakt"])
+def test_deep_models_predict_every_row_once(arch):
+    df = _toy(n_students=4, n_answers=MAX_LEN + 77)
+    p = DeepKT(arch, dim=8, epochs=1).fit(df).predict(df)
+    assert len(p) == len(df) and ((p > 0) & (p < 1)).all()   # 0 would mean "never filled in"
