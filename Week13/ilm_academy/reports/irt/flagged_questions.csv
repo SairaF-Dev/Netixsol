@@ -1,0 +1,14 @@
+,b,a,c,n,p_correct,reason,truth_bad
+tuples_unpacking-01,5.462,-0.097,0.528,275,0.625,weak discrimination: does not separate strong from weak,True
+break_continue-02,8.248,-0.089,0.733,554,0.673,weak discrimination: does not separate strong from weak,True
+nested_loops-01,-27.928,0.013,0.369,529,0.592,weak discrimination: does not separate strong from weak,True
+floats-04,1.842,0.072,-0.132,840,0.468,weak discrimination: does not separate strong from weak,True
+user_input-01,-3.798,0.114,0.431,696,0.608,weak discrimination: does not separate strong from weak,True
+arithmetic_operators-01,-4.262,0.125,0.531,900,0.63,weak discrimination: does not separate strong from weak,True
+range_function-02,-3.451,0.137,0.472,554,0.619,weak discrimination: does not separate strong from weak,True
+packages_pip-01,-0.184,0.146,0.027,473,0.512,weak discrimination: does not separate strong from weak,True
+indentation_blocks-02,-1.568,0.172,0.27,978,0.566,weak discrimination: does not separate strong from weak,True
+function_calls-01,-2.338,0.18,0.42,941,0.604,weak discrimination: does not separate strong from weak,True
+type_hints-03,-2.137,0.192,0.41,260,0.608,weak discrimination: does not separate strong from weak,True
+dict_comprehensions-02,1.445,0.262,-0.379,295,0.417,weak discrimination: does not separate strong from weak,True
+floats-02,1.732,0.266,-0.461,840,0.39,weak discrimination: does not separate strong from weak,False

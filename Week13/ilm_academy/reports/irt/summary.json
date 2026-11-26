@@ -1,0 +1,21 @@
+{
+ "answers_used": 107298,
+ "students": 978,
+ "questions": 195,
+ "questions_with_50plus_answers": 195,
+ "bad_question_detection": {
+  "flagged": 13,
+  "planted": 12,
+  "found": 12,
+  "precision": 0.923,
+  "recall": 1.0
+ },
+ "planted_but_never_asked": [
+  "strings-01",
+  "type_conversion-03"
+ ],
+ "questions_never_asked_by_fixed_path": 30,
+ "difficulty_recovery_spearman": 0.678,
+ "discrimination_recovery_spearman": 0.495,
+ "author_guess_vs_irt_difficulty_spearman": 0.573
+}

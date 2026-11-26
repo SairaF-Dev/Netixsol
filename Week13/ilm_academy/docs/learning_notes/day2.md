@@ -52,3 +52,41 @@ before it) does not change. A deliberately cheating model fails it, which proves
    compare models, and why does AUC not have this problem?
 2. Why are the test students used only once per model?
 3. BKT's "slip" and "guess": give a Python-course example of each.
+
+## Part 2: IRT and question health (2026-11-26)
+
+### The idea
+Knowledge tracing asks "what does the STUDENT know?". IRT asks "what is the QUESTION like?".
+- ability (theta): one number per student
+- difficulty (b): the ability needed for a 50/50 chance
+- discrimination (a): how sharply the question separates strong from weak students
+- 1PL: every question has the same a. 2PL: each question has its own a.
+
+### Finding bad questions
+- a near 0: strong and weak students do equally well, so the question measures nothing.
+- a clearly NEGATIVE: strong students do WORSE. Almost always a wrong answer key.
+  This is how the ~40 MCQs that running code cannot check will be checked.
+
+### Result on the simulated course (IRT saw only right/wrong answers)
+- Found 12 of 12 planted bad questions that were asked; 1 false alarm (a = 0.27, near the line).
+- 30 of 225 questions are NEVER asked by the fixed path (3 per concept), including 2 planted
+  bad ones. The adaptive engine can use them.
+- Difficulty recovered only moderately (rank correlation 0.68): the simulator also has
+  guessing, concept knowledge and learning, which 2PL does not model. Useful, but simplified.
+- My 1-5 difficulty guesses vs IRT: 0.57. Informative, far from exact (Day 3 calibration).
+
+### Bugs and fixes
+- **The scale drifted**: a*(theta - b) is unchanged if every theta shrinks 3x and every a grows 3x.
+  The fitted a came out ~3x too big. Fix: rescale abilities to mean 0, spread 1 afterwards
+  (what every IRT tool does).
+- **A wrong-key question got stuck at a = +0.33**: starting from a = +1, the optimiser escaped
+  by pushing b to -5.9. Fix: write questions as slope*theta + intercept, start from a 1PL fit,
+  and run until it really converges.
+- **Crying wolf**: noise put two useless questions at a = -0.1, and they were sent for
+  answer-key review. Now "answer key" needs a < -0.3; near zero is "weak".
+- **A label that hid a finding**: "too few answers to judge" really meant "never asked".
+
+### Check yourself
+4. A question has a = -0.9. What would you check first, and why?
+5. Why does IRT use only each student's FIRST answer to a question?
+6. Why can a model find every bad question and still estimate difficulty only roughly?
