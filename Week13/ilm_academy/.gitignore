@@ -22,3 +22,6 @@ models/*
 .DS_Store
 Thumbs.db
 .vscode/
+
+# run logs
+logs/

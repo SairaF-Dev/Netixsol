@@ -1,0 +1,98 @@
+# Python concept graph for Ilm Academy.
+#
+# prereqs  = HARD prerequisites: you cannot understand this concept without them.
+#            The Day 2 adaptive engine BLOCKS a concept until its prereqs are mastered,
+#            so an extra edge here locks students out of things they are ready for.
+# related  = taught together / helpful context. Never blocks. Used for hints and review.
+# taught_in = lesson ids from ilm/content/sources.yaml. Empty = coverage gap (reported).
+#
+# Graph limitation: an edge means AND. "break needs a for OR a while loop" cannot be
+# expressed, so we pick the loop taught first (for_loops) and add the other as related.
+
+concepts:
+  # --- Lecture 0: functions, variables, strings, numbers ---
+  - {id: program_basics, name: "Running a program & print", prereqs: [], taught_in: [cs50p-l0]}
+  - {id: comments, name: "Comments", prereqs: [program_basics], taught_in: [cs50p-l0]}
+  - {id: variables, name: "Variables & assignment", prereqs: [program_basics], taught_in: [cs50p-l0]}
+  - {id: strings, name: "Strings", prereqs: [variables], taught_in: [cs50p-l0]}
+  - {id: function_calls, name: "Calling functions & arguments", prereqs: [variables], related: [strings], taught_in: [cs50p-l0]}
+  - {id: user_input, name: "input()", prereqs: [strings, function_calls], taught_in: [cs50p-l0]}
+  - {id: string_methods, name: "String methods (strip, title, split)", prereqs: [strings, function_calls], taught_in: [cs50p-l0]}
+  - {id: f_strings, name: "f-strings & formatting", prereqs: [strings], taught_in: [cs50p-l0]}
+  - {id: integers, name: "Integers", prereqs: [variables], taught_in: [cs50p-l0]}
+  - {id: arithmetic_operators, name: "Arithmetic operators", prereqs: [integers], taught_in: [cs50p-l0]}
+  - {id: floats, name: "Floats & rounding", prereqs: [arithmetic_operators], taught_in: [cs50p-l0]}
+  - {id: type_conversion, name: "Type conversion (int, str, float)", prereqs: [integers, strings, function_calls], related: [user_input], taught_in: [cs50p-l0]}
+  - {id: indentation_blocks, name: "Indentation & code blocks", prereqs: [program_basics], taught_in: [cs50p-l0, cs50p-l1]}
+  - {id: defining_functions, name: "Defining functions (def)", prereqs: [function_calls, indentation_blocks], taught_in: [cs50p-l0]}
+  - {id: parameters, name: "Parameters & default values", prereqs: [defining_functions], taught_in: [cs50p-l0]}
+  - {id: return_values, name: "Return values", prereqs: [defining_functions], taught_in: [cs50p-l0]}
+  - {id: scope, name: "Variable scope", prereqs: [defining_functions], related: [parameters], taught_in: [cs50p-l0, cs50p-l9]}
+
+  # --- Lecture 1: conditionals ---
+  - {id: boolean_expressions, name: "Comparisons & booleans", prereqs: [variables], taught_in: [cs50p-l1]}
+  - {id: logical_operators, name: "and / or / not", prereqs: [boolean_expressions], taught_in: [cs50p-l1]}
+  - {id: if_statements, name: "if statements", prereqs: [boolean_expressions, indentation_blocks], taught_in: [cs50p-l1]}
+  - {id: elif_else, name: "elif & else", prereqs: [if_statements], taught_in: [cs50p-l1]}
+  - {id: modulo, name: "Modulo %", prereqs: [arithmetic_operators], related: [if_statements], taught_in: [cs50p-l1]}
+  - {id: match_statement, name: "match statement", prereqs: [elif_else], taught_in: [cs50p-l1]}
+
+  # --- Lecture 2: loops, lists, dictionaries ---
+  - {id: while_loops, name: "while loops", prereqs: [boolean_expressions, indentation_blocks], taught_in: [cs50p-l2]}
+  - {id: range_function, name: "range()", prereqs: [function_calls, integers], taught_in: [cs50p-l2]}
+  - {id: for_loops, name: "for loops", prereqs: [indentation_blocks, range_function], related: [lists, while_loops], taught_in: [cs50p-l2]}
+  - {id: break_continue, name: "break & continue", prereqs: [for_loops], related: [while_loops, if_statements], taught_in: [cs50p-l2]}
+  - {id: lists, name: "Lists & indexing", prereqs: [variables], related: [for_loops], taught_in: [cs50p-l2]}
+  - {id: iterating_lists, name: "Looping over lists & len()", prereqs: [for_loops, lists], taught_in: [cs50p-l2]}
+  - {id: nested_loops, name: "Nested loops", prereqs: [for_loops], taught_in: [cs50p-l2]}
+  - {id: dictionaries, name: "Dictionaries", prereqs: [strings], related: [lists], taught_in: [cs50p-l2, mit6001-l6]}
+  - {id: nested_data, name: "Lists of dictionaries", prereqs: [lists, dictionaries], related: [iterating_lists], taught_in: [cs50p-l2]}
+
+  # --- Lecture 3: exceptions ---
+  - {id: try_except, name: "try / except / else", prereqs: [function_calls, indentation_blocks], related: [type_conversion], taught_in: [cs50p-l3]}
+  - {id: raising_exceptions, name: "raise", prereqs: [try_except, defining_functions], taught_in: [cs50p-l8]}
+
+  # --- Lecture 4: libraries ---
+  - {id: imports, name: "import & standard library", prereqs: [function_calls], taught_in: [cs50p-l4]}
+  - {id: slicing, name: "Slicing", prereqs: [lists], related: [strings], taught_in: [cs50p-l4]}
+  - {id: command_line_args, name: "Command-line arguments (sys.argv)", prereqs: [imports, lists], taught_in: [cs50p-l4]}
+  - {id: packages_pip, name: "Packages & pip", prereqs: [imports], taught_in: [cs50p-l4]}
+  - {id: apis_json, name: "APIs & JSON", prereqs: [packages_pip, dictionaries], taught_in: [cs50p-l4]}
+  - {id: own_modules, name: "Own modules & __name__", prereqs: [imports, defining_functions, if_statements], taught_in: [cs50p-l4]}
+
+  # --- Lecture 5: unit tests ---
+  - {id: assert_statement, name: "assert", prereqs: [boolean_expressions], taught_in: [cs50p-l5]}
+  - {id: pytest_testing, name: "Unit testing with pytest", prereqs: [assert_statement, own_modules], taught_in: [cs50p-l5]}
+
+  # --- Lecture 6: file I/O ---
+  - {id: file_io, name: "Reading & writing files", prereqs: [strings, function_calls], taught_in: [cs50p-l6]}
+  - {id: with_statement, name: "with (context managers)", prereqs: [file_io, indentation_blocks], taught_in: [cs50p-l6]}
+  - {id: csv_files, name: "CSV files", prereqs: [file_io, iterating_lists, imports], related: [dictionaries], taught_in: [cs50p-l6]}
+
+  # --- Lecture 7: regular expressions ---
+  - {id: regular_expressions, name: "Regular expressions", prereqs: [strings, imports], related: [if_statements], taught_in: [cs50p-l7]}
+
+  # --- Lecture 8: OOP ---
+  - {id: classes_objects, name: "Classes, objects & __init__", prereqs: [defining_functions], related: [dictionaries], taught_in: [cs50p-l8]}
+  - {id: properties_decorators, name: "Properties & decorators", prereqs: [classes_objects], taught_in: [cs50p-l8]}
+  - {id: class_static_methods, name: "Class & static methods", prereqs: [classes_objects], taught_in: [cs50p-l8]}
+  - {id: inheritance, name: "Inheritance", prereqs: [classes_objects], taught_in: [cs50p-l8]}
+  - {id: operator_overloading, name: "Operator overloading", prereqs: [classes_objects, arithmetic_operators], taught_in: [cs50p-l8]}
+
+  # --- Lecture 9: et cetera ---
+  - {id: sets, name: "Sets", prereqs: [lists], taught_in: [cs50p-l9]}
+  - {id: constants_globals, name: "Global variables & constants", prereqs: [scope], taught_in: [cs50p-l9]}
+  - {id: type_hints, name: "Type hints", prereqs: [defining_functions], taught_in: [cs50p-l9]}
+  - {id: docstrings, name: "Docstrings", prereqs: [defining_functions, comments], taught_in: [cs50p-l9]}
+  - {id: argparse_module, name: "argparse", prereqs: [command_line_args], taught_in: [cs50p-l9]}
+  - {id: tuples_unpacking, name: "Tuples & unpacking", prereqs: [lists], taught_in: [cs50p-l9]}
+  - {id: args_kwargs, name: "*args & **kwargs", prereqs: [tuples_unpacking, parameters, dictionaries], taught_in: [cs50p-l9]}
+  - {id: lambda_functions, name: "lambda", prereqs: [return_values], taught_in: [cs50p-l9]}
+  - {id: map_filter, name: "map & filter", prereqs: [iterating_lists, defining_functions], related: [lambda_functions], taught_in: [cs50p-l9]}
+  - {id: list_comprehensions, name: "List comprehensions", prereqs: [iterating_lists], related: [if_statements], taught_in: [cs50p-l9]}
+  - {id: dict_comprehensions, name: "Dictionary comprehensions", prereqs: [list_comprehensions, dictionaries], taught_in: [cs50p-l9]}
+  - {id: enumerate_function, name: "enumerate()", prereqs: [iterating_lists], taught_in: [cs50p-l9]}
+  - {id: generators, name: "Generators & yield", prereqs: [iterating_lists, return_values], taught_in: [cs50p-l9]}
+
+  # --- Not covered by CS50P; taught in MIT 6.0001 lecture 6 (added to close the gap) ---
+  - {id: recursion, name: "Recursion", prereqs: [return_values, if_statements], taught_in: [mit6001-l6]}

@@ -1,11 +1,12 @@
 """Download course materials listed in sources.yaml into data/raw/<course>/<lesson>/.
 
-Per lesson: audio (mp3), slides (pdf), official subtitles (srt), code (zip), notes (html).
-We download the MP3, not the MP4: Whisper only needs the audio, and the MP3s are
-~1.2 GB in total vs ~11 GB for 360p video. Video links use YouTube + timestamp.
+Per lesson: audio, slides (pdf), official subtitles (srt), code, notes.
+For CS50P we download the MP3, not the MP4: Whisper only needs the audio, and the MP3s
+are ~1.2 GB in total vs ~11 GB for 360p video. MIT only publishes MP4 (audio is decoded
+from it). Video links in the tutor use YouTube + timestamp.
 
 Run:  python -m ilm.content.download            (all lessons)
-      python -m ilm.content.download --lessons 0 5
+      python -m ilm.content.download --lessons cs50p-l5 mit6001-l6
 """
 from __future__ import annotations
 
@@ -26,16 +27,40 @@ def load_sources() -> dict:
     return yaml.safe_load(SOURCES.read_text(encoding="utf-8"))
 
 
-def lesson_files(course: dict, n: int) -> dict[str, str]:
-    """Map local filename -> remote URL for one lesson."""
-    base = f"{course['cdn_base']}/{n}"
-    return {
-        f"lecture{n}.mp3": f"{base}/lecture{n}.mp3",
-        f"lecture{n}.pdf": f"{base}/lecture{n}.pdf",
-        f"lecture{n}.srt": f"{base}/lang/en/lecture{n}.srt",
-        f"src{n}.zip": f"{base}/src{n}.zip",
-        f"notes{n}.html": f"{course['homepage'].rstrip('/')}/notes/{n}/",
-    }
+def all_lessons(sources: dict | None = None) -> list[dict]:
+    """Every lesson across all courses, in course order, with its course and an
+    `order` index attached (`order` is unique; `n` repeats across courses)."""
+    sources = sources or load_sources()
+    out = []
+    for course in sources["courses"]:
+        for lesson in course["lessons"]:
+            out.append({**lesson, "course": course, "order": len(out)})
+    return out
+
+
+def lesson_dir(lesson: dict) -> Path:
+    return config.RAW_DIR / lesson["course"]["id"] / lesson["id"]
+
+
+def lesson_files(lesson: dict) -> dict[str, dict]:
+    """Role (audio/slides/subtitles/code/notes) -> {name, url} for one lesson."""
+    course = lesson["course"]
+    if course.get("url_pattern") == "cs50p":
+        n, base = lesson["n"], f"{course['cdn_base']}/{lesson['n']}"
+        return {
+            "audio": {"name": f"lecture{n}.mp3", "url": f"{base}/lecture{n}.mp3"},
+            "slides": {"name": f"lecture{n}.pdf", "url": f"{base}/lecture{n}.pdf"},
+            "subtitles": {"name": f"lecture{n}.srt", "url": f"{base}/lang/en/lecture{n}.srt"},
+            "code": {"name": f"src{n}.zip", "url": f"{base}/src{n}.zip"},
+            "notes": {"name": f"notes{n}.html",
+                      "url": f"{course['homepage'].rstrip('/')}/notes/{n}/"},
+        }
+    return lesson["files"]
+
+
+def lesson_path(lesson: dict, role: str) -> Path:
+    """Local path of one downloaded file, e.g. lesson_path(lesson, "audio")."""
+    return lesson_dir(lesson) / lesson_files(lesson)[role]["name"]
 
 
 def remote_size(url: str) -> int | None:
@@ -66,21 +91,18 @@ def download(url: str, dest: Path) -> str:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--lessons", type=int, nargs="*", help="lesson numbers (default: all)")
+    parser.add_argument("--lessons", nargs="*", help="lesson ids, e.g. cs50p-l5 mit6001-l6 (default: all)")
     args = parser.parse_args(argv)
 
-    src = load_sources()
-    course = src["course"]
-    wanted = set(args.lessons) if args.lessons else None
-    for lesson in src["lessons"]:
-        if wanted is not None and lesson["n"] not in wanted:
+    for lesson in all_lessons():
+        if args.lessons and lesson["id"] not in args.lessons:
             continue
-        folder = config.RAW_DIR / course["id"] / lesson["id"]
+        folder = lesson_dir(lesson)
         folder.mkdir(parents=True, exist_ok=True)
-        for name, url in lesson_files(course, lesson["n"]).items():
-            status = download(url, folder / name)
-            size_mb = (folder / name).stat().st_size / 1e6
-            print(f"{lesson['id']:10s} {name:16s} {status:10s} {size_mb:8.1f} MB", flush=True)
+        for role, f in lesson_files(lesson).items():
+            status = download(f["url"], folder / f["name"])
+            size_mb = (folder / f["name"]).stat().st_size / 1e6
+            print(f"{lesson['id']:11s} {role:9s} {f['name']:32s} {status:10s} {size_mb:8.1f} MB", flush=True)
 
 
 if __name__ == "__main__":

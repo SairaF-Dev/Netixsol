@@ -3,7 +3,7 @@
 Decides, with numbers, which model size we use and whether Colab is worth it.
 Output: reports/whisper_benchmark.json
 
-Run:  python scripts/whisper_benchmark.py --lesson 5 --minutes 5 --models tiny base small
+Run:  python scripts/whisper_benchmark.py --lesson cs50p-l5 --minutes 5 --models tiny base small
 """
 from __future__ import annotations
 
@@ -17,23 +17,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import jiwer
 
 from ilm import config
+from ilm.content.download import all_lessons, lesson_path
 from ilm.content.srt import normalise, parse_srt, text_between
 from ilm.content.transcribe import load_model, transcribe_audio
 
 
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--lesson", type=int, default=5)
+    p.add_argument("--lesson", default="cs50p-l5", help="lesson id")
     p.add_argument("--minutes", type=float, default=5)
     p.add_argument("--models", nargs="+", default=["tiny", "base", "small"])
     a = p.parse_args()
 
-    folder = config.RAW_DIR / "cs50p" / f"cs50p-l{a.lesson}"
-    cues = parse_srt(folder / f"lecture{a.lesson}.srt")
+    lesson = next(l for l in all_lessons() if l["id"] == a.lesson)
+    cues = parse_srt(lesson_path(lesson, "subtitles"))
     results = []
     for size in a.models:
         model = load_model(size)
-        segs, stats = transcribe_audio(model, folder / f"lecture{a.lesson}.mp3", a.minutes)
+        segs, stats = transcribe_audio(model, lesson_path(lesson, "audio"), a.minutes)
         # Compare over the time window Whisper actually covered (up to its last segment end),
         # so a cue cut off at the edge doesn't count as a "missed" word.
         window_end = segs[-1].end if segs else 0

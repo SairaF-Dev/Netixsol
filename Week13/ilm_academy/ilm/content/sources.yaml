@@ -1,29 +1,57 @@
 # Course content sources. Every lesson we ingest must be listed here with its licence.
-# Verified on 2026-11-26 from https://cs50.harvard.edu/python/license/
+# Licences verified on 2026-11-26.
 #
-# Attribution (required by CC BY-NC-SA 4.0):
-#   "CS50's Introduction to Programming with Python" by David J. Malan, Harvard University,
-#   licensed under CC BY-NC-SA 4.0. Transcripts, chunks and embeddings derived from it are
-#   shared under the same licence, for non-commercial educational use only.
+# Attribution (required by CC BY-NC-SA):
+#   - "CS50's Introduction to Programming with Python" by David J. Malan, Harvard University,
+#     CC BY-NC-SA 4.0 (https://cs50.harvard.edu/python/license/).
+#   - "6.0001 Introduction to Computer Science and Programming in Python, Fall 2016" by
+#     Dr. Ana Bell, Prof. Eric Grimson, Prof. John Guttag, MIT OpenCourseWare, CC BY-NC-SA 4.0.
+#   Transcripts, chunks and embeddings derived from them are shared under the same licence,
+#   for non-commercial educational use only.
+#
+# Lesson order in this file = course order (used to break ties in the study order).
+# Each lesson's `files` maps a role (audio, slides, subtitles, code, notes) to {name, url}.
+# CS50P lessons use a URL pattern (see download.py) so they don't list files here.
 
-course:
-  id: cs50p
-  title: "CS50's Introduction to Programming with Python"
-  author: "David J. Malan, Harvard University"
-  homepage: https://cs50.harvard.edu/python/
-  license: CC BY-NC-SA 4.0
-  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
-  cdn_base: https://cdn.cs50.net/python/2022/x/lectures
+courses:
+  - id: cs50p
+    title: "CS50's Introduction to Programming with Python"
+    author: "David J. Malan, Harvard University"
+    homepage: https://cs50.harvard.edu/python/
+    license: CC BY-NC-SA 4.0
+    license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+    url_pattern: cs50p
+    cdn_base: https://cdn.cs50.net/python/2022/x/lectures
+    lessons:
+      - {n: 0, id: cs50p-l0, title: "Functions, Variables", youtube: "JP7ITIXGpHk"}
+      - {n: 1, id: cs50p-l1, title: "Conditionals", youtube: "_b6NgY_pMdw"}
+      - {n: 2, id: cs50p-l2, title: "Loops", youtube: "-7xg8pGcP6w"}
+      - {n: 3, id: cs50p-l3, title: "Exceptions", youtube: "LW7g1169v7w"}
+      - {n: 4, id: cs50p-l4, title: "Libraries", youtube: "MztLZWibctI"}
+      - {n: 5, id: cs50p-l5, title: "Unit Tests", youtube: "tIrcxwLqzjQ"}
+      - {n: 6, id: cs50p-l6, title: "File I/O", youtube: "KD-Yoel6EVQ"}
+      - {n: 7, id: cs50p-l7, title: "Regular Expressions", youtube: "hy3sd9MOAcc"}
+      - {n: 8, id: cs50p-l8, title: "Object-Oriented Programming", youtube: "e4fwY9ZsxPw"}
+      - {n: 9, id: cs50p-l9, title: "Et Cetera", youtube: "6pgodt1mezg"}
 
-# lesson_id -> title and YouTube id (used to build "watch at 12:34" links: https://youtu.be/<id>?t=<sec>)
-lessons:
-  - {n: 0, id: cs50p-l0, title: "Functions, Variables", youtube: "JP7ITIXGpHk"}
-  - {n: 1, id: cs50p-l1, title: "Conditionals", youtube: "_b6NgY_pMdw"}
-  - {n: 2, id: cs50p-l2, title: "Loops", youtube: "-7xg8pGcP6w"}
-  - {n: 3, id: cs50p-l3, title: "Exceptions", youtube: "LW7g1169v7w"}
-  - {n: 4, id: cs50p-l4, title: "Libraries", youtube: "MztLZWibctI"}
-  - {n: 5, id: cs50p-l5, title: "Unit Tests", youtube: "tIrcxwLqzjQ"}
-  - {n: 6, id: cs50p-l6, title: "File I/O", youtube: "KD-Yoel6EVQ"}
-  - {n: 7, id: cs50p-l7, title: "Regular Expressions", youtube: "hy3sd9MOAcc"}
-  - {n: 8, id: cs50p-l8, title: "Object-Oriented Programming", youtube: "e4fwY9ZsxPw"}
-  - {n: 9, id: cs50p-l9, title: "Et Cetera", youtube: "6pgodt1mezg"}
+  - id: mit6001
+    title: "6.0001 Introduction to Computer Science and Programming in Python (Fall 2016)"
+    author: "Dr. Ana Bell, Prof. Eric Grimson, Prof. John Guttag, MIT OpenCourseWare"
+    homepage: https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/
+    license: CC BY-NC-SA 4.0
+    license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+    # The archive.org mirror (item MIT6.0001F16) states CC BY-NC-SA 3.0; we follow the
+    # publisher (OCW footer). Both are non-commercial share-alike, so our use is the same.
+    license_note: "archive.org mirror lists CC BY-NC-SA 3.0"
+    lessons:
+      # Added to close the recursion coverage gap: CS50P never teaches recursion.
+      - n: 6
+        id: mit6001-l6
+        title: "Recursion and Dictionaries"
+        youtube: "WPSeyjX1-4s"
+        files:
+          audio: {name: lecture6.mp4, url: "https://archive.org/download/MIT6.0001F16/MIT6_0001F16_Lecture_06_300k.mp4"}
+          subtitles: {name: lecture6.srt, url: "https://archive.org/download/MIT6.0001F16/MIT6_0001F16_Lecture_06_300k.srt"}
+          slides: {name: lecture6.pdf, url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf"}
+          code: {name: lec6_recursion_dictionaries.py, url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/706228e592761d9c7c1c073f8ba7a6cc_lec6_recursion_dictionaries.py"}
+          notes: {name: transcript6.pdf, url: "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/ddf5ad40384181a5a3d9ae2b64ca366b_WPSeyjX1-4s.pdf"}

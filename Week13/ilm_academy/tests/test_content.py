@@ -1,7 +1,7 @@
 """Fast unit tests for content ingestion helpers (no network, no models)."""
 from __future__ import annotations
 
-from ilm.content.download import lesson_files, load_sources
+from ilm.content.download import all_lessons, lesson_files, lesson_path
 from ilm.content.srt import normalise, parse_srt, text_between
 
 SRT = """1
@@ -49,12 +49,17 @@ def test_text_between_uses_cue_start_time(tmp_path):
 
 
 def test_every_lesson_has_licence_youtube_id_and_five_files():
-    src = load_sources()
-    assert src["course"]["license"] == "CC BY-NC-SA 4.0"
-    assert [l["n"] for l in src["lessons"]] == list(range(10))
-    for lesson in src["lessons"]:
+    lessons = all_lessons()
+    assert [l["id"] for l in lessons][:10] == [f"cs50p-l{n}" for n in range(10)]
+    assert "mit6001-l6" in [l["id"] for l in lessons]
+    assert len({l["id"] for l in lessons}) == len(lessons)  # ids unique across courses
+    for lesson in lessons:
+        assert lesson["course"]["license"].startswith("CC BY-NC-SA")
         assert len(lesson["youtube"]) == 11  # YouTube ids are 11 chars
-        files = lesson_files(src["course"], lesson["n"])
-        assert set(files) == {f"lecture{lesson['n']}.mp3", f"lecture{lesson['n']}.pdf",
-                              f"lecture{lesson['n']}.srt", f"src{lesson['n']}.zip",
-                              f"notes{lesson['n']}.html"}
+        assert set(lesson_files(lesson)) == {"audio", "slides", "subtitles", "code", "notes"}
+
+
+def test_cs50p_paths_keep_the_names_already_on_disk():
+    l5 = next(l for l in all_lessons() if l["id"] == "cs50p-l5")
+    assert lesson_path(l5, "audio").parts[-3:] == ("cs50p", "cs50p-l5", "lecture5.mp3")
+    assert lesson_files(l5)["subtitles"]["url"].endswith("/5/lang/en/lecture5.srt")

@@ -3,8 +3,9 @@
 Timestamps are the whole point: on Day 3 the tutor links a student to
 "Lecture 5 at 12:34", which only works if every chunk remembers where it came from.
 
-Run:  python -m ilm.content.transcribe --lessons 5            (full lessons)
-      python -m ilm.content.transcribe --lessons 5 --minutes 5 (first 5 min, for timing)
+Run:  python -m ilm.content.transcribe                          (all lessons, skips finished)
+      python -m ilm.content.transcribe --lessons mit6001-l6
+      python -m ilm.content.transcribe --lessons cs50p-l5 --minutes 5   (first 5 min, for timing)
 """
 from __future__ import annotations
 
@@ -15,7 +16,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from ilm import config
-from ilm.content.download import load_sources
+from ilm.content.download import all_lessons, lesson_path
 
 SAMPLE_RATE = 16_000  # Whisper works on 16 kHz mono audio
 
@@ -72,30 +73,29 @@ def transcript_path(lesson_id: str) -> Path:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--lessons", type=int, nargs="*")
+    parser.add_argument("--lessons", nargs="*", help="lesson ids, e.g. cs50p-l5 mit6001-l6")
     parser.add_argument("--minutes", type=float, default=None)
     parser.add_argument("--model", default=None)
     parser.add_argument("--force", action="store_true", help="re-transcribe even if output exists")
     args = parser.parse_args(argv)
 
-    src = load_sources()
-    course = src["course"]
     model = load_model(args.model)
-    for lesson in src["lessons"]:
-        if args.lessons and lesson["n"] not in args.lessons:
+    for lesson in all_lessons():
+        course = lesson["course"]
+        if args.lessons and lesson["id"] not in args.lessons:
             continue
         out_path = transcript_path(lesson["id"])
         if out_path.exists() and not args.force and args.minutes is None:
             print(f"{lesson['id']}: exists, skipping (use --force)")
             continue
-        audio = config.RAW_DIR / course["id"] / lesson["id"] / f"lecture{lesson['n']}.mp3"
+        audio = lesson_path(lesson, "audio")
         segments, stats = transcribe_audio(model, audio, args.minutes)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         if args.minutes is not None:  # partial runs never overwrite a full transcript
             out_path = out_path.with_name(f"{lesson['id']}.first{args.minutes:g}min.json")
         out_path.write_text(json.dumps({
-            "lesson_id": lesson["id"], "title": lesson["title"], "youtube": lesson.get("youtube"),
-            "license": course["license"], "stats": stats,
+            "lesson_id": lesson["id"], "course_id": course["id"], "title": lesson["title"],
+            "youtube": lesson.get("youtube"), "license": course["license"], "stats": stats,
             "segments": [asdict(s) for s in segments],
         }, indent=1, ensure_ascii=False), encoding="utf-8")
         print(f"{lesson['id']}: {len(segments)} segments, {stats} -> {out_path.name}", flush=True)
