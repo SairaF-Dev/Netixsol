@@ -205,7 +205,12 @@ def personas(course: Course) -> list[SimStudent]:
 # ------------------------------------------------------------------ the course run ----
 class FixedPath:
     """The client's current system: everyone gets the same concepts in the same order,
-    QUESTIONS_PER_CONCEPT each, whether they have mastered them or not."""
+    QUESTIONS_PER_CONCEPT each, whether they have mastered them or not.
+
+    Policy interface (what a real platform sees, nothing more):
+      next_question(student_id, day) -> question id, or None when the course is over
+      observe(student_id, question_id, correct, day)   (optional: called after each answer)
+    A policy gets the student's ID, never the SimStudent, so it cannot read hidden truth."""
     name = "fixed"
 
     def __init__(self, course: Course):
@@ -213,11 +218,11 @@ class FixedPath:
                      for q in (course.questions[c] * QUESTIONS_PER_CONCEPT)[:QUESTIONS_PER_CONCEPT]]
         self.pos: dict[str, int] = collections.defaultdict(int)
 
-    def next_question(self, student: SimStudent) -> str | None:
-        i = self.pos[student.student_id]
+    def next_question(self, student_id: str, day: int = 0) -> str | None:
+        i = self.pos[student_id]
         if i >= len(self.plan):
             return None
-        self.pos[student.student_id] += 1
+        self.pos[student_id] += 1
         return self.plan[i]
 
 
@@ -235,13 +240,16 @@ def run_course(students: list[SimStudent], course: Course, policy, seed: int,
             for session, d in enumerate(days):
                 day = (week - 1) * 7 + int(d)
                 for _ in range(QUESTIONS_PER_SESSION):
-                    qid = policy.next_question(s)
+                    qid = policy.next_question(s.student_id, day)
                     if qid is None:
                         finished = finished or week
                         break
                     seq += 1
+                    result = s.answer(qid, course, day, rng)
+                    if hasattr(policy, "observe"):
+                        policy.observe(s.student_id, qid, bool(result["correct"]), day)
                     rows.append({"student_id": s.student_id, "seq": seq, "week": week, "day": day,
-                                 "session": session, **s.answer(qid, course, day, rng)})
+                                 "session": session, **result})
             if finished:
                 break
             recent = (1 - sum(s.recent) / len(s.recent)) if s.recent else 0.5
