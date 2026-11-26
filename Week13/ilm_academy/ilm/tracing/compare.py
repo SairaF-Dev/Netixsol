@@ -22,7 +22,9 @@ from ilm.tracing.pfa import PFA
 CHOSEN = {
     "student_so_far_m": 40,         # AUC flat at 40-80; tie broken by RMSE
     "pfa": {"C": 1.0, "transform": "log"},
-    "bkt_forgets": None,            # filled in from logs/bkt_tuning.log
+    # BKT (logs/bkt_tuning.log): no forgetting 0.7198 (7 min), forgetting 0.7248 (59 min).
+    # AUC decides; the 9x training time is noted in the report.
+    "bkt_forgets": True,
     # deep (logs/deep_tuning.log): DKT 64 -> 0.7505, 128 -> 0.7537 (stopped early at 12);
     # SAKT 64 -> 0.7312, 128 -> 0.7325. Both size-64 runs hit the 20-epoch cap while still
     # improving, but 128 was better AND converged, so 128 for both.
