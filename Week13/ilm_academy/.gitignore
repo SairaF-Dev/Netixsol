@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv*/
+.pytest_cache/
+.pytest_tmp/
+.ipynb_checkpoints/
+
+# Secrets - never commit
+.env
+
+# Large / regenerable data (rebuilt by scripts; small samples are whitelisted below)
+data/raw/*
+!data/raw/.gitkeep
+data/videos/*
+!data/videos/.gitkeep
+data/processed/chroma/
+models/*
+!models/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/

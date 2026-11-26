@@ -1,0 +1,34 @@
+"""Central settings: every path and tunable lives here, not scattered in scripts.
+
+Why: if a script hard-codes "data/raw/x.csv", tests can't redirect it to a temp
+folder and will overwrite real data (that bug cost us a full drive in Week 11).
+Everything reads paths from here, and tests override ILM_DATA_DIR.
+"""
+from __future__ import annotations
+
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(PROJECT_ROOT / ".env")
+
+DATA_DIR = Path(os.getenv("ILM_DATA_DIR", PROJECT_ROOT / "data"))
+RAW_DIR = DATA_DIR / "raw"
+PROCESSED_DIR = DATA_DIR / "processed"
+VIDEOS_DIR = DATA_DIR / "videos"
+SLIDES_DIR = DATA_DIR / "slides"
+CHROMA_DIR = PROCESSED_DIR / "chroma"
+MODELS_DIR = Path(os.getenv("ILM_MODELS_DIR", PROJECT_ROOT / "models"))
+REPORTS_DIR = Path(os.getenv("ILM_REPORTS_DIR", PROJECT_ROOT / "reports"))
+
+WHISPER_MODEL = os.getenv("WHISPER_MODEL", "small")
+WHISPER_DEVICE = os.getenv("WHISPER_DEVICE", "cpu")
+WHISPER_COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE_TYPE", "int8")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
+
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
+RANDOM_SEED = 42  # one seed for the whole project, so results reproduce

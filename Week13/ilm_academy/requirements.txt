@@ -1,0 +1,30 @@
+# Day 1 dependencies. Python 3.11 (.venv311). Exact pins are written to
+# requirements.lock.txt after a verified install (pip freeze).
+
+# data + analysis
+numpy
+pandas
+matplotlib
+seaborn
+scipy
+
+# content ingestion
+faster-whisper        # Whisper with segment timestamps, CPU int8 friendly
+pymupdf               # slide / notes PDF text extraction
+python-pptx           # .pptx slide extraction
+chromadb              # vector DB (local, file based)
+sentence-transformers # embeddings for chunks
+
+# concept graph
+networkx
+pyvis                 # interactive graph HTML
+
+# question bank
+pyyaml
+pydantic
+
+# config + tooling
+python-dotenv
+pytest
+jupyter
+nbconvert
