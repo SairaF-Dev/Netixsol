@@ -1,0 +1,1247 @@
+[
+ {
+  "system": "bm25",
+  "overall": {
+   "n": 16,
+   "hit@1": 0.812,
+   "hit@5": 0.938,
+   "mrr": 0.865
+  },
+  "by_type": {
+   "term": {
+    "n": 8,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 8,
+    "hit@1": 0.625,
+    "hit@5": 0.875,
+    "mrr": 0.729
+   }
+  },
+  "rows": [
+   {
+    "q": "my name prints with extra spaces at the start, how do I remove them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 2,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l0",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how do f-strings round a float to two decimal places",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "what is the difference between elif and else",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does the modulo operator tell if a number is even",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "is there a cleaner way than lots of ifs to compare one value against many options",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "what does pass do inside an except block",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l2",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how can my script read the words I type after python file.py in the terminal",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I install a package with pip",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I write tests with pytest",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how can I be sure my function still gives the right answers after I change it",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": null,
+    "top3": [
+     "cs50p-l2",
+     "cs50p-l9",
+     "cs50p-l9"
+    ]
+   },
+   {
+    "q": "my program forgets all the names once it closes, how do I keep them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "how do I read a CSV file with DictReader",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I use re.search to validate an email address",
+    "type": "term",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "I want to bundle a student's name and house together and reject a house that doesn't exist",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "I get maximum depth exceeded when my function runs",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 3,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l9",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "how can I solve a problem by reducing it to a smaller copy of the same problem",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   }
+  ]
+ },
+ {
+  "system": "vector:bge-small-en-v1.5",
+  "overall": {
+   "n": 16,
+   "hit@1": 0.75,
+   "hit@5": 0.938,
+   "mrr": 0.844
+  },
+  "by_type": {
+   "term": {
+    "n": 8,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 8,
+    "hit@1": 0.5,
+    "hit@5": 0.875,
+    "mrr": 0.688
+   }
+  },
+  "rows": [
+   {
+    "q": "my name prints with extra spaces at the start, how do I remove them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do f-strings round a float to two decimal places",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l4",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "what is the difference between elif and else",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does the modulo operator tell if a number is even",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "is there a cleaner way than lots of ifs to compare one value against many options",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "what does pass do inside an except block",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how can my script read the words I type after python file.py in the terminal",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 2,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I install a package with pip",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I write tests with pytest",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how can I be sure my function still gives the right answers after I change it",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 2,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "my program forgets all the names once it closes, how do I keep them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I read a CSV file with DictReader",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I use re.search to validate an email address",
+    "type": "term",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "I want to bundle a student's name and house together and reject a house that doesn't exist",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l6",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "I get maximum depth exceeded when my function runs",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": null,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l8",
+     "cs50p-l9"
+    ]
+   },
+   {
+    "q": "how can I solve a problem by reducing it to a smaller copy of the same problem",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 2,
+    "top3": [
+     "cs50p-l1",
+     "mit6001-l6",
+     "cs50p-l1"
+    ]
+   }
+  ]
+ },
+ {
+  "system": "vector:bge-base-en-v1.5",
+  "overall": {
+   "n": 16,
+   "hit@1": 0.875,
+   "hit@5": 0.938,
+   "mrr": 0.906
+  },
+  "by_type": {
+   "term": {
+    "n": 8,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 8,
+    "hit@1": 0.75,
+    "hit@5": 0.875,
+    "mrr": 0.812
+   }
+  },
+  "rows": [
+   {
+    "q": "my name prints with extra spaces at the start, how do I remove them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do f-strings round a float to two decimal places",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "what is the difference between elif and else",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does the modulo operator tell if a number is even",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "is there a cleaner way than lots of ifs to compare one value against many options",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "what does pass do inside an except block",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how can my script read the words I type after python file.py in the terminal",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 2,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l4",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I install a package with pip",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I write tests with pytest",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how can I be sure my function still gives the right answers after I change it",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l9"
+    ]
+   },
+   {
+    "q": "my program forgets all the names once it closes, how do I keep them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I read a CSV file with DictReader",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I use re.search to validate an email address",
+    "type": "term",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "I want to bundle a student's name and house together and reject a house that doesn't exist",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "I get maximum depth exceeded when my function runs",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": null,
+    "top3": [
+     "cs50p-l9",
+     "cs50p-l9",
+     "cs50p-l2"
+    ]
+   },
+   {
+    "q": "how can I solve a problem by reducing it to a smaller copy of the same problem",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   }
+  ]
+ },
+ {
+  "system": "hybrid:bm25+vector (RRF)",
+  "overall": {
+   "n": 16,
+   "hit@1": 0.875,
+   "hit@5": 0.938,
+   "mrr": 0.913
+  },
+  "by_type": {
+   "term": {
+    "n": 8,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 8,
+    "hit@1": 0.75,
+    "hit@5": 0.875,
+    "mrr": 0.826
+   }
+  },
+  "rows": [
+   {
+    "q": "my name prints with extra spaces at the start, how do I remove them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how do f-strings round a float to two decimal places",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "what is the difference between elif and else",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does the modulo operator tell if a number is even",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "is there a cleaner way than lots of ifs to compare one value against many options",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "what does pass do inside an except block",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how can my script read the words I type after python file.py in the terminal",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I install a package with pip",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I write tests with pytest",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how can I be sure my function still gives the right answers after I change it",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 2,
+    "top3": [
+     "mit6001-l6",
+     "cs50p-l5",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "my program forgets all the names once it closes, how do I keep them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I read a CSV file with DictReader",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I use re.search to validate an email address",
+    "type": "term",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "I want to bundle a student's name and house together and reject a house that doesn't exist",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "I get maximum depth exceeded when my function runs",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 9,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l9",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how can I solve a problem by reducing it to a smaller copy of the same problem",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   }
+  ]
+ },
+ {
+  "system": "rewrite+hybrid (gemini-3.1-flash-lite)",
+  "overall": {
+   "n": 16,
+   "hit@1": 0.938,
+   "hit@5": 1.0,
+   "mrr": 0.958
+  },
+  "by_type": {
+   "term": {
+    "n": 8,
+    "hit@1": 1.0,
+    "hit@5": 1.0,
+    "mrr": 1.0
+   },
+   "symptom": {
+    "n": 8,
+    "hit@1": 0.875,
+    "hit@5": 1.0,
+    "mrr": 0.917
+   }
+  },
+  "rows": [
+   {
+    "q": "my name prints with extra spaces at the start, how do I remove them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l0",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "how do f-strings round a float to two decimal places",
+    "type": "term",
+    "lessons": [
+     "cs50p-l0"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l0",
+     "cs50p-l4",
+     "cs50p-l0"
+    ]
+   },
+   {
+    "q": "what is the difference between elif and else",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "how does the modulo operator tell if a number is even",
+    "type": "term",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "is there a cleaner way than lots of ifs to compare one value against many options",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l1"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l1",
+     "cs50p-l1",
+     "cs50p-l1"
+    ]
+   },
+   {
+    "q": "what does pass do inside an except block",
+    "type": "term",
+    "lessons": [
+     "cs50p-l3"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l3",
+     "cs50p-l3",
+     "cs50p-l3"
+    ]
+   },
+   {
+    "q": "how can my script read the words I type after python file.py in the terminal",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l9",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I install a package with pip",
+    "type": "term",
+    "lessons": [
+     "cs50p-l4"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l4",
+     "cs50p-l4",
+     "cs50p-l4"
+    ]
+   },
+   {
+    "q": "how do I write tests with pytest",
+    "type": "term",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "how can I be sure my function still gives the right answers after I change it",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l5"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l5",
+     "cs50p-l5"
+    ]
+   },
+   {
+    "q": "my program forgets all the names once it closes, how do I keep them",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I read a CSV file with DictReader",
+    "type": "term",
+    "lessons": [
+     "cs50p-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l6",
+     "cs50p-l6",
+     "cs50p-l6"
+    ]
+   },
+   {
+    "q": "how do I use re.search to validate an email address",
+    "type": "term",
+    "lessons": [
+     "cs50p-l7"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l7",
+     "cs50p-l7",
+     "cs50p-l7"
+    ]
+   },
+   {
+    "q": "I want to bundle a student's name and house together and reject a house that doesn't exist",
+    "type": "symptom",
+    "lessons": [
+     "cs50p-l8"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "cs50p-l8",
+     "cs50p-l8",
+     "cs50p-l8"
+    ]
+   },
+   {
+    "q": "I get maximum depth exceeded when my function runs",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 3,
+    "top3": [
+     "cs50p-l5",
+     "cs50p-l8",
+     "mit6001-l6"
+    ]
+   },
+   {
+    "q": "how can I solve a problem by reducing it to a smaller copy of the same problem",
+    "type": "symptom",
+    "lessons": [
+     "mit6001-l6"
+    ],
+    "split": "holdout",
+    "rank": 1,
+    "top3": [
+     "mit6001-l6",
+     "mit6001-l6",
+     "mit6001-l6"
+    ]
+   }
+  ]
+ }
+]

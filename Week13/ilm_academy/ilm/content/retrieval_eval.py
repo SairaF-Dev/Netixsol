@@ -100,6 +100,38 @@ class HybridSystem:
         return [self.lesson_of[c] for c in self.ranked_ids(question)[:TOP_K]]
 
 
+REWRITE_PROMPT = """A beginner in an introductory Python course asked the question below.
+Rewrite it as a short search query using the standard Python terms a lecture would use
+for the concept behind it (for example name the language feature, error or technique).
+Reply with the query only, at most 15 words.
+
+Question: {q}"""
+
+
+class RewriteSystem(HybridSystem):
+    """Hybrid search on (student question + an LLM's rewrite into course terms). Bridges
+    the vocabulary gap of 'symptom' questions ('my function keeps calling itself' never says
+    'recursion'). The original question is kept so a bad rewrite cannot lose it entirely.
+    Rewrites are cached on disk: reruns are free and the result is reproducible."""
+    CACHE = config.PROCESSED_DIR / "retrieval_rewrites.json"
+
+    def __init__(self):
+        super().__init__()
+        from ilm import llm
+        self._ask = llm.ask
+        self.name = f"rewrite+hybrid ({config.LLM_MODEL})"
+        self.cache = json.loads(self.CACHE.read_text(encoding="utf-8")) if self.CACHE.exists() else {}
+
+    def rewrite(self, question: str) -> str:
+        if question not in self.cache:
+            self.cache[question] = self._ask(REWRITE_PROMPT.format(q=question), temperature=0).strip()
+            self.CACHE.write_text(json.dumps(self.cache, indent=1, ensure_ascii=False), encoding="utf-8")
+        return self.cache[question]
+
+    def lessons(self, question: str) -> list[str]:
+        return super().lessons(f"{question} {self.rewrite(question)}")
+
+
 # ------------------------------------------------------------------ scoring ----
 def first_hit_rank(retrieved: list[str], relevant: list[str]) -> int | None:
     for rank, lesson in enumerate(retrieved, start=1):
@@ -137,6 +169,7 @@ def main() -> None:
 
     questions = load_questions(a.split)
     systems = {"bm25": BM25System, "vector": VectorSystem, "hybrid": HybridSystem,
+               "rewrite": RewriteSystem,
                "vector-base": lambda: VectorSystem("BAAI/bge-base-en-v1.5", "course_content_bge_base")}
     results = [evaluate(systems[s](), questions) for s in a.systems]
 
