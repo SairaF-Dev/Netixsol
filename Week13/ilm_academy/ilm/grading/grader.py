@@ -135,7 +135,11 @@ def grade(sub: dict, q, test_set: str = "edge", use_rules: bool = True, use_spee
             mark -= SLOW_PENALTY
     return {"id": sub["id"], "exercise": q.id, "tests": len(tests), "passed": sum(r.passed),
             "status": r.status, "error": r.error, "rules_broken": broken, "slow": slow, "mark": mark,
-            "failed": [f"{t['call']} -> {d}" for t, ok, d in zip(tests, r.passed, r.details or [""] * len(tests)) if not ok][:4]}
+            "failed": [f"{t['call']} -> {d}" for t, ok, d in zip(tests, r.passed, r.details or [""] * len(tests)) if not ok][:4],
+            "test_results": [{"call": t["call"], "expect": t.get("expect"), "raises": t.get("raises"),
+                              "hidden": bool(t.get("hidden")), "passed": bool(ok), "got": d}
+                             for t, ok, d in zip(tests, r.passed, r.details or [r.error or ""] * len(tests))],
+            "run_error": r.error}
 
 
 # ------------------------------------------------------------------ comparison ----

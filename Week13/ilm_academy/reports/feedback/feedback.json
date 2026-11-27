@@ -1,0 +1,2082 @@
+[
+ {
+  "id": "s01",
+  "exercise": "recursion-03",
+  "mark": 10.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s02",
+  "exercise": "recursion-03",
+  "mark": 4,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [
+   "not recursive"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks for a recursive function: it should call itself on a smaller input. Your answers come out right, but the exercise is practising this skill."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s03",
+  "exercise": "recursion-03",
+  "mark": 6.7,
+  "tests": {
+   "passed": 4,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 2,
+   "hidden_failed_how": [
+    {
+     "how": "crashed with RecursionError: it kept calling itself without reaching a base case",
+     "count": 2
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "2 hidden test(s) failed: your code crashed with RecursionError: it kept calling itself without reaching a base case. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s04",
+  "exercise": "recursion-03",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "factorial(5)",
+     "expected": "120",
+     "got": "0",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 5,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 5
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "factorial(5) should give 120, but your code returned 0. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s05",
+  "exercise": "recursion-03",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "factorial(5)",
+     "expected": "120",
+     "got": "SyntaxError: expected ':' (solution.py, line 2)",
+     "why": "crashed with SyntaxError: it could not be read by Python (a syntax error)"
+    }
+   ],
+   "hidden_failed": 5,
+   "hidden_failed_how": [
+    {
+     "how": "crashed with SyntaxError: it could not be read by Python (a syntax error)",
+     "count": 5
+    }
+   ],
+   "run_error": "SyntaxError: expected ':' (solution.py, line 2)"
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "ruff",
+     "code": "invalid-syntax",
+     "line": 2,
+     "message": "Expected `:`, found newline",
+     "hint": "Python cannot read line 2: Expected `:`, found newline."
+    }
+   ],
+   "max_complexity": 0,
+   "complex": false,
+   "syntax_error": true
+  },
+  "one_improvement": {
+   "kind": "make it run",
+   "text": "Python cannot read line 2: Expected `:`, found newline. Fix that first: nothing else can be checked yet."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s06",
+  "exercise": "modulo-02",
+  "mark": 10.0,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Conditionals notes: Modulo",
+   "url": "https://cs50.harvard.edu/python/notes/1/#modulo",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s07",
+  "exercise": "modulo-02",
+  "mark": 10.0,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "R1705",
+     "line": 2,
+     "message": "Unnecessary \"elif\" after \"return\", replace only that \"elif\" with \"if\"",
+     "hint": "After a `return`, the `else:` is not needed."
+    }
+   ],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "code quality",
+   "text": "After a `return`, the `else:` is not needed."
+  },
+  "lesson": {
+   "title": "Conditionals notes: Modulo",
+   "url": "https://cs50.harvard.edu/python/notes/1/#modulo",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s08",
+  "exercise": "modulo-02",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 8,
+   "visible_failed": [
+    {
+     "call": "is_even(4)",
+     "expected": "True",
+     "got": "False",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 7,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 7
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "is_even(4) should give True, but your code returned False. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Conditionals notes: Modulo",
+   "url": "https://cs50.harvard.edu/python/notes/1/#modulo",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s09",
+  "exercise": "modulo-02",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 8,
+   "visible_failed": [
+    {
+     "call": "is_even(4)",
+     "expected": "True",
+     "got": "None",
+     "why": "returned None: did you print the answer instead of returning it, or miss a return?"
+    }
+   ],
+   "hidden_failed": 7,
+   "hidden_failed_how": [
+    {
+     "how": "returned None: did you print the answer instead of returning it, or miss a return?",
+     "count": 7
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "is_even(4) should give True, but your code returned None: did you print the answer instead of returning it, or miss a return. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Conditionals notes: Modulo",
+   "url": "https://cs50.harvard.edu/python/notes/1/#modulo",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s10",
+  "exercise": "modulo-02",
+  "mark": 5.0,
+  "tests": {
+   "passed": 4,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 4,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 4
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "4 hidden test(s) failed: your code returned a wrong value. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Conditionals notes: Modulo",
+   "url": "https://cs50.harvard.edu/python/notes/1/#modulo",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s11",
+  "exercise": "elif_else-01",
+  "mark": 10.0,
+  "tests": {
+   "passed": 11,
+   "total": 11,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "R1705",
+     "line": 2,
+     "message": "Unnecessary \"elif\" after \"return\", replace only that \"elif\" with \"if\"",
+     "hint": "After a `return`, the `else:` is not needed."
+    }
+   ],
+   "max_complexity": 4,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "code quality",
+   "text": "After a `return`, the `else:` is not needed."
+  },
+  "lesson": {
+   "title": "Conditionals notes: and",
+   "url": "https://cs50.harvard.edu/python/notes/1/#and",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s12",
+  "exercise": "elif_else-01",
+  "mark": 6.4,
+  "tests": {
+   "passed": 7,
+   "total": 11,
+   "visible_failed": [],
+   "hidden_failed": 4,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 4
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "R1705",
+     "line": 2,
+     "message": "Unnecessary \"elif\" after \"return\", replace only that \"elif\" with \"if\"",
+     "hint": "After a `return`, the `else:` is not needed."
+    }
+   ],
+   "max_complexity": 4,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "4 hidden test(s) failed: your code returned a wrong value. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Conditionals notes: and",
+   "url": "https://cs50.harvard.edu/python/notes/1/#and",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s13",
+  "exercise": "elif_else-01",
+  "mark": 4.5,
+  "tests": {
+   "passed": 5,
+   "total": 11,
+   "visible_failed": [
+    {
+     "call": "grade(95)",
+     "expected": "'A'",
+     "got": "'C'",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 5,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 5
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "R1705",
+     "line": 2,
+     "message": "Unnecessary \"elif\" after \"return\", replace only that \"elif\" with \"if\"",
+     "hint": "After a `return`, the `else:` is not needed."
+    }
+   ],
+   "max_complexity": 4,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "grade(95) should give 'A', but your code returned 'C'. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Conditionals notes: and",
+   "url": "https://cs50.harvard.edu/python/notes/1/#and",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s14",
+  "exercise": "elif_else-01",
+  "mark": 10.0,
+  "tests": {
+   "passed": 11,
+   "total": 11,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 4,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Conditionals notes: and",
+   "url": "https://cs50.harvard.edu/python/notes/1/#and",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s15",
+  "exercise": "elif_else-01",
+  "mark": 2.7,
+  "tests": {
+   "passed": 3,
+   "total": 11,
+   "visible_failed": [],
+   "hidden_failed": 8,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 8
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "8 hidden test(s) failed: your code returned a wrong value. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Conditionals notes: and",
+   "url": "https://cs50.harvard.edu/python/notes/1/#and",
+   "lesson": "cs50p-l1"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s16",
+  "exercise": "dictionaries-03",
+  "mark": 10.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": false,
+  "quality": {
+   "issues": [],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Loops notes: Dictionaries (part 3)",
+   "url": "https://cs50.harvard.edu/python/notes/2/#dictionaries",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s17",
+  "exercise": "dictionaries-03",
+  "mark": 3.3,
+  "tests": {
+   "passed": 2,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expected": "{'a': 2, 'b': 1}",
+     "got": "{'a': 1, 'b': 1}",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 3,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 3
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "count_letters(\"aab\") should give {'a': 2, 'b': 1}, but your code returned {'a': 1, 'b': 1}. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Loops notes: Dictionaries (part 3)",
+   "url": "https://cs50.harvard.edu/python/notes/2/#dictionaries",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s18",
+  "exercise": "dictionaries-03",
+  "mark": 9.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": true,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "speed",
+   "text": "It is correct but slow on large inputs: something inside your loop repeats work for every item. Can you get each answer with one pass?"
+  },
+  "lesson": {
+   "title": "Loops notes: Dictionaries (part 3)",
+   "url": "https://cs50.harvard.edu/python/notes/2/#dictionaries",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s19",
+  "exercise": "dictionaries-03",
+  "mark": 3.3,
+  "tests": {
+   "passed": 2,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expected": "{'a': 2, 'b': 1}",
+     "got": "KeyError: 'a'",
+     "why": "crashed with KeyError: it looked up a dictionary key that is not there yet"
+    }
+   ],
+   "hidden_failed": 3,
+   "hidden_failed_how": [
+    {
+     "how": "crashed with KeyError: it looked up a dictionary key that is not there yet",
+     "count": 3
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "count_letters(\"aab\") should give {'a': 2, 'b': 1}, but your code crashed with KeyError: it looked up a dictionary key that is not there yet. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Loops notes: Dictionaries (part 3)",
+   "url": "https://cs50.harvard.edu/python/notes/2/#dictionaries",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s20",
+  "exercise": "dictionaries-03",
+  "mark": 10.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": false,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Loops notes: Dictionaries (part 3)",
+   "url": "https://cs50.harvard.edu/python/notes/2/#dictionaries",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s21",
+  "exercise": "iterating_lists-03",
+  "mark": 10.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Loops notes: Length",
+   "url": "https://cs50.harvard.edu/python/notes/2/#length",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s22",
+  "exercise": "iterating_lists-03",
+  "mark": 4,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [
+   "uses max()"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task says not to use max(): write that part yourself with a loop. Your answers come out right, but the exercise is practising this skill."
+  },
+  "lesson": {
+   "title": "Loops notes: Length",
+   "url": "https://cs50.harvard.edu/python/notes/2/#length",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s23",
+  "exercise": "iterating_lists-03",
+  "mark": 6.7,
+  "tests": {
+   "passed": 4,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 2,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 2
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "2 hidden test(s) failed: your code returned a wrong value. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Loops notes: Length",
+   "url": "https://cs50.harvard.edu/python/notes/2/#length",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s24",
+  "exercise": "iterating_lists-03",
+  "mark": 10.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Loops notes: Length",
+   "url": "https://cs50.harvard.edu/python/notes/2/#length",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s25",
+  "exercise": "iterating_lists-03",
+  "mark": 3.3,
+  "tests": {
+   "passed": 2,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expected": "9",
+     "got": "2",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 3,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 3
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "R1730",
+     "line": 4,
+     "message": "Consider using 'biggest = min(biggest, n)' instead of unnecessary if block",
+     "hint": "Consider using 'biggest = min(biggest, n)' instead of unnecessary if block"
+    }
+   ],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "largest([3, 9, 2]) should give 9, but your code returned 2. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Loops notes: Length",
+   "url": "https://cs50.harvard.edu/python/notes/2/#length",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s26",
+  "exercise": "try_except-02",
+  "mark": 10.0,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Exceptions notes: else",
+   "url": "https://cs50.harvard.edu/python/notes/3/#else",
+   "lesson": "cs50p-l3"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s27",
+  "exercise": "try_except-02",
+  "mark": 4,
+  "tests": {
+   "passed": 7,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 1,
+   "hidden_failed_how": [
+    {
+     "how": "crashed with ValueError: it got a value it could not convert",
+     "count": 1
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [
+   "no try/except"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks you to use try/except to handle bad input. Some results are also wrong; following the task's method usually fixes them too."
+  },
+  "lesson": {
+   "title": "Exceptions notes: else",
+   "url": "https://cs50.harvard.edu/python/notes/3/#else",
+   "lesson": "cs50p-l3"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s28",
+  "exercise": "try_except-02",
+  "mark": 4,
+  "tests": {
+   "passed": 6,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 2,
+   "hidden_failed_how": [
+    {
+     "how": "returned None: did you print the answer instead of returning it, or miss a return?",
+     "count": 2
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [
+   "no try/except"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks you to use try/except to handle bad input. Some results are also wrong; following the task's method usually fixes them too."
+  },
+  "lesson": {
+   "title": "Exceptions notes: else",
+   "url": "https://cs50.harvard.edu/python/notes/3/#else",
+   "lesson": "cs50p-l3"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s29",
+  "exercise": "try_except-02",
+  "mark": 10.0,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "W0702",
+     "line": 4,
+     "message": "No exception type(s) specified",
+     "hint": "A bare `except:` catches every error, even typing mistakes. Name the error you expect, e.g. `except ValueError:`."
+    }
+   ],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "code quality",
+   "text": "A bare `except:` catches every error, even typing mistakes. Name the error you expect, e.g. `except ValueError:`."
+  },
+  "lesson": {
+   "title": "Exceptions notes: else",
+   "url": "https://cs50.harvard.edu/python/notes/3/#else",
+   "lesson": "cs50p-l3"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s30",
+  "exercise": "try_except-02",
+  "mark": 3.8,
+  "tests": {
+   "passed": 3,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 5,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 5
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "5 hidden test(s) failed: your code returned a wrong value. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Exceptions notes: else",
+   "url": "https://cs50.harvard.edu/python/notes/3/#else",
+   "lesson": "cs50p-l3"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s31",
+  "exercise": "for_loops-01",
+  "mark": 10.0,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Loops (video 15:57)",
+   "url": "https://youtu.be/-7xg8pGcP6w?t=957",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s32",
+  "exercise": "for_loops-01",
+  "mark": 1.7,
+  "tests": {
+   "passed": 1,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "sum_to(3)",
+     "expected": "6",
+     "got": "3",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 4,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 4
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "sum_to(3) should give 6, but your code returned 3. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Loops (video 15:57)",
+   "url": "https://youtu.be/-7xg8pGcP6w?t=957",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s33",
+  "exercise": "for_loops-01",
+  "mark": 4,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [
+   "no for loop"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks for a for loop. Your answers come out right, but the exercise is practising this skill."
+  },
+  "lesson": {
+   "title": "Loops (video 15:57)",
+   "url": "https://youtu.be/-7xg8pGcP6w?t=957",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s34",
+  "exercise": "for_loops-01",
+  "mark": 4,
+  "tests": {
+   "passed": 6,
+   "total": 6,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [
+   "no for loop"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks for a for loop. Your answers come out right, but the exercise is practising this skill."
+  },
+  "lesson": {
+   "title": "Loops (video 15:57)",
+   "url": "https://youtu.be/-7xg8pGcP6w?t=957",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s35",
+  "exercise": "for_loops-01",
+  "mark": 1.7,
+  "tests": {
+   "passed": 1,
+   "total": 6,
+   "visible_failed": [
+    {
+     "call": "sum_to(3)",
+     "expected": "6",
+     "got": "TimeoutError: test took longer than 2s",
+     "why": "did not finish in time (is there a loop that never ends?)"
+    }
+   ],
+   "hidden_failed": 4,
+   "hidden_failed_how": [
+    {
+     "how": "did not finish in time (is there a loop that never ends?)",
+     "count": 4
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [
+   "no for loop"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "make it run",
+   "text": "Your code does not finish its tests: it did not finish in time (is there a loop that never ends?). Get it running on the example in the task first."
+  },
+  "lesson": {
+   "title": "Loops (video 15:57)",
+   "url": "https://youtu.be/-7xg8pGcP6w?t=957",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s36",
+  "exercise": "recursion-05",
+  "mark": 10.0,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s37",
+  "exercise": "recursion-05",
+  "mark": 4,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [
+   "not recursive"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks for a recursive function: it should call itself on a smaller input. Your answers come out right, but the exercise is practising this skill."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s38",
+  "exercise": "recursion-05",
+  "mark": 4,
+  "tests": {
+   "passed": 6,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 2,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 2
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [
+   "not recursive"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks for a recursive function: it should call itself on a smaller input. Some results are also wrong; following the task's method usually fixes them too."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s39",
+  "exercise": "recursion-05",
+  "mark": 6.2,
+  "tests": {
+   "passed": 5,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 3,
+   "hidden_failed_how": [
+    {
+     "how": "crashed with IndexError: it used a position that is outside the list or string",
+     "count": 3
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "3 hidden test(s) failed: your code crashed with IndexError: it used a position that is outside the list or string. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s40",
+  "exercise": "recursion-05",
+  "mark": 10.0,
+  "tests": {
+   "passed": 8,
+   "total": 8,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "R1705",
+     "line": 2,
+     "message": "Unnecessary \"elif\" after \"return\", replace only that \"elif\" with \"if\"",
+     "hint": "After a `return`, the `else:` is not needed."
+    },
+    {
+     "tool": "ruff",
+     "code": "SIM114",
+     "line": 2,
+     "message": "Combine `if` branches using logical `or` operator",
+     "hint": "Combine `if` branches using logical `or` operator"
+    }
+   ],
+   "max_complexity": 4,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "code quality",
+   "text": "After a `return`, the `else:` is not needed."
+  },
+  "lesson": {
+   "title": "Recursion and Dictionaries slides p.13",
+   "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/876348c652c5353daccc96e1b7d577bb_MIT6_0001F16_Lec6.pdf#page=13",
+   "lesson": "mit6001-l6"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s41",
+  "exercise": "while_loops-03",
+  "mark": 10.0,
+  "tests": {
+   "passed": 7,
+   "total": 7,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Loops notes: Improving with User Input",
+   "url": "https://cs50.harvard.edu/python/notes/2/#improving-with-user-input",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s42",
+  "exercise": "while_loops-03",
+  "mark": 4,
+  "tests": {
+   "passed": 7,
+   "total": 7,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [
+   "no while loop",
+   "uses str()"
+  ],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "follow the task",
+   "text": "The task asks for a while loop. Your answers come out right, but the exercise is practising this skill."
+  },
+  "lesson": {
+   "title": "Loops notes: Improving with User Input",
+   "url": "https://cs50.harvard.edu/python/notes/2/#improving-with-user-input",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s43",
+  "exercise": "while_loops-03",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 7,
+   "visible_failed": [
+    {
+     "call": "count_digits(12345)",
+     "expected": "5",
+     "got": "4",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 6,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 6
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "count_digits(12345) should give 5, but your code returned 4. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Loops notes: Improving with User Input",
+   "url": "https://cs50.harvard.edu/python/notes/2/#improving-with-user-input",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s44",
+  "exercise": "while_loops-03",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 7,
+   "visible_failed": [
+    {
+     "call": "count_digits(12345)",
+     "expected": "5",
+     "got": "TimeoutError: test took longer than 2s",
+     "why": "did not finish in time (is there a loop that never ends?)"
+    }
+   ],
+   "hidden_failed": 6,
+   "hidden_failed_how": [
+    {
+     "how": "did not finish in time (is there a loop that never ends?)",
+     "count": 6
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [
+    {
+     "tool": "pylint",
+     "code": "W0104",
+     "line": 4,
+     "message": "Statement seems to have no effect",
+     "hint": "Statement seems to have no effect"
+    }
+   ],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "make it run",
+   "text": "Your code does not finish its tests: it did not finish in time (is there a loop that never ends?). Get it running on the example in the task first."
+  },
+  "lesson": {
+   "title": "Loops notes: Improving with User Input",
+   "url": "https://cs50.harvard.edu/python/notes/2/#improving-with-user-input",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s45",
+  "exercise": "while_loops-03",
+  "mark": 4.3,
+  "tests": {
+   "passed": 3,
+   "total": 7,
+   "visible_failed": [],
+   "hidden_failed": 4,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 4
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "4 hidden test(s) failed: your code returned a wrong value. Re-read the task for special cases (the smallest input, boundaries like 'or more', empty input, negative numbers) and test those yourself."
+  },
+  "lesson": {
+   "title": "Loops notes: Improving with User Input",
+   "url": "https://cs50.harvard.edu/python/notes/2/#improving-with-user-input",
+   "lesson": "cs50p-l2"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s46",
+  "exercise": "sets-02",
+  "mark": 10.0,
+  "tests": {
+   "passed": 5,
+   "total": 5,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": false,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "well done",
+   "text": "All tests pass and the code is clean. Optional: test it on an input the task did not mention and predict the result first."
+  },
+  "lesson": {
+   "title": "Et Cetera (video 1:18:40)",
+   "url": "https://youtu.be/6pgodt1mezg?t=4720",
+   "lesson": "cs50p-l9"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s47",
+  "exercise": "sets-02",
+  "mark": 8.0,
+  "tests": {
+   "passed": 4,
+   "total": 5,
+   "visible_failed": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expected": "['Gryffindor', 'Slytherin']",
+     "got": "['Slytherin', 'Gryffindor']",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) should give ['Gryffindor', 'Slytherin'], but your code returned ['Slytherin', 'Gryffindor']. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Et Cetera (video 1:18:40)",
+   "url": "https://youtu.be/6pgodt1mezg?t=4720",
+   "lesson": "cs50p-l9"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s48",
+  "exercise": "sets-02",
+  "mark": 9.0,
+  "tests": {
+   "passed": 5,
+   "total": 5,
+   "visible_failed": [],
+   "hidden_failed": 0,
+   "hidden_failed_how": [],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": true,
+  "quality": {
+   "issues": [],
+   "max_complexity": 3,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "speed",
+   "text": "It is correct but slow on large inputs: something inside your loop repeats work for every item. Can you get each answer with one pass?"
+  },
+  "lesson": {
+   "title": "Et Cetera (video 1:18:40)",
+   "url": "https://youtu.be/6pgodt1mezg?t=4720",
+   "lesson": "cs50p-l9"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s49",
+  "exercise": "sets-02",
+  "mark": 4.0,
+  "tests": {
+   "passed": 2,
+   "total": 5,
+   "visible_failed": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expected": "['Gryffindor', 'Slytherin']",
+     "got": "['Gryffindor', 'Gryffindor', 'Slytherin']",
+     "why": "returned a wrong value"
+    }
+   ],
+   "hidden_failed": 2,
+   "hidden_failed_how": [
+    {
+     "how": "returned a wrong value",
+     "count": 2
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 2,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "fix a wrong result",
+   "text": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) should give ['Gryffindor', 'Slytherin'], but your code returned ['Gryffindor', 'Gryffindor', 'Slytherin']. Trace it by hand with that input."
+  },
+  "lesson": {
+   "title": "Et Cetera (video 1:18:40)",
+   "url": "https://youtu.be/6pgodt1mezg?t=4720",
+   "lesson": "cs50p-l9"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ },
+ {
+  "id": "s50",
+  "exercise": "sets-02",
+  "mark": 0.0,
+  "tests": {
+   "passed": 0,
+   "total": 5,
+   "visible_failed": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expected": "['Gryffindor', 'Slytherin']",
+     "got": "TypeError: list indices must be integers or slices, not str",
+     "why": "crashed with TypeError: it used a value of the wrong type (for example a list where a string was expected)"
+    }
+   ],
+   "hidden_failed": 4,
+   "hidden_failed_how": [
+    {
+     "how": "crashed with TypeError: it used a value of the wrong type (for example a list where a string was expected)",
+     "count": 4
+    }
+   ],
+   "run_error": null
+  },
+  "rules_broken": [],
+  "slow": null,
+  "quality": {
+   "issues": [],
+   "max_complexity": 1,
+   "complex": false,
+   "syntax_error": false
+  },
+  "one_improvement": {
+   "kind": "make it run",
+   "text": "Your code does not finish its tests: it used a value of the wrong type (for example a list where a string was expected). Get it running on the example in the task first."
+  },
+  "lesson": {
+   "title": "Et Cetera (video 1:18:40)",
+   "url": "https://youtu.be/6pgodt1mezg?t=4720",
+   "lesson": "cs50p-l9"
+  },
+  "checks": {
+   "hidden_test_leak": false,
+   "has_lesson_link": true,
+   "has_one_improvement": true
+  }
+ }
+]

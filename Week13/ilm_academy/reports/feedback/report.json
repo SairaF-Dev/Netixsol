@@ -1,0 +1,42 @@
+{
+ "submissions": 50,
+ "hidden_test_leaks": 0,
+ "with_lesson_link": 50,
+ "with_quality_issue": 9,
+ "improvement_kind_by_submission_kind": {
+  "code quality": {
+   "clumsy": 3,
+   "correct": 1
+  },
+  "fix a wrong result": {
+   "crashes": 2,
+   "edge_case": 6,
+   "hardcoded": 1,
+   "prints": 1,
+   "wrong": 9
+  },
+  "follow the task": {
+   "edge_case": 1,
+   "rule_broken": 7,
+   "wrong": 1
+  },
+  "make it run": {
+   "broken": 1,
+   "crashes": 1,
+   "timeout": 2
+  },
+  "speed": {
+   "clumsy": 1,
+   "slow": 1
+  },
+  "well done": {
+   "clumsy": 1,
+   "correct": 10,
+   "rule_broken": 1
+  }
+ },
+ "llm": {
+  "used": 0,
+  "blocked_as_leak": 0
+ }
+}

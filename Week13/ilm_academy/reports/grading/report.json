@@ -127,6 +127,57 @@
     "factorial(1) -> 0",
     "factorial(0) -> 0"
    ],
+   "test_results": [
+    {
+     "call": "factorial(5)",
+     "expect": "120",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(10)",
+     "expect": "3628800",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    }
+   ],
+   "run_error": null,
    "ref": 3.0,
    "ref_reason": "base case returns 0 so every result is 0; recursive structure is right",
    "kind": "wrong"
@@ -147,6 +198,73 @@
     "is_even(0) -> None",
     "is_even(-2) -> None"
    ],
+   "test_results": [
+    {
+     "call": "is_even(4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(7)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(-2)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(-4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(-3)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(10)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    }
+   ],
+   "run_error": null,
    "ref": 3.0,
    "ref_reason": "prints instead of returning (returns None); the check itself is right",
    "kind": "prints"
@@ -162,6 +280,57 @@
    "slow": null,
    "mark": 10.0,
    "failed": [],
+   "test_results": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expect": "9",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "9"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([7])",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([3])",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "largest([0, -1])",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    }
+   ],
+   "run_error": null,
    "ref": 7.0,
    "ref_reason": "correct and avoids max() literally but sidesteps the loop the exercise practises; slower (sorting)",
    "kind": "rule_broken"
@@ -182,6 +351,65 @@
     "count_digits(100) -> 1",
     "count_digits(9) -> 0"
    ],
+   "test_results": [
+    {
+     "call": "count_digits(12345)",
+     "expect": "5",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "4"
+    },
+    {
+     "call": "count_digits(5)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(9)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "count_digits(10)",
+     "expect": "2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(1000000)",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "5"
+    }
+   ],
+   "run_error": null,
    "ref": 3.0,
    "ref_reason": "starts at 0 and loops while n > 10: every count is one too low",
    "kind": "wrong"
@@ -199,6 +427,49 @@
    "failed": [
     "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> ['Slytherin', 'Gryffindor']"
    ],
+   "test_results": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expect": "['Gryffindor', 'Slytherin']",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "['Slytherin', 'Gryffindor']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}])",
+     "expect": "['Ravenclaw']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['Ravenclaw']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}])",
+     "expect": "['a', 'b']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['a', 'b']"
+    }
+   ],
+   "run_error": null,
    "ref": 5.0,
    "ref_reason": "removes duplicates but does not sort (the task asks for alphabetical order)",
    "kind": "wrong"
@@ -219,6 +490,57 @@
     "sum_to(100) -> 4950",
     "sum_to(1) -> 0"
    ],
+   "test_results": [
+    {
+     "call": "sum_to(3)",
+     "expect": "6",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "3"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "4950"
+    },
+    {
+     "call": "sum_to(0)",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "4950"
+    }
+   ],
+   "run_error": null,
    "ref": 4.0,
    "ref_reason": "range(1, n) stops early: misses n itself for every n >= 1",
    "kind": "edge_case"
@@ -238,7 +560,58 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "factorial(5)",
+     "expect": "120",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "120"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(10)",
+     "expect": "3628800",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3628800"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s02",
@@ -252,7 +625,58 @@
    ],
    "slow": null,
    "mark": 4,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "factorial(5)",
+     "expect": "120",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "120"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(10)",
+     "expect": "3628800",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3628800"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s03",
@@ -267,7 +691,58 @@
    "failed": [
     "factorial(0) -> RecursionError: maximum recursion depth exceeded",
     "factorial(0) -> RecursionError: maximum recursion depth exceeded"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "factorial(5)",
+     "expect": "120",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "120"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "RecursionError: maximum recursion depth exceeded"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "RecursionError: maximum recursion depth exceeded"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "factorial(10)",
+     "expect": "3628800",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3628800"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s04",
@@ -284,7 +759,58 @@
     "factorial(0) -> 0",
     "factorial(1) -> 0",
     "factorial(0) -> 0"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "factorial(5)",
+     "expect": "120",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "factorial(10)",
+     "expect": "3628800",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s05",
@@ -301,7 +827,58 @@
     "factorial(0) -> ",
     "factorial(1) -> ",
     "factorial(0) -> "
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "factorial(5)",
+     "expect": "120",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "SyntaxError: expected ':' (solution.py, line 2)"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "SyntaxError: expected ':' (solution.py, line 2)"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "SyntaxError: expected ':' (solution.py, line 2)"
+    },
+    {
+     "call": "factorial(0)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "SyntaxError: expected ':' (solution.py, line 2)"
+    },
+    {
+     "call": "factorial(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "SyntaxError: expected ':' (solution.py, line 2)"
+    },
+    {
+     "call": "factorial(10)",
+     "expect": "3628800",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "SyntaxError: expected ':' (solution.py, line 2)"
+    }
+   ],
+   "run_error": "SyntaxError: expected ':' (solution.py, line 2)"
   },
   {
    "id": "s06",
@@ -313,7 +890,74 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "is_even(4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(7)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(-2)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(-4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(-3)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_even(10)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s07",
@@ -325,7 +969,74 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "is_even(4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(7)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(-2)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(-4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(-3)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_even(10)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s08",
@@ -342,7 +1053,74 @@
     "is_even(7) -> True",
     "is_even(0) -> False",
     "is_even(-2) -> False"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "is_even(4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(7)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "True"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(-2)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(-4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(-3)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "True"
+    },
+    {
+     "call": "is_even(10)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s09",
@@ -359,7 +1137,74 @@
     "is_even(7) -> None",
     "is_even(0) -> None",
     "is_even(-2) -> None"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "is_even(4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(7)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(-2)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(-4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(-3)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "is_even(10)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s10",
@@ -376,7 +1221,74 @@
     "is_even(-2) -> False",
     "is_even(0) -> False",
     "is_even(-4) -> False"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "is_even(4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_even(7)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(-2)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(0)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(-4)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "False"
+    },
+    {
+     "call": "is_even(-3)",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_even(10)",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s11",
@@ -388,7 +1300,98 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "grade(95)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "'A'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(10)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(90)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'A'"
+    },
+    {
+     "call": "grade(89)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(70)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(69)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(100)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'A'"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s12",
@@ -405,7 +1408,98 @@
     "grade(90) -> 'B'",
     "grade(80) -> 'C'",
     "grade(70) -> 'F'"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "grade(95)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "'A'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(10)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(90)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(89)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(70)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(69)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(100)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'A'"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s13",
@@ -422,7 +1516,98 @@
     "grade(80) -> 'C'",
     "grade(90) -> 'C'",
     "grade(89) -> 'C'"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "grade(95)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(10)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(90)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(89)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(70)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(69)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(100)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'C'"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s14",
@@ -434,7 +1619,98 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "grade(95)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "'A'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(10)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(90)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'A'"
+    },
+    {
+     "call": "grade(89)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'B'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(70)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'C'"
+    },
+    {
+     "call": "grade(69)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(100)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'A'"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s15",
@@ -451,7 +1727,98 @@
     "grade(79) -> 'F'",
     "grade(90) -> 'F'",
     "grade(89) -> 'F'"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "grade(95)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "'A'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(10)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(90)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(89)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(80)",
+     "expect": "'B'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(79)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(70)",
+     "expect": "'C'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(69)",
+     "expect": "'F'",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "'F'"
+    },
+    {
+     "call": "grade(100)",
+     "expect": "'A'",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "'F'"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s16",
@@ -463,7 +1830,58 @@
    "rules_broken": [],
    "slow": false,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expect": "{'a': 2, 'b': 1}",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "{'a': 2, 'b': 1}"
+    },
+    {
+     "call": "count_letters(\"\")",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters(\"hello\")",
+     "expect": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}"
+    },
+    {
+     "call": "count_letters('')",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters('abcabc')",
+     "expect": "{'a': 2, 'b': 2, 'c': 2}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'a': 2, 'b': 2, 'c': 2}"
+    },
+    {
+     "call": "count_letters('zzz')",
+     "expect": "{'z': 3}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'z': 3}"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s17",
@@ -480,7 +1898,58 @@
     "count_letters(\"hello\") -> {'h': 1, 'e': 1, 'l': 1, 'o': 1}",
     "count_letters('abcabc') -> {'a': 1, 'b': 1, 'c': 1}",
     "count_letters('zzz') -> {'z': 1}"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expect": "{'a': 2, 'b': 1}",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "{'a': 1, 'b': 1}"
+    },
+    {
+     "call": "count_letters(\"\")",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters(\"hello\")",
+     "expect": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "{'h': 1, 'e': 1, 'l': 1, 'o': 1}"
+    },
+    {
+     "call": "count_letters('')",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters('abcabc')",
+     "expect": "{'a': 2, 'b': 2, 'c': 2}",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "{'a': 1, 'b': 1, 'c': 1}"
+    },
+    {
+     "call": "count_letters('zzz')",
+     "expect": "{'z': 3}",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "{'z': 1}"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s18",
@@ -492,7 +1961,58 @@
    "rules_broken": [],
    "slow": true,
    "mark": 9.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expect": "{'a': 2, 'b': 1}",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "{'a': 2, 'b': 1}"
+    },
+    {
+     "call": "count_letters(\"\")",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters(\"hello\")",
+     "expect": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}"
+    },
+    {
+     "call": "count_letters('')",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters('abcabc')",
+     "expect": "{'a': 2, 'b': 2, 'c': 2}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'a': 2, 'b': 2, 'c': 2}"
+    },
+    {
+     "call": "count_letters('zzz')",
+     "expect": "{'z': 3}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'z': 3}"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s19",
@@ -509,7 +2029,58 @@
     "count_letters(\"hello\") -> KeyError: 'h'",
     "count_letters('abcabc') -> KeyError: 'a'",
     "count_letters('zzz') -> KeyError: 'z'"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expect": "{'a': 2, 'b': 1}",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "KeyError: 'a'"
+    },
+    {
+     "call": "count_letters(\"\")",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters(\"hello\")",
+     "expect": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "KeyError: 'h'"
+    },
+    {
+     "call": "count_letters('')",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters('abcabc')",
+     "expect": "{'a': 2, 'b': 2, 'c': 2}",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "KeyError: 'a'"
+    },
+    {
+     "call": "count_letters('zzz')",
+     "expect": "{'z': 3}",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "KeyError: 'z'"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s20",
@@ -521,7 +2092,58 @@
    "rules_broken": [],
    "slow": false,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "count_letters(\"aab\")",
+     "expect": "{'a': 2, 'b': 1}",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "{'a': 2, 'b': 1}"
+    },
+    {
+     "call": "count_letters(\"\")",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters(\"hello\")",
+     "expect": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}"
+    },
+    {
+     "call": "count_letters('')",
+     "expect": "{}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{}"
+    },
+    {
+     "call": "count_letters('abcabc')",
+     "expect": "{'a': 2, 'b': 2, 'c': 2}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'a': 2, 'b': 2, 'c': 2}"
+    },
+    {
+     "call": "count_letters('zzz')",
+     "expect": "{'z': 3}",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "{'z': 3}"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s21",
@@ -533,7 +2155,58 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expect": "9",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "9"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([7])",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([3])",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "largest([0, -1])",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s22",
@@ -547,7 +2220,58 @@
    ],
    "slow": null,
    "mark": 4,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expect": "9",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "9"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([7])",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([3])",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "largest([0, -1])",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s23",
@@ -562,7 +2286,58 @@
    "failed": [
     "largest([-5, -2, -9]) -> 0",
     "largest([-5, -2, -9]) -> 0"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expect": "9",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "9"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "largest([7])",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "largest([3])",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "largest([0, -1])",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s24",
@@ -574,7 +2349,58 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expect": "9",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "9"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([7])",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-2"
+    },
+    {
+     "call": "largest([3])",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "largest([0, -1])",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s25",
@@ -591,7 +2417,58 @@
     "largest([-5, -2, -9]) -> -9",
     "largest([-5, -2, -9]) -> -9",
     "largest([0, -1]) -> -1"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "largest([3, 9, 2])",
+     "expect": "9",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "2"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "-9"
+    },
+    {
+     "call": "largest([7])",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    },
+    {
+     "call": "largest([-5, -2, -9])",
+     "expect": "-2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "-9"
+    },
+    {
+     "call": "largest([3])",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "largest([0, -1])",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "-1"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s26",
@@ -603,7 +2480,74 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "to_int(\"42\")",
+     "expect": "42",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "42"
+    },
+    {
+     "call": "to_int(\"cat\")",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int(\"-3\")",
+     "expect": "-3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-3"
+    },
+    {
+     "call": "to_int('-7')",
+     "expect": "-7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-7"
+    },
+    {
+     "call": "to_int('3.5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('--5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('abc')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s27",
@@ -619,7 +2563,74 @@
    "mark": 4,
    "failed": [
     "to_int('--5') -> ValueError: invalid literal for int() with base 10: '--5'"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "to_int(\"42\")",
+     "expect": "42",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "42"
+    },
+    {
+     "call": "to_int(\"cat\")",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int(\"-3\")",
+     "expect": "-3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-3"
+    },
+    {
+     "call": "to_int('-7')",
+     "expect": "-7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-7"
+    },
+    {
+     "call": "to_int('3.5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('--5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "ValueError: invalid literal for int() with base 10: '--5'"
+    },
+    {
+     "call": "to_int('abc')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s28",
@@ -636,7 +2647,74 @@
    "failed": [
     "to_int(\"-3\") -> None",
     "to_int('-7') -> None"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "to_int(\"42\")",
+     "expect": "42",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "42"
+    },
+    {
+     "call": "to_int(\"cat\")",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int(\"-3\")",
+     "expect": "-3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "to_int('-7')",
+     "expect": "-7",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "None"
+    },
+    {
+     "call": "to_int('3.5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('--5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('abc')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s29",
@@ -648,7 +2726,74 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "to_int(\"42\")",
+     "expect": "42",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "42"
+    },
+    {
+     "call": "to_int(\"cat\")",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int(\"-3\")",
+     "expect": "-3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-3"
+    },
+    {
+     "call": "to_int('-7')",
+     "expect": "-7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-7"
+    },
+    {
+     "call": "to_int('3.5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('--5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    },
+    {
+     "call": "to_int('abc')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "None"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s30",
@@ -665,7 +2810,74 @@
     "to_int('3.5') -> 0",
     "to_int('') -> 0",
     "to_int('--5') -> 0"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "to_int(\"42\")",
+     "expect": "42",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "42"
+    },
+    {
+     "call": "to_int(\"cat\")",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "to_int(\"-3\")",
+     "expect": "-3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-3"
+    },
+    {
+     "call": "to_int('-7')",
+     "expect": "-7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "-7"
+    },
+    {
+     "call": "to_int('3.5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "to_int('')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "to_int('--5')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "to_int('abc')",
+     "expect": "None",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s31",
@@ -677,7 +2889,58 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "sum_to(3)",
+     "expect": "6",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "6"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "5050"
+    },
+    {
+     "call": "sum_to(0)",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "5050"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s32",
@@ -694,7 +2957,58 @@
     "sum_to(1) -> 0",
     "sum_to(100) -> 4950",
     "sum_to(1) -> 0"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "sum_to(3)",
+     "expect": "6",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "3"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "4950"
+    },
+    {
+     "call": "sum_to(0)",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "4950"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s33",
@@ -708,7 +3022,58 @@
    ],
    "slow": null,
    "mark": 4,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "sum_to(3)",
+     "expect": "6",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "6"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "5050"
+    },
+    {
+     "call": "sum_to(0)",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "5050"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s34",
@@ -722,7 +3087,58 @@
    ],
    "slow": null,
    "mark": 4,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "sum_to(3)",
+     "expect": "6",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "6"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "5050"
+    },
+    {
+     "call": "sum_to(0)",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "5050"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s35",
@@ -741,7 +3157,58 @@
     "sum_to(1) -> TimeoutError: test took longer than 2s",
     "sum_to(100) -> TimeoutError: test took longer than 2s",
     "sum_to(1) -> TimeoutError: test took longer than 2s"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "sum_to(3)",
+     "expect": "6",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "sum_to(0)",
+     "expect": "0",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "0"
+    },
+    {
+     "call": "sum_to(1)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "sum_to(100)",
+     "expect": "5050",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s36",
@@ -753,7 +3220,74 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "is_palindrome(\"racecar\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"ab\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome(\"\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"abca\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abba')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abca')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('ab')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s37",
@@ -767,7 +3301,74 @@
    ],
    "slow": null,
    "mark": 4,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "is_palindrome(\"racecar\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"ab\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome(\"\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"abca\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abba')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abca')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('ab')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s38",
@@ -784,7 +3385,74 @@
    "failed": [
     "is_palindrome(\"abca\") -> True",
     "is_palindrome('abca') -> True"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "is_palindrome(\"racecar\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"ab\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome(\"\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"abca\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abba')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abca')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('ab')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s39",
@@ -800,7 +3468,74 @@
     "is_palindrome(\"\") -> IndexError: string index out of range",
     "is_palindrome('') -> IndexError: string index out of range",
     "is_palindrome('abba') -> IndexError: string index out of range"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "is_palindrome(\"racecar\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"ab\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome(\"\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "IndexError: string index out of range"
+    },
+    {
+     "call": "is_palindrome(\"abca\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "IndexError: string index out of range"
+    },
+    {
+     "call": "is_palindrome('abba')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "IndexError: string index out of range"
+    },
+    {
+     "call": "is_palindrome('abca')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('ab')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s40",
@@ -812,7 +3547,74 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "is_palindrome(\"racecar\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"ab\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome(\"\")",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome(\"abca\")",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abba')",
+     "expect": "True",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "True"
+    },
+    {
+     "call": "is_palindrome('abca')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    },
+    {
+     "call": "is_palindrome('ab')",
+     "expect": "False",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "False"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s41",
@@ -824,7 +3626,66 @@
    "rules_broken": [],
    "slow": null,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "count_digits(12345)",
+     "expect": "5",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "5"
+    },
+    {
+     "call": "count_digits(5)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "count_digits(9)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(10)",
+     "expect": "2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "2"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "count_digits(1000000)",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s42",
@@ -839,7 +3700,66 @@
    ],
    "slow": null,
    "mark": 4,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "count_digits(12345)",
+     "expect": "5",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "5"
+    },
+    {
+     "call": "count_digits(5)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "count_digits(9)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(10)",
+     "expect": "2",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "2"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "3"
+    },
+    {
+     "call": "count_digits(1000000)",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "7"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s43",
@@ -856,7 +3776,66 @@
     "count_digits(5) -> 0",
     "count_digits(100) -> 1",
     "count_digits(9) -> 0"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "count_digits(12345)",
+     "expect": "5",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "4"
+    },
+    {
+     "call": "count_digits(5)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(9)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "count_digits(10)",
+     "expect": "2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "0"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(1000000)",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "5"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s44",
@@ -873,7 +3852,66 @@
     "count_digits(5) -> TimeoutError: test took longer than 2s",
     "count_digits(100) -> TimeoutError: test took longer than 2s",
     "count_digits(9) -> TimeoutError: test took longer than 2s"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "count_digits(12345)",
+     "expect": "5",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "count_digits(5)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "count_digits(9)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "count_digits(10)",
+     "expect": "2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    },
+    {
+     "call": "count_digits(1000000)",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TimeoutError: test took longer than 2s"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s45",
@@ -890,7 +3928,66 @@
     "count_digits(10) -> 1",
     "count_digits(100) -> 2",
     "count_digits(1000000) -> 6"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "count_digits(12345)",
+     "expect": "5",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "5"
+    },
+    {
+     "call": "count_digits(5)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "2"
+    },
+    {
+     "call": "count_digits(9)",
+     "expect": "1",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(10)",
+     "expect": "2",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "1"
+    },
+    {
+     "call": "count_digits(100)",
+     "expect": "3",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "2"
+    },
+    {
+     "call": "count_digits(1000000)",
+     "expect": "7",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "6"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s46",
@@ -902,7 +3999,50 @@
    "rules_broken": [],
    "slow": false,
    "mark": 10.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expect": "['Gryffindor', 'Slytherin']",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "['Gryffindor', 'Slytherin']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}])",
+     "expect": "['Ravenclaw']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['Ravenclaw']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}])",
+     "expect": "['a', 'b']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['a', 'b']"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s47",
@@ -916,7 +4056,50 @@
    "mark": 8.0,
    "failed": [
     "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> ['Slytherin', 'Gryffindor']"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expect": "['Gryffindor', 'Slytherin']",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "['Slytherin', 'Gryffindor']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}])",
+     "expect": "['Ravenclaw']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['Ravenclaw']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}])",
+     "expect": "['a', 'b']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['a', 'b']"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s48",
@@ -928,7 +4111,50 @@
    "rules_broken": [],
    "slow": true,
    "mark": 9.0,
-   "failed": []
+   "failed": [],
+   "test_results": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expect": "['Gryffindor', 'Slytherin']",
+     "raises": null,
+     "hidden": false,
+     "passed": true,
+     "got": "['Gryffindor', 'Slytherin']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}])",
+     "expect": "['Ravenclaw']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['Ravenclaw']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}])",
+     "expect": "['a', 'b']",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "['a', 'b']"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s49",
@@ -944,7 +4170,50 @@
     "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> ['Gryffindor', 'Gryffindor', 'Slytherin']",
     "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}]) -> ['Ravenclaw', 'Ravenclaw']",
     "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}]) -> ['a', 'b', 'b']"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expect": "['Gryffindor', 'Slytherin']",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "['Gryffindor', 'Gryffindor', 'Slytherin']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}])",
+     "expect": "['Ravenclaw']",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "['Ravenclaw', 'Ravenclaw']"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": true,
+     "got": "[]"
+    },
+    {
+     "call": "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}])",
+     "expect": "['a', 'b']",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "['a', 'b', 'b']"
+    }
+   ],
+   "run_error": null
   },
   {
    "id": "s50",
@@ -961,7 +4230,50 @@
     "unique_houses([]) -> TypeError: list indices must be integers or slices, not str",
     "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}]) -> TypeError: list indices must be integers or slices, not str",
     "unique_houses([]) -> TypeError: list indices must be integers or slices, not str"
-   ]
+   ],
+   "test_results": [
+    {
+     "call": "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}])",
+     "expect": "['Gryffindor', 'Slytherin']",
+     "raises": null,
+     "hidden": false,
+     "passed": false,
+     "got": "TypeError: list indices must be integers or slices, not str"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TypeError: list indices must be integers or slices, not str"
+    },
+    {
+     "call": "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}])",
+     "expect": "['Ravenclaw']",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TypeError: list indices must be integers or slices, not str"
+    },
+    {
+     "call": "unique_houses([])",
+     "expect": "[]",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TypeError: list indices must be integers or slices, not str"
+    },
+    {
+     "call": "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}])",
+     "expect": "['a', 'b']",
+     "raises": null,
+     "hidden": true,
+     "passed": false,
+     "got": "TypeError: list indices must be integers or slices, not str"
+    }
+   ],
+   "run_error": null
   }
  ]
 }
