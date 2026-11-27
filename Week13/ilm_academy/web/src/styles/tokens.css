@@ -1,0 +1,97 @@
+/* Design tokens: docs/design/ui_ux_plan.md section 6. Change values here, nowhere else. */
+:root {
+  --ink: #1b1f23;
+  --ink-2: #57606a;
+  --ink-3: #8a929b;
+  --paper: #fbfaf7;
+  --surface: #ffffff;
+  --surface-2: #f4f2ec;
+  --line: #e3e1da;
+  --line-strong: #cfccc2;
+  --accent: #0f6b5c;
+  --accent-hover: #0b5649;
+  --accent-soft: #e4f1ee;
+  --on-accent: #ffffff;
+  --ok: #1a7f37;
+  --ok-soft: #e6f4ea;
+  --warn: #9a6700;
+  --warn-soft: #fbf1d9;
+  --bad: #c4321f;
+  --bad-soft: #fbe9e6;
+
+  --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --t-xs: 13px;
+  --t-sm: 15px;
+  --t-md: 17px;
+  --t-lg: 20px;
+  --t-xl: 24px;
+  --t-2xl: 32px;
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+
+  --r: 6px;
+  --r-lg: 10px;
+  --shadow-float: 0 8px 24px rgb(27 31 35 / 0.12), 0 1px 3px rgb(27 31 35 / 0.08);
+  --focus: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+  --speed: 150ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e8eb;
+    --ink-2: #9aa4ae;
+    --ink-3: #6e7781;
+    --paper: #111417;
+    --surface: #181c20;
+    --surface-2: #1e2328;
+    --line: #2a3036;
+    --line-strong: #3a424a;
+    --accent: #3fb59e;
+    --accent-hover: #5cc6b1;
+    --accent-soft: #15302b;
+    --on-accent: #0b1412;
+    --ok: #3fb950;
+    --ok-soft: #132a1a;
+    --warn: #d29922;
+    --warn-soft: #2b2210;
+    --bad: #f85149;
+    --bad-soft: #2d1513;
+    --shadow-float: 0 8px 24px rgb(0 0 0 / 0.5);
+  }
+}
+
+@media (max-width: 640px) {
+  :root { --t-sm: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --speed: 0ms; }
+}
+
+/* Code colours: muted, readable, tied to the palette */
+:root {
+  --code-keyword: #8a3c8c;
+  --code-string: #0f6b5c;
+  --code-number: #9a4a00;
+  --code-comment: #8a929b;
+  --code-def: #1f5a99;
+  --code-bg: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --code-keyword: #d2a8ff;
+    --code-string: #7ee2c8;
+    --code-number: #f0a868;
+    --code-comment: #6e7781;
+    --code-def: #79c0ff;
+    --code-bg: #14181c;
+  }
+}

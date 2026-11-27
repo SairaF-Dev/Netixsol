@@ -47,3 +47,10 @@ pyBKT @ git+https://github.com/CAHLR/pyBKT.git@3bf77884676338d969bbc7b9442a2f285
 ruff
 pylint
 radon
+
+# Day 5: API
+fastapi
+uvicorn
+pyjwt
+bcrypt
+httpx                 # FastAPI's TestClient in the tests

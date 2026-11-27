@@ -23,6 +23,12 @@ os.environ["ILM_MODELS_DIR"] = str(_TMP / "models")
 os.environ["ILM_REPORTS_DIR"] = str(_TMP / "reports")
 # Windows without Developer Mode can't symlink the HF cache; harmless, so silence it.
 os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+# One BLAS thread per process. pyBKT fits in ~12 worker processes; with a BLAS thread (and
+# buffer) per core in each, memory ran out on a busy machine and the workers hung
+# ("OpenBLAS: memory allocation failed", 2026-11-27). The work is already split across
+# processes, so this changes no result. Workers inherit these at start-up.
+for _var in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_var, "1")
 
 
 def pytest_sessionfinish(session, exitstatus):

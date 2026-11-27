@@ -1,0 +1,88 @@
+import { BookOpen, Code2, LayoutGrid, LogOut, Route as RouteIcon } from "lucide-react"
+import type { ReactNode } from 'react'
+import { NavLink, Outlet } from 'react-router-dom'
+import { useLogout, useMe } from '../auth'
+
+interface Item { to: string; label: string; icon: ReactNode; end?: boolean }
+
+const STUDENT: Item[] = [
+  { to: '/student', label: 'Today', icon: <BookOpen size={18} strokeWidth={1.5} />, end: true },
+  { to: '/student/path', label: 'Path', icon: <RouteIcon size={18} strokeWidth={1.5} /> },
+  { to: '/student/practice', label: 'Practice', icon: <Code2 size={18} strokeWidth={1.5} /> },
+]
+const TEACHER: Item[] = [
+  { to: '/teacher', label: 'Class overview', icon: <LayoutGrid size={18} strokeWidth={1.5} />, end: true },
+]
+
+function Brand() {
+  return (
+    <a href="/" className="brand" aria-label="Ilm Academy home">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="var(--accent)" />
+        <circle cx="16" cy="9.5" r="2.75" fill="var(--paper)" /><rect x="13.75" y="14" width="4.5" height="11" rx="1.2" fill="var(--paper)" />
+      </svg>
+      <span>Ilm Academy</span>
+    </a>
+  )
+}
+
+function Shell({ items, area }: { items: Item[]; area: string }) {
+  const { data: me } = useMe()
+  const logout = useLogout()
+  return (
+    <div className="shell">
+      <aside className="sidebar" aria-label={`${area} navigation`}>
+        <Brand />
+        <nav className="side-nav">
+          {items.map((i) => (
+            <NavLink key={i.to} to={i.to} end={i.end} className="side-link">
+              {i.icon}
+              <span>{i.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+        <div className="side-foot">
+          <div className="side-user">
+            <span className="side-name">{me?.name}</span>
+            <span className="small muted">{me?.role === 'teacher' ? 'Teacher' : 'Student'}</span>
+          </div>
+          <button className="btn btn-ghost side-logout" onClick={logout}>
+            <LogOut size={16} strokeWidth={1.5} />
+            <span>Log out</span>
+          </button>
+        </div>
+      </aside>
+
+      <header className="topbar">
+        <Brand />
+        <button className="btn btn-ghost" onClick={logout} aria-label="Log out">
+          <LogOut size={18} strokeWidth={1.5} />
+        </button>
+      </header>
+
+      <main className="content" id="main">
+        <Outlet />
+      </main>
+
+      {items.length > 1 && (
+        <nav className="tabbar" aria-label={`${area} sections`}>
+          {items.map((i) => (
+            <NavLink key={i.to} to={i.to} end={i.end} className="tab-link">
+              {i.icon}
+              <span>{i.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+      )}
+    </div>
+  )
+}
+
+export function StudentShell() {
+  return <Shell items={STUDENT} area="Student" />
+}
+
+export function TeacherShell() {
+  return <Shell items={TEACHER} area="Teacher" />
+}
+

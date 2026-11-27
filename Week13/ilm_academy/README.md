@@ -17,6 +17,20 @@ copy .env.example .env        # then fill in the API key
 Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML libraries.
 `requirements.txt` lists what we depend on; `requirements.lock.txt` pins the exact versions we tested.
 
+## Run the app (dev)
+
+Docker Desktop must be running (student code runs in the sandbox).
+
+```powershell
+# terminal 1: the API on :8010 (8000 is often taken by other local containers)
+$env:PYTHONPATH="."; .venv311\Scripts\python.exe -m uvicorn ilm.api.main:app --port 8010
+# terminal 2: the web app on http://localhost:5173 (proxies /api to :8010)
+cd web; npm install; npm run dev
+```
+
+Demo accounts: `ali`, `sara` (students), `teacher`. Password: `ILM_DEMO_PASSWORD` from `.env`
+(in dev, when it is empty, the login page shows the dev default).
+
 ## Layout
 
 | Folder | What lives there |
@@ -29,7 +43,8 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 | `ilm/adaptive` | Recommender, bandit, spaced repetition, paths (Day 2) |
 | `ilm/tutor` | RAG tutor, hint ladder, guardrails (Day 3) |
 | `ilm/grading` | Sandbox, tests, feedback, rubric, plagiarism (Day 4) |
-| `ilm/api`, `ilm/apps` | FastAPI, student and teacher apps (Day 5) |
+| `ilm/api` | FastAPI: login with roles, exercises, submissions (sandbox + grader + feedback) (Day 5) |
+| `web/` | React app (Vite + TypeScript): student and teacher areas; design in `docs/design/ui_ux_plan.md` |
 | `ilm/config.py` | Every path and setting, one place |
 | `tests/` | pytest; tests run on a temp data dir, never on `data/` |
 | `docs/learning_notes/` | What was learned each day |
@@ -62,4 +77,5 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 - [x] Day 4 Task 1: Docker sandbox (no network, 256 MB, 1 CPU, 64 pids, read-only, nobody, caps dropped); 24/24 attacks contained incl. grade forgery, since expected answers never enter the container (`reports/sandbox/README.md`)
 - [x] Day 4 Task 2: test-based grader (visible + hidden tests, partial marks, per-test rescue after a timeout, AST rule checks, speed check) vs blind assistant marks on 50 submissions: kappa 0.64 with tests alone, 0.92 with rule checks; MAE 0.95 /10 (`reports/grading/report.md`; a teacher can replace the reference marks)
 - [~] Day 4 Task 3: code feedback: visible failures in full, hidden ones by kind only (0 leaks in 50), task-rule hints, Ruff/Pylint/radon tips filtered so they never contradict the task, one prioritised improvement, lesson + timestamp link (50/50); gated LLM explanation built and tested offline, live run pending quota (`reports/feedback/`)
+- [~] Day 5 Task 3 (frontend, part 1): FastAPI (httpOnly JWT, roles, rate limit, hidden tests never in a response) + React app: login, Today, Path, Practice, Code exercise wired to the real sandbox, grader and feedback (about 4.5 s per run); teacher screens next
 - [x] Day 4 Task 5: plagiarism review detector (MOSS token winnowing + AST + `bge-small` embeddings, per-exercise false-positive control, dev-tuned / test scored once): 0.942 PR-AUC; 0.893 precision holds only at the benchmark's 9% copied pairs (0.88% false alarms per honest pair = ~8% precision for 100 students), so the teacher view is a ranked top-5-per-exercise queue (`reports/plagiarism/`)

@@ -33,3 +33,10 @@ LLM_API_KEY = os.getenv("LLM_API_KEY") or os.getenv("GEMINI_API_KEY", "")   # ne
 LLM_MODEL = os.getenv("LLM_MODEL", "gemini-3.1-flash-lite")
 
 RANDOM_SEED = 42  # one seed for the whole project, so results reproduce
+
+# --- Day 5: API ---
+ILM_ENV = os.getenv("ILM_ENV", "dev")                        # dev | prod
+JWT_SECRET = os.getenv("ILM_JWT_SECRET", "")                 # required in prod; dev makes one per run
+DEMO_PASSWORD = os.getenv("ILM_DEMO_PASSWORD", "")           # demo accounts; dev default if empty
+API_DB = Path(os.getenv("ILM_API_DB", DATA_DIR / "app" / "ilm.sqlite3"))
+CORS_ORIGINS = [o for o in os.getenv("ILM_CORS_ORIGINS", "http://localhost:5173").split(",") if o]

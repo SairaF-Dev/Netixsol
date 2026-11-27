@@ -29,3 +29,8 @@ Thumbs.db
 
 # run logs
 logs/
+
+# Day 5: app database (student submissions) and the web build
+data/app/
+web/node_modules/
+web/dist/

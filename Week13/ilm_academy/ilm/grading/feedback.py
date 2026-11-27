@@ -188,9 +188,10 @@ def one_improvement(f: dict, rules: list[str], slow: bool | None, q: dict, task_
             " Some results are also wrong; following the task's method usually fixes them too.")}
     if f["visible_failed"]:
         v = f["visible_failed"][0]
-        what = v["why"].replace("returned a wrong value", f"returned {v['got']}").rstrip("?.")
-        return {"kind": "fix a wrong result", "text": f"{v['call']} should give {v['expected']}, but your code "
-                f"{what}. Trace it by hand with that input."}
+        if v["why"] == "returned a wrong value":    # the failure line already shows expected vs got
+            return {"kind": "fix a wrong result", "text": f"Trace `{v['call']}` by hand, one line at a time, "
+                    f"writing down each variable as it changes. Where does it stop heading towards `{v['expected']}`?"}
+        return {"kind": "fix a wrong result", "text": f"For `{v['call']}` your code {v['why'].rstrip('?.')}."}
     if f["hidden_failed"]:
         how = f["hidden_failed_how"][0]["how"]
         return {"kind": "fix a wrong result", "text": f"{f['hidden_failed']} hidden test(s) failed: your code {how}. "
@@ -272,11 +273,16 @@ def llm_explanation(fb: dict, q, sub_code: str, ask, bank_by_function: dict) -> 
 
 
 # ------------------------------------------------------------------ putting it together ----
-def feedback(graded: dict, q, sub_code: str, lessons: Lessons | None = None) -> dict:
+def forbidden_calls(q) -> set[str]:
     from ilm.grading.grader import rules_from_stem
+    return {r[3:] for r in rules_from_stem(q.stem) if r.startswith("no_")}
+
+
+def feedback(graded: dict, q, sub_code: str, lessons: Lessons | None = None, qa: dict | None = None) -> dict:
+    """`qa`: a quality() result computed beforehand (the API runs it alongside the sandbox)."""
     f = failures(graded["test_results"])
     f["run_error"] = graded.get("run_error")
-    qa = quality(sub_code, {r[3:] for r in rules_from_stem(q.stem) if r.startswith("no_")})
+    qa = qa if qa is not None else quality(sub_code, forbidden_calls(q))
     fb = {"id": graded["id"], "exercise": q.id, "mark": graded["mark"], "tests": f,
           "rules_broken": graded["rules_broken"], "slow": graded["slow"], "quality": qa,
           "one_improvement": one_improvement(f, graded["rules_broken"], graded["slow"], qa, q.stem),
