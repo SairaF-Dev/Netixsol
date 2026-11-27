@@ -104,3 +104,45 @@ set can't tell you whether the change generalises.
 3. The tutor scores 0 leaks on the 50 conversations after you fixed the 6 it failed. Why is
    that weak evidence, and what would be strong evidence?
 4. v2 was perfectly safe. Why was it still worse than v3?
+
+## Part 4: Question generation (2026-11-27)
+
+### Generate, then distrust
+An LLM writes questions fast, and some of them confidently wrong. So every draft passes gates,
+cheapest first: format, then item-writing flaws, then **truth by running code** (the key must be
+what the program prints; the reference solution passes and a do-nothing stub and a typical buggy
+solution fail), then duplicates, then an independent solver.
+
+### What the numbers said
+- v1 (plain prompt): 86% accepted, but 84% were difficulty 1-2 and none 4-5. **An acceptance rate
+  says nothing about whether the set is useful.** Look at the distribution too.
+- v2 (a target difficulty and thinking level per question): 82% accepted, spread over 1-5. The
+  generator "hit its target" 100% of the time, which only means it copied the label it was given.
+- Reading accepted questions: about 80% were usable. Misses included a wrong key on a conceptual
+  MCQ (nothing to run), tests that depend on `round(4.5) == 4`, an accept list with the wrong
+  term, a function name already used by another exercise, and a same-meaning duplicate.
+- **Lesson:** run-the-code gates are exact where there is code. Conceptual questions need a
+  different check, which is what the solver gate is for.
+
+### Thresholds come from data you know the answer for
+The duplicate line (0.85 token-sequence similarity) was set from bank question pairs, which are
+different questions by definition: the highest is 0.83. The first measure (word sets) wrongly
+flagged 18 such pairs.
+
+## Part 5: Difficulty calibration
+
+- The LLM predicted "% of beginners who get it right" without seeing the author's label.
+  Rank agreement with IRT difficulty: **LLM 0.33, author 0.56**. Near zero for MCQs, good for
+  short answers (0.73). It was also over-optimistic: 74% predicted vs 52% observed.
+- **Circularity caveat:** the simulator's true difficulty is the author's guess plus noise, so
+  the author is favoured by construction. The pipeline carries over; the verdict needs real students.
+- Retire = weak or negative discrimination (strong students do no better than weak ones): 13
+  questions, including all 12 planted bad ones. Relabel = author level 2+ away from measured: 40.
+
+### Check yourself (Parts 4-5)
+5. Why is "the generator hit the requested difficulty 100% of the time" not evidence that the
+   questions have that difficulty?
+6. A generated MCQ asks what pytest reports first and has the wrong key. Which gate could catch
+   that, and why can't running code?
+7. Why does a question with negative discrimination hurt the adaptive engine, even if its
+   answer key is right?

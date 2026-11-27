@@ -1,0 +1,39 @@
+{
+ "about": "Manual review of ACCEPTED drafts (passed every code gate), done before the solver gate ran, so the solver can be scored against it. good = usable as is. v1: random 20 (seed 7). v2: random 12 of the 60 accepted at difficulty 4-5 (seed 3).",
+ "v1": {
+  "raising_exceptions-53": {"good": true},
+  "parameters-53": {"good": true},
+  "with_statement-51": {"good": true, "note": "correct option is the longest (1.3x the next): mild cue, under the 1.5x line"},
+  "comments-52": {"good": true},
+  "function_calls-52": {"good": false, "problem": "semantic duplicate of bank function_calls-03 (what is the value in the parentheses called)"},
+  "args_kwargs-53": {"good": true},
+  "integers-52": {"good": false, "problem": "accepts only 'casting'; the course says type conversion, so a student using the course's term is marked wrong; also tagged integers instead of type_conversion"},
+  "own_modules-51": {"good": true},
+  "enumerate_function-52": {"good": true},
+  "variables-52": {"good": true},
+  "argparse_module-51": {"good": true},
+  "match_statement-51": {"good": true},
+  "program_basics-51": {"good": true},
+  "string_methods-52": {"good": true},
+  "properties_decorators-51": {"good": true},
+  "regular_expressions-52": {"good": true},
+  "strings-53": {"good": true},
+  "range_function-52": {"good": true},
+  "string_methods-53": {"good": false, "problem": "function name extract_username already used by bank regular_expressions-05 (now caught by the name gate)"},
+  "map_filter-51": {"good": true}
+ },
+ "v2": {
+  "boolean_expressions-51": {"good": false, "problem": "gotcha: x != y == False is a chained comparison, not taught in the course"},
+  "own_modules-51": {"good": true},
+  "slicing-53": {"good": true},
+  "floats-53": {"good": false, "problem": "tests rely on round() rounding halves to even (round(4.5) == 4) while the stem says 'nearest integer'"},
+  "break_continue-52": {"good": true},
+  "pytest_testing-51": {"good": false, "problem": "WRONG KEY: with cube = x ** 2, pytest stops at the first failing assert, cube(2) == 8, not cube(3) == 27"},
+  "nested_data-51": {"good": true},
+  "regular_expressions-51": {"good": true},
+  "generators-51": {"good": true, "note": "stem says 'and why' but the options carry no reasons"},
+  "string_methods-52": {"good": true},
+  "map_filter-51": {"good": true},
+  "comments-51": {"good": true}
+ }
+}

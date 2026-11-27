@@ -55,3 +55,7 @@ Use Python 3.11. The machine default (3.14/3.15) lacks wheels for several ML lib
 - [x] Day 2 Task 3: adaptive engine (prerequisites, 60-80% ZPD, Thompson sampling, spaced repetition) vs fixed path on fresh students: -11 pts week-3 dropout, -5.1 concepts known (`reports/adaptive/`)
 - [x] Day 2 Task 4: personalised learning path with time estimates (median actual/estimate 0.92) and UrduLish message (`reports/learning_path/`)
 - [x] Day 2 Task 5: dropout early warning: LightGBM + SHAP, PR-AUC 0.317 vs ceiling 0.307 (visible data), risk levels with actions (`reports/dropout/report.md`)
+- [x] Day 3 Tasks 1-2: grounded Socratic tutor (sources by id, mastery + UrduLish style, 4-rung hint ladder, leak check that runs code)
+- [~] Day 3 Task 3: tutor safety evaluation: run 1 leaked 6/51 via disguised copies; v2: 0/51 + 0/24 held-out, v3: 0/24 on a second held-out set; judge misses leaks (0/6), so code checks decide (`reports/tutor_eval/README.md`; run 3 + judging pending quota)
+- [~] Day 3 Task 4: question generation: v2 82% of 175 drafts pass the code gates, spread over difficulty 1-5; about 80% of accepted usable on manual review; solver gate pending quota (`reports/question_gen/`)
+- [x] Day 3 Task 5: difficulty calibration: LLM 0.33 vs author 0.56 rank agreement with IRT (simulation favours the author by construction); 13 to retire incl. 12/12 planted bad (`reports/difficulty/report.md`)

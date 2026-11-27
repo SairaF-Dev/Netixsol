@@ -1,0 +1,806 @@
+{
+ "program_basics-01": {
+  "p_correct": 75.0,
+  "why": "Most students know print, but multiple arguments add spaces by default, which can trick some."
+ },
+ "program_basics-02": {
+  "p_correct": 60.0,
+  "why": "Using the end parameter is a new concept and easily misread by beginners."
+ },
+ "program_basics-03": {
+  "p_correct": 95.0,
+  "why": "The print function is introduced on day one and reinforced constantly."
+ },
+ "comments-01": {
+  "p_correct": 90.0,
+  "why": "The hash symbol for comments is a standard Python basic, though some might confuse it with other languages."
+ },
+ "comments-02": {
+  "p_correct": 80.0,
+  "why": "Straightforward execution trace, but inline comments can occasionally confuse absolute beginners."
+ },
+ "comments-03": {
+  "p_correct": 85.0,
+  "why": "Conceptual explanation is usually well understood after the first lecture."
+ },
+ "variables-01": {
+  "p_correct": 85.0,
+  "why": "Re-assignment is a core concept taught early; students quickly learn state updates."
+ },
+ "variables-02": {
+  "p_correct": 55.0,
+  "why": "Variables hold values, not references to other variables in a reactive way; this is a classic beginner pitfall."
+ },
+ "variables-03": {
+  "p_correct": 85.0,
+  "why": "Naming rules (no dashes, no spaces, cannot start with a number) are straightforward."
+ },
+ "strings-01": {
+  "p_correct": 70.0,
+  "why": "Students often expect arithmetic addition rather than string concatenation since the characters look like numbers."
+ },
+ "strings-02": {
+  "p_correct": 80.0,
+  "why": "String multiplication is intuitive and usually demonstrated clearly."
+ },
+ "strings-03": {
+  "p_correct": 75.0,
+  "why": "Quotes inside strings require escaping or alternating quotes, a common initial stumbling block."
+ },
+ "strings-04": {
+  "p_correct": 70.0,
+  "why": "Writing a simple function using f-strings or concatenation is standard practice."
+ },
+ "function_calls-01": {
+  "p_correct": 75.0,
+  "why": "Keyword arguments are introduced alongside print; naming them can be tricky at first."
+ },
+ "function_calls-02": {
+  "p_correct": 50.0,
+  "why": "Printing the return value of print() yields None, which is surprising to beginners."
+ },
+ "function_calls-03": {
+  "p_correct": 90.0,
+  "why": "Terminology like 'argument' is emphasized early on."
+ },
+ "user_input-01": {
+  "p_correct": 65.0,
+  "why": "Beginners frequently forget that input() returns a string, even when numbers are typed."
+ },
+ "user_input-02": {
+  "p_correct": 60.0,
+  "why": "Directly follows from the previous point; string concatenation causes 5 + 1 to become '51'."
+ },
+ "user_input-03": {
+  "p_correct": 70.0,
+  "why": "Explaining type casting (int()) is a staple exercise in CS50P."
+ },
+ "string_methods-01": {
+  "p_correct": 85.0,
+  "why": "strip() is straightforward and visually verifiable."
+ },
+ "string_methods-02": {
+  "p_correct": 80.0,
+  "why": "title() capitalizes every word, which is intuitive."
+ },
+ "string_methods-03": {
+  "p_correct": 70.0,
+  "why": "Chaining string methods (strip().title()) is a slightly advanced beginner task."
+ },
+ "string_methods-04": {
+  "p_correct": 65.0,
+  "why": "Multiple assignment with split() can be confusing for students who haven't seen list unpacking."
+ },
+ "f_strings-01": {
+  "p_correct": 90.0,
+  "why": "f-strings are heavily promoted as the best way to format strings in modern Python."
+ },
+ "f_strings-02": {
+  "p_correct": 70.0,
+  "why": "Float formatting syntax (:.2f) involves specific syntax that students must memorize."
+ },
+ "f_strings-03": {
+  "p_correct": 35.0,
+  "why": "Comma separator syntax in f-strings is a very specific formatting trick that beginners easily forget."
+ },
+ "f_strings-04": {
+  "p_correct": 60.0,
+  "why": "Requires combining f-string formatting specifiers with function definition, which tests syntax memory."
+ },
+ "integers-01": {
+  "p_correct": 85.0,
+  "why": "Floor division is taught explicitly, though some confuse it with standard division returning a float."
+ },
+ "integers-02": {
+  "p_correct": 90.0,
+  "why": "Distinguishing integer literals from floats and strings is fundamental and well-grasped."
+ },
+ "integers-03": {
+  "p_correct": 55.0,
+  "why": "Many beginners expect 10 / 2 to return an int (5), forgetting that division always produces a float."
+ },
+ "arithmetic_operators-01": {
+  "p_correct": 80.0,
+  "why": "Standard order of operations applies, though a few might compute left-to-right yielding 20."
+ },
+ "arithmetic_operators-02": {
+  "p_correct": 90.0,
+  "why": "Exponentiation operator is intuitive, though occasionally confused with multiplication."
+ },
+ "arithmetic_operators-03": {
+  "p_correct": 95.0,
+  "why": "Basic math function with parameters and return value is straightforward for beginners."
+ },
+ "arithmetic_operators-04": {
+  "p_correct": 70.0,
+  "why": "Compound assignment operators require tracking state step-by-step; easy to make minor arithmetic slips."
+ },
+ "floats-01": {
+  "p_correct": 85.0,
+  "why": "Rounding to 2 decimal places is intuitive and matches standard expectations."
+ },
+ "floats-02": {
+  "p_correct": 45.0,
+  "why": "Floating-point precision issues surprise almost all beginners when first encountered."
+ },
+ "floats-03": {
+  "p_correct": 40.0,
+  "why": "Explaining IEEE 754 precision and math.isclose() is conceptually advanced for day one."
+ },
+ "floats-04": {
+  "p_correct": 75.0,
+  "why": "Translating a formula into code and applying round() is a standard practice task."
+ },
+ "type_conversion-01": {
+  "p_correct": 90.0,
+  "why": "Explicit type casting prevents string concatenation, yielding the obvious numeric sum."
+ },
+ "type_conversion-02": {
+  "p_correct": 75.0,
+  "why": "Beginners often mistakenly think int() rounds to the nearest integer instead of truncating."
+ },
+ "type_conversion-03": {
+  "p_correct": 50.0,
+  "why": "Many expect int('3.5') to return 3, not realizing it triggers a ValueError."
+ },
+ "type_conversion-04": {
+  "p_correct": 85.0,
+  "why": "Combining input/string conversion into an addition task is a classic beginner exercise."
+ },
+ "indentation_blocks-01": {
+  "p_correct": 80.0,
+  "why": "Tracing conditional blocks is straightforward once indentation rules are understood."
+ },
+ "indentation_blocks-02": {
+  "p_correct": 90.0,
+  "why": "Missing indentation after a colon is the most common syntax error for beginners."
+ },
+ "indentation_blocks-03": {
+  "p_correct": 85.0,
+  "why": "Whitespace significance is heavily emphasized in Python courses."
+ },
+ "defining_functions-01": {
+  "p_correct": 80.0,
+  "why": "Students learn quickly that defining a function does not execute its body automatically."
+ },
+ "defining_functions-02": {
+  "p_correct": 65.0,
+  "why": "NameError occurs because functions must be defined before they are called in Python."
+ },
+ "defining_functions-03": {
+  "p_correct": 95.0,
+  "why": "Writing a simple single-parameter function is universally practiced."
+ },
+ "defining_functions-04": {
+  "p_correct": 90.0,
+  "why": "Reusability and maintainability are core concepts taught immediately with functions."
+ },
+ "parameters-01": {
+  "p_correct": 75.0,
+  "why": "Default arguments are clear, though tracing multiple calls requires careful reading."
+ },
+ "modulo-03": {
+  "p_correct": 25.0,
+  "why": "Python's modulo with negative numbers confuses beginners."
+ },
+ "match_statement-01": {
+  "p_correct": 85.0,
+  "why": "Straightforward match syntax introduced in CS50P."
+ },
+ "match_statement-02": {
+  "p_correct": 90.0,
+  "why": "Wildcard pattern _ is standard default case."
+ },
+ "match_statement-03": {
+  "p_correct": 70.0,
+  "why": "Writing a match function requires remembering syntax."
+ },
+ "while_loops-01": {
+  "p_correct": 80.0,
+  "why": "Standard decrementing while loop trace."
+ },
+ "while_loops-02": {
+  "p_correct": 95.0,
+  "why": "Obvious infinite loop cause."
+ },
+ "while_loops-03": {
+  "p_correct": 45.0,
+  "why": "Arithmetic loop for digits is tricky for beginners."
+ },
+ "while_loops-04": {
+  "p_correct": 50.0,
+  "why": "Collatz requires careful loop condition and logic."
+ },
+ "range_function-01": {
+  "p_correct": 65.0,
+  "why": "Step argument in range often confuses start/stop boundaries."
+ },
+ "range_function-02": {
+  "p_correct": 90.0,
+  "why": "Basic range(3) is very familiar."
+ },
+ "range_function-03": {
+  "p_correct": 75.0,
+  "why": "len of range involves subtracting endpoints."
+ },
+ "for_loops-01": {
+  "p_correct": 85.0,
+  "why": "Accumulator pattern with for loop is standard."
+ },
+ "for_loops-02": {
+  "p_correct": 80.0,
+  "why": "String multiplication inside loop is intuitive."
+ },
+ "for_loops-03": {
+  "p_correct": 55.0,
+  "why": "Variable reassignment instead of accumulation trips up many."
+ },
+ "break_continue-01": {
+  "p_correct": 85.0,
+  "why": "Break statement behavior is easy to grasp."
+ },
+ "break_continue-02": {
+  "p_correct": 60.0,
+  "why": "Continue skips the print for even numbers, tricky to trace."
+ },
+ "break_continue-03": {
+  "p_correct": 65.0,
+  "why": "Early return or break pattern for searching lists."
+ },
+ "lists-01": {
+  "p_correct": 90.0,
+  "why": "Zero-based indexing is taught early and often."
+ },
+ "lists-02": {
+  "p_correct": 85.0,
+  "why": "IndexError is the standard out-of-bounds error."
+ },
+ "lists-03": {
+  "p_correct": 40.0,
+  "why": "List aliasing/references confuse beginners heavily."
+ },
+ "lists-04": {
+  "p_correct": 75.0,
+  "why": "Negative indexing or empty check is required."
+ },
+ "iterating_lists-01": {
+  "p_correct": 75.0,
+  "why": "Standard filtering loop pattern."
+ },
+ "iterating_lists-02": {
+  "p_correct": 50.0,
+  "why": "Rebinding loop variable n does not mutate the list."
+ },
+ "iterating_lists-03": {
+  "p_correct": 60.0,
+  "why": "Finding maximum requires tracking current max."
+ },
+ "nested_loops-01": {
+  "p_correct": 70.0,
+  "why": "Tracing grid prints with end='' requires careful tracking."
+ },
+ "nested_loops-02": {
+  "p_correct": 55.0,
+  "why": "Requires list comprehensions or nested loops with row construction, tricky for beginners."
+ },
+ "nested_loops-03": {
+  "p_correct": 45.0,
+  "why": "Tracing dependent ranges (range(i)) often trips students up (outputs 0+1+2 = 3)."
+ },
+ "dictionaries-01": {
+  "p_correct": 85.0,
+  "why": "Direct dictionary key lookup is a straightforward and well-understood concept."
+ },
+ "dictionaries-02": {
+  "p_correct": 80.0,
+  "why": "Accessing a missing key correctly raises a KeyError, which is introduced right away."
+ },
+ "dictionaries-03": {
+  "p_correct": 60.0,
+  "why": "Building frequency maps with the .get() method or 'in' check requires practice."
+ },
+ "dictionaries-04": {
+  "p_correct": 75.0,
+  "why": "Students learn that keys are unique and assignment overwrites existing values."
+ },
+ "nested_data-01": {
+  "p_correct": 80.0,
+  "why": "Combining list indexing and dictionary key lookup is standard after one lesson."
+ },
+ "nested_data-02": {
+  "p_correct": 65.0,
+  "why": "Iterating over a list of dicts and conditionally building a result list takes a few steps."
+ },
+ "nested_data-03": {
+  "p_correct": 70.0,
+  "why": "Negative indexing combined with nested dictionary access can confuse some."
+ },
+ "try_except-01": {
+  "p_correct": 75.0,
+  "why": "Control flow in try-except is clear: exception caught, rest of try skipped, outside code runs."
+ },
+ "try_except-02": {
+  "p_correct": 70.0,
+  "why": "Simple return value on failure pattern is common, but syntax needs precision."
+ },
+ "try_except-03": {
+  "p_correct": 65.0,
+  "why": "The else block in try/except is easily forgotten by beginners."
+ },
+ "try_except-04": {
+  "p_correct": 90.0,
+  "why": "The danger of bare excepts is heavily emphasized in Python courses."
+ },
+ "try_except-05": {
+  "p_correct": 80.0,
+  "why": "ZeroDivisionError is specific and easy to remember after seeing it once."
+ },
+ "try_except-06": {
+  "p_correct": 85.0,
+  "why": "Explaining the infinite loop and break on success is a classic pattern."
+ },
+ "imports-01": {
+  "p_correct": 70.0,
+  "why": "Common mistake forgetting math.sqrt() vs sqrt() directly."
+ },
+ "imports-02": {
+  "p_correct": 85.0,
+  "why": "Direct function import syntax from module is practiced frequently."
+ },
+ "imports-03": {
+  "p_correct": 75.0,
+  "why": "Pseudo-random seed determinism is usually understood when demonstrated."
+ },
+ "slicing-01": {
+  "p_correct": 75.0,
+  "why": "Stop index exclusivity (s[1:4]) is a classic beginner hurdle."
+ },
+ "slicing-02": {
+  "p_correct": 70.0,
+  "why": "Negative step size for reversing strings is a fun trick quickly learned."
+ },
+ "slicing-03": {
+  "p_correct": 80.0,
+  "why": "Using slice notation [1:-1] for removing ends is a clean, standard idiom."
+ },
+ "slicing-04": {
+  "p_correct": 75.0,
+  "why": "Negative slicing from the end [-2:] is well-grasped after examples."
+ },
+ "command_line_args-01": {
+  "p_correct": 70.0,
+  "why": "Remembering that sys.argv includes the script name itself is a common slip-up."
+ },
+ "command_line_args-02": {
+  "p_correct": 75.0,
+  "why": "Conditional checks on list length before indexing argv is standard boilerplate."
+ },
+ "command_line_args-03": {
+  "p_correct": 85.0,
+  "why": "IndexError prevention is the primary reason taught for checking len(sys.argv)."
+ },
+ "packages_pip-01": {
+  "p_correct": 92.0,
+  "why": "Direct recall of the basic pip command."
+ },
+ "packages_pip-02": {
+  "p_correct": 85.0,
+  "why": "Common rookie error, but straightforward troubleshooting."
+ },
+ "packages_pip-03": {
+  "p_correct": 70.0,
+  "why": "Requires explaining both PyPI and pip in writing."
+ },
+ "apis_json-01": {
+  "p_correct": 88.0,
+  "why": "json.loads parses JSON dict into Python dict; age is int 36."
+ },
+ "apis_json-02": {
+  "p_correct": 90.0,
+  "why": "Core concept of web APIs returning JSON data."
+ },
+ "apis_json-03": {
+  "p_correct": 75.0,
+  "why": "List comprehension over nested dictionaries is standard practice."
+ },
+ "own_modules-01": {
+  "p_correct": 80.0,
+  "why": "Standard idiom taught thoroughly in CS50P."
+ },
+ "own_modules-02": {
+  "p_correct": 85.0,
+  "why": "Direct execution binds __name__ to '__main__'."
+ },
+ "own_modules-03": {
+  "p_correct": 78.0,
+  "why": "Requires writing a basic import and function call statement."
+ },
+ "assert_statement-01": {
+  "p_correct": 85.0,
+  "why": "Condition x > 5 is False when x = 3, triggering AssertionError."
+ },
+ "assert_statement-02": {
+  "p_correct": 90.0,
+  "why": "True condition passes silently, prints ok."
+ },
+ "assert_statement-03": {
+  "p_correct": 72.0,
+  "why": "Needs understanding of user input errors vs code bugs."
+ },
+ "pytest_testing-01": {
+  "p_correct": 88.0,
+  "why": "pytest specifically looks for functions starting with test_."
+ },
+ "pytest_testing-02": {
+  "p_correct": 82.0,
+  "why": "Testing even/odd, zero, and negative values covers edge cases best."
+ },
+ "pytest_testing-03": {
+  "p_correct": 65.0,
+  "why": "pytest.raises syntax can be tricky for beginners to recall."
+ },
+ "pytest_testing-04": {
+  "p_correct": 75.0,
+  "why": "Conceptual explanation of robustness and edge cases."
+ },
+ "file_io-01": {
+  "p_correct": 78.0,
+  "why": "Mode 'w' overwrites existing files, a common trap."
+ },
+ "file_io-02": {
+  "p_correct": 80.0,
+  "why": "First 'w' overwrites, then 'a' appends, resulting in both lines."
+ },
+ "file_io-03": {
+  "p_correct": 70.0,
+  "why": "Writing strings with explicit newlines using file write."
+ },
+ "with_statement-01": {
+  "p_correct": 92.0,
+  "why": "Primary reason for context managers is automatic resource cleanup."
+ },
+ "with_statement-02": {
+  "p_correct": 68.0,
+  "why": "Tricky because f is accessible outside the block, and its closed attribute is True."
+ },
+ "with_statement-03": {
+  "p_correct": 75.0,
+  "why": "Resource leaks and file corruption explanation."
+ },
+ "csv_files-01": {
+  "p_correct": 85.0,
+  "why": "DictReader skips header, uses keys to print values."
+ },
+ "csv_files-02": {
+  "p_correct": 88.0,
+  "why": "Classic justification for the csv module regarding commas in quotes."
+ },
+ "csv_files-03": {
+  "p_correct": 65.0,
+  "why": "Requires casting string scores to float/int, summing, and dividing."
+ },
+ "operator_overloading-01": {
+  "p_correct": 65.0,
+  "why": "Students often struggle to follow custom dunder methods like __add__."
+ },
+ "operator_overloading-02": {
+  "p_correct": 45.0,
+  "why": "Writing both __add__ and __eq__ correctly from scratch is challenging."
+ },
+ "operator_overloading-03": {
+  "p_correct": 70.0,
+  "why": "Clear TypeError since + is not defined for Box objects yet."
+ },
+ "sets-01": {
+  "p_correct": 85.0,
+  "why": "Most grasp that sets automatically remove duplicates."
+ },
+ "sets-02": {
+  "p_correct": 50.0,
+  "why": "Requires combining set comprehension/casting with sorted()."
+ },
+ "sets-03": {
+  "p_correct": 90.0,
+  "why": "Core lesson emphasizes O(1) membership lookup for sets."
+ },
+ "constants_globals-01": {
+  "p_correct": 75.0,
+  "why": "Demonstrates the necessity of the global keyword."
+ },
+ "constants_globals-02": {
+  "p_correct": 95.0,
+  "why": "Standard convention taught explicitly in CS50P."
+ },
+ "constants_globals-03": {
+  "p_correct": 60.0,
+  "why": "Conceptual question, but reasons are widely covered."
+ },
+ "type_hints-01": {
+  "p_correct": 80.0,
+  "why": "Students learn that Python type hints do not prevent execution."
+ },
+ "type_hints-02": {
+  "p_correct": 90.0,
+  "why": "mypy is explicitly introduced for static type checking."
+ },
+ "type_hints-03": {
+  "p_correct": 85.0,
+  "why": "Standard syntax for returning None in type hints."
+ },
+ "docstrings-01": {
+  "p_correct": 90.0,
+  "why": "__doc__ attribute access is straightforward."
+ },
+ "docstrings-02": {
+  "p_correct": 95.0,
+  "why": "Basic rule of docstring placement."
+ },
+ "docstrings-03": {
+  "p_correct": 80.0,
+  "why": "Well-discussed distinction in documentation lessons."
+ },
+ "argparse_module-01": {
+  "p_correct": 70.0,
+  "why": "Basic math with parsed integer argument works as expected."
+ },
+ "argparse_module-02": {
+  "p_correct": 90.0,
+  "why": "Main selling point of argparse over sys.argv."
+ },
+ "argparse_module-03": {
+  "p_correct": 55.0,
+  "why": "Syntax for passing a list to parse_args() trips beginners up."
+ },
+ "tuples_unpacking-01": {
+  "p_correct": 85.0,
+  "why": "Classic Python tuple swap idiom."
+ },
+ "tuples_unpacking-02": {
+  "p_correct": 90.0,
+  "why": "Tuples are immutable, raising a TypeError."
+ },
+ "tuples_unpacking-03": {
+  "p_correct": 75.0,
+  "why": "Returning min() and max() as a tuple is very common."
+ },
+ "args_kwargs-01": {
+  "p_correct": 80.0,
+  "why": "Direct demonstration of args as tuple and kwargs as dict."
+ },
+ "args_kwargs-02": {
+  "p_correct": 85.0,
+  "why": "Standard loop over *args."
+ },
+ "args_kwargs-03": {
+  "p_correct": 90.0,
+  "why": "Unpacking a list into positional arguments is well practiced."
+ },
+ "lambda_functions-01": {
+  "p_correct": 60.0,
+  "why": "Chaining sorted, lambdas, and indexing requires high cognitive load."
+ },
+ "lambda_functions-02": {
+  "p_correct": 65.0,
+  "why": "Students often get confused by syntax variations of lambdas."
+ },
+ "lambda_functions-03": {
+  "p_correct": 50.0,
+  "why": "Combining sorted(), key parameter, and lambda is tricky for beginners."
+ },
+ "map_filter-01": {
+  "p_correct": 60.0,
+  "why": "Seeing <map object> without list() confuses students, but here list() is used."
+ },
+ "map_filter-02": {
+  "p_correct": 70.0,
+  "why": "Filter is intuitive when paired with a lambda condition."
+ },
+ "map_filter-03": {
+  "p_correct": 35.0,
+  "why": "Iterators exhaust themselves, so the second print prints an empty list."
+ },
+ "list_comprehensions-01": {
+  "p_correct": 75.0,
+  "why": "List comprehensions are widely liked and understood by beginners."
+ },
+ "list_comprehensions-02": {
+  "p_correct": 85.0,
+  "why": "Straightforward application of list comprehensions with string methods."
+ },
+ "list_comprehensions-03": {
+  "p_correct": 90.0,
+  "why": "Option A is the idiomatic Python way taught explicitly."
+ },
+ "dict_comprehensions-01": {
+  "p_correct": 70.0,
+  "why": "Dict comprehension syntax is logical after seeing list comprehensions."
+ },
+ "dict_comprehensions-02": {
+  "p_correct": 65.0,
+  "why": "Swapping keys and values requires iterating over items()."
+ },
+ "dict_comprehensions-03": {
+  "p_correct": 80.0,
+  "why": "Dict lookup by key after comprehension is standard practice."
+ },
+ "enumerate_function-01": {
+  "p_correct": 85.0,
+  "why": "Enumerate output is very straightforward."
+ },
+ "enumerate_function-02": {
+  "p_correct": 75.0,
+  "why": "Requires starting index at 1, which needs start=1 or i + 1."
+ },
+ "enumerate_function-03": {
+  "p_correct": 90.0,
+  "why": "Enumerate is heavily emphasized as the pythonic way."
+ },
+ "generators-01": {
+  "p_correct": 60.0,
+  "why": "Understanding next() and generator state is moderately tricky."
+ },
+ "generators-02": {
+  "p_correct": 85.0,
+  "why": "Core concept of lazy evaluation in generators is well explained."
+ },
+ "generators-03": {
+  "p_correct": 70.0,
+  "why": "Writing a simple generator with yield is standard."
+ },
+ "recursion-01": {
+  "p_correct": 65.0,
+  "why": "Tracing a summation recursion takes a few steps but is manageable."
+ },
+ "recursion-02": {
+  "p_correct": 55.0,
+  "why": "Missing base case is a classic trap leading to RecursionError."
+ },
+ "recursion-03": {
+  "p_correct": 85.0,
+  "why": "Factorial is the canonical introductory recursive function."
+ },
+ "recursion-04": {
+  "p_correct": 70.0,
+  "why": "Fibonacci is standard, though slightly harder than factorial due to two recursive calls."
+ },
+ "recursion-05": {
+  "p_correct": 45.0,
+  "why": "Recursive palindrome slicing and edge cases are tricky for beginners."
+ },
+ "recursion-06": {
+  "p_correct": 80.0,
+  "why": "Base case and recursive step are drilled into students."
+ },
+ "recursion-07": {
+  "p_correct": 75.0,
+  "why": "Exponential time complexity via overlapping subproblems is a standard conceptual question."
+ },
+ "recursion-08": {
+  "p_correct": 30.0,
+  "why": "Tracing the exact call tree of fib(5) is extremely tedious and error-prone."
+ },
+ "logical_operators-03": {
+  "p_correct": 65.0,
+  "why": "Students often struggle with combining inequalities or inclusive bounds using 'and'."
+ },
+ "if_statements-01": {
+  "p_correct": 50.0,
+  "why": "Beginners often confuse independent if statements with elif and think only one branch runs."
+ },
+ "if_statements-02": {
+  "p_correct": 70.0,
+  "why": "Requires basic comparison and negation, straightforward logic for most."
+ },
+ "if_statements-03": {
+  "p_correct": 90.0,
+  "why": "Missing colon is one of the very first syntax errors students learn."
+ },
+ "elif_else-01": {
+  "p_correct": 80.0,
+  "why": "Standard conditional ladder, though order matters (descending vs ascending)."
+ },
+ "elif_else-02": {
+  "p_correct": 55.0,
+  "why": "Tests understanding of mutual exclusivity in elif, a classic trap when order is wrong."
+ },
+ "elif_else-03": {
+  "p_correct": 85.0,
+  "why": "Direct conceptual question about why we use elif instead of multiple ifs."
+ },
+ "modulo-01": {
+  "p_correct": 75.0,
+  "why": "Modulo is a new operator, but 17 % 5 is a standard remainder calculation."
+ },
+ "regular_expressions-07": {
+  "p_correct": 55.0,
+  "why": "Students often struggle with recognizing escape sequences like \\s+ and tabs in strings."
+ },
+ "raising_exceptions-01": {
+  "p_correct": 75.0,
+  "why": "Standard conditional check combined with raising an exception is straightforward."
+ },
+ "raising_exceptions-02": {
+  "p_correct": 65.0,
+  "why": "Catches exception and prints message, but beginners might confuse error type with error message."
+ },
+ "raising_exceptions-03": {
+  "p_correct": 85.0,
+  "why": "Emphasizes defensive programming and raising ValueError for invalid initialization."
+ },
+ "classes_objects-01": {
+  "p_correct": 90.0,
+  "why": "Direct dot notation attribute access is one of the first things taught in OOP."
+ },
+ "classes_objects-02": {
+  "p_correct": 70.0,
+  "why": "Concept of self can be abstract for beginners, though heavily emphasized."
+ },
+ "classes_objects-03": {
+  "p_correct": 80.0,
+  "why": "Basic class definition with __init__ and instance methods is standard practice."
+ },
+ "classes_objects-04": {
+  "p_correct": 60.0,
+  "why": "Without __str__, prints memory address; with it, prints custom string. Beginners easily mix this up."
+ },
+ "properties_decorators-01": {
+  "p_correct": 70.0,
+  "why": "Students who understand properties recognize the setter raises a ValueError for invalid input."
+ },
+ "properties_decorators-02": {
+  "p_correct": 55.0,
+  "why": "Infinite recursion is a classic pitfall, but conceptualizing it takes a moment of careful thinking."
+ },
+ "properties_decorators-03": {
+  "p_correct": 45.0,
+  "why": "Writing a class with a property without a setter from scratch requires remembering the underscore naming convention."
+ },
+ "class_static_methods-01": {
+  "p_correct": 80.0,
+  "why": "Straightforward example of a classmethod returning the length of a class list."
+ },
+ "class_static_methods-02": {
+  "p_correct": 75.0,
+  "why": "Covers the primary conceptual use case for @classmethod."
+ },
+ "class_static_methods-03": {
+  "p_correct": 50.0,
+  "why": "Alternative constructors using classmethod with string splitting are tricky for beginners."
+ },
+ "inheritance-01": {
+  "p_correct": 85.0,
+  "why": "Direct application of super().__init__ which is heavily emphasized in lessons."
+ },
+ "inheritance-02": {
+  "p_correct": 90.0,
+  "why": "Clear demonstration of method overriding in subclasses."
+ },
+ "inheritance-03": {
+  "p_correct": 45.0,
+  "why": "Students often forget to call super().__init__(name), leading to AttributeError for missing attributes."
+ },
+ "inheritance-04": {
+  "p_correct": 60.0,
+  "why": "Conceptual question; most grasp the 'is-a' definition well from lecture examples."
+ }
+}

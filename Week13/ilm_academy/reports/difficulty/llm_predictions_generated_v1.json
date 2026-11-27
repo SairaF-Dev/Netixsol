@@ -1,0 +1,606 @@
+{
+ "f_strings-51": {
+  "p_correct": 85.0,
+  "why": "Straightforward evaluation of basic f-string interpolation."
+ },
+ "f_strings-52": {
+  "p_correct": 95.0,
+  "why": "Very simple recall of the 'f' prefix."
+ },
+ "f_strings-53": {
+  "p_correct": 90.0,
+  "why": "Direct application of f-string syntax in a simple function."
+ },
+ "modulo-51": {
+  "p_correct": 80.0,
+  "why": "Common modulo calculation taught thoroughly in CS50P."
+ },
+ "modulo-52": {
+  "p_correct": 85.0,
+  "why": "24 is evenly divisible by 6, so remainder is 0."
+ },
+ "modulo-53": {
+  "p_correct": 85.0,
+  "why": "Standard check using the modulo operator for divisibility."
+ },
+ "recursion-51": {
+  "p_correct": 70.0,
+  "why": "Tracing recursion can be slightly tricky for beginners."
+ },
+ "recursion-52": {
+  "p_correct": 75.0,
+  "why": "Base case terminology is heavily emphasized in lectures."
+ },
+ "recursion-53": {
+  "p_correct": 60.0,
+  "why": "Writing recursive functions independently is challenging for novices."
+ },
+ "program_basics-51": {
+  "p_correct": 95.0,
+  "why": "One of the absolute first and most practiced commands."
+ },
+ "program_basics-52": {
+  "p_correct": 90.0,
+  "why": "Starting python interactively is taught in week 0."
+ },
+ "comments-51": {
+  "p_correct": 98.0,
+  "why": "Universal hash symbol for comments."
+ },
+ "comments-52": {
+  "p_correct": 95.0,
+  "why": "Clear demonstration of code being commented out."
+ },
+ "variables-51": {
+  "p_correct": 75.0,
+  "why": "Division in Python yields a float, which trips up some beginners."
+ },
+ "variables-52": {
+  "p_correct": 90.0,
+  "why": "Assignment operator '=' is fundamental."
+ },
+ "strings-51": {
+  "p_correct": 65.0,
+  "why": "Escaping curly braces with double brackets is tricky."
+ },
+ "strings-52": {
+  "p_correct": 95.0,
+  "why": "Repeated concept ensuring high retention."
+ },
+ "strings-53": {
+  "p_correct": 90.0,
+  "why": "Basic string methods applied inside a simple function."
+ },
+ "function_calls-52": {
+  "p_correct": 90.0,
+  "why": "Terminology for arguments/parameters is well-practiced."
+ },
+ "user_input-51": {
+  "p_correct": 90.0,
+  "why": "Standard variable assignment using input."
+ },
+ "user_input-52": {
+  "p_correct": 85.0,
+  "why": "Prompt parameter is standard in input usage."
+ },
+ "string_methods-51": {
+  "p_correct": 70.0,
+  "why": "Chaining multiple string methods requires careful step-by-step tracking."
+ },
+ "string_methods-52": {
+  "p_correct": 75.0,
+  "why": "Lstrip is slightly less common than strip but taught alongside it."
+ },
+ "integers-52": {
+  "p_correct": 85.0,
+  "why": "Type casting or type conversion is a core concept."
+ },
+ "arithmetic_operators-51": {
+  "p_correct": 80.0,
+  "why": "Duplicate concept checking modulo operation."
+ },
+ "arithmetic_operators-53": {
+  "p_correct": 85.0,
+  "why": "Modulo operator % is straightforward and usually well-understood after the lesson."
+ },
+ "floats-51": {
+  "p_correct": 80.0,
+  "why": "F-strings with rounding format specifiers are taught carefully in CS50P."
+ },
+ "floats-52": {
+  "p_correct": 90.0,
+  "why": "Direct recall of the second argument of round() (number of digits)."
+ },
+ "floats-53": {
+  "p_correct": 85.0,
+  "why": "Combining division and the round() function is a standard beginner task."
+ },
+ "type_conversion-51": {
+  "p_correct": 65.0,
+  "why": "Order of operations and multiple nested type conversions trap some beginners."
+ },
+ "type_conversion-52": {
+  "p_correct": 55.0,
+  "why": "String concatenation '5' + '2' makes '52', which becomes integer 52. Many fall for 7."
+ },
+ "type_conversion-53": {
+  "p_correct": 80.0,
+  "why": "Basic int() conversion and multiplication in a function."
+ },
+ "indentation_blocks-51": {
+  "p_correct": 95.0,
+  "why": "The colon (:) is emphasized repeatedly in the first weeks."
+ },
+ "defining_functions-51": {
+  "p_correct": 90.0,
+  "why": "IndentationError definition is very intuitive by name."
+ },
+ "defining_functions-52": {
+  "p_correct": 98.0,
+  "why": "The 'def' keyword is foundational."
+ },
+ "defining_functions-53": {
+  "p_correct": 95.0,
+  "why": "Writing a simple function returning a multiplication is extremely basic."
+ },
+ "parameters-51": {
+  "p_correct": 90.0,
+  "why": "Default parameters behave logically as expected."
+ },
+ "parameters-53": {
+  "p_correct": 85.0,
+  "why": "Optional parameters with default values are a standard concept."
+ },
+ "return_values-51": {
+  "p_correct": 92.0,
+  "why": "Basic function return and print flow is well grasped."
+ },
+ "return_values-52": {
+  "p_correct": 98.0,
+  "why": "The return keyword is drilled constantly."
+ },
+ "scope-51": {
+  "p_correct": 75.0,
+  "why": "Local vs global scope can confuse beginners regarding variable independence."
+ },
+ "scope-52": {
+  "p_correct": 88.0,
+  "why": "NameError is the standard error for undefined variables."
+ },
+ "boolean_expressions-51": {
+  "p_correct": 85.0,
+  "why": "!= operator correctly yields False when x equals 10."
+ },
+ "boolean_expressions-52": {
+  "p_correct": 95.0,
+  "why": "Boolean type is universally known as bool."
+ },
+ "boolean_expressions-53": {
+  "p_correct": 90.0,
+  "why": "Simple comparison returning a boolean is standard."
+ },
+ "logical_operators-51": {
+  "p_correct": 70.0,
+  "why": "Operator precedence with 'not' and 'and' trips up beginners."
+ },
+ "logical_operators-53": {
+  "p_correct": 82.0,
+  "why": "Combining modulo and logical 'and' is a classic beginner exercise."
+ },
+ "if_statements-51": {
+  "p_correct": 95.0,
+  "why": "Basic if-else branch selection is very intuitive."
+ },
+ "if_statements-52": {
+  "p_correct": 98.0,
+  "why": "The 'else' keyword is fundamental."
+ },
+ "elif_else-51": {
+  "p_correct": 88.0,
+  "why": "Stepping through elif conditions sequentially is well understood."
+ },
+ "elif_else-52": {
+  "p_correct": 90.0,
+  "why": "Basic recall of the 'else' keyword in conditionals."
+ },
+ "elif_else-53": {
+  "p_correct": 75.0,
+  "why": "Straightforward conditional chain, but students sometimes mess up order of ranges."
+ },
+ "match_statement-51": {
+  "p_correct": 80.0,
+  "why": "Tests understanding of the pipe operator in match cases."
+ },
+ "match_statement-52": {
+  "p_correct": 70.0,
+  "why": "Pipe symbol | is specific syntax that beginners might forget."
+ },
+ "match_statement-53": {
+  "p_correct": 75.0,
+  "why": "Standard implementation of a match statement with a wildcard case."
+ },
+ "while_loops-51": {
+  "p_correct": 85.0,
+  "why": "Tracing a simple while loop accumulating sum (1+2+3=6)."
+ },
+ "while_loops-52": {
+  "p_correct": 90.0,
+  "why": "Easy manual tracing of output for x=2 and x=1."
+ },
+ "while_loops-53": {
+  "p_correct": 80.0,
+  "why": "Classic accumulator pattern using a while loop."
+ },
+ "range_function-51": {
+  "p_correct": 85.0,
+  "why": "Range starts at 0 by default, multiplying by 2 yields 0, 2, 4, 6."
+ },
+ "range_function-52": {
+  "p_correct": 80.0,
+  "why": "Off-by-one check; range(1, 6) generates 5 numbers."
+ },
+ "for_loops-51": {
+  "p_correct": 85.0,
+  "why": "Summing 0, 1, 2, 3 gives 6."
+ },
+ "for_loops-52": {
+  "p_correct": 85.0,
+  "why": "Accessing first character of strings in a list gives 'c' and 'd'."
+ },
+ "for_loops-53": {
+  "p_correct": 85.0,
+  "why": "Standard modulo check for evens inside a loop."
+ },
+ "lists-51": {
+  "p_correct": 90.0,
+  "why": "Negative indexing accesses the last element ('d')."
+ },
+ "lists-52": {
+  "p_correct": 95.0,
+  "why": "Zero-based indexing is a fundamental concept."
+ },
+ "lists-53": {
+  "p_correct": 90.0,
+  "why": "Direct index access items[1]."
+ },
+ "iterating_lists-52": {
+  "p_correct": 80.0,
+  "why": "Standard manual iteration using range(len()) yielding 60."
+ },
+ "iterating_lists-53": {
+  "p_correct": 70.0,
+  "why": "Requires slicing with a step or a step in range, slight cognitive load."
+ },
+ "nested_loops-51": {
+  "p_correct": 70.0,
+  "why": "Tracing nested loops with print formatting can be confusing."
+ },
+ "nested_loops-53": {
+  "p_correct": 60.0,
+  "why": "Nested loops with conditional filtering (i < j) require careful thought."
+ },
+ "dictionaries-51": {
+  "p_correct": 85.0,
+  "why": "Iterating over a dictionary yields its keys."
+ },
+ "dictionaries-52": {
+  "p_correct": 90.0,
+  "why": "Curly braces {} are universally taught early."
+ },
+ "dictionaries-53": {
+  "p_correct": 80.0,
+  "why": "Checking key existence or using .get() method."
+ },
+ "nested_data-51": {
+  "p_correct": 85.0,
+  "why": "Accessing list element then dictionary key ('instructor')."
+ },
+ "nested_data-53": {
+  "p_correct": 75.0,
+  "why": "List comprehension or loop extracting a specific key from a list of dicts."
+ },
+ "try_except-51": {
+  "p_correct": 55.0,
+  "why": "Students often forget that variables defined in try blocks persist or that else runs on no exception."
+ },
+ "try_except-52": {
+  "p_correct": 80.0,
+  "why": "Straightforward recall of the 'else' keyword in try-except-else structures."
+ },
+ "try_except-53": {
+  "p_correct": 70.0,
+  "why": "Standard try-except pattern for catching ValueError and returning None."
+ },
+ "raising_exceptions-51": {
+  "p_correct": 65.0,
+  "why": "Many beginners mix up print(e) output format with string representations of exceptions."
+ },
+ "raising_exceptions-52": {
+  "p_correct": 90.0,
+  "why": "Basic syntax recall for the 'raise' keyword."
+ },
+ "raising_exceptions-53": {
+  "p_correct": 85.0,
+  "why": "Simple guard clause raising ValueError correctly."
+ },
+ "imports-52": {
+  "p_correct": 95.0,
+  "why": "Universal beginner knowledge of the 'import' keyword."
+ },
+ "slicing-51": {
+  "p_correct": 50.0,
+  "why": "List slicing with a step of 2 confuses many beginners counting indices."
+ },
+ "slicing-53": {
+  "p_correct": 80.0,
+  "why": "Slicing items[:3] handles both short and long lists automatically."
+ },
+ "command_line_args-52": {
+  "p_correct": 60.0,
+  "why": "Students often forget that sys.argv includes the script name itself."
+ },
+ "command_line_args-53": {
+  "p_correct": 75.0,
+  "why": "Checking list length before accessing sys.argv[1] is a common pattern."
+ },
+ "packages_pip-51": {
+  "p_correct": 90.0,
+  "why": "Core concept taught explicitly when introducing pip and third-party packages."
+ },
+ "packages_pip-52": {
+  "p_correct": 85.0,
+  "why": "Recall of the term 'package'."
+ },
+ "apis_json-51": {
+  "p_correct": 85.0,
+  "why": "Core function of requests response.json() is heavily emphasized."
+ },
+ "apis_json-52": {
+  "p_correct": 70.0,
+  "why": "json standard library module is frequently confused with requests."
+ },
+ "apis_json-53": {
+  "p_correct": 75.0,
+  "why": "Basic dictionary navigation and checking for empty lists."
+ },
+ "own_modules-51": {
+  "p_correct": 65.0,
+  "why": "Code at module level executes upon import, catching many beginners off guard."
+ },
+ "own_modules-52": {
+  "p_correct": 90.0,
+  "why": "Standard definition of the '__main__' variable."
+ },
+ "assert_statement-51": {
+  "p_correct": 80.0,
+  "why": "Since assertions pass, the code continues and prints the message."
+ },
+ "assert_statement-52": {
+  "p_correct": 85.0,
+  "why": "Direct correlation between assert and AssertionError."
+ },
+ "pytest_testing-51": {
+  "p_correct": 90.0,
+  "why": "Core convention of pytest function naming ('test_')."
+ },
+ "pytest_testing-52": {
+  "p_correct": 95.0,
+  "why": "Direct recall of the 'pytest' command."
+ },
+ "file_io-51": {
+  "p_correct": 85.0,
+  "why": "Standard file open mode 'a' for append."
+ },
+ "file_io-52": {
+  "p_correct": 90.0,
+  "why": "Recall of the 'with' statement context manager."
+ },
+ "with_statement-51": {
+  "p_correct": 85.0,
+  "why": "Understanding context manager alias binding with 'as'."
+ },
+ "with_statement-52": {
+  "p_correct": 90.0,
+  "why": "Direct recall of the 'with' keyword purpose right after the lesson."
+ },
+ "csv_files-51": {
+  "p_correct": 80.0,
+  "why": "Emphasized heavily in CS50P when covering CSV parsing and escaped quotes."
+ },
+ "csv_files-52": {
+  "p_correct": 85.0,
+  "why": "Basic knowledge that csv.reader yields lists of strings."
+ },
+ "csv_files-53": {
+  "p_correct": 65.0,
+  "why": "Combining io.StringIO and DictReader requires multiple precise steps."
+ },
+ "regular_expressions-51": {
+  "p_correct": 55.0,
+  "why": "Regex substitution with optional and grouping constructs can be tricky."
+ },
+ "regular_expressions-52": {
+  "p_correct": 70.0,
+  "why": "re.split is covered alongside search and match."
+ },
+ "regular_expressions-53": {
+  "p_correct": 60.0,
+  "why": "Writing correct anchor and quantifier patterns takes careful practice."
+ },
+ "classes_objects-51": {
+  "p_correct": 95.0,
+  "why": "Fundamental definition of the constructor method '__init__'."
+ },
+ "classes_objects-52": {
+  "p_correct": 95.0,
+  "why": "Universal convention of using 'self' as the first parameter."
+ },
+ "properties_decorators-51": {
+  "p_correct": 75.0,
+  "why": "Understand the encapsulation and validation role of property setters."
+ },
+ "properties_decorators-52": {
+  "p_correct": 90.0,
+  "why": "Direct recall of the '@property' decorator syntax."
+ },
+ "class_static_methods-51": {
+  "p_correct": 75.0,
+  "why": "Clear distinction between instance methods and classmethods."
+ },
+ "class_static_methods-52": {
+  "p_correct": 90.0,
+  "why": "Direct recall of the '@staticmethod' decorator."
+ },
+ "class_static_methods-53": {
+  "p_correct": 85.0,
+  "why": "Simple syntax application for writing a static method."
+ },
+ "inheritance-51": {
+  "p_correct": 80.0,
+  "why": "Standard super() usage for attribute initialization in subclasses."
+ },
+ "inheritance-52": {
+  "p_correct": 90.0,
+  "why": "Direct recall of the 'super()' function."
+ },
+ "operator_overloading-51": {
+  "p_correct": 85.0,
+  "why": "Standard special method name '__add__' for operator '+'."
+ },
+ "operator_overloading-52": {
+  "p_correct": 85.0,
+  "why": "Direct recall of '__sub__' for subtraction overloading."
+ },
+ "operator_overloading-53": {
+  "p_correct": 75.0,
+  "why": "Standard object-oriented programming exercise covered in lectures."
+ },
+ "sets-51": {
+  "p_correct": 80.0,
+  "why": "Sets automatically deduplicate, leading to correct length calculation."
+ },
+ "sets-52": {
+  "p_correct": 90.0,
+  "why": "Using the 'set()' constructor function to remove duplicates from a list."
+ },
+ "sets-53": {
+  "p_correct": 85.0,
+  "why": "Straightforward intersection or set conversion task."
+ },
+ "constants_globals-52": {
+  "p_correct": 85.0,
+  "why": "Direct recall of the 'global' keyword."
+ },
+ "type_hints-51": {
+  "p_correct": 80.0,
+  "why": "Core CS50P point that Python type hints are not enforced at runtime."
+ },
+ "type_hints-52": {
+  "p_correct": 85.0,
+  "why": "Direct recall of the 'mypy' command-line tool."
+ },
+ "docstrings-51": {
+  "p_correct": 45.0,
+  "why": "Sphinx RST syntax is specific and often confused with Javadoc styles or not covered deeply in beginner courses."
+ },
+ "docstrings-52": {
+  "p_correct": 85.0,
+  "why": "Multi-line docstrings use triple quotes, a standard concept taught early."
+ },
+ "argparse_module-51": {
+  "p_correct": 90.0,
+  "why": "parse_args() is the core method emphasized in any argparse tutorial."
+ },
+ "argparse_module-52": {
+  "p_correct": 70.0,
+  "why": "Students often forget the exact type parameter name 'type=int' without practice."
+ },
+ "tuples_unpacking-51": {
+  "p_correct": 80.0,
+  "why": "Straightforward unpacking, though printing y then x catches some students off guard."
+ },
+ "tuples_unpacking-52": {
+  "p_correct": 75.0,
+  "why": "Star unpacking collects remaining elements into a list, len(b) evaluates to 2."
+ },
+ "tuples_unpacking-53": {
+  "p_correct": 85.0,
+  "why": "Basic indexing or sequence unpacking is a foundational skill."
+ },
+ "args_kwargs-51": {
+  "p_correct": 85.0,
+  "why": "Core definition of *args and **kwargs is emphasized heavily when introduced."
+ },
+ "args_kwargs-52": {
+  "p_correct": 95.0,
+  "why": "kwargs is always a dictionary, a fundamental rule."
+ },
+ "args_kwargs-53": {
+  "p_correct": 80.0,
+  "why": "Putting *args and **kwargs into a constructed dictionary is a classic packing exercise."
+ },
+ "lambda_functions-51": {
+  "p_correct": 80.0,
+  "why": "Combined map and lambda concept is clear once map's iterator nature and list conversion are understood."
+ },
+ "lambda_functions-52": {
+  "p_correct": 90.0,
+  "why": "Basic lambda syntax returning a sum is very direct."
+ },
+ "lambda_functions-53": {
+  "p_correct": 75.0,
+  "why": "Using a lambda for the key parameter in sorted() with dictionaries takes a little practice."
+ },
+ "map_filter-51": {
+  "p_correct": 90.0,
+  "why": "Applying a simple mapping function is intuitive after a demo."
+ },
+ "list_comprehensions-51": {
+  "p_correct": 85.0,
+  "why": "Filtering with a conditional in a list comprehension is standard practice."
+ },
+ "list_comprehensions-52": {
+  "p_correct": 90.0,
+  "why": "Evaluating string lengths inside a comprehension yields predictable integer outputs."
+ },
+ "list_comprehensions-53": {
+  "p_correct": 95.0,
+  "why": "Filtering list comprehensions are one of the most practiced patterns."
+ },
+ "dict_comprehensions-51": {
+  "p_correct": 80.0,
+  "why": "Colon syntax for key-value pairs in dict comprehensions is distinct and easy to grasp."
+ },
+ "dict_comprehensions-52": {
+  "p_correct": 85.0,
+  "why": "The colon (key: value) distinguishes dict comprehensions from list comprehensions."
+ },
+ "dict_comprehensions-53": {
+  "p_correct": 85.0,
+  "why": "Writing a basic dictionary comprehension mapping numbers to their squares is standard."
+ },
+ "enumerate_function-51": {
+  "p_correct": 90.0,
+  "why": "Enumerate starts at 0 by default, producing index-value pairs."
+ },
+ "enumerate_function-52": {
+  "p_correct": 95.0,
+  "why": "enumerate is universally remembered for index-value looping."
+ },
+ "enumerate_function-53": {
+  "p_correct": 80.0,
+  "why": "Combining enumerate with a loop and conditional return is a common early pattern."
+ },
+ "generators-51": {
+  "p_correct": 75.0,
+  "why": "Understanding that generator functions return a generator object rather than executing immediately takes a moment to click."
+ },
+ "generators-52": {
+  "p_correct": 95.0,
+  "why": "yield is the defining keyword for generators."
+ },
+ "generators-53": {
+  "p_correct": 45.0,
+  "why": "Generators and the yield keyword are conceptually tricky for beginners who are used to standard return statements and loops."
+ }
+}

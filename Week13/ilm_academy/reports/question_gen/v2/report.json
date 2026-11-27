@@ -1,0 +1,114 @@
+{
+ "generator": "gemini-3.5-flash-lite",
+ "solver": "not run",
+ "accepted_spread": {
+  "difficulty": {
+   "1": 0.11,
+   "2": 0.24,
+   "3": 0.22,
+   "4": 0.25,
+   "5": 0.17
+  },
+  "bloom": {
+   "remember": 0.11,
+   "understand": 0.1,
+   "apply": 0.36,
+   "analyze": 0.26,
+   "evaluate": 0.1,
+   "create": 0.06
+  }
+ },
+ "on_target_difficulty": 1.0,
+ "concepts": 65,
+ "asked": 175,
+ "generated": 175,
+ "accepted": 143,
+ "acceptance_rate": 0.817,
+ "acceptance_rate_of_asked": 0.817,
+ "by_type": {
+  "mcq": {
+   "generated": 65,
+   "accepted": 53
+  },
+  "short": {
+   "generated": 65,
+   "accepted": 54
+  },
+  "code": {
+   "generated": 45,
+   "accepted": 36
+  }
+ },
+ "funnel": [
+  {
+   "gate": "format",
+   "rejected": 11,
+   "still_in": 164
+  },
+  {
+   "gate": "flaws",
+   "rejected": 6,
+   "still_in": 158
+  },
+  {
+   "gate": "truth",
+   "rejected": 14,
+   "still_in": 144
+  },
+  {
+   "gate": "duplicate",
+   "rejected": 1,
+   "still_in": 143
+  }
+ ],
+ "top_reasons": [
+  [
+   "format: short: Value error, check_output needs code and accept",
+   9
+  ],
+  [
+   "truth: the buggy solution passes every test: add a test that catches it",
+   4
+  ],
+  [
+   "format: mcq: Value error, duplicate options",
+   1
+  ],
+  [
+   "truth: marked answer 'What is your name? Bob\\nhello, Bob' but the code prints 'What is your name?",
+   1
+  ],
+  [
+   "flaws: function name 'min_max' is already used by another exercise (the tutor finds exercises by ",
+   1
+  ],
+  [
+   "flaws: asks for program output but check_output is off (key not machine-checked)",
+   1
+  ],
+  [
+   "flaws: misconceptions missing, too short or repeated",
+   1
+  ],
+  [
+   "duplicate: #.# similar to range_function-#",
+   1
+  ],
+  [
+   "truth: marked answer '# red' but the code prints '# red\\nIndexError'",
+   1
+  ],
+  [
+   "flaws: the correct option is clearly the longest (guessable)",
+   1
+  ],
+  [
+   "truth: accepted answers ['Unknown'] do not include the real output 'The Beatles'",
+   1
+  ],
+  [
+   "truth: marked answer 'It raises an AssertionError' but the code prints 'AssertionError'",
+   1
+  ]
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "questions_compared": 183,
+ "llm_predicted": 201,
+ "spearman_with_irt_b": {
+  "author": 0.561,
+  "llm": 0.326,
+  "llm_plus_author_rank_mean": 0.516
+ },
+ "simulation_only_spearman_with_true_b": {
+  "author": 0.75,
+  "llm": 0.326,
+  "irt": 0.707
+ },
+ "llm_vs_author": 0.533,
+ "llm_p_correct_vs_observed_p": 0.332,
+ "mean_llm_p_correct": 74.2,
+ "mean_observed_p": 51.7,
+ "by_type_spearman_llm": {
+  "code": 0.249,
+  "mcq": 0.07,
+  "short": 0.733
+ },
+ "by_type_spearman_author": {
+  "code": 0.699,
+  "mcq": 0.571,
+  "short": 0.876
+ },
+ "decisions": {
+  "keep": 142,
+  "relabel": 40,
+  "unmeasured": 30,
+  "retire": 13
+ },
+ "retired_that_were_planted_bad": 12,
+ "planted_bad_measured": 12
+}
