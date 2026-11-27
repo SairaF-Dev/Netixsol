@@ -1,0 +1,35 @@
+{
+ "mode": "steady",
+ "submissions": 500,
+ "planned_minutes": 10.0,
+ "sent_in_seconds": 598.8,
+ "all_finished_after_seconds": 622.1,
+ "finished_ok": 500,
+ "errors": 0,
+ "unfinished": 0,
+ "seconds_submit_to_result": {
+  "p50": 1.76,
+  "p95": 6.44,
+  "max": 34.89
+ },
+ "seconds_excluding_infinite_loops": {
+  "p50": 1.73,
+  "p95": 4.56
+ },
+ "throughput_per_minute": 48.2,
+ "mix": {
+  "broken": 10,
+  "clumsy": 50,
+  "correct": 110,
+  "crashes": 30,
+  "edge_case": 70,
+  "hardcoded": 10,
+  "prints": 10,
+  "rule_broken": 80,
+  "slow": 10,
+  "timeout": 20,
+  "wrong": 100
+ },
+ "total_seconds": 623.1,
+ "median_server_seconds": 1.2
+}
