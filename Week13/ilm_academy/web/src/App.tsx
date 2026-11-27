@@ -6,7 +6,9 @@ import Login from './pages/Login'
 import PathPage from './pages/student/Path'
 import Practice from './pages/student/Practice'
 import Today from './pages/student/Today'
+import AtRisk from './pages/teacher/AtRisk'
 import Overview from './pages/teacher/Overview'
+import Review from './pages/teacher/Review'
 
 // The editor is the heaviest screen: load it only when it is opened.
 const ExercisePage = lazy(() => import('./pages/student/Exercise'))
@@ -39,6 +41,8 @@ export default function App() {
         element={<RequireRole role="teacher"><TeacherShell /></RequireRole>}
       >
         <Route index element={<Overview />} />
+        <Route path="at-risk" element={<AtRisk />} />
+        <Route path="review" element={<Review />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

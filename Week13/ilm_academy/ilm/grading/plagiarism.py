@@ -859,6 +859,10 @@ def run_benchmark(
         "honest_pairs_per_test_exercise": honest_per_ex,
         "note": ("ranking in a real class cannot be measured here: ~41-60 honest pairs per exercise vs "
                  "~4,950 for 100 students; precision@k is bounded by copies/k"),
+        # the pairs the teacher actually sees (the app's review queue reads these)
+        "pairs": [{"pair_id": r["pair_id"], "exercise_id": r["exercise_id"], "sub_a": r["sub_a"],
+                   "sub_b": r["sub_b"], "combined": round(r["combined"], 4), "token": round(r["token_raw"], 3),
+                   "ast": round(r["ast_raw"], 3), "embedding": round(r["embedding_raw"], 3)} for r in queue],
     }
     report["student_max_scores_test_top15"] = student_max_scores(test_rows)[:15]
 

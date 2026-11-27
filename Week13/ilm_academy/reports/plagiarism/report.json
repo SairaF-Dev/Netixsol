@@ -1460,7 +1460,309 @@
       60,
       60
     ],
-    "note": "ranking in a real class cannot be measured here: ~41-60 honest pairs per exercise vs ~4,950 for 100 students; precision@k is bounded by copies/k"
+    "note": "ranking in a real class cannot be measured here: ~41-60 honest pairs per exercise vs ~4,950 for 100 students; precision@k is bounded by copies/k",
+    "pairs": [
+      {
+        "pair_id": "elif_else-01__s09__elif_else-01__s12",
+        "exercise_id": "elif_else-01",
+        "sub_a": "elif_else-01__s09",
+        "sub_b": "elif_else-01__s12",
+        "combined": 0.9985,
+        "token": 0.778,
+        "ast": 0.954,
+        "embedding": 0.997
+      },
+      {
+        "pair_id": "elif_else-01__s07__elif_else-01__s08",
+        "exercise_id": "elif_else-01",
+        "sub_a": "elif_else-01__s07",
+        "sub_b": "elif_else-01__s08",
+        "combined": 0.9907,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.907
+      },
+      {
+        "pair_id": "elif_else-01__s02__elif_else-01__s06",
+        "exercise_id": "elif_else-01",
+        "sub_a": "elif_else-01__s02",
+        "sub_b": "elif_else-01__s06",
+        "combined": 0.9697,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.878
+      },
+      {
+        "pair_id": "elif_else-01__s03__elif_else-01__s10",
+        "exercise_id": "elif_else-01",
+        "sub_a": "elif_else-01__s03",
+        "sub_b": "elif_else-01__s10",
+        "combined": 0.8725,
+        "token": 0.333,
+        "ast": 0.684,
+        "embedding": 0.981
+      },
+      {
+        "pair_id": "elif_else-01__s04__elif_else-01__s05",
+        "exercise_id": "elif_else-01",
+        "sub_a": "elif_else-01__s04",
+        "sub_b": "elif_else-01__s05",
+        "combined": 0.536,
+        "token": 0.2,
+        "ast": 0.676,
+        "embedding": 0.962
+      },
+      {
+        "pair_id": "iterating_lists-03__s01__iterating_lists-03__s04",
+        "exercise_id": "iterating_lists-03",
+        "sub_a": "iterating_lists-03__s01",
+        "sub_b": "iterating_lists-03__s04",
+        "combined": 0.9994,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.948
+      },
+      {
+        "pair_id": "iterating_lists-03__s02__iterating_lists-03__s05",
+        "exercise_id": "iterating_lists-03",
+        "sub_a": "iterating_lists-03__s02",
+        "sub_b": "iterating_lists-03__s05",
+        "combined": 0.9646,
+        "token": 0.276,
+        "ast": 0.842,
+        "embedding": 0.997
+      },
+      {
+        "pair_id": "iterating_lists-03__s06__iterating_lists-03__s07",
+        "exercise_id": "iterating_lists-03",
+        "sub_a": "iterating_lists-03__s06",
+        "sub_b": "iterating_lists-03__s07",
+        "combined": 0.9616,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.818
+      },
+      {
+        "pair_id": "iterating_lists-03__s09__iterating_lists-03__s11",
+        "exercise_id": "iterating_lists-03",
+        "sub_a": "iterating_lists-03__s09",
+        "sub_b": "iterating_lists-03__s11",
+        "combined": 0.9544,
+        "token": 0.286,
+        "ast": 0.794,
+        "embedding": 0.995
+      },
+      {
+        "pair_id": "iterating_lists-03__s08__iterating_lists-03__s10",
+        "exercise_id": "iterating_lists-03",
+        "sub_a": "iterating_lists-03__s08",
+        "sub_b": "iterating_lists-03__s10",
+        "combined": 0.8881,
+        "token": 0.278,
+        "ast": 0.788,
+        "embedding": 0.977
+      },
+      {
+        "pair_id": "modulo-02__s03__modulo-02__s06",
+        "exercise_id": "modulo-02",
+        "sub_a": "modulo-02__s03",
+        "sub_b": "modulo-02__s06",
+        "combined": 0.8635,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.881
+      },
+      {
+        "pair_id": "modulo-02__s05__modulo-02__s08",
+        "exercise_id": "modulo-02",
+        "sub_a": "modulo-02__s05",
+        "sub_b": "modulo-02__s08",
+        "combined": 0.412,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.831
+      },
+      {
+        "pair_id": "modulo-02__s02__modulo-02__s10",
+        "exercise_id": "modulo-02",
+        "sub_a": "modulo-02__s02",
+        "sub_b": "modulo-02__s10",
+        "combined": 0.1785,
+        "token": 0.077,
+        "ast": 0.638,
+        "embedding": 0.955
+      },
+      {
+        "pair_id": "modulo-02__s01__modulo-02__s07",
+        "exercise_id": "modulo-02",
+        "sub_a": "modulo-02__s01",
+        "sub_b": "modulo-02__s07",
+        "combined": 0.0793,
+        "token": 0.167,
+        "ast": 0.467,
+        "embedding": 0.978
+      },
+      {
+        "pair_id": "modulo-02__s06__modulo-02__s09",
+        "exercise_id": "modulo-02",
+        "sub_a": "modulo-02__s06",
+        "sub_b": "modulo-02__s09",
+        "combined": 0.037,
+        "token": 0.0,
+        "ast": 0.294,
+        "embedding": 0.934
+      },
+      {
+        "pair_id": "nested_data-02__s09__nested_data-02__s10",
+        "exercise_id": "nested_data-02",
+        "sub_a": "nested_data-02__s09",
+        "sub_b": "nested_data-02__s10",
+        "combined": 0.9981,
+        "token": 0.818,
+        "ast": 0.948,
+        "embedding": 0.987
+      },
+      {
+        "pair_id": "nested_data-02__s03__nested_data-02__s07",
+        "exercise_id": "nested_data-02",
+        "sub_a": "nested_data-02__s03",
+        "sub_b": "nested_data-02__s07",
+        "combined": 0.995,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.934
+      },
+      {
+        "pair_id": "nested_data-02__s04__nested_data-02__s05",
+        "exercise_id": "nested_data-02",
+        "sub_a": "nested_data-02__s04",
+        "sub_b": "nested_data-02__s05",
+        "combined": 0.9295,
+        "token": 0.5,
+        "ast": 0.878,
+        "embedding": 0.973
+      },
+      {
+        "pair_id": "nested_data-02__s01__nested_data-02__s02",
+        "exercise_id": "nested_data-02",
+        "sub_a": "nested_data-02__s01",
+        "sub_b": "nested_data-02__s02",
+        "combined": 0.9293,
+        "token": 0.409,
+        "ast": 0.737,
+        "embedding": 0.992
+      },
+      {
+        "pair_id": "nested_data-02__s08__nested_data-02__s12",
+        "exercise_id": "nested_data-02",
+        "sub_a": "nested_data-02__s08",
+        "sub_b": "nested_data-02__s12",
+        "combined": 0.9286,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.862
+      },
+      {
+        "pair_id": "nested_loops-02__s02__nested_loops-02__s06",
+        "exercise_id": "nested_loops-02",
+        "sub_a": "nested_loops-02__s02",
+        "sub_b": "nested_loops-02__s06",
+        "combined": 0.9993,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 1.0
+      },
+      {
+        "pair_id": "nested_loops-02__s03__nested_loops-02__s05",
+        "exercise_id": "nested_loops-02",
+        "sub_a": "nested_loops-02__s03",
+        "sub_b": "nested_loops-02__s05",
+        "combined": 0.9975,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.968
+      },
+      {
+        "pair_id": "nested_loops-02__s04__nested_loops-02__s09",
+        "exercise_id": "nested_loops-02",
+        "sub_a": "nested_loops-02__s04",
+        "sub_b": "nested_loops-02__s09",
+        "combined": 0.9353,
+        "token": 0.476,
+        "ast": 0.765,
+        "embedding": 0.997
+      },
+      {
+        "pair_id": "nested_loops-02__s01__nested_loops-02__s12",
+        "exercise_id": "nested_loops-02",
+        "sub_a": "nested_loops-02__s01",
+        "sub_b": "nested_loops-02__s12",
+        "combined": 0.9271,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.88
+      },
+      {
+        "pair_id": "nested_loops-02__s08__nested_loops-02__s11",
+        "exercise_id": "nested_loops-02",
+        "sub_a": "nested_loops-02__s08",
+        "sub_b": "nested_loops-02__s11",
+        "combined": 0.7747,
+        "token": 0.483,
+        "ast": 0.805,
+        "embedding": 0.956
+      },
+      {
+        "pair_id": "while_loops-04__s01__while_loops-04__s11",
+        "exercise_id": "while_loops-04",
+        "sub_a": "while_loops-04__s01",
+        "sub_b": "while_loops-04__s11",
+        "combined": 0.9969,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.926
+      },
+      {
+        "pair_id": "while_loops-04__s04__while_loops-04__s08",
+        "exercise_id": "while_loops-04",
+        "sub_a": "while_loops-04__s04",
+        "sub_b": "while_loops-04__s08",
+        "combined": 0.9945,
+        "token": 0.609,
+        "ast": 0.926,
+        "embedding": 0.989
+      },
+      {
+        "pair_id": "while_loops-04__s09__while_loops-04__s12",
+        "exercise_id": "while_loops-04",
+        "sub_a": "while_loops-04__s09",
+        "sub_b": "while_loops-04__s12",
+        "combined": 0.9941,
+        "token": 0.645,
+        "ast": 0.913,
+        "embedding": 0.977
+      },
+      {
+        "pair_id": "while_loops-04__s02__while_loops-04__s07",
+        "exercise_id": "while_loops-04",
+        "sub_a": "while_loops-04__s02",
+        "sub_b": "while_loops-04__s07",
+        "combined": 0.9609,
+        "token": 1.0,
+        "ast": 1.0,
+        "embedding": 0.86
+      },
+      {
+        "pair_id": "while_loops-04__s06__while_loops-04__s10",
+        "exercise_id": "while_loops-04",
+        "sub_a": "while_loops-04__s06",
+        "sub_b": "while_loops-04__s10",
+        "combined": 0.5073,
+        "token": 0.185,
+        "ast": 0.494,
+        "embedding": 0.977
+      }
+    ]
   },
   "student_max_scores_test_top15": [
     {

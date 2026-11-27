@@ -73,3 +73,66 @@ def test_submissions_are_rate_limited(monkeypatch):
     service._recent.clear()
     monkeypatch.setattr(service, "PER_MINUTE", 2)
     assert [service.rate_limited("u") for _ in range(3)] == [False, False, True]
+
+
+# ------------------------------------------------------------------ teacher ----
+FAKE_CLASS = {"cohort": "test", "week": 3, "enrolled": 10, "in_class": 8, "left_before_week": 2,
+              "active_this_week": 6, "high": 1, "medium": 2, "avg_mastered": 1.5, "concepts_total": 65,
+              "weakest": [], "heatmap": {"concepts": [], "sections": []}, "section_note": "n",
+              "at_risk": [{"student_id": "s1", "level": "high", "risk": 0.9, "reason": "Inactive",
+                           "why": ["no answers for 9 days"], "action": "a", "level_action": "b"}]}
+
+
+@pytest.fixture
+def teacher(client, monkeypatch):
+    """Reads the real review sources (read-only); decisions go to the temp API_DB."""
+    from ilm.api import classroom, review
+    monkeypatch.setattr(classroom, "load", lambda: FAKE_CLASS)
+    real = config.PROJECT_ROOT / "data"
+    monkeypatch.setattr(config, "DATA_DIR", real)
+    monkeypatch.setattr(config, "PROCESSED_DIR", real / "processed")
+    review._similarity_source.cache_clear()
+    review._graded_source.cache_clear()
+    login(client, "teacher")
+    yield client
+    review._similarity_source.cache_clear()
+    review._graded_source.cache_clear()
+
+
+def test_teacher_pages_are_for_teachers_only(client, monkeypatch):
+    from ilm.api import classroom
+    monkeypatch.setattr(classroom, "load", lambda: FAKE_CLASS)
+    login(client, "ali")
+    for path in ("/api/class/overview", "/api/class/at-risk", "/api/review"):
+        assert client.get(path).status_code == 403
+
+
+def test_overview_and_at_risk(teacher):
+    o = teacher.get("/api/class/overview").json()
+    assert o["in_class"] == 8 and "review_open" in o and "at_risk" not in o
+    assert teacher.get("/api/class/at-risk").json()["students"][0]["reason"] == "Inactive"
+
+
+def test_review_queue_never_carries_the_benchmark_answer(teacher):
+    q = teacher.get("/api/review").json()
+    assert q["counts"]["similarity"] == 30
+    sim = next(i for i in q["items"] if i["kind"] == "similarity")
+    page = teacher.get(f"/api/review/{sim['id']}").text
+    assert "ground_truth" not in page and "disguise" not in page and "copied" not in page.lower()
+    d = teacher.get(f"/api/review/{sim['id']}").json()
+    assert len(d["sides"]) == 2 and d["sides"][0]["code"]
+
+
+def test_decisions_are_validated_and_stored(teacher):
+    item = teacher.get("/api/review").json()["items"][0]
+    assert teacher.post(f"/api/review/{item['id']}", json={"decision": "Delete student"}).status_code == 422
+    assert teacher.post(f"/api/review/{item['id']}", json={"decision": item["options"][0]}).status_code == 200
+    again = next(i for i in teacher.get("/api/review").json()["items"] if i["id"] == item["id"])
+    assert again["decision"] == item["options"][0]
+
+
+def test_reasons_are_written_in_words():
+    from ilm.api.classroom import in_words
+    assert in_words("acc_last10", 0.3) == "3 of the last 10 answers right"
+    assert in_words("days_since_last", 9) == "no answers for 9 days"
+    assert in_words("acc_last10", float("nan")) is None                 # no value: no reason text

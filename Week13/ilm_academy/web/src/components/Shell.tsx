@@ -1,4 +1,4 @@
-import { BookOpen, Code2, LayoutGrid, LogOut, Route as RouteIcon } from "lucide-react"
+import { BookOpen, ClipboardCheck, Code2, LayoutGrid, LogOut, Route as RouteIcon, UserRoundX } from "lucide-react"
 import type { ReactNode } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useLogout, useMe } from '../auth'
@@ -12,6 +12,8 @@ const STUDENT: Item[] = [
 ]
 const TEACHER: Item[] = [
   { to: '/teacher', label: 'Class overview', icon: <LayoutGrid size={18} strokeWidth={1.5} />, end: true },
+  { to: '/teacher/at-risk', label: 'At risk', icon: <UserRoundX size={18} strokeWidth={1.5} /> },
+  { to: '/teacher/review', label: 'Review queue', icon: <ClipboardCheck size={18} strokeWidth={1.5} /> },
 ]
 
 function Brand() {

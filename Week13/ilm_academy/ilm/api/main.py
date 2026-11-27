@@ -6,15 +6,15 @@ Everything under /api. The React app (web/) calls it with the session cookie.
 """
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
+
 from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ilm import config
-from ilm.api import service
+from ilm.api import classroom, review, service
 from ilm.api.auth import COOKIE, SESSION_SEC, User, check_password, current_user, make_token, require
-
-from contextlib import asynccontextmanager
 
 
 @asynccontextmanager
@@ -110,3 +110,47 @@ def submission(sid: str, user: User = Depends(require("student"))):
     if s is None:
         raise HTTPException(404, "No such submission.")
     return s
+
+
+# ------------------------------------------------------------------ teacher ----
+class DecisionIn(BaseModel):
+    decision: str = Field(max_length=60)
+    note: str = Field(default="", max_length=500)
+
+
+@app.get("/api/class/overview")
+def class_overview(user: User = Depends(require("teacher"))):
+    c = classroom.load()
+    q = review.queue()
+    return {k: c[k] for k in ("cohort", "week", "enrolled", "in_class", "left_before_week", "active_this_week",
+                              "high", "medium", "avg_mastered", "concepts_total", "weakest", "heatmap",
+                              "section_note")} | {"review_open": q["open"]}
+
+
+@app.get("/api/class/at-risk")
+def class_at_risk(user: User = Depends(require("teacher"))):
+    c = classroom.load()
+    return {"week": c["week"], "in_class": c["in_class"], "students": c["at_risk"]}
+
+
+@app.get("/api/review")
+def review_queue(user: User = Depends(require("teacher"))):
+    return review.queue()
+
+
+@app.get("/api/review/{item_id}")
+def review_item(item_id: str, user: User = Depends(require("teacher"))):
+    d = review.detail(item_id)
+    if d is None:
+        raise HTTPException(404, "No such review item.")
+    return d
+
+
+@app.post("/api/review/{item_id}")
+def review_decide(item_id: str, body: DecisionIn, user: User = Depends(require("teacher"))):
+    if review.detail(item_id) is None:
+        raise HTTPException(404, "No such review item.")
+    try:
+        return review.decide(item_id, body.decision, user.username, body.note)
+    except ValueError as e:
+        raise HTTPException(422, str(e))

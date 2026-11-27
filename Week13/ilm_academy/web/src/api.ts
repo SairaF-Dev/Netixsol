@@ -115,3 +115,70 @@ export const api = {
     call<{ id: string }>('/submissions', { method: 'POST', body: JSON.stringify({ exercise, code }) }),
   submission: (id: string) => call<Submission>(`/submissions/${encodeURIComponent(id)}`),
 }
+
+// ---------------- teacher ----------------
+export interface Weak { id: string; name: string; known: number; mastered: number; practised: number }
+export interface Heatmap {
+  concepts: { id: string; name: string }[]
+  sections: { name: string; students: number; values: number[] }[]
+}
+export interface Overview {
+  cohort: string
+  week: number
+  enrolled: number
+  in_class: number
+  left_before_week: number
+  active_this_week: number
+  high: number
+  medium: number
+  avg_mastered: number
+  concepts_total: number
+  weakest: Weak[]
+  heatmap: Heatmap
+  section_note: string
+  review_open: number
+}
+export interface RiskStudent {
+  student_id: string
+  section: number
+  level: 'high' | 'medium'
+  risk: number
+  reason: string
+  why: string[]
+  action: string
+  level_action: string
+  answers_total: number
+  days_since_last: number
+  acc_last10: number | null
+  mastered: number
+}
+export type ReviewKind = 'similarity' | 'tampering' | 'low_mark'
+export interface ReviewItem {
+  id: string
+  kind: ReviewKind
+  exercise: string
+  title: string
+  why: string
+  score: number
+  decision: string | null
+  options: string[]
+}
+export interface ReviewDetail extends Omit<ReviewItem, 'decision'> {
+  stem: string
+  decision: { decision: string; teacher: string; note: string; at: number } | null
+  sides?: { label: string; code: string; matching: number[] }[]
+  scores?: { combined: number; tokens: number; structure: number; meaning: number }
+  code?: string
+  grading?: { mark: number; passed: number; tests: number; rules_broken: string[]; status: string; failed: string[] }
+}
+
+export const teacherApi = {
+  overview: () => call<Overview>('/class/overview'),
+  atRisk: () => call<{ week: number; in_class: number; students: RiskStudent[] }>('/class/at-risk'),
+  review: () => call<{ items: ReviewItem[]; open: number; counts: Record<ReviewKind, number> }>('/review'),
+  reviewItem: (id: string) => call<ReviewDetail>(`/review/${encodeURIComponent(id)}`),
+  decide: (id: string, decision: string, note: string) =>
+    call<{ item: string; decision: string }>(`/review/${encodeURIComponent(id)}`, {
+      method: 'POST', body: JSON.stringify({ decision, note }),
+    }),
+}
