@@ -1,0 +1,68 @@
+{
+ "seed": 42,
+ "exercises": 12,
+ "dev_exercises": [
+  "csv_files-03",
+  "dictionaries-03",
+  "floats-04",
+  "iterating_lists-01",
+  "recursion-05",
+  "sets-02"
+ ],
+ "test_exercises": [
+  "elif_else-01",
+  "iterating_lists-03",
+  "modulo-02",
+  "nested_data-02",
+  "nested_loops-02",
+  "while_loops-04"
+ ],
+ "submissions": 140,
+ "honest_submissions": 72,
+ "copied_submissions": 68,
+ "pairs": 750,
+ "by_split": {
+  "dev": {
+   "exercises": [
+    "csv_files-03",
+    "dictionaries-03",
+    "floats-04",
+    "iterating_lists-01",
+    "recursion-05",
+    "sets-02"
+   ],
+   "pairs": 375,
+   "copied_pairs": 35,
+   "non_copied_pairs": 340,
+   "by_disguise": {
+    "comments_whitespace": 6,
+    "rename": 6,
+    "reorder_lines": 7,
+    "for_to_while": 5,
+    "dead_code": 6,
+    "split_merge": 5
+   }
+  },
+  "test": {
+   "exercises": [
+    "elif_else-01",
+    "iterating_lists-03",
+    "modulo-02",
+    "nested_data-02",
+    "nested_loops-02",
+    "while_loops-04"
+   ],
+   "pairs": 375,
+   "copied_pairs": 34,
+   "non_copied_pairs": 341,
+   "by_disguise": {
+    "comments_whitespace": 6,
+    "rename": 6,
+    "reorder_lines": 5,
+    "for_to_while": 5,
+    "dead_code": 6,
+    "split_merge": 6
+   }
+  }
+ }
+}

@@ -1,0 +1,1387 @@
+{
+  "policy": "Possible copying - needs teacher review",
+  "script": "python -m ilm.grading.plagiarism",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "dataset": {
+    "seed": 42,
+    "exercises": 12,
+    "dev_exercises": [
+      "csv_files-03",
+      "dictionaries-03",
+      "floats-04",
+      "iterating_lists-01",
+      "recursion-05",
+      "sets-02"
+    ],
+    "test_exercises": [
+      "elif_else-01",
+      "iterating_lists-03",
+      "modulo-02",
+      "nested_data-02",
+      "nested_loops-02",
+      "while_loops-04"
+    ],
+    "submissions": 140,
+    "honest_submissions": 72,
+    "copied_submissions": 68,
+    "pairs": 750,
+    "by_split": {
+      "dev": {
+        "exercises": [
+          "csv_files-03",
+          "dictionaries-03",
+          "floats-04",
+          "iterating_lists-01",
+          "recursion-05",
+          "sets-02"
+        ],
+        "pairs": 375,
+        "copied_pairs": 35,
+        "non_copied_pairs": 340,
+        "by_disguise": {
+          "comments_whitespace": 6,
+          "rename": 6,
+          "reorder_lines": 7,
+          "for_to_while": 5,
+          "dead_code": 6,
+          "split_merge": 5
+        }
+      },
+      "test": {
+        "exercises": [
+          "elif_else-01",
+          "iterating_lists-03",
+          "modulo-02",
+          "nested_data-02",
+          "nested_loops-02",
+          "while_loops-04"
+        ],
+        "pairs": 375,
+        "copied_pairs": 34,
+        "non_copied_pairs": 341,
+        "by_disguise": {
+          "comments_whitespace": 6,
+          "rename": 6,
+          "reorder_lines": 5,
+          "for_to_while": 5,
+          "dead_code": 6,
+          "split_merge": 6
+        }
+      }
+    }
+  },
+  "combined_weights_standardised": {
+    "token_raw": 0.2036,
+    "ast_raw": -0.2062,
+    "embedding_raw": 1.3899,
+    "token_adj": 1.1815,
+    "ast_adj": 0.7268,
+    "embedding_adj": 0.6714,
+    "log1p_min_tokens": -0.1002
+  },
+  "combined_intercept": -5.0368,
+  "dev": {
+    "token_raw": {
+      "label": "Token fingerprint (raw)",
+      "threshold": 0.3571,
+      "precision": 0.8148,
+      "recall": 0.6286,
+      "f1": 0.7097,
+      "pr_auc": 0.7292,
+      "tp": 22,
+      "fp": 5,
+      "fn": 13,
+      "tn": 335,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 5,
+          "missed": 2,
+          "total": 7,
+          "recall": 0.7143
+        },
+        "for_to_while": {
+          "caught": 0,
+          "missed": 5,
+          "total": 5,
+          "recall": 0.0
+        },
+        "dead_code": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 4,
+          "total": 5,
+          "recall": 0.2
+        }
+      }
+    },
+    "token_adj": {
+      "label": "Token fingerprint (exercise-adjusted)",
+      "threshold": 0.8509,
+      "precision": 0.6944,
+      "recall": 0.7143,
+      "f1": 0.7042,
+      "pr_auc": 0.7735,
+      "tp": 25,
+      "fp": 11,
+      "fn": 10,
+      "tn": 329,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 6,
+          "missed": 1,
+          "total": 7,
+          "recall": 0.8571
+        },
+        "for_to_while": {
+          "caught": 1,
+          "missed": 4,
+          "total": 5,
+          "recall": 0.2
+        },
+        "dead_code": {
+          "caught": 5,
+          "missed": 1,
+          "total": 6,
+          "recall": 0.8333
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 4,
+          "total": 5,
+          "recall": 0.2
+        }
+      }
+    },
+    "ast_raw": {
+      "label": "AST sequence (raw)",
+      "threshold": 0.7857,
+      "precision": 0.8077,
+      "recall": 0.6,
+      "f1": 0.6885,
+      "pr_auc": 0.6791,
+      "tp": 21,
+      "fp": 5,
+      "fn": 14,
+      "tn": 335,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 4,
+          "missed": 3,
+          "total": 7,
+          "recall": 0.5714
+        },
+        "for_to_while": {
+          "caught": 0,
+          "missed": 5,
+          "total": 5,
+          "recall": 0.0
+        },
+        "dead_code": {
+          "caught": 5,
+          "missed": 1,
+          "total": 6,
+          "recall": 0.8333
+        },
+        "split_merge": {
+          "caught": 0,
+          "missed": 5,
+          "total": 5,
+          "recall": 0.0
+        }
+      }
+    },
+    "ast_adj": {
+      "label": "AST sequence (exercise-adjusted)",
+      "threshold": 1.0916,
+      "precision": 0.56,
+      "recall": 0.8,
+      "f1": 0.6588,
+      "pr_auc": 0.724,
+      "tp": 28,
+      "fp": 22,
+      "fn": 7,
+      "tn": 318,
+      "short_exercise_fp": 3,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 7,
+          "missed": 0,
+          "total": 7,
+          "recall": 1.0
+        },
+        "for_to_while": {
+          "caught": 3,
+          "missed": 2,
+          "total": 5,
+          "recall": 0.6
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 0,
+          "missed": 5,
+          "total": 5,
+          "recall": 0.0
+        }
+      }
+    },
+    "embedding_raw": {
+      "label": "Embedding bge-small (raw)",
+      "threshold": 0.9542,
+      "precision": 0.7879,
+      "recall": 0.7429,
+      "f1": 0.7647,
+      "pr_auc": 0.7788,
+      "tp": 26,
+      "fp": 7,
+      "fn": 9,
+      "tn": 333,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        },
+        "rename": {
+          "caught": 0,
+          "missed": 6,
+          "total": 6,
+          "recall": 0.0
+        },
+        "reorder_lines": {
+          "caught": 6,
+          "missed": 1,
+          "total": 7,
+          "recall": 0.8571
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        }
+      }
+    },
+    "embedding_adj": {
+      "label": "Embedding bge-small (exercise-adjusted)",
+      "threshold": 1.3207,
+      "precision": 0.7353,
+      "recall": 0.7143,
+      "f1": 0.7246,
+      "pr_auc": 0.7588,
+      "tp": 25,
+      "fp": 9,
+      "fn": 10,
+      "tn": 331,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        },
+        "rename": {
+          "caught": 0,
+          "missed": 6,
+          "total": 6,
+          "recall": 0.0
+        },
+        "reorder_lines": {
+          "caught": 6,
+          "missed": 1,
+          "total": 7,
+          "recall": 0.8571
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        }
+      }
+    },
+    "combined_raw": {
+      "label": "Combined logistic (raw only)",
+      "threshold": 0.3417,
+      "precision": 0.8205,
+      "recall": 0.9143,
+      "f1": 0.8649,
+      "pr_auc": 0.8904,
+      "tp": 32,
+      "fp": 7,
+      "fn": 3,
+      "tn": 333,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 6,
+          "missed": 1,
+          "total": 7,
+          "recall": 0.8571
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 3,
+          "missed": 2,
+          "total": 5,
+          "recall": 0.6
+        }
+      }
+    },
+    "combined": {
+      "label": "Combined logistic (exercise-adjusted)",
+      "threshold": 0.6338,
+      "precision": 0.9355,
+      "recall": 0.8286,
+      "f1": 0.8788,
+      "pr_auc": 0.9194,
+      "tp": 29,
+      "fp": 2,
+      "fn": 6,
+      "tn": 338,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 6,
+          "missed": 1,
+          "total": 7,
+          "recall": 0.8571
+        },
+        "for_to_while": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 4,
+          "total": 5,
+          "recall": 0.2
+        }
+      }
+    }
+  },
+  "test": {
+    "token_raw": {
+      "label": "Token fingerprint (raw)",
+      "threshold": 0.3571,
+      "precision": 0.7,
+      "recall": 0.6176,
+      "f1": 0.6562,
+      "pr_auc": 0.7051,
+      "tp": 21,
+      "fp": 9,
+      "fn": 13,
+      "tn": 332,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 2,
+          "missed": 3,
+          "total": 5,
+          "recall": 0.4
+        },
+        "for_to_while": {
+          "caught": 3,
+          "missed": 2,
+          "total": 5,
+          "recall": 0.6
+        },
+        "dead_code": {
+          "caught": 3,
+          "missed": 3,
+          "total": 6,
+          "recall": 0.5
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 5,
+          "total": 6,
+          "recall": 0.1667
+        }
+      }
+    },
+    "token_adj": {
+      "label": "Token fingerprint (exercise-adjusted)",
+      "threshold": 0.8509,
+      "precision": 0.5778,
+      "recall": 0.7647,
+      "f1": 0.6582,
+      "pr_auc": 0.7825,
+      "tp": 26,
+      "fp": 19,
+      "fn": 8,
+      "tn": 322,
+      "short_exercise_fp": 0,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 5,
+          "total": 6,
+          "recall": 0.1667
+        }
+      }
+    },
+    "ast_raw": {
+      "label": "AST sequence (raw)",
+      "threshold": 0.7857,
+      "precision": 0.6571,
+      "recall": 0.6765,
+      "f1": 0.6667,
+      "pr_auc": 0.7387,
+      "tp": 23,
+      "fp": 12,
+      "fn": 11,
+      "tn": 329,
+      "short_exercise_fp": 6,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        },
+        "for_to_while": {
+          "caught": 2,
+          "missed": 3,
+          "total": 5,
+          "recall": 0.4
+        },
+        "dead_code": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 5,
+          "total": 6,
+          "recall": 0.1667
+        }
+      }
+    },
+    "ast_adj": {
+      "label": "AST sequence (exercise-adjusted)",
+      "threshold": 1.0916,
+      "precision": 0.551,
+      "recall": 0.7941,
+      "f1": 0.6506,
+      "pr_auc": 0.798,
+      "tp": 27,
+      "fp": 22,
+      "fn": 7,
+      "tn": 319,
+      "short_exercise_fp": 0,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 5,
+          "missed": 1,
+          "total": 6,
+          "recall": 0.8333
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 5,
+          "total": 6,
+          "recall": 0.1667
+        }
+      }
+    },
+    "embedding_raw": {
+      "label": "Embedding bge-small (raw)",
+      "threshold": 0.9542,
+      "precision": 0.7778,
+      "recall": 0.6176,
+      "f1": 0.6885,
+      "pr_auc": 0.7312,
+      "tp": 21,
+      "fp": 6,
+      "fn": 13,
+      "tn": 335,
+      "short_exercise_fp": 0,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 1,
+          "missed": 5,
+          "total": 6,
+          "recall": 0.1667
+        },
+        "rename": {
+          "caught": 0,
+          "missed": 6,
+          "total": 6,
+          "recall": 0.0
+        },
+        "reorder_lines": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        }
+      }
+    },
+    "embedding_adj": {
+      "label": "Embedding bge-small (exercise-adjusted)",
+      "threshold": 1.3207,
+      "precision": 0.6111,
+      "recall": 0.6471,
+      "f1": 0.6286,
+      "pr_auc": 0.7406,
+      "tp": 22,
+      "fp": 14,
+      "fn": 12,
+      "tn": 327,
+      "short_exercise_fp": 0,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 2,
+          "missed": 4,
+          "total": 6,
+          "recall": 0.3333
+        },
+        "rename": {
+          "caught": 0,
+          "missed": 6,
+          "total": 6,
+          "recall": 0.0
+        },
+        "reorder_lines": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "split_merge": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        }
+      }
+    },
+    "combined_raw": {
+      "label": "Combined logistic (raw only)",
+      "threshold": 0.3417,
+      "precision": 0.8108,
+      "recall": 0.8824,
+      "f1": 0.8451,
+      "pr_auc": 0.89,
+      "tp": 30,
+      "fp": 7,
+      "fn": 4,
+      "tn": 334,
+      "short_exercise_fp": 1,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 5,
+          "missed": 1,
+          "total": 6,
+          "recall": 0.8333
+        },
+        "split_merge": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        }
+      }
+    },
+    "combined": {
+      "label": "Combined logistic (exercise-adjusted)",
+      "threshold": 0.6338,
+      "precision": 0.8929,
+      "recall": 0.7353,
+      "f1": 0.8065,
+      "pr_auc": 0.9421,
+      "tp": 25,
+      "fp": 3,
+      "fn": 9,
+      "tn": 338,
+      "short_exercise_fp": 0,
+      "by_disguise": {
+        "comments_whitespace": {
+          "caught": 5,
+          "missed": 1,
+          "total": 6,
+          "recall": 0.8333
+        },
+        "rename": {
+          "caught": 6,
+          "missed": 0,
+          "total": 6,
+          "recall": 1.0
+        },
+        "reorder_lines": {
+          "caught": 4,
+          "missed": 1,
+          "total": 5,
+          "recall": 0.8
+        },
+        "for_to_while": {
+          "caught": 5,
+          "missed": 0,
+          "total": 5,
+          "recall": 1.0
+        },
+        "dead_code": {
+          "caught": 4,
+          "missed": 2,
+          "total": 6,
+          "recall": 0.6667
+        },
+        "split_merge": {
+          "caught": 1,
+          "missed": 5,
+          "total": 6,
+          "recall": 0.1667
+        }
+      }
+    }
+  },
+  "false_positive_control_gain_test": {
+    "token": {
+      "f1_delta": 0.002,
+      "pr_auc_delta": 0.0774,
+      "fp_before": 9,
+      "fp_after": 19,
+      "short_fp_before": 1,
+      "short_fp_after": 0
+    },
+    "ast": {
+      "f1_delta": -0.0161,
+      "pr_auc_delta": 0.0593,
+      "fp_before": 12,
+      "fp_after": 22,
+      "short_fp_before": 6,
+      "short_fp_after": 0
+    },
+    "embedding": {
+      "f1_delta": -0.0599,
+      "pr_auc_delta": 0.0094,
+      "fp_before": 6,
+      "fp_after": 14,
+      "short_fp_before": 0,
+      "short_fp_after": 0
+    }
+  },
+  "combined_fp_control_gain_test": {
+    "f1_delta": -0.0386,
+    "pr_auc_delta": 0.0521,
+    "fp_before": 7,
+    "fp_after": 3,
+    "short_fp_before": 1,
+    "short_fp_after": 0
+  },
+  "flagged_test_pairs": [
+    {
+      "pair_id": "iterating_lists-03__s01__iterating_lists-03__s04",
+      "exercise_id": "iterating_lists-03",
+      "sub_a": "iterating_lists-03__s01",
+      "sub_b": "iterating_lists-03__s04",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9994,
+      "token_raw": 1.0,
+      "token_adj": 4.3822,
+      "ast_raw": 1.0,
+      "ast_adj": 2.5439,
+      "embedding_raw": 0.9483,
+      "embedding_adj": 2.1265,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "comments_whitespace"
+    },
+    {
+      "pair_id": "nested_loops-02__s02__nested_loops-02__s06",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s02",
+      "sub_b": "nested_loops-02__s06",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9993,
+      "token_raw": 1.0,
+      "token_adj": 3.3516,
+      "ast_raw": 1.0,
+      "ast_adj": 2.7376,
+      "embedding_raw": 0.9997,
+      "embedding_adj": 2.464,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "reorder_lines"
+    },
+    {
+      "pair_id": "elif_else-01__s09__elif_else-01__s12",
+      "exercise_id": "elif_else-01",
+      "sub_a": "elif_else-01__s09",
+      "sub_b": "elif_else-01__s12",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9985,
+      "token_raw": 0.7778,
+      "token_adj": 3.0074,
+      "ast_raw": 0.9538,
+      "ast_adj": 2.4469,
+      "embedding_raw": 0.9971,
+      "embedding_adj": 2.4159,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "reorder_lines"
+    },
+    {
+      "pair_id": "nested_data-02__s09__nested_data-02__s10",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s09",
+      "sub_b": "nested_data-02__s10",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9981,
+      "token_raw": 0.8182,
+      "token_adj": 3.2121,
+      "ast_raw": 0.9485,
+      "ast_adj": 2.6845,
+      "embedding_raw": 0.9871,
+      "embedding_adj": 2.0189,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "dead_code"
+    },
+    {
+      "pair_id": "nested_loops-02__s03__nested_loops-02__s05",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s03",
+      "sub_b": "nested_loops-02__s05",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9975,
+      "token_raw": 1.0,
+      "token_adj": 3.2986,
+      "ast_raw": 1.0,
+      "ast_adj": 2.6943,
+      "embedding_raw": 0.9682,
+      "embedding_adj": 1.8785,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "comments_whitespace"
+    },
+    {
+      "pair_id": "while_loops-04__s01__while_loops-04__s11",
+      "exercise_id": "while_loops-04",
+      "sub_a": "while_loops-04__s01",
+      "sub_b": "while_loops-04__s11",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9969,
+      "token_raw": 1.0,
+      "token_adj": 4.1218,
+      "ast_raw": 1.0,
+      "ast_adj": 2.9056,
+      "embedding_raw": 0.9264,
+      "embedding_adj": 1.0882,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "comments_whitespace"
+    },
+    {
+      "pair_id": "nested_data-02__s03__nested_data-02__s07",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s03",
+      "sub_b": "nested_data-02__s07",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.995,
+      "token_raw": 1.0,
+      "token_adj": 3.7677,
+      "ast_raw": 1.0,
+      "ast_adj": 2.756,
+      "embedding_raw": 0.9336,
+      "embedding_adj": 1.0595,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "comments_whitespace"
+    },
+    {
+      "pair_id": "while_loops-04__s04__while_loops-04__s08",
+      "exercise_id": "while_loops-04",
+      "sub_a": "while_loops-04__s04",
+      "sub_b": "while_loops-04__s08",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9945,
+      "token_raw": 0.6087,
+      "token_adj": 2.47,
+      "ast_raw": 0.9263,
+      "ast_adj": 2.6303,
+      "embedding_raw": 0.9891,
+      "embedding_adj": 2.1942,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "for_to_while"
+    },
+    {
+      "pair_id": "while_loops-04__s09__while_loops-04__s12",
+      "exercise_id": "while_loops-04",
+      "sub_a": "while_loops-04__s09",
+      "sub_b": "while_loops-04__s12",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9941,
+      "token_raw": 0.6452,
+      "token_adj": 2.7177,
+      "ast_raw": 0.9134,
+      "ast_adj": 2.648,
+      "embedding_raw": 0.9773,
+      "embedding_adj": 2.0554,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "dead_code"
+    },
+    {
+      "pair_id": "elif_else-01__s07__elif_else-01__s08",
+      "exercise_id": "elif_else-01",
+      "sub_a": "elif_else-01__s07",
+      "sub_b": "elif_else-01__s08",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9907,
+      "token_raw": 1.0,
+      "token_adj": 3.8979,
+      "ast_raw": 1.0,
+      "ast_adj": 2.5971,
+      "embedding_raw": 0.9071,
+      "embedding_adj": 0.9416,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "comments_whitespace"
+    },
+    {
+      "pair_id": "elif_else-01__s02__elif_else-01__s06",
+      "exercise_id": "elif_else-01",
+      "sub_a": "elif_else-01__s02",
+      "sub_b": "elif_else-01__s06",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9697,
+      "token_raw": 1.0,
+      "token_adj": 3.8435,
+      "ast_raw": 1.0,
+      "ast_adj": 2.5608,
+      "embedding_raw": 0.8782,
+      "embedding_adj": 0.4743,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "rename"
+    },
+    {
+      "pair_id": "iterating_lists-03__s02__iterating_lists-03__s05",
+      "exercise_id": "iterating_lists-03",
+      "sub_a": "iterating_lists-03__s02",
+      "sub_b": "iterating_lists-03__s05",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9646,
+      "token_raw": 0.2759,
+      "token_adj": 1.1335,
+      "ast_raw": 0.8421,
+      "ast_adj": 2.0771,
+      "embedding_raw": 0.9967,
+      "embedding_adj": 2.9845,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "reorder_lines"
+    },
+    {
+      "pair_id": "iterating_lists-03__s06__iterating_lists-03__s07",
+      "exercise_id": "iterating_lists-03",
+      "sub_a": "iterating_lists-03__s06",
+      "sub_b": "iterating_lists-03__s07",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9616,
+      "token_raw": 1.0,
+      "token_adj": 4.631,
+      "ast_raw": 1.0,
+      "ast_adj": 2.6883,
+      "embedding_raw": 0.8179,
+      "embedding_adj": 0.5631,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "rename"
+    },
+    {
+      "pair_id": "while_loops-04__s02__while_loops-04__s07",
+      "exercise_id": "while_loops-04",
+      "sub_a": "while_loops-04__s02",
+      "sub_b": "while_loops-04__s07",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9609,
+      "token_raw": 1.0,
+      "token_adj": 4.1218,
+      "ast_raw": 1.0,
+      "ast_adj": 2.9056,
+      "embedding_raw": 0.8603,
+      "embedding_adj": -0.0135,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "rename"
+    },
+    {
+      "pair_id": "iterating_lists-03__s09__iterating_lists-03__s11",
+      "exercise_id": "iterating_lists-03",
+      "sub_a": "iterating_lists-03__s09",
+      "sub_b": "iterating_lists-03__s11",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9544,
+      "token_raw": 0.2857,
+      "token_adj": 1.1344,
+      "ast_raw": 0.7941,
+      "ast_adj": 1.782,
+      "embedding_raw": 0.9949,
+      "embedding_adj": 2.8374,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "for_to_while"
+    },
+    {
+      "pair_id": "nested_loops-02__s04__nested_loops-02__s09",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s04",
+      "sub_b": "nested_loops-02__s09",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9353,
+      "token_raw": 0.4762,
+      "token_adj": 1.1982,
+      "ast_raw": 0.7654,
+      "ast_adj": 1.5002,
+      "embedding_raw": 0.9967,
+      "embedding_adj": 2.3395,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "for_to_while"
+    },
+    {
+      "pair_id": "nested_data-02__s04__nested_data-02__s05",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s04",
+      "sub_b": "nested_data-02__s05",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9295,
+      "token_raw": 0.5,
+      "token_adj": 1.5877,
+      "ast_raw": 0.878,
+      "ast_adj": 2.0495,
+      "embedding_raw": 0.9727,
+      "embedding_adj": 1.5542,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "split_merge"
+    },
+    {
+      "pair_id": "nested_data-02__s01__nested_data-02__s02",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s01",
+      "sub_b": "nested_data-02__s02",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9293,
+      "token_raw": 0.4091,
+      "token_adj": 1.3559,
+      "ast_raw": 0.7368,
+      "ast_adj": 1.5917,
+      "embedding_raw": 0.9917,
+      "embedding_adj": 2.0041,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "for_to_while"
+    },
+    {
+      "pair_id": "nested_data-02__s08__nested_data-02__s12",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s08",
+      "sub_b": "nested_data-02__s12",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9286,
+      "token_raw": 1.0,
+      "token_adj": 3.7492,
+      "ast_raw": 1.0,
+      "ast_adj": 2.7425,
+      "embedding_raw": 0.8625,
+      "embedding_adj": -0.0552,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "rename"
+    },
+    {
+      "pair_id": "nested_loops-02__s01__nested_loops-02__s12",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s01",
+      "sub_b": "nested_loops-02__s12",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.9271,
+      "token_raw": 1.0,
+      "token_adj": 3.315,
+      "ast_raw": 1.0,
+      "ast_adj": 2.7077,
+      "embedding_raw": 0.8803,
+      "embedding_adj": 0.3569,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "rename"
+    },
+    {
+      "pair_id": "iterating_lists-03__s08__iterating_lists-03__s10",
+      "exercise_id": "iterating_lists-03",
+      "sub_a": "iterating_lists-03__s08",
+      "sub_b": "iterating_lists-03__s10",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.8881,
+      "token_raw": 0.2778,
+      "token_adj": 1.0185,
+      "ast_raw": 0.7879,
+      "ast_adj": 1.6312,
+      "embedding_raw": 0.9768,
+      "embedding_adj": 2.4208,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "dead_code"
+    },
+    {
+      "pair_id": "elif_else-01__s03__elif_else-01__s10",
+      "exercise_id": "elif_else-01",
+      "sub_a": "elif_else-01__s03",
+      "sub_b": "elif_else-01__s10",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.8725,
+      "token_raw": 0.3333,
+      "token_adj": 1.1276,
+      "ast_raw": 0.6842,
+      "ast_adj": 1.3438,
+      "embedding_raw": 0.9807,
+      "embedding_adj": 2.2393,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "for_to_while"
+    },
+    {
+      "pair_id": "nested_data-02__s06__nested_data-02__s11",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s06",
+      "sub_b": "nested_data-02__s11",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.8648,
+      "token_raw": 0.2857,
+      "token_adj": 0.8662,
+      "ast_raw": 0.7865,
+      "ast_adj": 1.8809,
+      "embedding_raw": 0.9903,
+      "embedding_adj": 2.047,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "reorder_lines"
+    },
+    {
+      "pair_id": "modulo-02__s03__modulo-02__s06",
+      "exercise_id": "modulo-02",
+      "sub_a": "modulo-02__s03",
+      "sub_b": "modulo-02__s06",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.8635,
+      "token_raw": 1.0,
+      "token_adj": 2.9,
+      "ast_raw": 1.0,
+      "ast_adj": 2.0005,
+      "embedding_raw": 0.8809,
+      "embedding_adj": 0.6311,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "rename"
+    },
+    {
+      "pair_id": "nested_data-02__s11__nested_data-02__s12",
+      "exercise_id": "nested_data-02",
+      "sub_a": "nested_data-02__s11",
+      "sub_b": "nested_data-02__s12",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.7806,
+      "token_raw": 0.3636,
+      "token_adj": 1.1395,
+      "ast_raw": 0.7143,
+      "ast_adj": 1.4547,
+      "embedding_raw": 0.9691,
+      "embedding_adj": 1.6082,
+      "ground_truth_copied": false,
+      "ground_truth_disguise": null
+    },
+    {
+      "pair_id": "nested_loops-02__s08__nested_loops-02__s11",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s08",
+      "sub_b": "nested_loops-02__s11",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.7747,
+      "token_raw": 0.4828,
+      "token_adj": 1.2119,
+      "ast_raw": 0.8046,
+      "ast_adj": 1.6766,
+      "embedding_raw": 0.9562,
+      "embedding_adj": 1.631,
+      "ground_truth_copied": true,
+      "ground_truth_disguise": "dead_code"
+    },
+    {
+      "pair_id": "nested_loops-02__s01__nested_loops-02__s09",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s01",
+      "sub_b": "nested_loops-02__s09",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.6957,
+      "token_raw": 0.5789,
+      "token_adj": 1.606,
+      "ast_raw": 0.6585,
+      "ast_adj": 0.9761,
+      "embedding_raw": 0.9407,
+      "embedding_adj": 1.387,
+      "ground_truth_copied": false,
+      "ground_truth_disguise": null
+    },
+    {
+      "pair_id": "nested_loops-02__s01__nested_loops-02__s08",
+      "exercise_id": "nested_loops-02",
+      "sub_a": "nested_loops-02__s01",
+      "sub_b": "nested_loops-02__s08",
+      "status": "Possible copying - needs teacher review",
+      "combined": 0.675,
+      "token_raw": 0.4348,
+      "token_adj": 1.0256,
+      "ast_raw": 0.5641,
+      "ast_adj": 0.5026,
+      "embedding_raw": 0.9717,
+      "embedding_adj": 1.8941,
+      "ground_truth_copied": false,
+      "ground_truth_disguise": null
+    }
+  ]
+}
