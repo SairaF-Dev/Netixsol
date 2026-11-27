@@ -1,0 +1,27 @@
+# What the web server needs (Linux, e.g. the GitHub codespace). Versions = requirements.lock.txt.
+# Not here: Whisper, slide extraction, Jupyter, pyBKT and pytest (offline research and tests).
+# torch from the CPU-only index: the CUDA build is several GB and the server has no GPU.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.15.0
+numpy==2.4.6
+pandas==3.1.1
+scipy==1.17.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+networkx==3.6.1
+PyYAML==6.0.4
+pydantic==2.14.4
+python-dotenv==1.2.4
+chromadb==1.5.9
+rank-bm25==0.2.2
+sentence-transformers==6.3.0
+google-genai==3.6.1
+lightgbm==4.7.0
+shap==0.51.0
+ruff==0.17.6
+pylint==4.1.4
+radon==6.0.1
+fastapi==0.165.0
+uvicorn==0.54.0
+PyJWT==2.15.1
+bcrypt==5.0.0

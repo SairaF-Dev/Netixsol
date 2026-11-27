@@ -1,0 +1,2 @@
+# shell scripts run on Linux (the codespace): always LF, never CRLF
+*.sh text eol=lf

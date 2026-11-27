@@ -1,0 +1,43 @@
+// GitHub Codespace for the Week 13 Ilm Academy platform (the free live link).
+// Pick "Week13 Ilm Academy" when creating the codespace. Steps and secrets:
+// Week13/ilm_academy/docs/deployment.md
+{
+  "name": "Week13 Ilm Academy",
+  // Python 3.11 base image with the expired-Yarn-key fix (see Dockerfile)
+  "build": { "dockerfile": "Dockerfile" },
+
+  // 2 cores / 8 GB: API + search model + one sandbox container at a time fit easily
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+
+  "features": {
+    // student code runs in Docker containers (the sandbox), so Docker must run inside the codespace
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    // builds the React app (Vite 8 needs Node 20.19+)
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    // lets `gh codespace ssh` check the app from a laptop
+    "ghcr.io/devcontainers/features/sshd:1": {}
+  },
+
+  // once, when the codespace is created: libraries, web build, search index, class data, sandbox image
+  "onCreateCommand": "bash Week13/ilm_academy/deploy/codespaces/setup.sh",
+
+  // on every start: starts the platform in the background
+  "postStartCommand": "bash Week13/ilm_academy/deploy/codespaces/start.sh",
+
+  "forwardPorts": [8010],
+  "portsAttributes": {
+    "8010": { "label": "Ilm Academy", "onAutoForward": "notify" }
+  },
+
+  // GitHub asks for these when the codespace is created (values are never in the repo)
+  "secrets": {
+    "LLM_API_KEY": { "description": "Gemini API key for the tutor (Google AI Studio)." },
+    "ILM_DEMO_PASSWORD": { "description": "Password for the demo accounts ali, sara and teacher. Choose one and share it with reviewers." },
+    "ILM_JWT_SECRET": { "description": "Any long random text; signs login sessions. Optional: one is generated if empty." }
+  },
+
+  "customizations": {
+    "codespaces": { "openFiles": ["Week13/ilm_academy/docs/deployment.md"] },
+    "vscode": { "extensions": ["ms-python.python"] }
+  }
+}

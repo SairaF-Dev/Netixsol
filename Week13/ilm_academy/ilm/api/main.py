@@ -245,3 +245,24 @@ def tutor_safety(user: User = Depends(require("teacher"))):
 @app.get("/api/impact")
 def impact(user: User = Depends(require("teacher"))):
     return insights.impact()
+
+
+# ------------------------------------------------------------------ the web app ----
+# In production the API also serves the built React app (web/dist), so the whole platform is one
+# address and the session cookie stays same-origin. Any path that is not /api/... gets index.html,
+# so reloading /student/path works. In dev, Vite serves the app instead (web/vite.config.ts).
+_DIST = config.PROJECT_ROOT / "web" / "dist"
+if _DIST.exists():
+    from fastapi.responses import FileResponse
+    from fastapi.staticfiles import StaticFiles
+
+    app.mount("/assets", StaticFiles(directory=_DIST / "assets"), name="assets")
+
+    @app.get("/{path:path}", include_in_schema=False)
+    def web_app(path: str):
+        if path.startswith("api/"):
+            raise HTTPException(404, "Not found.")
+        f = (_DIST / path).resolve()
+        if path and f.is_file() and _DIST.resolve() in f.parents:      # favicon.svg etc., never outside dist
+            return FileResponse(f)
+        return FileResponse(_DIST / "index.html")

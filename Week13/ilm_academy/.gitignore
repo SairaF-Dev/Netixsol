@@ -21,6 +21,8 @@ data/processed/assistments/*
 !data/processed/assistments/cleaning_report.json
 models/*
 !models/.gitkeep
+# fitted on the SIMULATED students (ilm/tracing/mastery.py); the app needs it at run time
+!models/bkt_concept_params.csv
 
 # OS / editor
 .DS_Store
