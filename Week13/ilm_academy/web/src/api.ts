@@ -114,6 +114,10 @@ export const api = {
   submit: (exercise: string, code: string) =>
     call<{ id: string }>('/submissions', { method: 'POST', body: JSON.stringify({ exercise, code }) }),
   submission: (id: string) => call<Submission>(`/submissions/${encodeURIComponent(id)}`),
+  tutorAsk: (message: string, language = 'auto') =>
+    call<TutorReply>('/tutor/ask', { method: 'POST', body: JSON.stringify({ message, language }) }),
+  tutorHint: (exercise: string, code: string, level: number, language = 'auto') =>
+    call<TutorReply>('/tutor/hint', { method: 'POST', body: JSON.stringify({ exercise, code, level, language }) }),
 }
 
 // ---------------- teacher ----------------
@@ -181,4 +185,16 @@ export const teacherApi = {
     call<{ item: string; decision: string }>(`/review/${encodeURIComponent(id)}`, {
       method: 'POST', body: JSON.stringify({ decision, note }),
     }),
+}
+
+// ---------------- tutor ----------------
+export interface TutorReply {
+  text: string
+  sources: { title: string; url: string }[]
+  grounded: boolean
+  language: string
+  level: number | null
+  level_name: string | null
+  exercise: string | null
+  leak_blocked: boolean
 }

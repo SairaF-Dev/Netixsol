@@ -136,3 +136,76 @@ def test_reasons_are_written_in_words():
     assert in_words("acc_last10", 0.3) == "3 of the last 10 answers right"
     assert in_words("days_since_last", 9) == "no answers for 9 days"
     assert in_words("acc_last10", float("nan")) is None                 # no value: no reason text
+
+
+# ------------------------------------------------------------------ tutor ----
+class FakeTutor:
+    def __init__(self, fail=None):
+        self.fail, self.calls = fail, []
+
+    def ask(self, message, mastery=None, language="auto"):
+        from ilm.tutor.tutor import Reply
+        self.calls.append(("ask", message, mastery))
+        if self.fail:
+            raise self.fail
+        return Reply("A base case stops the recursion.", [{"title": "Recursion (video 3:29)", "url": "u"}])
+
+    def hint(self, qid, student_code="", message="", level=1, mastery=None, language="auto"):
+        from ilm.tutor.tutor import Reply
+        self.calls.append(("hint", qid, level))
+        return Reply("What should factorial(0) return?", [], level=level, exercise=qid)
+
+
+@pytest.fixture
+def tutor(monkeypatch):
+    from ilm.api import tutor_api
+    fake = FakeTutor()
+    monkeypatch.setattr(tutor_api, "_tutor", fake)
+    tutor_api._calls.clear()
+    return fake
+
+
+def test_tutor_answers_with_sources_and_the_students_mastery(client, tutor):
+    login(client)
+    r = client.post("/api/tutor/ask", json={"message": "what is a base case?"}).json()
+    assert r["sources"][0]["title"].startswith("Recursion") and tutor.calls[0][2]      # mastery from the plan
+    h = client.post("/api/tutor/hint", json={"exercise": "recursion-03", "level": 2}).json()
+    assert h["level"] == 2 and h["level_name"] == "concept pointer"
+
+
+def test_tutor_is_for_students_and_validates_input(client, tutor):
+    login(client, "teacher")
+    assert client.post("/api/tutor/ask", json={"message": "hi"}).status_code == 403
+    login(client)
+    assert client.post("/api/tutor/hint", json={"exercise": "recursion-03", "level": 9}).status_code == 422
+    assert client.post("/api/tutor/hint", json={"exercise": "nope-01", "level": 1}).status_code == 404
+
+
+def test_tutor_limit_and_honest_unavailable_message(client, tutor, monkeypatch):
+    from ilm.api import tutor_api
+    login(client)
+    monkeypatch.setattr(tutor_api, "PER_MINUTE", 1)
+    assert client.post("/api/tutor/ask", json={"message": "a"}).status_code == 200
+    assert client.post("/api/tutor/ask", json={"message": "b"}).status_code == 429
+    tutor_api._calls.clear()
+    monkeypatch.setattr(tutor_api, "_tutor", FakeTutor(fail=RuntimeError("429 RESOURCE_EXHAUSTED")))
+    r = client.post("/api/tutor/ask", json={"message": "c"})
+    assert r.status_code == 503 and "limit" in r.json()["detail"]
+
+
+def test_tutor_log_keeps_no_student_text(client, tutor):
+    login(client)
+    client.post("/api/tutor/ask", json={"message": "MY PRIVATE QUESTION"})
+    import sqlite3
+    rows = sqlite3.connect(config.API_DB).execute("SELECT * FROM tutor_log").fetchall()
+    assert rows and "MY PRIVATE QUESTION" not in str(rows)
+
+
+def test_starter_shows_the_signature_but_no_line_of_the_answer():
+    q = service.bank()["recursion-03"]
+    s = service.starter_code(q)
+    assert s.startswith("def factorial(n):") and "return" not in s
+    for qid, q in service.bank().items():
+        if q.type == "code":
+            body = [l for l in service.starter_code(q).splitlines()[1:] if l.strip() and l.strip() != "..."]
+            assert not body or q.starter, qid           # nothing beyond the header unless the bank wrote a starter

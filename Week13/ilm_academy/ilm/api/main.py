@@ -13,13 +13,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ilm import config
-from ilm.api import classroom, review, service
+from ilm.api import classroom, review, service, tutor_api
 from ilm.api.auth import COOKIE, SESSION_SEC, User, check_password, current_user, make_token, require
 
 
 @asynccontextmanager
 async def lifespan(_app):
     service.warm_up()          # the first student should not wait for the search model to load
+    tutor_api.warm_up()
     yield
 
 
@@ -110,6 +111,42 @@ def submission(sid: str, user: User = Depends(require("student"))):
     if s is None:
         raise HTTPException(404, "No such submission.")
     return s
+
+
+# ------------------------------------------------------------------ tutor ----
+class AskIn(BaseModel):
+    message: str = Field(min_length=1, max_length=1500)
+    language: str = Field(default="auto", pattern="^(auto|english|urdulish)$")
+
+
+class HintIn(BaseModel):
+    exercise: str = Field(max_length=60)
+    code: str = Field(default="", max_length=service.MAX_CODE_CHARS)
+    message: str = Field(default="", max_length=1500)
+    level: int = Field(default=1, ge=1, le=4)
+    language: str = Field(default="auto", pattern="^(auto|english|urdulish)$")
+
+
+def _tutor_call(fn):
+    try:
+        return fn()
+    except tutor_api.TutorLimited as e:
+        raise HTTPException(429, str(e))
+    except tutor_api.TutorUnavailable as e:
+        raise HTTPException(503, str(e))
+    except KeyError:
+        raise HTTPException(404, "No such exercise.")
+
+
+@app.post("/api/tutor/ask")
+def tutor_ask(body: AskIn, user: User = Depends(require("student"))):
+    return _tutor_call(lambda: tutor_api.ask(user.username, user.learner, body.message, body.language))
+
+
+@app.post("/api/tutor/hint")
+def tutor_hint(body: HintIn, user: User = Depends(require("student"))):
+    return _tutor_call(lambda: tutor_api.hint(user.username, user.learner, body.exercise, body.code,
+                                              body.message, body.level, body.language))
 
 
 # ------------------------------------------------------------------ teacher ----

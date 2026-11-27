@@ -1,7 +1,8 @@
-import { BookOpen, ClipboardCheck, Code2, LayoutGrid, LogOut, Route as RouteIcon, UserRoundX } from "lucide-react"
+import { BookOpen, ClipboardCheck, Code2, LayoutGrid, LogOut, MessageCircleQuestion, Route as RouteIcon, UserRoundX } from "lucide-react"
 import type { ReactNode } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useLogout, useMe } from '../auth'
+import { TutorPanel, TutorProvider, useTutor, useTutorOptional } from './Tutor'
 
 interface Item { to: string; label: string; icon: ReactNode; end?: boolean }
 
@@ -28,11 +29,22 @@ function Brand() {
   )
 }
 
-function Shell({ items, area }: { items: Item[]; area: string }) {
+function AskButton({ className, label }: { className: string; label: string }) {
+  const { open, setOpen } = useTutor()
+  return (
+    <button className={className} onClick={() => setOpen(!open)} aria-pressed={open} aria-label="Ask the tutor">
+      <MessageCircleQuestion size={18} strokeWidth={1.5} />
+      <span>{label}</span>
+    </button>
+  )
+}
+
+function Shell({ items, area, tutor = false }: { items: Item[]; area: string; tutor?: boolean }) {
   const { data: me } = useMe()
   const logout = useLogout()
+  const tutorState = useTutorOptional()
   return (
-    <div className="shell">
+    <div className={`shell${tutorState?.open ? ' tutor-open' : ''}`}>
       <aside className="sidebar" aria-label={`${area} navigation`}>
         <Brand />
         <nav className="side-nav">
@@ -42,6 +54,7 @@ function Shell({ items, area }: { items: Item[]; area: string }) {
               <span>{i.label}</span>
             </NavLink>
           ))}
+          {tutor && <AskButton className="side-link side-ask" label="Ask the tutor" />}
         </nav>
         <div className="side-foot">
           <div className="side-user">
@@ -74,14 +87,20 @@ function Shell({ items, area }: { items: Item[]; area: string }) {
               <span>{i.label}</span>
             </NavLink>
           ))}
+          {tutor && <AskButton className="tab-link tab-ask" label="Ask" />}
         </nav>
       )}
+      {tutor && <TutorPanel />}
     </div>
   )
 }
 
 export function StudentShell() {
-  return <Shell items={STUDENT} area="Student" />
+  return (
+    <TutorProvider>
+      <Shell items={STUDENT} area="Student" tutor />
+    </TutorProvider>
+  )
 }
 
 export function TeacherShell() {

@@ -6,6 +6,7 @@ import { ApiError, api, type Exercise as Ex, type Result, type Submission } from
 import { useMe } from '../../auth'
 import CodeEditor from '../../components/CodeEditor'
 import Inline from '../../components/Inline'
+import { useTutor } from '../../components/Tutor'
 import { ago } from '../../format'
 
 type Tab = 'task' | 'code' | 'result'
@@ -47,6 +48,15 @@ function Workspace({ ex }: { ex: Ex }) {
     refetchInterval: (q) => (q.state.data && ['done', 'error'].includes(q.state.data.status) ? false : 700),
   })
   const running = !!runId && (!run.data || ['queued', 'running'].includes(run.data.status))
+
+  // tell the tutor which exercise, code and last result the student is looking at
+  const tutor = useTutor()
+  const lastRun = run.data?.status === 'done' && run.data.result ? `${run.data.result.passed} of ${run.data.result.total} passed` : null
+  useEffect(() => {
+    tutor.setContext({ exercise: ex.id, fn: ex.function, code: draft.code, lastRun })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ex.id, ex.function, draft.code, lastRun])
+  useEffect(() => () => tutor.setContext(null), [])  // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (run.data && ['done', 'error'].includes(run.data.status)) {
@@ -212,6 +222,8 @@ function ResultView({ r, seconds }: { r: Result; seconds: number | null }) {
         </div>
       )}
 
+      {!allPass && <AskAbout />}
+
       {r.lesson && (
         <p className="lesson-link">
           Rewatch: <a href={r.lesson.url} target="_blank" rel="noreferrer">{r.lesson.title}</a>
@@ -219,4 +231,9 @@ function ResultView({ r, seconds }: { r: Result; seconds: number | null }) {
       )}
     </div>
   )
+}
+
+function AskAbout() {
+  const { requestHint } = useTutor()
+  return <button className="btn ask-about" onClick={requestHint}>Ask the tutor for a hint</button>
 }

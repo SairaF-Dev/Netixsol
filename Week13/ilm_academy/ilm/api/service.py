@@ -75,9 +75,18 @@ def exercise_detail(qid: str) -> dict | None:
     if q is None or q.type != "code":
         return None
     visible = [{"call": t.call, "expect": t.expect, "raises": t.raises} for t in q.tests if not t.hidden]
-    starter = q.starter or f"def {q.function}():\n    ...\n"
-    return {**exercise_summary(q), "stem": q.stem, "code": q.code, "starter": starter,
+    return {**exercise_summary(q), "stem": q.stem, "code": q.code, "starter": starter_code(q),
             "visible_tests": visible, "hidden_tests": hidden_count(q)}
+
+
+def starter_code(q) -> str:
+    """The bank's starter, else ONLY the header line of the reference solution (its parameters,
+    not a line of the answer): `def factorial(n):` rather than a misleading `def factorial():`."""
+    if q.starter:
+        return q.starter
+    import re
+    head = re.search(r"^((?:def|class) \w+.*:)\s*$", q.solution, flags=re.M)
+    return f"{head.group(1)}\n    ...\n" if head else f"def {q.function}():\n    ...\n"
 
 
 def learner_plan(learner: str) -> dict | None:
