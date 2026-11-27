@@ -114,6 +114,9 @@ export const api = {
   submit: (exercise: string, code: string) =>
     call<{ id: string }>('/submissions', { method: 'POST', body: JSON.stringify({ exercise, code }) }),
   submission: (id: string) => call<Submission>(`/submissions/${encodeURIComponent(id)}`),
+  nextQuestion: (concept: string) => call<PracticeState>(`/practice/next?concept=${encodeURIComponent(concept)}`),
+  answer: (question: string, choice: number | null, text: string | null) =>
+    call<AnswerResult>('/answers', { method: 'POST', body: JSON.stringify({ question, choice, text }) }),
   tutorAsk: (message: string, language = 'auto') =>
     call<TutorReply>('/tutor/ask', { method: 'POST', body: JSON.stringify({ message, language }) }),
   tutorHint: (exercise: string, code: string, level: number, language = 'auto') =>
@@ -197,4 +200,25 @@ export interface TutorReply {
   level_name: string | null
   exercise: string | null
   leak_blocked: boolean
+}
+
+// ---------------- question practice ----------------
+export interface Mastery { p_known: number | null; mastered: boolean; answers: number }
+export interface PracticeQuestion { id: string; type: 'mcq' | 'short'; stem: string; code: string | null; difficulty: number; options?: string[] }
+export interface PracticeState {
+  concept: string
+  concept_name: string
+  total: number
+  done: number
+  mastery: Mastery
+  has_code_exercise: boolean
+  question: PracticeQuestion | null
+}
+export interface AnswerResult {
+  correct: boolean
+  right_answer: string
+  misconception: string | null
+  output: string | null
+  before: Mastery
+  after: Mastery
 }

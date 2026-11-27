@@ -209,3 +209,54 @@ def test_starter_shows_the_signature_but_no_line_of_the_answer():
         if q.type == "code":
             body = [l for l in service.starter_code(q).splitlines()[1:] if l.strip() and l.strip() != "..."]
             assert not body or q.starter, qid           # nothing beyond the header unless the bank wrote a starter
+
+
+# ------------------------------------------------------------------ question practice ----
+@pytest.fixture(autouse=True)
+def real_bkt_params(monkeypatch):
+    """Practice reads the fitted BKT parameters (read-only) from the real models/ folder."""
+    from ilm.api import practice
+    monkeypatch.setattr(config, "MODELS_DIR", config.PROJECT_ROOT / "models")
+    practice.bkt_params.cache_clear()
+    yield
+    practice.bkt_params.cache_clear()
+
+
+def test_questions_go_out_without_their_answer(client):
+    login(client)
+    r = client.get("/api/practice/next", params={"concept": "modulo"}).json()
+    q = r["question"]
+    assert q and "answer" not in q and "accept" not in q and "misconceptions" not in q
+    assert r["total"] >= 2 and r["mastery"]["p_known"] is not None
+
+
+def test_wrong_mcq_shows_its_misconception_and_moves_mastery(client):
+    """String methods: Ali's plan puts it at P(known) 0.14, so each answer visibly moves it."""
+    login(client)
+    bank_q = service.bank()["string_methods-01"]               # strip(): prints [Ada]
+    wrong = next(i for i in range(len(bank_q.options)) if i != bank_q.answer)
+    r = client.post("/api/answers", json={"question": bank_q.id, "choice": wrong}).json()
+    assert r["correct"] is False and r["misconception"] == bank_q.misconceptions[wrong]
+    assert r["right_answer"] == bank_q.options[bank_q.answer] == r["output"]        # what the code really prints
+    assert r["after"]["p_known"] < r["before"]["p_known"]
+    ok = client.post("/api/answers", json={"question": bank_q.id, "choice": bank_q.answer}).json()
+    assert ok["correct"] and ok["after"]["p_known"] > r["after"]["p_known"]
+    nxt = client.get("/api/practice/next", params={"concept": "string_methods"}).json()
+    assert nxt["done"] >= 1 and (nxt["question"] is None or nxt["question"]["id"] != bank_q.id)
+
+
+def test_short_answers_are_graded_leniently_and_bad_input_refused(client):
+    login(client)
+    assert client.post("/api/answers", json={"question": "program_basics-03", "text": " Print "}).json()["correct"]
+    assert client.post("/api/answers", json={"question": "program_basics-03", "text": ""}).status_code == 422
+    assert client.post("/api/answers", json={"question": "modulo-01", "choice": 7}).status_code == 422
+    assert client.post("/api/answers", json={"question": "recursion-03", "text": "x"}).status_code == 404   # code exercise
+
+
+def test_a_missed_question_comes_back_only_after_the_others(client):
+    login(client)
+    first = client.get("/api/practice/next", params={"concept": "string_methods"}).json()["question"]
+    q = service.bank()[first["id"]]
+    wrong = {"choice": next(i for i in range(len(q.options)) if i != q.answer)} if q.type == "mcq" else {"text": "zzz"}
+    client.post("/api/answers", json={"question": q.id, **wrong})
+    assert client.get("/api/practice/next", params={"concept": "string_methods"}).json()["question"]["id"] != q.id

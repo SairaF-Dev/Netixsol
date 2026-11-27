@@ -5,6 +5,7 @@ import { StudentShell, TeacherShell } from './components/Shell'
 import Login from './pages/Login'
 import PathPage from './pages/student/Path'
 import Practice from './pages/student/Practice'
+import QuestionPage from './pages/student/Question'
 import Today from './pages/student/Today'
 import AtRisk from './pages/teacher/AtRisk'
 import Overview from './pages/teacher/Overview'
@@ -31,6 +32,7 @@ export default function App() {
         <Route index element={<Today />} />
         <Route path="path" element={<PathPage />} />
         <Route path="practice" element={<Practice />} />
+        <Route path="question" element={<QuestionPage />} />
         <Route
           path="exercise/:id"
           element={<Suspense fallback={<div className="page"><p className="muted">Opening the editor…</p></div>}><ExercisePage /></Suspense>}

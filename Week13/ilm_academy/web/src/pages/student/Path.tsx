@@ -44,7 +44,7 @@ export default function PathPage() {
                   </div>
                   <span className={`pill ${s.kind === 'learn' ? 'pill-accent' : ''}`}>{s.kind === 'learn' ? 'Learn' : 'Quick check'}</span>
                   <span className="small muted num path-min">{minutes(s.est_minutes)}</span>
-                  <span className="path-action">{!locked && <Link className="btn btn-ghost" to={`/student/practice?concept=${s.concept}`}>Open</Link>}</span>
+                  <span className="path-action">{!locked && <Link className="btn btn-ghost" to={`/student/question?concept=${s.concept}`}>Open</Link>}</span>
                 </li>
               )
             })}

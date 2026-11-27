@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ilm import config
-from ilm.api import classroom, review, service, tutor_api
+from ilm.api import classroom, practice, review, service, tutor_api
 from ilm.api.auth import COOKIE, SESSION_SEC, User, check_password, current_user, make_token, require
 
 
@@ -111,6 +111,30 @@ def submission(sid: str, user: User = Depends(require("student"))):
     if s is None:
         raise HTTPException(404, "No such submission.")
     return s
+
+
+# ------------------------------------------------------------------ question practice ----
+class AnswerIn(BaseModel):
+    question: str = Field(max_length=60)
+    choice: int | None = Field(default=None, ge=0, le=9)
+    text: str | None = Field(default=None, max_length=300)
+
+
+@app.get("/api/practice/next")
+def practice_next(concept: str, user: User = Depends(require("student"))):
+    if concept not in service.concepts():
+        raise HTTPException(404, "No such concept.")
+    return practice.next_question(user.username, user.learner, concept)
+
+
+@app.post("/api/answers")
+def practice_answer(body: AnswerIn, user: User = Depends(require("student"))):
+    try:
+        return practice.answer(user.username, user.learner, body.question, body.choice, body.text)
+    except KeyError:
+        raise HTTPException(404, "No such question.")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
 
 
 # ------------------------------------------------------------------ tutor ----

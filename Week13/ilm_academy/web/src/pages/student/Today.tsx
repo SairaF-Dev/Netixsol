@@ -30,7 +30,7 @@ export default function Today() {
               <p className="muted small">{next.lessons.map(lessonLabel).join(' · ')}</p>
             </div>
             <span className="muted num small">about {minutes(next.est_minutes)}</span>
-            <Link className="btn btn-primary" to={`/student/practice?concept=${next.concept}`}>Start</Link>
+            <Link className="btn btn-primary" to={`/student/question?concept=${next.concept}`}>Start</Link>
           </div>
         </section>
       )}
@@ -57,7 +57,7 @@ export default function Today() {
               <li key={name} className="row">
                 <span>{name}</span>
                 <span className="pill pill-warn">Weakest</span>
-                {step && <Link className="btn btn-ghost" to={`/student/practice?concept=${step.concept}`}>Practise</Link>}
+                {step && <Link className="btn btn-ghost" to={`/student/question?concept=${step.concept}`}>Practise</Link>}
               </li>
             )
           })}
@@ -79,7 +79,7 @@ function CheckRow({ step }: { step: PathStep }) {
     <li className="row">
       <span>{step.name}</span>
       <span className="muted small num">{minutes(step.est_minutes)}</span>
-      <Link className="btn btn-ghost" to={`/student/practice?concept=${step.concept}`}>Check</Link>
+      <Link className="btn btn-ghost" to={`/student/question?concept=${step.concept}`}>Check</Link>
     </li>
   )
 }

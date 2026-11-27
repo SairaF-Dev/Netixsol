@@ -35,12 +35,18 @@ export default function Practice() {
         </div>
       )}
 
-      {shown.length === 0 && (
-        <div className="panel empty">
-          <h2>No coding exercise for this concept yet</h2>
-          <p className="muted">It's practised with short questions instead, which come in the next update. Meanwhile, try a coding exercise from another concept.</p>
-          <button className="btn" onClick={() => setParams({})}>See all exercises</button>
+      {concept && (
+        <div className="panel q-link">
+          <div>
+            <h2>Questions on this concept</h2>
+            <p className="small muted">Short questions with instant feedback; your mastery updates as you answer.</p>
+          </div>
+          <Link className="btn btn-primary" to={`/student/question?concept=${concept}`}>Start questions</Link>
         </div>
+      )}
+
+      {concept && shown.length === 0 && (
+        <p className="muted">There is no coding exercise for this concept; the questions above cover it.</p>
       )}
 
       {[...groups.entries()].map(([lesson, items]) => (
