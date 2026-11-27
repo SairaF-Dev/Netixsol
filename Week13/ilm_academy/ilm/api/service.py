@@ -7,6 +7,7 @@ a whitelist: the grader's raw per-test results stay on the server.
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 import threading
 import time
@@ -19,7 +20,7 @@ import yaml
 from ilm import config
 
 MAX_CODE_CHARS = 20_000
-PER_MINUTE = 12                          # submissions per student per minute
+PER_MINUTE = int(os.getenv("ILM_SUBMIT_PER_MINUTE", "12"))   # per student; raised only for the load test
 _pool = ThreadPoolExecutor(max_workers=4)
 _db_lock = threading.Lock()
 _recent: dict[str, list[float]] = {}
