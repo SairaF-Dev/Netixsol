@@ -7,6 +7,7 @@ from it). Video links in the tutor use YouTube + timestamp.
 
 Run:  python -m ilm.content.download            (all lessons)
       python -m ilm.content.download --lessons cs50p-l5 mit6001-l6
+      python -m ilm.content.download --roles slides notes   (what the search index needs; no audio/video)
 """
 from __future__ import annotations
 
@@ -92,6 +93,7 @@ def download(url: str, dest: Path) -> str:
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lessons", nargs="*", help="lesson ids, e.g. cs50p-l5 mit6001-l6 (default: all)")
+    parser.add_argument("--roles", nargs="*", help="only these files, e.g. slides notes (default: all)")
     args = parser.parse_args(argv)
 
     for lesson in all_lessons():
@@ -100,6 +102,8 @@ def main(argv: list[str] | None = None) -> None:
         folder = lesson_dir(lesson)
         folder.mkdir(parents=True, exist_ok=True)
         for role, f in lesson_files(lesson).items():
+            if args.roles and role not in args.roles:
+                continue
             status = download(f["url"], folder / f["name"])
             size_mb = (folder / f["name"]).stat().st_size / 1e6
             print(f"{lesson['id']:11s} {role:9s} {f['name']:32s} {status:10s} {size_mb:8.1f} MB", flush=True)

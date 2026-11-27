@@ -12,7 +12,9 @@ python -m pip install -r requirements-server.txt
 echo "== 2/5 web app (web/dist)"
 (cd web && npm ci && npm run build)
 
-echo "== 3/5 course search index from the committed transcripts (data/processed/chroma)"
+echo "== 3/5 course search index (data/processed/chroma): transcripts are in git; slides and notes"
+echo "   are downloaded (CC BY-NC-SA, no audio/video) so the index has the same 1,093 chunks"
+python -m ilm.content.download --roles slides notes
 python -m ilm.content.index
 
 echo "== 4/5 the teacher's class (data/app/class_week3.json: dropout model + mastery)"
