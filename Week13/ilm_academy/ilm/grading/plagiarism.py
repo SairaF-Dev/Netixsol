@@ -518,6 +518,77 @@ def evaluate_detector(rows: list[dict], score_key: str, threshold: float) -> dic
     }
 
 
+# ------------------------------------------------------------------ 5b. Real classes: base rate & queue ----
+# The benchmark has 34 copied of 375 test pairs (9%). A real class has n(n-1)/2 pairs per
+# exercise but only a few copies, so a small false-alarm rate per honest pair turns into
+# most of the flags. Two answers: say how many flags a teacher would really get, and give
+# the teacher a fixed-size ranked queue instead of "everything over a threshold".
+CLASS_SCENARIOS = ((30, 2), (100, 5), (500, 15))     # (students, copied pairs per exercise): assumption
+QUEUE_KS = (1, 3, 5, 10)
+
+
+def expected_flags(false_alarm_rate: float, recall: float, students: int, copied: int) -> dict:
+    """Threshold flags expected on ONE exercise for a class of `students` with `copied` copied pairs."""
+    pairs = students * (students - 1) // 2
+    true_flags, false_flags = recall * copied, false_alarm_rate * (pairs - copied)
+    total = true_flags + false_flags
+    return {"students": students, "pairs": pairs, "copied_pairs": copied,
+            "expected_flags": round(total, 1), "true": round(true_flags, 1), "false": round(false_flags, 1),
+            "precision": round(true_flags / total, 3) if total else None}
+
+
+def review_queue(rows: list[dict], k: int, key: str = "combined") -> list[dict]:
+    """The teacher's queue: the k highest-scoring pairs of EACH exercise (fixed workload)."""
+    by_ex: dict[str, list[dict]] = {}
+    for r in rows:
+        by_ex.setdefault(r["exercise_id"], []).append(r)
+    out = []
+    for ex in sorted(by_ex):
+        out += sorted(by_ex[ex], key=lambda r: r[key], reverse=True)[:k]
+    return out
+
+
+def queue_metrics(rows: list[dict], k: int, key: str = "combined") -> dict:
+    q = review_queue(rows, k, key)
+    tp = sum(bool(r["copied"]) for r in q)
+    copies = sum(bool(r["copied"]) for r in rows)
+    return {"k_per_exercise": k, "reviewed": len(q), "true_in_queue": tp,
+            "precision_at_k": round(tp / len(q), 3) if q else None,
+            "recall_at_k": round(tp / copies, 3) if copies else None}
+
+
+def pick_k(dev_rows: list[dict], key: str = "combined") -> int:
+    """k with the best F1 of precision@k and recall@k on DEV (ties -> smaller k, less work)."""
+    def f1(m):
+        p, r = m["precision_at_k"] or 0, m["recall_at_k"] or 0
+        return 2 * p * r / (p + r) if p + r else 0
+    return max(QUEUE_KS, key=lambda k: (round(f1(queue_metrics(dev_rows, k, key)), 6), -k))
+
+
+def student_max_scores(rows: list[dict], key: str = "combined") -> list[dict]:
+    """Each student's single most similar pair: a per-student view for the teacher."""
+    best: dict[str, dict] = {}
+    for r in rows:
+        for me, other in ((r["sub_a"], r["sub_b"]), (r["sub_b"], r["sub_a"])):
+            if me not in best or r[key] > best[me]["score"]:
+                best[me] = {"student": me, "exercise_id": r["exercise_id"], "most_similar_to": other,
+                            "score": round(float(r[key]), 4)}
+    return sorted(best.values(), key=lambda x: x["score"], reverse=True)
+
+
+def honest_above_share(rows: list[dict], key: str = "combined") -> list[float]:
+    """For each copied pair: the share of HONEST pairs of the same exercise that score higher.
+    0.0 = it beats every honest pair we have (with ~50 honest pairs that is weak evidence for a
+    class with thousands)."""
+    out = []
+    for r in rows:
+        if not r["copied"]:
+            continue
+        honest = [h[key] for h in rows if h["exercise_id"] == r["exercise_id"] and not h["copied"]]
+        out.append(sum(h > r[key] for h in honest) / len(honest) if honest else 0.0)
+    return out
+
+
 # ------------------------------------------------------------------ 6. Teacher HTML view ----
 def _norm_line(line: str) -> str:
     """Normalise a single line's identifiers and literals for fallback visual alignment."""
@@ -571,8 +642,10 @@ def render_flagged_html(
     threshold: float,
     stems_by_exercise: dict[str, str] | None = None,
     split_label: str = "test",
+    queue_k: int | None = None,
 ) -> str:
-    """Build a self-contained side-by-side HTML review pack. Escapes all student code safely."""
+    """Build a self-contained side-by-side HTML review pack. Escapes all student code safely.
+    With `queue_k`, the rows are the ranked queue (top k per exercise), shown in score order."""
     stems = stems_by_exercise or {}
     sorted_rows = sorted(flagged_rows, key=lambda r: r.get("combined", 0.0), reverse=True)
 
@@ -615,6 +688,10 @@ def render_flagged_html(
 
     body = "\n".join(cards) if cards else '<p class="empty">No pairs crossed the review threshold.</p>'
     safe_split = html.escape(split_label, quote=True)
+    what = (f"Ranked review queue: the <strong>{int(queue_k)}</strong> most similar pairs of each exercise "
+            f"(<strong>{len(sorted_rows)}</strong> pairs). A fixed-size queue keeps the work the same however big "
+            "the class is; most pairs in it will be honest, especially on short exercises."
+            if queue_k else f"Flagged pairs: <strong>{len(sorted_rows)}</strong>.")
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -646,7 +723,7 @@ def render_flagged_html(
   <header>
     <h1>{html.escape(REVIEW_LABEL, quote=True)}</h1>
     <p class="policy">
-      Split: <strong>{safe_split}</strong> &middot; Flagged pairs: <strong>{len(sorted_rows)}</strong>.
+      Split: <strong>{safe_split}</strong> &middot; {what}
       High code similarity can also happen when an exercise is short or follows a standard lecture pattern.
       This tool never changes marks or applies penalties automatically; a teacher reviews both submissions and decides.
     </p>
@@ -759,8 +836,35 @@ def run_benchmark(
         "flagged_test_pairs": flagged_summary,
     }
 
+    # Real classes: base rate, and the fixed-size ranked queue (k chosen on DEV)
+    comb = test_metrics["combined"]
+    false_alarm_rate = comb["fp"] / max(comb["fp"] + comb["tn"], 1)
+    k = pick_k(dev_rows)
+    shares = honest_above_share(test_rows)
+    honest_per_ex = sorted(sum(1 for h in test_rows if h["exercise_id"] == ex and not h["copied"])
+                           for ex in {r["exercise_id"] for r in test_rows})
+    queue = review_queue(test_rows, k)
+    report["base_rate"] = {
+        "benchmark_copied_share_of_pairs": round(sum(r["copied"] for r in test_rows) / len(test_rows), 3),
+        "false_alarm_rate_per_honest_pair": round(false_alarm_rate, 4),
+        "recall_at_threshold": comb["recall"],
+        "assumption": "copied pairs per exercise as listed; same false-alarm rate and recall as the test split",
+        "threshold_flags_by_class_size": [expected_flags(false_alarm_rate, comb["recall"], n, c)
+                                          for n, c in CLASS_SCENARIOS],
+    }
+    report["review_queue"] = {
+        "k_chosen_on_dev": k,
+        "test": {str(kk): queue_metrics(test_rows, kk) for kk in QUEUE_KS},
+        "copies_beating_every_honest_pair": round(sum(s == 0 for s in shares) / max(len(shares), 1), 3),
+        "honest_pairs_per_test_exercise": honest_per_ex,
+        "note": ("ranking in a real class cannot be measured here: ~41-60 honest pairs per exercise vs "
+                 "~4,950 for 100 students; precision@k is bounded by copies/k"),
+    }
+    report["student_max_scores_test_top15"] = student_max_scores(test_rows)[:15]
+
     md = _format_markdown(report)
-    html_doc = render_flagged_html(flagged_test, threshold=comb_thr, stems_by_exercise=stems, split_label="test")
+    html_doc = render_flagged_html(queue, threshold=comb_thr, stems_by_exercise=stems, split_label="test",
+                                   queue_k=k)
     return report, md, html_doc
 
 
@@ -810,7 +914,51 @@ def _format_markdown(report: dict) -> str:
             f"{m['f1']:.3f} | {m['pr_auc']:.3f} | {m['fp']} ({m['short_exercise_fp']}) | {m['fn']} |"
         )
 
+    br, rq = report["base_rate"], report["review_queue"]
     lines += [
+        "",
+        "## In a real class: read this before trusting the precision above",
+        "",
+        f"The benchmark is {br['benchmark_copied_share_of_pairs']:.0%} copied pairs. A real class has "
+        "n(n-1)/2 pairs per exercise but only a few copies, so the false-alarm rate per honest pair "
+        f"(**{br['false_alarm_rate_per_honest_pair']:.2%}** here) decides how much work a threshold creates. "
+        f"Assumption: {br['assumption']}.",
+        "",
+        "| students | pairs per exercise | copied pairs (assumed) | expected flags | true | false | precision |",
+        "|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for s in br["threshold_flags_by_class_size"]:
+        lines.append(f"| {s['students']} | {s['pairs']:,} | {s['copied_pairs']} | {s['expected_flags']} | "
+                     f"{s['true']} | {s['false']} | {s['precision']:.0%} |")
+    lines += [
+        "",
+        "So a threshold does not scale: at 100 students most flags would be innocent pairs.",
+        "",
+        "## Ranked review queue (what the teacher view now shows)",
+        "",
+        f"Instead of every pair over a cut-off, the teacher sees the **top k pairs of each exercise** "
+        f"(k = {rq['k_chosen_on_dev']}, chosen on dev). The work is fixed (k pairs per exercise) whatever "
+        "the class size, and the teacher reviews the most similar pairs first. Test split:",
+        "",
+        "| k per exercise | pairs reviewed | real copies among them | precision@k | recall@k |",
+        "|---:|---:|---:|---:|---:|",
+    ]
+    for kk, m in rq["test"].items():
+        lines.append(f"| {kk} | {m['reviewed']} | {m['true_in_queue']} | {m['precision_at_k']:.0%} | {m['recall_at_k']:.0%} |")
+    lines += [
+        "",
+        "Read precision@k with the base rate in mind: each test exercise has about 6 planted copies, so a "
+        "top-5 queue can be almost all copies. With 1 copy on an exercise, a top-5 queue is at most 20% "
+        "copies. **The queue fixes the teacher's workload, not the base rate.**",
+        "",
+        f"Where does a real copy rank? {rq['copies_beating_every_honest_pair']:.0%} of test copies score above "
+        f"every honest pair of their exercise, but there are only {min(rq['honest_pairs_per_test_exercise'])}-"
+        f"{max(rq['honest_pairs_per_test_exercise'])} honest pairs per exercise here. A class of 100 has ~4,950, "
+        "and this data cannot say how many of those would outscore a copy. Measuring that needs a real "
+        "class-sized set of honest submissions.",
+        "",
+        "Each student's single most similar pair is in `report.json` (`student_max_scores_test_top15`) "
+        "for a per-student view.",
         "",
         "## Dev split reference (used to choose cut-offs and combined weights)",
         "",
@@ -898,6 +1046,12 @@ def _format_markdown(report: dict) -> str:
         "4. **Similarity is not proof of copying.** Two students who watched the same CS50P lecture a minute "
         "before submitting often write the lecturer's exact pattern independently. That is why every output uses "
         f"*\"{REVIEW_LABEL}\"* in [flagged_pairs.html](flagged_pairs.html) and leaves the decision to a human.",
+        "5. **The benchmark is not real students.** All honest solutions were written by one author in one "
+        "session, so they may be more alike, or alike in different ways, than real students' code. The "
+        "disguises were designed by the same author as the detectors, so they test what the detectors were "
+        "built to catch. A real evaluation needs real submissions with confirmed cases.",
+        "6. **Base rate.** The precision in the main table holds only at the benchmark's 9% copied pairs; see "
+        "\"In a real class\" above. Use the ranked queue, not the threshold.",
         "",
     ]
     return "\n".join(lines)
@@ -915,7 +1069,10 @@ def main() -> None:
           f"recall={report['test']['combined']['recall']:.3f}, "
           f"F1={report['test']['combined']['f1']:.3f}, "
           f"PR-AUC={report['test']['combined']['pr_auc']:.3f}")
-    print(f"Flagged {len(report['flagged_test_pairs'])} test pairs -> {out_dir}")
+    rq = report['review_queue']
+    print(f"Review queue: top {rq['k_chosen_on_dev']} per exercise = {rq['test'][str(rq['k_chosen_on_dev'])]['reviewed']} test pairs "
+          f"(threshold would flag {len(report['flagged_test_pairs'])}; false-alarm rate per honest pair "
+          f"{report['base_rate']['false_alarm_rate_per_honest_pair']:.2%}) -> {out_dir}")
 
 
 if __name__ == "__main__":

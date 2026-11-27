@@ -227,3 +227,49 @@ def test_real_bge_embedding_similarity():
     unrelated = "class Money:\n    def __init__(self, amount):\n        self.amount = amount\n"
     sim_unrelated = plagiarism.embedding_similarity(ORIGINAL, unrelated)
     assert sim_copy > sim_unrelated
+
+
+# ------------------------------------------------------------------ base rate & review queue ----
+def test_expected_flags_follow_the_base_rate():
+    from ilm.grading.plagiarism import expected_flags
+    s = expected_flags(false_alarm_rate=0.01, recall=0.5, students=100, copied=5)
+    assert s["pairs"] == 4950 and s["true"] == 2.5 and abs(s["false"] - 49.45) < 0.06
+    assert abs(s["precision"] - 2.5 / (2.5 + 49.45)) < 0.002
+    small = expected_flags(0.01, 0.5, 30, 5)
+    assert small["precision"] > s["precision"]            # same detector, more pairs -> worse precision
+
+
+def _rows():
+    rows = []
+    for ex in ("e1", "e2"):
+        for i in range(8):
+            rows.append({"exercise_id": ex, "sub_a": f"{ex}a{i}", "sub_b": f"{ex}b{i}",
+                         "copied": i < 2, "combined": 1.0 - i / 10})
+    return rows
+
+
+def test_review_queue_is_top_k_per_exercise():
+    from ilm.grading.plagiarism import queue_metrics, review_queue
+    q = review_queue(_rows(), 3)
+    assert len(q) == 6 and {r["exercise_id"] for r in q} == {"e1", "e2"}
+    m = queue_metrics(_rows(), 3)
+    assert m["true_in_queue"] == 4 and m["precision_at_k"] == round(4 / 6, 3) and m["recall_at_k"] == 1.0
+
+
+def test_k_is_picked_on_dev_and_ties_prefer_less_work():
+    from ilm.grading.plagiarism import pick_k
+    assert pick_k(_rows()) == 3                           # k=3 F1 0.8 beats k=1 (0.667) and k=5 (0.571)
+
+
+def test_student_view_keeps_each_students_most_similar_pair():
+    from ilm.grading.plagiarism import student_max_scores
+    best = {s["student"]: s for s in student_max_scores(_rows())}
+    assert best["e1a0"]["score"] == 1.0 and best["e1a0"]["most_similar_to"] == "e1b0"
+
+
+def test_queue_html_says_it_is_a_queue_and_escapes_code():
+    from ilm.grading.plagiarism import render_flagged_html
+    row = {"exercise_id": "e1", "sub_a": "a", "sub_b": "b", "combined": 0.9, "code_a": "print('<b>x</b>')\n",
+           "code_b": "print('<b>x</b>')\n"}
+    page = render_flagged_html([row], threshold=0.5, queue_k=5)
+    assert "Ranked review queue" in page and "<b>x</b>" not in page and "&lt;b&gt;" in page

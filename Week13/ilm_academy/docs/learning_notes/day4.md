@@ -65,3 +65,34 @@ title through `html.escape(..., quote=True)` before wrapping matched line number
 4. On the test set, `split_merge` copies were the hardest disguise to catch (`1/6` for token and
    AST). What changes inside a 5-token window and an AST when `return round((f - 32) * 5 / 9, 1)`
    is rewritten as three separate assignment lines?
+
+## The base-rate trap (added after review)
+
+The detector scored **89% precision** on the benchmark. That sounds like "9 out of 10 flags
+are real". It isn't, in a real class.
+
+- Pairs grow with the **square** of the class: 100 students = 100 x 99 / 2 = **4,950 pairs**
+  per exercise. Copies stay few: maybe 5.
+- The benchmark had 9% copied pairs; a real class has about 0.1%.
+- Our false-alarm rate is 0.88% per honest pair. 0.88% of 4,950 is **about 44 innocent pairs**,
+  next to about 4 real ones. Precision falls to **about 8%**.
+
+**Rule: precision depends on how common the thing is.** A test that is 99% accurate still
+flags mostly innocent people when the thing it looks for is rare (the same maths as medical
+screening).
+
+What we do instead:
+1. **Report the false-alarm rate per honest pair**, and expected flags for 30 / 100 / 500
+   students, not just precision.
+2. **A ranked queue instead of a threshold:** the teacher sees the 5 most similar pairs of each
+   exercise. The work stays fixed however big the class is. It does not fix the base rate: with
+   1 real copy on an exercise, at most 1 of the 5 is a copy.
+3. **Say what the data can't show.** Each test exercise has about 50 honest pairs; a class of 100
+   has about 4,950. Whether a real copy still ranks in the top 5 among thousands needs a real
+   class's submissions.
+
+### Check yourself
+1. Why does the same detector have higher precision for 30 students than for 500?
+2. Why is a top-5 queue fairer to the teacher than "every pair over 0.63"?
+3. The benchmark's honest solutions were all written by one author. Why might that make the
+   detector look better, or worse, than it really is?

@@ -23,6 +23,35 @@ Reproduce: `python -m ilm.grading.plagiarism` (dataset built with `python -m ilm
 | Combined logistic (raw only) | 0.342 | 0.811 | 0.882 | 0.845 | 0.890 | 7 (1) | 4 |
 | Combined logistic (exercise-adjusted) | 0.634 | 0.893 | 0.735 | 0.806 | 0.942 | 3 (0) | 9 |
 
+## In a real class: read this before trusting the precision above
+
+The benchmark is 9% copied pairs. A real class has n(n-1)/2 pairs per exercise but only a few copies, so the false-alarm rate per honest pair (**0.88%** here) decides how much work a threshold creates. Assumption: copied pairs per exercise as listed; same false-alarm rate and recall as the test split.
+
+| students | pairs per exercise | copied pairs (assumed) | expected flags | true | false | precision |
+|---:|---:|---:|---:|---:|---:|---:|
+| 30 | 435 | 2 | 5.3 | 1.5 | 3.8 | 28% |
+| 100 | 4,950 | 5 | 47.2 | 3.7 | 43.5 | 8% |
+| 500 | 124,750 | 15 | 1108.4 | 11.0 | 1097.4 | 1% |
+
+So a threshold does not scale: at 100 students most flags would be innocent pairs.
+
+## Ranked review queue (what the teacher view now shows)
+
+Instead of every pair over a cut-off, the teacher sees the **top k pairs of each exercise** (k = 5, chosen on dev). The work is fixed (k pairs per exercise) whatever the class size, and the teacher reviews the most similar pairs first. Test split:
+
+| k per exercise | pairs reviewed | real copies among them | precision@k | recall@k |
+|---:|---:|---:|---:|---:|
+| 1 | 6 | 6 | 100% | 18% |
+| 3 | 18 | 18 | 100% | 53% |
+| 5 | 30 | 29 | 97% | 85% |
+| 10 | 60 | 34 | 57% | 100% |
+
+Read precision@k with the base rate in mind: each test exercise has about 6 planted copies, so a top-5 queue can be almost all copies. With 1 copy on an exercise, a top-5 queue is at most 20% copies. **The queue fixes the teacher's workload, not the base rate.**
+
+Where does a real copy rank? 94% of test copies score above every honest pair of their exercise, but there are only 41-60 honest pairs per exercise here. A class of 100 has ~4,950, and this data cannot say how many of those would outscore a copy. Measuring that needs a real class-sized set of honest submissions.
+
+Each student's single most similar pair is in `report.json` (`student_max_scores_test_top15`) for a per-student view.
+
 ## Dev split reference (used to choose cut-offs and combined weights)
 
 | Detector | Cut-off | Precision | Recall | F1 | PR-AUC | FP (short-ex FP) |
@@ -69,3 +98,5 @@ On short or constrained exercises (`modulo-02` `is_even`, `floats-04` `to_celsiu
 2. **Synthetic disguises vs real collusion.** Our 140 submissions pass real unit tests and cover six classic transformations, but real students also translate solutions via an LLM or collaborate verbally, producing semantically equivalent code with fresh structure that all three detectors can miss.
 3. **Cohort baseline needs a batch.** Per-exercise median/MAD normalisation assumes at least ~8-10 submissions on the exercise (and that fewer than half the pairs colluded). On the very first 2-3 submissions, only the reference-solution baseline is stable.
 4. **Similarity is not proof of copying.** Two students who watched the same CS50P lecture a minute before submitting often write the lecturer's exact pattern independently. That is why every output uses *"Possible copying - needs teacher review"* in [flagged_pairs.html](flagged_pairs.html) and leaves the decision to a human.
+5. **The benchmark is not real students.** All honest solutions were written by one author in one session, so they may be more alike, or alike in different ways, than real students' code. The disguises were designed by the same author as the detectors, so they test what the detectors were built to catch. A real evaluation needs real submissions with confirmed cases.
+6. **Base rate.** The precision in the main table holds only at the benchmark's 9% copied pairs; see "In a real class" above. Use the ranked queue, not the threshold.

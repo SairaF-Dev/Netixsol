@@ -29,7 +29,7 @@
   <header>
     <h1>Possible copying - needs teacher review</h1>
     <p class="policy">
-      Split: <strong>test</strong> &middot; Flagged pairs: <strong>28</strong>.
+      Split: <strong>test</strong> &middot; Ranked review queue: the <strong>5</strong> most similar pairs of each exercise (<strong>30</strong> pairs). A fixed-size queue keeps the work the same however big the class is; most pairs in it will be honest, especially on short exercises.
       High code similarity can also happen when an exercise is short or follows a standard lecture pattern.
       This tool never changes marks or applies penalties automatically; a teacher reviews both submissions and decides.
     </p>
@@ -941,50 +941,6 @@
       <div class="card-header">
         <div>
           <span class="rank">#23</span>
-          <strong>nested_data-02</strong>: <code>nested_data-02__s06</code> vs <code>nested_data-02__s11</code>
-        </div>
-        <span class="badge">Possible copying - needs teacher review</span>
-      </div>
-      <p class="stem">students is a list of dictionaries with keys &quot;name&quot; and &quot;house&quot;. Write names_in_house(students, house) that returns the list of names in that house, in order.</p>
-      <div class="scores">
-        <span><strong>Combined:</strong> 0.865 (cut-off 0.634)</span>
-        <span><strong>Token:</strong> 0.29 (z=+0.87)</span>
-        <span><strong>AST:</strong> 0.79 (z=+1.88)</span>
-        <span><strong>Embedding:</strong> 0.99 (z=+2.05)</span>
-      </div>
-      <div class="side-by-side">
-        <div class="pane">
-          <div class="pane-title">nested_data-02__s06</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def names_in_house(students, house_name):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    idx = 0</span></div>
-<div class="line"><span class="ln"> 3</span><span class="src">    out = []</span></div>
-<div class="line"><span class="ln"> 4</span><span class="src">    total = len(students)</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">    while idx &lt; total:</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">        person = students[idx]</span></div>
-<div class="line"><span class="ln"> 7</span><span class="src">        idx += 1</span></div>
-<div class="line match" class="match"><span class="ln"> 8</span><span class="src">        if person[&quot;house&quot;] == house_name:</span></div>
-<div class="line match" class="match"><span class="ln"> 9</span><span class="src">            out.append(person[&quot;name&quot;])</span></div>
-<div class="line match" class="match"><span class="ln">10</span><span class="src">    return out</span></div></div>
-        </div>
-        <div class="pane">
-          <div class="pane-title">nested_data-02__s11</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def names_in_house(students, house_name):</span></div>
-<div class="line"><span class="ln"> 2</span><span class="src">    out = []</span></div>
-<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    idx = 0</span></div>
-<div class="line match" class="match"><span class="ln"> 4</span><span class="src">    while idx &lt; len(students):</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">        person = students[idx]</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">        if person[&quot;house&quot;] == house_name:</span></div>
-<div class="line match" class="match"><span class="ln"> 7</span><span class="src">            out.append(person[&quot;name&quot;])</span></div>
-<div class="line"><span class="ln"> 8</span><span class="src">        idx += 1</span></div>
-<div class="line match" class="match"><span class="ln"> 9</span><span class="src">    return out</span></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-header">
-        <div>
-          <span class="rank">#24</span>
           <strong>modulo-02</strong>: <code>modulo-02__s03</code> vs <code>modulo-02__s06</code>
         </div>
         <span class="badge">Possible copying - needs teacher review</span>
@@ -1019,47 +975,7 @@
     <section class="card">
       <div class="card-header">
         <div>
-          <span class="rank">#25</span>
-          <strong>nested_data-02</strong>: <code>nested_data-02__s11</code> vs <code>nested_data-02__s12</code>
-        </div>
-        <span class="badge">Possible copying - needs teacher review</span>
-      </div>
-      <p class="stem">students is a list of dictionaries with keys &quot;name&quot; and &quot;house&quot;. Write names_in_house(students, house) that returns the list of names in that house, in order.</p>
-      <div class="scores">
-        <span><strong>Combined:</strong> 0.781 (cut-off 0.634)</span>
-        <span><strong>Token:</strong> 0.36 (z=+1.14)</span>
-        <span><strong>AST:</strong> 0.71 (z=+1.45)</span>
-        <span><strong>Embedding:</strong> 0.97 (z=+1.61)</span>
-      </div>
-      <div class="side-by-side">
-        <div class="pane">
-          <div class="pane-title">nested_data-02__s11</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def names_in_house(students, house_name):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    out = []</span></div>
-<div class="line"><span class="ln"> 3</span><span class="src">    idx = 0</span></div>
-<div class="line"><span class="ln"> 4</span><span class="src">    while idx &lt; len(students):</span></div>
-<div class="line"><span class="ln"> 5</span><span class="src">        person = students[idx]</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">        if person[&quot;house&quot;] == house_name:</span></div>
-<div class="line match" class="match"><span class="ln"> 7</span><span class="src">            out.append(person[&quot;name&quot;])</span></div>
-<div class="line"><span class="ln"> 8</span><span class="src">        idx += 1</span></div>
-<div class="line match" class="match"><span class="ln"> 9</span><span class="src">    return out</span></div></div>
-        </div>
-        <div class="pane">
-          <div class="pane-title">nested_data-02__s12</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def names_in_house(students, house):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    names = []</span></div>
-<div class="line"><span class="ln"> 3</span><span class="src">    for student in students:</span></div>
-<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        if student[&quot;house&quot;] == house:</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">            names.append(student[&quot;name&quot;])</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">    return names</span></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-header">
-        <div>
-          <span class="rank">#26</span>
+          <span class="rank">#24</span>
           <strong>nested_loops-02</strong>: <code>nested_loops-02__s08</code> vs <code>nested_loops-02__s11</code>
         </div>
         <span class="badge">Possible copying - needs teacher review</span>
@@ -1098,38 +1014,118 @@
     <section class="card">
       <div class="card-header">
         <div>
-          <span class="rank">#27</span>
-          <strong>nested_loops-02</strong>: <code>nested_loops-02__s01</code> vs <code>nested_loops-02__s09</code>
+          <span class="rank">#25</span>
+          <strong>elif_else-01</strong>: <code>elif_else-01__s04</code> vs <code>elif_else-01__s05</code>
         </div>
         <span class="badge">Possible copying - needs teacher review</span>
       </div>
-      <p class="stem">Write multiplication_table(n) that returns a list of n rows; row i (starting at 1) is [i*1, i*2, ..., i*n]. multiplication_table(2) returns [[1, 2], [2, 4]].</p>
+      <p class="stem">Write grade(score) that returns &quot;A&quot; for 90 or more, &quot;B&quot; for 80 or more, &quot;C&quot; for 70 or more, and &quot;F&quot; otherwise.</p>
       <div class="scores">
-        <span><strong>Combined:</strong> 0.696 (cut-off 0.634)</span>
-        <span><strong>Token:</strong> 0.58 (z=+1.61)</span>
-        <span><strong>AST:</strong> 0.66 (z=+0.98)</span>
-        <span><strong>Embedding:</strong> 0.94 (z=+1.39)</span>
+        <span><strong>Combined:</strong> 0.536 (cut-off 0.634)</span>
+        <span><strong>Token:</strong> 0.20 (z=+0.52)</span>
+        <span><strong>AST:</strong> 0.68 (z=+1.30)</span>
+        <span><strong>Embedding:</strong> 0.96 (z=+1.91)</span>
       </div>
       <div class="side-by-side">
         <div class="pane">
-          <div class="pane-title">nested_loops-02__s01</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def multiplication_table(n):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    table = []</span></div>
-<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    for r in range(1, n + 1):</span></div>
-<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        row = []</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">        for c in range(1, n + 1):</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">            row.append(r * c)</span></div>
-<div class="line match" class="match"><span class="ln"> 7</span><span class="src">        table.append(row)</span></div>
-<div class="line match" class="match"><span class="ln"> 8</span><span class="src">    return table</span></div></div>
+          <div class="pane-title">elif_else-01__s04</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def grade(s):</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    bands = {&quot;A&quot;: 90, &quot;B&quot;: 80, &quot;C&quot;: 70}</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    for label, minimum in bands.items():</span></div>
+<div class="line"><span class="ln"> 4</span><span class="src">        if s &gt;= minimum:</span></div>
+<div class="line match" class="match"><span class="ln"> 5</span><span class="src">            return label</span></div>
+<div class="line match" class="match"><span class="ln"> 6</span><span class="src">    return &quot;F&quot;</span></div></div>
         </div>
         <div class="pane">
-          <div class="pane-title">nested_loops-02__s09</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def multiplication_table(n):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    grid = []</span></div>
-<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    for factor in range(1, n + 1):</span></div>
-<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        line = [factor * k for k in range(1, n + 1)]</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">        grid.append(line)</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">    return grid</span></div></div>
+          <div class="pane-title">elif_else-01__s05</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def grade(s):</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    max_possible = 100</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    bands = {&quot;A&quot;: 90, &quot;B&quot;: 80, &quot;C&quot;: 70}</span></div>
+<div class="line"><span class="ln"> 4</span><span class="src">    checked = 0</span></div>
+<div class="line match" class="match"><span class="ln"> 5</span><span class="src">    for label, minimum in bands.items():</span></div>
+<div class="line"><span class="ln"> 6</span><span class="src">        checked += 1</span></div>
+<div class="line"><span class="ln"> 7</span><span class="src">        if s &gt;= minimum and max_possible &gt;= 100:</span></div>
+<div class="line match" class="match"><span class="ln"> 8</span><span class="src">            return label</span></div>
+<div class="line match" class="match"><span class="ln"> 9</span><span class="src">    return &quot;F&quot;</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="rank">#26</span>
+          <strong>while_loops-04</strong>: <code>while_loops-04__s06</code> vs <code>while_loops-04__s10</code>
+        </div>
+        <span class="badge">Possible copying - needs teacher review</span>
+      </div>
+      <p class="stem">The Collatz rule turns n into n // 2 if n is even, or 3 * n + 1 if it is odd. Write collatz_steps(n) that returns how many steps it takes to reach 1.</p>
+      <div class="scores">
+        <span><strong>Combined:</strong> 0.507 (cut-off 0.634)</span>
+        <span><strong>Token:</strong> 0.19 (z=+0.53)</span>
+        <span><strong>AST:</strong> 0.49 (z=+0.51)</span>
+        <span><strong>Embedding:</strong> 0.98 (z=+1.90)</span>
+      </div>
+      <div class="side-by-side">
+        <div class="pane">
+          <div class="pane-title">while_loops-04__s06</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def collatz_steps(val):</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    count = 0</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    while val &gt; 1:</span></div>
+<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        val = val // 2 if val % 2 == 0 else 3 * val + 1</span></div>
+<div class="line"><span class="ln"> 5</span><span class="src">        count += 1</span></div>
+<div class="line match" class="match"><span class="ln"> 6</span><span class="src">    return count</span></div></div>
+        </div>
+        <div class="pane">
+          <div class="pane-title">while_loops-04__s10</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def collatz_steps(val):</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    count = 0</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    while val &gt; 1:</span></div>
+<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        is_even_val = (val % 2 == 0)</span></div>
+<div class="line"><span class="ln"> 5</span><span class="src">        even_next = val // 2</span></div>
+<div class="line"><span class="ln"> 6</span><span class="src">        odd_next = 3 * val + 1</span></div>
+<div class="line"><span class="ln"> 7</span><span class="src">        val = even_next if is_even_val else odd_next</span></div>
+<div class="line"><span class="ln"> 8</span><span class="src">        count = count + 1</span></div>
+<div class="line match" class="match"><span class="ln"> 9</span><span class="src">    return count</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="rank">#27</span>
+          <strong>modulo-02</strong>: <code>modulo-02__s05</code> vs <code>modulo-02__s08</code>
+        </div>
+        <span class="badge">Possible copying - needs teacher review</span>
+      </div>
+      <p class="stem">Write is_even(n) that returns True if n is even, otherwise False.</p>
+      <div class="scores">
+        <span><strong>Combined:</strong> 0.412 (cut-off 0.634)</span>
+        <span><strong>Token:</strong> 1.00 (z=+2.69)</span>
+        <span><strong>AST:</strong> 1.00 (z=+1.86)</span>
+        <span><strong>Embedding:</strong> 0.83 (z=-0.12)</span>
+      </div>
+      <div class="side-by-side">
+        <div class="pane">
+          <div class="pane-title">modulo-02__s05</div>
+          <div class="code-box"><div class="line"><span class="ln"> 1</span><span class="src"># Check parity of an integer input</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">def is_even(x):</span></div>
+<div class="line"><span class="ln"> 3</span><span class="src">    # Remainder zero means divisible by two</span></div>
+<div class="line match" class="match"><span class="ln"> 4</span><span class="src">    if x % 2 == 0:</span></div>
+<div class="line match" class="match"><span class="ln"> 5</span><span class="src">        return True</span></div>
+<div class="line"><span class="ln"> 6</span><span class="src">&nbsp;</span></div>
+<div class="line match" class="match"><span class="ln"> 7</span><span class="src">    else:</span></div>
+<div class="line"><span class="ln"> 8</span><span class="src">        # Odd case</span></div>
+<div class="line match" class="match"><span class="ln"> 9</span><span class="src">        return False</span></div></div>
+        </div>
+        <div class="pane">
+          <div class="pane-title">modulo-02__s08</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def is_even(x):</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    if x % 2 == 0:</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">        return True</span></div>
+<div class="line match" class="match"><span class="ln"> 4</span><span class="src">    else:</span></div>
+<div class="line match" class="match"><span class="ln"> 5</span><span class="src">        return False</span></div></div>
         </div>
       </div>
     </section>
@@ -1138,36 +1134,94 @@
       <div class="card-header">
         <div>
           <span class="rank">#28</span>
-          <strong>nested_loops-02</strong>: <code>nested_loops-02__s01</code> vs <code>nested_loops-02__s08</code>
+          <strong>modulo-02</strong>: <code>modulo-02__s02</code> vs <code>modulo-02__s10</code>
         </div>
         <span class="badge">Possible copying - needs teacher review</span>
       </div>
-      <p class="stem">Write multiplication_table(n) that returns a list of n rows; row i (starting at 1) is [i*1, i*2, ..., i*n]. multiplication_table(2) returns [[1, 2], [2, 4]].</p>
+      <p class="stem">Write is_even(n) that returns True if n is even, otherwise False.</p>
       <div class="scores">
-        <span><strong>Combined:</strong> 0.675 (cut-off 0.634)</span>
-        <span><strong>Token:</strong> 0.43 (z=+1.03)</span>
-        <span><strong>AST:</strong> 0.56 (z=+0.50)</span>
-        <span><strong>Embedding:</strong> 0.97 (z=+1.89)</span>
+        <span><strong>Combined:</strong> 0.178 (cut-off 0.634)</span>
+        <span><strong>Token:</strong> 0.08 (z=-0.02)</span>
+        <span><strong>AST:</strong> 0.64 (z=+0.58)</span>
+        <span><strong>Embedding:</strong> 0.96 (z=+1.51)</span>
       </div>
       <div class="side-by-side">
         <div class="pane">
-          <div class="pane-title">nested_loops-02__s01</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def multiplication_table(n):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    table = []</span></div>
-<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    for r in range(1, n + 1):</span></div>
-<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        row = []</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">        for c in range(1, n + 1):</span></div>
-<div class="line match" class="match"><span class="ln"> 6</span><span class="src">            row.append(r * c)</span></div>
-<div class="line"><span class="ln"> 7</span><span class="src">        table.append(row)</span></div>
-<div class="line match" class="match"><span class="ln"> 8</span><span class="src">    return table</span></div></div>
+          <div class="pane-title">modulo-02__s02</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def is_even(k):</span></div>
+<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    last_bit = k &amp; 1</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    return last_bit == 0</span></div></div>
         </div>
         <div class="pane">
-          <div class="pane-title">nested_loops-02__s08</div>
-          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def multiplication_table(n):</span></div>
-<div class="line match" class="match"><span class="ln"> 2</span><span class="src">    rows = []</span></div>
-<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    for base in range(1, n + 1):</span></div>
-<div class="line match" class="match"><span class="ln"> 4</span><span class="src">        rows.append(list(range(base, base * n + 1, base)))</span></div>
-<div class="line match" class="match"><span class="ln"> 5</span><span class="src">    return rows</span></div></div>
+          <div class="pane-title">modulo-02__s10</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def is_even(k):</span></div>
+<div class="line"><span class="ln"> 2</span><span class="src">    sign_flag = 1 if k &gt;= 0 else -1</span></div>
+<div class="line match" class="match"><span class="ln"> 3</span><span class="src">    last_bit = k &amp; 1</span></div>
+<div class="line"><span class="ln"> 4</span><span class="src">    _unused = sign_flag * 2</span></div>
+<div class="line match" class="match"><span class="ln"> 5</span><span class="src">    return last_bit == 0</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="rank">#29</span>
+          <strong>modulo-02</strong>: <code>modulo-02__s01</code> vs <code>modulo-02__s07</code>
+        </div>
+        <span class="badge">Possible copying - needs teacher review</span>
+      </div>
+      <p class="stem">Write is_even(n) that returns True if n is even, otherwise False.</p>
+      <div class="scores">
+        <span><strong>Combined:</strong> 0.079 (cut-off 0.634)</span>
+        <span><strong>Token:</strong> 0.17 (z=+0.00)</span>
+        <span><strong>AST:</strong> 0.47 (z=+0.00)</span>
+        <span><strong>Embedding:</strong> 0.98 (z=+0.00)</span>
+      </div>
+      <div class="side-by-side">
+        <div class="pane">
+          <div class="pane-title">modulo-02__s01</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def is_even(n):</span></div>
+<div class="line"><span class="ln"> 2</span><span class="src">    return n % 2 == 0</span></div></div>
+        </div>
+        <div class="pane">
+          <div class="pane-title">modulo-02__s07</div>
+          <div class="code-box"><div class="line match" class="match"><span class="ln"> 1</span><span class="src">def is_even(n):</span></div>
+<div class="line"><span class="ln"> 2</span><span class="src">    rem = n % 2</span></div>
+<div class="line"><span class="ln"> 3</span><span class="src">    ans = rem == 0</span></div>
+<div class="line"><span class="ln"> 4</span><span class="src">    return ans</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="rank">#30</span>
+          <strong>modulo-02</strong>: <code>modulo-02__s06</code> vs <code>modulo-02__s09</code>
+        </div>
+        <span class="badge">Possible copying - needs teacher review</span>
+      </div>
+      <p class="stem">Write is_even(n) that returns True if n is even, otherwise False.</p>
+      <div class="scores">
+        <span><strong>Combined:</strong> 0.037 (cut-off 0.634)</span>
+        <span><strong>Token:</strong> 0.00 (z=-0.22)</span>
+        <span><strong>AST:</strong> 0.29 (z=-0.49)</span>
+        <span><strong>Embedding:</strong> 0.93 (z=+1.20)</span>
+      </div>
+      <div class="side-by-side">
+        <div class="pane">
+          <div class="pane-title">modulo-02__s06</div>
+          <div class="code-box"><div class="line"><span class="ln"> 1</span><span class="src">def is_even(val):</span></div>
+<div class="line"><span class="ln"> 2</span><span class="src">    q_part, rem_part = divmod(val, 2)</span></div>
+<div class="line"><span class="ln"> 3</span><span class="src">    if rem_part == 0:</span></div>
+<div class="line"><span class="ln"> 4</span><span class="src">        return True</span></div>
+<div class="line"><span class="ln"> 5</span><span class="src">    return False</span></div></div>
+        </div>
+        <div class="pane">
+          <div class="pane-title">modulo-02__s09</div>
+          <div class="code-box"><div class="line"><span class="ln"> 1</span><span class="src">def is_even(val):</span></div>
+<div class="line"><span class="ln"> 2</span><span class="src">    return not bool(val % 2)</span></div></div>
         </div>
       </div>
     </section>

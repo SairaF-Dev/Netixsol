@@ -1383,5 +1383,175 @@
       "ground_truth_copied": false,
       "ground_truth_disguise": null
     }
+  ],
+  "base_rate": {
+    "benchmark_copied_share_of_pairs": 0.091,
+    "false_alarm_rate_per_honest_pair": 0.0088,
+    "recall_at_threshold": 0.7353,
+    "assumption": "copied pairs per exercise as listed; same false-alarm rate and recall as the test split",
+    "threshold_flags_by_class_size": [
+      {
+        "students": 30,
+        "pairs": 435,
+        "copied_pairs": 2,
+        "expected_flags": 5.3,
+        "true": 1.5,
+        "false": 3.8,
+        "precision": 0.279
+      },
+      {
+        "students": 100,
+        "pairs": 4950,
+        "copied_pairs": 5,
+        "expected_flags": 47.2,
+        "true": 3.7,
+        "false": 43.5,
+        "precision": 0.078
+      },
+      {
+        "students": 500,
+        "pairs": 124750,
+        "copied_pairs": 15,
+        "expected_flags": 1108.4,
+        "true": 11.0,
+        "false": 1097.4,
+        "precision": 0.01
+      }
+    ]
+  },
+  "review_queue": {
+    "k_chosen_on_dev": 5,
+    "test": {
+      "1": {
+        "k_per_exercise": 1,
+        "reviewed": 6,
+        "true_in_queue": 6,
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.176
+      },
+      "3": {
+        "k_per_exercise": 3,
+        "reviewed": 18,
+        "true_in_queue": 18,
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.529
+      },
+      "5": {
+        "k_per_exercise": 5,
+        "reviewed": 30,
+        "true_in_queue": 29,
+        "precision_at_k": 0.967,
+        "recall_at_k": 0.853
+      },
+      "10": {
+        "k_per_exercise": 10,
+        "reviewed": 60,
+        "true_in_queue": 34,
+        "precision_at_k": 0.567,
+        "recall_at_k": 1.0
+      }
+    },
+    "copies_beating_every_honest_pair": 0.941,
+    "honest_pairs_per_test_exercise": [
+      41,
+      60,
+      60,
+      60,
+      60,
+      60
+    ],
+    "note": "ranking in a real class cannot be measured here: ~41-60 honest pairs per exercise vs ~4,950 for 100 students; precision@k is bounded by copies/k"
+  },
+  "student_max_scores_test_top15": [
+    {
+      "student": "iterating_lists-03__s01",
+      "exercise_id": "iterating_lists-03",
+      "most_similar_to": "iterating_lists-03__s04",
+      "score": 0.9994
+    },
+    {
+      "student": "iterating_lists-03__s04",
+      "exercise_id": "iterating_lists-03",
+      "most_similar_to": "iterating_lists-03__s01",
+      "score": 0.9994
+    },
+    {
+      "student": "nested_loops-02__s02",
+      "exercise_id": "nested_loops-02",
+      "most_similar_to": "nested_loops-02__s06",
+      "score": 0.9993
+    },
+    {
+      "student": "nested_loops-02__s06",
+      "exercise_id": "nested_loops-02",
+      "most_similar_to": "nested_loops-02__s02",
+      "score": 0.9993
+    },
+    {
+      "student": "elif_else-01__s09",
+      "exercise_id": "elif_else-01",
+      "most_similar_to": "elif_else-01__s12",
+      "score": 0.9985
+    },
+    {
+      "student": "elif_else-01__s12",
+      "exercise_id": "elif_else-01",
+      "most_similar_to": "elif_else-01__s09",
+      "score": 0.9985
+    },
+    {
+      "student": "nested_data-02__s09",
+      "exercise_id": "nested_data-02",
+      "most_similar_to": "nested_data-02__s10",
+      "score": 0.9981
+    },
+    {
+      "student": "nested_data-02__s10",
+      "exercise_id": "nested_data-02",
+      "most_similar_to": "nested_data-02__s09",
+      "score": 0.9981
+    },
+    {
+      "student": "nested_loops-02__s03",
+      "exercise_id": "nested_loops-02",
+      "most_similar_to": "nested_loops-02__s05",
+      "score": 0.9975
+    },
+    {
+      "student": "nested_loops-02__s05",
+      "exercise_id": "nested_loops-02",
+      "most_similar_to": "nested_loops-02__s03",
+      "score": 0.9975
+    },
+    {
+      "student": "while_loops-04__s01",
+      "exercise_id": "while_loops-04",
+      "most_similar_to": "while_loops-04__s11",
+      "score": 0.9969
+    },
+    {
+      "student": "while_loops-04__s11",
+      "exercise_id": "while_loops-04",
+      "most_similar_to": "while_loops-04__s01",
+      "score": 0.9969
+    },
+    {
+      "student": "nested_data-02__s03",
+      "exercise_id": "nested_data-02",
+      "most_similar_to": "nested_data-02__s07",
+      "score": 0.995
+    },
+    {
+      "student": "nested_data-02__s07",
+      "exercise_id": "nested_data-02",
+      "most_similar_to": "nested_data-02__s03",
+      "score": 0.995
+    },
+    {
+      "student": "while_loops-04__s04",
+      "exercise_id": "while_loops-04",
+      "most_similar_to": "while_loops-04__s08",
+      "score": 0.9945
+    }
   ]
 }
