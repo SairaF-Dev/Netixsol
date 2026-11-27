@@ -1,4 +1,4 @@
-import { BookOpen, ClipboardCheck, Code2, LayoutGrid, LogOut, MessageCircleQuestion, Route as RouteIcon, UserRoundX } from "lucide-react"
+import { BookOpen, ClipboardCheck, Code2, LayoutGrid, Library, LogOut, MessageCircleQuestion, Route as RouteIcon, ShieldCheck, TrendingUp, UserRoundX } from "lucide-react"
 import type { ReactNode } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useLogout, useMe } from '../auth'
@@ -15,6 +15,9 @@ const TEACHER: Item[] = [
   { to: '/teacher', label: 'Class overview', icon: <LayoutGrid size={18} strokeWidth={1.5} />, end: true },
   { to: '/teacher/at-risk', label: 'At risk', icon: <UserRoundX size={18} strokeWidth={1.5} /> },
   { to: '/teacher/review', label: 'Review queue', icon: <ClipboardCheck size={18} strokeWidth={1.5} /> },
+  { to: '/teacher/questions', label: 'Question bank', icon: <Library size={18} strokeWidth={1.5} /> },
+  { to: '/teacher/tutor', label: 'Tutor safety', icon: <ShieldCheck size={18} strokeWidth={1.5} /> },
+  { to: '/teacher/impact', label: 'Impact', icon: <TrendingUp size={18} strokeWidth={1.5} /> },
 ]
 
 function Brand() {

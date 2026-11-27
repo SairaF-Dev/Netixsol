@@ -260,3 +260,30 @@ def test_a_missed_question_comes_back_only_after_the_others(client):
     wrong = {"choice": next(i for i in range(len(q.options)) if i != q.answer)} if q.type == "mcq" else {"text": "zzz"}
     client.post("/api/answers", json={"question": q.id, **wrong})
     assert client.get("/api/practice/next", params={"concept": "string_methods"}).json()["question"]["id"] != q.id
+
+
+# ------------------------------------------------------------------ teacher extras ----
+def test_question_health_and_decisions(teacher):
+    h = teacher.get("/api/questions/health").json()
+    assert h["counts"]["retire"] == 13 and len(h["retire"]) == 13 and h["retire"][0]["stem"]
+    qid = h["retire"][0]["id"]
+    assert teacher.post(f"/api/questions/{qid}/decision", json={"decision": "Relabel"}).status_code == 422  # needs a level
+    assert teacher.post(f"/api/questions/{qid}/decision", json={"decision": "Retire"}).status_code == 200
+    again = teacher.get("/api/questions/health").json()
+    assert next(r for r in again["retire"] if r["id"] == qid)["decision"]["decision"] == "Retire"
+
+
+def test_tutor_safety_and_impact_come_from_the_reports(teacher):
+    s = teacher.get("/api/tutor/safety").json()
+    assert s["evaluation"][0]["leaks"] == 6 and s["judge_caught_code_leaks"] == 0
+    i = teacher.get("/api/impact").json()
+    assert i["sandbox"]["contained"] == i["sandbox"]["attacks"] == 24
+    d = i["adaptive"]["diff"]["dropped_by_week3"]
+    assert d["low"] <= d["diff"] <= d["high"] < 0                                 # the whole 95% CI is a drop
+    assert i["dropout_model"]["baseline"] > i["dropout_model"]["lightgbm"]       # shown honestly
+
+
+def test_extras_are_teacher_only(client):
+    login(client)
+    for path in ("/api/questions/health", "/api/tutor/safety", "/api/impact"):
+        assert client.get(path).status_code == 403

@@ -222,3 +222,47 @@ export interface AnswerResult {
   before: Mastery
   after: Mastery
 }
+
+// ---------------- teacher extras ----------------
+export interface HealthRow {
+  id: string; type: string; concept: string; stem: string; code_line: string | null; author_level: number; measured_level: number | null
+  discrimination: number | null; share_right: number | null; answers: number | null; reason: string
+  decision: { decision: string; level: number | null } | null
+}
+export interface QuestionHealth {
+  total: number
+  counts: Record<string, number>
+  retire: HealthRow[]
+  relabel: HealthRow[]
+  difficulty_agreement: { author: number; llm: number }
+  generated: { asked: number; accepted: number; rate: number; funnel: { gate: string; rejected: number; still_in: number }[]; spread: Record<string, number> }
+  source: string
+  caveat: string
+}
+export interface EvalRun { label: string; exercise_turns: number; leaks: number; jailbreaks_resisted: number | null; fallbacks: number | null; correct: number | null; pedagogy: number | null; tone: number | null }
+export interface TutorSafety {
+  evaluation: EvalRun[]
+  judge_caught_code_leaks: number | null
+  live: { questions: number; hints: number; by_rung: Record<string, number>; urdulish_share: number | null; blocked: number; not_in_course: number; students: number }
+  source: string
+}
+interface Side { dropped_by_week3: number; dropped_ever: number; concepts_known: number; hours: number }
+interface Diff { diff: number; low: number; high: number }
+export interface Impact {
+  adaptive: { students: number; caveat: string; fixed: Side; adaptive: Side; diff: Record<keyof Side, Diff> }
+  dropout_model: { lightgbm: number; baseline: number; ceiling_observable: number; ceiling_hidden: number; base_rate: number }
+  grading: { kappa_final: number; kappa_tests_only: number; mae: number; within_2: number; reference: string }
+  review_share: number
+  sandbox: { attacks: number; contained: number }
+  plagiarism: { false_alarm_rate: number; by_class: { students: number; pairs: number; copied_pairs: number; expected_flags: number; true: number; false: number; precision: number }[] }
+  tutor: EvalRun[]
+  sources: Record<string, string>
+}
+
+export const extrasApi = {
+  health: () => call<QuestionHealth>('/questions/health'),
+  decideQuestion: (id: string, decision: string, level: number | null) =>
+    call<{ question: string }>(`/questions/${encodeURIComponent(id)}/decision`, { method: 'POST', body: JSON.stringify({ decision, level }) }),
+  tutorSafety: () => call<TutorSafety>('/tutor/safety'),
+  impact: () => call<Impact>('/impact'),
+}

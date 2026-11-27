@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ilm import config
-from ilm.api import classroom, practice, review, service, tutor_api
+from ilm.api import classroom, insights, practice, review, service, tutor_api
 from ilm.api.auth import COOKIE, SESSION_SEC, User, check_password, current_user, make_token, require
 
 
@@ -215,3 +215,33 @@ def review_decide(item_id: str, body: DecisionIn, user: User = Depends(require("
         return review.decide(item_id, body.decision, user.username, body.note)
     except ValueError as e:
         raise HTTPException(422, str(e))
+
+
+class QuestionDecisionIn(BaseModel):
+    decision: str = Field(max_length=20)
+    level: int | None = Field(default=None, ge=1, le=5)
+
+
+@app.get("/api/questions/health")
+def questions_health(user: User = Depends(require("teacher"))):
+    return insights.question_health()
+
+
+@app.post("/api/questions/{qid}/decision")
+def question_decision(qid: str, body: QuestionDecisionIn, user: User = Depends(require("teacher"))):
+    try:
+        return insights.decide_question(qid, body.decision, body.level, user.username)
+    except KeyError:
+        raise HTTPException(404, "No such question.")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+@app.get("/api/tutor/safety")
+def tutor_safety(user: User = Depends(require("teacher"))):
+    return insights.tutor_safety()
+
+
+@app.get("/api/impact")
+def impact(user: User = Depends(require("teacher"))):
+    return insights.impact()

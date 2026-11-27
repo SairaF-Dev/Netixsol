@@ -8,6 +8,9 @@ import Practice from './pages/student/Practice'
 import QuestionPage from './pages/student/Question'
 import Today from './pages/student/Today'
 import AtRisk from './pages/teacher/AtRisk'
+import Impact from './pages/teacher/Impact'
+import QuestionBank from './pages/teacher/QuestionBank'
+import TutorSafety from './pages/teacher/TutorSafety'
 import Overview from './pages/teacher/Overview'
 import Review from './pages/teacher/Review'
 
@@ -45,6 +48,9 @@ export default function App() {
         <Route index element={<Overview />} />
         <Route path="at-risk" element={<AtRisk />} />
         <Route path="review" element={<Review />} />
+        <Route path="questions" element={<QuestionBank />} />
+        <Route path="tutor" element={<TutorSafety />} />
+        <Route path="impact" element={<Impact />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
