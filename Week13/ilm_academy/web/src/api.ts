@@ -256,6 +256,10 @@ export interface Impact {
   sandbox: { attacks: number; contained: number }
   plagiarism: { false_alarm_rate: number; by_class: { students: number; pairs: number; copied_pairs: number; expected_flags: number; true: number; false: number; precision: number }[] }
   tutor: EvalRun[]
+  ab_test: {
+    n_per_arm: number; enrol: number; mde: number; baseline: number
+    rehearsal: { students: number; dropout: Diff; gain: Diff; gain_margin: number; aa_false_positive: number; decision: string }
+  } | null
   sources: Record<string, string>
 }
 

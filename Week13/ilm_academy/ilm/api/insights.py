@@ -23,6 +23,19 @@ def _json(*parts) -> dict:
     return json.loads(R.joinpath(*parts).read_text(encoding="utf-8"))
 
 
+def _ab_test() -> dict | None:
+    """The A/B test design and its rehearsal on simulated students (ilm/evaluation/ab_test.py)."""
+    if not (R / "ab_test" / "rehearsal.json").exists():
+        return None
+    r = _json("ab_test", "rehearsal.json")
+    d, ab = r["design"], r["ab"]
+    pick = lambda m: {k: ab[m][k] for k in ("diff", "low", "high")}
+    return {"n_per_arm": d["n_per_arm"], "enrol": d["enrol_with_loss"], "mde": d["mde"], "baseline": d["baseline_dropout"],
+            "rehearsal": {"students": r["rehearsal"]["students"], "dropout": pick("dropped_by_week4"),
+                          "gain": pick("gain"), "gain_margin": ab["gain_margin"],
+                          "aa_false_positive": r["aa"]["false_positive_rate"], "decision": r["decision"]["decision"]}}
+
+
 # ------------------------------------------------------------------ question bank ----
 def _qdb():
     con = service._db()
@@ -157,7 +170,8 @@ def impact() -> dict:
         "plagiarism": {"false_alarm_rate": plag["false_alarm_rate_per_honest_pair"],
                        "by_class": plag["threshold_flags_by_class_size"]},
         "tutor": tutor_safety()["evaluation"],
-        "sources": {"adaptive": "reports/adaptive/comparison_seed2027.json (fresh cohort, paired bootstrap 95% CI)",
+        "ab_test": _ab_test(),
+        "sources": {"ab_test": "reports/ab_test/design.md (pre-registration), rehearsal.json","adaptive": "reports/adaptive/comparison_seed2027.json (fresh cohort, paired bootstrap 95% CI)",
                     "dropout": "reports/dropout/report.json", "grading": "reports/grading/report.json",
                     "sandbox": "reports/sandbox/attack_report.json", "plagiarism": "reports/plagiarism/report.json"},
     }

@@ -22,11 +22,7 @@ export default function Impact() {
       <Dropout d={d} />
       <Grading d={d} />
       <Safety d={d} />
-      <section className="impact-block">
-        <h2>Real-student A/B test</h2>
-        <p className="takeaway">Not run yet. Everything above comes from simulated students or prepared submissions.</p>
-        <p className="small muted">The test design (who gets the adaptive path, for how long, what is measured, and when to stop) is part of the launch plan; this page will show its results once real students have used both paths.</p>
-      </section>
+      <AbTest d={d} />
     </div>
   )
 }
@@ -146,6 +142,43 @@ function Safety({ d }: { d: ImpactData }) {
         )}
       </ul>
       <p className="small muted">Sources: {d.sources.sandbox}; reports/tutor_eval; {d.sources.plagiarism}.</p>
+    </section>
+  )
+}
+
+function AbTest({ d }: { d: ImpactData }) {
+  const t = d.ab_test
+  if (!t) {
+    return (
+      <section className="impact-block">
+        <h2>Real-student A/B test</h2>
+        <p className="takeaway">Not run yet. Everything above comes from simulated students or prepared submissions.</p>
+      </section>
+    )
+  }
+  const r = t.rehearsal
+  return (
+    <section className="impact-block">
+      <h2>Real-student A/B test</h2>
+      <p className="takeaway">
+        Designed, not run yet: <span className="num">{t.enrol.toLocaleString()}</span> new students split 50/50, enough to
+        see dropout fall from {pct(t.baseline)} to {pct(t.baseline - t.mde)}. It ships the adaptive path only if
+        students also learn at least as much.
+      </p>
+      <div className="panel">
+        <p className="small">
+          Rehearsed on {r.students.toLocaleString()} fresh simulated students, analysed as the real test will be:
+          dropout before week 4 {pts(r.dropout.diff)} ({pts(r.dropout.low)} to {pts(r.dropout.high)}), learning
+          gain {signed(r.gain.diff)} concepts ({signed(r.gain.low)} to {signed(r.gain.high)}; the most it may fall
+          is {r.gain_margin.toFixed(1)}).
+        </p>
+        <p className="small"><strong>The rule's decision on that data:</strong> {r.decision}.</p>
+      </div>
+      <p className="small muted">
+        A/A check: the fixed path compared with itself found a “difference” in {pct(r.aa_false_positive)} of 1,000 splits,
+        as it should (about 5%). The simulator rewards what the engine does, so this tests the method, not the real effect.
+        Plan: reports/ab_test/design.md.
+      </p>
     </section>
   )
 }
