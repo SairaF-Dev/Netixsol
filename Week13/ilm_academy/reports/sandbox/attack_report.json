@@ -1,0 +1,404 @@
+{
+ "image": "python:3.11-slim",
+ "flags": [
+  "--rm",
+  "-i",
+  "--network",
+  "none",
+  "--memory",
+  "256m",
+  "--memory-swap",
+  "256m",
+  "--cpus",
+  "1",
+  "--pids-limit",
+  "64",
+  "--read-only",
+  "--tmpfs",
+  "/tmp:rw,size=16m,mode=1777",
+  "--workdir",
+  "/tmp",
+  "--user",
+  "65534:65534",
+  "--cap-drop",
+  "ALL",
+  "--security-opt",
+  "no-new-privileges",
+  "--ulimit",
+  "fsize=1048576:1048576",
+  "--ulimit",
+  "nofile=64:64",
+  "--env",
+  "PYTHONDONTWRITEBYTECODE=1"
+ ],
+ "wall_sec": 10,
+ "attacks": 24,
+ "contained": 24,
+ "host_after": {
+  "docker_responds": true,
+  "seconds_to_respond": 0.61,
+  "leftover_containers": []
+ },
+ "rows": [
+  {
+   "attack": "infinite loop",
+   "category": "resource",
+   "expected": "killed at the time limit; no test passes",
+   "contained": true,
+   "status": "timeout",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 137,
+   "seconds": 13.39,
+   "error": "killed after 10s",
+   "printed": ""
+  },
+  {
+   "attack": "sleep forever",
+   "category": "resource",
+   "expected": "killed at the time limit",
+   "contained": true,
+   "status": "timeout",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 137,
+   "seconds": 13.48,
+   "error": "killed after 10s",
+   "printed": ""
+  },
+  {
+   "attack": "fork bomb",
+   "category": "resource",
+   "expected": "stopped by the 64-process limit, then the time limit; host unaffected",
+   "contained": true,
+   "status": "timeout",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 137,
+   "seconds": 13.61,
+   "error": "killed after 10s",
+   "printed": ""
+  },
+  {
+   "attack": "memory bomb",
+   "category": "resource",
+   "expected": "MemoryError or OOM kill at 256 MB",
+   "contained": true,
+   "status": "killed",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 137,
+   "seconds": 1.27,
+   "error": "killed (exit 137: out of memory or process limit)",
+   "printed": ""
+  },
+  {
+   "attack": "CPU threads",
+   "category": "resource",
+   "expected": "limited to 1 CPU; the tests still run (threads do not block grading)",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 5.83,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "output flood",
+   "category": "resource",
+   "expected": "killed at the output cap",
+   "contained": true,
+   "status": "output_limit",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 137,
+   "seconds": 1.12,
+   "error": "output over 64000 bytes",
+   "printed": ""
+  },
+  {
+   "attack": "disk fill /tmp",
+   "category": "resource",
+   "expected": "stopped by the 1 MB file-size limit / 16 MB tmpfs; grading continues",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.94,
+   "error": "",
+   "printed": "stopped: [Errno 27] File too large\n"
+  },
+  {
+   "attack": "deep recursion",
+   "category": "resource",
+   "expected": "crash stays inside the container",
+   "contained": true,
+   "status": "killed",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 137,
+   "seconds": 2.86,
+   "error": "killed (exit 137: out of memory or process limit)",
+   "printed": ""
+  },
+  {
+   "attack": "read environment",
+   "category": "secrets",
+   "expected": "no host variables, no API key",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.95,
+   "error": "",
+   "printed": "{'PATH': '/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'HOSTNAME': 'f19bc5a48ac2', 'PYTHONDONTWRITEBYTECODE': '1', 'LANG': 'C.UTF-8', 'GPG_KEY': 'A035C8C19219BA821ECEA"
+  },
+  {
+   "attack": "read /proc/1/environ",
+   "category": "secrets",
+   "expected": "only the container's own variables",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.92,
+   "error": "",
+   "printed": "b'PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\\x00HOSTNAME=d65d6a7abaaf\\x00PYTHONDONTWRITEBYTECODE=1\\x00LANG=C.UTF-8\\x00GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684"
+  },
+  {
+   "attack": "read project .env",
+   "category": "secrets",
+   "expected": "host files are not mounted, so there is no .env to find",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.96,
+   "error": "",
+   "printed": "/ilm_academy/.env FileNotFoundError\n/app/.env FileNotFoundError\n/home/.env FileNotFoundError\n"
+  },
+  {
+   "attack": "read /etc/shadow",
+   "category": "secrets",
+   "expected": "PermissionError (runs as nobody)",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.85,
+   "error": "",
+   "printed": "blocked PermissionError\n"
+  },
+  {
+   "attack": "network: raw socket",
+   "category": "network",
+   "expected": "no route out",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 1.06,
+   "error": "",
+   "printed": "blocked OSError\n"
+  },
+  {
+   "attack": "network: HTTP + DNS",
+   "category": "network",
+   "expected": "no DNS, no HTTP",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 1.19,
+   "error": "",
+   "printed": "blocked URLError\n"
+  },
+  {
+   "attack": "write outside /tmp",
+   "category": "filesystem",
+   "expected": "read-only filesystem",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.99,
+   "error": "",
+   "printed": "blocked /usr/local/lib/evil.py OSError\nblocked /etc/evil OSError\nblocked /evil OSError\n"
+  },
+  {
+   "attack": "become root",
+   "category": "privilege",
+   "expected": "setuid fails, mount fails, uid stays 65534",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 0.95,
+   "error": "",
+   "printed": "blocked PermissionError\nresult 8192\nuid 65534\n"
+  },
+  {
+   "attack": "fake result line",
+   "category": "grade integrity",
+   "expected": "flagged as tampering; no test passes",
+   "contained": true,
+   "status": "tampered",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.97,
+   "error": "output contains fake result lines (flagged for the teacher)",
+   "printed": ""
+  },
+  {
+   "attack": "steal nonce + forge + exit",
+   "category": "grade integrity",
+   "expected": "the forged line is accepted as the result, but the HOST compares 999 with the expected answers, so nothing passes (expected answers never enter the container)",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.89,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "always-equal object",
+   "category": "grade integrity",
+   "expected": "reported as a non-plain object; fails",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.95,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "int subclass",
+   "category": "grade integrity",
+   "expected": "exact type check: Fake is not int; fails",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.96,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "patch builtins",
+   "category": "grade integrity",
+   "expected": "the harness kept its own references; 0 is reported and fails",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.95,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "atexit fake line",
+   "category": "grade integrity",
+   "expected": "os._exit skips atexit; fails normally",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    false,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.9,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "hardcode visible test",
+   "category": "grade integrity",
+   "expected": "passes the visible test only; the hidden test catches it (partial marks)",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    false
+   ],
+   "exit_code": 0,
+   "seconds": 0.99,
+   "error": "",
+   "printed": ""
+  },
+  {
+   "attack": "control: correct solution",
+   "category": "control",
+   "expected": "both tests pass (the sandbox does not break honest code)",
+   "contained": true,
+   "status": "ok",
+   "passed_tests": [
+    true,
+    true
+   ],
+   "exit_code": 0,
+   "seconds": 2.9,
+   "error": "",
+   "printed": ""
+  }
+ ]
+}
