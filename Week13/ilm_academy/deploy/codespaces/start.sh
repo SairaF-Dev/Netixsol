@@ -35,6 +35,11 @@ if [ -z "${ILM_DEMO_PASSWORD:-}" ]; then
   echo "Ilm Academy NOT started - the secret ILM_DEMO_PASSWORD is not set (docs/deployment.md, step 1)"
   exit 0
 fi
+if [ "${ILM_DEMO_PASSWORD}" = "ilm-demo-2026" ]; then
+  echo "Ilm Academy NOT started - ILM_DEMO_PASSWORD is the dev default, which is published in the code."
+  echo "Choose your own password in the codespace secrets (docs/deployment.md, step 1)."
+  exit 0
+fi
 [ -n "${LLM_API_KEY:-}" ] || echo "warning: LLM_API_KEY is not set - the tutor will say it is unavailable"
 if [ -z "${ILM_JWT_SECRET:-}" ]; then                 # generated once per codespace, kept outside git
   SECRET_FILE="$HOME/.ilm_jwt_secret"

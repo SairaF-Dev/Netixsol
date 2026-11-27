@@ -287,3 +287,16 @@ def test_extras_are_teacher_only(client):
     login(client)
     for path in ("/api/questions/health", "/api/tutor/safety", "/api/impact"):
         assert client.get(path).status_code == 403
+
+
+def test_prod_refuses_the_published_dev_password(monkeypatch):
+    """The dev default is in this public repo; in prod it would let anyone log in as teacher."""
+    monkeypatch.setattr(config, "ILM_ENV", "prod")
+    monkeypatch.setattr(config, "DEMO_PASSWORD", auth.DEV_PASSWORD)
+    with pytest.raises(RuntimeError, match="dev default"):
+        auth._password()
+    monkeypatch.setattr(config, "DEMO_PASSWORD", "")
+    with pytest.raises(RuntimeError, match="must be set"):
+        auth._password()
+    monkeypatch.setattr(config, "DEMO_PASSWORD", "a-password-only-the-owner-knows")
+    assert auth._password() == "a-password-only-the-owner-knows"

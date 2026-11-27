@@ -19,6 +19,8 @@ from ilm.api.auth import COOKIE, SESSION_SEC, User, check_password, current_user
 
 @asynccontextmanager
 async def lifespan(_app):
+    from ilm.api import auth
+    auth._password(), auth._secret()   # in prod: refuse to start without safe secrets, not at first login
     service.warm_up()          # the first student should not wait for the search model to load
     tutor_api.warm_up()
     yield

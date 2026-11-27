@@ -41,11 +41,12 @@ USERS = {
 
 
 def _password() -> str:
-    if config.DEMO_PASSWORD:
-        return config.DEMO_PASSWORD
     if config.ILM_ENV == "prod":
-        raise RuntimeError("ILM_DEMO_PASSWORD must be set in prod")
-    return DEV_PASSWORD
+        if not config.DEMO_PASSWORD:
+            raise RuntimeError("ILM_DEMO_PASSWORD must be set in prod")
+        if config.DEMO_PASSWORD == DEV_PASSWORD:      # it is in this public repo: anyone could log in
+            raise RuntimeError("ILM_DEMO_PASSWORD must not be the dev default (it is published in the code)")
+    return config.DEMO_PASSWORD or DEV_PASSWORD
 
 
 @lru_cache(maxsize=1)

@@ -1,6 +1,6 @@
 """Load test: 500 code submissions in 10 minutes (Day 5 Task 3). Standard library only.
 
-    python -m ilm.api.loadtest --base http://127.0.0.1:8010 --password <demo password>
+    ILM_LOADTEST_PASSWORD=<demo password> python -m ilm.api.loadtest --base http://127.0.0.1:8010
     python -m ilm.api.loadtest ... --burst 100          (100 at once, like a deadline)
 
 What it sends: the 50 graded submissions (data/grading/submissions.json) cycled, so the mix is
@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import http.cookiejar
+import os
 import json
 import statistics
 import threading
@@ -122,11 +123,14 @@ def run(base: str, password: str, total: int, minutes: float, burst: bool, poll:
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="http://127.0.0.1:8010")
-    ap.add_argument("--password", required=True)
+    ap.add_argument("--password", default=os.getenv("ILM_LOADTEST_PASSWORD"),
+                    help="better: set ILM_LOADTEST_PASSWORD (a command line is visible to every process)")
     ap.add_argument("--total", type=int, default=500)
     ap.add_argument("--minutes", type=float, default=10)
     ap.add_argument("--burst", type=int, default=0, help="send this many at once instead")
     a = ap.parse_args(argv)
+    if not a.password:
+        ap.error("set ILM_LOADTEST_PASSWORD")
     if a.burst:
         out = run(a.base, a.password, a.burst, 0, burst=True)
     else:
