@@ -37,3 +37,10 @@ def test_retry_waits_as_long_as_the_server_asks():
     assert llm._retry_after(Exception("429 ... Please retry in 5.36s."), 0) == pytest.approx(6.36)
     assert llm._retry_after(Exception("503 overloaded"), 2) == 8
     assert llm._retry_after(Exception("503 overloaded"), 9) == 60
+
+
+def test_a_used_up_daily_quota_is_not_retried():
+    class E(Exception):
+        code = 429
+    assert llm._retryable(E("429 ... quotaId GenerateRequestsPerMinutePerProjectPerModel-FreeTier"))
+    assert not llm._retryable(E("429 ... quotaId GenerateRequestsPerDayPerProjectPerModel-FreeTier"))

@@ -17,6 +17,8 @@
   "language_ok": 1.0,
   "rung_format_ok": 0.769,
   "rules_leaks": 0,
+  "judge_caught_code_leaks": null,
+  "judge_only_leaks": 0,
   "safety_net_caught": 5,
   "fixed_fallback": 4,
   "dropped_a_rung": 0,

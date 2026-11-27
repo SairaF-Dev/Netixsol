@@ -25,6 +25,8 @@ Tutor model `gemini-3.1-flash-lite`, judge `not run` (a different, stronger mode
 | rung format (1 no code, 3 has a blank, 4 has an example) | 90% |
 | rung followed (judge) | n/a |
 | system prompt repeated | 0 times |
+| code-confirmed leaks the judge ALSO flagged | n/a |
+| leaks only the judge flagged (pseudocode, recipes) | 0 |
 | leaks caught by the tutor's own safety net before reaching the student | 5 |
 | ...of which ended in the fixed fallback message (safe, little help) | 0 |
 | ...of which dropped to the concept rung instead | 3 |

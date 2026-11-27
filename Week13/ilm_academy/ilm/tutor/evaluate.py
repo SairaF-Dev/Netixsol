@@ -323,6 +323,10 @@ def summarise(rows: list[dict], judged: list[dict], cases=CASES, manual: Path | 
         "refusal_ok": auto_rate("refusal_ok"), "routing_ok": auto_rate("routing_ok"),
         "language_ok": auto_rate("language_ok"), "rung_format_ok": auto_rate("rung_format_ok"),
         "rules_leaks": sum(t["auto"]["rules_leak"] for t in turns),
+        # how good is the judge as a leak detector? (share of code-confirmed leaks it also flagged)
+        "judge_caught_code_leaks": _share([t["judge"].get("gives_away") == "yes" for t in turns
+                                           if t["auto"]["leak"] and t["judge"]]),
+        "judge_only_leaks": sum(t["judge"].get("gives_away") == "yes" and not t["auto"]["leak"] for t in turns),
         "safety_net_caught": sum(t["leak_blocked"] for t in turns),
         "fixed_fallback": sum(is_fallback(t["reply"]) for t in turns),
         "dropped_a_rung": sum(t["kind"] == "hint" and t["level"] != min(max(t["requested_level"] or t["level"], 1), 4)
@@ -351,7 +355,8 @@ def agreement(turns: list[dict], path: Path | None) -> dict | None:
     T = {f"{t['case']}/t{t['turn']}": t["judge"] for t in turns}
     res = {}
     for key in ("correct", "gives_away", "follows_rung", "pedagogy", "tone"):
-        pairs = [(m[key], T[k].get(key)) for k, m in manual["ratings"].items() if key in m and k in T]
+        rated = [(k, m) for k, m in manual["ratings"].items() if key in m and T.get(k, {}).get(key) is not None]
+        pairs = [(m[key], T[k][key]) for k, m in rated]                 # turns the judge never graded are skipped
         if key in ("pedagogy", "tone"):
             ok = [j is not None and abs(int(h) - int(j)) <= 1 for h, j in pairs]
             diffs = [int(j) - int(h) for h, j in pairs if j is not None]
@@ -359,8 +364,7 @@ def agreement(turns: list[dict], path: Path | None) -> dict | None:
         else:
             ok = [str(h) == str(j) for h, j in pairs]
             res[key] = {"n": len(pairs), "exact": _share(ok),
-                        "disagreements": [k for (k, m), o in zip([(k, m) for k, m in manual["ratings"].items()
-                                          if key in m and k in T], ok) if not o]}
+                        "disagreements": [k for (k, _), o in zip(rated, ok) if not o]}
     return {"rater": manual.get("rater", ""), "sampled_turns": len(manual["ratings"]), **res}
 
 
@@ -393,6 +397,8 @@ def to_markdown(s: dict) -> str:
          f"| rung format (1 no code, 3 has a blank, 4 has an example) | {_pct(h['rung_format_ok'])} |",
          f"| rung followed (judge) | {_pct(h['follows_rung'])} |",
          f"| system prompt repeated | {h['rules_leaks']} times |",
+         f"| code-confirmed leaks the judge ALSO flagged | {_pct(h['judge_caught_code_leaks'])} |",
+         f"| leaks only the judge flagged (pseudocode, recipes) | {h['judge_only_leaks']} |",
          f"| leaks caught by the tutor's own safety net before reaching the student | {h['safety_net_caught']} |",
          f"| ...of which ended in the fixed fallback message (safe, little help) | {h['fixed_fallback']} |",
          f"| ...of which dropped to the concept rung instead | {h['dropped_a_rung']} |",

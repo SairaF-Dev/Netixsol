@@ -35,6 +35,10 @@ def _client():
 
 
 def _retryable(err: Exception) -> bool:
+    """Per-minute limits and server errors pass; a used-up DAILY quota does not (it resets in
+    hours, and every retry still counts against it)."""
+    if "PerDay" in str(err):
+        return False
     code = getattr(err, "code", None) or getattr(err, "status_code", None)
     return code in (429, 500, 502, 503, 504) or "RESOURCE_EXHAUSTED" in str(err) or "UNAVAILABLE" in str(err)
 
