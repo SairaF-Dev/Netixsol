@@ -96,3 +96,37 @@ What we do instead:
 2. Why is a top-5 queue fairer to the teacher than "every pair over 0.63"?
 3. The benchmark's honest solutions were all written by one author. Why might that make the
    detector look better, or worse, than it really is?
+
+## Sandbox (Task 1): two jobs
+
+1. **Protect the machine:** a fresh container per run, no network, memory/CPU/process limits,
+   read-only files, no host secrets. 24 attacks, all contained.
+2. **Protect the grade:** student code runs inside the same process as the checker, so it can
+   lie. The defence is to keep the expected answers OUTSIDE the container: it only reports what
+   the code returned, and the host compares. A forged "all passed" line, made with the stolen
+   per-run tag, still scored 0.
+
+**Rule: a secret the attacker can read protects nothing. Put the decision where they can't reach.**
+
+## Grading (Task 2): what tests can and cannot see
+
+On 50 submissions, compared with blind marks written from a scheme:
+
+| grader | kappa with the marker |
+|---|---|
+| tests only | 0.64 |
+| + rule checks (recursion really used, no `max()`, ...) | 0.92 |
+
+- **Tests over-mark rule-breakers:** a loop instead of recursion passes every test.
+- **Tests under-mark good ideas:** an off-by-one loop fails every test, while a person sees
+  the right idea and gives 3-4.
+- **Same code must get the same mark:** set order changes between Python processes, so the
+  sandbox fixes the hash seed. The first fix silently did nothing (`python -I` ignores
+  `PYTHON*` variables); only a test that ran the same code three times showed it.
+
+### Check yourself
+4. Why can't the sandbox just trust a result line that carries the secret per-run tag?
+5. A student's code is right but uses `while` where the task says `for`. What do tests give
+   it, and what does the grader give it now?
+6. Why is "the same code gets the same mark every time" a fairness requirement, not just
+   tidiness?

@@ -51,6 +51,7 @@ DOCKER_FLAGS = [
     "--user", "65534:65534", "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
     "--ulimit", "fsize=1048576:1048576", "--ulimit", "nofile=64:64",
     "--env", "PYTHONDONTWRITEBYTECODE=1",
+    "--env", "PYTHONHASHSEED=0",    # same code, same set/dict order, same mark on every run
 ]
 
 HARNESS = r'''
@@ -217,7 +218,9 @@ def run(source: str, tests: list[dict], wall_sec: int = WALL_SEC, test_sec: int 
     name = f"ilm-sbx-{uuid.uuid4().hex[:12]}"
     harness = HARNESS.replace("SOURCE_PLACEHOLDER", "SRC")
     harness = "SRC = " + repr(source) + "\n" + harness      # source travels inside the -c argument
-    cmd = ["docker", "run", "--name", name, *DOCKER_FLAGS, IMAGE, "python", "-I", "-S", "-c", harness]
+    # -s -S, not -I: isolated mode ignores PYTHON* variables, and PYTHONHASHSEED must apply.
+    # Safe here: the container environment is only what DOCKER_FLAGS sets (nothing from the host).
+    cmd = ["docker", "run", "--name", name, *DOCKER_FLAGS, IMAGE, "python", "-s", "-S", "-c", harness]
     payload = json.dumps({"calls": [t["call"] for t in tests], "nonce": nonce, "test_sec": test_sec}).encode()
     t0 = time.time()
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

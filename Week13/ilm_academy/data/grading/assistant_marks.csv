@@ -1,0 +1,51 @@
+id,mark,reason
+s01,10,correct recursive factorial
+s02,4,correct output but a for loop: the task asks for recursion (rule broken)
+s03,5,base case n == 1: factorial(0) recurses forever although the task states factorial(0) is 1
+s04,3,base case returns 0 so every result is 0; recursive structure is right
+s05,1,syntax error (missing colon after if n == 0); otherwise right
+s06,10,correct
+s07,9,correct but the third branch can never run
+s08,2,inverted: returns True for odd numbers
+s09,3,prints instead of returning (returns None); the check itself is right
+s10,6,and n > 0 makes 0 and negative even numbers return False
+s11,10,correct
+s12,6,> instead of >=: 90 gets B and 80 gets C (boundaries wrong)
+s13,3,wrong order: every score of 70 or more gets C
+s14,9,correct; overwriting letter is less clear than if/elif
+s15,1,hard-codes the example score 95; no real attempt
+s16,10,correct
+s17,3,sets every count to 1 instead of adding
+s18,8,correct but word.count inside the loop is slow (quadratic)
+s19,3,counts[ch] += 1 on a missing key raises KeyError; needs an initial value
+s20,10,correct
+s21,10,correct
+s22,3,"uses max(), which the task forbids; no loop logic shown"
+s23,6,starts biggest at 0: wrong for lists of only negative numbers
+s24,7,correct and avoids max() literally but sidesteps the loop the exercise practises; slower (sorting)
+s25,3,< instead of >: returns the smallest number
+s26,10,correct
+s27,3,no try/except (rule broken) and inputs like '--5' still crash in int()
+s28,3,no try/except (rule broken) and negative numbers like '-5' return None
+s29,8,correct with try/except; bare except catches every error (should be ValueError)
+s30,5,returns 0 instead of None for invalid input
+s31,10,correct
+s32,4,"range(1, n) stops early: misses n itself for every n >= 1"
+s33,4,correct formula but the task asks for a for loop (rule broken)
+s34,4,correct but a while loop where the task asks for a for loop (rule broken)
+s35,2,i is never increased: infinite loop for every n >= 1
+s36,10,correct
+s37,4,correct but slicing s[::-1] instead of recursion (rule broken)
+s38,3,checks only the first and last characters and never recurses ('abca' gives True)
+s39,5,base case only for length 1: even-length strings reach '' and crash on s[0]
+s40,9,correct but long-winded (s[len(s) - 1] for s[-1])
+s41,10,correct
+s42,3,"uses str() and no while loop, both forbidden by the task"
+s43,3,starts at 0 and loops while n > 10: every count is one too low
+s44,2,n / 10 does not change n: infinite loop
+s45,6,"while n > 10 instead of >= 10: wrong for 10, 100, 1000 ..."
+s46,10,correct
+s47,5,removes duplicates but does not sort (the task asks for alphabetical order)
+s48,9,correct; 'not in result' on a list is slow for big inputs
+s49,4,sorted but keeps duplicates (each house should appear once)
+s50,2,students['house'] indexes a list with a string: TypeError on every call

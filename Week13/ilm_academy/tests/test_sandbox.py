@@ -90,3 +90,11 @@ def test_no_network_and_no_host_secrets():
 def test_infinite_loop_is_killed():
     r = sandbox.run("while True:\n    pass\n", ADD, wall_sec=2)
     assert r.status == "timeout" and not any(r.passed) and r.seconds < 2 + sandbox.STARTUP_SEC + 5
+
+
+@needs_docker
+def test_same_code_gets_the_same_result_every_run():
+    """Set order depends on string hashing; the sandbox fixes the seed so a grade cannot flip."""
+    code = "def f():\n    return list({'gryffindor', 'hufflepuff', 'ravenclaw', 'slytherin', 'x', 'y'})\n"
+    runs = {tuple(sandbox.run(code, [{"call": "f()", "expect": "[]"}]).details) for _ in range(3)}
+    assert len(runs) == 1

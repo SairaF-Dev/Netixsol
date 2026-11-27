@@ -14,6 +14,8 @@ capability dropped, no privilege escalation, a 1 MB file-size limit, 64 open fil
 limit and a 64 KB output cap. Nothing from the host is passed in: no environment variables
 (so no API key) and no folders.
 
+**Same code, same mark.** `PYTHONHASHSEED=0` fixes set and dict order, so a grade that depends on it cannot change between runs. Python runs with `-s -S` rather than `-I`, because isolated mode ignores every `PYTHON*` variable; the seed was silently ignored until a test caught it.
+
 **2. Protect the grade.** Student code runs in the same process as the test loop, so it can
 read and change anything there, including the harness's own variables and Python's built-ins.
 So the container is never trusted with the verdict:

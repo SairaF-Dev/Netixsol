@@ -29,14 +29,16 @@
   "--ulimit",
   "nofile=64:64",
   "--env",
-  "PYTHONDONTWRITEBYTECODE=1"
+  "PYTHONDONTWRITEBYTECODE=1",
+  "--env",
+  "PYTHONHASHSEED=0"
  ],
  "wall_sec": 10,
  "attacks": 24,
  "contained": 24,
  "host_after": {
   "docker_responds": true,
-  "seconds_to_respond": 0.61,
+  "seconds_to_respond": 0.82,
   "leftover_containers": []
  },
  "rows": [
@@ -51,7 +53,7 @@
     false
    ],
    "exit_code": 137,
-   "seconds": 13.39,
+   "seconds": 13.27,
    "error": "killed after 10s",
    "printed": ""
   },
@@ -66,7 +68,7 @@
     false
    ],
    "exit_code": 137,
-   "seconds": 13.48,
+   "seconds": 13.24,
    "error": "killed after 10s",
    "printed": ""
   },
@@ -81,7 +83,7 @@
     false
    ],
    "exit_code": 137,
-   "seconds": 13.61,
+   "seconds": 13.52,
    "error": "killed after 10s",
    "printed": ""
   },
@@ -96,7 +98,7 @@
     false
    ],
    "exit_code": 137,
-   "seconds": 1.27,
+   "seconds": 0.86,
    "error": "killed (exit 137: out of memory or process limit)",
    "printed": ""
   },
@@ -111,7 +113,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 5.83,
+   "seconds": 5.54,
    "error": "",
    "printed": ""
   },
@@ -126,7 +128,7 @@
     false
    ],
    "exit_code": 137,
-   "seconds": 1.12,
+   "seconds": 0.82,
    "error": "output over 64000 bytes",
    "printed": ""
   },
@@ -141,7 +143,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.94,
+   "seconds": 0.74,
    "error": "",
    "printed": "stopped: [Errno 27] File too large\n"
   },
@@ -156,7 +158,7 @@
     false
    ],
    "exit_code": 137,
-   "seconds": 2.86,
+   "seconds": 2.02,
    "error": "killed (exit 137: out of memory or process limit)",
    "printed": ""
   },
@@ -171,9 +173,9 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.95,
+   "seconds": 0.61,
    "error": "",
-   "printed": "{'PATH': '/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'HOSTNAME': 'f19bc5a48ac2', 'PYTHONDONTWRITEBYTECODE': '1', 'LANG': 'C.UTF-8', 'GPG_KEY': 'A035C8C19219BA821ECEA"
+   "printed": "{'PATH': '/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'HOSTNAME': '1f6ef4dac2df', 'PYTHONDONTWRITEBYTECODE': '1', 'PYTHONHASHSEED': '0', 'LANG': 'C.UTF-8', 'GPG_KEY':"
   },
   {
    "attack": "read /proc/1/environ",
@@ -186,9 +188,9 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.92,
+   "seconds": 0.67,
    "error": "",
-   "printed": "b'PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\\x00HOSTNAME=d65d6a7abaaf\\x00PYTHONDONTWRITEBYTECODE=1\\x00LANG=C.UTF-8\\x00GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684"
+   "printed": "b'PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\\x00HOSTNAME=b9059a5c7cc6\\x00PYTHONDONTWRITEBYTECODE=1\\x00PYTHONHASHSEED=0\\x00LANG=C.UTF-8\\x00GPG_KEY=A035C8C19219BA82"
   },
   {
    "attack": "read project .env",
@@ -201,7 +203,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.96,
+   "seconds": 0.74,
    "error": "",
    "printed": "/ilm_academy/.env FileNotFoundError\n/app/.env FileNotFoundError\n/home/.env FileNotFoundError\n"
   },
@@ -216,7 +218,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.85,
+   "seconds": 0.69,
    "error": "",
    "printed": "blocked PermissionError\n"
   },
@@ -231,7 +233,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 1.06,
+   "seconds": 1.1,
    "error": "",
    "printed": "blocked OSError\n"
   },
@@ -246,7 +248,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 1.19,
+   "seconds": 1.45,
    "error": "",
    "printed": "blocked URLError\n"
   },
@@ -261,7 +263,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.99,
+   "seconds": 1.16,
    "error": "",
    "printed": "blocked /usr/local/lib/evil.py OSError\nblocked /etc/evil OSError\nblocked /evil OSError\n"
   },
@@ -276,7 +278,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 0.95,
+   "seconds": 1.06,
    "error": "",
    "printed": "blocked PermissionError\nresult 8192\nuid 65534\n"
   },
@@ -291,7 +293,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.97,
+   "seconds": 4.01,
    "error": "output contains fake result lines (flagged for the teacher)",
    "printed": ""
   },
@@ -306,7 +308,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.89,
+   "seconds": 1.6,
    "error": "",
    "printed": ""
   },
@@ -321,7 +323,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.95,
+   "seconds": 0.9,
    "error": "",
    "printed": ""
   },
@@ -336,7 +338,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.96,
+   "seconds": 0.85,
    "error": "",
    "printed": ""
   },
@@ -351,7 +353,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.95,
+   "seconds": 0.9,
    "error": "",
    "printed": ""
   },
@@ -366,7 +368,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.9,
+   "seconds": 0.79,
    "error": "",
    "printed": ""
   },
@@ -381,7 +383,7 @@
     false
    ],
    "exit_code": 0,
-   "seconds": 0.99,
+   "seconds": 0.78,
    "error": "",
    "printed": ""
   },
@@ -396,7 +398,7 @@
     true
    ],
    "exit_code": 0,
-   "seconds": 2.9,
+   "seconds": 0.91,
    "error": "",
    "printed": ""
   }

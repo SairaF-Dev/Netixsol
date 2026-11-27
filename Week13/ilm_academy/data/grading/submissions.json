@@ -1,0 +1,302 @@
+[
+ {
+  "id": "s01",
+  "exercise": "recursion-03",
+  "kind": "correct",
+  "code": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n"
+ },
+ {
+  "id": "s02",
+  "exercise": "recursion-03",
+  "kind": "rule_broken",
+  "code": "def factorial(n):\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n"
+ },
+ {
+  "id": "s03",
+  "exercise": "recursion-03",
+  "kind": "edge_case",
+  "code": "def factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n"
+ },
+ {
+  "id": "s04",
+  "exercise": "recursion-03",
+  "kind": "wrong",
+  "code": "def factorial(n):\n    if n == 0:\n        return 0\n    return n * factorial(n - 1)\n"
+ },
+ {
+  "id": "s05",
+  "exercise": "recursion-03",
+  "kind": "broken",
+  "code": "def factorial(n):\n    if n == 0\n        return 1\n    return n * factorial(n - 1)\n"
+ },
+ {
+  "id": "s06",
+  "exercise": "modulo-02",
+  "kind": "correct",
+  "code": "def is_even(n):\n    return n % 2 == 0\n"
+ },
+ {
+  "id": "s07",
+  "exercise": "modulo-02",
+  "kind": "clumsy",
+  "code": "def is_even(n):\n    if n % 2 == 0:\n        return True\n    elif n % 2 == 1:\n        return False\n    else:\n        return False\n"
+ },
+ {
+  "id": "s08",
+  "exercise": "modulo-02",
+  "kind": "wrong",
+  "code": "def is_even(n):\n    return n % 2 == 1\n"
+ },
+ {
+  "id": "s09",
+  "exercise": "modulo-02",
+  "kind": "prints",
+  "code": "def is_even(n):\n    print(n % 2 == 0)\n"
+ },
+ {
+  "id": "s10",
+  "exercise": "modulo-02",
+  "kind": "edge_case",
+  "code": "def is_even(n):\n    return n % 2 == 0 and n > 0\n"
+ },
+ {
+  "id": "s11",
+  "exercise": "elif_else-01",
+  "kind": "correct",
+  "code": "def grade(score):\n    if score >= 90:\n        return \"A\"\n    elif score >= 80:\n        return \"B\"\n    elif score >= 70:\n        return \"C\"\n    return \"F\"\n"
+ },
+ {
+  "id": "s12",
+  "exercise": "elif_else-01",
+  "kind": "edge_case",
+  "code": "def grade(score):\n    if score > 90:\n        return \"A\"\n    elif score > 80:\n        return \"B\"\n    elif score > 70:\n        return \"C\"\n    else:\n        return \"F\"\n"
+ },
+ {
+  "id": "s13",
+  "exercise": "elif_else-01",
+  "kind": "wrong",
+  "code": "def grade(score):\n    if score >= 70:\n        return \"C\"\n    elif score >= 80:\n        return \"B\"\n    elif score >= 90:\n        return \"A\"\n    else:\n        return \"F\"\n"
+ },
+ {
+  "id": "s14",
+  "exercise": "elif_else-01",
+  "kind": "clumsy",
+  "code": "def grade(score):\n    letter = \"F\"\n    if score >= 70:\n        letter = \"C\"\n    if score >= 80:\n        letter = \"B\"\n    if score >= 90:\n        letter = \"A\"\n    return letter\n"
+ },
+ {
+  "id": "s15",
+  "exercise": "elif_else-01",
+  "kind": "hardcoded",
+  "code": "def grade(score):\n    if score == 95:\n        return \"A\"\n    return \"F\"\n"
+ },
+ {
+  "id": "s16",
+  "exercise": "dictionaries-03",
+  "kind": "correct",
+  "code": "def count_letters(word):\n    counts = {}\n    for ch in word:\n        if ch in counts:\n            counts[ch] += 1\n        else:\n            counts[ch] = 1\n    return counts\n"
+ },
+ {
+  "id": "s17",
+  "exercise": "dictionaries-03",
+  "kind": "wrong",
+  "code": "def count_letters(word):\n    counts = {}\n    for ch in word:\n        counts[ch] = 1\n    return counts\n"
+ },
+ {
+  "id": "s18",
+  "exercise": "dictionaries-03",
+  "kind": "slow",
+  "code": "def count_letters(word):\n    counts = {}\n    for ch in word:\n        counts[ch] = word.count(ch)\n    return counts\n"
+ },
+ {
+  "id": "s19",
+  "exercise": "dictionaries-03",
+  "kind": "crashes",
+  "code": "def count_letters(word):\n    counts = {}\n    for ch in word:\n        counts[ch] += 1\n    return counts\n"
+ },
+ {
+  "id": "s20",
+  "exercise": "dictionaries-03",
+  "kind": "correct",
+  "code": "def count_letters(word):\n    result = {}\n    for letter in word:\n        result[letter] = result.get(letter, 0) + 1\n    return result\n"
+ },
+ {
+  "id": "s21",
+  "exercise": "iterating_lists-03",
+  "kind": "correct",
+  "code": "def largest(nums):\n    best = nums[0]\n    for n in nums[1:]:\n        if n > best:\n            best = n\n    return best\n"
+ },
+ {
+  "id": "s22",
+  "exercise": "iterating_lists-03",
+  "kind": "rule_broken",
+  "code": "def largest(nums):\n    return max(nums)\n"
+ },
+ {
+  "id": "s23",
+  "exercise": "iterating_lists-03",
+  "kind": "edge_case",
+  "code": "def largest(nums):\n    biggest = 0\n    for n in nums:\n        if n > biggest:\n            biggest = n\n    return biggest\n"
+ },
+ {
+  "id": "s24",
+  "exercise": "iterating_lists-03",
+  "kind": "rule_broken",
+  "code": "def largest(nums):\n    return sorted(nums)[-1]\n"
+ },
+ {
+  "id": "s25",
+  "exercise": "iterating_lists-03",
+  "kind": "wrong",
+  "code": "def largest(nums):\n    biggest = nums[0]\n    for n in nums:\n        if n < biggest:\n            biggest = n\n    return biggest\n"
+ },
+ {
+  "id": "s26",
+  "exercise": "try_except-02",
+  "kind": "correct",
+  "code": "def to_int(s):\n    try:\n        return int(s)\n    except ValueError:\n        return None\n"
+ },
+ {
+  "id": "s27",
+  "exercise": "try_except-02",
+  "kind": "rule_broken",
+  "code": "def to_int(s):\n    if s.lstrip(\"-\").isdigit():\n        return int(s)\n    return None\n"
+ },
+ {
+  "id": "s28",
+  "exercise": "try_except-02",
+  "kind": "edge_case",
+  "code": "def to_int(s):\n    if s.isdigit():\n        return int(s)\n    return None\n"
+ },
+ {
+  "id": "s29",
+  "exercise": "try_except-02",
+  "kind": "clumsy",
+  "code": "def to_int(s):\n    try:\n        x = int(s)\n    except:\n        x = None\n    return x\n"
+ },
+ {
+  "id": "s30",
+  "exercise": "try_except-02",
+  "kind": "wrong",
+  "code": "def to_int(s):\n    try:\n        return int(s)\n    except ValueError:\n        return 0\n"
+ },
+ {
+  "id": "s31",
+  "exercise": "for_loops-01",
+  "kind": "correct",
+  "code": "def sum_to(n):\n    total = 0\n    for i in range(1, n + 1):\n        total += i\n    return total\n"
+ },
+ {
+  "id": "s32",
+  "exercise": "for_loops-01",
+  "kind": "edge_case",
+  "code": "def sum_to(n):\n    total = 0\n    for i in range(1, n):\n        total += i\n    return total\n"
+ },
+ {
+  "id": "s33",
+  "exercise": "for_loops-01",
+  "kind": "rule_broken",
+  "code": "def sum_to(n):\n    return n * (n + 1) // 2\n"
+ },
+ {
+  "id": "s34",
+  "exercise": "for_loops-01",
+  "kind": "rule_broken",
+  "code": "def sum_to(n):\n    total = 0\n    i = 1\n    while i <= n:\n        total += i\n        i += 1\n    return total\n"
+ },
+ {
+  "id": "s35",
+  "exercise": "for_loops-01",
+  "kind": "timeout",
+  "code": "def sum_to(n):\n    total = 0\n    i = 1\n    while i <= n:\n        total += i\n    return total\n"
+ },
+ {
+  "id": "s36",
+  "exercise": "recursion-05",
+  "kind": "correct",
+  "code": "def is_palindrome(s):\n    if len(s) <= 1:\n        return True\n    if s[0] != s[-1]:\n        return False\n    return is_palindrome(s[1:-1])\n"
+ },
+ {
+  "id": "s37",
+  "exercise": "recursion-05",
+  "kind": "rule_broken",
+  "code": "def is_palindrome(s):\n    return s == s[::-1]\n"
+ },
+ {
+  "id": "s38",
+  "exercise": "recursion-05",
+  "kind": "wrong",
+  "code": "def is_palindrome(s):\n    if len(s) <= 1:\n        return True\n    return s[0] == s[-1]\n"
+ },
+ {
+  "id": "s39",
+  "exercise": "recursion-05",
+  "kind": "crashes",
+  "code": "def is_palindrome(s):\n    if len(s) == 1:\n        return True\n    return s[0] == s[-1] and is_palindrome(s[1:-1])\n"
+ },
+ {
+  "id": "s40",
+  "exercise": "recursion-05",
+  "kind": "clumsy",
+  "code": "def is_palindrome(s):\n    if len(s) == 0:\n        return True\n    elif len(s) == 1:\n        return True\n    else:\n        if s[0] == s[len(s) - 1]:\n            return is_palindrome(s[1:len(s) - 1])\n        else:\n            return False\n"
+ },
+ {
+  "id": "s41",
+  "exercise": "while_loops-03",
+  "kind": "correct",
+  "code": "def count_digits(n):\n    count = 0\n    while n > 0:\n        n = n // 10\n        count += 1\n    return count\n"
+ },
+ {
+  "id": "s42",
+  "exercise": "while_loops-03",
+  "kind": "rule_broken",
+  "code": "def count_digits(n):\n    return len(str(n))\n"
+ },
+ {
+  "id": "s43",
+  "exercise": "while_loops-03",
+  "kind": "wrong",
+  "code": "def count_digits(n):\n    count = 0\n    while n > 10:\n        n //= 10\n        count += 1\n    return count\n"
+ },
+ {
+  "id": "s44",
+  "exercise": "while_loops-03",
+  "kind": "timeout",
+  "code": "def count_digits(n):\n    count = 0\n    while n > 0:\n        n / 10\n        count += 1\n    return count\n"
+ },
+ {
+  "id": "s45",
+  "exercise": "while_loops-03",
+  "kind": "edge_case",
+  "code": "def count_digits(n):\n    count = 1\n    while n > 10:\n        n //= 10\n        count += 1\n    return count\n"
+ },
+ {
+  "id": "s46",
+  "exercise": "sets-02",
+  "kind": "correct",
+  "code": "def unique_houses(students):\n    houses = set()\n    for s in students:\n        houses.add(s[\"house\"])\n    return sorted(houses)\n"
+ },
+ {
+  "id": "s47",
+  "exercise": "sets-02",
+  "kind": "wrong",
+  "code": "def unique_houses(students):\n    return list({s[\"house\"] for s in students})\n"
+ },
+ {
+  "id": "s48",
+  "exercise": "sets-02",
+  "kind": "clumsy",
+  "code": "def unique_houses(students):\n    result = []\n    for s in students:\n        if s[\"house\"] not in result:\n            result.append(s[\"house\"])\n    result.sort()\n    return result\n"
+ },
+ {
+  "id": "s49",
+  "exercise": "sets-02",
+  "kind": "wrong",
+  "code": "def unique_houses(students):\n    return sorted([s[\"house\"] for s in students])\n"
+ },
+ {
+  "id": "s50",
+  "exercise": "sets-02",
+  "kind": "crashes",
+  "code": "def unique_houses(students):\n    return sorted(set(students[\"house\"]))\n"
+ }
+]

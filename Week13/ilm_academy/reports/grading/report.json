@@ -1,0 +1,967 @@
+{
+ "reference": "assistant marks (blind, scheme in data/grading/marking_scheme.md), NOT a teacher",
+ "variants": {
+  "bank tests only": {
+   "n": 50,
+   "mae": 2.03,
+   "within_1": 0.48,
+   "within_2": 0.7,
+   "spearman": 0.731,
+   "pearson": 0.706,
+   "quadratic_kappa": 0.641,
+   "mean_grader_minus_ref": 1.26
+  },
+  "+ edge tests": {
+   "n": 50,
+   "mae": 1.95,
+   "within_1": 0.48,
+   "within_2": 0.7,
+   "spearman": 0.753,
+   "pearson": 0.717,
+   "quadratic_kappa": 0.662,
+   "mean_grader_minus_ref": 1.05
+  },
+  "+ rule checks": {
+   "n": 50,
+   "mae": 0.99,
+   "within_1": 0.66,
+   "within_2": 0.88,
+   "spearman": 0.922,
+   "pearson": 0.93,
+   "quadratic_kappa": 0.915,
+   "mean_grader_minus_ref": 0.09
+  },
+  "+ speed check (final)": {
+   "n": 50,
+   "mae": 0.95,
+   "within_1": 0.68,
+   "within_2": 0.88,
+   "spearman": 0.926,
+   "pearson": 0.93,
+   "quadratic_kappa": 0.917,
+   "mean_grader_minus_ref": 0.05
+  }
+ },
+ "by_kind": {
+  "broken": {
+   "n": 1,
+   "mean_grader": 0.0,
+   "mean_ref": 1.0,
+   "mae": 1.0
+  },
+  "clumsy": {
+   "n": 5,
+   "mean_grader": 9.8,
+   "mean_ref": 8.8,
+   "mae": 1.0
+  },
+  "correct": {
+   "n": 11,
+   "mean_grader": 10.0,
+   "mean_ref": 10.0,
+   "mae": 0.0
+  },
+  "crashes": {
+   "n": 3,
+   "mean_grader": 3.2,
+   "mean_ref": 3.3,
+   "mae": 1.17
+  },
+  "edge_case": {
+   "n": 7,
+   "mean_grader": 5.0,
+   "mean_ref": 5.1,
+   "mae": 1.26
+  },
+  "hardcoded": {
+   "n": 1,
+   "mean_grader": 2.7,
+   "mean_ref": 1.0,
+   "mae": 1.7
+  },
+  "prints": {
+   "n": 1,
+   "mean_grader": 0.0,
+   "mean_ref": 3.0,
+   "mae": 3.0
+  },
+  "rule_broken": {
+   "n": 8,
+   "mean_grader": 4.8,
+   "mean_ref": 4.0,
+   "mae": 0.75
+  },
+  "slow": {
+   "n": 1,
+   "mean_grader": 9.0,
+   "mean_ref": 8.0,
+   "mae": 1.0
+  },
+  "timeout": {
+   "n": 2,
+   "mean_grader": 0.8,
+   "mean_ref": 2.0,
+   "mae": 1.15
+  },
+  "wrong": {
+   "n": 10,
+   "mean_grader": 3.1,
+   "mean_ref": 3.4,
+   "mae": 1.53
+  }
+ },
+ "disagreements": [
+  {
+   "id": "s04",
+   "exercise": "recursion-03",
+   "tests": 6,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "factorial(5) -> 0",
+    "factorial(0) -> 0",
+    "factorial(1) -> 0",
+    "factorial(0) -> 0"
+   ],
+   "ref": 3.0,
+   "ref_reason": "base case returns 0 so every result is 0; recursive structure is right",
+   "kind": "wrong"
+  },
+  {
+   "id": "s09",
+   "exercise": "modulo-02",
+   "tests": 8,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "is_even(4) -> None",
+    "is_even(7) -> None",
+    "is_even(0) -> None",
+    "is_even(-2) -> None"
+   ],
+   "ref": 3.0,
+   "ref_reason": "prints instead of returning (returns None); the check itself is right",
+   "kind": "prints"
+  },
+  {
+   "id": "s24",
+   "exercise": "iterating_lists-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": [],
+   "ref": 7.0,
+   "ref_reason": "correct and avoids max() literally but sidesteps the loop the exercise practises; slower (sorting)",
+   "kind": "rule_broken"
+  },
+  {
+   "id": "s43",
+   "exercise": "while_loops-03",
+   "tests": 7,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "count_digits(12345) -> 4",
+    "count_digits(5) -> 0",
+    "count_digits(100) -> 1",
+    "count_digits(9) -> 0"
+   ],
+   "ref": 3.0,
+   "ref_reason": "starts at 0 and loops while n > 10: every count is one too low",
+   "kind": "wrong"
+  },
+  {
+   "id": "s47",
+   "exercise": "sets-02",
+   "tests": 5,
+   "passed": 4,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 8.0,
+   "failed": [
+    "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> ['Slytherin', 'Gryffindor']"
+   ],
+   "ref": 5.0,
+   "ref_reason": "removes duplicates but does not sort (the task asks for alphabetical order)",
+   "kind": "wrong"
+  },
+  {
+   "id": "s32",
+   "exercise": "for_loops-01",
+   "tests": 6,
+   "passed": 1,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 1.7,
+   "failed": [
+    "sum_to(3) -> 3",
+    "sum_to(1) -> 0",
+    "sum_to(100) -> 4950",
+    "sum_to(1) -> 0"
+   ],
+   "ref": 4.0,
+   "ref_reason": "range(1, n) stops early: misses n itself for every n >= 1",
+   "kind": "edge_case"
+  }
+ ],
+ "timeouts_rescued": 1,
+ "rules_broken": 10,
+ "too_slow": 2,
+ "grades": [
+  {
+   "id": "s01",
+   "exercise": "recursion-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s02",
+   "exercise": "recursion-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "not recursive"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": []
+  },
+  {
+   "id": "s03",
+   "exercise": "recursion-03",
+   "tests": 6,
+   "passed": 4,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 6.7,
+   "failed": [
+    "factorial(0) -> RecursionError: maximum recursion depth exceeded",
+    "factorial(0) -> RecursionError: maximum recursion depth exceeded"
+   ]
+  },
+  {
+   "id": "s04",
+   "exercise": "recursion-03",
+   "tests": 6,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "factorial(5) -> 0",
+    "factorial(0) -> 0",
+    "factorial(1) -> 0",
+    "factorial(0) -> 0"
+   ]
+  },
+  {
+   "id": "s05",
+   "exercise": "recursion-03",
+   "tests": 6,
+   "passed": 0,
+   "status": "load_error",
+   "error": "SyntaxError: expected ':' (solution.py, line 2)",
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "factorial(5) -> ",
+    "factorial(0) -> ",
+    "factorial(1) -> ",
+    "factorial(0) -> "
+   ]
+  },
+  {
+   "id": "s06",
+   "exercise": "modulo-02",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s07",
+   "exercise": "modulo-02",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s08",
+   "exercise": "modulo-02",
+   "tests": 8,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "is_even(4) -> False",
+    "is_even(7) -> True",
+    "is_even(0) -> False",
+    "is_even(-2) -> False"
+   ]
+  },
+  {
+   "id": "s09",
+   "exercise": "modulo-02",
+   "tests": 8,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "is_even(4) -> None",
+    "is_even(7) -> None",
+    "is_even(0) -> None",
+    "is_even(-2) -> None"
+   ]
+  },
+  {
+   "id": "s10",
+   "exercise": "modulo-02",
+   "tests": 8,
+   "passed": 4,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 5.0,
+   "failed": [
+    "is_even(0) -> False",
+    "is_even(-2) -> False",
+    "is_even(0) -> False",
+    "is_even(-4) -> False"
+   ]
+  },
+  {
+   "id": "s11",
+   "exercise": "elif_else-01",
+   "tests": 11,
+   "passed": 11,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s12",
+   "exercise": "elif_else-01",
+   "tests": 11,
+   "passed": 7,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 6.4,
+   "failed": [
+    "grade(80) -> 'C'",
+    "grade(90) -> 'B'",
+    "grade(80) -> 'C'",
+    "grade(70) -> 'F'"
+   ]
+  },
+  {
+   "id": "s13",
+   "exercise": "elif_else-01",
+   "tests": 11,
+   "passed": 5,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 4.5,
+   "failed": [
+    "grade(95) -> 'C'",
+    "grade(80) -> 'C'",
+    "grade(90) -> 'C'",
+    "grade(89) -> 'C'"
+   ]
+  },
+  {
+   "id": "s14",
+   "exercise": "elif_else-01",
+   "tests": 11,
+   "passed": 11,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s15",
+   "exercise": "elif_else-01",
+   "tests": 11,
+   "passed": 3,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 2.7,
+   "failed": [
+    "grade(80) -> 'F'",
+    "grade(79) -> 'F'",
+    "grade(90) -> 'F'",
+    "grade(89) -> 'F'"
+   ]
+  },
+  {
+   "id": "s16",
+   "exercise": "dictionaries-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": false,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s17",
+   "exercise": "dictionaries-03",
+   "tests": 6,
+   "passed": 2,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 3.3,
+   "failed": [
+    "count_letters(\"aab\") -> {'a': 1, 'b': 1}",
+    "count_letters(\"hello\") -> {'h': 1, 'e': 1, 'l': 1, 'o': 1}",
+    "count_letters('abcabc') -> {'a': 1, 'b': 1, 'c': 1}",
+    "count_letters('zzz') -> {'z': 1}"
+   ]
+  },
+  {
+   "id": "s18",
+   "exercise": "dictionaries-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": true,
+   "mark": 9.0,
+   "failed": []
+  },
+  {
+   "id": "s19",
+   "exercise": "dictionaries-03",
+   "tests": 6,
+   "passed": 2,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 3.3,
+   "failed": [
+    "count_letters(\"aab\") -> KeyError: 'a'",
+    "count_letters(\"hello\") -> KeyError: 'h'",
+    "count_letters('abcabc') -> KeyError: 'a'",
+    "count_letters('zzz') -> KeyError: 'z'"
+   ]
+  },
+  {
+   "id": "s20",
+   "exercise": "dictionaries-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": false,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s21",
+   "exercise": "iterating_lists-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s22",
+   "exercise": "iterating_lists-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "uses max()"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": []
+  },
+  {
+   "id": "s23",
+   "exercise": "iterating_lists-03",
+   "tests": 6,
+   "passed": 4,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 6.7,
+   "failed": [
+    "largest([-5, -2, -9]) -> 0",
+    "largest([-5, -2, -9]) -> 0"
+   ]
+  },
+  {
+   "id": "s24",
+   "exercise": "iterating_lists-03",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s25",
+   "exercise": "iterating_lists-03",
+   "tests": 6,
+   "passed": 2,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 3.3,
+   "failed": [
+    "largest([3, 9, 2]) -> 2",
+    "largest([-5, -2, -9]) -> -9",
+    "largest([-5, -2, -9]) -> -9",
+    "largest([0, -1]) -> -1"
+   ]
+  },
+  {
+   "id": "s26",
+   "exercise": "try_except-02",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s27",
+   "exercise": "try_except-02",
+   "tests": 8,
+   "passed": 7,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "no try/except"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": [
+    "to_int('--5') -> ValueError: invalid literal for int() with base 10: '--5'"
+   ]
+  },
+  {
+   "id": "s28",
+   "exercise": "try_except-02",
+   "tests": 8,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "no try/except"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": [
+    "to_int(\"-3\") -> None",
+    "to_int('-7') -> None"
+   ]
+  },
+  {
+   "id": "s29",
+   "exercise": "try_except-02",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s30",
+   "exercise": "try_except-02",
+   "tests": 8,
+   "passed": 3,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 3.8,
+   "failed": [
+    "to_int(\"cat\") -> 0",
+    "to_int('3.5') -> 0",
+    "to_int('') -> 0",
+    "to_int('--5') -> 0"
+   ]
+  },
+  {
+   "id": "s31",
+   "exercise": "for_loops-01",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s32",
+   "exercise": "for_loops-01",
+   "tests": 6,
+   "passed": 1,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 1.7,
+   "failed": [
+    "sum_to(3) -> 3",
+    "sum_to(1) -> 0",
+    "sum_to(100) -> 4950",
+    "sum_to(1) -> 0"
+   ]
+  },
+  {
+   "id": "s33",
+   "exercise": "for_loops-01",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "no for loop"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": []
+  },
+  {
+   "id": "s34",
+   "exercise": "for_loops-01",
+   "tests": 6,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "no for loop"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": []
+  },
+  {
+   "id": "s35",
+   "exercise": "for_loops-01",
+   "tests": 6,
+   "passed": 1,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "no for loop"
+   ],
+   "slow": null,
+   "mark": 1.7,
+   "failed": [
+    "sum_to(3) -> TimeoutError: test took longer than 2s",
+    "sum_to(1) -> TimeoutError: test took longer than 2s",
+    "sum_to(100) -> TimeoutError: test took longer than 2s",
+    "sum_to(1) -> TimeoutError: test took longer than 2s"
+   ]
+  },
+  {
+   "id": "s36",
+   "exercise": "recursion-05",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s37",
+   "exercise": "recursion-05",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "not recursive"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": []
+  },
+  {
+   "id": "s38",
+   "exercise": "recursion-05",
+   "tests": 8,
+   "passed": 6,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "not recursive"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": [
+    "is_palindrome(\"abca\") -> True",
+    "is_palindrome('abca') -> True"
+   ]
+  },
+  {
+   "id": "s39",
+   "exercise": "recursion-05",
+   "tests": 8,
+   "passed": 5,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 6.2,
+   "failed": [
+    "is_palindrome(\"\") -> IndexError: string index out of range",
+    "is_palindrome('') -> IndexError: string index out of range",
+    "is_palindrome('abba') -> IndexError: string index out of range"
+   ]
+  },
+  {
+   "id": "s40",
+   "exercise": "recursion-05",
+   "tests": 8,
+   "passed": 8,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s41",
+   "exercise": "while_loops-03",
+   "tests": 7,
+   "passed": 7,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s42",
+   "exercise": "while_loops-03",
+   "tests": 7,
+   "passed": 7,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [
+    "no while loop",
+    "uses str()"
+   ],
+   "slow": null,
+   "mark": 4,
+   "failed": []
+  },
+  {
+   "id": "s43",
+   "exercise": "while_loops-03",
+   "tests": 7,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "count_digits(12345) -> 4",
+    "count_digits(5) -> 0",
+    "count_digits(100) -> 1",
+    "count_digits(9) -> 0"
+   ]
+  },
+  {
+   "id": "s44",
+   "exercise": "while_loops-03",
+   "tests": 7,
+   "passed": 0,
+   "status": "timeout_rescued",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "count_digits(12345) -> TimeoutError: test took longer than 2s",
+    "count_digits(5) -> TimeoutError: test took longer than 2s",
+    "count_digits(100) -> TimeoutError: test took longer than 2s",
+    "count_digits(9) -> TimeoutError: test took longer than 2s"
+   ]
+  },
+  {
+   "id": "s45",
+   "exercise": "while_loops-03",
+   "tests": 7,
+   "passed": 3,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 4.3,
+   "failed": [
+    "count_digits(100) -> 2",
+    "count_digits(10) -> 1",
+    "count_digits(100) -> 2",
+    "count_digits(1000000) -> 6"
+   ]
+  },
+  {
+   "id": "s46",
+   "exercise": "sets-02",
+   "tests": 5,
+   "passed": 5,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": false,
+   "mark": 10.0,
+   "failed": []
+  },
+  {
+   "id": "s47",
+   "exercise": "sets-02",
+   "tests": 5,
+   "passed": 4,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 8.0,
+   "failed": [
+    "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> ['Slytherin', 'Gryffindor']"
+   ]
+  },
+  {
+   "id": "s48",
+   "exercise": "sets-02",
+   "tests": 5,
+   "passed": 5,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": true,
+   "mark": 9.0,
+   "failed": []
+  },
+  {
+   "id": "s49",
+   "exercise": "sets-02",
+   "tests": 5,
+   "passed": 2,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 4.0,
+   "failed": [
+    "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> ['Gryffindor', 'Gryffindor', 'Slytherin']",
+    "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}]) -> ['Ravenclaw', 'Ravenclaw']",
+    "unique_houses([{'house': 'b'}, {'house': 'a'}, {'house': 'b'}]) -> ['a', 'b', 'b']"
+   ]
+  },
+  {
+   "id": "s50",
+   "exercise": "sets-02",
+   "tests": 5,
+   "passed": 0,
+   "status": "ok",
+   "error": null,
+   "rules_broken": [],
+   "slow": null,
+   "mark": 0.0,
+   "failed": [
+    "unique_houses([{\"house\": \"Slytherin\"}, {\"house\": \"Gryffindor\"}, {\"house\": \"Gryffindor\"}]) -> TypeError: list indices must be integers or slices, not str",
+    "unique_houses([]) -> TypeError: list indices must be integers or slices, not str",
+    "unique_houses([{\"house\": \"Ravenclaw\"}, {\"house\": \"Ravenclaw\"}]) -> TypeError: list indices must be integers or slices, not str",
+    "unique_houses([]) -> TypeError: list indices must be integers or slices, not str"
+   ]
+  }
+ ]
+}
