@@ -28,7 +28,9 @@ Safety net (does not trust the prompt alone)
 """
 from __future__ import annotations
 
+import builtins
 import json
+import keyword
 import re
 from dataclasses import dataclass, field
 from typing import Callable
@@ -39,7 +41,9 @@ from ilm.questions.validate import normalise_answer
 LEVELS = {1: "guiding question", 2: "concept pointer", 3: "partial hint", 4: "similar example"}
 URDULISH_MARKERS = {"hai", "hain", "kya", "kaise", "kyun", "kyu", "nahi", "nahin", "mein", "mujhe",
                     "samajh", "karo", "kar", "raha", "rahi", "ho", "ka", "ki", "ko", "yeh", "ye", "bhai",
-                    "batao", "kese", "kaisay", "aur", "lekin", "agar", "sab"}
+                    "batao", "kese", "kaisay", "aur", "lekin", "agar", "sab", "koi", "dikha", "dikhao",
+                    "mera", "mere", "meri", "kahan", "karoon", "abhi", "hua", "chahiye", "kaunsa",
+                    "bas", "toh", "bhi", "milta", "julta", "kal", "hoga", "wala"}
 SOLVE_WORDS = re.compile(r"\b(write|code|solve|solution|answer|complete|finish|do|give|send|bana|likh|karo)\b", re.I)
 
 
@@ -55,13 +59,28 @@ def mastery_level(p: float | None) -> str:
     return "new" if p < 0.4 else "developing" if p < 0.8 else "strong"
 
 
+# Worded as instructions, not as a label: "The student is DEVELOPING..." got parroted back
+# to students as "You are developing the concept of..." (tutor evaluation, runs 1-2).
 STYLE = {
-    "new": "The student is NEW to this concept: simple words, one everyday analogy, one tiny "
-           "example, and end with a short question that checks understanding.",
-    "developing": "The student is DEVELOPING this concept: a short explanation, one example, and "
-                  "the most common mistake to avoid.",
-    "strong": "The student is STRONG in this concept: be concise and precise; add one edge case "
-              "or the deeper 'why'.",
+    "new": "Explain for a beginner meeting this for the first time: simple words, one everyday "
+           "analogy, one tiny example, and end with a short question that checks understanding.",
+    "developing": "Explain for someone who has seen this but is not yet sure of it: a short "
+                  "explanation, one example, and the most common mistake to avoid.",
+    "strong": "Explain for someone who already knows the basics: concise and precise, with one "
+              "edge case or the deeper 'why'.",
+}
+RUNGS = {
+    1: "At most 2 sentences: ONE guiding question that makes the student notice what to "
+       "think about next (look at their code if they sent any). No code, no analogy, no answer.",
+    2: "Name the concept they need and explain it in 2-3 sentences from the sources, "
+       "then tell them which part of the lesson to rewatch. No code for this exercise.",
+    3: "Partial hint: point to the exact place in THEIR code where the next step goes and "
+       "show ONE line of code with the key part replaced by ___ (in a ```python block). "
+       "Not the whole function, nothing else of the solution.",
+    4: "Similar example. REQUIRED: a complete worked example in a ```python block, of a DIFFERENT "
+       "task that uses the same idea (different function name and different logic: not their "
+       "solution with renamed names, a changed number or operator, or one extra step). Explain "
+       "it in 2-3 sentences, then ask how it maps to their task. Never solve their exercise.",
 }
 LANG = {
     "english": "Reply in clear, simple English.",
@@ -100,9 +119,90 @@ def leaks_code_solution(text: str, q) -> bool:
     return False
 
 
+# ---- near copies: code that is the solution after a few small edits ----
+_KEEP = set(keyword.kwlist) | set(dir(builtins))
+_TOKEN = re.compile(r"[A-Za-z_]\w*|\d+(?:\.\d+)?|\"(?:\\.|[^\"\\])*\"|'(?:\\.|[^'\\])*'"
+                    r"|\*\*|//|[=!<>]=|[-+*/%]=|->|\S")
+NEAR_COPY = 0.20     # at most 20% of the solution's tokens changed = still the solution
+BLANK, BLANK_SPAN = "<blank>", 5
+
+
+def shape(code: str) -> list[str]:
+    """Code as tokens with names hidden: renaming changes nothing, logic changes do.
+    Names -> N (keywords and built-ins like int, range stay), strings -> S, numbers kept;
+    `x = x + 1` is read as `x += 1`; `def` lines are dropped (a header carries no logic)."""
+    code = re.sub(r"#.*", "", code)
+    code = re.sub(r"^(\s*)([\w.\[\]]+) = \2 ([-+*/%]) ", r"\1\2 \3= ", code, flags=re.M)
+    code = re.sub(r"^\s*def \w+\(.*?\)\s*(->.*?)?:\s*$", "", code, flags=re.M)
+    out = []
+    for t in _TOKEN.findall(code):
+        if re.fullmatch(r"_{3,}", t):
+            out.append(BLANK)
+        elif t[0] in "\"'":
+            out.append("S")
+        elif t[0].isalpha() or t[0] == "_":
+            out.append(t if t in _KEEP else "N")
+        else:
+            out.append(t)
+    return out
+
+
+def edit_distance(a: list, b: list) -> int:
+    """Token edits turning a into b. A ___ blank in `a` may stand for one short piece of code
+    (up to BLANK_SPAN tokens, e.g. `int(s)`) for free: a blank hides the key part, so what
+    matters is how much of the REST is the solution."""
+    prev = list(range(len(b) + 1))
+    for x in a:
+        if x == BLANK:
+            cur = [prev[0]] + [min(prev[max(j - BLANK_SPAN, 0):j + 1]) for j in range(1, len(b) + 1)]
+        else:
+            cur = [prev[0] + 1]
+            for j, y in enumerate(b, 1):
+                cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (x != y)))
+        prev = cur
+    return prev[-1]
+
+
+def closeness(code: str, solution: str) -> float:
+    """Edits needed to turn `code` into the solution, as a share of the solution's size."""
+    s = shape(solution)
+    return edit_distance(shape(code), s) / max(len(s), 1)
+
+
+def near_copy(text: str, q) -> bool:
+    """Catches what running the tests can't: a renamed class, the solution plus `** 2`, the
+    one-line solution with its given number blanked out, sum_n for factorial (+ -> *)."""
+    return any(closeness(b, q.solution) <= NEAR_COPY for b in code_blocks(text))
+
+
+def solves_other_exercise(text: str, bank_by_function: dict, skip: str | None = None):
+    """A 'different problem' example can be ANOTHER exercise's answer (recursive sum_to)."""
+    for block in code_blocks(text):
+        for name in re.findall(r"^\s*(?:def|class) (\w+)", block, flags=re.M):
+            q = bank_by_function.get(name)
+            if q is not None and q.id != skip and run_tests(block, [t.model_dump() for t in q.tests]).all_passed:
+                return q
+    return None
+
+
+def leak_reason(text: str, q, bank_by_function: dict | None = None) -> str | None:
+    """Why `text` gives the exercise away (fed back to the model on retry), or None if safe."""
+    if q.type == "code":
+        if leaks_code_solution(text, q):
+            return "your code passes the exercise's tests"
+        if near_copy(text, q):
+            return ("your code is the solution with small changes (renamed names, a changed number "
+                    "or operator, one blank or one extra step)")
+        other = solves_other_exercise(text, bank_by_function or {}, skip=q.id)
+        if other is not None:
+            return f"your example is the answer to another exercise ({other.function}); pick a task that is not an exercise"
+        return None
+    return "you stated the answer" if leaks_answer(text, q) else None
+
+
 def leaks_answer(text: str, q) -> bool:
     if q.type == "code":
-        return leaks_code_solution(text, q)
+        return leaks_code_solution(text, q) or near_copy(text, q)
     norm = f" {normalise_answer(text)} "
     answers = [q.options[q.answer]] if q.type == "mcq" else list(q.accept or [])
     for a in answers:
@@ -239,22 +339,22 @@ Return JSON: {{"in_course": true/false (do the sources cover this question?),
         concept = q.concepts[0]
         style = STYLE[mastery_level((mastery or {}).get(concept))]
         chunks, listing = self._sources(f"{self.concept_name.get(concept, concept)} {q.stem}", k=3)
-        rung = {
-            1: "At most 2 sentences: ONE guiding question that makes the student notice what to "
-               "think about next (look at their code if they sent any). No code, no analogy, no answer.",
-            2: "Name the concept they need and explain it in 2-3 sentences from the sources, "
-               "then tell them which part of the lesson to rewatch. No code for this exercise.",
-            3: "Partial hint: point to the exact place in THEIR code where the next step goes and "
-               "show ONE line of code with the key part replaced by ___ (in a ```python block). "
-               "Nothing else of the solution.",
-            4: "Similar example: a complete worked example, in a ```python block, of a DIFFERENT "
-               "problem that uses the same idea (different function name AND a different task, e.g. "
-               "summing instead of multiplying). Explain it in 2-3 sentences, then ask how it maps "
-               "to their task. Never solve their exercise.",
-        }[level]
         exercise = q.stem + (f"\n```python\n{q.code}```" if q.code else "")
         if q.type == "mcq":
             exercise += "\nOptions: " + "; ".join(q.options)
+        tried = []
+        for rung in ([level, 2] if level >= 3 else [level]):     # a rung that keeps leaking drops to 2
+            text, used, blocked = self._rung(q, rung, exercise, listing, student_code, message, style, lang)
+            if text is not None:
+                return Reply(text, self._cite(chunks, used), True, lang, level=rung, exercise=q.id,
+                             leak_blocked=blocked or bool(tried), mastery=mastery_level((mastery or {}).get(concept)))
+            tried.append(rung)
+        return Reply(self._fallback(q, level, lang), self._cite(chunks, [1]), True, lang, level=level,
+                     exercise=q.id, leak_blocked=True)
+
+    def _rung(self, q, level, exercise, listing, student_code, message, style, lang):
+        """Up to 2 drafts of one rung. A leaking draft is retried with the checker's reason.
+        Returns (text, used_sources, blocked) or (None, [], True) if both drafts leaked."""
         base = f"""Course sources:
 {listing}
 
@@ -267,22 +367,23 @@ Student's code so far:
 ```
 Student says: {message or '(asks for a hint)'}
 
-Hint ladder rung {level} of 4 ({LEVELS[level]}): {rung}
+Hint ladder rung {level} of 4 ({LEVELS[level]}): {RUNGS[level]}
 Follow the rung's format strictly. Tone (wording only, not format): {style}
 {LANG[lang]}
 Return JSON: {{"hint": "your reply", "used_sources": [numbers]}}"""
+        reason = None
         for attempt in range(2):
-            prompt = base if attempt == 0 else base + (
-                "\n\nYOUR PREVIOUS DRAFT GAVE AWAY THE ANSWER. Write a new hint that does not "
-                "contain the answer or any code that solves the exercise.")
+            prompt = base if reason is None else base + (
+                f"\n\nYOUR PREVIOUS DRAFT GAVE AWAY THE ANSWER: {reason}. Write a new hint that "
+                "does not contain the answer or any code that solves the exercise.")
             out = self._json(prompt)
             text = str(out.get("hint", "")).strip()
-            if text and not leaks_answer(text, q):
-                return Reply(text, self._cite(chunks, out.get("used_sources", [])), True, lang,
-                             level=level, exercise=q.id, leak_blocked=attempt > 0,
-                             mastery=mastery_level((mastery or {}).get(concept)))
-        return Reply(self._fallback(q, level, lang), self._cite(chunks, [1]), True, lang, level=level,
-                     exercise=q.id, leak_blocked=True)
+            reason = leak_reason(text, q, self.exercise_by_function) if text else "it was empty"
+            if reason is None and level == 3 and q.type == "code" and code_blocks(text) and "___" not in text:
+                reason = "your code line had no ___ blank, so it showed a finished piece of the solution"
+            if reason is None:
+                return text, out.get("used_sources", []), attempt > 0
+        return None, [], True
 
     def _fallback(self, q, level: int, lang: str) -> str:
         name = self.concept_name.get(q.concepts[0], q.concepts[0])

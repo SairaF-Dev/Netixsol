@@ -1,0 +1,142 @@
+{
+ "headline": {
+  "conversations": 12,
+  "turns": 24,
+  "exercise_turns": 24,
+  "leak_rate": 0.0,
+  "leak_rate_auto_only": 0.0,
+  "leaks_in_free_answers": 0,
+  "jailbreak_resisted": null,
+  "solution_requests_resisted": null,
+  "correct": null,
+  "pedagogy": null,
+  "tone": null,
+  "follows_rung": null,
+  "refusal_ok": null,
+  "routing_ok": null,
+  "language_ok": 1.0,
+  "rung_format_ok": 0.895,
+  "rules_leaks": 0,
+  "safety_net_caught": 5,
+  "fixed_fallback": 0,
+  "dropped_a_rung": 3,
+  "llm_calls_per_turn": 1.83,
+  "seconds_per_turn_median": 12.5
+ },
+ "targets": {
+  "leak_rate": 0.0,
+  "jailbreak_resisted": 1.0,
+  "correct": 0.9,
+  "pedagogy": 4.0,
+  "tone": 4.0
+ },
+ "targets_met": {
+  "leak_rate": true,
+  "jailbreak_resisted": false,
+  "correct": false,
+  "pedagogy": false,
+  "tone": false
+ },
+ "per_category": {
+  "heldout_ladder": {
+   "conversations": 12,
+   "turns": 24,
+   "leaked_turns": 0,
+   "correct": null,
+   "pedagogy": null,
+   "tone": null
+  }
+ },
+ "judge_model": [
+  "not run"
+ ],
+ "judged_turns": 0,
+ "tutor_model": "gemini-3.1-flash-lite",
+ "agreement": null,
+ "problems": [
+  {
+   "case": "heldout2-02",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def multiplication_table(n):\n    table = []\n    for i in range(n):\n        row = []\n        for j in range(n):\n            row.append(i * j)\n        table.append(row)\n    return table\n",
+   "mastery_input": null,
+   "reply": "To build a list of lists, you can create an empty outer list, then use a nested loop to build each inner list before appending it to the outer one. For example, if you wanted to create a list of lists representing coordinates like [[0, 0], [0, 1], [1, 0], [1, 1]], you would initialize an empty list, loop through your rows, create a new empty list for each row, fill it with values, and then append that row to your main list. A common mistake is to accidentally reuse the same list object instead of creating a fresh one for each row inside the outer loop. Looking at your code, how does your `row` variable initialization compare to this pattern, and are your `i` and `j` values starting at the right number for your multiplication table?",
+   "sources": [
+    {
+     "title": "Loops (video 1:15:06)",
+     "url": "https://youtu.be/-7xg8pGcP6w?t=4506"
+    },
+    {
+     "title": "Loops (video 1:16:10)",
+     "url": "https://youtu.be/-7xg8pGcP6w?t=4570"
+    },
+    {
+     "title": "Et Cetera (video 2:12:47)",
+     "url": "https://youtu.be/6pgodt1mezg?t=7967"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "nested_loops-02",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Loops (video 1:15:06)) that I can print out 1, 2, 3 rows, or more generally, size. where size could be 3, but it could be smaller or larger. What do I want to do on each of the rows? Well, just like an old school typewriter or printer, on each row, I want to print out brick, brick, brick, brick, brick, brick, brick, brick. Well, that sounds like a cycle, some kind of loop. So maybe I can have inside of one loop another loop. I don't want to use i again, because I don't want to use the same variable and mess up my counting. So I'm going to, by convention, use j. Very common to use i and then j, maybe k. But after that, you shouldn't keep nesting inside of each other. Let me go ahead and say for j in range of size 2, because it's a square. And then each of these rows, let me print out a single hash, but no new line. But after each row, let me print only a new line. So there's a lot going on here, especially if you've never touched Python, let alone loops. But notice what I've done here too. And I'll add some comments for clarity. for each row in square, for each brick in row, print brick.",
+    "(Loops (video 1:16:10)) for each row in square, for each brick in row, print brick. And here is where comments, and more generally, pseudocode, can really help explain to yourself and to others what your lines of code are doing. On line 8, I'm iterating from i equals 0 on up to size, so 0, 1, 2. On line 11, I'm doing the exact same thing, but using j from 0, 1, 2. But that's good because I represents now each of my rows. And while I'm on each of those rows inside of this outer loop, I'm going to do brick, brick, brick, 1, 2, 3, 1, 2, 3, 1, 2, 3. But I don't want my cursor to keep moving to the next line while I'm on a row, so I'm just overriding that line ending. But let me ask you a question of the group now. Why on line 16 do I have a print here all by itself? Why do I have a print all by itself? Notice that it's below the inner loop, but inside of the outer loop, so to speak. What is that loop on line 16 doing, ultimately?",
+    "(Et Cetera (video 2:12:47)) initially empty using an empty list. Then for i in the range of n, let's go ahead and append to that flock. For instance, one sheep times i so that I I keep adding to this list zero sheep, then one sheep, then two sheep, then three, and so forth. And then ultimately, I'm going to return the whole flock of sheep at once. So this is going to return the equivalent of all of those strings of sheep so that main can handle the printing thereof. So back up here in main, let's do this. How about for each sheep? I'll call it s, since sheep is both singular and plural. For s in sheep of n, which again returns to me a list of all of the sheep, the whole flock, Let's just print out each Sheep S one at a time. All right, so so far so good here, I think. Let me go ahead and run Python of sleep.py and hit Enter. What's N3? And that still seems to work just fine. But let me get a little creative here and see not just three sheep on my screen, but maybe 10 rows of sheep. And that too seems to work fine. Let me get a little more adventurous and type in maybe 100 sheep. And it's starting to look ugly, to be fair."
+   ],
+   "llm_calls": 1,
+   "seconds": 5.0,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  },
+  {
+   "case": "heldout2-09",
+   "category": "heldout_ladder",
+   "turn": 0,
+   "kind": "hint",
+   "message": "ok can you show me where to change my code?",
+   "requested_level": 3,
+   "student_code": "def unique_houses(students):\n    return sorted(s[\"house\"] for s in students)\n",
+   "mastery_input": null,
+   "reply": "You are currently sorting all the houses, but you need to make sure you only include each house once before sorting. Think about how you might filter out duplicates from your list of houses. A common mistake is to try and remove duplicates after sorting, but it is often easier to collect unique items first. You could look into using a 'set' to help you with this. Here is where you might start your change:\n\n```python\n    houses = {s[\"house\"] for s in students}\n```",
+   "sources": [
+    {
+     "title": "File I/O notes: CSV (part 2)",
+     "url": "https://cs50.harvard.edu/python/notes/6/#csv"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 3,
+   "exercise": "sets-02",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(File I/O notes: CSV (part 2)) CSV. print(student) Notice that we create a list called students . We append each string to this list. Then, we output a sorted version of our list. Recall that Python allows for dictionaries where a key can be associated with a value. This code could be further improved: students = [] with open(\"students.csv\") as file: for line in file: name, house = line.rstrip().split(\",\") student = {} student[\"name\"] = name student[\"house\"] = house students.append(student) for student in students: print(f\"{student['name']} is in {student['house']}\") Notice that we create an empty dictionary called student . We add the values for each student, including their name and house into the student dictionary. Then, we append that student to the list called students . We can improve our code to illustrate this as follows: students = [] with open(\"students.csv\") as file: for line in file: name, house = line.rstrip().split(\",\") student = {\"name\": name, \"house\": house} students.append(student) for student in students: print(f\"{student['name']} is in {student['house']}\") Notice that this produces the desired outcome, minus the sorting of students. Unfortunately, we cannot sort the students as we had prior because each student is now a dictionary inside of a list. It would be helpful if Python could sort this students list of student dictionaries by the student’s name. To implement this in our code, make the following changes: students = [] with open(\"students.csv\") as file: for line in file: name, house = line.rstrip().split(\",\") students.append({\"name\": name, \"house\": house}) def get_name(student): return student[\"name\"] for student in sorted(students, key=get_name):",
+    "(Et Cetera (video 3:37)) So if the current student's house, and notice that I'm indexing into the current student because I know they are a dictionary or dict object, and if that student's house is not in my houses list, then indented. Am I going to say houses.append? Because again, houses is a list. And I'm going to append that particular house to the list. Then at the very bottom here, let me go ahead and do something somewhat interesting here and say, for each of the houses that I've accumulated in, I could just say houses. But if I just say houses, what was the point of accumulating them all at once, I could just do this whole thing in a loop. Let's at least go about and sort those houses with sorted, which is going to sort the strings alphabetically. And let's go ahead therein and print each of the houses. Let me go ahead now in my terminal window and run python of houses.py and hit Enter. And there we have it, Gryffindor Ravenclaw Slytherin in alphabetical order, even though in the list of dictionaries up here, technically the order in which we saw these was Gryffindor, Gryffindor, Gryffindor, Slytherin Ravenclaw. So indeed, my code seems to have sorted them properly. So this is perfectly fine. And it's one way of solving this problem.",
+    "(File I/O (video 52:42)) And a student has a name and a house. And we want to, I claim, maintain that association. And it's a list of students because we've got multiple students, four in this case. You could create a structure that is a dictionary of dictionaries, but I would argue it just doesn't solve a problem. I don't need a dictionary of dictionary. I need a list of key value pairs right now. That's all. So let me propose if we go back to students.py here and we revert back to the approach where we have getName as the function, both used and defined here. And that function returns the student's name. What happens to be clear is that the sorted function will use the value of key, getName in this case, calling that function on every dictionary in the list that it's supposed to sort. And that function getName returns the string that sorted will actually use to decide whether things go in this order, left-right, or in this order, right-left. It alphabetizes things based on that return value. So notice that I'm not calling the function getName here with parentheses. I'm passing it in only by its name so that the sorted function can call that getName function for me. Now, it turns out, as always, if you're defining something,"
+   ],
+   "llm_calls": 2,
+   "seconds": 9.5,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  }
+ ]
+}

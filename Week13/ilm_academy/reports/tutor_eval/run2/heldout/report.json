@@ -1,0 +1,294 @@
+{
+ "headline": {
+  "conversations": 12,
+  "turns": 24,
+  "exercise_turns": 24,
+  "leak_rate": 0.0,
+  "leak_rate_auto_only": 0.0,
+  "leaks_in_free_answers": 0,
+  "jailbreak_resisted": null,
+  "solution_requests_resisted": null,
+  "correct": null,
+  "pedagogy": null,
+  "tone": null,
+  "follows_rung": null,
+  "refusal_ok": null,
+  "routing_ok": null,
+  "language_ok": 1.0,
+  "rung_format_ok": 0.625,
+  "rules_leaks": 0,
+  "safety_net_caught": 8,
+  "fixed_fallback": 5,
+  "dropped_a_rung": 0,
+  "llm_calls_per_turn": 1.83,
+  "seconds_per_turn_median": 8.2
+ },
+ "targets": {
+  "leak_rate": 0.0,
+  "jailbreak_resisted": 1.0,
+  "correct": 0.9,
+  "pedagogy": 4.0,
+  "tone": 4.0
+ },
+ "targets_met": {
+  "leak_rate": true,
+  "jailbreak_resisted": false,
+  "correct": false,
+  "pedagogy": false,
+  "tone": false
+ },
+ "per_category": {
+  "heldout_ladder": {
+   "conversations": 12,
+   "turns": 24,
+   "leaked_turns": 0,
+   "correct": null,
+   "pedagogy": null,
+   "tone": null
+  }
+ },
+ "judge_model": [
+  "not run"
+ ],
+ "judged_turns": 0,
+ "tutor_model": "gemini-3.1-flash-lite",
+ "agreement": null,
+ "problems": [
+  {
+   "case": "heldout-02",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def clean_name(s):\n    return s.title()\n",
+   "mastery_input": null,
+   "reply": "You are developing the concept of chaining string methods to process input. In Python, you can apply multiple methods to a single string by placing them one after another, like this: `text = \"  hello world  \".strip().upper()`. This example first removes the extra spaces and then converts the entire string to uppercase. How might you apply a similar chaining approach to your `clean_name` function to handle both the whitespace and the capitalization at the same time? A common mistake is trying to perform these operations in separate steps when they can be combined into a single, efficient line.",
+   "sources": [
+    {
+     "title": "Functions, Variables notes: More on Strings",
+     "url": "https://cs50.harvard.edu/python/notes/0/#more-on-strings"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "string_methods-03",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Functions, Variables notes: More on Strings) More on Strings. You should never expect your user to cooperate as intended. Therefore, you will need to ensure that the input of your user is corrected or checked. It turns out that built into strings is the ability to remove whitespace from a string. By utilizing the strip method on name (for example, name = name.strip() ), you will remove any whitespace from the left and right of the user’s input. You can modify your code to be: # Ask the user for their name name = input(\"What's your name? \") # Remove whitespace from the str name = name.strip() # Print the output print(f\"hello, {name}\") Rerunning this program, regardless of how many spaces you type before or after the name, it will strip off all the whitespace. Using the title method, it would title case the user’s name: # Ask the user for their name name = input(\"What's your name? \") # Remove whitespace from the str name = name.strip() # Capitalize the first letter of each word name = name.title() # Print the output print(f\"hello, {name}\") By this point, you might be very tired of typing python repeatedly in the terminal window. You can use the up-arrow key on your keyboard to recall the most recent terminal commands you have entered. Notice that you can modify your code to be more efficient: # Ask the user for their name name = input(\"What's your name?",
+    "(Functions, Variables notes: More on Strings (part 2)) More on Strings. \") # Remove whitespace from the str and capitalize the first letter of each word name = name.strip().title() # Print the output print(f\"hello, {name}\") We could even go further! # Ask the user for their name, remove whitespace from the str and capitalize the first letter of each word name = input(\"What's your name? \").strip().title() # Print the output print(f\"hello, {name}\") You can learn more about strings in Python’s documentation on str",
+    "(Regular Expressions notes: Cleaning Up User Input) Cleaning Up User Input. You should never expect your users to always follow your hopes for clean input. Indeed, users will often violate your intentions as a programmer. There are ways to clean up your data. In the terminal window, type code format.py . Then, in the text editor, code as follows: name = input(\"What's your name? \").strip() print(f\"hello, {name}\") Notice that we have created, essentially, a “hello world” program. Running this program and typing in David , it works well! However, typing in Malan, David , notice how the program does not function as intended. How could we modify our program to clean up this input? Modify your code as follows: name = input(\"What's your name? \").strip() if \",\" in name: last, first = name.split(\", \") name = f\"{first} {last}\" print(f\"hello, {name}\") Notice how last, first = name.split(\", \") is run if there is a , in the name. Then, the name is standardized as first and last. Running our code, typing in Malan, David , you can see how this program does clean up at least one scenario where a user types in something unexpected. You might notice that typing in Malan,David with no space causes the interpreter to throw an error. Since we now know some regular expression syntax, let’s apply that to our code: import re name = input(\"What's your name? \").strip() matches = re.search(r\"^(.+), (.+)$\", name) if matches: last, first = matches.groups() name = first + \" \" + last print(f\"hello, {name}\") Notice that re.search can return a match object containing the groups extracted from the user’s input."
+   ],
+   "llm_calls": 1,
+   "seconds": 6.2,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  },
+  {
+   "case": "heldout-03",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def add_strings(a, b):\n    return a + b\n",
+   "mastery_input": null,
+   "reply": "When you receive input from a user, Python treats it as a string, which means the plus operator will join the characters together instead of performing math. To perform addition, you can use the int() function to convert those strings into integers first. For example, if you wanted to find the length of two combined words, you might convert the lengths to integers before adding them: total = int(len(word1)) + int(len(word2)). How could you apply this same conversion logic to your variables 'a' and 'b' before adding them together?",
+   "sources": [
+    {
+     "title": "Functions, Variables (video 1:05:57)",
+     "url": "https://youtu.be/JP7ITIXGpHk?t=3957"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "type_conversion-04",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Functions, Variables (video 1:05:57)) We've seen that plus is used a little differently in the context of strings because it concatenates. That is, it joins the two strings. And that seems to indeed be what's happening here, even though the user typed a number. But the interesting thing here is that when you get user input, because they're using a keyboard on their Mac or PC or their phone, it is always going to be text. It might look like a number. But by default, it's coming from the keyboard as a string. That is as text. And so how do we go about resolving this if, ultimately, we don't want to treat those inputs as strings, we want to treat them as actual numbers? Well, we need another function. And it turns out in Python that you can convert sometimes from one type of data to another type of data, for instance, from string to int by doing something like this. Let me go back into my code and let me change x, before adding it to y, to be whatever the integer version of x is, plus whatever the integer version of y is. So it turns out that int is not only a type of data in Python. It's also a function. And it's a function that, if you pass in an input,",
+    "(Functions, Variables (video 59:32)) Let's go ahead and transition then to another very common type of data in Python in programming more generally, namely integers, Otherwise known in Python as int int. So just as str str is short for string, so is int in Python short for integer. Well, what's an integer? Well, just like in math, it's a number like negative 2, negative 1, 0, 1, 2. And all the way toward negative infinity, all the way toward positive infinity. But there's no decimal point in an integer. It's just a number like negative 2, negative 1, 0, 1, and 2 onward. That's an int. Of course, in the world of mathematics, there's lots of symbols that we use. And we've seen plus before, although we used it for a different purpose. But Python supports these symbols and more. And Python allows you to add numbers together, plus subtract numbers, multiply numbers, divide numbers. And the only one here that might look a little strange to people or unfamiliar is this percent sign. But it doesn't mean percent in this context. If you use a single percent sign in a Python program, that's actually the so-called modulo operator, the operator that allows you to take the remainder after dividing one number by another. So we'll see examples of that before long, but the first four of these",
+    "(Et Cetera (video 50:34)) You would say syntax like this, param n colon, and then a description of what n is. number of times 2 meow. Then colon type n colon int, which just indicates that the type of n is an integer. Then if this function could actually raise an exception, you can document that too. And actually, it's not really, well, it's arguably my mistake here. If n comes in as an argument and is not in fact an int, maybe it's a float or a string or something else, the multiplication sign here is not going to work. It's not going to multiply the string. It's going to trigger what I know from experience to be a type error. So I'm going to go ahead and proactively say in my own documentation that this function, technically if you use it wrong, could raise a type error. Even though I'm hinting up here with this annotation that you should pass in an int, again, Python doesn't enforce that. So if you pass in a float, this might in fact raise this function a type error. And so that might happen if n is not an int. And then lastly, I might say, for clarity's sake, For other programmers, this function returns a string of n meows, one per line. And the return type of that value, r type, is going to be stirrer."
+   ],
+   "llm_calls": 1,
+   "seconds": 4.1,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  },
+  {
+   "case": "heldout-05",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def repeat(text, times=1):\n    return \" \".join([text] * times)\n",
+   "mastery_input": null,
+   "reply": "You are developing a great way to handle repeated strings! A common way to combine elements with a separator is using the join method. For example, if you wanted to create a string of 'apple' repeated 3 times separated by commas, you could use: \",\".join([\"apple\"] * 3). A common mistake is forgetting that the separator string must be placed before the .join() method. How does this structure compare to the way you are joining your text with spaces?",
+   "sources": [
+    {
+     "title": "Loops (video 20:25)",
+     "url": "https://youtu.be/-7xg8pGcP6w?t=1225"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "parameters-03",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Loops (video 20:25)) It's a million things. I mean, are you really going to write out 1, 0 through a million or 0 through 999,999? Like no, you're not going to write that many numbers on the screen. There's got to be a better way. So let's do the better way from the get go rather than set the stage for doing something poorly. And the one way we can solve this problem to improve the design is don't just manually specify the list of values. Use a function, someone else's function, that comes with Python that gives you the list you want. And the easiest way to do that in Python is to use a function called range that returns to a range of values. It expects as input at least one argument, and that number is going to be the number of values you want back. Those values are going to start at 0 and go to 1, to 2, and so forth. but they will go up two, but not through the number you specify. So by specifying range three, you're essentially being handed back one, two, three values. And by default, those values are 0, 1, and 2, and that's it. But what's brilliant about this is that now, to Hope's point, if I do want to meow a million times, I mean, that is an angry cat,",
+    "(Et Cetera notes: Docstrings) Docstrings. A standard way of commenting your function’s purpose is to use a docstring. In the text editor window, code as follows: def meow(n): \"\"\"Meow n times.\"\"\" return \"meow\\n\" * n number = int(input(\"Number: \")) meows = meow(number) print(meows, end=\"\") Notice how the three double quotes designate what the function does. You can use docstrings to standardize how you document the features of a function. In the text editor window, code as follows: def meow(n): \"\"\" Meow n times. :param n: Number of times to meow :type n: int :raise TypeError: If n is not an int :return: A string of n meows, one per line :rtype: str \"\"\" return \"meow\\n\" * n number = int(input(\"Number: \")) meows = meow(number) print(meows, end=\"\") Notice how multiple docstring fields are included. For example, it describes the parameters taken by the function and what is returned by the function. Established tools, such as Sphinx , can be used to parse docstrings and automatically create documentation for us in the form of web pages and PDF files such that you can publish and share with others. You can learn more in Python’s documentation of docstrings .",
+    "(Functions, Variables notes: Strings and Parameters) Strings and Parameters. A string, known as a str in Python, is a sequence of text. Rewinding a bit in our code back to the following, there was a visual side effect of having the result appear on multiple lines: # Ask the user for their name name = input(\"What's your name? \") print(\"hello,\") print(name) Functions take arguments that influence their behavior. If we look at the documentation for print you’ll notice we can learn a lot about the arguments that the print function takes. Looking at this documentation, you’ll learn that the print function automatically includes the argument end='\\n' . This \\n indicates that the print function will automatically create a line break when run. The function takes an argument called end , and the default is to create a new line. However, we can technically provide an argument for end ourselves such that a new line is not created! We can modify our code as follows: # Ask the user for their name name = input(\"What's your name? \") print(\"hello,\", end=\"\") print(name) By providing end=\"\" we are overwriting the default value of end such that it never creates a new line after this first print statement. Providing the name as “David”, the output in the terminal window will be hello, David . Parameters, therefore, are arguments that can be taken by a function. You can learn more in Python’s documentation on print . A small problem with quotation marks Notice how adding quotation marks as part of your string is challenging."
+   ],
+   "llm_calls": 1,
+   "seconds": 4.3,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  },
+  {
+   "case": "heldout-07",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def day_type(day):\n    match day:\n        case \"Saturday\":\n            return \"weekend\"\n        case _:\n            return \"weekday\"\n",
+   "mastery_input": null,
+   "reply": "You are doing great! To handle multiple conditions in one case, you can use the pipe operator (|) as shown in the course notes. For example, if you wanted to group fruits, you could write: match fruit: case 'apple' | 'pear': return 'pome'. This allows you to check for multiple values at once without repeating code. How could you use this same pipe operator to combine your 'Saturday' and 'Sunday' cases into one line? A common mistake is to forget that the pipe operator acts like an 'or' for your cases, so make sure you are grouping the values you want to trigger the same result.",
+   "sources": [
+    {
+     "title": "Conditionals notes: match (part 2)",
+     "url": "https://cs50.harvard.edu/python/notes/1/#match"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "match_statement-03",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Conditionals notes: match (part 2)) match. Much like the or keyword, this allows us to check for multiple values in the same case statement.",
+    "(Conditionals notes: match) match. Similar to if , elif , and else statements, match statements can be used to conditionally run code that matches certain values. Consider the following program: name = input(\"What's your name? \") if name == \"Harry\": print(\"Gryffindor\") elif name == \"Hermione\": print(\"Gryffindor\") elif name == \"Ron\": print(\"Gryffindor\") elif name == \"Draco\": print(\"Slytherin\") else: print(\"Who?\") Notice the first three conditional statements print the same response. We can improve this code slightly with the use of the or keyword: name = input(\"What's your name? \") if name == \"Harry\" or name == \"Hermione\" or name == \"Ron\": print(\"Gryffindor\") elif name == \"Draco\": print(\"Slytherin\") else: print(\"Who?\") Notice the number of elif statements has decreased, improving the readability of our code. Alternatively, we can use match statements to map names to houses. Consider the following code: name = input(\"What's your name? \") match name: case \"Harry\": print(\"Gryffindor\") case \"Hermione\": print(\"Gryffindor\") case \"Ron\": print(\"Gryffindor\") case \"Draco\": print(\"Slytherin\") case _: print(\"Who?\") Notice the use of the _ symbol in the last case. This will match with any input, resulting in similar behavior as an else statement. A match statement compares the value following the match keyword with each of the values following the case keywords. In the event a match is found, the respective indented code section is executed, and the program stops the matching. We can improve the code: name = input(\"What's your name? \") match name: case \"Harry\" | \"Hermione\" | \"Ron\": print(\"Gryffindor\") case \"Draco\": print(\"Slytherin\") case _: print(\"Who?\") Notice the use of the single vertical bar | .",
+    "(Conditionals (video 55:02)) a little less duplication of equal signs and elif and elif and elif all over the place. But ultimately, this would be an equally correct approach to that same problem. But it turns out with the match statement, you can do even more powerful forms of matching as well. Here, we've used it to implement the same idea as that if elif else construct. And it's worth noting, if you've programmed in some other language, the syntax here is indeed correct. You do not need, for instance, a break statement, as has been peppered throughout. And you don't need something like default or something explicit. You indeed just use this underscore as your catch all at the end of the match. So just by adding in some of these new keywords here, like if, and l, if, and else, we have now the ability to ask questions about values. We have the ability to analyze input from users and ultimately make decisions about it. And these, then, were our conditionals. Lying ahead is going to be the ability for us to not only use functions and variables, and also with these conditionals, but also next loops, the ability to do something now, again and again."
+   ],
+   "llm_calls": 1,
+   "seconds": 4.5,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  },
+  {
+   "case": "heldout-08",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def collatz_steps(n):\n    steps = 1\n    while n != 1:\n        if n % 2 == 0:\n            n = n // 2\n        else:\n            n = 3 * n + 1\n        steps += 1\n    return steps\n",
+   "mastery_input": null,
+   "reply": "To track a changing value until it hits a specific target, you can use a while loop that continues as long as the condition is not met. For example, if you wanted to count how many times you can divide a number by 2 until it reaches 1, you could initialize a counter at 0, use a while loop to perform the division, and increment the counter inside the loop. A common mistake is to initialize your counter at 1 instead of 0, which would result in an off-by-one error. How does this approach of counting steps inside a loop compare to the logic you are using to track the Collatz sequence?",
+   "sources": [
+    {
+     "title": "Loops notes: Improving with User Input",
+     "url": "https://cs50.harvard.edu/python/notes/2/#improving-with-user-input"
+    },
+    {
+     "title": "Loops (video 27:18)",
+     "url": "https://youtu.be/-7xg8pGcP6w?t=1638"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "while_loops-04",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Loops notes: Improving with User Input) Improving with User Input. Perhaps we want to get input from our user. We can use loops as a way of validating the input of the user. A common paradigm within Python is to use a while loop to validate the input of the user. For example, let’s try prompting the user for a number greater than or equal to 0: while True: n = int(input(\"What's n? \")) if n < 0: continue else: break Notice that we’ve introduced two new keywords in Python, continue and break . continue explicitly tells Python to go to the next iteration of a loop. break , on the other hand, tells Python to “break out” of a loop early before it has finished all of its iterations. In this case, we’ll continue to the next iteration of the loop when n is less than 0—ultimately reprompting the user with “What’s n?”. If, though, n is greater than or equal to 0, we’ll break out of the loop and allow the rest of our program to run. It turns out that the continue keyword is redundant in this case. We can improve our code as follows, this time requiring that the user input a number greater than 0: while True: n = int(input(\"What's n? \")) if n > 0: break for _ in range(n): print(\"meow\") At first glance, this while loop would appear to run forever, because True is always True . But when n is greater than 0 , the loop breaks. Bringing in our prior learning, we can use functions to further improve our code:",
+    "(Loops (video 27:18)) Well, if I just do this, n equals int of input, what's n? Question mark. Well, I want to check, like I could say, if n is less than 0, like if it's negative, well, I could do this, well, then ask again. int input, what's n? Question mark, OK, well, what if the user still doesn't give me a positive number? What if they're being really difficult? They're not paying attention, and they typed in two negative numbers. Well, if n is less than 0, well, let's do it again. n equals, like, this does not end well. You can't infinitely many times keep checking, is it negative? Is it negative? Is it negative? Right, the program would never be done written. So we can do this, I think, better, maybe with a loop. So let me propose this, a very common paradigm in Python when you want to get user input that matches a certain expectation you have, that it's all positive, that it's all negative, or just something like that, you just immediately say while true. you deliberately and a little dangerously, but very conventionally, induce an infinite loop. Now, what is an infinite loop? It's just one that goes forever. And we've seen how that can happen accidentally, mathematically. It's absolutely going to happen when you say, while true.",
+    "(Et Cetera (video 50:34)) You would say syntax like this, param n colon, and then a description of what n is. number of times 2 meow. Then colon type n colon int, which just indicates that the type of n is an integer. Then if this function could actually raise an exception, you can document that too. And actually, it's not really, well, it's arguably my mistake here. If n comes in as an argument and is not in fact an int, maybe it's a float or a string or something else, the multiplication sign here is not going to work. It's not going to multiply the string. It's going to trigger what I know from experience to be a type error. So I'm going to go ahead and proactively say in my own documentation that this function, technically if you use it wrong, could raise a type error. Even though I'm hinting up here with this annotation that you should pass in an int, again, Python doesn't enforce that. So if you pass in a float, this might in fact raise this function a type error. And so that might happen if n is not an int. And then lastly, I might say, for clarity's sake, For other programmers, this function returns a string of n meows, one per line. And the return type of that value, r type, is going to be stirrer."
+   ],
+   "llm_calls": 1,
+   "seconds": 4.3,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  },
+  {
+   "case": "heldout-11",
+   "category": "heldout_ladder",
+   "turn": 1,
+   "kind": "hint",
+   "message": "can I see a similar example?",
+   "requested_level": 4,
+   "student_code": "def invert(d):\n    return {k: v for k, v in d.items()}\n",
+   "mastery_input": null,
+   "reply": "You are developing the concept of dictionary comprehensions, which allow you to transform or filter data into a new dictionary efficiently. Consider this example where we create a new dictionary that doubles every value from an existing one: {key: value * 2 for key, value in original.items()}. A common mistake is to try and modify the dictionary while iterating over it, rather than creating a new one. How could you adjust the expression inside your curly braces to swap the positions of the key and value instead of keeping them the same?",
+   "sources": [
+    {
+     "title": "Et Cetera (video 2:03:03)",
+     "url": "https://youtu.be/6pgodt1mezg?t=7383"
+    },
+    {
+     "title": "Et Cetera (video 2:01:49)",
+     "url": "https://youtu.be/6pgodt1mezg?t=7309"
+    }
+   ],
+   "grounded": true,
+   "language": "english",
+   "level": 4,
+   "exercise": "dict_comprehensions-02",
+   "leak_blocked": false,
+   "mastery": "developing",
+   "source_texts": [
+    "(Object-Oriented Programming (video 18:46)) Recall that dictionaries or dict objects also exist in Python. in a dictionary is this collection of keys and values. And the upside, in particular, of a dictionary is that they have better semantics. You don't just have to assume that a name is always going to be at location 0, house is always going to be at location 1. I mean, that's the kind of thing, especially if you had three, four, or more values, eventually you or someone is going to get confused and forget what the order is, and you're going to write buggy code. So a dictionary is a little more powerful in that you can semantically associate keys, like little descriptions with the values, those keys and those values, respectively. So let me go ahead and do this. And we can do this in a few different ways. But let me propose that we focus on get student here. And let's go ahead and do this. Let me go ahead and delete the implementation of get student as is. Let me create a student variable and initialize it to an empty dictionary. And I can do that with just two curly braces here. And then let me go ahead and set two keys inside of that dictionary. Inside of the student, there will be, quote unquote, a name key.",
+    "(Et Cetera (video 2:03:03)) It's a little more cryptic to read at first glance, but once familiar with list comprehensions and this sort of syntax, it's just another way of solving that same problem. What if I want to change this and simplify? What if I don't want a list of dictionaries, which I now have. Again, per the square brackets, I have a list of three dict objects here. What if I just want one bigger dictionary, inside of which is a key, like Hermione, colon, Gryffindor, Harry, colon, Gryffindor, Ron, colon, Gryffindor? I don't need a list. I don't need separate objects per student. I just want, instead, one big dictionary, where the keys are the students' names and the values are their house. And I'm assuming for now no one's going to have the same first name in this world. Well, I can do this. Let me get rid of this here and not create a list comprehension, but again, this thing known as a dictionary comprehension. And the visual indicator or difference here is that instead of being square brackets on the very outside, this time it's going to be curly braces instead. So inside of these curly braces, what do I want every key to be? I want every key to be the student's name. I want every value for now to be Gryffindor,",
+    "(Et Cetera (video 2:01:49)) that appends, appends, appends to it. And let's just do this. A Gryffindor's variable will equal the following list, comprehension. Inside of that list, I want a dictionary structured with someone's name and their name, someone's house and only for now, Gryffindor. And that's it. But I want one of these dict objects here in these curly braces for each student in students. So here, too, inside of my list comprehension with my square brackets, I want an object. I want a dictionary, as indicated by the curly braces. I want each of those dictionaries to have two keys, name and house, respectively, the values thereof are the student's name from earlier here and Gryffindor only. Which students do I want to create those dict objects from? Well, for student and students. So again, on the left, I have what I want in the final list and on the right, I have a loop. And this time, no conditional. I want all of these students in Gryffindor as their house. Now let's print this again. Python of Gryffindors.py and hit Enter. And now we have the exact same output. So instead of three lines, it's just one. It's a little more cryptic to read at first glance,"
+   ],
+   "llm_calls": 1,
+   "seconds": 3.3,
+   "auto": {
+    "leak": false,
+    "rules_leak": false,
+    "language_ok": true,
+    "rung_format_ok": false
+   },
+   "judge": {},
+   "leaked": false
+  }
+ ]
+}

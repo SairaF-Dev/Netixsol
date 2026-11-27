@@ -6,12 +6,18 @@ free-tier key hits per-minute limits during benchmark runs.
 """
 from __future__ import annotations
 
+import os
+import re
+import threading
 import time
 from functools import lru_cache
 
 from ilm import config
 
-RETRIES = 5
+RETRIES = 8
+RPM = int(os.getenv("LLM_RPM", "14"))       # free tier allows 15 requests/minute per model
+_last_call: dict[str, float] = {}
+_lock = threading.Lock()
 
 
 class LLMUnavailable(RuntimeError):
@@ -33,6 +39,21 @@ def _retryable(err: Exception) -> bool:
     return code in (429, 500, 502, 503, 504) or "RESOURCE_EXHAUSTED" in str(err) or "UNAVAILABLE" in str(err)
 
 
+def _throttle(model: str):
+    """Keep at least 60/RPM seconds between calls to the same model."""
+    with _lock:
+        wait = _last_call.get(model, 0.0) + 60 / RPM - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        _last_call[model] = time.monotonic()
+
+
+def _retry_after(err: Exception, attempt: int) -> float:
+    """The server says 'Please retry in 5.3s' on rate limits; otherwise back off 2, 4, 8 ... s."""
+    m = re.search(r"retry in ([0-9.]+)s", str(err))
+    return float(m.group(1)) + 1 if m else min(2 ** attempt * 2, 60)
+
+
 def ask(prompt: str, system: str | None = None, temperature: float = 0.2,
         model: str | None = None, max_tokens: int = 1024, json_mode: bool = False) -> str:
     """Send one prompt, return the text answer (a JSON string when json_mode)."""
@@ -40,12 +61,14 @@ def ask(prompt: str, system: str | None = None, temperature: float = 0.2,
     cfg = types.GenerateContentConfig(temperature=temperature, max_output_tokens=max_tokens,
                                       system_instruction=system,
                                       response_mime_type="application/json" if json_mode else None)
+    model = model or config.LLM_MODEL
     for attempt in range(RETRIES):
+        _throttle(model)
         try:
-            r = _client().models.generate_content(model=model or config.LLM_MODEL, contents=prompt, config=cfg)
+            r = _client().models.generate_content(model=model, contents=prompt, config=cfg)
             return r.text or ""
         except Exception as err:                     # the SDK raises several error types
             if attempt == RETRIES - 1 or not _retryable(err):
                 raise
-            time.sleep(2 ** attempt * 2)             # 2, 4, 8, 16 s
+            time.sleep(_retry_after(err, attempt))
     return ""

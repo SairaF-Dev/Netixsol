@@ -31,3 +31,9 @@ def test_rate_limits_are_retried_but_bad_requests_are_not():
             self.code = code
     assert llm._retryable(E(429)) and llm._retryable(E(503))
     assert not llm._retryable(E(400))
+
+
+def test_retry_waits_as_long_as_the_server_asks():
+    assert llm._retry_after(Exception("429 ... Please retry in 5.36s."), 0) == pytest.approx(6.36)
+    assert llm._retry_after(Exception("503 overloaded"), 2) == 8
+    assert llm._retry_after(Exception("503 overloaded"), 9) == 60

@@ -8,8 +8,8 @@ from types import SimpleNamespace
 import pytest
 
 from ilm.questions.validate import load_bank
-from ilm.tutor.tutor import (Tutor, detect_language, leaks_answer, leaks_code_solution,
-                             mastery_level)
+from ilm.tutor.tutor import (NEAR_COPY, Tutor, closeness, detect_language, leaks_answer,
+                             leaks_code_solution, mastery_level)
 
 BANK, _ = load_bank()
 Q = {q.id: q for q in BANK}
@@ -47,6 +47,8 @@ def tutor(*replies):
 def test_language_detection():
     assert detect_language("bhai recursion kya hai, samajh nahi aa raha") == "urdulish"
     assert detect_language("what is a base case in recursion?") == "english"
+    assert detect_language("koi milta julta example dikha do na") == "urdulish"     # missed in run 1
+    assert detect_language("can you show me a similar example?") == "english"
 
 
 def test_mastery_bands():
@@ -68,10 +70,91 @@ def test_unfenced_solution_leaks():
 
 
 def test_hints_and_different_examples_do_not_leak():
-    assert not leaks_code_solution("```python\nif n == ___:\n    return 1\n```", FACT)
-    example = "```python\ndef sum_n(n):\n    if n == 0:\n        return 0\n    return n + sum_n(n - 1)\n```"
-    assert not leaks_code_solution(example, FACT)
+    assert not leaks_answer("```python\nif n == ___:\n    return 1\n```", FACT)
+    countdown = ("```python\ndef countdown(n):\n    if n == 0:\n        print('Go!')\n        return\n"
+                 "    print(n)\n    countdown(n - 1)\n```")
+    assert not leaks_answer(countdown, FACT)
     assert not leaks_code_solution(f"```python\n{FACT.buggy}```", FACT)     # wrong code is no leak
+
+
+# Found by the tutor evaluation (run 1): each passed the test-running check.
+def test_renamed_class_is_a_near_copy():
+    keeper = ("```python\nclass ScoreKeeper:\n    def __init__(self):\n        self.points = 0\n"
+              "    def add_point(self):\n        self.points = self.points + 1\n```")
+    assert leaks_answer(keeper, Q["classes_objects-03"])
+
+
+def test_solution_plus_one_extra_step_is_a_near_copy():
+    square = ("```python\ndef get_square(s):\n    try:\n        return int(s) ** 2\n"
+              "    except ValueError:\n        return None\n```")
+    assert leaks_answer(square, Q["try_except-02"])
+
+
+def test_one_line_solution_with_the_given_number_blanked_is_a_near_copy():
+    assert leaks_answer("```python\nreturn round((f - ___) * 5 / 9, 1)\n```", Q["floats-04"])
+
+
+def test_whole_function_with_one_blank_is_a_near_copy():
+    blanked = ("```python\ndef to_int(s):\n    try:\n        return ___\n    except ValueError:\n"
+               "        return None\n```")
+    assert leaks_answer(blanked, Q["try_except-02"])
+
+
+def test_constant_changed_is_a_near_copy():
+    assert leaks_answer("```python\ndef calc(x, y, z):\n    return (x + y + z) / 2\n```",
+                        Q["arithmetic_operators-03"])
+
+
+def test_one_operator_away_is_a_near_copy():
+    sum_n = "```python\ndef sum_n(n):\n    if n == 0:\n        return 0\n    return n + sum_n(n - 1)\n```"
+    assert leaks_answer(sum_n, FACT)                     # + -> *, 0 -> 1 and it is factorial
+
+
+def test_examples_with_their_own_logic_are_not_near_copies():
+    temp = ('```python\ndef check_temp(temp):\n    if temp > 100:\n        return "Too hot"\n'
+            '    elif temp > 80:\n        return "Warm"\n    else:\n        return "Normal"\n```')
+    assert not leaks_answer(temp, Q["elif_else-01"])
+    positive = "```python\ndef is_positive(n):\n    if n > 0:\n        return True\n    else:\n        return False\n```"
+    assert not leaks_answer(positive, Q["modulo-02"])
+
+
+def test_bank_exercises_are_not_near_copies_of_each_other():
+    """The 20% line, checked on pairs that are different problems by definition."""
+    code = [q for q in BANK if q.type == "code"]
+    close = {(a.id, b.id) for a in code for b in code if a.id != b.id and closeness(a.solution, b.solution) <= NEAR_COPY}
+    assert close <= {("f_strings-04", "return_values-03"), ("return_values-03", "f_strings-04")}
+
+
+def test_retry_tells_the_model_why_its_draft_leaked():
+    keeper = ("```python\nclass ScoreKeeper:\n    def __init__(self):\n        self.points = 0\n"
+              "    def add_point(self):\n        self.points += 1\n```")
+    t, llm = tutor({"hint": keeper}, {"hint": "ok", "used_sources": [1]})
+    t.hint("classes_objects-03", level=4)
+    assert "renamed names" in llm.prompts[1]
+
+
+def test_rung_three_code_without_a_blank_is_retried():
+    """Held-out run 3: 'houses = {s["house"] for s in students}' (no blank) was the core of the
+    answer but 0.29 away from the full solution, so only the rung's own rule catches it."""
+    core = '```python\n    houses = {s["house"] for s in students}\n```'
+    t, llm = tutor({"hint": core}, {"hint": "```python\nhouses = {___ for s in students}\n```"})
+    r = t.hint("sets-02", level=3)
+    assert "___" in r.text and "no ___ blank" in llm.prompts[1]
+
+
+def test_a_rung_that_keeps_leaking_drops_to_the_concept_rung():
+    leak = f"```python\n{FACT.solution}```"
+    t, llm = tutor({"hint": leak}, {"hint": leak}, {"hint": "This is about the base case of recursion."})
+    r = t.hint(FACT.id, level=4)
+    assert r.level == 2 and r.leak_blocked and "base case" in r.text
+    assert "rung 2 of 4" in llm.prompts[2]
+
+
+def test_example_that_answers_another_exercise_is_blocked():
+    rec_sum_to = "```python\ndef sum_to(n):\n    if n == 0:\n        return 0\n    return n + sum_to(n - 1)\n```"
+    t, llm = tutor({"hint": rec_sum_to}, {"hint": "Which two values of n can you answer without recursion?"})
+    r = t.hint("recursion-04", level=4)
+    assert r.leak_blocked and "sum_to" not in r.text and len(llm.prompts) == 2
 
 
 def test_mcq_and_short_answer_leaks():
@@ -112,7 +195,7 @@ def test_free_question_answer_with_solution_code_is_blocked():
 def test_prompt_carries_mastery_style_and_language():
     t, llm = tutor({"in_course": True, "answer": "ok", "used_sources": [1]})
     t.ask("recursion kya hai aur base case kaise likhte hain", mastery={"recursion": 0.1})
-    assert "NEW to this concept" in llm.prompts[0] and "UrduLish" in llm.prompts[0]
+    assert "beginner meeting this for the first time" in llm.prompts[0] and "UrduLish" in llm.prompts[0]
 
 
 # ------------------------------------------------------------------ hint ladder ----
