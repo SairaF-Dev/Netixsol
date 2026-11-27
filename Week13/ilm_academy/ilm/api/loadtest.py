@@ -12,7 +12,6 @@ limit (12 a minute) must be raised for the test: ILM_SUBMIT_PER_MINUTE.
 from __future__ import annotations
 
 import argparse
-import http.cookiejar
 import os
 import json
 import statistics
@@ -26,15 +25,30 @@ SUBMISSIONS = Path(__file__).resolve().parents[2] / "data" / "grading" / "submis
 
 
 class Client:
+    """Sends the session cookie itself. In prod the cookie is Secure (HTTPS only), and a cookie
+    jar rightly will not send it to http://127.0.0.1, so a jar-based test got 401 on every call
+    (found in the first codespace run). The test runs on the server itself, so this is safe."""
+
     def __init__(self, base: str, user: str, password: str):
         self.base = base.rstrip("/")
-        self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
-        self.call("/api/auth/login", {"username": user, "password": password})
+        self.cookie = ""
+        req = urllib.request.Request(self.base + "/api/auth/login",
+                                     data=json.dumps({"username": user, "password": password}).encode(),
+                                     headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            for c in r.headers.get_all("Set-Cookie") or []:
+                if c.startswith("ilm_session="):
+                    self.cookie = c.split(";", 1)[0]
+        if not self.cookie:
+            raise SystemExit("login returned no session cookie")
 
     def call(self, path: str, body: dict | None = None):
+        headers = {"Cookie": self.cookie}
+        if body is not None:
+            headers["Content-Type"] = "application/json"
         req = urllib.request.Request(self.base + path, data=json.dumps(body).encode() if body is not None else None,
-                                     headers={"Content-Type": "application/json"} if body is not None else {})
-        with self.opener.open(req, timeout=30) as r:
+                                     headers=headers)
+        with urllib.request.urlopen(req, timeout=30) as r:
             return json.loads(r.read())
 
 
