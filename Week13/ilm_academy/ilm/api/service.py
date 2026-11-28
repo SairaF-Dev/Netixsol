@@ -170,8 +170,10 @@ def _grade(sid: str, qid: str, code: str):
         fb = feedback(graded, q, code, lesson_index(), qa=qa_future.result())
         _save(sid, status="done", result=json.dumps(public_result(fb, graded)), finished=time.time())
     except Exception as e:                    # never leave a submission spinning
-        _save(sid, status="error", result=json.dumps({"message": f"Grading failed: {type(e).__name__}"}),
-              finished=time.time())
+        from ilm.grading.sandbox import SandboxUnavailable
+        msg = ("Grading is not available right now, so your code was not marked. Try again in a minute."
+               if isinstance(e, SandboxUnavailable) else f"Grading failed: {type(e).__name__}")
+        _save(sid, status="error", result=json.dumps({"message": msg}), finished=time.time())
 
 
 def public_result(fb: dict, graded: dict) -> dict:

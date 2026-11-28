@@ -47,6 +47,7 @@ class data, and pulls the sandbox image: about 15-20 minutes. Watch it in the *C
 | link gives 404 / does not load | the codespace is asleep: wake it |
 | "NOT started - missing: ..." in the start log | run `bash Week13/ilm_academy/deploy/codespaces/setup.sh` in the codespace terminal |
 | "ILM_DEMO_PASSWORD is not set" | add the secret (step 1), then *Codespaces → ⋯ → Restart* |
+| a run says "Grading is not available right now" | Docker in the codespace is not ready (just after a start) or stopped: wait 30 s; else `docker info` in the terminal |
 | tutor says it is unavailable | `LLM_API_KEY` missing, or the free daily Gemini quota is used up |
 | anything else | `tail -50 /tmp/ilm-academy.log` in the codespace terminal |
 

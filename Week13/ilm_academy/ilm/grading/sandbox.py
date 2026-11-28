@@ -29,6 +29,7 @@ patch anything in that process. So the container is never trusted with the verdi
 from __future__ import annotations
 
 import json
+import re
 import secrets
 import shutil
 import subprocess
@@ -128,6 +129,16 @@ class SandboxResult:
     @property
     def score(self) -> float:
         return sum(self.passed) / len(self.passed) if self.passed else 0.0
+
+
+class SandboxUnavailable(RuntimeError):
+    """Docker itself failed (daemon down, image missing): the SERVER's fault, never a mark of 0."""
+
+
+# what the docker CLI says when it cannot start a container at all (student code cannot reach the
+# CLI's own stderr before the container starts; a student faking it only turns their run into an error)
+_DOCKER_DOWN = re.compile(r"^docker: |Cannot connect to the Docker daemon|docker API at|error during connect|"
+                          r"Unable to find image|dockerDesktopLinuxEngine", re.M)
 
 
 def docker_available() -> bool:
@@ -273,6 +284,8 @@ def run(source: str, tests: list[dict], wall_sec: int = WALL_SEC, test_sec: int 
             res.status, res.error = "tampered", "several result lines: output tampering"
         elif proc.returncode == 137:
             res.status, res.error = "killed", "killed (exit 137: out of memory or process limit)"
+        elif not raw and (proc.returncode == 125 or _DOCKER_DOWN.search(stderr)):
+            raise SandboxUnavailable(stderr.strip().splitlines()[-1][:200] if stderr.strip() else f"exit {proc.returncode}")
         else:
             res.status, res.error = "no_result", f"no result (exit {proc.returncode}): {stderr[-200:]}"
         return res

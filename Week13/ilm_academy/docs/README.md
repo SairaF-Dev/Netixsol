@@ -9,6 +9,7 @@
 | [user_guide_student.md](user_guide_student.md) | students | Today, Path, practice, coding exercises, the tutor |
 | [user_guide_teacher.md](user_guide_teacher.md) | teachers | class overview, at risk, review queue, question bank, tutor safety, impact |
 | [api.md](api.md), [openapi.json](openapi.json) | developers | every endpoint with its role and body, generated from the code (`python scripts/export_api_docs.py`) |
+| [demo_script.md](demo_script.md) | the presenter | the 10-minute live demo: checklist, clicks, exact inputs and expected results, fallbacks |
 | [deployment.md](deployment.md) | whoever runs it | GitHub Codespaces setup, before a demo, troubleshooting |
 | [../reports/ab_test/design.md](../reports/ab_test/design.md) | the course lead | the pre-registered A/B test of adaptive vs fixed |
 | [../reports/load_test/report.md](../reports/load_test/report.md) | engineers | 500 submissions in 10 minutes on the live deployment |
