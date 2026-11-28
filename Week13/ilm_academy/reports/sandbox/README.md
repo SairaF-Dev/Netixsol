@@ -47,8 +47,10 @@ keep the decision where the attacker can't reach.**
 - **One time limit per submission.** An infinite loop in one test (when the per-test alarm is
   disabled) uses up the whole run, and every test fails. Task 2 re-runs tests one by one in that
   case, so partial marks survive.
-- **Start-up cost** is about 0.9 s per container. 3,000 submissions on 12 cores is roughly 4-5
-  minutes in parallel; Day 5's load test measures it.
+- **Start-up cost** is about 0.9 s per container. Day 5's load test on the 2-core deployment:
+  500 submissions in 10 minutes all graded, median 1.8 s to the result, about 48 graded a minute
+  at full load (`reports/load_test/report.md`). 3,000 on a Sunday needs more cores or a
+  warm container pool.
 - **The image is pulled by tag.** For production, pin the digest:
   `python@sha256:61e01f72680f86a5279ad510818ab7b2ee9f049822589d4e34e33e044360356c`.
 - `GPG_KEY` in the container's environment is the official Python image's public signing-key

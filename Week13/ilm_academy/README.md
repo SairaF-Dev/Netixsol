@@ -47,6 +47,7 @@ Demo accounts: `ali`, `sara` (students), `teacher`. Password: `ILM_DEMO_PASSWORD
 | `web/` | React app (Vite + TypeScript): student and teacher areas; design in `docs/design/ui_ux_plan.md` |
 | `ilm/config.py` | Every path and setting, one place |
 | `tests/` | pytest; tests run on a temp data dir, never on `data/` |
+| `docs/` | Architecture, model cards, tutor safety policy, user guides, API reference, deployment (index: `docs/README.md`) |
 | `docs/learning_notes/` | What was learned each day |
 
 ## Engineering rules
@@ -84,4 +85,5 @@ Demo accounts: `ali`, `sara` (students), `teacher`. Password: `ILM_DEMO_PASSWORD
 - [~] Day 5 teacher extras: question bank health (retire / relabel decisions with the IRT evidence, generated-question pipeline), tutor safety (evaluation runs + live usage, no student text stored), Impact page (adaptive vs fixed with 95% ranges, dropout warning vs its ceiling, grading agreement, a teacher-hours calculator with visible assumptions, safety; real-student A/B test design and rehearsal)
 - [x] Day 5 Task 2 (impact evaluation): pre-registered A/B test of adaptive vs fixed (`reports/ab_test/design.md`): hash split, 2,420 per arm for a 4-point dropout drop, learning gain as a must-not-fail metric, harm-only interim look, fixed decision rule; rehearsed on 4,840 fresh simulated students: A/A false positives 5.6%, decision "do not ship as is" (dropout -8 pts but learning gain -5.5 concepts)
 - [x] Day 5 Task 3 (load test): 500 submissions in 10 min on the live 2-core codespace, all graded, 0 errors, p50 1.8 s, p95 6.4 s; burst of 100 cleared in 2 min (`reports/load_test/report.md`)
+- [x] Day 5 Task 5 (documentation, `docs/README.md`): architecture diagram, model cards (10 models), tutor safety policy, sandbox security report, student and teacher guides, API reference generated from the code
 - [x] Day 4 Task 5: plagiarism review detector (MOSS token winnowing + AST + `bge-small` embeddings, per-exercise false-positive control, dev-tuned / test scored once): 0.942 PR-AUC; 0.893 precision holds only at the benchmark's 9% copied pairs (0.88% false alarms per honest pair = ~8% precision for 100 students), so the teacher view is a ranked top-5-per-exercise queue (`reports/plagiarism/`)

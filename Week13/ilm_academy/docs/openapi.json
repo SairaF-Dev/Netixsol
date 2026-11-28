@@ -1,0 +1,872 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Ilm Academy API",
+  "version": "0.1"
+ },
+ "paths": {
+  "/api/health": {
+   "get": {
+    "summary": "Health",
+    "description": "Is the server up?",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/auth/login": {
+   "post": {
+    "summary": "Login",
+    "description": "Log in; sets the session cookie. Same answer and timing for an unknown user and a wrong password.",
+    "operationId": "login_api_auth_login_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LoginIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/auth/logout": {
+   "post": {
+    "summary": "Logout",
+    "description": "Log out; clears the session cookie.",
+    "operationId": "logout_api_auth_logout_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/me": {
+   "get": {
+    "summary": "Me",
+    "description": "Who is logged in (username, name, role).",
+    "operationId": "me_api_me_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/me/path": {
+   "get": {
+    "summary": "My Path",
+    "description": "The student's learning plan: mastered and weakest concepts, the ordered path with time estimates.",
+    "operationId": "my_path_api_me_path_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/exercises": {
+   "get": {
+    "summary": "Exercises",
+    "description": "All coding exercises in learning order (function, concept, difficulty, lesson).",
+    "operationId": "exercises_api_exercises_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/exercises/{qid}": {
+   "get": {
+    "summary": "Exercise",
+    "description": "One exercise: task, starter code, visible tests, number of hidden tests; for a student also their last 5 runs.",
+    "operationId": "exercise_api_exercises__qid__get",
+    "parameters": [
+     {
+      "name": "qid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Qid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/submissions": {
+   "post": {
+    "summary": "Submit",
+    "description": "Submit code to grade. Returns an id at once (202); grading runs in the sandbox in the background.",
+    "operationId": "submit_api_submissions_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SubmissionIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "202": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/submissions/{sid}": {
+   "get": {
+    "summary": "Submission",
+    "description": "A submission's status (queued, running, done, error) and, when done, the mark and feedback.",
+    "operationId": "submission_api_submissions__sid__get",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/practice/next": {
+   "get": {
+    "summary": "Practice Next",
+    "description": "The next MCQ or short-answer question on a concept (untried ones first). The key is not sent.",
+    "operationId": "practice_next_api_practice_next_get",
+    "parameters": [
+     {
+      "name": "concept",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Concept"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/answers": {
+   "post": {
+    "summary": "Practice Answer",
+    "description": "Grade an answer on the server: right or wrong, the misconception behind a wrong option, mastery before and after.",
+    "operationId": "practice_answer_api_answers_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AnswerIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/tutor/ask": {
+   "post": {
+    "summary": "Tutor Ask",
+    "description": "Ask the Socratic tutor a course question; answered from course sources, with lesson links.",
+    "operationId": "tutor_ask_api_tutor_ask_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AskIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/tutor/hint": {
+   "post": {
+    "summary": "Tutor Hint",
+    "description": "One rung of the hint ladder for an exercise (1 question, 2 concept, 3 partial hint, 4 similar example). Never the solution.",
+    "operationId": "tutor_hint_api_tutor_hint_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/HintIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/class/overview": {
+   "get": {
+    "summary": "Class Overview",
+    "description": "Class KPIs, weakest concepts and the section x concept mastery heatmap.",
+    "operationId": "class_overview_api_class_overview_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/class/at-risk": {
+   "get": {
+    "summary": "Class At Risk",
+    "description": "Students the dropout model flags this week, with the reason in words and a suggested action.",
+    "operationId": "class_at_risk_api_class_at_risk_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/review": {
+   "get": {
+    "summary": "Review Queue",
+    "description": "Items waiting for a teacher: possible copying, low marks, tampering flags.",
+    "operationId": "review_queue_api_review_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/review/{item_id}": {
+   "get": {
+    "summary": "Review Item",
+    "description": "One review item in detail (for copying: both programs side by side, matching lines).",
+    "operationId": "review_item_api_review__item_id__get",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Review Decide",
+    "description": "Record the teacher's decision on a review item. Nothing is ever decided automatically.",
+    "operationId": "review_decide_api_review__item_id__post",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DecisionIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/questions/health": {
+   "get": {
+    "summary": "Questions Health",
+    "description": "Question bank health: IRT evidence per question, retire/relabel suggestions, generated-question pipeline.",
+    "operationId": "questions_health_api_questions_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/questions/{qid}/decision": {
+   "post": {
+    "summary": "Question Decision",
+    "description": "Record a teacher's decision on a question (Retire, Relabel with a level, Keep).",
+    "operationId": "question_decision_api_questions__qid__decision_post",
+    "parameters": [
+     {
+      "name": "qid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Qid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/QuestionDecisionIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/tutor/safety": {
+   "get": {
+    "summary": "Tutor Safety",
+    "description": "Tutor evaluation runs and live usage (metadata only; no student text is stored).",
+    "operationId": "tutor_safety_api_tutor_safety_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/impact": {
+   "get": {
+    "summary": "Impact",
+    "description": "Impact numbers: adaptive vs fixed, dropout model, grading agreement, safety, the A/B test design.",
+    "operationId": "impact_api_impact_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AnswerIn": {
+    "properties": {
+     "question": {
+      "type": "string",
+      "maxLength": 60,
+      "title": "Question"
+     },
+     "choice": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 9.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Choice"
+     },
+     "text": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 300
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "question"
+    ],
+    "title": "AnswerIn"
+   },
+   "AskIn": {
+    "properties": {
+     "message": {
+      "type": "string",
+      "maxLength": 1500,
+      "minLength": 1,
+      "title": "Message"
+     },
+     "language": {
+      "type": "string",
+      "pattern": "^(auto|english|urdulish)$",
+      "title": "Language",
+      "default": "auto"
+     }
+    },
+    "type": "object",
+    "required": [
+     "message"
+    ],
+    "title": "AskIn"
+   },
+   "DecisionIn": {
+    "properties": {
+     "decision": {
+      "type": "string",
+      "maxLength": 60,
+      "title": "Decision"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 500,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "decision"
+    ],
+    "title": "DecisionIn"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "HintIn": {
+    "properties": {
+     "exercise": {
+      "type": "string",
+      "maxLength": 60,
+      "title": "Exercise"
+     },
+     "code": {
+      "type": "string",
+      "maxLength": 20000,
+      "title": "Code",
+      "default": ""
+     },
+     "message": {
+      "type": "string",
+      "maxLength": 1500,
+      "title": "Message",
+      "default": ""
+     },
+     "level": {
+      "type": "integer",
+      "maximum": 4.0,
+      "minimum": 1.0,
+      "title": "Level",
+      "default": 1
+     },
+     "language": {
+      "type": "string",
+      "pattern": "^(auto|english|urdulish)$",
+      "title": "Language",
+      "default": "auto"
+     }
+    },
+    "type": "object",
+    "required": [
+     "exercise"
+    ],
+    "title": "HintIn"
+   },
+   "LoginIn": {
+    "properties": {
+     "username": {
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Username"
+     },
+     "password": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Password"
+     }
+    },
+    "type": "object",
+    "required": [
+     "username",
+     "password"
+    ],
+    "title": "LoginIn"
+   },
+   "QuestionDecisionIn": {
+    "properties": {
+     "decision": {
+      "type": "string",
+      "maxLength": 20,
+      "title": "Decision"
+     },
+     "level": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 5.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Level"
+     }
+    },
+    "type": "object",
+    "required": [
+     "decision"
+    ],
+    "title": "QuestionDecisionIn"
+   },
+   "SubmissionIn": {
+    "properties": {
+     "exercise": {
+      "type": "string",
+      "maxLength": 60,
+      "title": "Exercise"
+     },
+     "code": {
+      "type": "string",
+      "maxLength": 20000,
+      "title": "Code"
+     }
+    },
+    "type": "object",
+    "required": [
+     "exercise",
+     "code"
+    ],
+    "title": "SubmissionIn"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}
